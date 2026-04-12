@@ -80,7 +80,7 @@ const UI = {
     heroTitle: "European Security & Resilience Community",
     heroSubtitle: "{total} organisations · {countries} countries · 6 pillars",
     heroMission: "A unified framework connecting Europe's defence, cybersecurity, and critical infrastructure ecosystem through six resilience pillars — from preparation to recovery.",
-    pillarsTitle: "The Five Pillars",
+    pillarsTitle: "The Six Pillars",
     pillarsDesc: "Every organisation in the ESRF community contributes to one or more resilience pillars. Together, they form Europe's comprehensive security and resilience chain.",
     mapTitle: "Community Map",
     mapDesc: "Colour-coded by pillar. Click any marker for organisation details.",
