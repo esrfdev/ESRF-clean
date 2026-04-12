@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESRF Community — European Security & Resilience Framework</title>
+  <meta name="description" content="ESRF Community — A resilience-driven network of 436 European organisations across 15 countries, organised around the five pillars: Prevent, Protect, Prepare, Respond, and Recover." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- MarkerCluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+
+  <!-- Site CSS -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════ NAV ═══ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-brand">
+        <svg class="nav-logo" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-label="ESRF Logo">
+          <rect x="2" y="2" width="28" height="28" rx="4" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+          <path d="M8 10h16M8 16h12M8 22h16" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="24" cy="16" r="3" fill="var(--orange)" opacity="0.6"/>
+        </svg>
+        <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
+        <span class="brand-tagline">European Security & Resilience Framework</span>
+      </a>
+      <div class="nav-right">
+        <a href="#pillars" class="nav-link">Pillars</a>
+        <a href="#map" class="nav-link">Map</a>
+        <a href="#directory" class="nav-link">Directory</a>
+        <a href="#stats" class="nav-link">Analytics</a>
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="fr">FR</button>
+          <button class="lang-btn" data-lang="local">Local</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════ HERO ═══ -->
+  <section id="hero">
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-scan-line"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span data-i18n="heroBadge">RESILIENCE FRAMEWORK ACTIVE</span>
+      </div>
+      <h1 class="hero-title" data-i18n="heroTitle">European Security &<br>Resilience Community</h1>
+      <p class="hero-subtitle mono" id="heroSubtitle">436 organisations · 15 countries · 5 pillars</p>
+      <p class="hero-mission" data-i18n="heroMission">A unified framework connecting Europe's defence, cybersecurity, and critical infrastructure ecosystem through five resilience pillars — from prevention to recovery.</p>
+
+      <!-- Five pillars visual -->
+      <div class="pillars-hero" id="pillarsHero">
+        <a href="#pillar-prevent" class="pillar-chip" data-pillar="prevent">
+          <span class="pillar-icon">◈</span>
+          <span class="pillar-label">Prevent</span>
+          <span class="pillar-count" id="heroPreventCount">—</span>
+        </a>
+        <a href="#pillar-protect" class="pillar-chip" data-pillar="protect">
+          <span class="pillar-icon">◉</span>
+          <span class="pillar-label">Protect</span>
+          <span class="pillar-count" id="heroProtectCount">—</span>
+        </a>
+        <a href="#pillar-prepare" class="pillar-chip" data-pillar="prepare">
+          <span class="pillar-icon">◎</span>
+          <span class="pillar-label">Prepare</span>
+          <span class="pillar-count" id="heroPrepareCount">—</span>
+        </a>
+        <a href="#pillar-respond" class="pillar-chip" data-pillar="respond">
+          <span class="pillar-icon">◇</span>
+          <span class="pillar-label">Respond</span>
+          <span class="pillar-count" id="heroRespondCount">—</span>
+        </a>
+        <a href="#pillar-recover" class="pillar-chip" data-pillar="recover">
+          <span class="pillar-icon">◆</span>
+          <span class="pillar-label">Recover</span>
+          <span class="pillar-count" id="heroRecoverCount">—</span>
+        </a>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#pillars" class="btn-primary">Explore Framework</a>
+        <a href="#directory" class="btn-secondary">Browse Community</a>
+      </div>
+    </div>
+    <div class="hero-countries-strip">
+      <div class="countries-scroll" id="heroCountries"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════ FIVE PILLARS SECTION ═══ -->
+  <section id="pillars" class="section-pillars">
+    <div class="section-header">
+      <div class="section-kicker">RESILIENCE FRAMEWORK</div>
+      <h2 class="section-title" data-i18n="pillarsTitle">The Five Pillars</h2>
+      <p class="section-desc" data-i18n="pillarsDesc">Every organisation in the ESRF community contributes to one or more resilience pillars. Together, they form Europe's comprehensive security and resilience chain.</p>
+    </div>
+
+    <div class="pillars-grid">
+      <!-- PREVENT -->
+      <div class="pillar-card" id="pillar-prevent" data-pillar="prevent">
+        <div class="pillar-card-header">
+          <div class="pillar-number">01</div>
+          <div class="pillar-card-icon">
+            <svg viewBox="0 0 48 48" width="48" height="48" fill="none">
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+              <path d="M24 8v32M8 24h32" stroke="currentColor" stroke-width="1.5" opacity="0.2"/>
+              <circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2"/>
+              <circle cx="24" cy="24" r="2" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="pillar-card-title">Prevent</h3>
+        <p class="pillar-card-desc">Threat intelligence, early warning systems, and proactive cybersecurity. Identifying and neutralising risks before they materialise.</p>
+        <div class="pillar-sectors">
+          <span class="pillar-sector-tag" style="--tag-color: #2196F3">Cybersecurity</span>
+          <span class="pillar-sector-tag" style="--tag-color: #00E5FF">AI & Surveillance</span>
+        </div>
+        <div class="pillar-card-stats">
+          <span class="pillar-stat-number" id="preventCount">—</span>
+          <span class="pillar-stat-label">organisations</span>
+        </div>
+        <button class="pillar-browse-btn" data-pillar-filter="prevent">Browse Prevent →</button>
+      </div>
+
+      <!-- PROTECT -->
+      <div class="pillar-card" id="pillar-protect" data-pillar="protect">
+        <div class="pillar-card-header">
+          <div class="pillar-number">02</div>
+          <div class="pillar-card-icon">
+            <svg viewBox="0 0 48 48" width="48" height="48" fill="none">
+              <path d="M24 4L6 14v12c0 11 8 18 18 22 10-4 18-11 18-22V14L24 4z" stroke="currentColor" stroke-width="2" fill="none"/>
+              <path d="M18 24l4 4 8-8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="pillar-card-title">Protect</h3>
+        <p class="pillar-card-desc">Defence systems, physical security, and shielding of critical assets. Safeguarding people, infrastructure, and sovereignty.</p>
+        <div class="pillar-sectors">
+          <span class="pillar-sector-tag" style="--tag-color: #FF6B35">Defence & Security</span>
+          <span class="pillar-sector-tag" style="--tag-color: #E91E63">Physical Security</span>
+        </div>
+        <div class="pillar-card-stats">
+          <span class="pillar-stat-number" id="protectCount">—</span>
+          <span class="pillar-stat-label">organisations</span>
+        </div>
+        <button class="pillar-browse-btn" data-pillar-filter="protect">Browse Protect →</button>
+      </div>
+
+      <!-- PREPARE -->
+      <div class="pillar-card" id="pillar-prepare" data-pillar="prepare">
+        <div class="pillar-card-header">
+          <div class="pillar-number">03</div>
+          <div class="pillar-card-icon">
+            <svg viewBox="0 0 48 48" width="48" height="48" fill="none">
+              <rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+              <path d="M16 16h16v16H16z" stroke="currentColor" stroke-width="2"/>
+              <path d="M20 24h8M24 20v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="pillar-card-title">Prepare</h3>
+        <p class="pillar-card-desc">Dual-use innovation, capability building, and readiness. Developing technologies and training for emerging threats.</p>
+        <div class="pillar-sectors">
+          <span class="pillar-sector-tag" style="--tag-color: #9C27B0">Dual-use Technology</span>
+          <span class="pillar-sector-tag" style="--tag-color: #CDDC39">Drones & UAS</span>
+          <span class="pillar-sector-tag" style="--tag-color: #7C4DFF">Space & Satellite</span>
+        </div>
+        <div class="pillar-card-stats">
+          <span class="pillar-stat-number" id="prepareCount">—</span>
+          <span class="pillar-stat-label">organisations</span>
+        </div>
+        <button class="pillar-browse-btn" data-pillar-filter="prepare">Browse Prepare →</button>
+      </div>
+
+      <!-- RESPOND -->
+      <div class="pillar-card" id="pillar-respond" data-pillar="respond">
+        <div class="pillar-card-header">
+          <div class="pillar-number">04</div>
+          <div class="pillar-card-icon">
+            <svg viewBox="0 0 48 48" width="48" height="48" fill="none">
+              <path d="M24 4l4 8h8l-6 5 2 9-8-5-8 5 2-9-6-5h8l4-8z" stroke="currentColor" stroke-width="2"/>
+              <circle cx="24" cy="36" r="6" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+              <path d="M24 30v6" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="pillar-card-title">Respond</h3>
+        <p class="pillar-card-desc">Critical infrastructure operations, maritime and aerospace assets, and rapid deployment capabilities for crisis situations.</p>
+        <div class="pillar-sectors">
+          <span class="pillar-sector-tag" style="--tag-color: #FF9800">Critical Infrastructure</span>
+          <span class="pillar-sector-tag" style="--tag-color: #00BCD4">Maritime & Aerospace</span>
+        </div>
+        <div class="pillar-card-stats">
+          <span class="pillar-stat-number" id="respondCount">—</span>
+          <span class="pillar-stat-label">organisations</span>
+        </div>
+        <button class="pillar-browse-btn" data-pillar-filter="respond">Browse Respond →</button>
+      </div>
+
+      <!-- RECOVER -->
+      <div class="pillar-card" id="pillar-recover" data-pillar="recover">
+        <div class="pillar-card-header">
+          <div class="pillar-number">05</div>
+          <div class="pillar-card-icon">
+            <svg viewBox="0 0 48 48" width="48" height="48" fill="none">
+              <path d="M12 36c0-12 12-24 24-24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M30 12h6v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="16" cy="32" r="6" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+              <path d="M14 32l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="pillar-card-title">Recover</h3>
+        <p class="pillar-card-desc">Energy grid resilience, restoration of services, and rebuilding capacity. Ensuring rapid return to operational normality.</p>
+        <div class="pillar-sectors">
+          <span class="pillar-sector-tag" style="--tag-color: #4CAF50">Energy & Grid Resilience</span>
+        </div>
+        <div class="pillar-card-stats">
+          <span class="pillar-stat-number" id="recoverCount">—</span>
+          <span class="pillar-stat-label">organisations</span>
+        </div>
+        <button class="pillar-browse-btn" data-pillar-filter="recover">Browse Recover →</button>
+      </div>
+    </div>
+
+    <!-- Pillar flow diagram -->
+    <div class="pillar-flow">
+      <div class="flow-line"></div>
+      <div class="flow-nodes">
+        <div class="flow-node" data-pillar="prevent"><span>Prevent</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node" data-pillar="protect"><span>Protect</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node" data-pillar="prepare"><span>Prepare</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node" data-pillar="respond"><span>Respond</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node" data-pillar="recover"><span>Recover</span></div>
+        <div class="flow-arrow flow-loop">↻</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ MAP ═══ -->
+  <section id="map" class="section-map">
+    <div class="section-header">
+      <div class="section-kicker">OPERATIONAL OVERVIEW</div>
+      <h2 class="section-title" data-i18n="mapTitle">Community Map</h2>
+      <p class="section-desc" data-i18n="mapDesc">Colour-coded by pillar. Click any marker for organisation details.</p>
+    </div>
+    <div class="map-pillar-filter" id="mapPillarFilter">
+      <button class="map-pill active" data-filter="all">All Pillars</button>
+      <button class="map-pill" data-filter="prevent" data-pillar="prevent">Prevent</button>
+      <button class="map-pill" data-filter="protect" data-pillar="protect">Protect</button>
+      <button class="map-pill" data-filter="prepare" data-pillar="prepare">Prepare</button>
+      <button class="map-pill" data-filter="respond" data-pillar="respond">Respond</button>
+      <button class="map-pill" data-filter="recover" data-pillar="recover">Recover</button>
+    </div>
+    <div class="map-wrapper">
+      <div id="leaflet-map"></div>
+      <div class="map-legend" id="mapLegend"></div>
+      <div class="map-overlay-stats">
+        <span class="mono" id="mapVisibleCount">—</span>
+        <span class="mono"> markers active</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ FILTER BAR ═══ -->
+  <div id="filterBar" class="filter-bar sticky">
+    <div class="filter-inner">
+      <div class="filter-search">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="searchInput" placeholder="Search organisation by name…" autocomplete="off" />
+      </div>
+      <select id="pillarFilter" class="filter-select">
+        <option value="">All Pillars</option>
+        <option value="prevent">◈ Prevent</option>
+        <option value="protect">◉ Protect</option>
+        <option value="prepare">◎ Prepare</option>
+        <option value="respond">◇ Respond</option>
+        <option value="recover">◆ Recover</option>
+      </select>
+      <select id="sectorFilter" class="filter-select"></select>
+      <select id="countryFilter" class="filter-select"></select>
+      <select id="sortSelect" class="filter-select">
+        <option value="az">A–Z</option>
+        <option value="pillar">By Pillar</option>
+        <option value="country">By Country</option>
+        <option value="sector">By Sector</option>
+      </select>
+      <button id="resetBtn" class="btn-reset">Reset</button>
+      <div class="filter-count">
+        <span class="mono" id="visibleCount">436</span>
+        <span>of</span>
+        <span class="mono" id="totalCount">436</span>
+        <span>organisations</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════ DIRECTORY GRID ═══ -->
+  <section id="directory" class="section-directory">
+    <div class="section-header">
+      <div class="section-kicker">COMMUNITY NETWORK</div>
+      <h2 class="section-title" data-i18n="dirTitle">Organisation Directory</h2>
+    </div>
+    <div id="companyGrid" class="company-grid"></div>
+    <div id="noResults" class="no-results hidden">No organisations match the current filters.</div>
+  </section>
+
+  <!-- ════════════════════════════════════ STATISTICS ═══════ -->
+  <section id="stats" class="section-stats">
+    <div class="section-header">
+      <div class="section-kicker">INTELLIGENCE ANALYSIS</div>
+      <h2 class="section-title" data-i18n="statsTitle">Community Analytics</h2>
+    </div>
+    <div class="charts-grid">
+      <div class="chart-card chart-card-wide">
+        <h3 class="chart-title">Organisations per Pillar</h3>
+        <div class="chart-wrap">
+          <canvas id="chartPillar"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-title">Distribution per Country</h3>
+        <div class="chart-wrap">
+          <canvas id="chartCountry"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-title">Sectors per Pillar</h3>
+        <div class="chart-wrap chart-wrap-donut">
+          <canvas id="chartSector"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════ FOOTER ═══════ -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
+        </div>
+        <div class="footer-org">European Security & Resilience Framework</div>
+        <div class="footer-pillars-mini">
+          <span class="footer-pill" data-pillar="prevent">Prevent</span>
+          <span class="footer-sep">·</span>
+          <span class="footer-pill" data-pillar="protect">Protect</span>
+          <span class="footer-sep">·</span>
+          <span class="footer-pill" data-pillar="prepare">Prepare</span>
+          <span class="footer-sep">·</span>
+          <span class="footer-pill" data-pillar="respond">Respond</span>
+          <span class="footer-sep">·</span>
+          <span class="footer-pill" data-pillar="recover">Recover</span>
+        </div>
+        <div class="footer-contact">
+          <a href="mailto:info@esrf.net">info@esrf.net</a>
+          <span class="sep">|</span>
+          <a href="https://www.esrf.net" target="_blank" rel="noopener noreferrer">www.esrf.net</a>
+        </div>
+      </div>
+      <div class="footer-flags" id="footerFlags"></div>
+      <div class="footer-meta">
+        <span>Data collected: April 2026</span>
+        <span class="sep">|</span>
+        <span>© 2026 ESRF Community — All rights reserved</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════ SCRIPTS ══════ -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="./app.js"></script>
+<script data-pplx-inline-edit>
+(function(){
+  if(window===window.top)return;
+  function inlineAll(orig,clone){
+    if(orig.nodeType!==1)return;
+    try{
+      var cs=getComputedStyle(orig);
+      var t='';
+      for(var i=0;i<cs.length;i++){t+=cs[i]+':'+cs.getPropertyValue(cs[i])+';';}
+      clone.style.cssText=t;
+    }catch(e){}
+    var oc=orig.children,cc=clone.children;
+    for(var j=0;j<oc.length&&j<cc.length;j++){inlineAll(oc[j],cc[j]);}
+  }
+  function stripExternal(clone){
+    var imgs=clone.querySelectorAll('img');
+    for(var i=0;i<imgs.length;i++){
+      var s=imgs[i].getAttribute('src');
+      if(s&&!s.startsWith('data:'))imgs[i].removeAttribute('src');
+    }
+    var all=clone.querySelectorAll('*');
+    for(var i=0;i<all.length;i++){
+      var st=all[i].style.cssText;
+      if(st&&st.indexOf('url(')>=0){
+        all[i].style.cssText=st.replace(/url\(["']?(?!data:)[^)"']*["']?\)/gi,'none');
+      }
+    }
+  }
+  window.addEventListener('message',function(e){
+    if(!e.data||e.data.type!=='INLINE_EDIT_CAPTURE_REQUEST')return;
+    var scrollX=window.scrollX||window.pageXOffset||0;
+    var scrollY=window.scrollY||window.pageYOffset||0;
+    var w=window.innerWidth,h=window.innerHeight;
+    try{
+      var clone=document.documentElement.cloneNode(true);
+      var rm=clone.querySelectorAll('script,link[rel="stylesheet"],style');
+      for(var i=0;i<rm.length;i++){rm[i].remove();}
+      inlineAll(document.documentElement,clone);
+      stripExternal(clone);
+      var html=new XMLSerializer().serializeToString(clone);
+      var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'
+        +'<foreignObject width="100%" height="100%">'
+        +'<div xmlns="http://www.w3.org/1999/xhtml" style="width:'+w+'px;height:'+h+'px;overflow:hidden">'
+        +'<div style="transform:translate(-'+scrollX+'px,-'+scrollY+'px);transform-origin:top left">'
+        +html+'</div></div></foreignObject></svg>';
+      var svgUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+      var img=new Image();
+      img.onload=function(){
+        var c=document.createElement('canvas');c.width=w;c.height=h;
+        c.getContext('2d').drawImage(img,0,0);
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:c.toDataURL('image/png'),scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.onerror=function(){
+        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+      };
+      img.src=svgUrl;
+    }catch(err){
+      window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
+    }
+  });
+})();
+</script></body>
+</html>
