@@ -1261,3 +1261,73 @@ a:hover { color: #fff; }
   to { opacity: 1; }
 }
 .fade-in { animation: fadeIn 0.4s ease both; }
+
+
+/* —— About Section ———————————————————————————— */
+.section-about {
+  padding: 80px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.about-card {
+  background: var(--navy-light);
+  border: 1px solid var(--navy-border);
+  border-radius: 12px;
+  padding: 32px 28px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.about-card:hover {
+  border-color: var(--orange);
+  box-shadow: 0 0 24px var(--orange-glow);
+}
+
+.about-card-icon {
+  font-size: 28px;
+  color: var(--orange);
+  margin-bottom: 16px;
+}
+
+.about-card-title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-prim);
+  margin-bottom: 10px;
+}
+
+.about-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-sec);
+  line-height: 1.65;
+}
+
+.about-cta {
+  margin-top: 48px;
+  text-align: center;
+}
+
+.about-mission {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  color: var(--text-sec);
+  line-height: 1.75;
+  border-left: 3px solid var(--orange);
+  padding-left: 24px;
+  text-align: left;
+}
+
+@media (max-width: 600px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
