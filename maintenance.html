@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESRF | Maintenance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--navy:#0D1B2A;--navy-light:#112233;--navy-mid:#162840;
+--orange:#FF6B35;--orange-dim:#CC5525;
+--cyan:#00D4FF;--green-ok:#39D353;
+--text-prim:#E8F0F8;--text-sec:#8BA5C0;--text-dim:#4D6A85;
+--text-mono:#64B5F6;--border:#1E3550;
+--card-bg:#0F2035;--card-hover:#132840;
+--p-prevent:#2196F3;--p-protect:#FF6B35;--p-prepare:#9C27B0;
+--p-respond:#FF9800;--p-recover:#4CAF50;
+}
+html,body{height:100%;font-family:'IBM Plex Sans',sans-serif;background:var(--navy);color:var(--text-prim);overflow-x:hidden}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;position:relative}
+body::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.015) 2px,rgba(255,255,255,.015) 4px);pointer-events:none;z-index:0}
+.container{position:relative;z-index:1;text-align:center;max-width:640px;padding:2rem}
+.logo{margin-bottom:2rem}
+.logo svg{width:80px;height:80px}
+.badge{display:inline-block;background:rgba(255,107,53,.1);color:var(--orange);border:1px solid rgba(255,107,53,.3);border-radius:20px;padding:.35rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.5rem}
+h1{font-size:2rem;font-weight:700;margin-bottom:.75rem;background:linear-gradient(135deg,var(--text-prim),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{color:var(--text-sec);font-size:1.05rem;line-height:1.6;margin-bottom:2rem}
+.pillars{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-bottom:2.5rem}
+.pill{font-family:'IBM Plex Mono',monospace;font-size:.7rem;padding:.3rem .8rem;border-radius:14px;letter-spacing:.04em}
+.pill.prevent{background:rgba(33,150,243,.1);color:var(--p-prevent);border:1px solid rgba(33,150,243,.25)}
+.pill.protect{background:rgba(255,107,53,.1);color:var(--p-protect);border:1px solid rgba(255,107,53,.25)}
+.pill.prepare{background:rgba(156,39,176,.1);color:var(--p-prepare);border:1px solid rgba(156,39,176,.25)}
+.pill.respond{background:rgba(255,152,0,.1);color:var(--p-respond);border:1px solid rgba(255,152,0,.25)}
+.pill.recover{background:rgba(76,175,80,.1);color:var(--p-recover);border:1px solid rgba(76,175,80,.25)}
+.eta-box{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:2rem}
+.eta-label{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+#eta{font-family:'IBM Plex Mono',monospace;font-size:1.1rem;color:var(--cyan)}
+.contact{color:var(--text-dim);font-size:.85rem}
+.contact a{color:var(--orange);text-decoration:none}
+.contact a:hover{text-decoration:underline}
+.scan{position:fixed;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,transparent,var(--orange),transparent);animation:scan 3s ease-in-out infinite;opacity:.6;z-index:10}
+@keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+</style>
+</head>
+<body>
+<div class="scan"></div>
+<div class="container">
+<div class="logo">
+<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="4" y="4" width="72" height="72" rx="16" stroke="#FF6B35" stroke-width="2" fill="none"/>
+<text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="IBM Plex Mono" font-weight="700" font-size="22" fill="#FF6B35">ESRF</text>
+</svg>
+</div>
+<div class="badge">Scheduled Maintenance</div>
+<h1>We'll be back shortly</h1>
+<p class="sub">Our systems are currently undergoing planned maintenance to improve security, performance and resilience across all five pillars.</p>
+<div class="pillars">
+<span class="pill prevent">&#9670; Prevent</span>
+<span class="pill protect">&#9673; Protect</span>
+<span class="pill prepare">&#9678; Prepare</span>
+<span class="pill respond">&#9671; Respond</span>
+<span class="pill recover">&#9670; Recover</span>
+</div>
+<div class="eta-box">
+<div class="eta-label">Estimated Return</div>
+<div id="eta">Loading...</div>
+</div>
+<p class="contact">Questions? Contact <a href="mailto:info@esrf.net">info@esrf.net</a></p>
+</div>
+<script>
+const ETA_UTC = '';  // Set ISO date e.g. '2026-04-14T10:00:00Z' or leave empty
+const el = document.getElementById('eta');
+if (!ETA_UTC) { el.textContent = 'Soon \u2014 we\'ll update you.'; }
+else {
+  const target = new Date(ETA_UTC);
+  (function tick() {
+    const diff = target - Date.now();
+    if (diff <= 0) { el.textContent = 'Systems coming back online...'; el.style.color = '#39D353'; return; }
+    const h = Math.floor(diff/36e5), m = Math.floor((diff%36e5)/6e4), s = Math.floor((diff%6e4)/1e3);
+    el.textContent = h + 'h ' + m + 'm ' + s + 's remaining';
+    requestAnimationFrame(tick);
+  })();
+}
+</script>
+</body>
+</html>
