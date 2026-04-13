@@ -1410,3 +1410,37 @@ a:hover { color: #fff; }
   .quick-nav { bottom: 12px; left: 12px; right: 12px; transform: none; justify-content: space-around; }
   .quick-nav.hidden { transform: translateY(12px); }
 }
+
+/* ─── About Section ─────────────────────────────────── */
+.about-section {
+  padding: 96px 24px;
+  background: var(--navy-light);
+  color: var(--text-prim);
+}
+
+.about-section .section-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-section .section-kicker {
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange);
+  opacity: 0.85;
+}
+
+.about-section h2 {
+  margin-bottom: 24px;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.about-section p {
+  max-width: 760px;
+  line-height: 1.75;
+  opacity: 0.92;
+  margin-bottom: 16px;
+}
