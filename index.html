@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ESRF Community — European Security & Resilience Framework</title>
-  <meta name="description" content="ESRF Community — A resilience-driven network of 436 European organisations across 15 countries, organised around the five pillars: Waakzaamheid, Zorgplicht, Eigen Kracht, Verbindingskracht, and Recover." />
+  <meta name="description" content="ESRF Community — A resilience-driven network of 500+ European organisations across 15 countries, organised around five moral pillars: Waakzaamheid, Zorgplicht, Eigen Kracht, Verbindingskracht, and Veerkracht." />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,7 +32,7 @@
           <circle cx="24" cy="16" r="3" fill="var(--orange)" opacity="0.6"/>
         </svg>
         <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
-        <span class="brand-tagline">European Security & Resilience Framework</span>
+        <span class="brand-tagline" data-i18n="navTagline">European Security & Resilience Framework</span>
       </a>
       <div class="nav-right">
         <a href="#pillars" class="nav-link">Pillars</a>             <a href="#about" class="nav-link">About</a>
@@ -55,7 +55,7 @@
         <span data-i18n="heroBadge">RESILIENCE FRAMEWORK ACTIVE</span>
       </div>
       <h1 class="hero-title" data-i18n="heroTitle">European Security &<br>Resilience Community</h1>
-      <p class="hero-subtitle mono" id="heroSubtitle">436 organisations · 15 countries · 5 pillars</p>
+      <p class="hero-subtitle mono" id="heroSubtitle" data-i18n="heroSubtitle">500 organisations · 15 countries · 5 pillars</p>
       <p class="hero-mission" data-i18n="heroMission">Where NATO defends borders and the EU sets policy, ESRF.net unites businesses for regional strength and shared resilience. A paradigm shift — bottom-up, decentralised, and powered by the businesses that drive the economy. Built on proven resilience principles, ESRF.net connects organisations across five moral pillars — from vigilance to renewal.</p>
 
       <!-- Five pillars visual -->
@@ -109,11 +109,11 @@
       <div class="about-inner">
         <div class="about-badge">
           <span class="badge-dot"></span>
-          <span>ABOUT THE FOUNDATION</span>
+          <span data-i18n="aboutKicker">ABOUT THE FOUNDATION</span>
         </div>
-        <h2 class="about-title">European Security &amp;<br>Resilience Fund</h2>
+        <h2 class="about-title" data-i18n="aboutTitle">European Security &amp;<br>Resilience Fund</h2>
         <blockquote class="about-adagium">
-          &ldquo;Leadership by Example &mdash; for Local Impact and Resilience.&rdquo;
+          <span data-i18n="aboutAdagium">&ldquo;Leadership by Example &mdash; for Local Impact and Resilience.&rdquo;</span>
         </blockquote>
         <div class="about-columns">
           <div class="about-col">
@@ -127,7 +127,7 @@
         </div>
         <div class="about-stats">
           <div class="about-stat">
-            <span class="about-stat-number">436</span>
+            <span class="about-stat-number" id="aboutOrgCount">500</span>
             <span class="about-stat-label">Organisations</span>
           </div>
           <div class="about-stat">
@@ -164,7 +164,7 @@
             </svg>
           </div>
         </div>
-        <h3 class="pillar-card-title">Waakzaamheid</h3>
+        <h3 class="pillar-card-title" data-pillar-title="prevent">Waakzaamheid</h3>
         <p class="pillar-card-desc">Do I see what others overlook? Threat intelligence, early warning, and moral awareness — choosing to look ahead for those who depend on you.</p>
         <div class="pillar-sectors">
           <span class="pillar-sector-tag" style="--tag-color: #2196F3">Cybersecurity</span>
@@ -188,7 +188,7 @@
             </svg>
           </div>
         </div>
-        <h3 class="pillar-card-title">Zorgplicht</h3>
+        <h3 class="pillar-card-title" data-pillar-title="protect">Zorgplicht</h3>
         <p class="pillar-card-desc">What has been entrusted to me? Defence systems, physical security, and the moral duty to safeguard what serves the common good.</p>
         <div class="pillar-sectors">
           <span class="pillar-sector-tag" style="--tag-color: #FF6B35">Defence & Security</span>
@@ -213,12 +213,13 @@
             </svg>
           </div>
         </div>
-        <h3 class="pillar-card-title">Eigen Kracht</h3>
+        <h3 class="pillar-card-title" data-pillar-title="prepare">Eigen Kracht</h3>
         <p class="pillar-card-desc">Am I strong enough to help when it matters? Innovation, training, and entrepreneurship — building your own capacity so you can stand for your community.</p>
         <div class="pillar-sectors">
           <span class="pillar-sector-tag" style="--tag-color: #9C27B0">Dual-use Technology</span>
           <span class="pillar-sector-tag" style="--tag-color: #CDDC39">Drones & UAS</span>
           <span class="pillar-sector-tag" style="--tag-color: #7C4DFF">Space & Satellite</span>
+          <span class="pillar-sector-tag" style="--tag-color: #795548">Knowledge & Training</span>
         </div>
         <div class="pillar-card-stats">
           <span class="pillar-stat-number" id="prepareCount">—</span>
@@ -239,11 +240,12 @@
             </svg>
           </div>
         </div>
-        <h3 class="pillar-card-title">Verbindingskracht</h3>
+        <h3 class="pillar-card-title" data-pillar-title="respond">Verbindingskracht</h3>
         <p class="pillar-card-desc">Can my neighbour count on me? Critical infrastructure, energy networks, and emergency response — showing up when it matters most.</p>
         <div class="pillar-sectors">
           <span class="pillar-sector-tag" style="--tag-color: #FF9800">Critical Infrastructure</span>
           <span class="pillar-sector-tag" style="--tag-color: #00BCD4">Maritime & Aerospace</span>
+          <span class="pillar-sector-tag" style="--tag-color: #F44336">Healthcare & Medical</span>
         </div>
         <div class="pillar-card-stats">
           <span class="pillar-stat-number" id="respondCount">—</span>
@@ -265,7 +267,7 @@
             </svg>
           </div>
         </div>
-        <h3 class="pillar-card-title">Veerkracht</h3>
+        <h3 class="pillar-card-title" data-pillar-title="recover">Veerkracht</h3>
         <p class="pillar-card-desc">Do I come back stronger — and help others do the same? Energy recovery, grid resilience, and the promise to rebuild together.</p>
         <div class="pillar-sectors">
           <span class="pillar-sector-tag" style="--tag-color: #4CAF50">Energy & Grid Resilience</span>
@@ -304,7 +306,7 @@
       <p class="section-desc" data-i18n="mapDesc">Colour-coded by pillar. Click any marker for organisation details.</p>
     </div>
     <div class="map-pillar-filter" id="mapPillarFilter">
-      <button class="map-pill active" data-filter="all">All Pillars</button>
+      <button class="map-pill active" data-filter="all" data-i18n="allPillars">All Pillars</button>
       <button class="map-pill" data-filter="prevent" data-pillar="prevent">Waakzaamheid</button>
       <button class="map-pill" data-filter="protect" data-pillar="protect">Zorgplicht</button>
       <button class="map-pill" data-filter="prepare" data-pillar="prepare">Eigen Kracht</button>
@@ -336,7 +338,7 @@
         <option value="respond">◇ Verbindingskracht</option>
         <option value="recover">◆ Veerkracht</option>
       </select>
-      <select id="sectorFilter" class="filter-select">               <option value="">All Sectors</option>               <option value="cyber">Cybersecurity & Digitale Weerbaarheid</option>               <option value="defence">Defensie & Militaire Technologie</option>               <option value="physical">Fysieke Beveiliging & Surveillance</option>               <option value="dualuse">Dual-use Technologie & Innovatie</option>               <option value="drones">Drones & Onbemande Systemen</option>               <option value="space">Ruimtevaart & Satelliet</option>               <option value="infra">Kritieke Infrastructuur & Telecom</option>               <option value="maritime">Maritiem & Luchtvaart</option>               <option value="energy">Energie & Gridresilience</option>               <option value="knowledge">Kennis & Opleiding</option>             </select>
+      <select id="sectorFilter" class="filter-select"></select>
       <select id="countryFilter" class="filter-select"></select>
       <select id="sortSelect" class="filter-select">
         <option value="az">A–Z</option>
@@ -361,7 +363,7 @@
       <h2 class="section-title" data-i18n="dirTitle">Organisation Directory</h2>
     </div>
     <div id="companyGrid" class="company-grid"></div>
-    <div id="noResults" class="no-results hidden">No organisations match the current filters.</div>
+    <div id="noResults" class="no-results hidden" data-i18n="noResults">No organisations match the current filters.</div>
   </section>
 
   <!-- ════════════════════════════════════ STATISTICS ═══════ -->
@@ -419,7 +421,7 @@
       </div>
       <div class="footer-flags" id="footerFlags"></div>
       <div class="footer-meta">
-        <span>Data collected: April 2026</span>
+        <span>Data: April 2026</span>
         <span class="sep">|</span>
         <span>© 2026 ESRF Community — All rights reserved</span>
       </div>
