@@ -217,7 +217,7 @@ const UI = {
     statsTitle: "Community Analytics",
     visitWebsite: "Visit website",
     aboutKicker: "ABOUT THE FOUNDATION",
-    aboutTitle: "European Security &amp;\nResilience Fund",
+    aboutTitle: "European Security &\nResilience Framework",
     aboutAdagium: "Leadership by Example — for Local Impact and Resilience.",
   },
   fr: {
@@ -253,7 +253,7 @@ const UI = {
     statsTitle: "Analytique communautaire",
     visitWebsite: "Visiter le site",
     aboutKicker: "À PROPOS DE LA FONDATION",
-    aboutTitle: "Fonds Européen de\nSécurité & Résilience",
+    aboutTitle: "Cadre Européen de\nSécurité & Résilience",
     aboutAdagium: "Diriger par l\'exemple — pour l\'impact local et la résilience.",
   },
   nl: {
@@ -289,7 +289,7 @@ const UI = {
     statsTitle: "Community Analyse",
     visitWebsite: "Website bezoeken",
     aboutKicker: "OVER DE STICHTING",
-    aboutTitle: "European Security &amp;\nResilience Fund",
+    aboutTitle: "Europees Kader voor\nVeiligheid & Weerbaarheid",
     aboutAdagium: "Leiderschap door voorbeeld — voor lokale impact en weerbaarheid.",
   }
 };
@@ -331,8 +331,8 @@ function applyLanguage(lang) {
         const countries = new Set(COMPANIES.map(c => c.country)).size;
         text = text.replace('{total}', COMPANIES.length).replace('{countries}', countries);
       }
-      if (typeof text === 'string' && text.includes('\\n')) {
-        el.innerHTML = text.replace(/\\n/g, '<br>');
+      if (typeof text === 'string' && text.includes('\n')) {
+        el.innerHTML = text.replace(/\n/g, '<br>');
       } else {
         el.textContent = text;
       }
@@ -933,8 +933,8 @@ function init() {
       if (key === 'heroSubtitle') {
         text = text.replace('{total}', COMPANIES.length).replace('{countries}', countries);
       }
-      if (typeof text === 'string' && text.includes('\\n')) {
-        el.innerHTML = text.replace(/\\n/g, '<br>');
+      if (typeof text === 'string' && text.includes('\n')) {
+        el.innerHTML = text.replace(/\n/g, '<br>');
       } else {
         el.textContent = text;
       }
