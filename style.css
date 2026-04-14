@@ -170,7 +170,7 @@ a:hover { color: #fff; }
   background: var(--navy-mid);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  overflow: hidden;
+  overflow: visible;
   margin-left: 8px;
 }
 .lang-btn {
