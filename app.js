@@ -147,7 +147,7 @@ function getPillarLabels(lang) {
   return PILLAR_LABELS_I18N[lang] || PILLAR_LABELS_I18N.nl;
 }
 
-let PILLAR_LABELS = PILLAR_LABELS_I18N.nl; // Default to Dutch (moral pillar names)
+let PILLAR_LABELS = PILLAR_LABELS_I18N.en; // Will be set properly in init() based on active lang button
 
 const PILLAR_ORDER = ['prevent', 'protect', 'prepare', 'respond', 'recover'];
 
@@ -349,9 +349,11 @@ function applyLanguage(lang) {
 
   rebuildSectorFilter(lang);
   rebuildCountryFilter(lang);
-  renderCards(getFiltered());
-  updateMap(getFiltered());
-  buildCharts();
+  const filtered = getFiltered();
+  renderCards(filtered);
+  updateFilterCount(filtered);
+  if (leafletMap) updateMap(filtered);
+  if (document.getElementById('chartPillar')) buildCharts();
 }
 
 function updatePillarLabels(lang) {
@@ -917,11 +919,39 @@ function init() {
   buildHeroCountries();
   buildFooterFlags();
 
-  // Default language is Dutch (moral pillar names)
-  PILLAR_LABELS = getPillarLabels('nl');
-  
-  rebuildSectorFilter('en');
-  rebuildCountryFilter('en');
+  // Determine the active language from the UI (EN button is active by default)
+  const activeLangBtn = document.querySelector('.lang-btn.active');
+  const startLang = activeLangBtn ? activeLangBtn.dataset.lang : 'en';
+  const startUiLang = (startLang === 'local') ? 'nl' : startLang;
+
+  // Set pillar labels to match the active language
+  CURRENT_LANG.lang = startLang;
+  PILLAR_LABELS = getPillarLabels(startUiLang);
+
+  // Apply language to all data-i18n elements
+  const strings = UI[startUiLang] || UI.en;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (strings[key] !== undefined) {
+      let text = strings[key];
+      if (key === 'heroSubtitle') {
+        text = text.replace('{total}', COMPANIES.length).replace('{countries}', countries);
+      }
+      if (typeof text === 'string' && text.includes('\\n')) {
+        el.innerHTML = text.replace(/\\n/g, '<br>');
+      } else {
+        el.textContent = text;
+      }
+    }
+  });
+
+  // Update pillar labels on all static elements (hero chips, pillar cards, map pills, footer)
+  updatePillarLabels(startUiLang);
+  updatePillarContent(startUiLang);
+
+  // Build filters, cards, and deferred map/charts
+  rebuildSectorFilter(startLang);
+  rebuildCountryFilter(startLang);
 
   const initial = getFiltered();
   renderCards(initial);
@@ -930,6 +960,8 @@ function init() {
   setTimeout(() => {
     initMap();
     updateMap(initial);
+    // Re-apply pillar labels to map legend after map init
+    buildMapLegend();
   }, 100);
 
   setTimeout(() => buildCharts(), 200);
