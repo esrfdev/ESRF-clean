@@ -143,8 +143,7 @@ const COUNTRY_LANG = {
 
 // Get pillar labels based on current language
 function getPillarLabels(lang) {
-  if (lang === 'local') return PILLAR_LABELS_I18N.nl; // default to NL for local
-  return PILLAR_LABELS_I18N[lang] || PILLAR_LABELS_I18N.nl;
+  return PILLAR_LABELS_I18N[lang] || PILLAR_LABELS_I18N.en;
 }
 
 let PILLAR_LABELS = PILLAR_LABELS_I18N.en; // Will be set properly in init() based on active lang button
@@ -307,19 +306,19 @@ function countryFlag(cc) {
 
 function getCountryName(company, lang) {
   if (lang === 'fr') return company.country_name_fr || company.country_name_en;
-  if (lang === 'local') return company.country_name_local || company.country_name_en;
+  if (lang === 'nl') return company.country_name_local || company.country_name_en;
   return company.country_name_en;
 }
 
 function getDescription(company, lang) {
   if (lang === 'fr') return company.description_fr || company.description_en || company.description_local || '';
-  if (lang === 'local') return company.description_local || company.description_en || '';
+  if (lang === 'nl') return company.description_local || company.description_en || '';
   return company.description_en || company.description_local || '';
 }
 
 // ── Apply i18n to DOM ──────────────────────────────────────
 function applyLanguage(lang) {
-  const uiLang = (lang === 'local') ? 'nl' : lang;
+  const uiLang = lang;
   const strings = UI[uiLang] || UI.en;
   CURRENT_LANG.lang = lang;
   PILLAR_LABELS = getPillarLabels(uiLang);
@@ -442,12 +441,11 @@ function getPillarCounts() {
 function rebuildSectorFilter(lang) {
   const sel = document.getElementById('sectorFilter');
   if (!sel) return;
-  const uiLang = (lang === 'local') ? 'nl' : lang;
   const current = sel.value;
   sel.innerHTML = '';
   const allOpt = document.createElement('option');
   allOpt.value = '';
-  allOpt.textContent = (UI[uiLang] || UI.en).allSectors;
+  allOpt.textContent = (UI[lang] || UI.en).allSectors;
   sel.appendChild(allOpt);
   const sectors = [...new Set(COMPANIES.map(c => c.sector_normalized).filter(Boolean))].sort();
   sectors.forEach(s => {
@@ -463,12 +461,11 @@ function rebuildSectorFilter(lang) {
 function rebuildCountryFilter(lang) {
   const sel = document.getElementById('countryFilter');
   if (!sel) return;
-  const uiLang = (lang === 'local') ? 'nl' : lang;
   const current = sel.value;
   sel.innerHTML = '';
   const allOpt = document.createElement('option');
   allOpt.value = '';
-  allOpt.textContent = (UI[uiLang] || UI.en).allCountries;
+  allOpt.textContent = (UI[lang] || UI.en).allCountries;
   sel.appendChild(allOpt);
 
   const countryMap = {};
@@ -599,7 +596,7 @@ function initMap() {
 
 function buildPopupHtml(company) {
   const lang = CURRENT_LANG.lang;
-  const uiLang = (lang === 'local') ? 'nl' : lang;
+  const uiLang = lang;
   const pillarColor = getPillarColor(company.pillar);
   const sectorColor = getSectorColor(company.sector_normalized);
   const desc = getDescription(company, lang);
@@ -655,7 +652,7 @@ function renderCards(companies) {
   if (!grid) return;
 
   const lang = CURRENT_LANG.lang;
-  const uiLang = (lang === 'local') ? 'nl' : lang;
+  const uiLang = lang;
   const visitText = (UI[uiLang] || UI.en).visitWebsite;
 
   if (companies.length === 0) {
@@ -922,7 +919,7 @@ function init() {
   // Determine the active language from the UI (EN button is active by default)
   const activeLangBtn = document.querySelector('.lang-btn.active');
   const startLang = activeLangBtn ? activeLangBtn.dataset.lang : 'en';
-  const startUiLang = (startLang === 'local') ? 'nl' : startLang;
+  const startUiLang = startLang;
 
   // Set pillar labels to match the active language
   CURRENT_LANG.lang = startLang;
@@ -966,14 +963,57 @@ function init() {
 
   setTimeout(() => buildCharts(), 200);
 
-  // Language buttons
-  document.querySelectorAll('.lang-btn').forEach(btn => {
+  // Language buttons (EN, FR quick-access)
+  document.querySelectorAll('.lang-btn[data-lang]').forEach(btn => {
+    if (btn.id === 'langOtherBtn') return; // handled separately
     btn.addEventListener('click', () => {
+      // Deactivate all lang buttons and flag buttons
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.lang-flag-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      // Reset Other button label
+      const otherBtn = document.getElementById('langOtherBtn');
+      if (otherBtn) otherBtn.textContent = 'Other \u25BE';
+      // Close dropdown
+      const dd = document.getElementById('langDropdown');
+      if (dd) dd.classList.remove('open');
       applyLanguage(btn.dataset.lang);
     });
   });
+
+  // Other dropdown toggle
+  const otherBtn = document.getElementById('langOtherBtn');
+  const dropdown = document.getElementById('langDropdown');
+  if (otherBtn && dropdown) {
+    otherBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdown.classList.toggle('open');
+    });
+
+    // Flag button clicks inside dropdown
+    dropdown.querySelectorAll('.lang-flag-btn').forEach(flagBtn => {
+      flagBtn.addEventListener('click', () => {
+        // Deactivate EN/FR quick buttons
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        // Deactivate other flag buttons
+        dropdown.querySelectorAll('.lang-flag-btn').forEach(b => b.classList.remove('active'));
+        // Activate this flag and highlight Other button
+        flagBtn.classList.add('active');
+        otherBtn.classList.add('active');
+        // Show selected flag + name on Other button
+        const flag = flagBtn.querySelector('.flag-icon');
+        otherBtn.textContent = (flag ? flag.textContent + ' ' : '') + flagBtn.dataset.lang.toUpperCase() + ' \u25BE';
+        // Close dropdown and apply language
+        dropdown.classList.remove('open');
+        applyLanguage(flagBtn.dataset.lang);
+      });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', () => {
+      dropdown.classList.remove('open');
+    });
+  }
 
   // Search
   const searchInput = document.getElementById('searchInput');
