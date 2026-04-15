@@ -232,6 +232,11 @@
       color: var(--text-muted);
       margin-left: auto;
     }
+    .news-card-source::after {
+      content: ' ↗';
+      font-size: 0.65rem;
+      opacity: 0.6;
+    }
 
     .news-card-title {
       font-size: 1rem;
@@ -909,7 +914,7 @@
           source: sources[Math.floor(Math.random() * sources.length)],
           date: date.toISOString().slice(0, 10),
           snippet: `Latest developments from ${org.name} regarding European security and resilience operations. The organisation continues to play a key role in strengthening regional preparedness and cross-border coordination.`,
-          url: '#'
+          url: `https://news.google.com/search?q=${encodeURIComponent(org.name)}`
         });
       }
       return articles;
