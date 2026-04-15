@@ -86,6 +86,9 @@
 
   <!-- Site CSS -->
   <link rel="stylesheet" href="./style.css" />
+
+  <!-- Cloudflare Turnstile (bot protection) -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
@@ -439,8 +442,23 @@
     <div id="noResults" class="no-results hidden" data-i18n="noResults">No organisations match the current filters.</div>
   </section>
 
+  <!-- ═══════════════ JOIN NETWORK CTA (after directory) ═══ -->
+  <div class="join-cta-banner">
+    <div class="join-cta-inner">
+      <div class="join-cta-icon">
+        <svg viewBox="0 0 48 48" width="40" height="40" fill="none">
+          <circle cx="24" cy="24" r="20" stroke="var(--orange)" stroke-width="1.5" opacity="0.3"/>
+          <path d="M24 14v20M14 24h20" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="join-cta-text">
+        <h3 data-i18n="joinCtaTitle">Missing from the directory?</h3>
+        <p data-i18n="joinCtaDesc">Listed organisations gain visibility across 15 countries, automatic news monitoring, and access to the ESRF intelligence network.</p>
+      </div>
+      <button class="join-cta-btn" onclick="openRequestModal()" data-i18n="joinCtaBtn">Request listing</button>
+    </div>
+  </div>
 
-  <!-- ════════════════════════════════════ STATISTICS ═══════ -->
   <section id="stats" class="section-stats">
     <div class="section-header">
       <div class="section-kicker">INTELLIGENCE ANALYSIS</div>
@@ -499,6 +517,8 @@
         <a href="/privacy.html" data-i18n="footerPrivacy">Privacybeleid</a>
         <span class="sep">|</span>
         <a href="/terms.html" data-i18n="footerTerms">Voorwaarden</a>
+        <span class="sep">|</span>
+        <a href="#" onclick="event.preventDefault();openRequestModal()" data-i18n="joinCtaBtn" style="color:var(--orange)">Request listing</a>
       </div>
       <div class="footer-meta">
         <span>Data: April 2026</span>
@@ -508,11 +528,121 @@
     </div>
   </footer>
 
+  <!-- ═══════════ REQUEST LISTING MODAL ═══════════ -->
+  <div class="req-modal-overlay" id="requestModal">
+    <div class="req-modal">
+      <button class="req-modal-close" onclick="closeRequestModal()">&times;</button>
+      <div id="requestForm">
+        <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:8px;">Request a listing</h2>
+        <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:28px;line-height:1.6;">Submit your organisation for inclusion in the ESRF network. We review all requests within 5 business days.</p>
+        <div class="req-form-group">
+          <label>Contact name</label>
+          <input type="text" id="reqName" placeholder="Your full name" />
+        </div>
+        <div class="req-form-group">
+          <label>Email address</label>
+          <input type="email" id="reqEmail" placeholder="you@organisation.com" />
+        </div>
+        <div class="req-form-group">
+          <label>Organisation name</label>
+          <input type="text" id="reqOrg" placeholder="e.g. Resilience Solutions B.V." />
+        </div>
+        <div class="req-form-group">
+          <label>Website</label>
+          <input type="url" id="reqWebsite" placeholder="https://www.example.com" />
+          <span style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;display:block;">Optional, but helps us verify your organisation faster</span>
+        </div>
+        <div class="req-form-group">
+          <label>Country</label>
+          <select id="reqCountry">
+            <option value="">Select country</option>
+            <option value="BE">Belgium</option><option value="DE">Germany</option>
+            <option value="DK">Denmark</option><option value="EE">Estonia</option>
+            <option value="ES">Spain</option><option value="FI">Finland</option>
+            <option value="FR">France</option><option value="IT">Italy</option>
+            <option value="LT">Lithuania</option><option value="LV">Latvia</option>
+            <option value="NL">Netherlands</option><option value="NO">Norway</option>
+            <option value="PL">Poland</option><option value="SE">Sweden</option>
+            <option value="UK">United Kingdom</option><option value="OTHER">Other European country</option>
+          </select>
+        </div>
+        <div class="req-form-group">
+          <label>Most relevant pillar</label>
+          <select id="reqPillar">
+            <option value="">Select pillar</option>
+            <option value="Vigilance">Vigilance — threat awareness &amp; monitoring</option>
+            <option value="Stewardship">Stewardship — critical infrastructure protection</option>
+            <option value="Empowerment">Empowerment — innovation &amp; capacity building</option>
+            <option value="Solidarity">Solidarity — crisis coordination &amp; mutual aid</option>
+            <option value="Renewal">Renewal — recovery &amp; future transitions</option>
+          </select>
+        </div>
+        <div class="req-form-group" style="margin-bottom:12px;">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAA_PLACEHOLDER_KEY" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div>
+          <span style="font-size:0.75rem;color:var(--text-muted);margin-top:8px;display:block;">Verification protects against automated submissions</span>
+        </div>
+        <button class="req-form-submit" id="reqSubmit" onclick="submitRequest()" disabled>Submit request</button>
+      </div>
+      <div id="requestSuccess" style="display:none;text-align:center;padding:20px 0;">
+        <div style="width:56px;height:56px;border-radius:50%;background:rgba(46,204,113,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3 style="font-size:1.1rem;margin-bottom:8px;">Request submitted</h3>
+        <p style="font-size:0.85rem;color:var(--text-dim);">Thank you. We will review your organisation and respond to your email within 5 business days.</p>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ═══════════════════════════════════════ SCRIPTS ══════ -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <script src="./app.js"></script>
+  <script>
+    /* Request Listing Modal + Cloudflare Turnstile */
+    let turnstileVerified = false;
+    function onTurnstileSuccess(token) { turnstileVerified = true; document.getElementById('reqSubmit').disabled = false; }
+    function onTurnstileExpired() { turnstileVerified = false; document.getElementById('reqSubmit').disabled = true; }
+
+    function openRequestModal() {
+      document.getElementById('requestModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeRequestModal() {
+      document.getElementById('requestModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('requestModal').addEventListener('click', function(e) { if (e.target === this) closeRequestModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeRequestModal(); });
+
+    function submitRequest() {
+      var name = document.getElementById('reqName').value.trim();
+      var email = document.getElementById('reqEmail').value.trim();
+      var org = document.getElementById('reqOrg').value.trim();
+      var website = document.getElementById('reqWebsite').value.trim();
+      var country = document.getElementById('reqCountry').value;
+      var pillar = document.getElementById('reqPillar').value;
+      if (!turnstileVerified) { alert('Please complete the verification first.'); return; }
+      if (!name || !email || !org) { alert('Please fill in your name, email, and organisation name.'); return; }
+      if (email.indexOf('@') < 0 || email.indexOf('.') < 0) { alert('Please enter a valid email address.'); return; }
+      var subject = encodeURIComponent('ESRF Listing Request: ' + org);
+      var body = encodeURIComponent('New listing request for ESRF.net\n\nContact name: ' + name + '\nEmail: ' + email + '\nOrganisation: ' + org + '\nWebsite: ' + (website||'Not provided') + '\nCountry: ' + (country||'Not specified') + '\nPillar: ' + (pillar||'Not specified') + '\n\nSubmitted via ESRF.net');
+      window.location.href = 'mailto:office@esrf.net?subject=' + subject + '&body=' + body;
+      document.getElementById('requestForm').style.display = 'none';
+      document.getElementById('requestSuccess').style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('requestForm').style.display = 'block';
+        document.getElementById('requestSuccess').style.display = 'none';
+        ['reqName','reqEmail','reqOrg','reqWebsite'].forEach(function(id){document.getElementById(id).value='';});
+        ['reqCountry','reqPillar'].forEach(function(id){document.getElementById(id).value='';});
+        turnstileVerified = false; document.getElementById('reqSubmit').disabled = true;
+        if (window.turnstile) turnstile.reset();
+        closeRequestModal();
+      }, 3000);
+    }
+  </script>
+
 <script data-pplx-inline-edit>
 (function(){
   if(window===window.top)return;

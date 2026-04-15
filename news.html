@@ -15,6 +15,7 @@
   <meta property="og:image" content="https://www.esrf.net/og-image.png" />
 
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     :root {
       --navy: #0D1B2A;
@@ -651,7 +652,11 @@
             <option value="Renewal">Renewal — recovery &amp; future transitions</option>
           </select>
         </div>
-        <button class="form-submit" id="reqSubmit" onclick="submitRequest()">Submit request</button>
+        <div class="form-group" style="margin-bottom:12px;">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAA_PLACEHOLDER_KEY" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div>
+          <div class="form-hint" style="margin-top:8px;">Verification protects against automated submissions</div>
+        </div>
+        <button class="form-submit" id="reqSubmit" onclick="submitRequest()" disabled>Submit request</button>
       </div>
       <div class="form-success" id="requestSuccess">
         <div class="check-icon">
@@ -941,6 +946,17 @@
       if (e.key === 'Escape') closeRequestModal();
     });
 
+    // Turnstile callbacks
+    let turnstileVerified = false;
+    function onTurnstileSuccess(token) {
+      turnstileVerified = true;
+      document.getElementById('reqSubmit').disabled = false;
+    }
+    function onTurnstileExpired() {
+      turnstileVerified = false;
+      document.getElementById('reqSubmit').disabled = true;
+    }
+
     function submitRequest() {
       const name = document.getElementById('reqName').value.trim();
       const email = document.getElementById('reqEmail').value.trim();
@@ -948,6 +964,12 @@
       const website = document.getElementById('reqWebsite').value.trim();
       const country = document.getElementById('reqCountry').value;
       const pillar = document.getElementById('reqPillar').value;
+
+      // Bot check
+      if (!turnstileVerified) {
+        alert('Please complete the verification first.');
+        return;
+      }
 
       // Validation
       if (!name || !email || !org) {
@@ -991,6 +1013,9 @@
         document.getElementById('reqWebsite').value = '';
         document.getElementById('reqCountry').value = '';
         document.getElementById('reqPillar').value = '';
+        turnstileVerified = false;
+        document.getElementById('reqSubmit').disabled = true;
+        if (window.turnstile) turnstile.reset();
         closeRequestModal();
       }, 3000);
     }
