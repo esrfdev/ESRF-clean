@@ -600,11 +600,32 @@ a:hover { color: #fff; }
   width: 100px;
   height: 100px;
 }
+.pillar-card-icon img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
 .pillar-card[data-pillar="prevent"] .pillar-card-icon { color: var(--p-prevent); }
 .pillar-card[data-pillar="protect"] .pillar-card-icon { color: var(--p-protect); }
 .pillar-card[data-pillar="prepare"] .pillar-card-icon { color: var(--p-prepare); }
 .pillar-card[data-pillar="respond"] .pillar-card-icon { color: var(--p-respond); }
 .pillar-card[data-pillar="recover"] .pillar-card-icon { color: var(--p-recover); }
+/* AI-generated icon color tinting per pillar */
+.pillar-card[data-pillar="prevent"] .pillar-card-icon img {
+  filter: brightness(0) saturate(100%) invert(52%) sepia(98%) saturate(1000%) hue-rotate(175deg) brightness(1.1);
+}
+.pillar-card[data-pillar="protect"] .pillar-card-icon img {
+  filter: brightness(0) saturate(100%) invert(52%) sepia(98%) saturate(1000%) hue-rotate(345deg) brightness(1.1);
+}
+.pillar-card[data-pillar="prepare"] .pillar-card-icon img {
+  filter: brightness(0) saturate(100%) invert(52%) sepia(98%) saturate(1000%) hue-rotate(250deg) brightness(1.1);
+}
+.pillar-card[data-pillar="respond"] .pillar-card-icon img {
+  filter: brightness(0) saturate(100%) invert(52%) sepia(98%) saturate(1000%) hue-rotate(20deg) brightness(1.2);
+}
+.pillar-card[data-pillar="recover"] .pillar-card-icon img {
+  filter: brightness(0) saturate(100%) invert(52%) sepia(98%) saturate(1000%) hue-rotate(85deg) brightness(1.1);
+}
 
 .pillar-card-title {
   font-size: 20px;
