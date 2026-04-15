@@ -364,6 +364,9 @@ const UI = {
   en: {
     navTagline: 'European Security & Resilience Framework',
     navNews: 'News',
+    joinCtaTitle: 'Missing from the directory?',
+    joinCtaDesc: 'Listed organisations gain visibility across 15 countries, automatic news monitoring, and access to the ESRF intelligence network.',
+    joinCtaBtn: 'Request listing',
     heroBadge: 'RESILIENCE FRAMEWORK ACTIVE',
     heroTitle: 'European Security &\nResilience Community',
     heroSubtitle: '{total} organisations · {countries} countries · 5 pillars',
@@ -409,6 +412,9 @@ const UI = {
   bg: {
     navTagline: 'Европейска рамка за сигурност и устойчивост',
     navNews: 'Новини',
+    joinCtaTitle: 'Липсвате в указателя?',
+    joinCtaDesc: 'Включените организации получават видимост в 15 страни и автоматичен мониторинг на новини.',
+    joinCtaBtn: 'Заявете включване',
     heroBadge: 'РАМКАТА ЗА УСТОЙЧИВОСТ Е АКТИВНА',
     heroTitle: 'Европейска общност за\nсигурност и устойчивост',
     heroSubtitle: '{total} организации · {countries} държави · 5 стълба',
@@ -454,6 +460,9 @@ const UI = {
   cs: {
     navTagline: 'Evropský rámec bezpečnosti a odolnosti',
     navNews: 'Zprávy',
+    joinCtaTitle: 'Chybíte v adresáři?',
+    joinCtaDesc: 'Uvedené organizace získávají viditelnost v 15 zemích a automatický monitoring zpráv.',
+    joinCtaBtn: 'Požádat o zařazení',
     heroBadge: 'RÁMEC ODOLNOSTI JE AKTIVNÍ',
     heroTitle: 'Evropská komunita pro\nbezpečnost a odolnost',
     heroSubtitle: '{total} organizací · {countries} zemí · 5 pilířů',
@@ -499,6 +508,9 @@ const UI = {
   da: {
     navTagline: 'Europæisk Sikkerheds- & Resilienramme',
     navNews: 'Nyheder',
+    joinCtaTitle: 'Mangler du i kataloget?',
+    joinCtaDesc: 'Registrerede organisationer får synlighed i 15 lande og automatisk nyhedsovervågning.',
+    joinCtaBtn: 'Anmod om optagelse',
     heroBadge: 'RESILIENRAMME AKTIV',
     heroTitle: 'Europæisk Sikkerheds- &\nResilienssamfund',
     heroSubtitle: '{total} organisationer · {countries} lande · 5 søjler',
@@ -544,6 +556,9 @@ const UI = {
   de: {
     navTagline: 'Europäischer Sicherheits- & Resilienzrahmen',
     navNews: 'Nachrichten',
+    joinCtaTitle: 'Nicht im Verzeichnis?',
+    joinCtaDesc: 'Gelistete Organisationen erhalten Sichtbarkeit in 15 Ländern und automatisches Nachrichtenmonitoring.',
+    joinCtaBtn: 'Aufnahme beantragen',
     heroBadge: 'RESILIENZRAHMEN AKTIV',
     heroTitle: 'Europäische Sicherheits- &\nResilienz-Community',
     heroSubtitle: '{total} Organisationen · {countries} Länder · 5 Säulen',
@@ -589,6 +604,9 @@ const UI = {
   el: {
     navTagline: 'Ευρωπαϊκό Πλαίσιο Ασφάλειας και Ανθεκτικότητας',
     navNews: 'Νέα',
+    joinCtaTitle: 'Λείπετε από τον κατάλογο;',
+    joinCtaDesc: 'Οι καταχωρημένοι οργανισμοί αποκτούν ορατότητα σε 15 χώρες και αυτόματη παρακολούθηση ειδήσεων.',
+    joinCtaBtn: 'Αίτηση εγγραφής',
     heroBadge: 'ΤΟ ΠΛΑΊΣΙΟ ΑΝΘΕΚΤΙΚΌΤΗΤΑΣ ΕΊΝΑΙ ΕΝΕΡΓΌ',
     heroTitle: 'Ευρωπαϊκή κοινότητα για\nασφάλεια και ανθεκτικότητα',
     heroSubtitle: '{total} οργανισμοί · {countries} χώρες · 5 πυλώνες',
@@ -634,6 +652,9 @@ const UI = {
   es: {
     navTagline: 'Marco Europeo de Seguridad y Resiliencia',
     navNews: 'Noticias',
+    joinCtaTitle: '¿No aparece en el directorio?',
+    joinCtaDesc: 'Las organizaciones listadas obtienen visibilidad en 15 países y monitoreo automático de noticias.',
+    joinCtaBtn: 'Solicitar registro',
     heroBadge: 'MARCO DE RESILIENCIA ACTIVO',
     heroTitle: 'Comunidad Europea de\nSeguridad y Resiliencia',
     heroSubtitle: '{total} organizaciones · {countries} países · 5 pilares',
@@ -679,6 +700,9 @@ const UI = {
   et: {
     navTagline: 'Euroopa Julgeoleku- ja Vastupidavusraamistik',
     navNews: 'Uudised',
+    joinCtaTitle: 'Puudute kataloogist?',
+    joinCtaDesc: 'Loetletud organisatsioonid saavad nähtavuse 15 riigis ja automaatse uudiste jälgimise.',
+    joinCtaBtn: 'Taotlege lisamist',
     heroBadge: 'VASTUPIDAVUSRAAMISTIK AKTIIVNE',
     heroTitle: 'Euroopa Julgeoleku- &\nVastupidavusühendus',
     heroSubtitle: '{total} organisatsiooni · {countries} riiki · 5 sammast',
@@ -724,6 +748,9 @@ const UI = {
   fi: {
     navTagline: 'Eurooppalainen turvallisuus- ja resilienssiviitekehys',
     navNews: 'Uutiset',
+    joinCtaTitle: 'Puuttuuko luettelosta?',
+    joinCtaDesc: 'Luetellut organisaatiot saavat näkyvyyttä 15 maassa ja automaattisen uutisseurannan.',
+    joinCtaBtn: 'Pyydä lisäystä',
     heroBadge: 'RESILIENSSIVIITEKEHYS AKTIIVINEN',
     heroTitle: 'Eurooppalainen turvallisuus- &\nresilienssiyhteisö',
     heroSubtitle: '{total} organisaatiota · {countries} maata · 5 pilaria',
@@ -769,6 +796,9 @@ const UI = {
   fr: {
     navTagline: 'Cadre Européen de Sécurité & Résilience',
     navNews: 'Actualités',
+    joinCtaTitle: 'Absent du répertoire ?',
+    joinCtaDesc: 'Les organisations répertoriées bénéficient d\'une visibilité dans 15 pays et d\'un suivi automatique des actualités.',
+    joinCtaBtn: 'Demander une inscription',
     heroBadge: 'CADRE DE RÉSILIENCE ACTIF',
     heroTitle: 'Communauté Européenne de\nSécurité & Résilience',
     heroSubtitle: '{total} organisations · {countries} pays · 5 piliers',
@@ -814,6 +844,9 @@ const UI = {
   ga: {
     navTagline: 'Creat Eorpach um Shlándáil agus Athléimneacht',
     navNews: 'Nuacht',
+    joinCtaTitle: 'In easnamh ón eolaire?',
+    joinCtaDesc: 'Faigheann eagraíochtaí liostaithe infheictheacht i 15 thír agus monatóireacht nuachta uathoibríoch.',
+    joinCtaBtn: 'Iarr liostú',
     heroBadge: 'CREAT ATHLÉIMNEACHTA GNÍOMHACH',
     heroTitle: 'Pobal Eorpach um\nShlándáil agus Athléimneacht',
     heroSubtitle: '{total} eagraíocht · {countries} tír · 5 colún',
@@ -859,6 +892,9 @@ const UI = {
   hr: {
     navTagline: 'Europski okvir sigurnosti i otpornosti',
     navNews: 'Vijesti',
+    joinCtaTitle: 'Nedostajete u imeniku?',
+    joinCtaDesc: 'Navedene organizacije dobivaju vidljivost u 15 zemalja i automatsko praćenje vijesti.',
+    joinCtaBtn: 'Zatražite uvrštavanje',
     heroBadge: 'OKVIR OTPORNOSTI JE AKTIVAN',
     heroTitle: 'Europska zajednica za\nsigurnost i otpornost',
     heroSubtitle: '{total} organizacija · {countries} zemalja · 5 stupova',
@@ -904,6 +940,9 @@ const UI = {
   hu: {
     navTagline: 'Európai Biztonsági és Reziliencia Keretrendszer',
     navNews: 'Hírek',
+    joinCtaTitle: 'Hiányzik a névjegyzékből?',
+    joinCtaDesc: 'A felsorolt szervezetek 15 országban kapnak láthatóságot és automatikus hírfigyelést.',
+    joinCtaBtn: 'Felvétel kérése',
     heroBadge: 'A REZILIENCIA KERETRENDSZER AKTÍV',
     heroTitle: 'Európai közösség a\nbiztonságért és rezilienciáért',
     heroSubtitle: '{total} szervezet · {countries} ország · 5 pillér',
@@ -949,6 +988,9 @@ const UI = {
   it: {
     navTagline: 'Quadro Europeo per la Sicurezza e la Resilienza',
     navNews: 'Notizie',
+    joinCtaTitle: 'Non siete nell\'elenco?',
+    joinCtaDesc: 'Le organizzazioni elencate ottengono visibilità in 15 paesi e monitoraggio automatico delle notizie.',
+    joinCtaBtn: 'Richiedi inserimento',
     heroBadge: 'QUADRO DI RESILIENZA ATTIVO',
     heroTitle: 'Comunità Europea di\nSicurezza e Resilienza',
     heroSubtitle: '{total} organizzazioni · {countries} paesi · 5 pilastri',
@@ -994,6 +1036,9 @@ const UI = {
   lt: {
     navTagline: 'Europos Saugumo ir Atsparumo Sistema',
     navNews: 'Naujienos',
+    joinCtaTitle: 'Trūksta kataloge?',
+    joinCtaDesc: 'Įtrauktos organizacijos įgyja matomumą 15 šalių ir automatinį naujienų stebėjimą.',
+    joinCtaBtn: 'Prašyti įtraukimo',
     heroBadge: 'ATSPARUMO SISTEMA AKTYVI',
     heroTitle: 'Europos Saugumo &\nAtsparumo Bendruomenė',
     heroSubtitle: '{total} organizacijų · {countries} šalių · 5 ramsčiai',
@@ -1039,6 +1084,9 @@ const UI = {
   lv: {
     navTagline: 'Eiropas Drošības un Noturības Ietvars',
     navNews: 'Ziņas',
+    joinCtaTitle: 'Trūkst katalogā?',
+    joinCtaDesc: 'Iekļautās organizācijas iegūst redzamību 15 valstīs un automātisku ziņu uzraudzību.',
+    joinCtaBtn: 'Pieprasīt iekļaušanu',
     heroBadge: 'NOTURĪBAS IETVARS AKTĪVS',
     heroTitle: 'Eiropas Drošības &\nNoturības Kopiena',
     heroSubtitle: '{total} organizāciju · {countries} valstu · 5 pīlāri',
@@ -1084,6 +1132,9 @@ const UI = {
   mt: {
     navTagline: 'Qafas Ewropew tas-Sigurtà u r-Reżiljenza',
     navNews: 'Aħbarijiet',
+    joinCtaTitle: 'Nieqes fid-direttorju?',
+    joinCtaDesc: 'Organizzazzjonijiet elenkati jiksbu viżibbiltà f\'15-il pajjiż u monitoraġġ awtomatiku tal-aħbarijiet.',
+    joinCtaBtn: 'Itlob elenkar',
     heroBadge: 'IL-QAFAS TAR-REŻILJENZA ATTIV',
     heroTitle: 'Komunità Ewropea għas-\nSigurtà u r-Reżiljenza',
     heroSubtitle: '{total} organizzazzjonijiet · {countries} pajjiżi · 5 pilastri',
@@ -1129,6 +1180,9 @@ const UI = {
   nl: {
     navTagline: 'Europees Kader voor Veiligheid & Weerbaarheid',
     navNews: 'Nieuws',
+    joinCtaTitle: 'Ontbreekt u in de directory?',
+    joinCtaDesc: 'Opgenomen organisaties krijgen zichtbaarheid in 15 landen, automatische nieuwsmonitoring en toegang tot het ESRF-inlichtingennetwerk.',
+    joinCtaBtn: 'Aanmelden',
     heroBadge: 'WEERBAARHEIDSKADER ACTIEF',
     heroTitle: 'Europese Gemeenschap voor\nVeiligheid & Weerbaarheid',
     heroSubtitle: '{total} organisaties · {countries} landen · 5 pijlers',
@@ -1174,6 +1228,9 @@ const UI = {
   no: {
     navTagline: 'Europeisk Sikkerhets- & Resilienrammeverk',
     navNews: 'Nyheter',
+    joinCtaTitle: 'Mangler i katalogen?',
+    joinCtaDesc: 'Oppførte organisasjoner får synlighet i 15 land og automatisk nyhetsovervåking.',
+    joinCtaBtn: 'Be om oppføring',
     heroBadge: 'RESILIENRAMMEVERK AKTIVT',
     heroTitle: 'Europeisk Sikkerhets- &\nResiliensamfunn',
     heroSubtitle: '{total} organisasjoner · {countries} land · 5 pilarer',
@@ -1219,6 +1276,9 @@ const UI = {
   pl: {
     navTagline: 'Europejskie Ramy Bezpieczeństwa i Odporności',
     navNews: 'Aktualności',
+    joinCtaTitle: 'Brakuje w katalogu?',
+    joinCtaDesc: 'Wymienione organizacje zyskują widoczność w 15 krajach i automatyczny monitoring wiadomości.',
+    joinCtaBtn: 'Poproś o wpis',
     heroBadge: 'RAMY ODPORNOŚCI AKTYWNE',
     heroTitle: 'Europejska Społeczność\nBezpieczeństwa i Odporności',
     heroSubtitle: '{total} organizacji · {countries} krajów · 5 filarów',
@@ -1264,6 +1324,9 @@ const UI = {
   pt: {
     navTagline: 'Quadro Europeu de Segurança e Resiliência',
     navNews: 'Notícias',
+    joinCtaTitle: 'Ausente do diretório?',
+    joinCtaDesc: 'As organizações listadas ganham visibilidade em 15 países e monitoramento automático de notícias.',
+    joinCtaBtn: 'Solicitar registo',
     heroBadge: 'QUADRO DE RESILIÊNCIA ATIVO',
     heroTitle: 'Comunidade Europeia de\nSegurança e Resiliência',
     heroSubtitle: '{total} organizações · {countries} países · 5 pilares',
@@ -1309,6 +1372,9 @@ const UI = {
   ro: {
     navTagline: 'Cadrul European de Securitate și Reziliență',
     navNews: 'Știri',
+    joinCtaTitle: 'Lipsești din director?',
+    joinCtaDesc: 'Organizațiile listate obțin vizibilitate în 15 țări și monitorizare automată a știrilor.',
+    joinCtaBtn: 'Solicită listarea',
     heroBadge: 'CADRUL DE REZILIENȚĂ ESTE ACTIV',
     heroTitle: 'Comunitatea Europeană pentru\nSecuritate și Reziliență',
     heroSubtitle: '{total} organizații · {countries} țări · 5 piloni',
@@ -1354,6 +1420,9 @@ const UI = {
   sk: {
     navTagline: 'Európsky rámec bezpečnosti a odolnosti',
     navNews: 'Správy',
+    joinCtaTitle: 'Chýbate v adresári?',
+    joinCtaDesc: 'Uvedené organizácie získavajú viditeľnosť v 15 krajinách a automatický monitoring správ.',
+    joinCtaBtn: 'Požiadať o zaradenie',
     heroBadge: 'RÁMEC ODOLNOSTI JE AKTÍVNY',
     heroTitle: 'Európska komunita pre\nbezpečnosť a odolnosť',
     heroSubtitle: '{total} organizácií · {countries} krajín · 5 pilierov',
@@ -1399,6 +1468,9 @@ const UI = {
   sl: {
     navTagline: 'Evropski okvir varnosti in odpornosti',
     navNews: 'Novice',
+    joinCtaTitle: 'Manjkate v imeniku?',
+    joinCtaDesc: 'Navedene organizacije pridobijo vidnost v 15 državah in samodejno spremljanje novic.',
+    joinCtaBtn: 'Zaprosite uvrstitev',
     heroBadge: 'OKVIR ODPORNOSTI JE AKTIVEN',
     heroTitle: 'Evropska skupnost za\nvarnost in odpornost',
     heroSubtitle: '{total} organizacij · {countries} držav · 5 stebrov',
@@ -1444,6 +1516,9 @@ const UI = {
   sv: {
     navTagline: 'Europeiskt Säkerhets- & Resilienramverk',
     navNews: 'Nyheter',
+    joinCtaTitle: 'Saknas i katalogen?',
+    joinCtaDesc: 'Listade organisationer får synlighet i 15 länder och automatisk nyhetsbevakning.',
+    joinCtaBtn: 'Begär registrering',
     heroBadge: 'RESILIENRAMVERK AKTIVT',
     heroTitle: 'Europeiskt Säkerhets- &\nResilienssamhälle',
     heroSubtitle: '{total} organisationer · {countries} länder · 5 pelare',
