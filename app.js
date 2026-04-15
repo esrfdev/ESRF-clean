@@ -363,6 +363,7 @@ function getSectorColor(sector) {
 const UI = {
   en: {
     navTagline: 'European Security & Resilience Framework',
+    navNews: 'News',
     heroBadge: 'RESILIENCE FRAMEWORK ACTIVE',
     heroTitle: 'European Security &\nResilience Community',
     heroSubtitle: '{total} organisations · {countries} countries · 5 pillars',
@@ -407,6 +408,7 @@ const UI = {
   },
   bg: {
     navTagline: 'Европейска рамка за сигурност и устойчивост',
+    navNews: 'Новини',
     heroBadge: 'РАМКАТА ЗА УСТОЙЧИВОСТ Е АКТИВНА',
     heroTitle: 'Европейска общност за\nсигурност и устойчивост',
     heroSubtitle: '{total} организации · {countries} държави · 5 стълба',
@@ -451,6 +453,7 @@ const UI = {
   },
   cs: {
     navTagline: 'Evropský rámec bezpečnosti a odolnosti',
+    navNews: 'Zprávy',
     heroBadge: 'RÁMEC ODOLNOSTI JE AKTIVNÍ',
     heroTitle: 'Evropská komunita pro\nbezpečnost a odolnost',
     heroSubtitle: '{total} organizací · {countries} zemí · 5 pilířů',
@@ -495,6 +498,7 @@ const UI = {
   },
   da: {
     navTagline: 'Europæisk Sikkerheds- & Resilienramme',
+    navNews: 'Nyheder',
     heroBadge: 'RESILIENRAMME AKTIV',
     heroTitle: 'Europæisk Sikkerheds- &\nResilienssamfund',
     heroSubtitle: '{total} organisationer · {countries} lande · 5 søjler',
@@ -539,6 +543,7 @@ const UI = {
   },
   de: {
     navTagline: 'Europäischer Sicherheits- & Resilienzrahmen',
+    navNews: 'Nachrichten',
     heroBadge: 'RESILIENZRAHMEN AKTIV',
     heroTitle: 'Europäische Sicherheits- &\nResilienz-Community',
     heroSubtitle: '{total} Organisationen · {countries} Länder · 5 Säulen',
@@ -583,6 +588,7 @@ const UI = {
   },
   el: {
     navTagline: 'Ευρωπαϊκό Πλαίσιο Ασφάλειας και Ανθεκτικότητας',
+    navNews: 'Νέα',
     heroBadge: 'ΤΟ ΠΛΑΊΣΙΟ ΑΝΘΕΚΤΙΚΌΤΗΤΑΣ ΕΊΝΑΙ ΕΝΕΡΓΌ',
     heroTitle: 'Ευρωπαϊκή κοινότητα για\nασφάλεια και ανθεκτικότητα',
     heroSubtitle: '{total} οργανισμοί · {countries} χώρες · 5 πυλώνες',
@@ -627,6 +633,7 @@ const UI = {
   },
   es: {
     navTagline: 'Marco Europeo de Seguridad y Resiliencia',
+    navNews: 'Noticias',
     heroBadge: 'MARCO DE RESILIENCIA ACTIVO',
     heroTitle: 'Comunidad Europea de\nSeguridad y Resiliencia',
     heroSubtitle: '{total} organizaciones · {countries} países · 5 pilares',
@@ -671,6 +678,7 @@ const UI = {
   },
   et: {
     navTagline: 'Euroopa Julgeoleku- ja Vastupidavusraamistik',
+    navNews: 'Uudised',
     heroBadge: 'VASTUPIDAVUSRAAMISTIK AKTIIVNE',
     heroTitle: 'Euroopa Julgeoleku- &\nVastupidavusühendus',
     heroSubtitle: '{total} organisatsiooni · {countries} riiki · 5 sammast',
@@ -715,6 +723,7 @@ const UI = {
   },
   fi: {
     navTagline: 'Eurooppalainen turvallisuus- ja resilienssiviitekehys',
+    navNews: 'Uutiset',
     heroBadge: 'RESILIENSSIVIITEKEHYS AKTIIVINEN',
     heroTitle: 'Eurooppalainen turvallisuus- &\nresilienssiyhteisö',
     heroSubtitle: '{total} organisaatiota · {countries} maata · 5 pilaria',
@@ -759,6 +768,7 @@ const UI = {
   },
   fr: {
     navTagline: 'Cadre Européen de Sécurité & Résilience',
+    navNews: 'Actualités',
     heroBadge: 'CADRE DE RÉSILIENCE ACTIF',
     heroTitle: 'Communauté Européenne de\nSécurité & Résilience',
     heroSubtitle: '{total} organisations · {countries} pays · 5 piliers',
@@ -803,6 +813,7 @@ const UI = {
   },
   ga: {
     navTagline: 'Creat Eorpach um Shlándáil agus Athléimneacht',
+    navNews: 'Nuacht',
     heroBadge: 'CREAT ATHLÉIMNEACHTA GNÍOMHACH',
     heroTitle: 'Pobal Eorpach um\nShlándáil agus Athléimneacht',
     heroSubtitle: '{total} eagraíocht · {countries} tír · 5 colún',
@@ -847,6 +858,7 @@ const UI = {
   },
   hr: {
     navTagline: 'Europski okvir sigurnosti i otpornosti',
+    navNews: 'Vijesti',
     heroBadge: 'OKVIR OTPORNOSTI JE AKTIVAN',
     heroTitle: 'Europska zajednica za\nsigurnost i otpornost',
     heroSubtitle: '{total} organizacija · {countries} zemalja · 5 stupova',
@@ -891,6 +903,7 @@ const UI = {
   },
   hu: {
     navTagline: 'Európai Biztonsági és Reziliencia Keretrendszer',
+    navNews: 'Hírek',
     heroBadge: 'A REZILIENCIA KERETRENDSZER AKTÍV',
     heroTitle: 'Európai közösség a\nbiztonságért és rezilienciáért',
     heroSubtitle: '{total} szervezet · {countries} ország · 5 pillér',
@@ -935,6 +948,7 @@ const UI = {
   },
   it: {
     navTagline: 'Quadro Europeo per la Sicurezza e la Resilienza',
+    navNews: 'Notizie',
     heroBadge: 'QUADRO DI RESILIENZA ATTIVO',
     heroTitle: 'Comunità Europea di\nSicurezza e Resilienza',
     heroSubtitle: '{total} organizzazioni · {countries} paesi · 5 pilastri',
@@ -979,6 +993,7 @@ const UI = {
   },
   lt: {
     navTagline: 'Europos Saugumo ir Atsparumo Sistema',
+    navNews: 'Naujienos',
     heroBadge: 'ATSPARUMO SISTEMA AKTYVI',
     heroTitle: 'Europos Saugumo &\nAtsparumo Bendruomenė',
     heroSubtitle: '{total} organizacijų · {countries} šalių · 5 ramsčiai',
@@ -1023,6 +1038,7 @@ const UI = {
   },
   lv: {
     navTagline: 'Eiropas Drošības un Noturības Ietvars',
+    navNews: 'Ziņas',
     heroBadge: 'NOTURĪBAS IETVARS AKTĪVS',
     heroTitle: 'Eiropas Drošības &\nNoturības Kopiena',
     heroSubtitle: '{total} organizāciju · {countries} valstu · 5 pīlāri',
@@ -1067,6 +1083,7 @@ const UI = {
   },
   mt: {
     navTagline: 'Qafas Ewropew tas-Sigurtà u r-Reżiljenza',
+    navNews: 'Aħbarijiet',
     heroBadge: 'IL-QAFAS TAR-REŻILJENZA ATTIV',
     heroTitle: 'Komunità Ewropea għas-\nSigurtà u r-Reżiljenza',
     heroSubtitle: '{total} organizzazzjonijiet · {countries} pajjiżi · 5 pilastri',
@@ -1111,6 +1128,7 @@ const UI = {
   },
   nl: {
     navTagline: 'Europees Kader voor Veiligheid & Weerbaarheid',
+    navNews: 'Nieuws',
     heroBadge: 'WEERBAARHEIDSKADER ACTIEF',
     heroTitle: 'Europese Gemeenschap voor\nVeiligheid & Weerbaarheid',
     heroSubtitle: '{total} organisaties · {countries} landen · 5 pijlers',
@@ -1155,6 +1173,7 @@ const UI = {
   },
   no: {
     navTagline: 'Europeisk Sikkerhets- & Resilienrammeverk',
+    navNews: 'Nyheter',
     heroBadge: 'RESILIENRAMMEVERK AKTIVT',
     heroTitle: 'Europeisk Sikkerhets- &\nResiliensamfunn',
     heroSubtitle: '{total} organisasjoner · {countries} land · 5 pilarer',
@@ -1199,6 +1218,7 @@ const UI = {
   },
   pl: {
     navTagline: 'Europejskie Ramy Bezpieczeństwa i Odporności',
+    navNews: 'Aktualności',
     heroBadge: 'RAMY ODPORNOŚCI AKTYWNE',
     heroTitle: 'Europejska Społeczność\nBezpieczeństwa i Odporności',
     heroSubtitle: '{total} organizacji · {countries} krajów · 5 filarów',
@@ -1243,6 +1263,7 @@ const UI = {
   },
   pt: {
     navTagline: 'Quadro Europeu de Segurança e Resiliência',
+    navNews: 'Notícias',
     heroBadge: 'QUADRO DE RESILIÊNCIA ATIVO',
     heroTitle: 'Comunidade Europeia de\nSegurança e Resiliência',
     heroSubtitle: '{total} organizações · {countries} países · 5 pilares',
@@ -1287,6 +1308,7 @@ const UI = {
   },
   ro: {
     navTagline: 'Cadrul European de Securitate și Reziliență',
+    navNews: 'Știri',
     heroBadge: 'CADRUL DE REZILIENȚĂ ESTE ACTIV',
     heroTitle: 'Comunitatea Europeană pentru\nSecuritate și Reziliență',
     heroSubtitle: '{total} organizații · {countries} țări · 5 piloni',
@@ -1331,6 +1353,7 @@ const UI = {
   },
   sk: {
     navTagline: 'Európsky rámec bezpečnosti a odolnosti',
+    navNews: 'Správy',
     heroBadge: 'RÁMEC ODOLNOSTI JE AKTÍVNY',
     heroTitle: 'Európska komunita pre\nbezpečnosť a odolnosť',
     heroSubtitle: '{total} organizácií · {countries} krajín · 5 pilierov',
@@ -1375,6 +1398,7 @@ const UI = {
   },
   sl: {
     navTagline: 'Evropski okvir varnosti in odpornosti',
+    navNews: 'Novice',
     heroBadge: 'OKVIR ODPORNOSTI JE AKTIVEN',
     heroTitle: 'Evropska skupnost za\nvarnost in odpornost',
     heroSubtitle: '{total} organizacij · {countries} držav · 5 stebrov',
@@ -1419,6 +1443,7 @@ const UI = {
   },
   sv: {
     navTagline: 'Europeiskt Säkerhets- & Resilienramverk',
+    navNews: 'Nyheter',
     heroBadge: 'RESILIENRAMVERK AKTIVT',
     heroTitle: 'Europeiskt Säkerhets- &\nResilienssamhälle',
     heroSubtitle: '{total} organisationer · {countries} länder · 5 pelare',
