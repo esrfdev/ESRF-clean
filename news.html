@@ -868,26 +868,26 @@
     // ── DEMO DATA (until Worker is deployed) ──
     function generateDemoArticles() {
       const orgs = [
-        { name: 'Thales', pillar: 'vigilance', country: 'FR' },
-        { name: 'TNO', pillar: 'vigilance', country: 'NL' },
-        { name: 'Airbus Defence & Space', pillar: 'vigilance', country: 'DE' },
-        { name: 'BAM Infra', pillar: 'stewardship', country: 'NL' },
-        { name: 'Enexis', pillar: 'stewardship', country: 'NL' },
-        { name: 'TenneT', pillar: 'stewardship', country: 'NL' },
-        { name: 'Ericsson', pillar: 'empowerment', country: 'SE' },
-        { name: 'Sopra Steria', pillar: 'empowerment', country: 'FR' },
-        { name: 'Rohde & Schwarz', pillar: 'empowerment', country: 'DE' },
-        { name: 'KNMI', pillar: 'solidarity', country: 'NL' },
-        { name: 'Red Cross Netherlands', pillar: 'solidarity', country: 'NL' },
-        { name: 'EUCPM', pillar: 'solidarity', country: 'BE' },
-        { name: 'Siemens Energy', pillar: 'renewal', country: 'DE' },
-        { name: 'Vattenfall', pillar: 'renewal', country: 'SE' },
-        { name: 'Port of Rotterdam', pillar: 'stewardship', country: 'NL' },
-        { name: 'Saab', pillar: 'vigilance', country: 'SE' },
-        { name: 'Leonardo', pillar: 'vigilance', country: 'IT' },
-        { name: 'Indra Sistemas', pillar: 'empowerment', country: 'ES' },
-        { name: 'Securitas', pillar: 'vigilance', country: 'SE' },
-        { name: 'DNV', pillar: 'stewardship', country: 'NO' },
+        { name: 'Thales', pillar: 'vigilance', country: 'FR', web: 'https://www.thalesgroup.com' },
+        { name: 'TNO', pillar: 'vigilance', country: 'NL', web: 'https://www.tno.nl' },
+        { name: 'Airbus Defence & Space', pillar: 'vigilance', country: 'DE', web: 'https://www.airbus.com/en/defence' },
+        { name: 'BAM Infra', pillar: 'stewardship', country: 'NL', web: 'https://www.bam.com' },
+        { name: 'Enexis', pillar: 'stewardship', country: 'NL', web: 'https://www.enexis.nl' },
+        { name: 'TenneT', pillar: 'stewardship', country: 'NL', web: 'https://www.tennet.eu' },
+        { name: 'Ericsson', pillar: 'empowerment', country: 'SE', web: 'https://www.ericsson.com' },
+        { name: 'Sopra Steria', pillar: 'empowerment', country: 'FR', web: 'https://www.soprasteria.com' },
+        { name: 'Rohde & Schwarz', pillar: 'empowerment', country: 'DE', web: 'https://www.rohde-schwarz.com' },
+        { name: 'KNMI', pillar: 'solidarity', country: 'NL', web: 'https://www.knmi.nl' },
+        { name: 'Red Cross Netherlands', pillar: 'solidarity', country: 'NL', web: 'https://www.rodekruis.nl' },
+        { name: 'EUCPM', pillar: 'solidarity', country: 'BE', web: 'https://civil-protection-humanitarian-aid.ec.europa.eu' },
+        { name: 'Siemens Energy', pillar: 'renewal', country: 'DE', web: 'https://www.siemens-energy.com' },
+        { name: 'Vattenfall', pillar: 'renewal', country: 'SE', web: 'https://www.vattenfall.com' },
+        { name: 'Port of Rotterdam', pillar: 'stewardship', country: 'NL', web: 'https://www.portofrotterdam.com' },
+        { name: 'Saab', pillar: 'vigilance', country: 'SE', web: 'https://www.saab.com' },
+        { name: 'Leonardo', pillar: 'vigilance', country: 'IT', web: 'https://www.leonardo.com' },
+        { name: 'Indra Sistemas', pillar: 'empowerment', country: 'ES', web: 'https://www.indracompany.com' },
+        { name: 'Securitas', pillar: 'vigilance', country: 'SE', web: 'https://www.securitas.com' },
+        { name: 'DNV', pillar: 'stewardship', country: 'NO', web: 'https://www.dnv.com' },
       ];
       const headlines = [
         '{org} announces expanded European operations amid regional security review',
@@ -919,7 +919,7 @@
           source: sources[Math.floor(Math.random() * sources.length)],
           date: date.toISOString().slice(0, 10),
           snippet: `Latest developments from ${org.name} regarding European security and resilience operations. The organisation continues to play a key role in strengthening regional preparedness and cross-border coordination.`,
-          url: `https://news.google.com/search?q=${encodeURIComponent(org.name)}`
+          url: org.web
         });
       }
       return articles;
