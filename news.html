@@ -346,6 +346,131 @@
     }
     .news-cta-btn:hover { opacity: 0.85; }
 
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--navy-light);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 480px;
+      padding: 40px 36px 36px;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .modal .modal-desc {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input::placeholder { color: var(--text-muted); }
+    .form-group input:focus,
+    .form-group select:focus { border-color: var(--orange); }
+    .form-group .form-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .form-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: opacity 0.2s;
+      margin-top: 8px;
+    }
+    .form-submit:hover { opacity: 0.85; }
+    .form-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .form-success .check-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(46,204,113,0.15);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .form-success .check-icon svg { stroke: var(--green); }
+    .form-success h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+    .form-success p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
     /* ── LOAD MORE ── */
     .news-load-more {
       text-align: center;
@@ -460,7 +585,76 @@
         <h3>Is your organisation part of the network?</h3>
         <p>Listed organisations receive automatic news monitoring, cross-network visibility, and feature in our intelligence reports shared across 15 countries.</p>
       </div>
-      <a href="mailto:office@esrf.net" class="news-cta-btn">Request listing</a>
+      <button class="news-cta-btn" onclick="openRequestModal()" style="border:none;cursor:pointer;font-family:inherit;">Request listing</button>
+    </div>
+  </div>
+
+  <!-- REQUEST LISTING MODAL -->
+  <div class="modal-overlay" id="requestModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeRequestModal()">&times;</button>
+      <div id="requestForm">
+        <h2>Request a listing</h2>
+        <p class="modal-desc">Submit your organisation for inclusion in the ESRF network. We review all requests within 5 business days.</p>
+        <div class="form-group">
+          <label for="reqName">Contact name</label>
+          <input type="text" id="reqName" placeholder="Your full name" required />
+        </div>
+        <div class="form-group">
+          <label for="reqEmail">Email address</label>
+          <input type="email" id="reqEmail" placeholder="you@organisation.com" required />
+        </div>
+        <div class="form-group">
+          <label for="reqOrg">Organisation name</label>
+          <input type="text" id="reqOrg" placeholder="e.g. Resilience Solutions B.V." required />
+        </div>
+        <div class="form-group">
+          <label for="reqWebsite">Website</label>
+          <input type="url" id="reqWebsite" placeholder="https://www.example.com" />
+          <div class="form-hint">Optional, but helps us verify your organisation faster</div>
+        </div>
+        <div class="form-group">
+          <label for="reqCountry">Country</label>
+          <select id="reqCountry">
+            <option value="">Select country</option>
+            <option value="BE">Belgium</option>
+            <option value="DE">Germany</option>
+            <option value="DK">Denmark</option>
+            <option value="EE">Estonia</option>
+            <option value="ES">Spain</option>
+            <option value="FI">Finland</option>
+            <option value="FR">France</option>
+            <option value="IT">Italy</option>
+            <option value="LT">Lithuania</option>
+            <option value="LV">Latvia</option>
+            <option value="NL">Netherlands</option>
+            <option value="NO">Norway</option>
+            <option value="PL">Poland</option>
+            <option value="SE">Sweden</option>
+            <option value="UK">United Kingdom</option>
+            <option value="OTHER">Other European country</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="reqPillar">Most relevant pillar</label>
+          <select id="reqPillar">
+            <option value="">Select pillar</option>
+            <option value="Vigilance">Vigilance — threat awareness &amp; monitoring</option>
+            <option value="Stewardship">Stewardship — critical infrastructure protection</option>
+            <option value="Empowerment">Empowerment — innovation &amp; capacity building</option>
+            <option value="Solidarity">Solidarity — crisis coordination &amp; mutual aid</option>
+            <option value="Renewal">Renewal — recovery &amp; future transitions</option>
+          </select>
+        </div>
+        <button class="form-submit" id="reqSubmit" onclick="submitRequest()">Submit request</button>
+      </div>
+      <div class="form-success" id="requestSuccess">
+        <div class="check-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Request submitted</h3>
+        <p>Thank you. We will review your organisation and respond to your email within 5 business days.</p>
+      </div>
     </div>
   </div>
 
@@ -719,6 +913,81 @@
         });
       }
       return articles;
+    }
+
+    // ── REQUEST MODAL ──
+    function openRequestModal() {
+      document.getElementById('requestModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeRequestModal() {
+      document.getElementById('requestModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close on overlay click
+    document.getElementById('requestModal').addEventListener('click', function(e) {
+      if (e.target === this) closeRequestModal();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeRequestModal();
+    });
+
+    function submitRequest() {
+      const name = document.getElementById('reqName').value.trim();
+      const email = document.getElementById('reqEmail').value.trim();
+      const org = document.getElementById('reqOrg').value.trim();
+      const website = document.getElementById('reqWebsite').value.trim();
+      const country = document.getElementById('reqCountry').value;
+      const pillar = document.getElementById('reqPillar').value;
+
+      // Validation
+      if (!name || !email || !org) {
+        alert('Please fill in your name, email, and organisation name.');
+        return;
+      }
+      if (!email.includes('@') || !email.includes('.')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      // Build mailto
+      const subject = encodeURIComponent(`ESRF Listing Request: ${org}`);
+      const body = encodeURIComponent(
+        `New listing request for ESRF.net\n` +
+        `\n` +
+        `Contact name: ${name}\n` +
+        `Email: ${email}\n` +
+        `Organisation: ${org}\n` +
+        `Website: ${website || 'Not provided'}\n` +
+        `Country: ${country || 'Not specified'}\n` +
+        `Pillar: ${pillar || 'Not specified'}\n` +
+        `\n` +
+        `Submitted via ESRF.net News Hub`
+      );
+
+      // Open mailto
+      window.location.href = `mailto:office@esrf.net?subject=${subject}&body=${body}`;
+
+      // Show success
+      document.getElementById('requestForm').style.display = 'none';
+      document.getElementById('requestSuccess').style.display = 'block';
+
+      // Reset after 3 seconds
+      setTimeout(() => {
+        document.getElementById('requestForm').style.display = 'block';
+        document.getElementById('requestSuccess').style.display = 'none';
+        document.getElementById('reqName').value = '';
+        document.getElementById('reqEmail').value = '';
+        document.getElementById('reqOrg').value = '';
+        document.getElementById('reqWebsite').value = '';
+        document.getElementById('reqCountry').value = '';
+        document.getElementById('reqPillar').value = '';
+        closeRequestModal();
+      }, 3000);
     }
 
     // ── INIT ──
