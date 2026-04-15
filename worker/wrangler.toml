@@ -1,0 +1,29 @@
+# ESRF News Aggregator Worker
+# 
+# Setup instructions:
+# 1. Install Wrangler: npm install -g wrangler
+# 2. Login: wrangler login
+# 3. Create KV namespace: wrangler kv:namespace create "NEWS_CACHE"
+# 4. Copy the namespace ID below
+# 5. Deploy: wrangler deploy
+# 6. Add route in Cloudflare Dashboard: esrf.net/api/news* → esrf-news-worker
+
+name = "esrf-news-worker"
+main = "news-worker.js"
+compatibility_date = "2024-01-01"
+
+# KV Namespace binding
+# After running: wrangler kv:namespace create "NEWS_CACHE"
+# Replace the id below with the returned namespace ID
+[[kv_namespaces]]
+binding = "NEWS_CACHE"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+# Cron trigger: runs every 6 hours
+[triggers]
+crons = ["0 */6 * * *"]
+
+# Route (configure in Cloudflare Dashboard instead if using Pages)
+# routes = [
+#   { pattern = "esrf.net/api/news*", zone_name = "esrf.net" }
+# ]

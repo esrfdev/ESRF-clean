@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News Hub — ESRF Community</title>
+  <meta name="description" content="Latest news from 500+ European security and resilience organisations. Curated intelligence from the ESRF network." />
+  <link rel="canonical" href="https://www.esrf.net/news.html" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.esrf.net/news.html" />
+  <meta property="og:title" content="News Hub — ESRF Community" />
+  <meta property="og:description" content="Latest news from 500+ European security and resilience organisations." />
+  <meta property="og:image" content="https://www.esrf.net/og-image.png" />
+
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D1B2A;
+      --navy-light: #132337;
+      --card: #14283D;
+      --border: #1E3A54;
+      --text: #E8F0F8;
+      --text-dim: #8BA5C0;
+      --text-muted: #4D6A85;
+      --orange: #FF6B35;
+      --cyan: #39A0ED;
+      --green: #2ECC71;
+      --purple: #9B59B6;
+      --gold: #F1C40F;
+      --pink: #E74C8B;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    .news-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13, 27, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .news-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .news-nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+    }
+    .news-nav-brand .brand-esrf { color: var(--orange); }
+    .news-nav-links { display: flex; gap: 24px; align-items: center; }
+    .news-nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .news-nav-links a:hover { color: var(--orange); }
+    .news-nav-links a.active { color: var(--orange); }
+
+    /* ── HERO ── */
+    .news-hero {
+      text-align: center;
+      padding: 72px 24px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .news-kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+    .news-hero h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .news-hero p {
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      max-width: 640px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .news-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .news-stat {
+      text-align: center;
+    }
+    .news-stat-num {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--orange);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .news-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── FILTERS ── */
+    .news-filters {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 24px 0;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .news-search {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 16px;
+      background: var(--navy-light);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .news-search::placeholder { color: var(--text-muted); }
+    .news-search:focus { border-color: var(--orange); }
+    .news-filter-select {
+      padding: 10px 32px 10px 16px;
+      background: var(--navy-light);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234D6A85'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+    .news-filter-select:focus { border-color: var(--orange); }
+
+    /* ── FEED ── */
+    .news-feed {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .news-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s, transform 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .news-card:hover {
+      border-color: var(--orange);
+      transform: translateY(-2px);
+    }
+
+    .news-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .news-card-pillar {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .news-card-pillar[data-pillar="vigilance"] { background: rgba(57,160,237,0.15); color: var(--cyan); }
+    .news-card-pillar[data-pillar="stewardship"] { background: rgba(255,107,53,0.15); color: var(--orange); }
+    .news-card-pillar[data-pillar="empowerment"] { background: rgba(155,89,182,0.15); color: var(--purple); }
+    .news-card-pillar[data-pillar="solidarity"] { background: rgba(241,196,15,0.15); color: var(--gold); }
+    .news-card-pillar[data-pillar="renewal"] { background: rgba(46,204,113,0.15); color: var(--green); }
+
+    .news-card-source {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    .news-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .news-card-org {
+      font-size: 0.8rem;
+      color: var(--cyan);
+      font-weight: 500;
+    }
+
+    .news-card-snippet {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .news-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 8px;
+    }
+
+    .news-card-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .news-card-country {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.04);
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    /* ── LOADING ── */
+    .news-loading {
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--text-muted);
+    }
+    .news-loading-spinner {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── EMPTY STATE ── */
+    .news-empty {
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--text-muted);
+    }
+    .news-empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.3; }
+
+    /* ── BANNER CTA ── */
+    .news-cta-banner {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 24px;
+    }
+    .news-cta-inner {
+      background: linear-gradient(135deg, rgba(255,107,53,0.08) 0%, rgba(57,160,237,0.06) 100%);
+      border: 1px solid rgba(255,107,53,0.2);
+      border-radius: 12px;
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .news-cta-text h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .news-cta-text p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      max-width: 500px;
+    }
+    .news-cta-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .news-cta-btn:hover { opacity: 0.85; }
+
+    /* ── LOAD MORE ── */
+    .news-load-more {
+      text-align: center;
+      padding: 20px;
+    }
+    .news-load-more button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 12px 32px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .news-load-more button:hover {
+      border-color: var(--orange);
+      color: var(--text);
+    }
+
+    /* ── FOOTER ── */
+    .news-footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 32px 24px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+    .news-footer a { color: var(--orange); text-decoration: none; }
+    .news-footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .news-hero h1 { font-size: 1.8rem; }
+      .news-grid { grid-template-columns: 1fr; }
+      .news-cta-inner { flex-direction: column; text-align: center; }
+      .news-stats { gap: 24px; }
+      .news-nav-links { gap: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .news-filters { flex-direction: column; }
+      .news-search { min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="news-nav">
+    <div class="news-nav-inner">
+      <a href="/" class="news-nav-brand">
+        <span class="brand-esrf">ESRF</span><span style="color:var(--text-muted)">.</span>community
+      </a>
+      <div class="news-nav-links">
+        <a href="/#pillars">Pillars</a>
+        <a href="/news.html" class="active">News</a>
+        <a href="/#about">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="news-hero">
+    <div class="news-kicker">Network Intelligence</div>
+    <h1>News Hub</h1>
+    <p>Real-time news monitoring across 500 organisations in the ESRF network. Stay informed on European security, resilience, and business continuity developments.</p>
+    <div class="news-stats">
+      <div class="news-stat">
+        <div class="news-stat-num" id="statArticles">—</div>
+        <div class="news-stat-label">Articles today</div>
+      </div>
+      <div class="news-stat">
+        <div class="news-stat-num" id="statOrgs">—</div>
+        <div class="news-stat-label">Organisations tracked</div>
+      </div>
+      <div class="news-stat">
+        <div class="news-stat-num" id="statCountries">—</div>
+        <div class="news-stat-label">Countries</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <div class="news-filters">
+    <input type="text" class="news-search" id="newsSearch" placeholder="Search articles, organisations..." />
+    <select class="news-filter-select" id="filterPillar">
+      <option value="">All Pillars</option>
+      <option value="vigilance">Vigilance</option>
+      <option value="stewardship">Stewardship</option>
+      <option value="empowerment">Empowerment</option>
+      <option value="solidarity">Solidarity</option>
+      <option value="renewal">Renewal</option>
+    </select>
+    <select class="news-filter-select" id="filterCountry">
+      <option value="">All Countries</option>
+    </select>
+    <select class="news-filter-select" id="filterTime">
+      <option value="7">Last 7 days</option>
+      <option value="1">Today</option>
+      <option value="3">Last 3 days</option>
+      <option value="30">Last 30 days</option>
+    </select>
+  </div>
+
+  <!-- CTA BANNER -->
+  <div class="news-cta-banner" style="margin-top: 24px;">
+    <div class="news-cta-inner">
+      <div class="news-cta-text">
+        <h3>Is your organisation part of the network?</h3>
+        <p>Listed organisations receive automatic news monitoring, cross-network visibility, and feature in our intelligence reports shared across 15 countries.</p>
+      </div>
+      <a href="mailto:office@esrf.net" class="news-cta-btn">Request listing</a>
+    </div>
+  </div>
+
+  <!-- FEED -->
+  <div class="news-feed">
+    <div class="news-loading" id="newsLoading">
+      <div class="news-loading-spinner"></div>
+      <p>Scanning network news sources...</p>
+    </div>
+    <div class="news-empty" id="newsEmpty" style="display:none;">
+      <div class="news-empty-icon">📡</div>
+      <p>No articles found matching your filters.</p>
+    </div>
+    <div class="news-grid" id="newsGrid"></div>
+    <div class="news-load-more" id="newsLoadMore" style="display:none;">
+      <button onclick="loadMore()">Load more articles</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="news-footer">
+    <p>
+      <a href="/">← Back to ESRF.net</a>
+      <span style="margin:0 12px;color:var(--border)">|</span>
+      News data refreshed daily from public sources
+      <span style="margin:0 12px;color:var(--border)">|</span>
+      © 2026 ESRF Community
+    </p>
+  </footer>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════════
+       ESRF NEWS HUB — Client-side feed renderer
+       Expects JSON from: /api/news (Cloudflare Worker)
+       Fallback: Google News RSS via cors-anywhere or static demo
+       ═══════════════════════════════════════════════════════════ */
+
+    const NEWS_API = '/api/news';
+    const ITEMS_PER_PAGE = 24;
+    let allArticles = [];
+    let filteredArticles = [];
+    let currentPage = 0;
+
+    // ── PILLAR COLORS ──
+    const PILLAR_MAP = {
+      vigilance: 'vigilance',
+      stewardship: 'stewardship',
+      empowerment: 'empowerment',
+      solidarity: 'solidarity',
+      renewal: 'renewal'
+    };
+
+    // ── RENDER CARD ──
+    function renderCard(article) {
+      const card = document.createElement('a');
+      card.className = 'news-card';
+      card.href = article.url;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+
+      const pillarTag = article.pillar
+        ? `<span class="news-card-pillar" data-pillar="${article.pillar}">${article.pillar}</span>`
+        : '';
+
+      const dateStr = article.date
+        ? new Date(article.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+        : '';
+
+      card.innerHTML = `
+        <div class="news-card-header">
+          ${pillarTag}
+          <span class="news-card-source">${article.source || ''}</span>
+        </div>
+        <div class="news-card-title">${escapeHtml(article.title)}</div>
+        ${article.organisation ? `<div class="news-card-org">${escapeHtml(article.organisation)}</div>` : ''}
+        ${article.snippet ? `<div class="news-card-snippet">${escapeHtml(article.snippet)}</div>` : ''}
+        <div class="news-card-footer">
+          <span class="news-card-date">${dateStr}</span>
+          ${article.country ? `<span class="news-card-country">${article.country}</span>` : ''}
+        </div>
+      `;
+      return card;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ── RENDER GRID ──
+    function renderGrid(reset) {
+      const grid = document.getElementById('newsGrid');
+      const loadMore = document.getElementById('newsLoadMore');
+      const empty = document.getElementById('newsEmpty');
+
+      if (reset) {
+        grid.innerHTML = '';
+        currentPage = 0;
+      }
+
+      const start = currentPage * ITEMS_PER_PAGE;
+      const end = start + ITEMS_PER_PAGE;
+      const slice = filteredArticles.slice(start, end);
+
+      if (filteredArticles.length === 0) {
+        empty.style.display = 'block';
+        loadMore.style.display = 'none';
+        return;
+      }
+
+      empty.style.display = 'none';
+      slice.forEach(a => grid.appendChild(renderCard(a)));
+      currentPage++;
+
+      loadMore.style.display = end < filteredArticles.length ? 'block' : 'none';
+    }
+
+    function loadMore() {
+      renderGrid(false);
+    }
+
+    // ── FILTERS ──
+    function applyFilters() {
+      const search = document.getElementById('newsSearch').value.toLowerCase().trim();
+      const pillar = document.getElementById('filterPillar').value;
+      const country = document.getElementById('filterCountry').value;
+      const days = parseInt(document.getElementById('filterTime').value);
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - days);
+
+      filteredArticles = allArticles.filter(a => {
+        if (pillar && a.pillar !== pillar) return false;
+        if (country && a.country !== country) return false;
+        if (a.date && new Date(a.date) < cutoff) return false;
+        if (search) {
+          const hay = ((a.title || '') + ' ' + (a.organisation || '') + ' ' + (a.snippet || '')).toLowerCase();
+          if (!hay.includes(search)) return false;
+        }
+        return true;
+      });
+
+      renderGrid(true);
+    }
+
+    document.getElementById('newsSearch').addEventListener('input', debounce(applyFilters, 300));
+    document.getElementById('filterPillar').addEventListener('change', applyFilters);
+    document.getElementById('filterCountry').addEventListener('change', applyFilters);
+    document.getElementById('filterTime').addEventListener('change', applyFilters);
+
+    function debounce(fn, ms) {
+      let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+    }
+
+    // ── POPULATE COUNTRY FILTER ──
+    function populateCountries(articles) {
+      const sel = document.getElementById('filterCountry');
+      const countries = [...new Set(articles.map(a => a.country).filter(Boolean))].sort();
+      countries.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        sel.appendChild(opt);
+      });
+    }
+
+    // ── STATS ──
+    function updateStats(articles) {
+      const today = new Date().toISOString().slice(0, 10);
+      const todayCount = articles.filter(a => a.date && a.date.startsWith(today)).length;
+      const orgs = new Set(articles.map(a => a.organisation).filter(Boolean)).size;
+      const countries = new Set(articles.map(a => a.country).filter(Boolean)).size;
+
+      document.getElementById('statArticles').textContent = todayCount || articles.length;
+      document.getElementById('statOrgs').textContent = orgs || '500';
+      document.getElementById('statCountries').textContent = countries || '15';
+    }
+
+    // ── FETCH NEWS ──
+    async function fetchNews() {
+      const loading = document.getElementById('newsLoading');
+      try {
+        const res = await fetch(NEWS_API);
+        if (!res.ok) throw new Error('API unavailable');
+        const data = await res.json();
+        allArticles = data.articles || [];
+      } catch (e) {
+        console.warn('News API unavailable, loading demo data:', e);
+        allArticles = generateDemoArticles();
+      }
+
+      // Sort by date descending
+      allArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      loading.style.display = 'none';
+      populateCountries(allArticles);
+      updateStats(allArticles);
+      filteredArticles = [...allArticles];
+      renderGrid(true);
+    }
+
+    // ── DEMO DATA (until Worker is deployed) ──
+    function generateDemoArticles() {
+      const orgs = [
+        { name: 'Thales', pillar: 'vigilance', country: 'FR' },
+        { name: 'TNO', pillar: 'vigilance', country: 'NL' },
+        { name: 'Airbus Defence & Space', pillar: 'vigilance', country: 'DE' },
+        { name: 'BAM Infra', pillar: 'stewardship', country: 'NL' },
+        { name: 'Enexis', pillar: 'stewardship', country: 'NL' },
+        { name: 'TenneT', pillar: 'stewardship', country: 'NL' },
+        { name: 'Ericsson', pillar: 'empowerment', country: 'SE' },
+        { name: 'Sopra Steria', pillar: 'empowerment', country: 'FR' },
+        { name: 'Rohde & Schwarz', pillar: 'empowerment', country: 'DE' },
+        { name: 'KNMI', pillar: 'solidarity', country: 'NL' },
+        { name: 'Red Cross Netherlands', pillar: 'solidarity', country: 'NL' },
+        { name: 'EUCPM', pillar: 'solidarity', country: 'BE' },
+        { name: 'Siemens Energy', pillar: 'renewal', country: 'DE' },
+        { name: 'Vattenfall', pillar: 'renewal', country: 'SE' },
+        { name: 'Port of Rotterdam', pillar: 'stewardship', country: 'NL' },
+        { name: 'Saab', pillar: 'vigilance', country: 'SE' },
+        { name: 'Leonardo', pillar: 'vigilance', country: 'IT' },
+        { name: 'Indra Sistemas', pillar: 'empowerment', country: 'ES' },
+        { name: 'Securitas', pillar: 'vigilance', country: 'SE' },
+        { name: 'DNV', pillar: 'stewardship', country: 'NO' },
+      ];
+      const headlines = [
+        '{org} announces expanded European operations amid regional security review',
+        '{org} partners with cross-border initiative for critical infrastructure resilience',
+        '{org} publishes annual resilience report highlighting key sector vulnerabilities',
+        '{org} secures contract for pan-European monitoring system upgrade',
+        'New partnership: {org} joins consortium on supply chain risk management',
+        '{org} invests in next-generation crisis response technology',
+        '{org} CEO speaks at European resilience summit on regional preparedness',
+        '{org} deploys innovative early-warning system across member states',
+        '{org} and partners launch joint cybersecurity awareness programme',
+        '{org} recognised for excellence in business continuity planning',
+        '{org} expands emergency response capabilities in northern Europe',
+        '{org} launches sustainability-driven infrastructure renewal project',
+      ];
+      const sources = ['Reuters', 'Financial Times', 'NOS', 'Le Monde', 'Bloomberg', 'Der Spiegel', 'Politico EU', 'EurActiv', 'The Guardian', 'Handelsblatt'];
+      const articles = [];
+      const now = Date.now();
+      for (let i = 0; i < 60; i++) {
+        const org = orgs[i % orgs.length];
+        const headline = headlines[i % headlines.length].replace('{org}', org.name);
+        const daysAgo = Math.floor(Math.random() * 14);
+        const date = new Date(now - daysAgo * 86400000);
+        articles.push({
+          title: headline,
+          organisation: org.name,
+          pillar: org.pillar,
+          country: org.country,
+          source: sources[Math.floor(Math.random() * sources.length)],
+          date: date.toISOString().slice(0, 10),
+          snippet: `Latest developments from ${org.name} regarding European security and resilience operations. The organisation continues to play a key role in strengthening regional preparedness and cross-border coordination.`,
+          url: '#'
+        });
+      }
+      return articles;
+    }
+
+    // ── INIT ──
+    fetchNews();
+  </script>
+
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "52897243139b402dacc6d5d564320f8b"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
