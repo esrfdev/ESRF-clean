@@ -1617,7 +1617,7 @@ function updatePillarContent(lang) {
     const p = card.dataset.pillar;
     const descEl = card.querySelector('.pillar-card-desc');
     if (descEl && strings.pillarDesc[p]) {
-      descEl.textContent = strings.pillarQuestion[p] + ' ' + strings.pillarDesc[p];
+      descEl.textContent = strings.pillarDesc[p];
     }
   });
 }
