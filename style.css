@@ -593,11 +593,12 @@ a:hover { color: #fff; }
   letter-spacing: 0.06em;
 }
 .pillar-card-icon {
-  opacity: 0.85;
+  opacity: 0.9;
+  margin: 8px 0;
 }
 .pillar-card-icon svg {
-  width: 72px;
-  height: 72px;
+  width: 100px;
+  height: 100px;
 }
 .pillar-card[data-pillar="prevent"] .pillar-card-icon { color: var(--p-prevent); }
 .pillar-card[data-pillar="protect"] .pillar-card-icon { color: var(--p-protect); }
