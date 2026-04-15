@@ -590,7 +590,13 @@ a:hover { color: #fff; }
   color: var(--text-dim);
   letter-spacing: 0.06em;
 }
-.pillar-card-icon { opacity: 0.5; }
+.pillar-card-icon {
+  opacity: 0.7;
+}
+.pillar-card-icon svg {
+  width: 56px;
+  height: 56px;
+}
 .pillar-card[data-pillar="prevent"] .pillar-card-icon { color: var(--p-prevent); }
 .pillar-card[data-pillar="protect"] .pillar-card-icon { color: var(--p-protect); }
 .pillar-card[data-pillar="prepare"] .pillar-card-icon { color: var(--p-prepare); }
