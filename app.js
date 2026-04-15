@@ -404,6 +404,7 @@ const UI = {
     footerDisclaimer: 'ESRF.net is an independent, non-governmental initiative. None of the listed organisations are formally bound by the framework unless expressly agreed.',
     footerPrivacy: 'Privacy Policy',
     footerTerms: 'Terms & Conditions',
+    aboutP4: 'From vigilance to resilience — each organisation anchors its contribution in one or more of the five moral pillars: <strong>Vigilance, Stewardship, Empowerment, Solidarity,</strong> and <strong>Renewal</strong>.',
   },
   bg: {
     navTagline: 'Европейска рамка за сигурност и устойчивост',
@@ -419,7 +420,8 @@ const UI = {
       prepare: 'Достатъчно способен и подготвен ли съм, за да допринеса, когато е от решаващо значение?',
       respond: 'Може ли моят партньор, съсед или верига да разчита на мен?',
       recover: 'Излизам ли по-силен от кризата — и помагам ли на другите да направят същото?',
-    },
+      aboutP4: 'От бдителност до обновление — всяка организация закрепя своя принос в един или повече от петте морални стълба: <strong>Бдителност, Отговорност за грижа, Собствена сила, Солидарност,</strong> и <strong>Обновление</strong>.',
+  },
     pillarDesc: {
       prevent: 'Структурна бдителност по отношение на сигнали, заплахи и системни рискове, които могат да застрашат сигурността и непрекъснатостта на обществото и икономиката.',
       protect: 'Правителствена и обществена отговорност за защитата на критични функции, жизненоважни процеси и общи интереси.',
@@ -492,6 +494,7 @@ const UI = {
     footerDisclaimer: 'ESRF.net je nezávislá, nevládní iniciativa. Žádná z uvedených organizací není formálně vázána rámcem, pokud to není výslovně dohodnuto.',
     footerPrivacy: 'Zásady ochrany osobních údajů',
     footerTerms: 'Podmínky použití',
+    aboutP4: 'Od bdělosti k obnově — každá organizace ukotvuje svůj příspěvek v jednom nebo více z pěti morálních pilířů: <strong>Bdělost, Povinnost péče, Vlastní síla, Solidarita,</strong> a <strong>Obnova</strong>.',
   },
   da: {
     navTagline: 'Europæisk Sikkerheds- & Resilienramme',
@@ -507,7 +510,8 @@ const UI = {
       prepare: 'Er jeg tilstrækkeligt kapabel og forberedt til at bidrage, når det er afgørende?',
       respond: 'Kan min partner, nabo eller kæde stole på mig?',
       recover: 'Kommer jeg styrket ud — og hjælper jeg andre med at gøre det samme?',
-    },
+      aboutP4: 'Fra årvågenhed til genoprejsning — hver organisation forankrer sit bidrag i én eller flere af de fem moralske søjler: <strong>Årvågenhed, Omsorgspligt, Egen Styrke, Sammenhold,</strong> og <strong>Genoprejsning</strong>.',
+  },
     pillarDesc: {
       prevent: 'Strukturel årvågenhed over for signaler, trusler og systemiske risici, der kan underminere sikkerheden og kontinuiteten i samfundet og økonomien.',
       protect: 'Statsligt og samfundsmæssigt ansvar for beskyttelse af kritiske funktioner, vitale processer og fælles interesser.',
@@ -580,6 +584,7 @@ const UI = {
     footerDisclaimer: 'ESRF.net ist eine unabhängige, nichtstaatliche Initiative. Keine der aufgeführten Organisationen ist formal an den Rahmen gebunden, sofern nicht ausdrücklich vereinbart.',
     footerPrivacy: 'Datenschutzrichtlinie',
     footerTerms: 'Nutzungsbedingungen',
+    aboutP4: 'Von Wachsamkeit bis Widerstandskraft — jede Organisation verankert ihren Beitrag in einem oder mehreren der fünf moralischen Pfeiler: <strong>Wachsamkeit, Sorgfaltspflicht, Eigene Stärke, Verbundenheit,</strong> und <strong>Widerstandskraft</strong>.',
   },
   el: {
     navTagline: 'Ευρωπαϊκό Πλαίσιο Ασφάλειας και Ανθεκτικότητας',
@@ -595,7 +600,8 @@ const UI = {
       prepare: 'Είμαι επαρκώς ικανός και προετοιμασμένος να συνεισφέρω όταν χρειαστεί περισσότερο;',
       respond: 'Μπορεί ο εταίρος, ο γείτονας ή η αλυσίδα μου να βασίζεται σε μένα;',
       recover: 'Βγαίνω ισχυρότερος από κάθε κρίση — και βοηθώ τους άλλους να κάνουν το ίδιο;',
-    },
+      aboutP4: 'Από την εγρήγορση έως την ανανέωση — κάθε οργανισμός αγκυροβολεί τη συμβολή του σε έναν ή περισσότερους από τους πέντε ηθικούς πυλώνες: <strong>Εγρήγορση, Καθήκον Φροντίδας, Ίδια Δύναμη, Αλληλεγγύη,</strong> και <strong>Ανανέωση</strong>.',
+  },
     pillarDesc: {
       prevent: 'Διαρθρωτική επαγρύπνηση ως προς σήματα, απειλές και συστημικούς κινδύνους που ενδέχεται να υπονομεύσουν την ασφάλεια και τη συνέχεια της κοινωνίας και της οικονομίας.',
       protect: 'Κυβερνητική και κοινωνική ευθύνη για την προστασία κρίσιμων λειτουργιών, ζωτικών διαδικασιών και κοινών συμφερόντων.',
@@ -668,6 +674,7 @@ const UI = {
     footerDisclaimer: 'ESRF.net es una iniciativa independiente y no gubernamental. Ninguna de las organizaciones mencionadas está formalmente vinculada al framework salvo acuerdo expreso.',
     footerPrivacy: 'Política de privacidad',
     footerTerms: 'Términos y condiciones',
+    aboutP4: 'De la vigilancia a la resiliencia — cada organización ancla su contribución en uno o más de los cinco pilares morales: <strong>Vigilancia, Deber de Protección, Fuerza Propia, Solidaridad,</strong> y <strong>Resiliencia</strong>.',
   },
   et: {
     navTagline: 'Euroopa Julgeoleku- ja Vastupidavusraamistik',
@@ -683,7 +690,8 @@ const UI = {
       prepare: 'Kas olen piisavalt võimekas ja valmis panustama siis, kui see on otsustava tähtsusega?',
       respond: 'Kas minu partner, naaber või ahel saab minu peale loota?',
       recover: 'Kas tulen kriisist tugevamana — ja aitan teistel sama saavutada?',
-    },
+      aboutP4: 'Valvsusest taastumisvõimeni — iga organisatsioon ankurdab oma panuse ühte või mitmesse viiest moraalsest sambast: <strong>Valvsus, Hoolitsuskohustus, Omajõud, Ühtekuuluvus,</strong> ja <strong>Taastumisvõime</strong>.',
+  },
     pillarDesc: {
       prevent: 'Struktuurne valvsus signaalide, ohtude ja süsteemsete riskide suhtes, mis võivad ohustada ühiskonna ja majanduse turvalisust ning järjepidevust.',
       protect: 'Valitsuslik ja ühiskondlik vastutus kriitiliste funktsioonide, elutähtsate protsesside ja ühiste huvide kaitsmisel.',
@@ -756,6 +764,7 @@ const UI = {
     footerDisclaimer: 'ESRF.net on riippumaton, ei-valtiollinen aloite. Mikään luetelluista organisaatioista ei ole muodollisesti sitoutunut viitekehykseen, ellei toisin ole nimenomaisesti sovittu.',
     footerPrivacy: 'Tietosuojakäytäntö',
     footerTerms: 'Käyttöehdot',
+    aboutP4: 'Valppaudesta palautumiskykyyn — jokainen organisaatio ankkuroi panoksensa yhteen tai useampaan viidestä moraalisesta pilarista: <strong>Valpas, Huolenpito, Oma Voima, Yhteisvoima,</strong> ja <strong>Palautumiskyky</strong>.',
   },
   fr: {
     navTagline: 'Cadre Européen de Sécurité & Résilience',
@@ -771,7 +780,8 @@ const UI = {
       prepare: 'Suis-je suffisamment capable et préparé pour contribuer lorsque cela compte?',
       respond: 'Mon partenaire, mon voisin ou ma chaîne peuvent-ils compter sur moi?',
       recover: 'Sors-je renforcé de l\'épreuve — et aide-je les autres à en faire autant?',
-    },
+      aboutP4: 'De la vigilance à la résilience — chaque organisation ancre sa contribution dans un ou plusieurs des cinq piliers moraux : <strong>Vigilance, Devoir de Protection, Force Propre, Solidarité,</strong> et <strong>Résilience</strong>.',
+  },
     pillarDesc: {
       prevent: 'Vigilance structurelle à l\'égard des signaux, des menaces et des risques systémiques susceptibles de compromettre la sécurité et la continuité de la société et de l\'économie.',
       protect: 'Responsabilité gouvernementale et sociétale pour la protection des fonctions critiques, des processus vitaux et des intérêts communs.',
@@ -844,6 +854,7 @@ const UI = {
     footerDisclaimer: 'Is tionscnamh neamhspleách, neamhrialtasach é ESRF.net. Níl aon cheann de na heagraíochtaí luaite ceangailte go foirmiúil leis an gcreat mura n-aontaítear go sainráite amhlaidh.',
     footerPrivacy: 'Beartas Príobháideachais',
     footerTerms: 'Téarmaí',
+    aboutP4: 'Ó fhaireachas go hathnuachan — téann gach eagraíocht i ngleic lena rannchuidiú i gceann amháin nó níos mó de na cúig cholún mhorálta: <strong>Faireachas, Dualgas Cúraim, Neart Féin, Dlúthpháirtíocht,</strong> agus <strong>Athnuachan</strong>.',
   },
   hr: {
     navTagline: 'Europski okvir sigurnosti i otpornosti',
@@ -859,7 +870,8 @@ const UI = {
       prepare: 'Jesam li dovoljno sposoban i spreman pridonijeti kada je to od presudne važnosti?',
       respond: 'Mogu li se moj partner, susjed ili lanac osloniti na mene?',
       recover: 'Izlazim li iz krize jači — i pomažem li drugima da učine isto?',
-    },
+      aboutP4: 'Od budnosti do obnove — svaka organizacija učvršćuje svoj doprinos u jednom ili više od pet moralnih stupova: <strong>Budnost, Dužnost skrbi, Vlastita snaga, Solidarnost,</strong> i <strong>Obnova</strong>.',
+  },
     pillarDesc: {
       prevent: 'Strukturalna budnost prema signalima, prijetnjama i sustavnim rizicima koji mogu ugroziti sigurnost i kontinuitet društva i gospodarstva.',
       protect: 'Vladina i društvena odgovornost za zaštitu kritičnih funkcija, vitalnih procesa i zajedničkih interesa.',
@@ -932,6 +944,7 @@ const UI = {
     footerDisclaimer: 'Az ESRF.net egy független, nem kormányzati kezdeményezés. Az említett szervezetek egyike sem kötődik formálisan a keretrendszerhez, kivéve ha ezt kifejezetten megállapodták.',
     footerPrivacy: 'Adatvédelmi irányelvek',
     footerTerms: 'Feltételek',
+    aboutP4: 'Az éberségtől a megújulásig — minden szervezet elkötelezettsége egy vagy több erkölcsi pillérben gyökerezik az öt közül: <strong>Éberség, Gondossági kötelezettség, Saját erő, Szolidaritás,</strong> és <strong>Megújulás</strong>.',
   },
   it: {
     navTagline: 'Quadro Europeo per la Sicurezza e la Resilienza',
@@ -947,7 +960,8 @@ const UI = {
       prepare: 'Sono sufficientemente capace e preparato per contribuire quando conta davvero?',
       respond: 'Il mio partner, il mio vicino o la mia catena possono contare su di me?',
       recover: 'Esco più forte dalle crisi — e aiuto gli altri a fare lo stesso?',
-    },
+      aboutP4: 'Dalla vigilanza alla resilienza — ogni organizzazione radica il proprio contributo in uno o più dei cinque pilastri morali: <strong>Vigilanza, Dovere di Cura, Forza Propria, Solidarietà,</strong> e <strong>Resilienza</strong>.',
+  },
     pillarDesc: {
       prevent: 'Vigilanza strutturale nei confronti di segnali, minacce e rischi sistemici che possono compromettere la sicurezza e la continuità della società e dell\'economia.',
       protect: 'Responsabilità governativa e sociale per la protezione delle funzioni critiche, dei processi vitali e degli interessi comuni.',
@@ -1020,6 +1034,7 @@ const UI = {
     footerDisclaimer: 'ESRF.net yra nepriklausoma, nevyriausybinė iniciatyva. Nė viena iš išvardytų organizacijų nėra oficialiai įpareigota pagal sistemą, jei tai nėra aiškiai susitarta.',
     footerPrivacy: 'Privatumo politika',
     footerTerms: 'Naudojimo sąlygos',
+    aboutP4: 'Nuo budrumo iki atsparumo — kiekviena organizacija įtvirtina savo indėlį viename ar keliuose iš penkių moralinių ramsčių: <strong>Budrumas, Rūpestingumo pareiga, Sava jėga, Solidarumas,</strong> ir <strong>Atsparumas</strong>.',
   },
   lv: {
     navTagline: 'Eiropas Drošības un Noturības Ietvars',
@@ -1035,7 +1050,8 @@ const UI = {
       prepare: 'Vai esmu pietiekami spējīgs un sagatavots, lai sniegtu ieguldījumu izšķirošos brīžos?',
       respond: 'Vai mans partneris, kaimiņš vai ķēde var uz mani paļauties?',
       recover: 'Vai es iznāku stiprāks no krīzes — un vai es palīdzu citiem darīt to pašu?',
-    },
+      aboutP4: 'No modrības līdz noturībai — katra organizācija nostiprina savu ieguldījumu vienā vai vairākos no pieciem morālajiem pīlāriem: <strong>Modrība, Rūpību pienākums, Pašspēks, Solidaritāte,</strong> un <strong>Noturība</strong>.',
+  },
     pillarDesc: {
       prevent: 'Strukturāla modrība attiecībā uz signāliem, apdraudējumiem un sistēmiskiem riskiem, kas var apdraudēt sabiedrības un ekonomikas drošību un nepārtrauktību.',
       protect: 'Valdības un sabiedrības atbildība par kritisko funkciju, vitāli svarīgu procesu un kopējo interešu aizsardzību.',
@@ -1108,6 +1124,7 @@ const UI = {
     footerDisclaimer: 'ESRF.net hija inizjattiva indipendenti, mhux governattiva. L-ebda waħda mill-organizzazzjonijiet imsemmija mhi formalment marbuta mal-qafas sakemm ma jkunx miftiehem espressament.',
     footerPrivacy: 'Politika tal-Privatezza',
     footerTerms: 'Termini',
+    aboutP4: 'Mill-viġilanza sat-tiġdid — kull organizzazzjoni tarsa l-kontribuzzjoni tagħha f\'wieħed jew aktar mill-ħames pilastri morali: <strong>Viġilanza, Dmir ta\' Kura, Saħħa Propja, Solidarjetà,</strong> u <strong>Tiġdid</strong>.',
   },
   nl: {
     navTagline: 'Europees Kader voor Veiligheid & Weerbaarheid',
@@ -1123,7 +1140,8 @@ const UI = {
       prepare: 'Ben ik sterk en voorbereid genoeg om te helpen als het ertoe doet?',
       respond: 'Kan mijn partner, buurman of keten op mij rekenen?',
       recover: 'Kom ik sterker terug — en help ik anderen hetzelfde te doen?',
-    },
+      aboutP4: 'Van alertheid tot herstelkracht — elke organisatie verankert haar bijdrage in één of meer van de vijf morele pijlers: <strong>Waakzaamheid, Zorgplicht, Eigen Kracht, Verbindingskracht,</strong> en <strong>Veerkracht</strong>.',
+  },
     pillarDesc: {
       prevent: 'Structurele alertheid op signalen, dreigingen en systeemrisico’s die de veiligheid en continuïteit van samenleving en economie kunnen aantasten.',
       protect: 'Bestuurlijke en maatschappelijke verantwoordelijkheid voor de bescherming van kritieke functies, vitale processen en gedeelde belangen.',
@@ -1196,6 +1214,7 @@ const UI = {
     footerDisclaimer: 'ESRF.net er et uavhengig, ikke-statlig initiativ. Ingen av de oppførte organisasjonene er formelt bundet av rammeverket med mindre dette er uttrykkelig avtalt.',
     footerPrivacy: 'Personvernregler',
     footerTerms: 'Vilkår og betingelser',
+    aboutP4: 'Fra årvåkenhet til motstandskraft — hver organisasjon forankrer sitt bidrag i én eller flere av de fem moralske søylene: <strong>Årvåkenhet, Omsorgsplikt, Egen Styrke, Samhold,</strong> og <strong>Motstandskraft</strong>.',
   },
   pl: {
     navTagline: 'Europejskie Ramy Bezpieczeństwa i Odporności',
@@ -1211,7 +1230,8 @@ const UI = {
       prepare: 'Czy jestem wystarczająco zdolny i przygotowany, by pomagać w decydujących momentach?',
       respond: 'Czy mój partner, sąsiad lub łańcuch może na mnie polegać?',
       recover: 'Czy wychodzę silniejszy z kryzysu — i pomagam innym zrobić to samo?',
-    },
+      aboutP4: 'Od czujności do odporności — każda organizacja zakorzeniona jest w jednym lub kilku z pięciu filarów moralnych: <strong>Czujność, Troska, Własna Siła, Solidarność,</strong> i <strong>Odporność</strong>.',
+  },
     pillarDesc: {
       prevent: 'Strukturalna czujność wobec sygnałów, zagrożeń i ryzyk systemowych mogących naruszać bezpieczeństwo i ciągłość społeczeństwa oraz gospodarki.',
       protect: 'Rządowa i społeczna odpowiedzialność za ochronę funkcji krytycznych, procesów żywotnych i wspólnych interesów.',
@@ -1284,6 +1304,7 @@ const UI = {
     footerDisclaimer: 'A ESRF.net é uma iniciativa independente e não governamental. Nenhuma das organizações mencionadas está formalmente vinculada ao framework, salvo acordo expresso.',
     footerPrivacy: 'Política de Privacidade',
     footerTerms: 'Termos e Condições',
+    aboutP4: 'Da vigilância à resiliência — cada organização ancora a sua contribuição num ou mais dos cinco pilares morais: <strong>Vigilância, Dever de Proteção, Força Própria, Solidariedade,</strong> e <strong>Resiliência</strong>.',
   },
   ro: {
     navTagline: 'Cadrul European de Securitate și Reziliență',
@@ -1299,7 +1320,8 @@ const UI = {
       prepare: 'Sunt suficient de capabil și pregătit pentru a contribui atunci când contează cel mai mult?',
       respond: 'Poate partenerul, vecinul sau lanțul meu să se bazeze pe mine?',
       recover: 'Ies mai puternic din criză — și îi ajut pe alții să facă același lucru?',
-    },
+      aboutP4: 'De la vigilență la reînnoire — fiecare organizație își ancorează contribuția într-unul sau mai mulți dintre cei cinci piloni morali: <strong>Vigilență, Datoria de îngrijire, Forță proprie, Solidaritate,</strong> și <strong>Reînnoire</strong>.',
+  },
     pillarDesc: {
       prevent: 'Vigilență structurală față de semnale, amenințări și riscuri sistemice care pot submina securitatea și continuitatea societății și a economiei.',
       protect: 'Responsabilitate guvernamentală și socială pentru protecția funcțiilor critice, a proceselor vitale și a intereselor comune.',
@@ -1372,6 +1394,7 @@ const UI = {
     footerDisclaimer: 'ESRF.net je nezávislá, mimovládna iniciatíva. Žiadna z uvedených organizácií nie je formálne viazaná na rámec, pokiaľ to nie je výslovne dohodnuté.',
     footerPrivacy: 'Zásady ochrany súkromia',
     footerTerms: 'Podmienky',
+    aboutP4: 'Od bdelosti po obnovu — každá organizácia zakotvuje svoj príspevok v jednom alebo viacerých z piatich morálnych pilierov: <strong>Bdelosť, Povinnosť starostlivosti, Vlastná sila, Solidarita,</strong> a <strong>Obnova</strong>.',
   },
   sl: {
     navTagline: 'Evropski okvir varnosti in odpornosti',
@@ -1387,7 +1410,8 @@ const UI = {
       prepare: 'Ali sem dovolj sposoben in pripravljen prispevati, ko je to odločilnega pomena?',
       respond: 'Ali se moj partner, sosed ali veriga lahko zanese name?',
       recover: 'Ali izhajam iz krize močnejši — in ali pomagam drugim storiti enako?',
-    },
+      aboutP4: 'Od budnosti do prenove — vsaka organizacija utrjuje svoj prispevek v enem ali več od petih moralnih stebrov: <strong>Budnost, Dolžnost skrbi, Lastna moč, Solidarnost,</strong> in <strong>Prenova</strong>.',
+  },
     pillarDesc: {
       prevent: 'Strukturna budnost glede signalov, groženj in sistemskih tveganj, ki bi lahko ogrozila varnost in neprekinjenost delovanja družbe in gospodarstva.',
       protect: 'Vladna in družbena odgovornost za zaščito kritičnih funkcij, vitalnih procesov in skupnih interesov.',
@@ -1460,6 +1484,7 @@ const UI = {
     footerDisclaimer: 'ESRF.net är ett oberoende, icke-statligt initiativ. Ingen av de listade organisationerna är formellt bundna av ramverket om inte detta uttryckligen har överenskommits.',
     footerPrivacy: 'Integritetspolicy',
     footerTerms: 'Användarvillkor',
+    aboutP4: 'Från vaksamhet till återhämtning — varje organisation förankrar sitt bidrag i en eller flera av de fem moraliska pelarna: <strong>Vaksamhet, Omsorgsplikt, Egen Kraft, Sammanhållning,</strong> och <strong>Återhämtning</strong>.',
   },
 };
 
