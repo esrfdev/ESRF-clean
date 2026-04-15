@@ -510,13 +510,57 @@
     .news-footer a { color: var(--orange); text-decoration: none; }
     .news-footer a:hover { text-decoration: underline; }
 
+    /* ── Hamburger ── */
+    .news-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      flex-direction: column;
+      gap: 5px;
+      z-index: 1001;
+    }
+    .news-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .news-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .news-hamburger.active span:nth-child(2) { opacity: 0; }
+    .news-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .news-hero h1 { font-size: 1.8rem; }
       .news-grid { grid-template-columns: 1fr; }
       .news-cta-inner { flex-direction: column; text-align: center; }
       .news-stats { gap: 24px; }
-      .news-nav-links { gap: 16px; }
+      .news-hamburger { display: flex; }
+      .news-nav-links {
+        display: none;
+        position: fixed;
+        top: 56px;
+        left: 0;
+        right: 0;
+        background: var(--navy-light);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        padding: 16px 24px;
+        gap: 4px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        z-index: 999;
+      }
+      .news-nav-links.open { display: flex; }
+      .news-nav-links a {
+        padding: 12px 16px !important;
+        font-size: 14px !important;
+        border-radius: 6px;
+      }
+      .news-nav-links a:hover { background: rgba(26, 47, 69, 0.8); }
     }
 
     @media (max-width: 480px) {
@@ -533,7 +577,10 @@
       <a href="/" class="news-nav-brand">
         <span class="brand-esrf">ESRF</span><span style="color:var(--text-muted)">.</span>community
       </a>
-      <div class="news-nav-links">
+      <button class="news-hamburger" id="newsHamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="news-nav-links" id="newsNavLinks">
         <a href="/#pillars">Pillars</a>
         <a href="/news.html" class="active">News</a>
         <a href="/#about">About</a>
@@ -701,6 +748,32 @@
        Expects JSON from: /api/news (Cloudflare Worker)
        Fallback: Google News RSS via cors-anywhere or static demo
        ═══════════════════════════════════════════════════════════ */
+
+    // ── Hamburger toggle ──
+    (function() {
+      const btn = document.getElementById('newsHamburger');
+      const links = document.getElementById('newsNavLinks');
+      if (!btn || !links) return;
+      btn.addEventListener('click', () => {
+        const open = links.classList.toggle('open');
+        btn.classList.toggle('active', open);
+        btn.setAttribute('aria-expanded', open);
+      });
+      links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          links.classList.remove('open');
+          btn.classList.remove('active');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+      document.addEventListener('click', (e) => {
+        if (!btn.contains(e.target) && !links.contains(e.target)) {
+          links.classList.remove('open');
+          btn.classList.remove('active');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
 
     const NEWS_API = '/api/news';
     const ITEMS_PER_PAGE = 24;

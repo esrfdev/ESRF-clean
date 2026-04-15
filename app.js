@@ -2160,6 +2160,34 @@ function initNavScroll() {
   }, { passive: true });
 }
 
+// ── Hamburger mobile menu ─────────────────────────────────
+function initHamburger() {
+  const btn = document.getElementById('hamburgerBtn');
+  const navRight = document.querySelector('.nav-right');
+  if (!btn || !navRight) return;
+  btn.addEventListener('click', () => {
+    const open = navRight.classList.toggle('open');
+    btn.classList.toggle('active', open);
+    btn.setAttribute('aria-expanded', open);
+  });
+  // Close menu when a nav-link is clicked
+  navRight.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      navRight.classList.remove('open');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!btn.contains(e.target) && !navRight.contains(e.target)) {
+      navRight.classList.remove('open');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
 // ── Main init ──────────────────────────────────────────────
 function init() {
   const countries = new Set(COMPANIES.map(c => c.country)).size;
@@ -2398,6 +2426,7 @@ function init() {
   });
 
   initNavScroll();
+  initHamburger();
 }
 
 document.addEventListener('DOMContentLoaded', init);
