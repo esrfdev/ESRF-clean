@@ -108,7 +108,10 @@
         <span></span><span></span><span></span>
       </button>
       <div class="nav-right">
-        <a href="#pillars" class="nav-link" data-i18n="navPillars">Pillars</a>             <a href="/news.html" class="nav-link" data-i18n="navNews">News</a>             <a href="#about" class="nav-link" data-i18n="navAbout">About</a>
+        <a href="#pillars" class="nav-link" data-i18n="navPillars">Pillars</a>
+        <a href="/news.html" class="nav-link" data-i18n="navNews">News</a>
+        <a href="#about" class="nav-link" data-i18n="navAbout">About</a>
+        <button class="nav-cta-btn" onclick="openRequestModal()" data-i18n="navRequestListing">Request listing</button>
         <div class="lang-switcher">
           <button class="lang-btn active" data-lang="en">EN</button>
           <button class="lang-btn" data-lang="fr">FR</button>
@@ -376,6 +379,12 @@
       </div>
     </div>
   </section>
+
+  <!-- ─── Inline CTA between pillars and map ─── -->
+  <div class="inline-cta">
+    <p class="inline-cta-text" data-i18n="inlineCtaText">Does your organisation contribute to European resilience?</p>
+    <button class="inline-cta-btn" onclick="openRequestModal()" data-i18n="navRequestListing">Request listing</button>
+  </div>
 
   <!-- ═══════════════════════════════════════════════ MAP ═══ -->
   <section id="map" class="section-map">

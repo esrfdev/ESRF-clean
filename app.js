@@ -364,6 +364,10 @@ const UI = {
   en: {
     navTagline: 'European Security & Resilience Framework',
     navNews: 'News',
+    navRequestListing: 'Request listing',
+    inlineCtaText: 'Does your organisation contribute to European resilience?',
+    navPillars: 'Pillars',
+    navAbout: 'About',
     joinCtaTitle: 'Missing from the directory?',
     joinCtaDesc: 'Listed organisations gain visibility across 15 countries, automatic news monitoring, and access to the ESRF intelligence network.',
     joinCtaBtn: 'Request listing',
@@ -412,6 +416,10 @@ const UI = {
   bg: {
     navTagline: 'Европейска рамка за сигурност и устойчивост',
     navNews: 'Новини',
+    navRequestListing: 'Заявка за включване',
+    inlineCtaText: 'Вашата организация допринася ли за европейската устойчивост?',
+    navPillars: 'Стълбове',
+    navAbout: 'За нас',
     joinCtaTitle: 'Липсвате в указателя?',
     joinCtaDesc: 'Включените организации получават видимост в 15 страни и автоматичен мониторинг на новини.',
     joinCtaBtn: 'Заявете включване',
@@ -460,6 +468,10 @@ const UI = {
   cs: {
     navTagline: 'Evropský rámec bezpečnosti a odolnosti',
     navNews: 'Zprávy',
+    navRequestListing: 'Žádost o zařazení',
+    inlineCtaText: 'Přispívá vaše organizace k evropské odolnosti?',
+    navPillars: 'Pilíře',
+    navAbout: 'O nás',
     joinCtaTitle: 'Chybíte v adresáři?',
     joinCtaDesc: 'Uvedené organizace získávají viditelnost v 15 zemích a automatický monitoring zpráv.',
     joinCtaBtn: 'Požádat o zařazení',
@@ -508,6 +520,10 @@ const UI = {
   da: {
     navTagline: 'Europæisk Sikkerheds- & Resilienramme',
     navNews: 'Nyheder',
+    navRequestListing: 'Anmod om optagelse',
+    inlineCtaText: 'Bidrager din organisation til europæisk modstandskraft?',
+    navPillars: 'Søjler',
+    navAbout: 'Om os',
     joinCtaTitle: 'Mangler du i kataloget?',
     joinCtaDesc: 'Registrerede organisationer får synlighed i 15 lande og automatisk nyhedsovervågning.',
     joinCtaBtn: 'Anmod om optagelse',
@@ -556,6 +572,10 @@ const UI = {
   de: {
     navTagline: 'Europäischer Sicherheits- & Resilienzrahmen',
     navNews: 'Nachrichten',
+    navRequestListing: 'Eintrag beantragen',
+    inlineCtaText: 'Trägt Ihre Organisation zur europäischen Resilienz bei?',
+    navPillars: 'Pfeiler',
+    navAbout: 'Über uns',
     joinCtaTitle: 'Nicht im Verzeichnis?',
     joinCtaDesc: 'Gelistete Organisationen erhalten Sichtbarkeit in 15 Ländern und automatisches Nachrichtenmonitoring.',
     joinCtaBtn: 'Aufnahme beantragen',
@@ -604,6 +624,10 @@ const UI = {
   el: {
     navTagline: 'Ευρωπαϊκό Πλαίσιο Ασφάλειας και Ανθεκτικότητας',
     navNews: 'Νέα',
+    navRequestListing: 'Αίτηση καταχώρησης',
+    inlineCtaText: 'Συμβάλλει ο οργανισμός σας στην ευρωπαϊκή ανθεκτικότητα;',
+    navPillars: 'Πυλώνες',
+    navAbout: 'Σχετικά',
     joinCtaTitle: 'Λείπετε από τον κατάλογο;',
     joinCtaDesc: 'Οι καταχωρημένοι οργανισμοί αποκτούν ορατότητα σε 15 χώρες και αυτόματη παρακολούθηση ειδήσεων.',
     joinCtaBtn: 'Αίτηση εγγραφής',
@@ -652,6 +676,10 @@ const UI = {
   es: {
     navTagline: 'Marco Europeo de Seguridad y Resiliencia',
     navNews: 'Noticias',
+    navRequestListing: 'Solicitar inclusión',
+    inlineCtaText: '¿Su organización contribuye a la resiliencia europea?',
+    navPillars: 'Pilares',
+    navAbout: 'Acerca de',
     joinCtaTitle: '¿No aparece en el directorio?',
     joinCtaDesc: 'Las organizaciones listadas obtienen visibilidad en 15 países y monitoreo automático de noticias.',
     joinCtaBtn: 'Solicitar registro',
@@ -700,6 +728,10 @@ const UI = {
   et: {
     navTagline: 'Euroopa Julgeoleku- ja Vastupidavusraamistik',
     navNews: 'Uudised',
+    navRequestListing: 'Taotle lisamist',
+    inlineCtaText: 'Kas teie organisatsioon panustab Euroopa vastupidavusse?',
+    navPillars: 'Sambad',
+    navAbout: 'Meist',
     joinCtaTitle: 'Puudute kataloogist?',
     joinCtaDesc: 'Loetletud organisatsioonid saavad nähtavuse 15 riigis ja automaatse uudiste jälgimise.',
     joinCtaBtn: 'Taotlege lisamist',
@@ -748,6 +780,10 @@ const UI = {
   fi: {
     navTagline: 'Eurooppalainen turvallisuus- ja resilienssiviitekehys',
     navNews: 'Uutiset',
+    navRequestListing: 'Pyydä listausta',
+    inlineCtaText: 'Edistääkö organisaatiosi Euroopan resilienssiä?',
+    navPillars: 'Pilarit',
+    navAbout: 'Tietoja',
     joinCtaTitle: 'Puuttuuko luettelosta?',
     joinCtaDesc: 'Luetellut organisaatiot saavat näkyvyyttä 15 maassa ja automaattisen uutisseurannan.',
     joinCtaBtn: 'Pyydä lisäystä',
@@ -796,6 +832,10 @@ const UI = {
   fr: {
     navTagline: 'Cadre Européen de Sécurité & Résilience',
     navNews: 'Actualités',
+    navRequestListing: 'Demander une inscription',
+    inlineCtaText: 'Votre organisation contribue-t-elle à la résilience européenne ?',
+    navPillars: 'Piliers',
+    navAbout: 'À propos',
     joinCtaTitle: 'Absent du répertoire ?',
     joinCtaDesc: 'Les organisations répertoriées bénéficient d\'une visibilité dans 15 pays et d\'un suivi automatique des actualités.',
     joinCtaBtn: 'Demander une inscription',
@@ -844,6 +884,10 @@ const UI = {
   ga: {
     navTagline: 'Creat Eorpach um Shlándáil agus Athléimneacht',
     navNews: 'Nuacht',
+    navRequestListing: 'Iarr liostáil',
+    inlineCtaText: 'An gcuireann d\'eagraíocht le hathléimneacht na hEorpa?',
+    navPillars: 'Colúin',
+    navAbout: 'Maidir linn',
     joinCtaTitle: 'In easnamh ón eolaire?',
     joinCtaDesc: 'Faigheann eagraíochtaí liostaithe infheictheacht i 15 thír agus monatóireacht nuachta uathoibríoch.',
     joinCtaBtn: 'Iarr liostú',
@@ -892,6 +936,10 @@ const UI = {
   hr: {
     navTagline: 'Europski okvir sigurnosti i otpornosti',
     navNews: 'Vijesti',
+    navRequestListing: 'Zatražite unos',
+    inlineCtaText: 'Doprinosi li vaša organizacija europskoj otpornosti?',
+    navPillars: 'Stupovi',
+    navAbout: 'O nama',
     joinCtaTitle: 'Nedostajete u imeniku?',
     joinCtaDesc: 'Navedene organizacije dobivaju vidljivost u 15 zemalja i automatsko praćenje vijesti.',
     joinCtaBtn: 'Zatražite uvrštavanje',
@@ -940,6 +988,10 @@ const UI = {
   hu: {
     navTagline: 'Európai Biztonsági és Reziliencia Keretrendszer',
     navNews: 'Hírek',
+    navRequestListing: 'Felvétel kérése',
+    inlineCtaText: 'Hozzájárul szervezete az európai ellenálló képességhez?',
+    navPillars: 'Pillérek',
+    navAbout: 'Rólunk',
     joinCtaTitle: 'Hiányzik a névjegyzékből?',
     joinCtaDesc: 'A felsorolt szervezetek 15 országban kapnak láthatóságot és automatikus hírfigyelést.',
     joinCtaBtn: 'Felvétel kérése',
@@ -988,6 +1040,10 @@ const UI = {
   it: {
     navTagline: 'Quadro Europeo per la Sicurezza e la Resilienza',
     navNews: 'Notizie',
+    navRequestListing: 'Richiedi inserimento',
+    inlineCtaText: 'La tua organizzazione contribuisce alla resilienza europea?',
+    navPillars: 'Pilastri',
+    navAbout: 'Chi siamo',
     joinCtaTitle: 'Non siete nell\'elenco?',
     joinCtaDesc: 'Le organizzazioni elencate ottengono visibilità in 15 paesi e monitoraggio automatico delle notizie.',
     joinCtaBtn: 'Richiedi inserimento',
@@ -1036,6 +1092,10 @@ const UI = {
   lt: {
     navTagline: 'Europos Saugumo ir Atsparumo Sistema',
     navNews: 'Naujienos',
+    navRequestListing: 'Prašyti įtraukimo',
+    inlineCtaText: 'Ar jūsų organizacija prisideda prie Europos atsparumo?',
+    navPillars: 'Ramsčiai',
+    navAbout: 'Apie mus',
     joinCtaTitle: 'Trūksta kataloge?',
     joinCtaDesc: 'Įtrauktos organizacijos įgyja matomumą 15 šalių ir automatinį naujienų stebėjimą.',
     joinCtaBtn: 'Prašyti įtraukimo',
@@ -1084,6 +1144,10 @@ const UI = {
   lv: {
     navTagline: 'Eiropas Drošības un Noturības Ietvars',
     navNews: 'Ziņas',
+    navRequestListing: 'Pieprasīt iekļaušanu',
+    inlineCtaText: 'Vai jūsu organizācija veicina Eiropas noturību?',
+    navPillars: 'Pīlāri',
+    navAbout: 'Par mums',
     joinCtaTitle: 'Trūkst katalogā?',
     joinCtaDesc: 'Iekļautās organizācijas iegūst redzamību 15 valstīs un automātisku ziņu uzraudzību.',
     joinCtaBtn: 'Pieprasīt iekļaušanu',
@@ -1132,6 +1196,10 @@ const UI = {
   mt: {
     navTagline: 'Qafas Ewropew tas-Sigurtà u r-Reżiljenza',
     navNews: 'Aħbarijiet',
+    navRequestListing: 'Itlob elenkar',
+    inlineCtaText: 'L-organizzazzjoni tiegħek tikkontribwixxi għar-reżiljenza Ewropea?',
+    navPillars: 'Pilastri',
+    navAbout: 'Dwarna',
     joinCtaTitle: 'Nieqes fid-direttorju?',
     joinCtaDesc: 'Organizzazzjonijiet elenkati jiksbu viżibbiltà f\'15-il pajjiż u monitoraġġ awtomatiku tal-aħbarijiet.',
     joinCtaBtn: 'Itlob elenkar',
@@ -1180,6 +1248,10 @@ const UI = {
   nl: {
     navTagline: 'Europees Kader voor Veiligheid & Weerbaarheid',
     navNews: 'Nieuws',
+    navRequestListing: 'Aanmelden',
+    inlineCtaText: 'Draagt uw organisatie bij aan Europese weerbaarheid?',
+    navPillars: 'Pijlers',
+    navAbout: 'Over ons',
     joinCtaTitle: 'Ontbreekt u in de directory?',
     joinCtaDesc: 'Opgenomen organisaties krijgen zichtbaarheid in 15 landen, automatische nieuwsmonitoring en toegang tot het ESRF-inlichtingennetwerk.',
     joinCtaBtn: 'Aanmelden',
@@ -1228,6 +1300,10 @@ const UI = {
   no: {
     navTagline: 'Europeisk Sikkerhets- & Resilienrammeverk',
     navNews: 'Nyheter',
+    navRequestListing: 'Be om oppføring',
+    inlineCtaText: 'Bidrar din organisasjon til europeisk motstandskraft?',
+    navPillars: 'Søyler',
+    navAbout: 'Om oss',
     joinCtaTitle: 'Mangler i katalogen?',
     joinCtaDesc: 'Oppførte organisasjoner får synlighet i 15 land og automatisk nyhetsovervåking.',
     joinCtaBtn: 'Be om oppføring',
@@ -1276,6 +1352,10 @@ const UI = {
   pl: {
     navTagline: 'Europejskie Ramy Bezpieczeństwa i Odporności',
     navNews: 'Aktualności',
+    navRequestListing: 'Złóż wniosek',
+    inlineCtaText: 'Czy Twoja organizacja przyczynia się do europejskiej odporności?',
+    navPillars: 'Filary',
+    navAbout: 'O nas',
     joinCtaTitle: 'Brakuje w katalogu?',
     joinCtaDesc: 'Wymienione organizacje zyskują widoczność w 15 krajach i automatyczny monitoring wiadomości.',
     joinCtaBtn: 'Poproś o wpis',
@@ -1324,6 +1404,10 @@ const UI = {
   pt: {
     navTagline: 'Quadro Europeu de Segurança e Resiliência',
     navNews: 'Notícias',
+    navRequestListing: 'Solicitar inclusão',
+    inlineCtaText: 'A sua organização contribui para a resiliência europeia?',
+    navPillars: 'Pilares',
+    navAbout: 'Sobre',
     joinCtaTitle: 'Ausente do diretório?',
     joinCtaDesc: 'As organizações listadas ganham visibilidade em 15 países e monitoramento automático de notícias.',
     joinCtaBtn: 'Solicitar registo',
@@ -1372,6 +1456,10 @@ const UI = {
   ro: {
     navTagline: 'Cadrul European de Securitate și Reziliență',
     navNews: 'Știri',
+    navRequestListing: 'Solicitare includere',
+    inlineCtaText: 'Organizația dvs. contribuie la reziliența europeană?',
+    navPillars: 'Piloni',
+    navAbout: 'Despre noi',
     joinCtaTitle: 'Lipsești din director?',
     joinCtaDesc: 'Organizațiile listate obțin vizibilitate în 15 țări și monitorizare automată a știrilor.',
     joinCtaBtn: 'Solicită listarea',
@@ -1420,6 +1508,10 @@ const UI = {
   sk: {
     navTagline: 'Európsky rámec bezpečnosti a odolnosti',
     navNews: 'Správy',
+    navRequestListing: 'Požiadať o zaradenie',
+    inlineCtaText: 'Prispieva vaša organizácia k európskej odolnosti?',
+    navPillars: 'Piliere',
+    navAbout: 'O nás',
     joinCtaTitle: 'Chýbate v adresári?',
     joinCtaDesc: 'Uvedené organizácie získavajú viditeľnosť v 15 krajinách a automatický monitoring správ.',
     joinCtaBtn: 'Požiadať o zaradenie',
@@ -1468,6 +1560,10 @@ const UI = {
   sl: {
     navTagline: 'Evropski okvir varnosti in odpornosti',
     navNews: 'Novice',
+    navRequestListing: 'Zaprosite uvrstitev',
+    inlineCtaText: 'Ali vaša organizacija prispeva k evropski odpornosti?',
+    navPillars: 'Stebri',
+    navAbout: 'O nas',
     joinCtaTitle: 'Manjkate v imeniku?',
     joinCtaDesc: 'Navedene organizacije pridobijo vidnost v 15 državah in samodejno spremljanje novic.',
     joinCtaBtn: 'Zaprosite uvrstitev',
@@ -1516,6 +1612,10 @@ const UI = {
   sv: {
     navTagline: 'Europeiskt Säkerhets- & Resilienramverk',
     navNews: 'Nyheter',
+    navRequestListing: 'Begär notering',
+    inlineCtaText: 'Bidrar din organisation till europeisk motståndskraft?',
+    navPillars: 'Pelare',
+    navAbout: 'Om oss',
     joinCtaTitle: 'Saknas i katalogen?',
     joinCtaDesc: 'Listade organisationer får synlighet i 15 länder och automatisk nyhetsbevakning.',
     joinCtaBtn: 'Begär registrering',
@@ -2170,8 +2270,8 @@ function initHamburger() {
     btn.classList.toggle('active', open);
     btn.setAttribute('aria-expanded', open);
   });
-  // Close menu when a nav-link is clicked
-  navRight.querySelectorAll('.nav-link').forEach(link => {
+  // Close menu when a nav-link or CTA is clicked
+  navRight.querySelectorAll('.nav-link, .nav-cta-btn').forEach(link => {
     link.addEventListener('click', () => {
       navRight.classList.remove('open');
       btn.classList.remove('active');
