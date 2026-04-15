@@ -69,7 +69,11 @@
   --transition: 0.2s ease;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + var(--filter-h) + 16px); }
+
+section[id] {
+  scroll-margin-top: calc(var(--nav-h) + var(--filter-h) + 16px);
+}
 
 body {
   font-family: var(--font-body);
@@ -1628,9 +1632,17 @@ a:hover { color: #fff; }
 .section-cta {
   padding: 100px 40px;
   text-align: center;
-  background: linear-gradient(180deg, var(--bg) 0%, rgba(255,107,53,0.04) 50%, var(--bg) 100%);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--navy) 0%, rgba(255,107,53,0.07) 40%, rgba(255,107,53,0.07) 60%, var(--navy) 100%);
+  border-top: 1px solid rgba(255,107,53,0.2);
+  border-bottom: 1px solid rgba(255,107,53,0.2);
+  position: relative;
+}
+.section-cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
 }
 
 .cta-inner {
