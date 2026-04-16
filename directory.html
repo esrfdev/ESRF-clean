@@ -223,8 +223,18 @@
     });
   }
 
+  const T_FALLBACK = {
+    'common.visit': 'Visit →',
+    'common.no_results': 'No organisations match these filters.'
+  };
   function t(key) {
-    return (window.esrfI18n && window.esrfI18n.t) ? window.esrfI18n.t(key, key) : key;
+    const fb = T_FALLBACK[key] || '';
+    if (window.esrfI18n && window.esrfI18n.t) {
+      const v = window.esrfI18n.t(key, fb);
+      // if i18n returned the key itself (not yet loaded), use our hard fallback
+      return (v === key) ? fb : v;
+    }
+    return fb;
   }
 
   function render(){
