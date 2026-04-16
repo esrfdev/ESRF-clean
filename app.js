@@ -23956,6 +23956,16 @@ function renderCards(companies) {
   }).join('');
 }
 
+// ── Country code → page slug mapping ───────────────────────
+const COUNTRY_SLUGS = {
+  AT:'austria',BE:'belgium',BG:'bulgaria',HR:'croatia',CY:'cyprus',
+  CZ:'czech-republic',DK:'denmark',EE:'estonia',FI:'finland',FR:'france',
+  DE:'germany',GR:'greece',HU:'hungary',IE:'ireland',IT:'italy',
+  LV:'latvia',LT:'lithuania',LU:'luxembourg',MT:'malta',NL:'netherlands',
+  NO:'norway',PL:'poland',PT:'portugal',RO:'romania',SK:'slovakia',
+  SI:'slovenia',ES:'spain',SE:'sweden',UK:'united-kingdom'
+};
+
 // ── Hero countries strip ───────────────────────────────────
 function buildHeroCountries() {
   const el = document.getElementById('heroCountries');
@@ -23963,9 +23973,12 @@ function buildHeroCountries() {
   const countMap = {};
   COMPANIES.forEach(c => { countMap[c.country] = (countMap[c.country] || 0) + 1; });
   const sorted = Object.entries(countMap).sort((a,b) => b[1]-a[1]);
-  el.innerHTML = sorted.map(([cc, cnt]) =>
-    '<div class="country-pill"><span class="flag">' + countryFlag(cc) + '</span><span class="count">' + cnt + '</span></div>'
-  ).join('');
+  el.innerHTML = sorted.map(([cc, cnt]) => {
+    const slug = COUNTRY_SLUGS[cc];
+    const href = slug ? '/countries/' + slug + '/' : '/countries/';
+    return '<a href="' + href + '" class="country-pill" title="View ' + cc + ' organisations">' +
+      '<span class="flag">' + countryFlag(cc) + '</span><span class="count">' + cnt + '</span></a>';
+  }).join('');
 }
 
 // ── Footer flags ───────────────────────────────────────────
@@ -23973,7 +23986,11 @@ function buildFooterFlags() {
   const el = document.getElementById('footerFlags');
   if (!el) return;
   const countries = [...new Set(COMPANIES.map(c => c.country))].sort();
-  el.innerHTML = countries.map(cc => '<span title="' + cc + '">' + countryFlag(cc) + '</span>').join('');
+  el.innerHTML = countries.map(cc => {
+    const slug = COUNTRY_SLUGS[cc];
+    const href = slug ? '/countries/' + slug + '/' : '/countries/';
+    return '<a href="' + href + '" title="' + cc + '">' + countryFlag(cc) + '</a>';
+  }).join('');
 }
 
 // ── Charts ─────────────────────────────────────────────────
