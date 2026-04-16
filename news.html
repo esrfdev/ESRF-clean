@@ -232,20 +232,6 @@
       align-items: center;
       gap: 10px;
     }
-    .news-card-pillar {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-weight: 600;
-    }
-    .news-card-pillar[data-pillar="vigilance"] { background: rgba(57,160,237,0.15); color: var(--cyan); }
-    .news-card-pillar[data-pillar="stewardship"] { background: rgba(255,107,53,0.15); color: var(--orange); }
-    .news-card-pillar[data-pillar="empowerment"] { background: rgba(155,89,182,0.15); color: var(--purple); }
-    .news-card-pillar[data-pillar="solidarity"] { background: rgba(241,196,15,0.15); color: var(--gold); }
-    .news-card-pillar[data-pillar="renewal"] { background: rgba(46,204,113,0.15); color: var(--green); }
 
     .news-card-source-badge {
       display: inline-flex;
@@ -724,14 +710,7 @@
   <!-- FILTERS -->
   <div class="news-filters">
     <input type="text" class="news-search" id="newsSearch" placeholder="Search articles, organisations..." />
-    <select class="news-filter-select" id="filterPillar">
-      <option value="">All Pillars</option>
-      <option value="vigilance">Vigilance</option>
-      <option value="stewardship">Stewardship</option>
-      <option value="empowerment">Empowerment</option>
-      <option value="solidarity">Solidarity</option>
-      <option value="renewal">Renewal</option>
-    </select>
+
     <select class="news-filter-select" id="filterCountry">
       <option value="">All Countries</option>
     </select>
@@ -923,9 +902,7 @@
       const card = document.createElement('div');
       card.className = 'news-card';
 
-      const pillarTag = article.pillar
-        ? `<span class="news-card-pillar" data-pillar="${article.pillar}">${article.pillar}</span>`
-        : '';
+
 
       const dateStr = article.date
         ? new Date(article.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
@@ -941,7 +918,6 @@
 
       card.innerHTML = `
         <div class="news-card-header">
-          ${pillarTag}
           <span class="news-card-source-badge">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             ${sourceName}
@@ -1018,14 +994,14 @@
     // ── FILTERS ──
     function applyFilters() {
       const search = document.getElementById('newsSearch').value.toLowerCase().trim();
-      const pillar = document.getElementById('filterPillar').value;
+
       const country = document.getElementById('filterCountry').value;
       const days = parseInt(document.getElementById('filterTime').value);
       const cutoff = new Date();
       cutoff.setDate(cutoff.getDate() - days);
 
       filteredArticles = allArticles.filter(a => {
-        if (pillar && a.pillar !== pillar) return false;
+
         if (country && a.country !== country) return false;
         if (a.date && new Date(a.date) < cutoff) return false;
         if (search) {
@@ -1039,7 +1015,7 @@
     }
 
     document.getElementById('newsSearch').addEventListener('input', debounce(applyFilters, 300));
-    document.getElementById('filterPillar').addEventListener('change', applyFilters);
+
     document.getElementById('filterCountry').addEventListener('change', applyFilters);
     document.getElementById('filterTime').addEventListener('change', applyFilters);
 
