@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Atlas — ESRF.net</title>
-<meta name="description" content="The full-screen community atlas — 1,892 organisations mapped across 29 European countries, colour-coded by sector and filterable by pillar." />
+<meta name="description" content="The full-screen community atlas — 1,892 organisations mapped across 29 European countries, colour-coded and filterable by sector." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,18 +47,23 @@
   <aside class="map-controls" aria-label="Map filters">
     <div class="kicker">§ 04 · The Atlas</div>
     <h2>Community Atlas</h2>
-    <p style="font-family:'PT Serif',serif;font-style:italic;font-size:14px;color:var(--ink-soft);margin:6px 0 14px">Click any marker for organisation detail. Filter by pillar or search by name.</p>
+    <p style="font-family:'PT Serif',serif;font-style:italic;font-size:14px;color:var(--ink-soft);margin:6px 0 14px" data-i18n="map.instructions">Click any marker for organisation detail. Filter by sector or search by name.</p>
 
     <input id="q" type="search" placeholder="Search organisations…" data-i18n-placeholder="filter.search_organisations" aria-label="Search organisations" />
 
-    <span class="filter-group-label">Pillar</span>
-    <div class="filter-chips" style="margin:0;gap:6px" id="pillar-chips">
-      <button class="chip active" data-pillar="" data-i18n="filter.all_pillars">All</button>
-      <button class="chip pillar-prevent" data-pillar="prevent">Prevent</button>
-      <button class="chip pillar-protect" data-pillar="protect">Protect</button>
-      <button class="chip pillar-prepare" data-pillar="prepare">Prepare</button>
-      <button class="chip pillar-respond" data-pillar="respond">Respond</button>
-      <button class="chip pillar-recover" data-pillar="recover">Recover</button>
+    <span class="filter-group-label" data-i18n="filter.sector">Sector</span>
+    <div class="filter-chips" style="margin:0;gap:6px" id="sector-chips">
+      <button class="chip active" data-sector="" data-i18n="filter.all_sectors">All sectors</button>
+      <button class="chip" data-sector="Emergency &amp; Crisis Response">Emergency · 469</button>
+      <button class="chip" data-sector="Security &amp; Protection">Security · 382</button>
+      <button class="chip" data-sector="Risk &amp; Continuity Management">Risk · 368</button>
+      <button class="chip" data-sector="Digital Infrastructure &amp; Cybersecurity">Digital · 187</button>
+      <button class="chip" data-sector="Knowledge, Training &amp; Research">Knowledge · 159</button>
+      <button class="chip" data-sector="Health &amp; Medical Manufacturing">Health · 135</button>
+      <button class="chip" data-sector="Critical Infrastructure">Critical · 121</button>
+      <button class="chip" data-sector="Dual-use Technology &amp; Manufacturing">Dual-use · 53</button>
+      <button class="chip" data-sector="Transport, Maritime &amp; Aerospace">Transport · 11</button>
+      <button class="chip" data-sector="Energy &amp; Grid Resilience">Energy · 7</button>
     </div>
 
     <div class="map-count"><strong id="count">—</strong> · plotted <span style="opacity:.7">of 1,892</span></div>
@@ -141,10 +146,10 @@
     document.getElementById('count').textContent = currentMarkers.length.toLocaleString('en-GB');
   }
 
-  const state = { pillar:'', q:'' };
+  const state = { sector:'', q:'' };
   function apply(){
     rebuild(o => {
-      if(state.pillar && pillarOf(o.sector_normalized) !== state.pillar) return false;
+      if(state.sector && o.sector_normalized !== state.sector) return false;
       if(state.q){
         const hay = [o.name, o.city, o.country_name_en, o.sector_normalized].join(' ').toLowerCase();
         if(!hay.includes(state.q)) return false;
@@ -153,10 +158,10 @@
     });
   }
 
-  document.getElementById('pillar-chips').addEventListener('click', (e)=>{
+  document.getElementById('sector-chips').addEventListener('click', (e)=>{
     const chip = e.target.closest('.chip'); if(!chip) return;
-    state.pillar = chip.dataset.pillar;
-    document.querySelectorAll('#pillar-chips .chip').forEach(c=>c.classList.toggle('active', c.dataset.pillar===state.pillar));
+    state.sector = chip.dataset.sector;
+    document.querySelectorAll('#sector-chips .chip').forEach(c=>c.classList.toggle('active', c.dataset.sector===state.sector));
     apply();
   });
   document.getElementById('q').addEventListener('input', (e)=>{
