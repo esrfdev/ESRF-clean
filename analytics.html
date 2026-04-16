@@ -23,7 +23,7 @@
       <a href="map.html" data-i18n="nav.atlas">Atlas</a>
       <a href="analytics.html" aria-current="page" data-i18n="nav.analytics">Analytics</a>
       <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
-      <a href="mailto:hello@esrf.net" class="mast-cta" data-i18n="nav.request_listing">Request listing</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Request listing</button>
     <div class="lang-switch">
       <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
         <span data-lang-current>EN</span>
@@ -87,7 +87,8 @@
       <li><a href="countries/index.html">Countries</a></li><li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li></ul></div>
     <div class="foot-col"><h4>Foundation</h4><ul>
       <li><a href="about.html">About</a></li><li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
-      <li><a href="mailto:hello@esrf.net">Contact</a></li></ul></div>
+      <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
+        <li><a href="mailto:hello@esrf.net">Contact</a></li></ul></div>
     <div class="foot-col"><h4>Legal</h4><ul>
       <li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
   </div>
@@ -98,6 +99,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="assets/flags.js"></script>
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script>
@@ -211,6 +213,18 @@
     }
   });
   document.getElementById('c3').parentElement.style.height = '480px';
+})();
+</script>
+<script>
+(async () => {
+  const sponsors = await loadAndRenderSponsors();
+  if (!sponsors) return;
+  const slot = (sponsors.founding || [])[0];
+  if (!slot) return;
+  const bandEl = document.createElement('div');
+  bandEl.innerHTML = buildSponsorBand([slot], 'Founding patron', 'Become a founding patron →');
+  const foot = document.querySelector('.foot');
+  if (foot) foot.parentNode.insertBefore(bandEl, foot);
 })();
 </script>
 </body>

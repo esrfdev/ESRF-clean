@@ -118,6 +118,19 @@ function updateLangDisplay(lang) {
   document.querySelectorAll('[data-lang-current]').forEach(el => {
     el.textContent = lang.toUpperCase();
   });
+  // Update flag in .lang-current button
+  document.querySelectorAll('.lang-current').forEach(btn => {
+    const existing = btn.querySelector('.lang-flag');
+    if (existing) existing.remove();
+    if (window.esrfFlags) {
+      const flagHtml = window.esrfFlags.flagForLang(lang, {size:'inline'});
+      const tmp = document.createElement('span');
+      tmp.className = 'lang-flag';
+      tmp.style.cssText = 'display:inline-flex;align-items:center';
+      tmp.innerHTML = flagHtml.replace('class="flag-icon flag-inline"','class="flag-icon flag-inline" style="margin-right:0"');
+      btn.insertBefore(tmp, btn.firstChild);
+    }
+  });
   document.querySelectorAll('.lang-menu button').forEach(btn => {
     btn.setAttribute('aria-current', btn.dataset.lang === lang ? 'true' : 'false');
   });
@@ -141,13 +154,16 @@ function addHreflangLinks() {
 /* ── Render language dropdown menu ── */
 function renderLangMenu() {
   document.querySelectorAll('#lang-menu').forEach(menu => {
-    menu.innerHTML = LANGS.map(l => `
+    menu.innerHTML = LANGS.map(l => {
+      const flagImg = window.esrfFlags ? window.esrfFlags.flagForLang(l.code, {size:'inline'}) : '';
+      return `
       <li>
         <button data-lang="${l.code}" aria-current="${l.code === _currentLang ? 'true' : 'false'}">
-          <span>${l.name}</span>
+          ${flagImg}<span>${l.name}</span>
           <span class="lang-code">${l.code}</span>
         </button>
-      </li>`).join('');
+      </li>`;
+    }).join('');
 
     menu.querySelectorAll('button').forEach(btn => {
       btn.addEventListener('click', () => {

@@ -40,6 +40,12 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 
 .display{font-family:'Archivo',system-ui,sans-serif;font-weight:800;letter-spacing:-0.035em;line-height:0.88}
 .mono{font-family:'IBM Plex Mono',monospace;font-weight:500;letter-spacing:0.18em;text-transform:uppercase}
+
+/* ── Flag icons ── */
+.flag-icon{display:inline-block;vertical-align:middle;margin-right:6px;border-radius:1px;box-shadow:0 0 0 1px rgba(15,20,25,0.08);flex-shrink:0}
+.flag-inline{width:16px;height:12px}
+.flag-card{width:20px;height:15px}
+.flag-big{width:48px;height:36px}
 .serif-i{font-family:'PT Serif',serif;font-style:italic;font-weight:400}
 
 /* ═══ Universal masthead nav ═══ */
@@ -915,3 +921,105 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   }
   .map-panel{width:100vw}
 }
+
+/* ══════════════════════════════════════════════════════════════
+   ── Listing request form ──
+   ══════════════════════════════════════════════════════════════ */
+.form-wrap{max-width:680px;margin:0 auto;padding:40px var(--pad-x) 120px}
+.form-grid{display:grid;gap:20px}
+.form-row{display:flex;flex-direction:column;gap:6px}
+.form-row label{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:var(--ink-soft)}
+.form-row label .req{color:var(--accent)}
+.form-row input,.form-row select,.form-row textarea{
+  font-family:'PT Serif',serif;font-size:16px;
+  padding:12px 14px;background:var(--cream);
+  border:1px solid rgba(15,20,25,0.2);border-radius:2px;color:var(--ink);
+  transition:border-color .15s ease;
+}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{
+  outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(210,75,31,0.08);
+}
+.form-row textarea{min-height:100px;resize:vertical}
+.form-row .hint{font-size:12px;color:var(--ink-dim)}
+.form-row .counter{font-size:11px;color:var(--ink-dim);text-align:right;font-family:'IBM Plex Mono',monospace}
+.form-check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink-soft)}
+.form-check input{margin-top:3px;flex-shrink:0;accent-color:var(--accent)}
+.form-submit{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.2em;
+  padding:16px 32px;background:var(--ink);color:var(--cream);
+  border:none;cursor:pointer;transition:background .15s;
+}
+.form-submit:hover{background:var(--accent)}
+.form-submit:disabled{opacity:0.5;cursor:wait}
+.form-error{padding:14px 18px;background:rgba(210,75,31,0.1);border-left:3px solid var(--accent);margin-bottom:20px;color:var(--ink);font-size:14px}
+.form-success{text-align:center;padding:60px 20px}
+.form-success h2{font-family:'Archivo',sans-serif;font-size:40px;margin-bottom:16px}
+
+/* ── Modal ── */
+.modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px}
+.modal[hidden]{display:none}
+.modal-backdrop{position:absolute;inset:0;background:rgba(15,20,25,0.72);backdrop-filter:blur(4px)}
+.modal-panel{position:relative;background:var(--bg);border:1px solid var(--ink);max-width:620px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px rgba(15,20,25,0.3)}
+.modal-close{position:absolute;top:16px;right:16px;font-size:24px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--ink-dim);z-index:1}
+.modal-close:hover{color:var(--ink)}
+.modal-body{padding:40px 48px}
+.modal-title{font-family:'Archivo',sans-serif;font-weight:800;font-size:32px;line-height:0.95;letter-spacing:-0.02em;margin:4px 0 12px}
+.modal-intro{font-size:15px;color:var(--ink-soft);margin-bottom:24px;line-height:1.55}
+.modal-footnote{font-size:13px;color:var(--ink-dim);margin-top:16px;text-align:center}
+@media (max-width:640px){
+  .modal-body{padding:28px 24px}
+  .modal-title{font-size:26px}
+}
+body.modal-open{overflow:hidden}
+
+/* ── Sponsor band ── */
+.sponsor-band{padding:60px var(--pad-x);background:var(--bg-warm);border-top:1px solid rgba(15,20,25,0.08);border-bottom:1px solid rgba(15,20,25,0.08)}
+.sponsor-band-label{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.25em;color:var(--ink-dim);text-align:center;margin-bottom:24px}
+.sponsor-grid{display:grid;gap:20px;max-width:var(--max);margin:0 auto;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.sponsor-slot{aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;background:var(--cream);border:1px solid rgba(15,20,25,0.1);padding:16px;transition:all .2s;text-decoration:none}
+.sponsor-slot:hover{border-color:var(--accent);transform:translateY(-2px)}
+.sponsor-slot img{max-width:100%;max-height:60px;filter:grayscale(1);opacity:0.8;transition:filter .2s,opacity .2s}
+.sponsor-slot:hover img{filter:grayscale(0);opacity:1}
+.sponsor-slot.empty{border-style:dashed;background:transparent}
+.sponsor-cta{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--ink-dim);text-align:center}
+.sponsor-slot.empty:hover .sponsor-cta{color:var(--accent)}
+
+/* ── Sponsor tiers ── */
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin:80px 0}
+.tier{padding:48px 36px;border-right:1px solid rgba(15,20,25,0.15);display:flex;flex-direction:column;gap:20px}
+.tier:last-child{border-right:0}
+.tier-kicker{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim)}
+.tier-name{font-family:'Archivo',sans-serif;font-weight:800;font-size:28px;letter-spacing:-0.02em;line-height:1}
+.tier-tagline{font-family:'PT Serif',serif;font-style:italic;font-size:17px;color:var(--ink-soft)}
+.tier-list{list-style:none;padding:0;margin:0;border-top:1px solid rgba(15,20,25,0.1);padding-top:20px}
+.tier-list li{padding:8px 0;font-size:14px;color:var(--ink-soft);border-bottom:1px solid rgba(15,20,25,0.06)}
+.tier-list li:last-child{border-bottom:0}
+.tier-list li::before{content:'— ';color:var(--accent);font-weight:700}
+.tier-cta{margin-top:auto;padding:14px 20px;background:var(--ink);color:var(--cream);font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.2em;text-align:center;text-decoration:none;display:block;transition:background .15s;border:none;cursor:pointer}
+.tier-cta:hover{background:var(--accent)}
+.tier.featured{background:var(--ink);color:var(--cream)}
+.tier.featured .tier-kicker{color:rgba(248,242,230,0.6)}
+.tier.featured .tier-tagline{color:rgba(248,242,230,0.8)}
+.tier.featured .tier-list{border-color:rgba(248,242,230,0.2)}
+.tier.featured .tier-list li{color:rgba(248,242,230,0.85);border-color:rgba(248,242,230,0.08)}
+.tier.featured .tier-cta{background:var(--accent);color:var(--cream)}
+.tier.featured .tier-cta:hover{background:var(--cream);color:var(--ink)}
+@media (max-width:900px){
+  .tier-grid{grid-template-columns:1fr}
+  .tier{border-right:0;border-bottom:1px solid rgba(15,20,25,0.15)}
+  .tier:last-child{border-bottom:0}
+}
+
+/* ── Sponsor FAQ accordion ── */
+.faq-list{list-style:none;padding:0;border-top:1px solid rgba(15,20,25,0.1)}
+.faq-item{border-bottom:1px solid rgba(15,20,25,0.1)}
+.faq-q{width:100%;text-align:left;padding:18px 0;font-family:'IBM Plex Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;background:none;border:none}
+.faq-q::after{content:'+';font-size:20px;color:var(--ink-dim);flex-shrink:0;transition:transform .2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-family:'PT Serif',serif;font-size:16px;line-height:1.7;color:var(--ink-soft)}
+.faq-item.open .faq-a{max-height:400px;padding-bottom:20px}
+
+/* ── Request listing banner (inline CTA) ── */
+.listing-banner{padding:40px var(--pad-x);text-align:center;border-top:1px solid rgba(15,20,25,0.1)}
+.listing-banner p{font-family:'PT Serif',serif;font-style:italic;font-size:18px;color:var(--ink-soft);margin-bottom:16px}
+.listing-banner .btn{display:inline-block}
