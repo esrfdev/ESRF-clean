@@ -47,7 +47,7 @@
   },
   "index": {
     "title": "ESRF.net — European Security & Resilience Community",
-    "description": "ESRF.net is a decentralised community of 1,892 organisations across 29 European countries working to strengthen security and resilience through ten vital sectors and five moral principles.",
+    "description": "ESRF.net is a decentralised community of 1,890 organisations across 29 European countries working to strengthen security and resilience through ten vital sectors and five moral principles.",
     "hero_kicker": "Human Atlas · Spring 2026",
     "hero_title_1": "The people",
     "hero_title_2": "who hold",
@@ -80,7 +80,7 @@
   },
   "directory": {
     "title": "Directory — ESRF.net",
-    "description": "Browse 1,892 organisations across 29 European countries that form the ESRF.net community — filter by sector and country.",
+    "description": "Browse 1,890 organisations across 29 European countries that form the ESRF.net community — filter by sector and country.",
     "kicker": "§ 03 · Vital Sectors · Directory",
     "hero_title": "The directory of practice.",
     "hero_deck": "One thousand eight hundred and ninety-two organisations — sorted by sector, country and mission. Search, filter, and read who holds each part of Europe together.",
@@ -90,7 +90,7 @@
   },
   "map": {
     "title": "Atlas — ESRF.net",
-    "description": "The full-screen community atlas — 1,892 organisations mapped across 29 European countries, colour-coded and filterable by sector.",
+    "description": "The full-screen community atlas — 1,890 organisations mapped across 29 European countries, colour-coded and filterable by sector.",
     "kicker": "§ 04 · The Atlas",
     "heading": "Community Atlas",
     "instructions": "Click any marker for organisation detail. Filter by sector or search by name.",
@@ -139,7 +139,7 @@
     "hero_deck": "Every country in the ESRF.net community — from the Atlantic to the Baltic, the Arctic to the Mediterranean."
   },
   "footer": {
-    "brand_desc": "European Security & Resilience Foundation — a decentralised community of 1,892 organisations across 29 countries.",
+    "brand_desc": "European Security & Resilience Foundation — a decentralised community of 1,890 organisations across 29 countries.",
     "community": "Community",
     "foundation": "Foundation",
     "legal": "Legal",
@@ -205,7 +205,7 @@
     "page_title": "Support ESRF.net — Sponsor the European Security & Resilience community",
     "kicker": "§ Support · ESRF.net",
     "hero_title": "Support ESRF.net.",
-    "hero_deck": "Back the network that connects Europe's security and resilience community — 1,892 organisations, 29 countries, ten vital sectors. Your support keeps the atlas independent, open and growing.",
+    "hero_deck": "Back the network that connects Europe's security and resilience community — 1,890 organisations, 29 countries, ten vital sectors. Your support keeps the atlas independent, open and growing.",
     "why_kicker": "§ 02 · Why sponsor",
     "why_title": "Built on independence, sustained by patronage.",
     "why_body_1": "ESRF.net is editorially independent. We accept no government mandates, no advertising, no pay-to-rank listings. The only way that works is through transparent patronage from organisations who believe in the mission.",
