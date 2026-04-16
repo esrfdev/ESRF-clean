@@ -368,6 +368,26 @@
       color: var(--text-sec);
     }
 
+    /* ── FRESHNESS BAR ── */
+    .news-freshness {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .news-freshness-text {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .news-freshness-sources {
+      opacity: 0.7;
+    }
+
     /* ── LOADING ── */
     .news-loading {
       text-align: center;
@@ -822,11 +842,16 @@
   <div class="news-feed">
     <div class="news-loading" id="newsLoading">
       <div class="news-loading-spinner"></div>
-      <p>Scanning network news sources...</p>
+      <p>Loading verified news from network sources...</p>
     </div>
     <div class="news-empty" id="newsEmpty" style="display:none;">
       <div class="news-empty-icon">📡</div>
-      <p>No articles found matching your filters.</p>
+      <h3 style="color:var(--text);margin:0 0 8px;">No articles available</h3>
+      <p>News data is being collected from verified RSS sources across the ESRF network. Check back soon.</p>
+    </div>
+    <div class="news-freshness" id="dataFreshnessBar">
+      <span id="dataFreshness" class="news-freshness-text"></span>
+      <span class="news-freshness-sources">Sources: Europol · ENISA · ESA · WHO · ReliefWeb · Port of Rotterdam · Copernicus · Politico EU · The Guardian</span>
     </div>
     <div class="news-grid" id="newsGrid"></div>
     <div class="news-load-more" id="newsLoadMore" style="display:none;">
@@ -878,7 +903,7 @@
       });
     })();
 
-    const NEWS_API = '/api/news';
+    const NEWS_DATA_URL = '/news-data.json';
     const ITEMS_PER_PAGE = 24;
     let allArticles = [];
     let filteredArticles = [];
@@ -1049,98 +1074,43 @@
     // ── FETCH NEWS ──
     async function fetchNews() {
       const loading = document.getElementById('newsLoading');
+      const emptyState = document.getElementById('newsEmpty');
       try {
-        const res = await fetch(NEWS_API);
-        if (!res.ok) throw new Error('API unavailable');
+        const res = await fetch(NEWS_DATA_URL);
+        if (!res.ok) throw new Error('News data unavailable');
         const data = await res.json();
         allArticles = data.articles || [];
+
+        // Show data freshness
+        if (data.generated) {
+          const genDate = new Date(data.generated);
+          const freshEl = document.getElementById('dataFreshness');
+          if (freshEl) {
+            freshEl.textContent = 'Last updated: ' + genDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' UTC';
+          }
+        }
       } catch (e) {
-        console.warn('News API unavailable, loading demo data:', e);
-        allArticles = generateDemoArticles();
+        console.warn('Could not load news data:', e);
+        allArticles = [];
       }
 
       // Sort by date descending
-      allArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+      allArticles.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
 
       loading.style.display = 'none';
+
+      if (allArticles.length === 0) {
+        emptyState.style.display = 'block';
+        return;
+      }
+
       populateCountries(allArticles);
       updateStats(allArticles);
       filteredArticles = [...allArticles];
       renderGrid(true);
     }
 
-    // ── DEMO DATA (until Worker is deployed) ──
-    function generateDemoArticles() {
-      const orgs = [
-        { name: 'Thales', pillar: 'vigilance', country: 'FR', web: 'https://www.thalesgroup.com' },
-        { name: 'TNO', pillar: 'vigilance', country: 'NL', web: 'https://www.tno.nl' },
-        { name: 'Airbus Defence & Space', pillar: 'vigilance', country: 'DE', web: 'https://www.airbus.com/en/defence' },
-        { name: 'BAM Infra', pillar: 'stewardship', country: 'NL', web: 'https://www.bam.com' },
-        { name: 'Enexis', pillar: 'stewardship', country: 'NL', web: 'https://www.enexis.nl' },
-        { name: 'TenneT', pillar: 'stewardship', country: 'NL', web: 'https://www.tennet.eu' },
-        { name: 'Ericsson', pillar: 'empowerment', country: 'SE', web: 'https://www.ericsson.com' },
-        { name: 'Sopra Steria', pillar: 'empowerment', country: 'FR', web: 'https://www.soprasteria.com' },
-        { name: 'Rohde & Schwarz', pillar: 'empowerment', country: 'DE', web: 'https://www.rohde-schwarz.com' },
-        { name: 'KNMI', pillar: 'solidarity', country: 'NL', web: 'https://www.knmi.nl' },
-        { name: 'Red Cross Netherlands', pillar: 'solidarity', country: 'NL', web: 'https://www.rodekruis.nl' },
-        { name: 'EUCPM', pillar: 'solidarity', country: 'BE', web: 'https://civil-protection-humanitarian-aid.ec.europa.eu' },
-        { name: 'Siemens Energy', pillar: 'renewal', country: 'DE', web: 'https://www.siemens-energy.com' },
-        { name: 'Vattenfall', pillar: 'renewal', country: 'SE', web: 'https://www.vattenfall.com' },
-        { name: 'Port of Rotterdam', pillar: 'stewardship', country: 'NL', web: 'https://www.portofrotterdam.com' },
-        { name: 'Saab', pillar: 'vigilance', country: 'SE', web: 'https://www.saab.com' },
-        { name: 'Leonardo', pillar: 'vigilance', country: 'IT', web: 'https://www.leonardo.com' },
-        { name: 'Indra Sistemas', pillar: 'empowerment', country: 'ES', web: 'https://www.indracompany.com' },
-        { name: 'Securitas', pillar: 'vigilance', country: 'SE', web: 'https://www.securitas.com' },
-        { name: 'DNV', pillar: 'stewardship', country: 'NO', web: 'https://www.dnv.com' },
-      ];
-      const headlines = [
-        '{org} announces expanded European operations amid regional security review',
-        '{org} partners with cross-border initiative for critical infrastructure resilience',
-        '{org} publishes annual resilience report highlighting key sector vulnerabilities',
-        '{org} secures contract for pan-European monitoring system upgrade',
-        'New partnership: {org} joins consortium on supply chain risk management',
-        '{org} invests in next-generation crisis response technology',
-        '{org} CEO speaks at European resilience summit on regional preparedness',
-        '{org} deploys innovative early-warning system across member states',
-        '{org} and partners launch joint cybersecurity awareness programme',
-        '{org} recognised for excellence in business continuity planning',
-        '{org} expands emergency response capabilities in northern Europe',
-        '{org} launches sustainability-driven infrastructure renewal project',
-      ];
-      const sources = [
-        { name: 'Reuters', url: 'https://www.reuters.com' },
-        { name: 'Financial Times', url: 'https://www.ft.com' },
-        { name: 'NOS', url: 'https://nos.nl' },
-        { name: 'Le Monde', url: 'https://www.lemonde.fr' },
-        { name: 'Bloomberg', url: 'https://www.bloomberg.com' },
-        { name: 'Der Spiegel', url: 'https://www.spiegel.de' },
-        { name: 'Politico EU', url: 'https://www.politico.eu' },
-        { name: 'EurActiv', url: 'https://www.euractiv.com' },
-        { name: 'The Guardian', url: 'https://www.theguardian.com' },
-        { name: 'Handelsblatt', url: 'https://www.handelsblatt.com' },
-      ];
-      const articles = [];
-      const now = Date.now();
-      for (let i = 0; i < 60; i++) {
-        const org = orgs[i % orgs.length];
-        const headline = headlines[i % headlines.length].replace('{org}', org.name);
-        const daysAgo = Math.floor(Math.random() * 14);
-        const date = new Date(now - daysAgo * 86400000);
-        const src = sources[Math.floor(Math.random() * sources.length)];
-        articles.push({
-          title: headline,
-          organisation: org.name,
-          pillar: org.pillar,
-          country: org.country,
-          source: src.name,
-          date: date.toISOString().slice(0, 10),
-          snippet: `Latest developments from ${org.name} regarding European security and resilience operations. The organisation continues to play a key role in strengthening regional preparedness and cross-border coordination.`,
-          url: src.url,
-          orgUrl: org.web
-        });
-      }
-      return articles;
-    }
+
 
     // ── REQUEST MODAL ──
     function openRequestModal() {
