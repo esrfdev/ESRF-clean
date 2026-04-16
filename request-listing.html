@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title data-i18n="form.page_title">Request a listing — ESRF.net</title>
+<meta name="description" data-i18n-attr="content" content="Request a listing for your organisation on ESRF.net — the European Security & Resilience community directory." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Request listing</button>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
+    </div>
+  </div>
+</nav>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker" data-i18n="form.kicker">§ Community · Listing request</div>
+    <h1 class="phero-title"><span data-i18n="form.hero_title">Request a<br><i>listing</i>.</span></h1>
+    <p class="phero-deck" data-i18n="form.hero_deck">Any organisation whose work strengthens European security and resilience is welcome in the ESRF.net community. Submissions are reviewed by the editorial team within three working days. Listing is free — we ask only that your work genuinely contributes to one of our ten vital sectors.</p>
+  </div>
+</section>
+
+<div class="form-wrap">
+
+  <!-- Error state -->
+  <div id="form-error" class="form-error" hidden role="alert" aria-live="assertive"></div>
+
+  <!-- Form -->
+  <form id="listing-form" class="form-grid" novalidate autocomplete="on">
+
+    <!-- Honeypot (hidden from real users, visible to bots) -->
+    <input type="text" name="company_website_hp" tabindex="-1" autocomplete="off"
+      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
+
+    <div class="form-row">
+      <label for="name" data-i18n="form.label_name">Organisation name <span class="req" aria-hidden="true">*</span></label>
+      <input type="text" id="name" name="name" required maxlength="120"
+        placeholder="ACME Security GmbH" autocomplete="organization" data-i18n-placeholder="form.placeholder_name" />
+    </div>
+
+    <div class="form-row">
+      <label for="country" data-i18n="form.label_country">Country <span class="req" aria-hidden="true">*</span></label>
+      <select id="country" name="country" required>
+        <option value="" data-i18n="form.select_country">Select a country…</option>
+        <optgroup label="EU Member States">
+          <option value="AT">Austria</option>
+          <option value="BE">Belgium</option>
+          <option value="BG">Bulgaria</option>
+          <option value="HR">Croatia</option>
+          <option value="CY">Cyprus</option>
+          <option value="CZ">Czech Republic</option>
+          <option value="DK">Denmark</option>
+          <option value="EE">Estonia</option>
+          <option value="FI">Finland</option>
+          <option value="FR">France</option>
+          <option value="DE">Germany</option>
+          <option value="GR">Greece</option>
+          <option value="HU">Hungary</option>
+          <option value="IE">Ireland</option>
+          <option value="IT">Italy</option>
+          <option value="LV">Latvia</option>
+          <option value="LT">Lithuania</option>
+          <option value="LU">Luxembourg</option>
+          <option value="MT">Malta</option>
+          <option value="NL">Netherlands</option>
+          <option value="PL">Poland</option>
+          <option value="PT">Portugal</option>
+          <option value="RO">Romania</option>
+          <option value="SK">Slovakia</option>
+          <option value="SI">Slovenia</option>
+          <option value="ES">Spain</option>
+          <option value="SE">Sweden</option>
+        </optgroup>
+        <optgroup label="Other European Countries">
+          <option value="IS">Iceland</option>
+          <option value="NO">Norway</option>
+          <option value="UA">Ukraine</option>
+          <option value="GB">United Kingdom</option>
+          <option value="CH">Switzerland</option>
+          <option value="AL">Albania</option>
+          <option value="BA">Bosnia and Herzegovina</option>
+          <option value="ME">Montenegro</option>
+          <option value="MK">North Macedonia</option>
+          <option value="RS">Serbia</option>
+          <option value="TR">Turkey</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="city" data-i18n="form.label_city">City</label>
+      <input type="text" id="city" name="city" maxlength="80"
+        placeholder="Amsterdam" autocomplete="address-level2" data-i18n-placeholder="form.placeholder_city" />
+    </div>
+
+    <div class="form-row">
+      <label for="website" data-i18n="form.label_website">Website <span class="req" aria-hidden="true">*</span></label>
+      <input type="url" id="website" name="website" required
+        placeholder="https://example.com" autocomplete="url" pattern="https?://.+"
+        data-i18n-placeholder="form.placeholder_website" />
+      <span class="hint" data-i18n="form.hint_website">Must begin with https:// or http://</span>
+    </div>
+
+    <div class="form-row">
+      <label for="sector" data-i18n="form.label_sector">Sector <span class="req" aria-hidden="true">*</span></label>
+      <select id="sector" name="sector" required>
+        <option value="" data-i18n="form.select_sector">Select a sector…</option>
+        <option value="Emergency &amp; Crisis Response">Emergency &amp; Crisis Response</option>
+        <option value="Security &amp; Protection">Security &amp; Protection</option>
+        <option value="Risk &amp; Continuity Management">Risk &amp; Continuity Management</option>
+        <option value="Digital Infrastructure &amp; Cybersecurity">Digital Infrastructure &amp; Cybersecurity</option>
+        <option value="Knowledge, Training &amp; Research">Knowledge, Training &amp; Research</option>
+        <option value="Health &amp; Medical Manufacturing">Health &amp; Medical Manufacturing</option>
+        <option value="Critical Infrastructure">Critical Infrastructure</option>
+        <option value="Dual-use Technology &amp; Manufacturing">Dual-use Technology &amp; Manufacturing</option>
+        <option value="Transport, Maritime &amp; Aerospace">Transport, Maritime &amp; Aerospace</option>
+        <option value="Energy &amp; Grid Resilience">Energy &amp; Grid Resilience</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="contact_name" data-i18n="form.label_contact_name">Contact name <span class="req" aria-hidden="true">*</span></label>
+      <input type="text" id="contact_name" name="contact_name" required maxlength="80"
+        placeholder="Jane Smith" autocomplete="name" data-i18n-placeholder="form.placeholder_contact_name" />
+    </div>
+
+    <div class="form-row">
+      <label for="contact_email" data-i18n="form.label_contact_email">Contact email <span class="req" aria-hidden="true">*</span></label>
+      <input type="email" id="contact_email" name="contact_email" required
+        placeholder="jane@example.com" autocomplete="email" data-i18n-placeholder="form.placeholder_contact_email" />
+    </div>
+
+    <div class="form-row">
+      <label for="description" data-i18n="form.label_description">Short description</label>
+      <textarea id="description" name="description" maxlength="280"
+        placeholder="One or two sentences describing what your organisation does…"
+        data-i18n-placeholder="form.placeholder_description"></textarea>
+      <div class="counter" id="desc-counter" aria-live="polite">0 / 280</div>
+    </div>
+
+    <div class="form-row">
+      <!-- Cloudflare Turnstile -->
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAAWILL_BE_REPLACED" data-theme="light"></div>
+    </div>
+
+    <div class="form-check">
+      <input type="checkbox" id="gdpr_consent" name="gdpr_consent" required>
+      <label for="gdpr_consent" data-i18n="form.label_gdpr">
+        I agree to the <a href="privacy.html" data-i18n="form.privacy_link">privacy policy</a> and consent to the storage of this data for listing review purposes.
+      </label>
+    </div>
+
+    <div>
+      <button type="submit" class="form-submit" id="submit-btn" data-i18n="form.submit">
+        Submit request
+      </button>
+    </div>
+
+  </form>
+
+  <!-- Success state (hidden by default) -->
+  <div id="form-success" class="form-success" hidden>
+    <div class="kicker" data-i18n="form.success_kicker">§ Received</div>
+    <h2 data-i18n="form.success_title">Request received.</h2>
+    <p data-i18n="form.success_body">Thank you for your submission. The ESRF.net editorial team will review your listing within three working days. You will receive a confirmation at the email address provided.</p>
+    <a href="directory.html" class="btn outline" style="margin-top:32px" data-i18n="cta.browse_directory">Browse the directory →</a>
+  </div>
+
+</div>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p data-i18n="footer.brand_desc">European Security &amp; Resilience Foundation — a decentralised community of 1,890 organisations across 29 countries.</p>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.community">Community</h4>
+      <ul>
+        <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li>
+        <li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
+        <li><a href="countries/index.html">Countries</a></li>
+        <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.foundation">Foundation</h4>
+      <ul>
+        <li><a href="about.html" data-i18n="nav.foundation">About</a></li>
+        <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+        <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
+        <li><a href="mailto:hello@esrf.net" data-i18n="footer.contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <ul>
+        <li><a href="privacy.html" data-i18n="footer.privacy">Privacy</a></li>
+        <li><a href="terms.html" data-i18n="footer.terms">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div data-i18n="common.copyright">© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
+    <div><span data-i18n="footer.tagline">Human Atlas</span></div>
+  </div>
+</footer>
+
+<script src="assets/flags.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="app.js"></script>
+<script>
+(function(){
+  // Timer: record page load time for bot detection
+  window.__formLoadedAt = Date.now();
+
+  // Description counter
+  const descEl = document.getElementById('description');
+  const counter = document.getElementById('desc-counter');
+  if (descEl && counter) {
+    descEl.addEventListener('input', function(){
+      counter.textContent = this.value.length + ' / 280';
+    });
+  }
+
+  // Form submit
+  const form = document.getElementById('listing-form');
+  const errorBox = document.getElementById('form-error');
+  const successBox = document.getElementById('form-success');
+  const submitBtn = document.getElementById('submit-btn');
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
+    errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function hideError() {
+    errorBox.hidden = true;
+    errorBox.textContent = '';
+  }
+
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      hideError();
+
+      const data = new FormData(form);
+
+      // Honeypot check
+      if (data.get('company_website_hp')) {
+        return; // silently drop
+      }
+
+      // Timer check
+      const elapsed = Date.now() - (window.__formLoadedAt || 0);
+      if (elapsed < 3000) {
+        showError('Please take a moment to review the form before submitting.');
+        return;
+      }
+
+      // Required fields check
+      const name = data.get('name') || '';
+      const country = data.get('country') || '';
+      const website = data.get('website') || '';
+      const sector = data.get('sector') || '';
+      const contact_name = data.get('contact_name') || '';
+      const contact_email = data.get('contact_email') || '';
+      const gdpr = data.get('gdpr_consent');
+
+      if (!name || !country || !website || !sector || !contact_name || !contact_email) {
+        showError('Please fill in all required fields.');
+        return;
+      }
+      if (!gdpr) {
+        showError('Please accept the privacy policy to continue.');
+        return;
+      }
+      if (!/^https?:\/\/.+/.test(website)) {
+        showError('Please enter a valid website URL starting with https:// or http://');
+        return;
+      }
+      if (!/^[^@]+@[^@]+\.[^@]+$/.test(contact_email)) {
+        showError('Please enter a valid email address.');
+        return;
+      }
+
+      // Get Turnstile token (if present)
+      let turnstile_token = '';
+      try {
+        const tsWidget = form.querySelector('[name="cf-turnstile-response"]');
+        if (tsWidget) turnstile_token = tsWidget.value || '';
+      } catch(ex) {}
+
+      // Disable button
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting…';
+
+      const payload = {
+        name,
+        country,
+        city: data.get('city') || '',
+        website,
+        sector,
+        contact_name,
+        contact_email,
+        description: data.get('description') || '',
+        gdpr_consent: true,
+        company_website_hp: data.get('company_website_hp') || '',
+        turnstile_token,
+        form_duration_ms: elapsed,
+      };
+
+      try {
+        const resp = await fetch('/api/submit-listing', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const result = await resp.json();
+        if (result.ok) {
+          form.hidden = true;
+          successBox.hidden = false;
+          successBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          showError(result.error || 'An error occurred. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit request';
+        }
+      } catch(err) {
+        showError('Network error — please check your connection and try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit request';
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Nadace",
+    "directory": "Adresář",
+    "atlas": "Atlas",
+    "analytics": "Analytika",
+    "dispatch": "Zpravodaj",
+    "request_listing": "Žádost o zápis"
+  },
+  "common": {
+    "visit": "Navštívit →",
+    "visit_arrow": "↗",
+    "read_more": "Přečíst →",
+    "search": "Hledat",
+    "all": "Vše",
+    "back_to_top": "Zpět nahoru ↑",
+    "organisations": "organizací",
+    "countries": "zemí",
+    "sectors": "sektorů",
+    "articles": "článků",
+    "shown": "zobrazeno",
+    "load_more": "Načíst více →",
+    "no_results": "Žádné organizace neodpovídají těmto filtrům.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Sektor",
+    "country": "Země",
+    "all_sectors": "Všechny sektory",
+    "all_countries": "Všechny země",
+    "search_placeholder": "Hledat podle názvu, města, popisu…",
+    "search_organisations": "Hledat organizace…"
+  },
+  "cta": {
+    "request_listing": "Požádat o zápis →",
+    "browse_directory": "Procházet adresář →",
+    "see_analytics": "Zobrazit analytiku →",
+    "open_atlas": "Otevřít celý atlas →",
+    "read_dispatch": "Číst celý zpravodaj →",
+    "read_charter": "Číst chartu →",
+    "read_figures": "Číst všechny figury →"
+  },
+  "lang": {
+    "select": "Vyberte jazyk"
+  },
+  "index": {
+    "title": "ESRF.net — Evropská komunita bezpečnosti a odolnosti",
+    "hero_title_1": "Lidé",
+    "hero_title_2": "kteří drží",
+    "hero_title_3": "Evropu",
+    "hero_title_4": "pohromadě."
+  },
+  "directory": {
+    "title": "Adresář — ESRF.net",
+    "hero_title": "Adresář praxe."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Komunitní Atlas"
+  },
+  "analytics": {
+    "title": "Analytika — ESRF.net",
+    "hero_title": "Vzory v síti."
+  },
+  "news": {
+    "title": "Zpravodaj — ESRF.net",
+    "hero_title": "Z kontinentu."
+  },
+  "about": {
+    "title": "Nadace — ESRF.net",
+    "hero_title": "Evropa, která vydrží."
+  },
+  "footer": {
+    "community": "Komunita",
+    "foundation": "Nadace",
+    "legal": "Právní",
+    "contact": "Kontakt",
+    "privacy": "Soukromí",
+    "terms": "Podmínky"
+  }
+}

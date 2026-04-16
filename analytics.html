@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Analytics — ESRF.net</title>
+<meta name="description" content="Three editorial figures — organisations per sector, per country, and per country size." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" aria-current="page" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Request listing</button>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
+    </div>
+  </div>
+</nav>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ 05 · Analytics</div>
+    <h1 class="phero-title">Patterns in<br>the <i>network</i>.</h1>
+    <p class="phero-deck">Three figures published with every issue. Where the community concentrates, where it is sparse, and how the ten sectors distribute across countries.</p>
+  </div>
+</section>
+
+<div class="charts">
+
+  <section class="chart-block" aria-labelledby="fig1">
+    <div class="chart-fig">Fig. 01</div>
+    <h2 class="chart-title" id="fig1">Organisations <i>per sector</i></h2>
+    <p class="chart-desc">The first responders and the risk engineers are the weight-bearing columns of the community; energy and transport are the frontier, where the framework is youngest.</p>
+    <div class="chart-canvas-wrap"><canvas id="c1" aria-label="Horizontal bar chart of organisations per sector"></canvas></div>
+    <p class="chart-caption">Fig. 01 — Counts of organisations in each of the ten vital sectors. Bar colour follows the sector itself.</p>
+  </section>
+
+  <section class="chart-block" aria-labelledby="fig2">
+    <div class="chart-fig">Fig. 02</div>
+    <h2 class="chart-title" id="fig2">Organisations <i>per country</i></h2>
+    <p class="chart-desc">Twenty-nine nations, each contributing a share of the whole. The Netherlands, United Kingdom and Germany currently carry the most; Malta and Bulgaria the fewest — a balance the framework is actively redistributing.</p>
+    <div class="chart-canvas-wrap"><canvas id="c2" aria-label="Bar chart of organisations per country"></canvas></div>
+    <p class="chart-caption">Fig. 02 — Distribution of listed organisations across the 29 countries represented on the atlas.</p>
+  </section>
+
+
+</div>
+
+<section class="join">
+  <h2 class="join-h">Read the <i>stories</i><br>behind the figures.</h2>
+  <p class="join-sub">The dispatch files each day's European resilience signals to the sector it touches.</p>
+  <a href="news.html" class="btn on-accent">Open the dispatch →</a>
+</section>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p>European Security &amp; Resilience Foundation — a decentralised community of 1,890 organisations across 29 countries.</p>
+    </div>
+    <div class="foot-col"><h4>Community</h4><ul>
+      <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li><li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
+      <li><a href="countries/index.html">Countries</a></li><li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li></ul></div>
+    <div class="foot-col"><h4>Foundation</h4><ul>
+      <li><a href="about.html">About</a></li><li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+      <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
+        <li><a href="mailto:hello@esrf.net">Contact</a></li></ul></div>
+    <div class="foot-col"><h4>Legal</h4><ul>
+      <li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+  </div>
+  <div class="foot-bar">
+    <div>© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
+    <div><span data-i18n="footer.tagline">Human Atlas</span></div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="assets/flags.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="app.js"></script>
+<script>
+(async () => {
+  const orgs = await loadOrgs();
+
+  // Shared Chart.js defaults
+  Chart.defaults.font.family = "'PT Serif', Georgia, serif";
+  Chart.defaults.color = '#3D3530';
+  Chart.defaults.plugins.legend.labels.font = { family:"'IBM Plex Mono', monospace", size:11, weight:500 };
+  Chart.defaults.plugins.tooltip.titleFont = { family:"'Archivo', sans-serif", weight:'bold', size:13 };
+  Chart.defaults.plugins.tooltip.bodyFont = { family:"'PT Serif', serif", size:13 };
+  Chart.defaults.plugins.tooltip.backgroundColor = '#0F1419';
+  Chart.defaults.plugins.tooltip.titleColor = '#F8F2E6';
+  Chart.defaults.plugins.tooltip.bodyColor = '#F8F2E6';
+  Chart.defaults.plugins.tooltip.padding = 12;
+  Chart.defaults.plugins.tooltip.displayColors = false;
+
+  const gridColor = 'rgba(15,20,25,0.08)';
+  const axisFont = { family:"'IBM Plex Mono', monospace", size:10, weight:500 };
+
+  // ── FIG. 01 orgs per sector (horizontal bar) ──
+  const sectorCounts = {};
+  orgs.forEach(o => sectorCounts[o.sector_normalized] = (sectorCounts[o.sector_normalized]||0)+1);
+  const sortedSectors = SECTOR_ORDER.filter(s => sectorCounts[s]).slice().sort((a,b)=>sectorCounts[b]-sectorCounts[a]);
+  new Chart(document.getElementById('c1'), {
+    type:'bar',
+    data:{
+      labels: sortedSectors,
+      datasets:[{
+        label:'Organisations',
+        data: sortedSectors.map(s=>sectorCounts[s]),
+        backgroundColor: sortedSectors.map(s=>sectorColorHex(s)),
+        borderColor:'#0F1419', borderWidth:0,
+        borderRadius:0,
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ grid:{color:gridColor,drawBorder:false}, ticks:{font:axisFont} },
+        y:{ grid:{display:false}, ticks:{font:{family:"'PT Serif', serif", size:13}, color:'#0F1419'} },
+      }
+    }
+  });
+  document.getElementById('c1').parentElement.style.height = '520px';
+
+  // ── FIG. 02 orgs per country (bar) ──
+  const cc = {};
+  orgs.forEach(o => { const k=o.country_name_en||o.country; cc[k]=(cc[k]||0)+1; });
+  const countries = Object.keys(cc).sort((a,b)=>cc[b]-cc[a]);
+  new Chart(document.getElementById('c2'), {
+    type:'bar',
+    data:{
+      labels: countries,
+      datasets:[{
+        label:'Organisations',
+        data: countries.map(c=>cc[c]),
+        backgroundColor: '#D24B1F',
+        hoverBackgroundColor:'#8F3114',
+        borderRadius:0,
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ grid:{display:false}, ticks:{font:axisFont, maxRotation:60, minRotation:60} },
+        y:{ grid:{color:gridColor,drawBorder:false}, ticks:{font:axisFont} },
+      }
+    }
+  });
+  document.getElementById('c2').parentElement.style.height = '460px';
+
+})();
+</script>
+<script>
+(async () => {
+  const sponsors = await loadAndRenderSponsors();
+  if (!sponsors) return;
+  const slot = (sponsors.founding || [])[0];
+  if (!slot) return;
+  const bandEl = document.createElement('div');
+  bandEl.innerHTML = buildSponsorBand([slot], 'Founding patron', 'Become a founding patron →');
+  const foot = document.querySelector('.foot');
+  if (foot) foot.parentNode.insertBefore(bandEl, foot);
+})();
+</script>
+</body>
+</html>

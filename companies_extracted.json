@@ -896,20 +896,6 @@
     "nace_code": "35.11"
   },
   {
-    "name": "Atmos UAV (Unmanned Valley Katwijk)",
-    "sector_normalized": "Risk & Continuity Management",
-    "city": "Katwijk",
-    "country": "NL",
-    "country_name_en": "Netherlands",
-    "country_name_local": "Nederland",
-    "country_name_fr": "Pays-Bas",
-    "description_en": "Innovative drone technology for security monitoring and critical infrastructure inspection; UAV applications are a growing component of the national security landscape financed by ESRF.net.",
-    "website": "https://www.atmosuav.com",
-    "lat": 52.2006,
-    "lon": 4.396,
-    "nace_code": "74.90"
-  },
-  {
     "name": "Marshall Netherlands",
     "sector_normalized": "Security & Protection",
     "city": "Katwijk",
@@ -4870,20 +4856,6 @@
     "lat": 52.2297,
     "lon": 21.0122,
     "nace_code": "32.50"
-  },
-  {
-    "name": "Atmos UAV",
-    "sector_normalized": "Risk & Continuity Management",
-    "city": "Valkenburg",
-    "country": "NL",
-    "country_name_en": "Netherlands",
-    "country_name_local": "Nederland",
-    "country_name_fr": "Pays-Bas",
-    "description_en": "Manufacturer of advanced VTOL observation drones for mapping, surveying and security applications.",
-    "website": "https://www.atmosuav.com",
-    "lat": 50.8651,
-    "lon": 5.8312,
-    "nace_code": "74.90"
   },
   {
     "name": "Avular",

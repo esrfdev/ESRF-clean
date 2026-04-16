@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Фундація",
+    "directory": "Каталог",
+    "atlas": "Атлас",
+    "analytics": "Аналітика",
+    "dispatch": "Бюлетень",
+    "request_listing": "Запит на внесення"
+  },
+  "common": {
+    "visit": "Відвідати →",
+    "visit_arrow": "↗",
+    "read_more": "Читати далі →",
+    "search": "Пошук",
+    "all": "Усі",
+    "back_to_top": "Назад вгору ↑",
+    "organisations": "організацій",
+    "countries": "країн",
+    "sectors": "секторів",
+    "articles": "статей",
+    "shown": "показано",
+    "load_more": "Завантажити ще →",
+    "no_results": "Немає організацій, що відповідають цим фільтрам.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Сектор",
+    "country": "Країна",
+    "all_sectors": "Усі сектори",
+    "all_countries": "Усі країни",
+    "search_placeholder": "Шукати за назвою, містом, описом…",
+    "search_organisations": "Пошук організацій…"
+  },
+  "cta": {
+    "request_listing": "Запит на внесення →",
+    "browse_directory": "Переглянути каталог →",
+    "see_analytics": "Переглянути аналітику →",
+    "open_atlas": "Відкрити повний атлас →",
+    "read_dispatch": "Читати повний бюлетень →",
+    "read_charter": "Читати хартію →",
+    "read_figures": "Читати всі рисунки →"
+  },
+  "lang": {
+    "select": "Вибрати мову"
+  },
+  "index": {
+    "title": "ESRF.net — Європейська спільнота безпеки та стійкості",
+    "hero_title_1": "Люди",
+    "hero_title_2": "які тримають",
+    "hero_title_3": "Європу",
+    "hero_title_4": "разом."
+  },
+  "directory": {
+    "title": "Каталог — ESRF.net",
+    "hero_title": "Каталог практики."
+  },
+  "map": {
+    "title": "Атлас — ESRF.net",
+    "heading": "Атлас Спільноти"
+  },
+  "analytics": {
+    "title": "Аналітика — ESRF.net",
+    "hero_title": "Закономірності в мережі."
+  },
+  "news": {
+    "title": "Бюлетень — ESRF.net",
+    "hero_title": "З континенту."
+  },
+  "about": {
+    "title": "Фундація — ESRF.net",
+    "hero_title": "Європа, яка тримається."
+  },
+  "footer": {
+    "community": "Спільнота",
+    "foundation": "Фундація",
+    "legal": "Правове",
+    "contact": "Контакт",
+    "privacy": "Конфіденційність",
+    "terms": "Умови"
+  }
+}

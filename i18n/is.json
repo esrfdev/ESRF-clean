@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Stofnun",
+    "directory": "Skrá",
+    "atlas": "Atlasi",
+    "analytics": "Greiningar",
+    "dispatch": "Fréttabréf",
+    "request_listing": "Biðja um skráningu"
+  },
+  "common": {
+    "visit": "Heimsækja →",
+    "visit_arrow": "↗",
+    "read_more": "Lesa meira →",
+    "search": "Leita",
+    "all": "Allt",
+    "back_to_top": "Aftur upp ↑",
+    "organisations": "stofnanir",
+    "countries": "lönd",
+    "sectors": "geirar",
+    "articles": "greinar",
+    "shown": "sýnt",
+    "load_more": "Hlaða meira →",
+    "no_results": "Engar stofnanir passa við þessi síur.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Geiri",
+    "country": "Land",
+    "all_sectors": "Allir geirar",
+    "all_countries": "Öll lönd",
+    "search_placeholder": "Leita eftir nafni, borg, lýsingu…",
+    "search_organisations": "Leita að stofnunum…"
+  },
+  "cta": {
+    "request_listing": "Biðja um skráningu →",
+    "browse_directory": "Fletta í skrá →",
+    "see_analytics": "Sjá greiningar →",
+    "open_atlas": "Opna fullan atlasa →",
+    "read_dispatch": "Lesa allt fréttabréfið →",
+    "read_charter": "Lesa sáttmálann →",
+    "read_figures": "Lesa allar myndir →"
+  },
+  "lang": {
+    "select": "Veldu tungumál"
+  },
+  "index": {
+    "title": "ESRF.net — Evrópusamfélag öryggis og seiglu",
+    "hero_title_1": "Fólkið",
+    "hero_title_2": "sem heldur",
+    "hero_title_3": "Evrópu",
+    "hero_title_4": "saman."
+  },
+  "directory": {
+    "title": "Skrá — ESRF.net",
+    "hero_title": "Skrá yfir framkvæmd."
+  },
+  "map": {
+    "title": "Atlasi — ESRF.net",
+    "heading": "Samfélagsatlasi"
+  },
+  "analytics": {
+    "title": "Greiningar — ESRF.net",
+    "hero_title": "Mynstur í netinu."
+  },
+  "news": {
+    "title": "Fréttabréf — ESRF.net",
+    "hero_title": "Frá meginlandinu."
+  },
+  "about": {
+    "title": "Stofnun — ESRF.net",
+    "hero_title": "Evrópa sem heldur."
+  },
+  "footer": {
+    "community": "Samfélag",
+    "foundation": "Stofnun",
+    "legal": "Lögfræðilegt",
+    "contact": "Hafa samband",
+    "privacy": "Persónuvernd",
+    "terms": "Skilmálar"
+  }
+}

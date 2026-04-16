@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Ίδρυμα",
+    "directory": "Κατάλογος",
+    "atlas": "Άτλας",
+    "analytics": "Αναλυτικά",
+    "dispatch": "Αποστολές",
+    "request_listing": "Αίτηση καταχώρησης"
+  },
+  "common": {
+    "visit": "Επίσκεψη →",
+    "visit_arrow": "↗",
+    "read_more": "Διαβάστε →",
+    "search": "Αναζήτηση",
+    "all": "Όλα",
+    "back_to_top": "Πίσω στην κορυφή ↑",
+    "organisations": "οργανισμοί",
+    "countries": "χώρες",
+    "sectors": "τομείς",
+    "articles": "άρθρα",
+    "shown": "εμφανίζονται",
+    "load_more": "Φόρτωση →",
+    "no_results": "Δεν βρέθηκαν οργανισμοί.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Τομέας",
+    "country": "Χώρα",
+    "all_sectors": "Όλοι οι τομείς",
+    "all_countries": "Όλες οι χώρες",
+    "search_placeholder": "Αναζήτηση κατά όνομα, πόλη…",
+    "search_organisations": "Αναζήτηση οργανισμών…"
+  },
+  "cta": {
+    "request_listing": "Αίτηση καταχώρησης →",
+    "browse_directory": "Αναζήτηση καταλόγου →",
+    "see_analytics": "Δείτε αναλυτικά →",
+    "open_atlas": "Ανοίξτε τον πλήρη άτλαντα →",
+    "read_dispatch": "Διαβάστε ολόκληρη την αποστολή →",
+    "read_charter": "Διαβάστε τον χάρτη →",
+    "read_figures": "Διαβάστε όλα τα σχήματα →"
+  },
+  "lang": {
+    "select": "Επιλογή γλώσσας"
+  },
+  "index": {
+    "title": "ESRF.net — Ευρωπαϊκή Κοινότητα Ασφάλειας & Ανθεκτικότητας",
+    "hero_title_1": "Οι άνθρωποι",
+    "hero_title_2": "που κρατούν",
+    "hero_title_3": "την Ευρώπη",
+    "hero_title_4": "ενωμένη."
+  },
+  "directory": {
+    "title": "Κατάλογος — ESRF.net",
+    "hero_title": "Ο κατάλογος της πρακτικής."
+  },
+  "map": {
+    "title": "Άτλας — ESRF.net",
+    "heading": "Κοινοτικός Άτλας"
+  },
+  "analytics": {
+    "title": "Αναλυτικά — ESRF.net",
+    "hero_title": "Μοτίβα στο δίκτυο."
+  },
+  "news": {
+    "title": "Αποστολές — ESRF.net",
+    "hero_title": "Από την ήπειρο."
+  },
+  "about": {
+    "title": "Ίδρυμα — ESRF.net",
+    "hero_title": "Μια Ευρώπη που αντέχει."
+  },
+  "footer": {
+    "community": "Κοινότητα",
+    "foundation": "Ίδρυμα",
+    "legal": "Νομικά",
+    "contact": "Επικοινωνία",
+    "privacy": "Απόρρητο",
+    "terms": "Όροι"
+  }
+}

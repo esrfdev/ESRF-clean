@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Fondas",
+    "directory": "Katalogas",
+    "atlas": "Atlasas",
+    "analytics": "Analitika",
+    "dispatch": "Biuletenis",
+    "request_listing": "Prašymas įtraukti"
+  },
+  "common": {
+    "visit": "Apsilankyti →",
+    "visit_arrow": "↗",
+    "read_more": "Skaityti daugiau →",
+    "search": "Paieška",
+    "all": "Visi",
+    "back_to_top": "Atgal į viršų ↑",
+    "organisations": "organizacijos",
+    "countries": "šalys",
+    "sectors": "sektoriai",
+    "articles": "straipsniai",
+    "shown": "rodoma",
+    "load_more": "Įkelti daugiau →",
+    "no_results": "Nėra organizacijų, atitinkančių šiuos filtrus.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Sektorius",
+    "country": "Šalis",
+    "all_sectors": "Visi sektoriai",
+    "all_countries": "Visos šalys",
+    "search_placeholder": "Ieškoti pagal pavadinimą, miestą, aprašymą…",
+    "search_organisations": "Ieškoti organizacijų…"
+  },
+  "cta": {
+    "request_listing": "Prašymas įtraukti →",
+    "browse_directory": "Naršyti katalogą →",
+    "see_analytics": "Žiūrėti analitiką →",
+    "open_atlas": "Atidaryti visą atlasą →",
+    "read_dispatch": "Skaityti visą biuletenį →",
+    "read_charter": "Skaityti chartiją →",
+    "read_figures": "Skaityti visus paveikslus →"
+  },
+  "lang": {
+    "select": "Pasirinkti kalbą"
+  },
+  "index": {
+    "title": "ESRF.net — Europos saugumo ir atsparumo bendruomenė",
+    "hero_title_1": "Žmonės",
+    "hero_title_2": "kurie laiko",
+    "hero_title_3": "Europą",
+    "hero_title_4": "kartu."
+  },
+  "directory": {
+    "title": "Katalogas — ESRF.net",
+    "hero_title": "Praktikos katalogas."
+  },
+  "map": {
+    "title": "Atlasas — ESRF.net",
+    "heading": "Bendruomenės atlasas"
+  },
+  "analytics": {
+    "title": "Analitika — ESRF.net",
+    "hero_title": "Tinklo modeliai."
+  },
+  "news": {
+    "title": "Biuletenis — ESRF.net",
+    "hero_title": "Iš žemyno."
+  },
+  "about": {
+    "title": "Fondas — ESRF.net",
+    "hero_title": "Europa, kuri išlaiko."
+  },
+  "footer": {
+    "community": "Bendruomenė",
+    "foundation": "Fondas",
+    "legal": "Teisinis",
+    "contact": "Kontaktas",
+    "privacy": "Privatumas",
+    "terms": "Sąlygos"
+  }
+}

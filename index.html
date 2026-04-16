@@ -1,608 +1,407 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ESRF Community — European Security & Resilience Framework</title>
-  <meta name="description" content="ESRF Community — A resilience-driven network of 1900+ European organisations across 29 countries, spanning 10 vital sectors aligned with the EU NIS2 Directive." />
-  <meta name="keywords" content="European security, resilience framework, business continuity, crisis preparedness, cybersecurity, critical infrastructure, dual-use technology, emergency response, European organisations, SME resilience" />
-  <meta name="author" content="ESRF.net" />
-  <link rel="canonical" href="https://www.esrf.net/" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.esrf.net/" />
-  <meta property="og:title" content="ESRF Community — European Security & Resilience Framework" />
-  <meta property="og:description" content="A resilience-driven network of 1900+ European organisations across 29 countries and 10 vital sectors. Bottom-up, decentralised, powered by the businesses that drive the economy." />
-  <meta property="og:image" content="https://www.esrf.net/og-image.png" />
-  <meta property="og:image:width" content="1536" />
-  <meta property="og:image:height" content="864" />
-  <meta property="og:site_name" content="ESRF.net" />
-  <meta property="og:locale" content="en_GB" />
-  <meta property="og:locale:alternate" content="fr_FR" />
-  <meta property="og:locale:alternate" content="nl_NL" />
-  <meta property="og:locale:alternate" content="de_DE" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ESRF Community — European Security & Resilience Framework" />
-  <meta name="twitter:description" content="1900+ European organisations across 29 countries united for regional strength and shared resilience." />
-  <meta name="twitter:image" content="https://www.esrf.net/og-image.png" />
-
-  <!-- Structured Data: Organization -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "ESRF.net",
-    "alternateName": "European Security & Resilience Framework",
-    "url": "https://www.esrf.net",
-    "description": "A decentralised network of 1900+ European organisations across 29 countries, built for and by entrepreneurs with local impact. Spanning 10 vital sectors aligned with the EU NIS2 Directive, guided by five moral principles.",
-    "foundingDate": "2024",
-    "areaServed": {
-      "@type": "Place",
-      "name": "Europe"
-    },
-    "numberOfEmployees": {
-      "@type": "QuantitativeValue",
-      "name": "Member organisations",
-      "value": 1913
-    },
-    "knowsAbout": [
-      "European security",
-      "Business resilience",
-      "Critical infrastructure protection",
-      "Cybersecurity",
-      "Crisis preparedness",
-      "Emergency response",
-      "Dual-use technology"
-    ]
-  }
-  </script>
-
-  <!-- Structured Data: WebSite (enables sitelinks search) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ESRF Community",
-    "alternateName": "European Security & Resilience Framework",
-    "url": "https://www.esrf.net",
-    "inLanguage": ["en", "fr", "nl", "de", "da", "sv", "fi", "no", "pl", "it", "es", "et", "lt", "lv", "bg", "cs", "el", "ga", "hr", "hu", "mt", "pt", "ro", "sk", "sl"]
-  }
-  </script>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <!-- MarkerCluster CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-
-  <!-- Site CSS -->
-  <link rel="stylesheet" href="./style.css" />
-
-  <!-- Cloudflare Turnstile (bot protection) -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ESRF.net — European Security &amp; Resilience Community</title>
+<meta name="description" content="ESRF.net is a decentralised community of 1,890 organisations across 29 European countries working to strengthen security and resilience through ten vital sectors and five moral principles." />
+<meta property="og:title" content="ESRF.net — European Security & Resilience Community" />
+<meta property="og:description" content="A decentralised community of 1,890 organisations across 29 European countries." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════════ NAV ═══ -->
-  <nav id="navbar">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-brand">
-        <svg class="nav-logo" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-label="ESRF Logo">
-          <rect x="2" y="2" width="28" height="28" rx="4" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
-          <path d="M8 10h16M8 16h12M8 22h16" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="24" cy="16" r="3" fill="var(--orange)" opacity="0.6"/>
-        </svg>
-        <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
-        <span class="brand-tagline" data-i18n="navTagline">European Security & Resilience Framework</span>
-      </a>
-      <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
+<!-- ═══ MASTHEAD (overlay on hero) ═══ -->
+<nav class="mast overlay" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Request listing</button>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
       </button>
-      <div class="nav-right">
-        <a href="#pillars" class="nav-link" data-i18n="navPillars">Framework</a>
-        <a href="/countries/" class="nav-link" data-i18n="navCountries">Countries</a>
-        <a href="/news.html" class="nav-link" data-i18n="navNews">News</a>
-        <a href="#about" class="nav-link" data-i18n="navAbout">About</a>
-        <button class="nav-cta-btn" onclick="openRequestModal()" data-i18n="navRequestListing">Request listing</button>
-        <div class="lang-switcher">
-          <button class="lang-btn active" data-lang="en">EN</button>
-          <button class="lang-btn" data-lang="fr">FR</button>
-          <div class="lang-dropdown-wrap">
-            <button class="lang-btn lang-other-btn" id="langOtherBtn">Other ▾</button>
-            <div class="lang-dropdown" id="langDropdown">
-              <button class="lang-flag-btn" data-lang="bg"><span class="flag-icon">🇧🇬</span> Български</button>
-              <button class="lang-flag-btn" data-lang="hr"><span class="flag-icon">🇭🇷</span> Hrvatski</button>
-              <button class="lang-flag-btn" data-lang="cs"><span class="flag-icon">🇨🇿</span> Čeština</button>
-              <button class="lang-flag-btn" data-lang="da"><span class="flag-icon">🇩🇰</span> Dansk</button>
-              <button class="lang-flag-btn" data-lang="nl"><span class="flag-icon">🇳🇱</span> Nederlands</button>
-              <button class="lang-flag-btn" data-lang="et"><span class="flag-icon">🇪🇪</span> Eesti</button>
-              <button class="lang-flag-btn" data-lang="fi"><span class="flag-icon">🇫🇮</span> Suomi</button>
-              <button class="lang-flag-btn" data-lang="de"><span class="flag-icon">🇩🇪</span> Deutsch</button>
-              <button class="lang-flag-btn" data-lang="el"><span class="flag-icon">🇬🇷</span> Ελληνικά</button>
-              <button class="lang-flag-btn" data-lang="hu"><span class="flag-icon">🇭🇺</span> Magyar</button>
-              <button class="lang-flag-btn" data-lang="ga"><span class="flag-icon">🇮🇪</span> Gaeilge</button>
-              <button class="lang-flag-btn" data-lang="it"><span class="flag-icon">🇮🇹</span> Italiano</button>
-              <button class="lang-flag-btn" data-lang="lv"><span class="flag-icon">🇱🇻</span> Latviešu</button>
-              <button class="lang-flag-btn" data-lang="lt"><span class="flag-icon">🇱🇹</span> Lietuvių</button>
-              <button class="lang-flag-btn" data-lang="mt"><span class="flag-icon">🇲🇹</span> Malti</button>
-              <button class="lang-flag-btn" data-lang="no"><span class="flag-icon">🇳🇴</span> Norsk</button>
-              <button class="lang-flag-btn" data-lang="pl"><span class="flag-icon">🇵🇱</span> Polski</button>
-              <button class="lang-flag-btn" data-lang="pt"><span class="flag-icon">🇵🇹</span> Português</button>
-              <button class="lang-flag-btn" data-lang="ro"><span class="flag-icon">🇷🇴</span> Română</button>
-              <button class="lang-flag-btn" data-lang="sk"><span class="flag-icon">🇸🇰</span> Slovenčina</button>
-              <button class="lang-flag-btn" data-lang="sl"><span class="flag-icon">🇸🇮</span> Slovenščina</button>
-              <button class="lang-flag-btn" data-lang="es"><span class="flag-icon">🇪🇸</span> Español</button>
-              <button class="lang-flag-btn" data-lang="sv"><span class="flag-icon">🇸🇪</span> Svenska</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
     </div>
-  </nav>
-
-  <!-- ═══════════════════════════════════════════════ HERO ═══ -->
-  <section id="hero">
-    <div class="hero-grid-overlay"></div>
-    <div class="hero-scan-line"></div>
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        <span data-i18n="heroBadge">RESILIENCE FRAMEWORK ACTIVE</span>
-      </div>
-      <h1 class="hero-title" data-i18n="heroTitle">European Security &<br>Resilience Community</h1>
-      <p class="hero-subtitle mono" id="heroSubtitle" data-i18n="heroSubtitle">{total} organisations · {countries} countries · {sectors} vital sectors</p>
-      <p class="hero-mission" data-i18n="heroMission">Where governments set policy, ESRF.net unites businesses for regional strength and shared resilience. A paradigm shift — bottom-up, decentralised, and powered by the businesses that drive the economy. Built on proven resilience principles, ESRF.net connects organisations across ten vital sectors aligned with the EU NIS2 Directive.</p>
-
-      <!-- Sector chips (dynamically generated) -->
-      <div class="sectors-hero" id="sectorsHero"></div>
-
-      <div class="hero-cta">
-        <a href="#sectors-overview" class="btn-primary">Explore Sectors</a>
-        <a href="#directory" class="btn-secondary">Browse Community</a>
-      </div>
-    </div>
-    <div class="hero-countries-strip">
-      <div class="countries-scroll" id="heroCountries"></div>
-    </div>
-  </section>
-
-    <!-- QUICK NAV -->
-    <div class="quick-nav">
-      <a href="#map" class="quick-nav-btn">Map</a>
-      <a href="#directory" class="quick-nav-btn">Directory</a>
-      <a href="#stats" class="quick-nav-btn">Analytics</a>
-    </div>
-
-          <!-- ═══════════════════════════════════════ ABOUT ═══ -->
-    <section id="about" class="about-section">
-      <div class="about-inner">
-        <div class="about-badge">
-          <span class="badge-dot"></span>
-          <span data-i18n="aboutKicker">ABOUT THE FOUNDATION</span>
-        </div>
-        <h2 class="about-title" data-i18n="aboutTitle">European Security &amp;<br>Resilience Framework</h2>
-        <blockquote class="about-adagium">
-          <span data-i18n="aboutAdagium">&ldquo;Leadership by Example &mdash; for Local Impact and Resilience.&rdquo;</span>
-        </blockquote>
-        <div class="about-columns">
-          <div class="about-col">
-            <p data-i18n="aboutP1">The European Security &amp; Resilience Framework is the foundation of <strong>ESRF.net</strong> &mdash; a decentralised network built for and by entrepreneurs with local impact.</p>
-            <p data-i18n="aboutP2">The foundation channels donations, contributions and aligned capital into initiatives that strengthen the network and expand its reach across Europe.</p>
-          </div>
-          <div class="about-col">
-            <p data-i18n="aboutP3">We believe security is not just a government mandate &mdash; it is an entrepreneurial responsibility. By building resilience from the ground up, we connect organisations across {countries} countries into self-sustaining ecosystems with regional impact.</p>
-            <p data-i18n="aboutP4">Organisations are classified across ten vital sectors aligned with the EU NIS2 Directive, guided by five moral principles: <strong>Vigilance, Stewardship, Empowerment, Solidarity,</strong> and <strong>Renewal</strong>.</p>
-          </div>
-        </div>
-        <div class="about-stats">
-          <div class="about-stat">
-            <span class="about-stat-number" id="aboutOrgCount">0</span>
-            <span class="about-stat-label" data-i18n="statsOrganisations">Organisations</span>
-          </div>
-          <div class="about-stat">
-            <span class="about-stat-number" id="aboutCountryCount">0</span>
-            <span class="about-stat-label" data-i18n="statsCountries">Countries</span>
-          </div>
-          <div class="about-stat">
-            <span class="about-stat-number" id="aboutSectorCount">10</span>
-            <span class="about-stat-label" data-i18n="statsSectors">Sectors</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  <!-- ══════════════════════════════════ MORAL COMPASS ═══ -->
-  <section id="pillars" class="section-pillars">
-    <div class="section-header">
-      <div class="section-kicker">RESILIENCE FRAMEWORK</div>
-      <h2 class="section-title" data-i18n="pillarsTitle">Our Moral Compass</h2>
-      <p class="section-desc" data-i18n="manifestDesc">Five guiding principles form the moral foundation of the ESRF community. They inspire — but do not classify — the organisations in our network.</p>
-    </div>
-
-    <div class="manifest-grid">
-      <div class="manifest-card">
-        <div class="manifest-card-icon">
-          <img src="icons/pillar-vigilance.png" alt="Vigilance" width="64" height="64" loading="lazy">
-        </div>
-        <h3 class="manifest-card-title">Vigilance</h3>
-        <p class="manifest-card-desc">Structural vigilance with regard to signals, threats and systemic risks that may undermine the security and continuity of society and the economy.</p>
-      </div>
-      <div class="manifest-card">
-        <div class="manifest-card-icon">
-          <img src="icons/pillar-stewardship.png" alt="Stewardship" width="64" height="64" loading="lazy">
-        </div>
-        <h3 class="manifest-card-title">Stewardship</h3>
-        <p class="manifest-card-desc">Governmental and societal responsibility for the protection of critical functions, vital processes and shared interests.</p>
-      </div>
-      <div class="manifest-card">
-        <div class="manifest-card-icon">
-          <img src="icons/pillar-empower.png" alt="Empowerment" width="64" height="64" loading="lazy">
-        </div>
-        <h3 class="manifest-card-title">Empowerment</h3>
-        <p class="manifest-card-desc">Strengthening autonomous capacity through training, innovation, entrepreneurship and investment in sustainable preparedness.</p>
-      </div>
-      <div class="manifest-card">
-        <div class="manifest-card-icon">
-          <img src="icons/pillar-solidarity.png" alt="Solidarity" width="64" height="64" loading="lazy">
-        </div>
-        <h3 class="manifest-card-title">Solidarity</h3>
-        <p class="manifest-card-desc">Forging reliable networks and chain collaboration for rapid coordination, mutual support and collective response.</p>
-      </div>
-      <div class="manifest-card">
-        <div class="manifest-card-icon">
-          <img src="icons/pillar-renewal.png" alt="Renewal" width="64" height="64" loading="lazy">
-        </div>
-        <h3 class="manifest-card-title">Renewal</h3>
-        <p class="manifest-card-desc">The structural capacity to absorb shocks, accelerate recovery and leverage transitions towards a stronger future system.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════ VITAL SECTORS ═══ -->
-  <section id="sectors-overview" class="section-sectors">
-    <div class="section-header">
-      <div class="section-kicker">NIS2 CLASSIFICATION</div>
-      <h2 class="section-title" data-i18n="sectorsTitle">Vital Sectors</h2>
-      <p class="section-desc" data-i18n="sectorsDesc">Classified according to the EU NIS2 Directive for critical infrastructure and essential services.</p>
-    </div>
-    <div id="sectorCards" class="sectors-grid"></div>
-  </section>
-
-<!-- ─── Inline CTA between pillars and map ─── -->
-  <div class="inline-cta">
-    <p class="inline-cta-text" data-i18n="inlineCtaText">Does your organisation contribute to European resilience?</p>
-    <button class="inline-cta-btn" onclick="openRequestModal()" data-i18n="navRequestListing">Request listing</button>
   </div>
+</nav>
 
-  <!-- ═══════════════════════════════════════════════ MAP ═══ -->
-  <section id="map" class="section-map">
-    <div class="section-header">
-      <div class="section-kicker">OPERATIONAL OVERVIEW</div>
-      <h2 class="section-title" data-i18n="mapTitle">Community Map</h2>
-      <p class="section-desc" data-i18n="mapDesc">Colour-coded by sector. Click any marker for organisation details.</p>
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <div class="hero-frame"></div>
+  <div class="hero-content">
+    <div>
+      <span class="hero-kicker" data-i18n="index.hero_kicker">Human Atlas · Spring 2026</span>
+      <h1 class="hero-title">
+        <span>The people</span>
+        <span class="italic">who hold</span>
+        <span class="accent">Europe</span>
+        <span>together.</span>
+      </h1>
     </div>
-    <div class="map-sector-filter" id="mapSectorFilter"></div>
-    <div class="map-wrapper">
-      <div id="leaflet-map"></div>
-      <div class="map-legend" id="mapLegend"></div>
-      <div class="map-overlay-stats">
-        <span class="mono" id="mapVisibleCount">—</span>
-        <span class="mono"> markers active</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════ FILTER BAR ═══ -->
-  <div id="filterBar" class="filter-bar sticky">
-    <div class="filter-inner">
-      <div class="filter-search">
-        <span class="search-icon">⌕</span>
-        <input type="text" id="searchInput" placeholder="Search organisation by name…" autocomplete="off" />
-      </div>
-      <select id="sectorFilter" class="filter-select"></select>
-      <select id="countryFilter" class="filter-select"></select>
-      <select id="sortSelect" class="filter-select">
-        <option value="az">A–Z</option>
-        <option value="country">By Country</option>
-        <option value="sector">By Sector</option>
-      </select>
-      <button id="resetBtn" class="btn-reset">Reset</button>
-      <div class="filter-count">
-        <span class="mono" id="visibleCount">436</span>
-        <span>of</span>
-        <span class="mono" id="totalCount">436</span>
-        <span>organisations</span>
+    <div>
+      <p class="hero-deck">
+        Where governments set policy and international bodies coordinate, <strong>ESRF.net</strong> unites the businesses, institutions and citizens whose daily work quietly sustains our shared life — a decentralised framework powered by the organisations that drive the economy.
+      </p>
+      <div class="hero-meta">
+        <span><strong>1,890</strong> <span data-i18n="common.organisations">organisations</span></span>
+        <span><strong>29</strong> <span data-i18n="common.countries">countries</span></span>
+        <span><strong>10</strong> <span data-i18n="common.sectors">vital sectors</span></span>
       </div>
     </div>
   </div>
+  <div class="hero-caption">
+    <span class="hero-caption-num">Fig. 01</span>
+    A community of practitioners, spanning twenty-nine nations, bound by five moral principles.
+  </div>
+  <div class="scroll-hint" aria-hidden="true">Scroll · the atlas opens ↓</div>
+</section>
 
-  <!-- ════════════════════════════════════ DIRECTORY GRID ═══ -->
-  <section id="directory" class="section-directory">
-    <div class="section-header">
-      <div class="section-kicker">COMMUNITY NETWORK</div>
-      <h2 class="section-title" data-i18n="dirTitle">Organisation Directory</h2>
+<!-- ═══ DATELINE MARQUEE ═══ -->
+<div class="dateline" role="presentation" aria-hidden="true">
+  <div class="dateline-scroll">
+    <span>Brussels <em>●</em> Amsterdam <em>●</em> Warsaw <em>●</em> Rome <em>●</em> Lisbon <em>●</em> Tallinn <em>●</em> Athens <em>●</em> Berlin <em>●</em> Dublin <em>●</em> Helsinki <em>●</em> Paris <em>●</em> Madrid <em>●</em> Vienna <em>●</em> Prague <em>●</em> Copenhagen <em>●</em> Stockholm <em>●</em> Bucharest <em>●</em> Zagreb <em>●</em> Sofia <em>●</em> Vilnius <em>●</em> Riga <em>●</em> Bratislava <em>●</em> Luxembourg <em>●</em> Ljubljana <em>●</em> Nicosia <em>●</em> Valletta <em>●</em> Budapest <em>●</em> Oslo <em>●</em> London <em>●</em></span>
+    <span>Brussels <em>●</em> Amsterdam <em>●</em> Warsaw <em>●</em> Rome <em>●</em> Lisbon <em>●</em> Tallinn <em>●</em> Athens <em>●</em> Berlin <em>●</em> Dublin <em>●</em> Helsinki <em>●</em> Paris <em>●</em> Madrid <em>●</em> Vienna <em>●</em> Prague <em>●</em> Copenhagen <em>●</em> Stockholm <em>●</em> Bucharest <em>●</em> Zagreb <em>●</em> Sofia <em>●</em> Vilnius <em>●</em> Riga <em>●</em> Bratislava <em>●</em> Luxembourg <em>●</em> Ljubljana <em>●</em> Nicosia <em>●</em> Valletta <em>●</em> Budapest <em>●</em> Oslo <em>●</em> London <em>●</em></span>
+  </div>
+</div>
+
+<!-- Sponsor band: rendered by JS from sponsors-data.json -->
+<div id="home-sponsor-band"></div>
+
+<!-- ═══ §01 FOUNDATION FEATURE ═══ -->
+<section class="feature" id="foundation">
+  <div>
+    <div class="kicker">§ 01 · The Foundation</div>
+    <h2 class="h-display">Leadership<br>by <i>example</i>.</h2>
+    <p class="feature-sub">
+      For local impact. For shared resilience. For a Europe that holds.
+    </p>
+  </div>
+  <div class="feature-body">
+    <p>
+      The European Security &amp; Resilience Framework is the foundation of <strong>ESRF.net</strong> — a decentralised network built for, and by, the entrepreneurs with local impact. We believe security is not merely a government mandate. It is an entrepreneurial responsibility, and a civic one.
+    </p>
+    <div class="pull">
+      Security is not just a mandate. <em>It is a responsibility we carry, together.</em>
     </div>
-    <div id="companyGrid" class="company-grid"></div>
-    <div id="noResults" class="no-results hidden" data-i18n="noResults">No organisations match the current filters.</div>
-  </section>
+    <p>
+      By building resilience from the ground up, we connect organisations across twenty-nine countries into self-sustaining ecosystems with regional impact. The foundation channels donations, contributions and aligned capital into initiatives that strengthen the network and expand its reach across the continent.
+    </p>
+    <p>
+      Organisations are classified across <strong>ten vital sectors</strong> aligned with the EU NIS2 Directive and guided by five moral principles: <em>vigilance, stewardship, empowerment, solidarity</em> and <em>renewal</em>.
+    </p>
+    <p>
+      <a href="about.html" class="btn outline" style="margin-top:12px">Read the charter →</a>
+    </p>
+  </div>
+</section>
 
-  <!-- ═══════════════ JOIN NETWORK CTA (after directory) ═══ -->
-  <div class="join-cta-banner">
-    <div class="join-cta-inner">
-      <div class="join-cta-icon">
-        <svg viewBox="0 0 48 48" width="40" height="40" fill="none">
-          <circle cx="24" cy="24" r="20" stroke="var(--orange)" stroke-width="1.5" opacity="0.3"/>
-          <path d="M24 14v20M14 24h20" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+<!-- ═══ §03 VITAL SECTORS ═══ -->
+<section class="section cream" id="sectors">
+  <div class="wrap">
+    <div class="sectors-head">
+      <div>
+        <div class="kicker">§ 03 · Vital Sectors</div>
+        <h2 class="h-display">Ten fields<br>of <i>practice</i>.</h2>
       </div>
-      <div class="join-cta-text">
-        <h3 data-i18n="joinCtaTitle">Missing from the directory?</h3>
-        <p data-i18n="joinCtaDesc">Listed organisations gain visibility across {countries} countries, automatic news monitoring, and access to the ESRF intelligence network.</p>
+      <p class="lede">
+        Every organisation in the ESRF.net community is classified across ten vital sectors — the domains where resilience is either built or lost. Counts below reflect the current directory.
+      </p>
+    </div>
+
+    <div class="sectors-grid">
+      <!-- Emergency & Crisis Response -->
+      <div class="sector-cell">
+        <div class="sector-count">469</div>
+        <div class="sector-meta">
+          <div class="sector-name">Emergency &amp; Crisis Response</div>
+        </div>
+        <div class="sector-rule" style="background:#C14A2E"></div>
       </div>
-      <button class="join-cta-btn" onclick="openRequestModal()" data-i18n="joinCtaBtn">Request listing</button>
+      <!-- Security & Protection -->
+      <div class="sector-cell">
+        <div class="sector-count">382</div>
+        <div class="sector-meta">
+          <div class="sector-name">Security &amp; Protection</div>
+        </div>
+        <div class="sector-rule" style="background:#2F4858"></div>
+      </div>
+      <!-- Risk & Continuity -->
+      <div class="sector-cell">
+        <div class="sector-count">366</div>
+        <div class="sector-meta">
+          <div class="sector-name">Risk &amp; Continuity Management</div>
+        </div>
+        <div class="sector-rule" style="background:#7A4B2E"></div>
+      </div>
+      <!-- Digital -->
+      <div class="sector-cell">
+        <div class="sector-count">187</div>
+        <div class="sector-meta">
+          <div class="sector-name">Digital Infrastructure &amp; Cybersecurity</div>
+        </div>
+        <div class="sector-rule" style="background:#3A5A7A"></div>
+      </div>
+      <!-- Knowledge -->
+      <div class="sector-cell">
+        <div class="sector-count">159</div>
+        <div class="sector-meta">
+          <div class="sector-name">Knowledge, Training &amp; Research</div>
+        </div>
+        <div class="sector-rule" style="background:#6B5D8A"></div>
+      </div>
+      <!-- Health -->
+      <div class="sector-cell">
+        <div class="sector-count">135</div>
+        <div class="sector-meta">
+          <div class="sector-name">Health &amp; Medical Manufacturing</div>
+        </div>
+        <div class="sector-rule" style="background:#8C3A52"></div>
+      </div>
+      <!-- Critical Infrastructure -->
+      <div class="sector-cell">
+        <div class="sector-count">121</div>
+        <div class="sector-meta">
+          <div class="sector-name">Critical Infrastructure</div>
+        </div>
+        <div class="sector-rule" style="background:#4A6B3A"></div>
+      </div>
+      <!-- Dual-use -->
+      <div class="sector-cell">
+        <div class="sector-count">53</div>
+        <div class="sector-meta">
+          <div class="sector-name">Dual-use Technology &amp; Manufacturing</div>
+        </div>
+        <div class="sector-rule" style="background:#A87C2B"></div>
+      </div>
+      <!-- Transport -->
+      <div class="sector-cell">
+        <div class="sector-count">11</div>
+        <div class="sector-meta">
+          <div class="sector-name">Transport, Maritime &amp; Aerospace</div>
+        </div>
+        <div class="sector-rule" style="background:#5B6B7A"></div>
+      </div>
+      <!-- Energy -->
+      <div class="sector-cell">
+        <div class="sector-count">7</div>
+        <div class="sector-meta">
+          <div class="sector-name">Energy &amp; Grid Resilience</div>
+        </div>
+        <div class="sector-rule" style="background:#AE5A1F"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;display:flex;gap:16px;flex-wrap:wrap">
+      <a class="btn outline" href="directory.html">Browse the directory →</a>
+      <a class="btn outline" href="analytics.html">See analytics →</a>
     </div>
   </div>
+</section>
 
-  <section id="stats" class="section-stats">
-    <div class="section-header">
-      <div class="section-kicker">INTELLIGENCE ANALYSIS</div>
-      <h2 class="section-title" data-i18n="statsTitle">Community Analytics</h2>
+<!-- ═══ §04 COMMUNITY ATLAS ═══ -->
+<section class="section atlas-teaser">
+  <div class="wrap">
+    <div class="atlas-head">
+      <div>
+        <div class="kicker">§ 04 · The Community Atlas</div>
+        <h2 class="h-display">Where the<br>work <i>happens</i>.</h2>
+      </div>
+      <p class="lede">
+        Every pin is an organisation; every cluster, a city; every colour, a sector. The atlas is a living record of who sustains the daily machinery of a resilient Europe.
+      </p>
     </div>
-    <div class="charts-grid">
-      <div class="chart-card chart-card-wide">
-        <h3 class="chart-title" data-i18n="chartSectorTitle">Organisations per Sector</h3>
-        <div class="chart-wrap">
-          <canvas id="chartSector"></canvas>
-        </div>
-      </div>
-      <div class="chart-card">
-        <h3 class="chart-title" data-i18n="chartCountryTitle">Distribution per Country</h3>
-        <div class="chart-wrap">
-          <canvas id="chartCountry"></canvas>
-        </div>
-      </div>
-      <div class="chart-card">
-        <h3 class="chart-title">Sector Distribution</h3>
-        <div class="chart-wrap chart-wrap-donut">
-          <canvas id="chartSectorDonut"></canvas>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ════════════════════════════════════════ FOOTER ═══════ -->
-  <footer id="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div class="footer-logo">
-          <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
-        </div>
-        <div class="footer-org">European Security & Resilience Framework</div>
-        <div class="footer-pillars-mini">
-          <span class="footer-pill">Vigilance</span>
-          <span class="footer-sep">·</span>
-          <span class="footer-pill">Stewardship</span>
-          <span class="footer-sep">·</span>
-          <span class="footer-pill">Empowerment</span>
-          <span class="footer-sep">·</span>
-          <span class="footer-pill">Solidarity</span>
-          <span class="footer-sep">·</span>
-          <span class="footer-pill">Resilience</span>
-        </div>
-        <div class="footer-contact">
-          <a href="mailto:office@esrf.net">office@esrf.net</a>
-          <span class="sep">|</span>
-          <a href="https://www.esrf.net" target="_blank" rel="noopener noreferrer">www.esrf.net</a>
-        </div>
-      </div>
-      <div class="footer-flags" id="footerFlags"></div>
-      <div class="footer-disclaimer" data-i18n="footerDisclaimer">ESRF.net is een onafhankelijk, niet-gouvernementeel initiatief. Geen van de vermelde organisaties is formeel gebonden aan het framework tenzij uitdrukkelijk overeengekomen.</div>
-      <div class="footer-legal">
-        <a href="/privacy.html" data-i18n="footerPrivacy">Privacybeleid</a>
-        <span class="sep">|</span>
-        <a href="/terms.html" data-i18n="footerTerms">Voorwaarden</a>
-        <span class="sep">|</span>
-        <a href="#" onclick="event.preventDefault();openRequestModal()" data-i18n="joinCtaBtn" style="color:var(--orange)">Request listing</a>
-      </div>
-      <div class="footer-meta">
-        <span>Data: April 2026</span>
-        <span class="sep">|</span>
-        <span>© 2026 ESRF Community — All rights reserved</span>
-      </div>
-    </div>
-  </footer>
+    <div class="atlas-map" id="teaser-map" aria-label="Map teaser showing European organisations"></div>
 
-  <!-- ═══════════ REQUEST LISTING MODAL ═══════════ -->
-  <div class="req-modal-overlay" id="requestModal">
-    <div class="req-modal">
-      <button class="req-modal-close" onclick="closeRequestModal()">&times;</button>
-      <div id="requestForm">
-        <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:8px;">Request a listing</h2>
-        <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:28px;line-height:1.6;">Submit your organisation for inclusion in the ESRF network. We review all requests within 5 business days.</p>
-        <div class="req-form-group">
-          <label>Contact name</label>
-          <input type="text" id="reqName" placeholder="Your full name" />
-        </div>
-        <div class="req-form-group">
-          <label>Email address</label>
-          <input type="email" id="reqEmail" placeholder="you@organisation.com" />
-        </div>
-        <div class="req-form-group">
-          <label>Organisation name</label>
-          <input type="text" id="reqOrg" placeholder="e.g. Resilience Solutions B.V." />
-        </div>
-        <div class="req-form-group">
-          <label>Website</label>
-          <input type="url" id="reqWebsite" placeholder="https://www.example.com" />
-          <span style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;display:block;">Optional, but helps us verify your organisation faster</span>
-        </div>
-        <div class="req-form-group">
-          <label>Country</label>
-          <select id="reqCountry">
-            <option value="">Select country</option>
-            <option value="BE">Belgium</option><option value="DE">Germany</option>
-            <option value="DK">Denmark</option><option value="EE">Estonia</option>
-            <option value="ES">Spain</option><option value="FI">Finland</option>
-            <option value="FR">France</option><option value="IT">Italy</option>
-            <option value="LT">Lithuania</option><option value="LV">Latvia</option>
-            <option value="NL">Netherlands</option><option value="NO">Norway</option>
-            <option value="PL">Poland</option><option value="SE">Sweden</option>
-            <option value="UK">United Kingdom</option><option value="OTHER">Other European country</option>
-          </select>
-        </div>
-        <div class="req-form-group">
-          <label>Most relevant sector</label>
-          <select id="reqSector">
-            <option value="">Select sector</option>
-            <option value="Emergency &amp; Crisis Response">Emergency &amp; Crisis Response</option>
-            <option value="Security &amp; Protection">Security &amp; Protection</option>
-            <option value="Risk &amp; Continuity Management">Risk &amp; Continuity Management</option>
-            <option value="Digital Infrastructure &amp; Cybersecurity">Digital Infrastructure &amp; Cybersecurity</option>
-            <option value="Knowledge, Training &amp; Research">Knowledge, Training &amp; Research</option>
-            <option value="Health &amp; Medical Manufacturing">Health &amp; Medical Manufacturing</option>
-            <option value="Critical Infrastructure">Critical Infrastructure</option>
-            <option value="Dual-use Technology &amp; Manufacturing">Dual-use Technology &amp; Manufacturing</option>
-            <option value="Transport, Maritime &amp; Aerospace">Transport, Maritime &amp; Aerospace</option>
-            <option value="Energy &amp; Grid Resilience">Energy &amp; Grid Resilience</option>
-          </select>
-        </div>
-        <div class="req-form-group" style="margin-bottom:12px;">
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAAA_PLACEHOLDER_KEY" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div>
-          <span style="font-size:0.75rem;color:var(--text-muted);margin-top:8px;display:block;">Verification protects against automated submissions</span>
-        </div>
-        <button class="req-form-submit" id="reqSubmit" onclick="submitRequest()" disabled>Submit request</button>
-      </div>
-      <div id="requestSuccess" style="display:none;text-align:center;padding:20px 0;">
-        <div style="width:56px;height:56px;border-radius:50%;background:rgba(46,204,113,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <h3 style="font-size:1.1rem;margin-bottom:8px;">Request submitted</h3>
-        <p style="font-size:0.85rem;color:var(--text-dim);">Thank you. We will review your organisation and respond to your email within 5 business days.</p>
-      </div>
+    <div class="atlas-legend" aria-hidden="true">
+      <span><i class="bg-prevent"></i> Prevent · Vigilance</span>
+      <span><i class="bg-protect"></i> Protect · Stewardship</span>
+      <span><i class="bg-prepare"></i> Prepare · Empowerment</span>
+      <span><i class="bg-respond"></i> Respond · Solidarity</span>
+      <span><i class="bg-recover"></i> Recover · Renewal</span>
+    </div>
+
+    <div style="margin-top:40px">
+      <a class="btn primary" href="map.html">Open the full atlas →</a>
     </div>
   </div>
+</section>
 
+<!-- ═══ §05 ANALYTICS TEASER ═══ -->
+<section class="section anal-teaser">
+  <div class="wrap">
+    <div class="sectors-head">
+      <div>
+        <div class="kicker">§ 05 · Analytics</div>
+        <h2 class="h-display">Patterns<br>in the <i>network</i>.</h2>
+      </div>
+      <p class="lede">
+        Three figures, published each issue — where the community is concentrated, where it is sparse, and how the ten sectors distribute across countries.
+      </p>
+    </div>
 
-  <!-- ═══════════════════════════════════════ SCRIPTS ══════ -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-  <script src="./app.js"></script>
-  <script>
-    /* Request Listing Modal + Cloudflare Turnstile */
-    let turnstileVerified = false;
-    function onTurnstileSuccess(token) { turnstileVerified = true; document.getElementById('reqSubmit').disabled = false; }
-    function onTurnstileExpired() { turnstileVerified = false; document.getElementById('reqSubmit').disabled = true; }
+    <div class="anal-grid">
+      <div class="anal-card">
+        <div class="anal-card-num">FIG. 01</div>
+        <h3 class="anal-card-h">Organisations <i>per sector</i></h3>
+        <p class="anal-card-p">A horizontal bar comparing the ten vital sectors. Emergency &amp; Crisis Response leads; Energy &amp; Grid Resilience is the frontier.</p>
+      </div>
+      <div class="anal-card">
+        <div class="anal-card-num">FIG. 02</div>
+        <h3 class="anal-card-h">Organisations <i>per country</i></h3>
+        <p class="anal-card-p">A bar across twenty-nine nations. The Netherlands, United Kingdom and Germany carry the current weight of the network.</p>
+      </div>
 
-    function openRequestModal() {
-      document.getElementById('requestModal').classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeRequestModal() {
-      document.getElementById('requestModal').classList.remove('active');
-      document.body.style.overflow = '';
-    }
-    document.getElementById('requestModal').addEventListener('click', function(e) { if (e.target === this) closeRequestModal(); });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeRequestModal(); });
+    </div>
 
-    function submitRequest() {
-      var name = document.getElementById('reqName').value.trim();
-      var email = document.getElementById('reqEmail').value.trim();
-      var org = document.getElementById('reqOrg').value.trim();
-      var website = document.getElementById('reqWebsite').value.trim();
-      var country = document.getElementById('reqCountry').value;
-      var sector = document.getElementById('reqSector').value;
-      if (!turnstileVerified) { alert('Please complete the verification first.'); return; }
-      if (!name || !email || !org) { alert('Please fill in your name, email, and organisation name.'); return; }
-      if (email.indexOf('@') < 0 || email.indexOf('.') < 0) { alert('Please enter a valid email address.'); return; }
-      var subject = encodeURIComponent('ESRF Listing Request: ' + org);
-      var body = encodeURIComponent('New listing request for ESRF.net\n\nContact name: ' + name + '\nEmail: ' + email + '\nOrganisation: ' + org + '\nWebsite: ' + (website||'Not provided') + '\nCountry: ' + (country||'Not specified') + '\nSector: ' + (sector||'Not specified') + '\n\nSubmitted via ESRF.net');
-      window.location.href = 'mailto:office@esrf.net?subject=' + subject + '&body=' + body;
-      document.getElementById('requestForm').style.display = 'none';
-      document.getElementById('requestSuccess').style.display = 'block';
-      setTimeout(function() {
-        document.getElementById('requestForm').style.display = 'block';
-        document.getElementById('requestSuccess').style.display = 'none';
-        ['reqName','reqEmail','reqOrg','reqWebsite'].forEach(function(id){document.getElementById(id).value='';});
-        ['reqCountry','reqSector'].forEach(function(id){document.getElementById(id).value='';});
-        turnstileVerified = false; document.getElementById('reqSubmit').disabled = true;
-        if (window.turnstile) turnstile.reset();
-        closeRequestModal();
-      }, 3000);
-    }
-  </script>
+    <div style="margin-top:40px">
+      <a class="btn outline" href="analytics.html">Read all three figures →</a>
+    </div>
+  </div>
+</section>
 
-<script data-pplx-inline-edit>
-(function(){
-  if(window===window.top)return;
-  function inlineAll(orig,clone){
-    if(orig.nodeType!==1)return;
+<!-- ═══ §06 DISPATCH / NEWS TEASER ═══ -->
+<section class="section dispatch">
+  <div class="wrap">
+    <div class="sectors-head">
+      <div>
+        <div class="kicker">§ 06 · Dispatch</div>
+        <h2 class="h-display">From the<br><i>continent</i>.</h2>
+      </div>
+      <p class="lede">
+        A curated feed of European security, resilience and crisis signals — filed under the sector each story touches. The full dispatch is updated continuously.
+      </p>
+    </div>
+
+    <div class="dispatch-grid" id="dispatch-grid">
+      <!-- injected by JS -->
+    </div>
+
+    <div style="margin-top:40px">
+      <a class="btn outline" href="news.html">Read the full dispatch →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §07 JOIN CTA ═══ -->
+<section class="join" id="join">
+  <h2 class="join-h">Does your organisation<br>contribute to a <i>Europe that holds?</i></h2>
+  <p class="join-sub" data-i18n="index.join_sub">Request a listing and take your place on the atlas. Membership of the ESRF.net community is free for organisations whose work strengthens European security and resilience.</p>
+  <button type="button" class="btn on-accent" data-open-modal="listing" data-i18n="cta.request_listing">Request your listing →</button>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p data-i18n="footer.brand_desc">European Security &amp; Resilience Foundation — a decentralised community of 1,890 organisations across 29 countries.</p>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.community">Community</h4>
+      <ul>
+        <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li>
+        <li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
+        <li><a href="countries/index.html">Countries</a></li>
+        <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.foundation">Foundation</h4>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#pillars">Principles</a></li>
+        <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+        <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
+        <li><a href="mailto:hello@esrf.net">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <ul>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div>© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
+    <div><span data-i18n="footer.tagline">Human Atlas</span> <a href="#top" data-i18n="common.back_to_top">Back to top ↑</a></div>
+  </div>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/flags.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="app.js"></script>
+<script>
+  /* ── Dispatch teaser (top 3 articles) ── */
+  (async () => {
     try{
-      var cs=getComputedStyle(orig);
-      var t='';
-      for(var i=0;i<cs.length;i++){t+=cs[i]+':'+cs.getPropertyValue(cs[i])+';';}
-      clone.style.cssText=t;
-    }catch(e){}
-    var oc=orig.children,cc=clone.children;
-    for(var j=0;j<oc.length&&j<cc.length;j++){inlineAll(oc[j],cc[j]);}
-  }
-  function stripExternal(clone){
-    var imgs=clone.querySelectorAll('img');
-    for(var i=0;i<imgs.length;i++){
-      var s=imgs[i].getAttribute('src');
-      if(s&&!s.startsWith('data:'))imgs[i].removeAttribute('src');
-    }
-    var all=clone.querySelectorAll('*');
-    for(var i=0;i<all.length;i++){
-      var st=all[i].style.cssText;
-      if(st&&st.indexOf('url(')>=0){
-        all[i].style.cssText=st.replace(/url\(["']?(?!data:)[^)"']*["']?\)/gi,'none');
-      }
-    }
-  }
-  window.addEventListener('message',function(e){
-    if(!e.data||e.data.type!=='INLINE_EDIT_CAPTURE_REQUEST')return;
-    var scrollX=window.scrollX||window.pageXOffset||0;
-    var scrollY=window.scrollY||window.pageYOffset||0;
-    var w=window.innerWidth,h=window.innerHeight;
+      const data = await loadNews();
+      const top = (data.articles || []).slice(0, 3);
+      const grid = document.getElementById('dispatch-grid');
+      grid.innerHTML = top.map(a => {
+        const date = new Date(a.date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+        return `
+          <a class="dispatch-item" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">
+            <div class="dispatch-kicker" style="color:var(--ink-dim)">${esc(a.pillar || '')}</div>
+            <h3 class="dispatch-title">${esc(a.title)}</h3>
+            <p class="dispatch-snippet">${esc(a.snippet || '')}</p>
+            <div class="dispatch-meta">${esc(a.source)} · ${date}</div>
+          </a>`;
+      }).join('');
+    }catch(e){ console.warn('dispatch', e); }
+  })();
+
+  /* ── Teaser map ── */
+  (async () => {
     try{
-      var clone=document.documentElement.cloneNode(true);
-      var rm=clone.querySelectorAll('script,link[rel="stylesheet"],style');
-      for(var i=0;i<rm.length;i++){rm[i].remove();}
-      inlineAll(document.documentElement,clone);
-      stripExternal(clone);
-      var html=new XMLSerializer().serializeToString(clone);
-      var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'
-        +'<foreignObject width="100%" height="100%">'
-        +'<div xmlns="http://www.w3.org/1999/xhtml" style="width:'+w+'px;height:'+h+'px;overflow:hidden">'
-        +'<div style="transform:translate(-'+scrollX+'px,-'+scrollY+'px);transform-origin:top left">'
-        +html+'</div></div></foreignObject></svg>';
-      var svgUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
-      var img=new Image();
-      img.onload=function(){
-        var c=document.createElement('canvas');c.width=w;c.height=h;
-        c.getContext('2d').drawImage(img,0,0);
-        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:c.toDataURL('image/png'),scrollX:scrollX,scrollY:scrollY},'*');
-      };
-      img.onerror=function(){
-        window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
-      };
-      img.src=svgUrl;
-    }catch(err){
-      window.parent.postMessage({type:'INLINE_EDIT_SCREENSHOT_RESULT',dataUrl:null,scrollX:scrollX,scrollY:scrollY},'*');
-    }
-  });
+      const orgs = await loadOrgs();
+      const map = L.map('teaser-map', {
+        zoomControl: false, scrollWheelZoom:false, attributionControl:false,
+      }).setView([54.0, 14.0], 3.4);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+        maxZoom:8, subdomains:'abcd',
+      }).addTo(map);
+      L.control.attribution({prefix:false}).addAttribution('© OpenStreetMap · CartoDB').addTo(map);
+      orgs.forEach(o=>{
+        if(typeof o.lat !== 'number' || typeof o.lon !== 'number') return;
+        const c = sectorColor(o.sector_normalized);
+        L.circleMarker([o.lat,o.lon], {
+          radius:3, color:c, fillColor:c, fillOpacity:0.75, weight:0,
+        }).addTo(map);
+      });
+    }catch(e){ console.warn('teaser map', e); }
+  })();
+</script>
+<script>
+// Render sponsor band on home
+(async () => {
+  const bandEl = document.getElementById('home-sponsor-band');
+  if (!bandEl) return;
+  const sponsors = await loadAndRenderSponsors();
+  if (!sponsors) return;
+  // Combine founding + first 3 partners for a 6-slot row
+  const slots = [...(sponsors.founding || []), ...(sponsors.partners || []).slice(0,3)];
+  bandEl.innerHTML = buildSponsorBand(slots, 'Supported by', 'Become a founding patron →');
 })();
 </script>
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "52897243139b402dacc6d5d564320f8b"}'></script><!-- End Cloudflare Web Analytics -->
+
 </body>
 </html>

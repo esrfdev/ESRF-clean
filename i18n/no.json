@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Stiftelse",
+    "directory": "Katalog",
+    "atlas": "Atlas",
+    "analytics": "Analyser",
+    "dispatch": "Nyhetsbrev",
+    "request_listing": "Be om oppføring"
+  },
+  "common": {
+    "visit": "Besøk →",
+    "visit_arrow": "↗",
+    "read_more": "Les mer →",
+    "search": "Søk",
+    "all": "Alle",
+    "back_to_top": "Tilbake til toppen ↑",
+    "organisations": "organisasjoner",
+    "countries": "land",
+    "sectors": "sektorer",
+    "articles": "artikler",
+    "shown": "vist",
+    "load_more": "Last inn mer →",
+    "no_results": "Ingen organisasjoner samsvarer med disse filtrene.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Sektor",
+    "country": "Land",
+    "all_sectors": "Alle sektorer",
+    "all_countries": "Alle land",
+    "search_placeholder": "Søk etter navn, by, beskrivelse…",
+    "search_organisations": "Søk organisasjoner…"
+  },
+  "cta": {
+    "request_listing": "Be om oppføring →",
+    "browse_directory": "Bla gjennom katalogen →",
+    "see_analytics": "Se analyser →",
+    "open_atlas": "Åpne hele atlasset →",
+    "read_dispatch": "Les hele nyhetsbrevet →",
+    "read_charter": "Les charteret →",
+    "read_figures": "Les alle figurene →"
+  },
+  "lang": {
+    "select": "Velg språk"
+  },
+  "index": {
+    "title": "ESRF.net — Europeisk Fellesskap for Sikkerhet og Motstandsdyktighet",
+    "hero_title_1": "Menneskene",
+    "hero_title_2": "som holder",
+    "hero_title_3": "Europa",
+    "hero_title_4": "sammen."
+  },
+  "directory": {
+    "title": "Katalog — ESRF.net",
+    "hero_title": "Praksiskatalogen."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Fellesskapets Atlas"
+  },
+  "analytics": {
+    "title": "Analyser — ESRF.net",
+    "hero_title": "Mønstre i nettverket."
+  },
+  "news": {
+    "title": "Nyhetsbrev — ESRF.net",
+    "hero_title": "Fra kontinentet."
+  },
+  "about": {
+    "title": "Stiftelse — ESRF.net",
+    "hero_title": "Et Europa som holder."
+  },
+  "footer": {
+    "community": "Fellesskap",
+    "foundation": "Stiftelse",
+    "legal": "Juridisk",
+    "contact": "Kontakt",
+    "privacy": "Personvern",
+    "terms": "Vilkår"
+  }
+}
