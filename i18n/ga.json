@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "foundation": "Fondúireacht",
+    "directory": "Eolaire",
+    "atlas": "Atlas",
+    "analytics": "Anailísíocht",
+    "dispatch": "Nuachtlitir",
+    "request_listing": "Iarratas ar liostáil"
+  },
+  "common": {
+    "visit": "Tabhair cuairt →",
+    "visit_arrow": "↗",
+    "read_more": "Léigh tuilleadh →",
+    "search": "Cuardach",
+    "all": "Gach",
+    "back_to_top": "Ar ais go barr ↑",
+    "organisations": "eagraíochtaí",
+    "countries": "tíortha",
+    "sectors": "earnálacha",
+    "pillars": "colúin",
+    "articles": "alt",
+    "shown": "léirithe",
+    "load_more": "Luchtaigh tuilleadh →",
+    "no_results": "Níl aon eagraíocht ag teacht leis na scagairí.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "pillar": "Colún",
+    "sector": "Earnáil",
+    "country": "Tír",
+    "all_pillars": "Gach",
+    "all_sectors": "Gach earnáil",
+    "all_countries": "Gach tír",
+    "search_placeholder": "Cuardaigh ainm, cathair, cur síos…",
+    "search_organisations": "Cuardaigh eagraíochtaí…",
+    "prevent": "Cosc · Airdeall",
+    "protect": "Cosaint · Maorgacht",
+    "prepare": "Ullmhúchán · Cumhachtú",
+    "respond": "Freagart · Dlúthpháirtíocht",
+    "recover": "Téarnamh · Athnuachan"
+  },
+  "cta": {
+    "request_listing": "Iarratas ar liostáil →",
+    "browse_directory": "Brabhsáil eolaire →",
+    "see_analytics": "Féach ar anailísíocht →",
+    "open_atlas": "Oscail an t-atlas iomlán →",
+    "read_dispatch": "Léigh an nuachtlitir iomlán →",
+    "read_charter": "Léigh an cairt →",
+    "read_figures": "Léigh na figiúirí →"
+  },
+  "lang": {
+    "select": "Roghnaigh teanga"
+  },
+  "index": {
+    "title": "ESRF.net — Pobal Eorpach Slándála agus Athléimneachta",
+    "hero_title_1": "Na daoine",
+    "hero_title_2": "a choinníonn",
+    "hero_title_3": "an Eoraip",
+    "hero_title_4": "le chéile."
+  },
+  "directory": {
+    "title": "Eolaire — ESRF.net",
+    "hero_title": "Eolaire na cleachtais."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Atlas Pobail"
+  },
+  "analytics": {
+    "title": "Anailísíocht — ESRF.net",
+    "hero_title": "Patrúin sa líonra."
+  },
+  "news": {
+    "title": "Nuachtlitir — ESRF.net",
+    "hero_title": "Ón mór-roinn."
+  },
+  "about": {
+    "title": "Fondúireacht — ESRF.net",
+    "hero_title": "Eoraip a sheasann."
+  },
+  "footer": {
+    "community": "Pobal",
+    "foundation": "Fondúireacht",
+    "legal": "Dlíthiúil",
+    "contact": "Teagmháil",
+    "privacy": "Príobháideacht",
+    "terms": "Téarmaí"
+  }
+}

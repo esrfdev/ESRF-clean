@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "foundation": "Fundament",
+    "directory": "Bibliotek",
+    "atlas": "Atlas",
+    "analytics": "Analyser",
+    "dispatch": "Dispatch",
+    "request_listing": "Anmod om opslag"
+  },
+  "common": {
+    "visit": "Besøg →",
+    "visit_arrow": "↗",
+    "read_more": "Læs mere →",
+    "search": "Søg",
+    "all": "Alle",
+    "back_to_top": "Tilbage til toppen ↑",
+    "organisations": "organisationer",
+    "countries": "lande",
+    "sectors": "sektorer",
+    "pillars": "søjler",
+    "articles": "artikler",
+    "shown": "vist",
+    "load_more": "Indlæs mere →",
+    "no_results": "Ingen organisationer matcher disse filtre.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "pillar": "Søjle",
+    "sector": "Sektor",
+    "country": "Land",
+    "all_pillars": "Alle",
+    "all_sectors": "Alle sektorer",
+    "all_countries": "Alle lande",
+    "search_placeholder": "Søg efter navn, by, beskrivelse…",
+    "search_organisations": "Søg organisationer…",
+    "prevent": "Forebyg · Årvågenhed",
+    "protect": "Beskyt · Forvaltning",
+    "prepare": "Forbered · Bemyndigelse",
+    "respond": "Reagér · Solidaritet",
+    "recover": "Genopret · Fornyelse"
+  },
+  "cta": {
+    "request_listing": "Anmod om opslag →",
+    "browse_directory": "Gennemse biblioteket →",
+    "see_analytics": "Se analyser →",
+    "open_atlas": "Åbn det fulde atlas →",
+    "read_dispatch": "Læs hele dispatchen →",
+    "read_charter": "Læs charteret →",
+    "read_figures": "Læs alle figurer →"
+  },
+  "lang": {
+    "select": "Vælg sprog"
+  },
+  "index": {
+    "title": "ESRF.net — Europæisk Fællesskab for Sikkerhed og Modstandsdygtighed",
+    "hero_title_1": "Menneskene",
+    "hero_title_2": "der holder",
+    "hero_title_3": "Europa",
+    "hero_title_4": "sammen."
+  },
+  "directory": {
+    "title": "Bibliotek — ESRF.net",
+    "hero_title": "Praksissens bibliotek."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Fællesskabsatlas"
+  },
+  "analytics": {
+    "title": "Analyser — ESRF.net",
+    "hero_title": "Mønstre i netværket."
+  },
+  "news": {
+    "title": "Dispatch — ESRF.net",
+    "hero_title": "Fra kontinentet."
+  },
+  "about": {
+    "title": "Fundament — ESRF.net",
+    "hero_title": "Et Europa der holder."
+  },
+  "footer": {
+    "community": "Fællesskab",
+    "foundation": "Fundament",
+    "legal": "Juridisk",
+    "contact": "Kontakt",
+    "privacy": "Privatliv",
+    "terms": "Betingelser"
+  }
+}

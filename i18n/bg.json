@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "foundation": "Основи",
+    "directory": "Директория",
+    "atlas": "Атлас",
+    "analytics": "Анализи",
+    "dispatch": "Дипеш",
+    "request_listing": "Заявка за вписване"
+  },
+  "common": {
+    "visit": "Посетете →",
+    "visit_arrow": "↗",
+    "read_more": "Прочетете →",
+    "search": "Търсене",
+    "all": "Всички",
+    "back_to_top": "Обратно нагоре ↑",
+    "organisations": "организации",
+    "countries": "държави",
+    "sectors": "сектори",
+    "pillars": "стълбове",
+    "articles": "статии",
+    "shown": "показани",
+    "load_more": "Зареди още →",
+    "no_results": "Няма организации, отговарящи на тези критерии.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "pillar": "Стълб",
+    "sector": "Сектор",
+    "country": "Държава",
+    "all_pillars": "Всички",
+    "all_sectors": "Всички сектори",
+    "all_countries": "Всички държави",
+    "search_placeholder": "Търсете по име, град, описание…",
+    "search_organisations": "Търсете организации…",
+    "prevent": "Предотвратяване · Бдителност",
+    "protect": "Защита · Управление",
+    "prepare": "Подготовка · Овластяване",
+    "respond": "Реагиране · Солидарност",
+    "recover": "Възстановяване · Обновяване"
+  },
+  "cta": {
+    "request_listing": "Заявете вписване →",
+    "browse_directory": "Разгледайте директорията →",
+    "see_analytics": "Вижте анализите →",
+    "open_atlas": "Отворете пълния атлас →",
+    "read_dispatch": "Прочетете целия дипеш →",
+    "read_charter": "Прочетете устава →",
+    "read_figures": "Прочетете всички фигури →"
+  },
+  "lang": {
+    "select": "Изберете език"
+  },
+  "index": {
+    "title": "ESRF.net — Европейска Общност за Сигурност и Устойчивост",
+    "hero_title_1": "Хората",
+    "hero_title_2": "които държат",
+    "hero_title_3": "Европа",
+    "hero_title_4": "заедно."
+  },
+  "directory": {
+    "title": "Директория — ESRF.net",
+    "hero_title": "Директорията на практиката."
+  },
+  "map": {
+    "title": "Атлас — ESRF.net",
+    "heading": "Общностен Атлас"
+  },
+  "analytics": {
+    "title": "Анализи — ESRF.net",
+    "hero_title": "Модели в мрежата."
+  },
+  "news": {
+    "title": "Дипеш — ESRF.net",
+    "hero_title": "От континента."
+  },
+  "about": {
+    "title": "Основи — ESRF.net",
+    "hero_title": "Европа, която устоява."
+  },
+  "footer": {
+    "community": "Общност",
+    "foundation": "Основи",
+    "legal": "Правни",
+    "contact": "Контакт",
+    "privacy": "Поверителност",
+    "terms": "Условия"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "foundation": "Fundacija",
+    "directory": "Imenik",
+    "atlas": "Atlas",
+    "analytics": "Analitika",
+    "dispatch": "Bilten",
+    "request_listing": "Zahteva za vpis"
+  },
+  "common": {
+    "visit": "Obišči →",
+    "visit_arrow": "↗",
+    "read_more": "Preberi več →",
+    "search": "Iskanje",
+    "all": "Vse",
+    "back_to_top": "Nazaj na vrh ↑",
+    "organisations": "organizacij",
+    "countries": "držav",
+    "sectors": "sektorjev",
+    "pillars": "stebrov",
+    "articles": "člankov",
+    "shown": "prikazano",
+    "load_more": "Naloži več →",
+    "no_results": "Nobena organizacija ne ustreza tem filtrom.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "pillar": "Steber",
+    "sector": "Sektor",
+    "country": "Država",
+    "all_pillars": "Vse",
+    "all_sectors": "Vsi sektorji",
+    "all_countries": "Vse države",
+    "search_placeholder": "Išči po imenu, mestu, opisu…",
+    "search_organisations": "Išči organizacije…",
+    "prevent": "Preprečevanje · Budnost",
+    "protect": "Zaščita · Upravljanje",
+    "prepare": "Priprava · Opolnomočenje",
+    "respond": "Odzivanje · Solidarnost",
+    "recover": "Okrevanje · Obnova"
+  },
+  "cta": {
+    "request_listing": "Zahteva za vpis →",
+    "browse_directory": "Prebrskaj imenik →",
+    "see_analytics": "Poglej analitiko →",
+    "open_atlas": "Odpri celoten atlas →",
+    "read_dispatch": "Preberi cel bilten →",
+    "read_charter": "Preberi listino →",
+    "read_figures": "Preberi vse slike →"
+  },
+  "lang": {
+    "select": "Izberi jezik"
+  },
+  "index": {
+    "title": "ESRF.net — Evropska skupnost varnosti in odpornosti",
+    "hero_title_1": "Ljudje",
+    "hero_title_2": "ki držijo",
+    "hero_title_3": "Evropo",
+    "hero_title_4": "skupaj."
+  },
+  "directory": {
+    "title": "Imenik — ESRF.net",
+    "hero_title": "Imenik prakse."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Skupnostni Atlas"
+  },
+  "analytics": {
+    "title": "Analitika — ESRF.net",
+    "hero_title": "Vzorci v omrežju."
+  },
+  "news": {
+    "title": "Bilten — ESRF.net",
+    "hero_title": "S celine."
+  },
+  "about": {
+    "title": "Fundacija — ESRF.net",
+    "hero_title": "Evropa, ki vzdrži."
+  },
+  "footer": {
+    "community": "Skupnost",
+    "foundation": "Fundacija",
+    "legal": "Pravno",
+    "contact": "Kontakt",
+    "privacy": "Zasebnost",
+    "terms": "Pogoji"
+  }
+}

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Directory — ESRF.net</title>
-<meta name="description" content="Browse 1,892 organisations across 29 European countries that form the ESRF.net community — filter by sector, country and moral pillar." />
+<title data-i18n="directory.title">Directory — ESRF.net</title>
+<meta name="description" data-i18n-attr="content" content="Browse 1,892 organisations across 29 European countries that form the ESRF.net community — filter by sector, country and moral pillar." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,29 +15,36 @@
 
 <nav class="mast" aria-label="Primary">
   <div class="mast-inner">
-    <a href="index.html" class="mast-logo">ESRF.net<sup>VOL·01</sup></a>
+    <a href="index.html" class="mast-logo">ESRF.net</a>
     <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
     <div class="mast-nav" id="primary-nav">
-      <a href="about.html">Foundation</a>
-      <a href="directory.html" aria-current="page">Directory</a>
-      <a href="map.html">Atlas</a>
-      <a href="analytics.html">Analytics</a>
-      <a href="news.html">Dispatch</a>
-      <a href="mailto:hello@esrf.net" class="mast-cta">Request listing</a>
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="directory.html" aria-current="page" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <a href="mailto:hello@esrf.net" class="mast-cta" data-i18n="nav.request_listing">Request listing</a>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
     </div>
   </div>
 </nav>
 
 <section class="phero">
   <div class="phero-inner">
-    <div class="kicker">§ 03 · Vital Sectors · Directory</div>
+    <div class="kicker" data-i18n="directory.kicker">§ 03 · Vital Sectors · Directory</div>
     <h1 class="phero-title">The <i>directory</i><br>of practice.</h1>
-    <p class="phero-deck">One thousand eight hundred and ninety-two organisations — sorted by sector, country and moral pillar. Search, filter, and read who holds each part of Europe together.</p>
+    <p class="phero-deck" data-i18n="directory.hero_deck">One thousand eight hundred and ninety-two organisations — sorted by sector, country and moral pillar. Search, filter, and read who holds each part of Europe together.</p>
     <div class="phero-meta">
-      <span><strong>1,892</strong> organisations</span>
-      <span><strong>29</strong> countries</span>
-      <span><strong>10</strong> sectors</span>
-      <span><strong>5</strong> pillars</span>
+      <span><strong>1,892</strong> <span data-i18n="common.organisations">organisations</span></span>
+      <span><strong>29</strong> <span data-i18n="common.countries">countries</span></span>
+      <span><strong>10</strong> <span data-i18n="common.sectors">sectors</span></span>
+      <span><strong>5</strong> <span data-i18n="common.pillars">pillars</span></span>
     </div>
   </div>
 </section>
@@ -46,78 +53,79 @@
   <div class="filter-inner">
     <label class="filter-search">
       <span class="filter-search-icon" aria-hidden="true">⌕</span>
-      <input id="q" type="search" placeholder="Search by name, city, description…" aria-label="Search directory" />
+      <input id="q" type="search" placeholder="Search by name, city, description…" data-i18n-placeholder="filter.search_placeholder" aria-label="Search directory" />
     </label>
-    <div class="filter-count"><strong id="count">1,892</strong> · shown</div>
+    <div class="filter-count"><strong id="count">1,892</strong> · <span data-i18n="common.shown">shown</span></div>
   </div>
 
   <div class="filter-chips" role="group" aria-label="Filter by pillar">
-    <span class="filter-group-label">Pillar</span>
-    <button class="chip pillar-all active" data-pillar="">All</button>
-    <button class="chip pillar-prevent" data-pillar="prevent">Prevent · Vigilance</button>
-    <button class="chip pillar-protect" data-pillar="protect">Protect · Stewardship</button>
-    <button class="chip pillar-prepare" data-pillar="prepare">Prepare · Empowerment</button>
-    <button class="chip pillar-respond" data-pillar="respond">Respond · Solidarity</button>
-    <button class="chip pillar-recover" data-pillar="recover">Recover · Renewal</button>
+    <span class="filter-group-label" data-i18n="filter.pillar">Pillar</span>
+    <button class="chip pillar-all active" data-pillar="" data-i18n="filter.all_pillars">All</button>
+    <button class="chip pillar-prevent" data-pillar="prevent" data-i18n="filter.prevent">Prevent · Vigilance</button>
+    <button class="chip pillar-protect" data-pillar="protect" data-i18n="filter.protect">Protect · Stewardship</button>
+    <button class="chip pillar-prepare" data-pillar="prepare" data-i18n="filter.prepare">Prepare · Empowerment</button>
+    <button class="chip pillar-respond" data-pillar="respond" data-i18n="filter.respond">Respond · Solidarity</button>
+    <button class="chip pillar-recover" data-pillar="recover" data-i18n="filter.recover">Recover · Renewal</button>
   </div>
 
   <div class="filter-chips" role="group" aria-label="Filter by sector" id="sector-chips">
-    <span class="filter-group-label">Sector</span>
-    <button class="chip active" data-sector="">All sectors</button>
+    <span class="filter-group-label" data-i18n="filter.sector">Sector</span>
+    <button class="chip active" data-sector="" data-i18n="filter.all_sectors">All sectors</button>
   </div>
 
   <div class="filter-chips" role="group" aria-label="Filter by country" id="country-chips">
-    <span class="filter-group-label">Country</span>
-    <button class="chip active" data-country="">All countries</button>
+    <span class="filter-group-label" data-i18n="filter.country">Country</span>
+    <button class="chip active" data-country="" data-i18n="filter.all_countries">All countries</button>
   </div>
 </div>
 
-<div class="dir-list" id="dir-list" aria-live="polite"></div>
-<div class="load-more-wrap"><button class="btn outline" id="more" hidden>Load more →</button></div>
+<div class="biz-grid" id="dir-list" aria-live="polite"></div>
+<div class="load-more-wrap"><button class="btn outline" id="more" hidden data-i18n="common.load_more">Load more →</button></div>
 
 <section class="join">
   <h2 class="join-h">Not yet on the <i>atlas?</i></h2>
-  <p class="join-sub">Any organisation whose work contributes to European security and resilience is welcome in the ESRF.net community.</p>
-  <a href="mailto:hello@esrf.net?subject=ESRF.net%20listing%20request" class="btn on-accent">Request your listing →</a>
+  <p class="join-sub" data-i18n="directory.join_sub">Any organisation whose work contributes to European security and resilience is welcome in the ESRF.net community.</p>
+  <a href="mailto:hello@esrf.net?subject=ESRF.net%20listing%20request" class="btn on-accent" data-i18n="cta.request_listing">Request your listing →</a>
 </section>
 
 <footer class="foot">
   <div class="foot-inner">
     <div class="foot-brand">
       <h3>ESRF.net</h3>
-      <p>European Security &amp; Resilience Foundation — a decentralised community of 1,892 organisations across 29 countries.</p>
+      <p data-i18n="footer.brand_desc">European Security &amp; Resilience Foundation — a decentralised community of 1,892 organisations across 29 countries.</p>
     </div>
     <div class="foot-col">
-      <h4>Community</h4>
+      <h4 data-i18n="footer.community">Community</h4>
       <ul>
-        <li><a href="directory.html">Directory</a></li>
-        <li><a href="map.html">Atlas</a></li>
+        <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li>
+        <li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
         <li><a href="countries/index.html">Countries</a></li>
-        <li><a href="analytics.html">Analytics</a></li>
+        <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
       </ul>
     </div>
     <div class="foot-col">
-      <h4>Foundation</h4>
+      <h4 data-i18n="footer.foundation">Foundation</h4>
       <ul>
-        <li><a href="about.html">About</a></li>
-        <li><a href="news.html">Dispatch</a></li>
-        <li><a href="mailto:hello@esrf.net">Contact</a></li>
+        <li><a href="about.html" data-i18n="nav.foundation">About</a></li>
+        <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+        <li><a href="mailto:hello@esrf.net" data-i18n="footer.contact">Contact</a></li>
       </ul>
     </div>
     <div class="foot-col">
-      <h4>Legal</h4>
+      <h4 data-i18n="footer.legal">Legal</h4>
       <ul>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="terms.html">Terms</a></li>
+        <li><a href="privacy.html" data-i18n="footer.privacy">Privacy</a></li>
+        <li><a href="terms.html" data-i18n="footer.terms">Terms</a></li>
       </ul>
     </div>
   </div>
   <div class="foot-bar">
-    <div>© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
-    <div>Vol. 01 · Human Atlas <a href="#top">Back to top ↑</a></div>
+    <div data-i18n="common.copyright">© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
+    <div><span data-i18n="footer.tagline">Human Atlas</span> <a href="#top" data-i18n="common.back_to_top">Back to top ↑</a></div>
   </div>
 </footer>
 
+<script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script>
 (async () => {
@@ -198,6 +206,9 @@
 
   more.addEventListener('click', ()=>{ state.shown += PAGE; render(); });
 
+  // Re-render on language change (visit label updates)
+  window.addEventListener('esrf:langchange', () => render());
+
   function filtered(){
     return orgs.filter(o => {
       const p = pillarOf(o.sector_normalized);
@@ -212,27 +223,44 @@
     });
   }
 
+  function t(key) {
+    return (window.esrfI18n && window.esrfI18n.t) ? window.esrfI18n.t(key, key) : key;
+  }
+
   function render(){
     const rows = filtered();
     countEl.textContent = rows.length.toLocaleString('en-GB');
     const slice = rows.slice(0, state.shown);
-    list.innerHTML = slice.map((o,i) => {
+    const visitLabel = t('common.visit') || 'Visit →';
+    const noResultsMsg = t('common.no_results') || 'No organisations match these filters.';
+
+    list.innerHTML = slice.map((o) => {
       const pillar = pillarOf(o.sector_normalized);
-      const color = pillarColor(pillar);
-      const n = String(i+1).padStart(4,'0');
-      const site = o.website ? `<a class="dir-link" href="${esc(o.website)}" target="_blank" rel="noopener">Visit ↗</a>` : '<span class="dir-link" style="color:#7A6E62">—</span>';
+      const meta = PILLAR_META[pillar];
+      const sectorShort = SECTOR_SHORT[o.sector_normalized] || o.sector_normalized;
+      const countryCode = (o.country || '').toUpperCase().slice(0,2);
+      const cityStr = [o.city, o.country_name_en || o.country].filter(Boolean).join(', ');
+      const pillarLabel = `${meta.verb} · ${meta.virtue}`;
+
+      const linkHtml = o.website
+        ? `<a class="biz-link" href="${esc(o.website)}" target="_blank" rel="noopener">${esc(visitLabel)}</a>`
+        : `<span class="biz-link" style="color:var(--ink-dim)">—</span>`;
+
       return `
-      <article class="dir-card">
-        <div class="dir-num">${n}</div>
-        <div class="dir-main">
-          <h3>${o.website ? `<a href="${esc(o.website)}" target="_blank" rel="noopener">${esc(o.name)}</a>` : esc(o.name)}</h3>
-          <p class="dir-desc">${esc(o.description_en || '')}</p>
+      <article class="biz-card" data-pillar="${pillar}">
+        <div class="biz-card-head">
+          <span class="biz-sector mono">${esc(sectorShort)}</span>
+          <span class="biz-country mono">${esc(countryCode)}</span>
         </div>
-        <div class="dir-sector" style="color:${color}">${esc(o.sector_normalized)}</div>
-        <div class="dir-loc"><strong>${esc(o.city || '')}</strong>${esc(o.country_name_en || o.country || '')}</div>
-        ${site}
+        <h3 class="biz-name">${esc(o.name)}</h3>
+        ${cityStr ? `<p class="biz-city serif-i">${esc(cityStr)}</p>` : ''}
+        ${o.description_en ? `<p class="biz-desc">${esc(o.description_en)}</p>` : ''}
+        <div class="biz-card-foot">
+          <span class="biz-pillar mono">${esc(pillarLabel)}</span>
+          ${linkHtml}
+        </div>
       </article>`;
-    }).join('') || '<div class="dir-empty">No organisations match these filters.</div>';
+    }).join('') || `<div class="dir-empty" style="grid-column:1/-1">${esc(noResultsMsg)}</div>`;
     more.hidden = rows.length <= state.shown;
   }
 

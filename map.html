@@ -22,15 +22,21 @@
 
 <nav class="mast" aria-label="Primary">
   <div class="mast-inner">
-    <a href="index.html" class="mast-logo">ESRF.net<sup>VOL·01</sup></a>
+    <a href="index.html" class="mast-logo">ESRF.net</a>
     <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
     <div class="mast-nav" id="primary-nav">
-      <a href="about.html">Foundation</a>
-      <a href="directory.html">Directory</a>
-      <a href="map.html" aria-current="page">Atlas</a>
-      <a href="analytics.html">Analytics</a>
-      <a href="news.html">Dispatch</a>
-      <a href="mailto:hello@esrf.net" class="mast-cta">Request listing</a>
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" aria-current="page" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <a href="mailto:hello@esrf.net" class="mast-cta" data-i18n="nav.request_listing">Request listing</a>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
     </div>
   </div>
 </nav>
@@ -43,11 +49,11 @@
     <h2>Community Atlas</h2>
     <p style="font-family:'PT Serif',serif;font-style:italic;font-size:14px;color:var(--ink-soft);margin:6px 0 14px">Click any marker for organisation detail. Filter by pillar or search by name.</p>
 
-    <input id="q" type="search" placeholder="Search organisations…" aria-label="Search organisations" />
+    <input id="q" type="search" placeholder="Search organisations…" data-i18n-placeholder="filter.search_organisations" aria-label="Search organisations" />
 
     <span class="filter-group-label">Pillar</span>
     <div class="filter-chips" style="margin:0;gap:6px" id="pillar-chips">
-      <button class="chip active" data-pillar="">All</button>
+      <button class="chip active" data-pillar="" data-i18n="filter.all_pillars">All</button>
       <button class="chip pillar-prevent" data-pillar="prevent">Prevent</button>
       <button class="chip pillar-protect" data-pillar="protect">Protect</button>
       <button class="chip pillar-prepare" data-pillar="prepare">Prepare</button>
@@ -66,6 +72,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script>
 (async () => {

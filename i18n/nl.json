@@ -1,0 +1,176 @@
+{
+  "nav": {
+    "foundation": "Fundament",
+    "directory": "Directory",
+    "atlas": "Atlas",
+    "analytics": "Analyse",
+    "dispatch": "Dispatch",
+    "request_listing": "Aanmelding aanvragen"
+  },
+  "common": {
+    "visit": "Bezoeken →",
+    "visit_arrow": "↗",
+    "read_more": "Lees meer →",
+    "search": "Zoeken",
+    "all": "Alle",
+    "back_to_top": "Terug naar boven ↑",
+    "organisations": "organisaties",
+    "countries": "landen",
+    "sectors": "sectoren",
+    "pillars": "pijlers",
+    "articles": "artikelen",
+    "shown": "getoond",
+    "load_more": "Meer laden →",
+    "no_results": "Geen organisaties voldoen aan deze filters.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "pillar": "Pijler",
+    "sector": "Sector",
+    "country": "Land",
+    "all_pillars": "Alle",
+    "all_sectors": "Alle sectoren",
+    "all_countries": "Alle landen",
+    "search_placeholder": "Zoek op naam, stad, beschrijving…",
+    "search_organisations": "Zoek organisaties…",
+    "prevent": "Preventie · Waakzaamheid",
+    "protect": "Bescherming · Rentmeesterschap",
+    "prepare": "Voorbereiding · Empowerment",
+    "respond": "Respons · Solidariteit",
+    "recover": "Herstel · Vernieuwing"
+  },
+  "cta": {
+    "request_listing": "Aanmelding aanvragen →",
+    "browse_directory": "Bekijk de directory →",
+    "see_analytics": "Bekijk analyses →",
+    "open_atlas": "Open de volledige atlas →",
+    "read_dispatch": "Lees de volledige dispatch →",
+    "read_charter": "Lees het charter →",
+    "read_figures": "Lees alle drie de figuren →"
+  },
+  "lang": {
+    "select": "Kies taal"
+  },
+  "index": {
+    "title": "ESRF.net — Europese Veiligheid & Veerkracht Gemeenschap",
+    "description": "ESRF.net is een gedecentraliseerde gemeenschap van 1.892 organisaties in 29 Europese landen die werken aan de versterking van veiligheid en veerkracht via tien vitale sectoren en vijf morele principes.",
+    "hero_kicker": "Menselijke Atlas · Voorjaar 2026",
+    "hero_title_1": "De mensen",
+    "hero_title_2": "die Europa",
+    "hero_title_3": "bij",
+    "hero_title_4": "elkaar houden.",
+    "hero_deck": "Waar overheden beleid maken en internationale organen coördineren, verenigt ESRF.net de bedrijven, instellingen en burgers wier dagelijkse werk ons gedeelde leven rustig in stand houdt — een gedecentraliseerd kader, gedreven door de organisaties die de economie aandrijven.",
+    "hero_caption": "Een gemeenschap van praktijkmensen, verspreid over negenentwintig naties, verbonden door vijf morele principes.",
+    "scroll_hint": "Scroll · de atlas opent ↓",
+    "foundation_kicker": "§ 01 · Het Fundament",
+    "foundation_title": "Leiderschap door voorbeeld.",
+    "foundation_sub": "Voor lokale impact. Voor gedeelde veerkracht. Voor een Europa dat standhoudt.",
+    "foundation_body_1": "Het Europees Kader voor Veiligheid & Veerkracht is het fundament van ESRF.net — een gedecentraliseerd netwerk gebouwd voor, en door, ondernemers met lokale impact. Wij geloven dat veiligheid niet slechts een overheidsmandaat is. Het is een ondernemersverantwoordelijkheid, en een burgerlijke.",
+    "foundation_pull": "Veiligheid is geen mandaat alleen. Het is een verantwoordelijkheid die wij samen dragen.",
+    "foundation_body_2": "Door veerkracht van onderop te bouwen, verbinden wij organisaties in negenentwintig landen tot zelfdragende ecosystemen met regionale impact. De stichting kanaliseert donaties, bijdragen en afgestemd kapitaal naar initiatieven die het netwerk versterken en de reikwijdte op het continent uitbreiden.",
+    "foundation_body_3": "Organisaties worden geclassificeerd over tien vitale sectoren in lijn met de EU NIS2-richtlijn, geleid door vijf morele principes: waakzaamheid, rentmeesterschap, empowerment, solidariteit en vernieuwing.",
+    "pillars_kicker": "§ 02 · Het Morele Kompas",
+    "pillars_title": "Vijf manieren om stand te houden.",
+    "sectors_kicker": "§ 03 · Vitale Sectoren",
+    "sectors_title": "Tien praktijkvelden.",
+    "sectors_lede": "Elke organisatie in de ESRF.net-gemeenschap wordt geclassificeerd over tien vitale sectoren — de domeinen waar veerkracht wordt opgebouwd of verloren gaat. Tellingen weerspiegelen de huidige directory.",
+    "atlas_kicker": "§ 04 · De Gemeenschapsatlas",
+    "atlas_title": "Waar het werk plaatsvindt.",
+    "atlas_lede": "Elke pin is een organisatie; elke cluster een stad; elke kleur een sector. De atlas is een levend register van wie de dagelijkse machinerie van een veerkrachtig Europa in stand houdt.",
+    "analytics_kicker": "§ 05 · Analyse",
+    "analytics_title": "Patronen in het netwerk.",
+    "analytics_lede": "Drie figuren, elke uitgave gepubliceerd — waar de gemeenschap is geconcentreerd, waar zij schaars is, en hoe de vijf morele pijlers zich over vitale sectoren verdelen.",
+    "dispatch_kicker": "§ 06 · Dispatch",
+    "dispatch_title": "Van het continent.",
+    "dispatch_lede": "Een samengesteld overzicht van Europese veiligheids-, veerkrachts- en crisissignalen — gerangschikt onder de pijler die elk verhaal raakt. De volledige dispatch wordt continu bijgewerkt.",
+    "join_title": "Draagt uw organisatie bij aan een Europa dat standhoudt?",
+    "join_sub": "Vraag een vermelding aan en neem uw plaats op de atlas in. Lidmaatschap van de ESRF.net-gemeenschap is gratis voor organisaties wier werk de Europese veiligheid en veerkracht versterkt."
+  },
+  "directory": {
+    "title": "Directory — ESRF.net",
+    "description": "Blader door 1.892 organisaties in 29 Europese landen die deel uitmaken van de ESRF.net-gemeenschap — filter op sector, land en morele pijler.",
+    "kicker": "§ 03 · Vitale Sectoren · Directory",
+    "hero_title": "De praktijkdirectory.",
+    "hero_deck": "Duizend achthonderd tweeënnegentig organisaties — gesorteerd op sector, land en morele pijler. Zoek, filter en lees wie elk deel van Europa bij elkaar houdt.",
+    "join_title": "Nog niet op de atlas?",
+    "join_sub": "Elke organisatie wier werk bijdraagt aan Europese veiligheid en veerkracht is welkom in de ESRF.net-gemeenschap."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "description": "De volledige gemeenschapsatlas — 1.892 organisaties in kaart gebracht over 29 Europese landen, kleurgecodeerd per sector en filterbaar per pijler.",
+    "kicker": "§ 04 · De Atlas",
+    "heading": "Gemeenschapsatlas",
+    "instructions": "Klik op een markering voor organisatiedetails. Filter op pijler of zoek op naam.",
+    "search_placeholder": "Zoek organisaties…"
+  },
+  "analytics": {
+    "title": "Analyse — ESRF.net",
+    "description": "Data-analyse voor de ESRF.net-gemeenschap — sectorverdeling, landenanalyse en morele pijleranalyse over 1.892 organisaties.",
+    "kicker": "§ 05 · Analyse",
+    "hero_title": "Patronen in het netwerk.",
+    "hero_deck": "Drie figuren uit de huidige atlas — waar de gemeenschap geconcentreerd is, waar zij schaars is, en hoe de vijf morele pijlers zich over vitale sectoren verdelen."
+  },
+  "news": {
+    "title": "Dispatch — ESRF.net",
+    "description": "De ESRF.net dispatch — samengestelde Europese veiligheids- en veerkrachtsignalen, gerangschikt onder de morele pijler die elk verhaal raakt.",
+    "kicker": "§ 06 · Dispatch",
+    "hero_title": "Van het continent.",
+    "hero_deck": "Een samengesteld register van Europese veiligheids-, veerkrachts- en crisissignalen — elk gerangschikt onder de pijler wier zorgen het raakt. Continu bijgewerkt."
+  },
+  "about": {
+    "title": "Fundament — ESRF.net",
+    "description": "Over ESRF.net — het Europees Kader voor Veiligheid & Veerkracht, het charter, de vijf morele pijlers en hoe organisaties lid worden van de gemeenschap.",
+    "kicker": "§ 01 · Het Fundament",
+    "hero_title": "Een Europa dat standhoudt.",
+    "hero_deck": "Het Europees Kader voor Veiligheid & Veerkracht — het fundament van ESRF.net — is gebouwd op een eenvoudige overtuiging: veerkracht is niet het exclusieve werk van staten. Het is het dagelijkse werk van de organisaties, instellingen en burgers wier lokale impact het geheel in stand houdt.",
+    "charter_quote": "Veiligheid is geen mandaat alleen. Het is een verantwoordelijkheid die wij samen dragen.",
+    "charter_cite": "— ESRF.net Charter, Art. 01"
+  },
+  "privacy": {
+    "title": "Privacy — ESRF.net",
+    "description": "Privacybeleid voor ESRF.net — hoe wij uw gegevens verzamelen, gebruiken en beschermen.",
+    "kicker": "Juridisch",
+    "hero_title": "Privacybeleid."
+  },
+  "terms": {
+    "title": "Gebruiksvoorwaarden — ESRF.net",
+    "description": "Gebruiksvoorwaarden voor ESRF.net.",
+    "kicker": "Juridisch",
+    "hero_title": "Gebruiksvoorwaarden."
+  },
+  "countries": {
+    "title": "Landen — ESRF.net",
+    "description": "Blader door ESRF.net-organisaties per land — 29 Europese naties in de gemeenschap.",
+    "kicker": "§ Gemeenschap",
+    "hero_title": "Negenentwintig naties.",
+    "hero_deck": "Elk land in de ESRF.net-gemeenschap — van de Atlantische Oceaan tot de Baltische Zee, van het Noordpoolgebied tot de Middellandse Zee."
+  },
+  "footer": {
+    "brand_desc": "European Security & Resilience Foundation — een gedecentraliseerde gemeenschap van 1.892 organisaties in 29 landen.",
+    "community": "Gemeenschap",
+    "foundation": "Fundament",
+    "legal": "Juridisch",
+    "five_pillars": "Vijf pijlers",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Voorwaarden",
+    "tagline": "Menselijke Atlas"
+  },
+  "pillar": {
+    "prevent_verb": "Preventie",
+    "prevent_virtue": "Waakzaamheid",
+    "prevent_body": "Opmerken voordat het luid wordt — structurele aandacht voor signalen en systemische risico's.",
+    "protect_verb": "Bescherming",
+    "protect_virtue": "Rentmeesterschap",
+    "protect_body": "Bewaken wat ons in stand houdt — kritieke functies, vitale processen, gedeelde belangen.",
+    "prepare_verb": "Voorbereiding",
+    "prepare_virtue": "Empowerment",
+    "prepare_body": "Samen klaarstaan — door training, innovatie en duurzame paraatheid.",
+    "respond_verb": "Respons",
+    "respond_virtue": "Solidariteit",
+    "respond_body": "Als één handelen wanneer het erop aankomt — betrouwbare netwerken, snelle coördinatie, wederzijdse steun.",
+    "recover_verb": "Herstel",
+    "recover_virtue": "Vernieuwing",
+    "recover_body": "Sterker opstaan dan tevoren — schokken absorberen, herstel versnellen, het systeem vernieuwen."
+  }
+}
