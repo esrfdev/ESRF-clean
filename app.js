@@ -21912,7 +21912,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Renewal',
       aboutP1: 'The European Security & Resilience Framework is the foundation of <strong>ESRF.net</strong> — a decentralised network built for and by entrepreneurs with local impact.',
     aboutP2: 'The foundation channels donations, contributions and aligned capital into initiatives that strengthen the network and expand its reach across Europe.',
-    aboutP3: 'We believe security is not just a government mandate — it is an entrepreneurial responsibility. By building resilience from the ground up, we connect organisations across 15 countries into self-sustaining ecosystems with regional impact.',
+    aboutP3: 'We believe security is not just a government mandate — it is an entrepreneurial responsibility. By building resilience from the ground up, we connect organisations across {countries} countries into self-sustaining ecosystems with regional impact.',
     aboutP4: 'From vigilance to resilience — each organisation anchors its contribution in one or more of the five moral pillars: <strong>Vigilance, Stewardship, Empowerment, Solidarity,</strong> and <strong>Renewal</strong>.',
 },
   bg: {
@@ -21923,7 +21923,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Обновление',
       aboutP1: 'Европейската рамка за сигурност и устойчивост е основата на <strong>ESRF.net</strong> — децентрализирана мрежа, създадена от и за предприемачи с местно въздействие.',
     aboutP2: 'Фондацията насочва дарения, вноски и съгласуван капитал към инициативи, които укрепват мрежата и разширяват обхвата й в цяла Европа.',
-    aboutP3: 'Вярваме, че сигурността не е само държавен мандат — тя е предприемаческа отговорност. Изграждайки устойчивост отдолу нагоре, свързваме организации от 15 държави в самоиздържащи се екосистеми с регионално въздействие.',
+    aboutP3: 'Вярваме, че сигурността не е само държавен мандат — тя е предприемаческа отговорност. Изграждайки устойчивост отдолу нагоре, свързваме организации от {countries} държави в самоиздържащи се екосистеми с регионално въздействие.',
     aboutP4: 'От бдителност до обновление — всяка организация закрепя своя принос в един или повече от петте морални стълба: <strong>Бдителност, Отговорност за грижа, Собствена сила, Солидарност,</strong> и <strong>Обновление</strong>.',
 },
   cs: {
@@ -21934,7 +21934,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Obnova',
       aboutP1: 'Evropský rámec bezpečnosti a odolnosti je základem <strong>ESRF.net</strong> — decentralizované sítě vytvořené podnikateli pro podnikatele s místním dopadem.',
     aboutP2: 'Nadace směřuje dary, příspěvky a sladěný kapitál do iniciativ, které posilují síť a rozšiřují její dosah po celé Evropě.',
-    aboutP3: 'Věříme, že bezpečnost není jen vládní mandát — je to podnikatelská odpovědnost. Budováním odolnosti zdola propojujeme organizace z 15 zemí do soběstačných ekosystémů s regionálním dopadem.',
+    aboutP3: 'Věříme, že bezpečnost není jen vládní mandát — je to podnikatelská odpovědnost. Budováním odolnosti zdola propojujeme organizace z {countries} zemí do soběstačných ekosystémů s regionálním dopadem.',
     aboutP4: 'Od bdělosti k obnově — každá organizace ukotvuje svůj příspěvek v jednom nebo více z pěti morálních pilířů: <strong>Bdělost, Povinnost péče, Vlastní síla, Solidarita,</strong> a <strong>Obnova</strong>.',
 },
   da: {
@@ -21945,7 +21945,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Genoprejsning',
       aboutP1: 'Den Europæiske Sikkerheds- & Resiliensramme er fundamentet for <strong>ESRF.net</strong> — et decentraliseret netværk bygget af og for iværksættere med lokal gennemslagskraft.',
     aboutP2: 'Fonden kanaliserer donationer, bidrag og afstemt kapital til initiativer, der styrker netværket og udvider dets rækkevidde i hele Europa.',
-    aboutP3: 'Vi mener, at sikkerhed ikke kun er et statsligt mandat — det er et iværksætteransvar. Ved at opbygge modstandskraft nedefra forbinder vi organisationer fra 15 lande til selvbærende økosystemer med regional indflydelse.',
+    aboutP3: 'Vi mener, at sikkerhed ikke kun er et statsligt mandat — det er et iværksætteransvar. Ved at opbygge modstandskraft nedefra forbinder vi organisationer fra {countries} lande til selvbærende økosystemer med regional indflydelse.',
     aboutP4: 'Fra årvågenhed til genoprejsning — hver organisation forankrer sit bidrag i én eller flere af de fem moralske søjler: <strong>Årvågenhed, Omsorgspligt, Egen Styrke, Sammenhold,</strong> og <strong>Genoprejsning</strong>.',
 },
   de: {
@@ -21956,7 +21956,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Widerstandskraft',
       aboutP1: 'Der Europäische Sicherheits- & Resilienzrahmen ist das Fundament von <strong>ESRF.net</strong> — ein dezentrales Netzwerk, aufgebaut von und für Unternehmer mit lokaler Wirkung.',
     aboutP2: 'Die Stiftung lenkt Spenden, Beiträge und ausgerichtetes Kapital in Initiativen, die das Netzwerk stärken und seine Reichweite in ganz Europa erweitern.',
-    aboutP3: 'Wir glauben, dass Sicherheit nicht nur ein staatlicher Auftrag ist — es ist eine unternehmerische Verantwortung. Durch den Aufbau von Resilienz von unten verbinden wir Organisationen aus 15 Ländern zu selbsttragenden Ökosystemen mit regionaler Wirkung.',
+    aboutP3: 'Wir glauben, dass Sicherheit nicht nur ein staatlicher Auftrag ist — es ist eine unternehmerische Verantwortung. Durch den Aufbau von Resilienz von unten verbinden wir Organisationen aus {countries} Ländern zu selbsttragenden Ökosystemen mit regionaler Wirkung.',
     aboutP4: 'Von Wachsamkeit bis Widerstandskraft — jede Organisation verankert ihren Beitrag in einem oder mehreren der fünf moralischen Pfeiler: <strong>Wachsamkeit, Sorgfaltspflicht, Eigene Stärke, Verbundenheit,</strong> und <strong>Widerstandskraft</strong>.',
 },
   el: {
@@ -21967,7 +21967,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Ανανέωση',
       aboutP1: 'Το Ευρωπαϊκό Πλαίσιο Ασφάλειας & Ανθεκτικότητας αποτελεί τη βάση του <strong>ESRF.net</strong> — ενός αποκεντρωμένου δικτύου που δημιουργήθηκε από και για επιχειρηματίες με τοπικό αντίκτυπο.',
     aboutP2: 'Το ίδρυμα διοχετεύει δωρεές, εισφορές και ευθυγραμμισμένο κεφάλαιο σε πρωτοβουλίες που ενισχύουν το δίκτυο και επεκτείνουν την εμβέλειά του σε ολόκληρη την Ευρώπη.',
-    aboutP3: 'Πιστεύουμε ότι η ασφάλεια δεν είναι μόνο κρατική εντολή — είναι επιχειρηματική ευθύνη. Χτίζοντας ανθεκτικότητα από τη βάση, συνδέουμε οργανισμούς από 15 χώρες σε αυτοσυντηρούμενα οικοσυστήματα με περιφερειακό αντίκτυπο.',
+    aboutP3: 'Πιστεύουμε ότι η ασφάλεια δεν είναι μόνο κρατική εντολή — είναι επιχειρηματική ευθύνη. Χτίζοντας ανθεκτικότητα από τη βάση, συνδέουμε οργανισμούς από {countries} χώρες σε αυτοσυντηρούμενα οικοσυστήματα με περιφερειακό αντίκτυπο.',
     aboutP4: 'Από την εγρήγορση έως την ανανέωση — κάθε οργανισμός αγκυροβολεί τη συμβολή του σε έναν ή περισσότερους από τους πέντε ηθικούς πυλώνες: <strong>Εγρήγορση, Καθήκον Φροντίδας, Ίδια Δύναμη, Αλληλεγγύη,</strong> και <strong>Ανανέωση</strong>.',
 },
   es: {
@@ -21978,7 +21978,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Resiliencia',
       aboutP1: 'El Marco Europeo de Seguridad & Resiliencia es la base de <strong>ESRF.net</strong> — una red descentralizada construida por y para emprendedores con impacto local.',
     aboutP2: 'La fundación canaliza donaciones, contribuciones y capital alineado hacia iniciativas que fortalecen la red y amplían su alcance en toda Europa.',
-    aboutP3: 'Creemos que la seguridad no es solo un mandato gubernamental — es una responsabilidad empresarial. Al construir resiliencia desde la base, conectamos organizaciones de 15 países en ecosistemas autosostenibles con impacto regional.',
+    aboutP3: 'Creemos que la seguridad no es solo un mandato gubernamental — es una responsabilidad empresarial. Al construir resiliencia desde la base, conectamos organizaciones de {countries} países en ecosistemas autosostenibles con impacto regional.',
     aboutP4: 'De la vigilancia a la resiliencia — cada organización ancla su contribución en uno o más de los cinco pilares morales: <strong>Vigilancia, Deber de Protección, Fuerza Propia, Solidaridad,</strong> y <strong>Resiliencia</strong>.',
 },
   et: {
@@ -21989,7 +21989,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Taastumisvõime',
       aboutP1: 'Euroopa julgeoleku ja vastupidavuse raamistik on <strong>ESRF.net</strong> alus — detsentraliseeritud võrgustik, mille on loonud ja mis on loodud kohaliku mõjuga ettevõtjatele.',
     aboutP2: 'Sihtasutus suunab annetusi, panuseid ja joondatud kapitali algatustesse, mis tugevdavad võrgustikku ja laiendavad selle haaret kogu Euroopas.',
-    aboutP3: 'Usume, et julgeolek ei ole ainult valitsuse mandaat — see on ettevõtja vastutus. Ehitades vastupidavust alt üles, ühendame 15 riigi organisatsioone isemajandavateks ökosüsteemideks.',
+    aboutP3: 'Usume, et julgeolek ei ole ainult valitsuse mandaat — see on ettevõtja vastutus. Ehitades vastupidavust alt üles, ühendame {countries} riigi organisatsioone isemajandavateks ökosüsteemideks.',
     aboutP4: 'Valvsusest taastumisvõimeni — iga organisatsioon ankurdab oma panuse ühte või mitmesse viiest moraalsest sambast: <strong>Valvsus, Hoolitsuskohustus, Omajõud, Ühtekuuluvus,</strong> ja <strong>Taastumisvõime</strong>.',
 },
   fi: {
@@ -22000,7 +22000,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Palautumiskyky',
       aboutP1: 'Eurooppalainen turvallisuus- ja resilienssikehys on <strong>ESRF.net</strong>:n perusta — hajautettu verkosto, jonka ovat rakentaneet yrittäjät paikallisella vaikutuksella.',
     aboutP2: 'Säätiö ohjaa lahjoituksia, rahoitusta ja linjattua pääomaa hankkeisiin, jotka vahvistavat verkostoa ja laajentavat sen ulottuvuutta kaikkialle Eurooppaan.',
-    aboutP3: 'Uskomme, että turvallisuus ei ole vain hallituksen mandaatti — se on yrittäjän vastuu. Rakentamalla resilienssiä alhaalta ylöspäin yhdistämme organisaatioita 15 maasta itseään ylläpitäviksi ekosysteemeiksi.',
+    aboutP3: 'Uskomme, että turvallisuus ei ole vain hallituksen mandaatti — se on yrittäjän vastuu. Rakentamalla resilienssiä alhaalta ylöspäin yhdistämme organisaatioita {countries} maasta itseään ylläpitäviksi ekosysteemeiksi.',
     aboutP4: 'Valppaudesta palautumiskykyyn — jokainen organisaatio ankkuroi panoksensa yhteen tai useampaan viidestä moraalisesta pilarista: <strong>Valpas, Huolenpito, Oma Voima, Yhteisvoima,</strong> ja <strong>Palautumiskyky</strong>.',
 },
   fr: {
@@ -22011,7 +22011,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Résilience',
       aboutP1: 'Le Cadre Européen de Sécurité & Résilience est le fondement d\'<strong>ESRF.net</strong> — un réseau décentralisé créé par et pour les entrepreneurs à impact local.',
     aboutP2: 'La fondation canalise dons, contributions et capitaux alignés vers des initiatives qui renforcent le réseau et étendent sa portée à travers l\'Europe.',
-    aboutP3: 'Nous croyons que la sécurité n\'est pas seulement un mandat gouvernemental — c\'est une responsabilité entrepreneuriale. En construisant la résilience depuis la base, nous relions des organisations de 15 pays en écosystèmes autonomes à impact régional.',
+    aboutP3: 'Nous croyons que la sécurité n\'est pas seulement un mandat gouvernemental — c\'est une responsabilité entrepreneuriale. En construisant la résilience depuis la base, nous relions des organisations de {countries} pays en écosystèmes autonomes à impact régional.',
     aboutP4: 'De la vigilance à la résilience — chaque organisation ancre sa contribution dans un ou plusieurs des cinq piliers moraux : <strong>Vigilance, Devoir de Protection, Force Propre, Solidarité,</strong> et <strong>Résilience</strong>.',
 },
   ga: {
@@ -22022,7 +22022,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Athnuachan',
       aboutP1: 'Is é Creat Slándála & Athléimneachta na hEorpa bunús <strong>ESRF.net</strong> — líonra díláraithe tógtha ag fiontraithe agus d\'fhiontraithe le tionchar áitiúil.',
     aboutP2: 'Díríonn an foras síntiúis, ranníocaíochtaí agus caipiteal ailínithe isteach i dtionscnaimh a neartaíonn an líonra agus a leathnaíonn a shroicheadh ar fud na hEorpa.',
-    aboutP3: 'Creidimid nach sainordú rialtais amháin é slándáil — is freagracht fiontraíochta é. Trí athléimneacht a thógáil ón mbun aníos, nascaimid eagraíochtaí as 15 thír in éiceachórais fhéinchothaitheacha le tionchar réigiúnach.',
+    aboutP3: 'Creidimid nach sainordú rialtais amháin é slándáil — is freagracht fiontraíochta é. Trí athléimneacht a thógáil ón mbun aníos, nascaimid eagraíochtaí as {countries} thír in éiceachórais fhéinchothaitheacha le tionchar réigiúnach.',
     aboutP4: 'Ó fhaireachas go hathnuachan — téann gach eagraíocht i ngleic lena rannchuidiú i gceann amháin nó níos mó de na cúig cholún mhorálta: <strong>Faireachas, Dualgas Cúraim, Neart Féin, Dlúthpháirtíocht,</strong> agus <strong>Athnuachan</strong>.',
 },
   hr: {
@@ -22033,7 +22033,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Obnova',
       aboutP1: 'Europski okvir za sigurnost i otpornost temelj je <strong>ESRF.net</strong> — decentralizirane mreže koju grade poduzetnici za poduzetnike s lokalnim utjecajem.',
     aboutP2: 'Zaklada usmjerava donacije, doprinose i usklađeni kapital u inicijative koje jačaju mrežu i šire njezin doseg diljem Europe.',
-    aboutP3: 'Vjerujemo da sigurnost nije samo vladinski mandat — to je poduzetnička odgovornost. Gradeći otpornost odozdo, povezujemo organizacije iz 15 zemalja u samoodržive ekosustave s regionalnim utjecajem.',
+    aboutP3: 'Vjerujemo da sigurnost nije samo vladinski mandat — to je poduzetnička odgovornost. Gradeći otpornost odozdo, povezujemo organizacije iz {countries} zemalja u samoodržive ekosustave s regionalnim utjecajem.',
     aboutP4: 'Od budnosti do obnove — svaka organizacija učvršćuje svoj doprinos u jednom ili više od pet moralnih stupova: <strong>Budnost, Dužnost skrbi, Vlastita snaga, Solidarnost,</strong> i <strong>Obnova</strong>.',
 },
   hu: {
@@ -22044,7 +22044,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Megújulás',
       aboutP1: 'Az Európai Biztonsági és Ellenálló-képességi Keretrendszer az <strong>ESRF.net</strong> alapja — egy decentralizált hálózat, amelyet vállalkozók építettek helyi hatással.',
     aboutP2: 'Az alapítvány adományokat, hozzájárulásokat és összehangolt tőkét irányít olyan kezdeményezésekbe, amelyek erősítik a hálózatot és kiterjesztik hatókörét egész Európában.',
-    aboutP3: 'Hisszük, hogy a biztonság nem csupán kormányzati mandátum — vállalkozói felelősség. Az ellenálló képesség alulról történő építésével 15 ország szervezeteit kötjük össze önfenntartó ökoszisztémákba regionális hatással.',
+    aboutP3: 'Hisszük, hogy a biztonság nem csupán kormányzati mandátum — vállalkozói felelősség. Az ellenálló képesség alulról történő építésével {countries} ország szervezeteit kötjük össze önfenntartó ökoszisztémákba regionális hatással.',
     aboutP4: 'Az éberségtől a megújulásig — minden szervezet elkötelezettsége egy vagy több erkölcsi pillérben gyökerezik az öt közül: <strong>Éberség, Gondossági kötelezettség, Saját erő, Szolidaritás,</strong> és <strong>Megújulás</strong>.',
 },
   it: {
@@ -22055,7 +22055,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Resilienza',
       aboutP1: 'Il Quadro Europeo per la Sicurezza & Resilienza è la base di <strong>ESRF.net</strong> — una rete decentralizzata costruita da e per imprenditori con impatto locale.',
     aboutP2: 'La fondazione canalizza donazioni, contributi e capitali allineati verso iniziative che rafforzano la rete e ne ampliano la portata in tutta Europa.',
-    aboutP3: 'Crediamo che la sicurezza non sia solo un mandato governativo — è una responsabilità imprenditoriale. Costruendo resilienza dal basso, colleghiamo organizzazioni di 15 paesi in ecosistemi autosufficienti con impatto regionale.',
+    aboutP3: 'Crediamo che la sicurezza non sia solo un mandato governativo — è una responsabilità imprenditoriale. Costruendo resilienza dal basso, colleghiamo organizzazioni di {countries} paesi in ecosistemi autosufficienti con impatto regionale.',
     aboutP4: 'Dalla vigilanza alla resilienza — ogni organizzazione radica il proprio contributo in uno o più dei cinque pilastri morali: <strong>Vigilanza, Dovere di Cura, Forza Propria, Solidarietà,</strong> e <strong>Resilienza</strong>.',
 },
   lt: {
@@ -22066,7 +22066,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Atsparumas',
       aboutP1: 'Europos saugumo ir atsparumo sistema yra <strong>ESRF.net</strong> pagrindas — decentralizuotas tinklas, sukurtas verslininkų ir verslininkams su vietiniu poveikiu.',
     aboutP2: 'Fondas nukreipia aukas, įnašus ir suderintą kapitalą į iniciatyvas, kurios stiprina tinklą ir plečia jo aprėptį visoje Europoje.',
-    aboutP3: 'Tikime, kad saugumas yra ne tik vyriausybės mandatas — tai verslininkų atsakomybė. Kurdami atsparumą iš apačios, jungiame 15 šalių organizacijas į savarankiškas ekosistemas su regioniniu poveikiu.',
+    aboutP3: 'Tikime, kad saugumas yra ne tik vyriausybės mandatas — tai verslininkų atsakomybė. Kurdami atsparumą iš apačios, jungiame {countries} šalių organizacijas į savarankiškas ekosistemas su regioniniu poveikiu.',
     aboutP4: 'Nuo budrumo iki atsparumo — kiekviena organizacija įtvirtina savo indėlį viename ar keliuose iš penkių moralinių ramsčių: <strong>Budrumas, Rūpestingumo pareiga, Sava jėga, Solidarumas,</strong> ir <strong>Atsparumas</strong>.',
 },
   lv: {
@@ -22077,7 +22077,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Noturība',
       aboutP1: 'Eiropas drošības un noturības ietvars ir <strong>ESRF.net</strong> pamats — decentralizēts tīkls, ko izveidojuši uzņēmēji ar vietēju ietekmi.',
     aboutP2: 'Fonds novirza ziedojumus, ieguldījumus un saskaņotu kapitālu iniciatīvās, kas stiprina tīklu un paplašina tā sasniedzamību visā Eiropā.',
-    aboutP3: 'Mēs ticam, ka drošība nav tikai valdības mandāts — tā ir uzņēmēju atbildība. Veidojot noturību no apakšas, mēs savienojam 15 valstu organizācijas pašpietiekamās ekosistēmās ar reģionālu ietekmi.',
+    aboutP3: 'Mēs ticam, ka drošība nav tikai valdības mandāts — tā ir uzņēmēju atbildība. Veidojot noturību no apakšas, mēs savienojam {countries} valstu organizācijas pašpietiekamās ekosistēmās ar reģionālu ietekmi.',
     aboutP4: 'No modrības līdz noturībai — katra organizācija nostiprina savu ieguldījumu vienā vai vairākos no pieciem morālajiem pīlāriem: <strong>Modrība, Rūpību pienākums, Pašspēks, Solidaritāte,</strong> un <strong>Noturība</strong>.',
 },
   mt: {
@@ -22088,7 +22088,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Tiġdid',
       aboutP1: 'Il-Qafas Ewropew għas-Sigurtà u r-Reżiljenza huwa l-pedament ta\' <strong>ESRF.net</strong> — netwerk deċentralizzat mibni minn u għal intraprendituri b\'impatt lokali.',
     aboutP2: 'Il-fondazzjoni tiddirigi donazzjonijiet, kontribuzzjonijiet u kapital allineat lejn inizjattivi li jsaħħu n-netwerk u jwessgħu l-ambitu tiegħu fl-Ewropa kollha.',
-    aboutP3: 'Nemmnu li s-sigurtà mhijiex biss mandat tal-gvern — hija responsabbiltà intraprenditorjali. Billi nibnu r-reżiljenza mill-isfel, nikkonnettjaw organizzazzjonijiet minn 15-il pajjiż f\'ekosistemi awtonomi b\'impatt reġjonali.',
+    aboutP3: 'Nemmnu li s-sigurtà mhijiex biss mandat tal-gvern — hija responsabbiltà intraprenditorjali. Billi nibnu r-reżiljenza mill-isfel, nikkonnettjaw organizzazzjonijiet minn {countries} il pajjiż f\'ekosistemi awtonomi b\'impatt reġjonali.',
     aboutP4: 'Mill-viġilanza sat-tiġdid — kull organizzazzjoni tarsa l-kontribuzzjoni tagħha f\'wieħed jew aktar mill-ħames pilastri morali: <strong>Viġilanza, Dmir ta\' Kura, Saħħa Propja, Solidarjetà,</strong> u <strong>Tiġdid</strong>.',
 },
   nl: {
@@ -22099,7 +22099,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Veerkracht',
       aboutP1: 'Het Europees Kader voor Veiligheid & Weerbaarheid is de basis van <strong>ESRF.net</strong> — een decentraal netwerk gebouwd door en voor ondernemers met lokale impact.',
     aboutP2: 'De stichting leidt donaties, bijdragen en gelijkgericht kapitaal naar initiatieven die het netwerk versterken en het bereik in heel Europa vergroten.',
-    aboutP3: 'Wij geloven dat veiligheid niet alleen een overheidsmandaat is — het is een ondernemersverantwoordelijkheid. Door weerbaarheid van onderaf op te bouwen, verbinden wij organisaties uit 15 landen tot zelfredzame ecosystemen met regionale impact.',
+    aboutP3: 'Wij geloven dat veiligheid niet alleen een overheidsmandaat is — het is een ondernemersverantwoordelijkheid. Door weerbaarheid van onderaf op te bouwen, verbinden wij organisaties uit {countries} landen tot zelfredzame ecosystemen met regionale impact.',
     aboutP4: 'Van alertheid tot herstelkracht — elke organisatie verankert haar bijdrage in één of meer van de vijf morele pijlers: <strong>Waakzaamheid, Zorgplicht, Eigen Kracht, Verbindingskracht,</strong> en <strong>Veerkracht</strong>.',
 },
   no: {
@@ -22110,7 +22110,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Motstandskraft',
       aboutP1: 'Det Europeiske Sikkerhets- & Resiliensrammeverket er fundamentet for <strong>ESRF.net</strong> — et desentralisert nettverk bygget av og for entreprenører med lokal gjennomslagskraft.',
     aboutP2: 'Stiftelsen kanaliserer donasjoner, bidrag og innrettet kapital til initiativer som styrker nettverket og utvider dets rekkevidde i hele Europa.',
-    aboutP3: 'Vi mener at sikkerhet ikke bare er et statlig mandat — det er et entreprenøransvar. Ved å bygge motstandskraft nedenfra kobler vi organisasjoner fra 15 land til selvbærende økosystemer med regional gjennomslagskraft.',
+    aboutP3: 'Vi mener at sikkerhet ikke bare er et statlig mandat — det er et entreprenøransvar. Ved å bygge motstandskraft nedenfra kobler vi organisasjoner fra {countries} land til selvbærende økosystemer med regional gjennomslagskraft.',
     aboutP4: 'Fra årvåkenhet til motstandskraft — hver organisasjon forankrer sitt bidrag i én eller flere av de fem moralske søylene: <strong>Årvåkenhet, Omsorgsplikt, Egen Styrke, Samhold,</strong> og <strong>Motstandskraft</strong>.',
 },
   pl: {
@@ -22121,7 +22121,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Odporność',
       aboutP1: 'Europejskie Ramy Bezpieczeństwa i Odporności to fundament <strong>ESRF.net</strong> — zdecentralizowanej sieci tworzonej przez przedsiębiorców i dla nich, z lokalnym wpływem.',
     aboutP2: 'Fundacja kieruje darowizny, wkłady i odpowiednio ukierunkowany kapitał na inicjatywy wzmacniające sieć i poszerzające jej zasięg w całej Europie.',
-    aboutP3: 'Wierzymy, że bezpieczeństwo to nie tylko mandat rządowy — to odpowiedzialność przedsiębiorców. Budując odporność oddolnie, łączymy organizacje z 15 krajów w samowystarczalne ekosystemy o regionalnym wpływie.',
+    aboutP3: 'Wierzymy, że bezpieczeństwo to nie tylko mandat rządowy — to odpowiedzialność przedsiębiorców. Budując odporność oddolnie, łączymy organizacje z {countries} krajów w samowystarczalne ekosystemy o regionalnym wpływie.',
     aboutP4: 'Od czujności do odporności — każda organizacja zakorzeniona jest w jednym lub kilku z pięciu filarów moralnych: <strong>Czujność, Troska, Własna Siła, Solidarność,</strong> i <strong>Odporność</strong>.',
 },
   pt: {
@@ -22132,7 +22132,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Resiliência',
       aboutP1: 'O Quadro Europeu de Segurança & Resiliência é a base da <strong>ESRF.net</strong> — uma rede descentralizada construída por e para empreendedores com impacto local.',
     aboutP2: 'A fundação canaliza doações, contribuições e capital alinhado para iniciativas que fortalecem a rede e expandem o seu alcance por toda a Europa.',
-    aboutP3: 'Acreditamos que a segurança não é apenas um mandato governamental — é uma responsabilidade empreendedora. Ao construir resiliência a partir da base, ligamos organizações de 15 países em ecossistemas autossustentáveis com impacto regional.',
+    aboutP3: 'Acreditamos que a segurança não é apenas um mandato governamental — é uma responsabilidade empreendedora. Ao construir resiliência a partir da base, ligamos organizações de {countries} países em ecossistemas autossustentáveis com impacto regional.',
     aboutP4: 'Da vigilância à resiliência — cada organização ancora a sua contribuição num ou mais dos cinco pilares morais: <strong>Vigilância, Dever de Proteção, Força Própria, Solidariedade,</strong> e <strong>Resiliência</strong>.',
 },
   ro: {
@@ -22143,7 +22143,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Reînnoire',
       aboutP1: 'Cadrul European de Securitate și Reziliență este fundamentul <strong>ESRF.net</strong> — o rețea descentralizată construită de și pentru antreprenori cu impact local.',
     aboutP2: 'Fundația canalizează donații, contribuții și capital aliniat către inițiative care consolidează rețeaua și îi extind aria de acoperire în toată Europa.',
-    aboutP3: 'Credem că securitatea nu este doar un mandat guvernamental — este o responsabilitate antreprenorială. Construind reziliență de jos în sus, conectăm organizații din 15 țări în ecosisteme autosustenabile cu impact regional.',
+    aboutP3: 'Credem că securitatea nu este doar un mandat guvernamental — este o responsabilitate antreprenorială. Construind reziliență de jos în sus, conectăm organizații din {countries} țări în ecosisteme autosustenabile cu impact regional.',
     aboutP4: 'De la vigilență la reînnoire — fiecare organizație își ancorează contribuția într-unul sau mai mulți dintre cei cinci piloni morali: <strong>Vigilență, Datoria de îngrijire, Forță proprie, Solidaritate,</strong> și <strong>Reînnoire</strong>.',
 },
   sk: {
@@ -22154,7 +22154,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Obnova',
       aboutP1: 'Európsky rámec bezpečnosti a odolnosti je základom <strong>ESRF.net</strong> — decentralizovanej siete vytvorenej podnikateľmi pre podnikateľov s miestnym dopadom.',
     aboutP2: 'Nadácia smeruje dary, príspevky a zosúladený kapitál do iniciatív, ktoré posilňujú sieť a rozširujú jej dosah v celej Európe.',
-    aboutP3: 'Veríme, že bezpečnosť nie je len vládnym mandátom — je to podnikateľská zodpovednosť. Budovaním odolnosti zdola spájame organizácie z 15 krajín do sebestačných ekosystémov s regionálnym dopadom.',
+    aboutP3: 'Veríme, že bezpečnosť nie je len vládnym mandátom — je to podnikateľská zodpovednosť. Budovaním odolnosti zdola spájame organizácie z {countries} krajín do sebestačných ekosystémov s regionálnym dopadom.',
     aboutP4: 'Od bdelosti po obnovu — každá organizácia zakotvuje svoj príspevok v jednom alebo viacerých z piatich morálnych pilierov: <strong>Bdelosť, Povinnosť starostlivosti, Vlastná sila, Solidarita,</strong> a <strong>Obnova</strong>.',
 },
   sl: {
@@ -22165,7 +22165,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Prenova',
       aboutP1: 'Evropski okvir za varnost in odpornost je temelj <strong>ESRF.net</strong> — decentraliziranega omrežja, ki so ga zgradili podjetniki za podjetniške z lokalnim vplivom.',
     aboutP2: 'Fundacija usmerja donacije, prispevke in usklajeni kapital v pobude, ki krepijo omrežje in širijo njegov doseg po vsej Evropi.',
-    aboutP3: 'Verjamemo, da varnost ni le vladni mandat — je podjetniška odgovornost. Z gradnjo odpornosti od spodaj navzgor povezujemo organizacije iz 15 držav v samovzdržne ekosisteme z regionalnim vplivom.',
+    aboutP3: 'Verjamemo, da varnost ni le vladni mandat — je podjetniška odgovornost. Z gradnjo odpornosti od spodaj navzgor povezujemo organizacije iz {countries} držav v samovzdržne ekosisteme z regionalnim vplivom.',
     aboutP4: 'Od budnosti do prenove — vsaka organizacija utrjuje svoj prispevek v enem ali več od petih moralnih stebrov: <strong>Budnost, Dolžnost skrbi, Lastna moč, Solidarnost,</strong> in <strong>Prenova</strong>.',
 },
   sv: {
@@ -22176,7 +22176,7 @@ const PILLAR_LABELS_I18N = {
     recover: 'Återhämtning',
       aboutP1: 'Det Europeiska Säkerhets- & Resiliensramverket är grunden för <strong>ESRF.net</strong> — ett decentraliserat nätverk byggt av och för entreprenörer med lokal genomslagskraft.',
     aboutP2: 'Stiftelsen kanaliserar donationer, bidrag och likasinnat kapital till initiativ som stärker nätverket och utökar dess räckvidd i hela Europa.',
-    aboutP3: 'Vi tror att säkerhet inte bara är ett statligt mandat — det är ett entreprenörsansvar. Genom att bygga motståndskraft underifrån förbinder vi organisationer från 15 länder till självbärande ekosystem med regional genomslagskraft.',
+    aboutP3: 'Vi tror att säkerhet inte bara är ett statligt mandat — det är ett entreprenörsansvar. Genom att bygga motståndskraft underifrån förbinder vi organisationer från {countries} länder till självbärande ekosystem med regional genomslagskraft.',
     aboutP4: 'Från vaksamhet till återhämtning — varje organisation förankrar sitt bidrag i en eller flera av de fem moraliska pelarna: <strong>Vaksamhet, Omsorgsplikt, Egen Kraft, Sammanhållning,</strong> och <strong>Återhämtning</strong>.',
 },
 };;
@@ -22241,7 +22241,7 @@ const UI = {
     navPillars: 'Pillars',
     navAbout: 'About',
     joinCtaTitle: 'Missing from the directory?',
-    joinCtaDesc: 'Listed organisations gain visibility across 15 countries, automatic news monitoring, and access to the ESRF intelligence network.',
+    joinCtaDesc: 'Listed organisations gain visibility across {countries} countries, automatic news monitoring, and access to the ESRF intelligence network.',
     joinCtaBtn: 'Request listing',
     heroBadge: 'RESILIENCE FRAMEWORK ACTIVE',
     heroTitle: 'European Security &\nResilience Community',
@@ -22294,7 +22294,7 @@ const UI = {
     navPillars: 'Стълбове',
     navAbout: 'За нас',
     joinCtaTitle: 'Липсвате в указателя?',
-    joinCtaDesc: 'Включените организации получават видимост в 15 страни и автоматичен мониторинг на новини.',
+    joinCtaDesc: 'Включените организации получават видимост в {countries} страни и автоматичен мониторинг на новини.',
     joinCtaBtn: 'Заявете включване',
     heroBadge: 'РАМКАТА ЗА УСТОЙЧИВОСТ Е АКТИВНА',
     heroTitle: 'Европейска общност за\nсигурност и устойчивост',
@@ -22347,7 +22347,7 @@ const UI = {
     navPillars: 'Pilíře',
     navAbout: 'O nás',
     joinCtaTitle: 'Chybíte v adresáři?',
-    joinCtaDesc: 'Uvedené organizace získávají viditelnost v 15 zemích a automatický monitoring zpráv.',
+    joinCtaDesc: 'Uvedené organizace získávají viditelnost v {countries} zemích a automatický monitoring zpráv.',
     joinCtaBtn: 'Požádat o zařazení',
     heroBadge: 'RÁMEC ODOLNOSTI JE AKTIVNÍ',
     heroTitle: 'Evropská komunita pro\nbezpečnost a odolnost',
@@ -22400,7 +22400,7 @@ const UI = {
     navPillars: 'Søjler',
     navAbout: 'Om os',
     joinCtaTitle: 'Mangler du i kataloget?',
-    joinCtaDesc: 'Registrerede organisationer får synlighed i 15 lande og automatisk nyhedsovervågning.',
+    joinCtaDesc: 'Registrerede organisationer får synlighed i {countries} lande og automatisk nyhedsovervågning.',
     joinCtaBtn: 'Anmod om optagelse',
     heroBadge: 'RESILIENRAMME AKTIV',
     heroTitle: 'Europæisk Sikkerheds- &\nResilienssamfund',
@@ -22453,7 +22453,7 @@ const UI = {
     navPillars: 'Pfeiler',
     navAbout: 'Über uns',
     joinCtaTitle: 'Nicht im Verzeichnis?',
-    joinCtaDesc: 'Gelistete Organisationen erhalten Sichtbarkeit in 15 Ländern und automatisches Nachrichtenmonitoring.',
+    joinCtaDesc: 'Gelistete Organisationen erhalten Sichtbarkeit in {countries} Ländern und automatisches Nachrichtenmonitoring.',
     joinCtaBtn: 'Aufnahme beantragen',
     heroBadge: 'RESILIENZRAHMEN AKTIV',
     heroTitle: 'Europäische Sicherheits- &\nResilienz-Community',
@@ -22506,7 +22506,7 @@ const UI = {
     navPillars: 'Πυλώνες',
     navAbout: 'Σχετικά',
     joinCtaTitle: 'Λείπετε από τον κατάλογο;',
-    joinCtaDesc: 'Οι καταχωρημένοι οργανισμοί αποκτούν ορατότητα σε 15 χώρες και αυτόματη παρακολούθηση ειδήσεων.',
+    joinCtaDesc: 'Οι καταχωρημένοι οργανισμοί αποκτούν ορατότητα σε {countries} χώρες και αυτόματη παρακολούθηση ειδήσεων.',
     joinCtaBtn: 'Αίτηση εγγραφής',
     heroBadge: 'ΤΟ ΠΛΑΊΣΙΟ ΑΝΘΕΚΤΙΚΌΤΗΤΑΣ ΕΊΝΑΙ ΕΝΕΡΓΌ',
     heroTitle: 'Ευρωπαϊκή κοινότητα για\nασφάλεια και ανθεκτικότητα',
@@ -22559,7 +22559,7 @@ const UI = {
     navPillars: 'Pilares',
     navAbout: 'Acerca de',
     joinCtaTitle: '¿No aparece en el directorio?',
-    joinCtaDesc: 'Las organizaciones listadas obtienen visibilidad en 15 países y monitoreo automático de noticias.',
+    joinCtaDesc: 'Las organizaciones listadas obtienen visibilidad en {countries} países y monitoreo automático de noticias.',
     joinCtaBtn: 'Solicitar registro',
     heroBadge: 'MARCO DE RESILIENCIA ACTIVO',
     heroTitle: 'Comunidad Europea de\nSeguridad y Resiliencia',
@@ -22612,7 +22612,7 @@ const UI = {
     navPillars: 'Sambad',
     navAbout: 'Meist',
     joinCtaTitle: 'Puudute kataloogist?',
-    joinCtaDesc: 'Loetletud organisatsioonid saavad nähtavuse 15 riigis ja automaatse uudiste jälgimise.',
+    joinCtaDesc: 'Loetletud organisatsioonid saavad nähtavuse {countries} riigis ja automaatse uudiste jälgimise.',
     joinCtaBtn: 'Taotlege lisamist',
     heroBadge: 'VASTUPIDAVUSRAAMISTIK AKTIIVNE',
     heroTitle: 'Euroopa Julgeoleku- &\nVastupidavusühendus',
@@ -22665,7 +22665,7 @@ const UI = {
     navPillars: 'Pilarit',
     navAbout: 'Tietoja',
     joinCtaTitle: 'Puuttuuko luettelosta?',
-    joinCtaDesc: 'Luetellut organisaatiot saavat näkyvyyttä 15 maassa ja automaattisen uutisseurannan.',
+    joinCtaDesc: 'Luetellut organisaatiot saavat näkyvyyttä {countries} maassa ja automaattisen uutisseurannan.',
     joinCtaBtn: 'Pyydä lisäystä',
     heroBadge: 'RESILIENSSIVIITEKEHYS AKTIIVINEN',
     heroTitle: 'Eurooppalainen turvallisuus- &\nresilienssiyhteisö',
@@ -22718,7 +22718,7 @@ const UI = {
     navPillars: 'Piliers',
     navAbout: 'À propos',
     joinCtaTitle: 'Absent du répertoire ?',
-    joinCtaDesc: 'Les organisations répertoriées bénéficient d\'une visibilité dans 15 pays et d\'un suivi automatique des actualités.',
+    joinCtaDesc: 'Les organisations répertoriées bénéficient d\'une visibilité dans {countries} pays et d\'un suivi automatique des actualités.',
     joinCtaBtn: 'Demander une inscription',
     heroBadge: 'CADRE DE RÉSILIENCE ACTIF',
     heroTitle: 'Communauté Européenne de\nSécurité & Résilience',
@@ -22771,7 +22771,7 @@ const UI = {
     navPillars: 'Colúin',
     navAbout: 'Maidir linn',
     joinCtaTitle: 'In easnamh ón eolaire?',
-    joinCtaDesc: 'Faigheann eagraíochtaí liostaithe infheictheacht i 15 thír agus monatóireacht nuachta uathoibríoch.',
+    joinCtaDesc: 'Faigheann eagraíochtaí liostaithe infheictheacht i {countries} thír agus monatóireacht nuachta uathoibríoch.',
     joinCtaBtn: 'Iarr liostú',
     heroBadge: 'CREAT ATHLÉIMNEACHTA GNÍOMHACH',
     heroTitle: 'Pobal Eorpach um\nShlándáil agus Athléimneacht',
@@ -22824,7 +22824,7 @@ const UI = {
     navPillars: 'Stupovi',
     navAbout: 'O nama',
     joinCtaTitle: 'Nedostajete u imeniku?',
-    joinCtaDesc: 'Navedene organizacije dobivaju vidljivost u 15 zemalja i automatsko praćenje vijesti.',
+    joinCtaDesc: 'Navedene organizacije dobivaju vidljivost u {countries} zemalja i automatsko praćenje vijesti.',
     joinCtaBtn: 'Zatražite uvrštavanje',
     heroBadge: 'OKVIR OTPORNOSTI JE AKTIVAN',
     heroTitle: 'Europska zajednica za\nsigurnost i otpornost',
@@ -22877,7 +22877,7 @@ const UI = {
     navPillars: 'Pillérek',
     navAbout: 'Rólunk',
     joinCtaTitle: 'Hiányzik a névjegyzékből?',
-    joinCtaDesc: 'A felsorolt szervezetek 15 országban kapnak láthatóságot és automatikus hírfigyelést.',
+    joinCtaDesc: 'A felsorolt szervezetek {countries} országban kapnak láthatóságot és automatikus hírfigyelést.',
     joinCtaBtn: 'Felvétel kérése',
     heroBadge: 'A REZILIENCIA KERETRENDSZER AKTÍV',
     heroTitle: 'Európai közösség a\nbiztonságért és rezilienciáért',
@@ -22930,7 +22930,7 @@ const UI = {
     navPillars: 'Pilastri',
     navAbout: 'Chi siamo',
     joinCtaTitle: 'Non siete nell\'elenco?',
-    joinCtaDesc: 'Le organizzazioni elencate ottengono visibilità in 15 paesi e monitoraggio automatico delle notizie.',
+    joinCtaDesc: 'Le organizzazioni elencate ottengono visibilità in {countries} paesi e monitoraggio automatico delle notizie.',
     joinCtaBtn: 'Richiedi inserimento',
     heroBadge: 'QUADRO DI RESILIENZA ATTIVO',
     heroTitle: 'Comunità Europea di\nSicurezza e Resilienza',
@@ -22983,7 +22983,7 @@ const UI = {
     navPillars: 'Ramsčiai',
     navAbout: 'Apie mus',
     joinCtaTitle: 'Trūksta kataloge?',
-    joinCtaDesc: 'Įtrauktos organizacijos įgyja matomumą 15 šalių ir automatinį naujienų stebėjimą.',
+    joinCtaDesc: 'Įtrauktos organizacijos įgyja matomumą {countries} šalių ir automatinį naujienų stebėjimą.',
     joinCtaBtn: 'Prašyti įtraukimo',
     heroBadge: 'ATSPARUMO SISTEMA AKTYVI',
     heroTitle: 'Europos Saugumo &\nAtsparumo Bendruomenė',
@@ -23036,7 +23036,7 @@ const UI = {
     navPillars: 'Pīlāri',
     navAbout: 'Par mums',
     joinCtaTitle: 'Trūkst katalogā?',
-    joinCtaDesc: 'Iekļautās organizācijas iegūst redzamību 15 valstīs un automātisku ziņu uzraudzību.',
+    joinCtaDesc: 'Iekļautās organizācijas iegūst redzamību {countries} valstīs un automātisku ziņu uzraudzību.',
     joinCtaBtn: 'Pieprasīt iekļaušanu',
     heroBadge: 'NOTURĪBAS IETVARS AKTĪVS',
     heroTitle: 'Eiropas Drošības &\nNoturības Kopiena',
@@ -23089,7 +23089,7 @@ const UI = {
     navPillars: 'Pilastri',
     navAbout: 'Dwarna',
     joinCtaTitle: 'Nieqes fid-direttorju?',
-    joinCtaDesc: 'Organizzazzjonijiet elenkati jiksbu viżibbiltà f\'15-il pajjiż u monitoraġġ awtomatiku tal-aħbarijiet.',
+    joinCtaDesc: 'Organizzazzjonijiet elenkati jiksbu viżibbiltà f\'{countries}-il pajjiż u monitoraġġ awtomatiku tal-aħbarijiet.',
     joinCtaBtn: 'Itlob elenkar',
     heroBadge: 'IL-QAFAS TAR-REŻILJENZA ATTIV',
     heroTitle: 'Komunità Ewropea għas-\nSigurtà u r-Reżiljenza',
@@ -23142,7 +23142,7 @@ const UI = {
     navPillars: 'Pijlers',
     navAbout: 'Over ons',
     joinCtaTitle: 'Ontbreekt u in de directory?',
-    joinCtaDesc: 'Opgenomen organisaties krijgen zichtbaarheid in 15 landen, automatische nieuwsmonitoring en toegang tot het ESRF-inlichtingennetwerk.',
+    joinCtaDesc: 'Opgenomen organisaties krijgen zichtbaarheid in {countries} landen, automatische nieuwsmonitoring en toegang tot het ESRF-inlichtingennetwerk.',
     joinCtaBtn: 'Aanmelden',
     heroBadge: 'WEERBAARHEIDSKADER ACTIEF',
     heroTitle: 'Europese Gemeenschap voor\nVeiligheid & Weerbaarheid',
@@ -23195,7 +23195,7 @@ const UI = {
     navPillars: 'Søyler',
     navAbout: 'Om oss',
     joinCtaTitle: 'Mangler i katalogen?',
-    joinCtaDesc: 'Oppførte organisasjoner får synlighet i 15 land og automatisk nyhetsovervåking.',
+    joinCtaDesc: 'Oppførte organisasjoner får synlighet i {countries} land og automatisk nyhetsovervåking.',
     joinCtaBtn: 'Be om oppføring',
     heroBadge: 'RESILIENRAMMEVERK AKTIVT',
     heroTitle: 'Europeisk Sikkerhets- &\nResiliensamfunn',
@@ -23248,7 +23248,7 @@ const UI = {
     navPillars: 'Filary',
     navAbout: 'O nas',
     joinCtaTitle: 'Brakuje w katalogu?',
-    joinCtaDesc: 'Wymienione organizacje zyskują widoczność w 15 krajach i automatyczny monitoring wiadomości.',
+    joinCtaDesc: 'Wymienione organizacje zyskują widoczność w {countries} krajach i automatyczny monitoring wiadomości.',
     joinCtaBtn: 'Poproś o wpis',
     heroBadge: 'RAMY ODPORNOŚCI AKTYWNE',
     heroTitle: 'Europejska Społeczność\nBezpieczeństwa i Odporności',
@@ -23301,7 +23301,7 @@ const UI = {
     navPillars: 'Pilares',
     navAbout: 'Sobre',
     joinCtaTitle: 'Ausente do diretório?',
-    joinCtaDesc: 'As organizações listadas ganham visibilidade em 15 países e monitoramento automático de notícias.',
+    joinCtaDesc: 'As organizações listadas ganham visibilidade em {countries} países e monitoramento automático de notícias.',
     joinCtaBtn: 'Solicitar registo',
     heroBadge: 'QUADRO DE RESILIÊNCIA ATIVO',
     heroTitle: 'Comunidade Europeia de\nSegurança e Resiliência',
@@ -23354,7 +23354,7 @@ const UI = {
     navPillars: 'Piloni',
     navAbout: 'Despre noi',
     joinCtaTitle: 'Lipsești din director?',
-    joinCtaDesc: 'Organizațiile listate obțin vizibilitate în 15 țări și monitorizare automată a știrilor.',
+    joinCtaDesc: 'Organizațiile listate obțin vizibilitate în {countries} țări și monitorizare automată a știrilor.',
     joinCtaBtn: 'Solicită listarea',
     heroBadge: 'CADRUL DE REZILIENȚĂ ESTE ACTIV',
     heroTitle: 'Comunitatea Europeană pentru\nSecuritate și Reziliență',
@@ -23407,7 +23407,7 @@ const UI = {
     navPillars: 'Piliere',
     navAbout: 'O nás',
     joinCtaTitle: 'Chýbate v adresári?',
-    joinCtaDesc: 'Uvedené organizácie získavajú viditeľnosť v 15 krajinách a automatický monitoring správ.',
+    joinCtaDesc: 'Uvedené organizácie získavajú viditeľnosť v {countries} krajinách a automatický monitoring správ.',
     joinCtaBtn: 'Požiadať o zaradenie',
     heroBadge: 'RÁMEC ODOLNOSTI JE AKTÍVNY',
     heroTitle: 'Európska komunita pre\nbezpečnosť a odolnosť',
@@ -23460,7 +23460,7 @@ const UI = {
     navPillars: 'Stebri',
     navAbout: 'O nas',
     joinCtaTitle: 'Manjkate v imeniku?',
-    joinCtaDesc: 'Navedene organizacije pridobijo vidnost v 15 državah in samodejno spremljanje novic.',
+    joinCtaDesc: 'Navedene organizacije pridobijo vidnost v {countries} državah in samodejno spremljanje novic.',
     joinCtaBtn: 'Zaprosite uvrstitev',
     heroBadge: 'OKVIR ODPORNOSTI JE AKTIVEN',
     heroTitle: 'Evropska skupnost za\nvarnost in odpornost',
@@ -23513,7 +23513,7 @@ const UI = {
     navPillars: 'Pelare',
     navAbout: 'Om oss',
     joinCtaTitle: 'Saknas i katalogen?',
-    joinCtaDesc: 'Listade organisationer får synlighet i 15 länder och automatisk nyhetsbevakning.',
+    joinCtaDesc: 'Listade organisationer får synlighet i {countries} länder och automatisk nyhetsbevakning.',
     joinCtaBtn: 'Begär registrering',
     heroBadge: 'RESILIENRAMVERK AKTIVT',
     heroTitle: 'Europeiskt Säkerhets- &\nResilienssamhälle',
@@ -23592,9 +23592,10 @@ function applyLanguage(lang) {
     const key = el.dataset.i18n;
     if (strings[key] !== undefined) {
       let text = strings[key];
-      if (key === 'heroSubtitle') {
+      // Dynamic placeholders: {total}, {countries}
+      if (text.includes('{total}') || text.includes('{countries}')) {
         const countries = new Set(COMPANIES.map(c => c.country)).size;
-        text = text.replace('{total}', COMPANIES.length).replace('{countries}', countries);
+        text = text.replace('{total}', COMPANIES.length.toLocaleString()).replace('{countries}', countries);
       }
       if (typeof text === 'string' && (text.includes('\n') || text.includes('<'))) {
         el.innerHTML = text.replace(/\n/g, '<br>');
@@ -24185,6 +24186,41 @@ function initHamburger() {
 }
 
 // ── Main init ──────────────────────────────────────────────
+// ── Count-up animation ─────────────────────────────────
+function animateCount(el, target, duration) {
+  if (!el) return;
+  const start = 0;
+  const startTime = performance.now();
+  function step(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease-out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(start + (target - start) * eased).toLocaleString();
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ── Intersection Observer for count-up ──────────────────
+function initCountUpObserver() {
+  const statsSection = document.querySelector('.about-stats');
+  if (!statsSection) return;
+  let animated = false;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !animated) {
+        animated = true;
+        const countries = new Set(COMPANIES.map(c => c.country)).size;
+        animateCount(document.getElementById('aboutOrgCount'), COMPANIES.length, 1800);
+        animateCount(document.getElementById('aboutCountryCount'), countries, 1200);
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+  observer.observe(statsSection);
+}
+
 function init() {
   const countries = new Set(COMPANIES.map(c => c.country)).size;
 
@@ -24195,6 +24231,18 @@ function init() {
       .replace('{total}', COMPANIES.length)
       .replace('{countries}', countries);
   }
+
+  // About section stats (dynamic from COMPANIES data)
+  const orgCountEl = document.getElementById('aboutOrgCount');
+  const countryCountEl = document.getElementById('aboutCountryCount');
+  if (orgCountEl) orgCountEl.textContent = COMPANIES.length.toLocaleString();
+  if (countryCountEl) countryCountEl.textContent = countries;
+
+  // Start count-up animation when stats scroll into view
+  // (resets to 0 first, animates on visibility)
+  if (orgCountEl) orgCountEl.textContent = '0';
+  if (countryCountEl) countryCountEl.textContent = '0';
+  initCountUpObserver();
 
   // Pillar counts
   const counts = getPillarCounts();
