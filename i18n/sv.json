@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "foundation": "Stiftelse",
+    "directory": "Katalog",
+    "atlas": "Atlas",
+    "analytics": "Analyser",
+    "dispatch": "Nyhetsbrev",
+    "request_listing": "Begär listning"
+  },
+  "common": {
+    "visit": "Besök →",
+    "visit_arrow": "↗",
+    "read_more": "Läs mer →",
+    "search": "Sök",
+    "all": "Alla",
+    "back_to_top": "Tillbaka till toppen ↑",
+    "organisations": "organisationer",
+    "countries": "länder",
+    "sectors": "sektorer",
+    "pillars": "pelare",
+    "articles": "artiklar",
+    "shown": "visat",
+    "load_more": "Ladda fler →",
+    "no_results": "Inga organisationer matchar dessa filter.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "pillar": "Pelare",
+    "sector": "Sektor",
+    "country": "Land",
+    "all_pillars": "Alla",
+    "all_sectors": "Alla sektorer",
+    "all_countries": "Alla länder",
+    "search_placeholder": "Sök efter namn, stad, beskrivning…",
+    "search_organisations": "Sök organisationer…",
+    "prevent": "Förebygga · Vaksamhet",
+    "protect": "Skydda · Förvaltarskap",
+    "prepare": "Förbereda · Bemyndigande",
+    "respond": "Reagera · Solidaritet",
+    "recover": "Återhämta · Förnyelse"
+  },
+  "cta": {
+    "request_listing": "Begär listning →",
+    "browse_directory": "Bläddra i katalogen →",
+    "see_analytics": "Se analyser →",
+    "open_atlas": "Öppna hela atlasen →",
+    "read_dispatch": "Läs hela nyhetsbrevet →",
+    "read_charter": "Läs stadgan →",
+    "read_figures": "Läs alla figurer →"
+  },
+  "lang": {
+    "select": "Välj språk"
+  },
+  "index": {
+    "title": "ESRF.net — Europeisk Gemenskap för Säkerhet och Motståndskraft",
+    "hero_title_1": "Människorna",
+    "hero_title_2": "som håller",
+    "hero_title_3": "Europa",
+    "hero_title_4": "tillsammans."
+  },
+  "directory": {
+    "title": "Katalog — ESRF.net",
+    "hero_title": "Praktikkatalogen."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Gemenskapsatlas"
+  },
+  "analytics": {
+    "title": "Analyser — ESRF.net",
+    "hero_title": "Mönster i nätverket."
+  },
+  "news": {
+    "title": "Nyhetsbrev — ESRF.net",
+    "hero_title": "Från kontinenten."
+  },
+  "about": {
+    "title": "Stiftelse — ESRF.net",
+    "hero_title": "Ett Europa som håller."
+  },
+  "footer": {
+    "community": "Gemenskap",
+    "foundation": "Stiftelse",
+    "legal": "Rättsligt",
+    "contact": "Kontakt",
+    "privacy": "Integritet",
+    "terms": "Villkor"
+  }
+}

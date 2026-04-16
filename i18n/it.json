@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "foundation": "Fondazione",
+    "directory": "Elenco",
+    "atlas": "Atlante",
+    "analytics": "Analisi",
+    "dispatch": "Bollettino",
+    "request_listing": "Richiesta di inserimento"
+  },
+  "common": {
+    "visit": "Visita →",
+    "visit_arrow": "↗",
+    "read_more": "Leggi di più →",
+    "search": "Cerca",
+    "all": "Tutti",
+    "back_to_top": "Torna su ↑",
+    "organisations": "organizzazioni",
+    "countries": "paesi",
+    "sectors": "settori",
+    "pillars": "pilastri",
+    "articles": "articoli",
+    "shown": "mostrato",
+    "load_more": "Carica altro →",
+    "no_results": "Nessuna organizzazione corrisponde a questi filtri.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "pillar": "Pilastro",
+    "sector": "Settore",
+    "country": "Paese",
+    "all_pillars": "Tutti",
+    "all_sectors": "Tutti i settori",
+    "all_countries": "Tutti i paesi",
+    "search_placeholder": "Cerca per nome, città, descrizione…",
+    "search_organisations": "Cerca organizzazioni…",
+    "prevent": "Prevenire · Vigilanza",
+    "protect": "Proteggere · Gestione",
+    "prepare": "Preparare · Empowerment",
+    "respond": "Rispondere · Solidarietà",
+    "recover": "Recuperare · Rinnovamento"
+  },
+  "cta": {
+    "request_listing": "Richiesta di inserimento →",
+    "browse_directory": "Sfoglia l'elenco →",
+    "see_analytics": "Guarda le analisi →",
+    "open_atlas": "Apri l'atlante completo →",
+    "read_dispatch": "Leggi il bollettino completo →",
+    "read_charter": "Leggi la carta →",
+    "read_figures": "Leggi tutte le figure →"
+  },
+  "lang": {
+    "select": "Seleziona lingua"
+  },
+  "index": {
+    "title": "ESRF.net — Comunità Europea di Sicurezza e Resilienza",
+    "hero_title_1": "Le persone",
+    "hero_title_2": "che tengono",
+    "hero_title_3": "l'Europa",
+    "hero_title_4": "unita."
+  },
+  "directory": {
+    "title": "Elenco — ESRF.net",
+    "hero_title": "L'elenco della pratica."
+  },
+  "map": {
+    "title": "Atlante — ESRF.net",
+    "heading": "Atlante della Comunità"
+  },
+  "analytics": {
+    "title": "Analisi — ESRF.net",
+    "hero_title": "Schemi nella rete."
+  },
+  "news": {
+    "title": "Bollettino — ESRF.net",
+    "hero_title": "Dal continente."
+  },
+  "about": {
+    "title": "Fondazione — ESRF.net",
+    "hero_title": "Un'Europa che regge."
+  },
+  "footer": {
+    "community": "Comunità",
+    "foundation": "Fondazione",
+    "legal": "Legale",
+    "contact": "Contatto",
+    "privacy": "Privacy",
+    "terms": "Termini"
+  }
+}

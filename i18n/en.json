@@ -1,0 +1,176 @@
+{
+  "nav": {
+    "foundation": "Foundation",
+    "directory": "Directory",
+    "atlas": "Atlas",
+    "analytics": "Analytics",
+    "dispatch": "Dispatch",
+    "request_listing": "Request listing"
+  },
+  "common": {
+    "visit": "Visit →",
+    "visit_arrow": "↗",
+    "read_more": "Read more →",
+    "search": "Search",
+    "all": "All",
+    "back_to_top": "Back to top ↑",
+    "organisations": "organisations",
+    "countries": "countries",
+    "sectors": "sectors",
+    "pillars": "pillars",
+    "articles": "articles",
+    "shown": "shown",
+    "load_more": "Load more →",
+    "no_results": "No organisations match these filters.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "pillar": "Pillar",
+    "sector": "Sector",
+    "country": "Country",
+    "all_pillars": "All",
+    "all_sectors": "All sectors",
+    "all_countries": "All countries",
+    "search_placeholder": "Search by name, city, description…",
+    "search_organisations": "Search organisations…",
+    "prevent": "Prevent · Vigilance",
+    "protect": "Protect · Stewardship",
+    "prepare": "Prepare · Empowerment",
+    "respond": "Respond · Solidarity",
+    "recover": "Recover · Renewal"
+  },
+  "cta": {
+    "request_listing": "Request your listing →",
+    "browse_directory": "Browse the directory →",
+    "see_analytics": "See analytics →",
+    "open_atlas": "Open the full atlas →",
+    "read_dispatch": "Read the full dispatch →",
+    "read_charter": "Read the charter →",
+    "read_figures": "Read all three figures →"
+  },
+  "lang": {
+    "select": "Select language"
+  },
+  "index": {
+    "title": "ESRF.net — European Security & Resilience Community",
+    "description": "ESRF.net is a decentralised community of 1,892 organisations across 29 European countries working to strengthen security and resilience through ten vital sectors and five moral principles.",
+    "hero_kicker": "Human Atlas · Spring 2026",
+    "hero_title_1": "The people",
+    "hero_title_2": "who hold",
+    "hero_title_3": "Europe",
+    "hero_title_4": "together.",
+    "hero_deck": "Where governments set policy and international bodies coordinate, ESRF.net unites the businesses, institutions and citizens whose daily work quietly sustains our shared life — a decentralised framework powered by the organisations that drive the economy.",
+    "hero_caption": "A community of practitioners, spanning twenty-nine nations, bound by five moral principles.",
+    "scroll_hint": "Scroll · the atlas opens ↓",
+    "foundation_kicker": "§ 01 · The Foundation",
+    "foundation_title": "Leadership by example.",
+    "foundation_sub": "For local impact. For shared resilience. For a Europe that holds.",
+    "foundation_body_1": "The European Security & Resilience Framework is the foundation of ESRF.net — a decentralised network built for, and by, the entrepreneurs with local impact. We believe security is not merely a government mandate. It is an entrepreneurial responsibility, and a civic one.",
+    "foundation_pull": "Security is not just a mandate. It is a responsibility we carry, together.",
+    "foundation_body_2": "By building resilience from the ground up, we connect organisations across twenty-nine countries into self-sustaining ecosystems with regional impact. The foundation channels donations, contributions and aligned capital into initiatives that strengthen the network and expand its reach across the continent.",
+    "foundation_body_3": "Organisations are classified across ten vital sectors aligned with the EU NIS2 Directive and guided by five moral principles: vigilance, stewardship, empowerment, solidarity and renewal.",
+    "pillars_kicker": "§ 02 · The Moral Compass",
+    "pillars_title": "Five ways to hold the line.",
+    "sectors_kicker": "§ 03 · Vital Sectors",
+    "sectors_title": "Ten fields of practice.",
+    "sectors_lede": "Every organisation in the ESRF.net community is classified across ten vital sectors — the domains where resilience is either built or lost. Counts below reflect the current directory.",
+    "atlas_kicker": "§ 04 · The Community Atlas",
+    "atlas_title": "Where the work happens.",
+    "atlas_lede": "Every pin is an organisation; every cluster, a city; every colour, a sector. The atlas is a living record of who sustains the daily machinery of a resilient Europe.",
+    "analytics_kicker": "§ 05 · Analytics",
+    "analytics_title": "Patterns in the network.",
+    "analytics_lede": "Three figures, published each issue — where the community is concentrated, where it is sparse, and how the five moral pillars distribute across vital sectors.",
+    "dispatch_kicker": "§ 06 · Dispatch",
+    "dispatch_title": "From the continent.",
+    "dispatch_lede": "A curated feed of European security, resilience and crisis signals — filed under the pillar each story touches. The full dispatch is updated continuously.",
+    "join_title": "Does your organisation contribute to a Europe that holds?",
+    "join_sub": "Request a listing and take your place on the atlas. Membership of the ESRF.net community is free for organisations whose work strengthens European security and resilience."
+  },
+  "directory": {
+    "title": "Directory — ESRF.net",
+    "description": "Browse 1,892 organisations across 29 European countries that form the ESRF.net community — filter by sector, country and moral pillar.",
+    "kicker": "§ 03 · Vital Sectors · Directory",
+    "hero_title": "The directory of practice.",
+    "hero_deck": "One thousand eight hundred and ninety-two organisations — sorted by sector, country and moral pillar. Search, filter, and read who holds each part of Europe together.",
+    "join_title": "Not yet on the atlas?",
+    "join_sub": "Any organisation whose work contributes to European security and resilience is welcome in the ESRF.net community."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "description": "The full-screen community atlas — 1,892 organisations mapped across 29 European countries, colour-coded by sector and filterable by pillar.",
+    "kicker": "§ 04 · The Atlas",
+    "heading": "Community Atlas",
+    "instructions": "Click any marker for organisation detail. Filter by pillar or search by name.",
+    "search_placeholder": "Search organisations…"
+  },
+  "analytics": {
+    "title": "Analytics — ESRF.net",
+    "description": "Data analytics for the ESRF.net community — sector distribution, country breakdown and moral pillar analysis across 1,892 organisations.",
+    "kicker": "§ 05 · Analytics",
+    "hero_title": "Patterns in the network.",
+    "hero_deck": "Three figures from the current atlas — where the community is concentrated, where it is sparse, and how the five moral pillars distribute across vital sectors."
+  },
+  "news": {
+    "title": "Dispatch — ESRF.net",
+    "description": "The ESRF.net dispatch — curated European security and resilience signals, filed under the moral pillar each story touches.",
+    "kicker": "§ 06 · Dispatch",
+    "hero_title": "From the continent.",
+    "hero_deck": "A curated ledger of European security, resilience and crisis signals — each filed under the pillar whose concerns it touches. Updated continuously."
+  },
+  "about": {
+    "title": "Foundation — ESRF.net",
+    "description": "About ESRF.net — the European Security & Resilience Framework, its charter, its five moral pillars and how organisations join the community.",
+    "kicker": "§ 01 · The Foundation",
+    "hero_title": "A Europe that holds.",
+    "hero_deck": "The European Security & Resilience Framework — the foundation of ESRF.net — is built on a simple conviction: resilience is not the exclusive work of states. It is the everyday labour of the organisations, institutions and citizens whose local impact sustains the whole.",
+    "charter_quote": "Security is not just a mandate. It is a responsibility we carry, together.",
+    "charter_cite": "— ESRF.net Charter, Art. 01"
+  },
+  "privacy": {
+    "title": "Privacy — ESRF.net",
+    "description": "Privacy policy for ESRF.net — how we collect, use and protect your data.",
+    "kicker": "Legal",
+    "hero_title": "Privacy Policy."
+  },
+  "terms": {
+    "title": "Terms — ESRF.net",
+    "description": "Terms of use for ESRF.net.",
+    "kicker": "Legal",
+    "hero_title": "Terms of Use."
+  },
+  "countries": {
+    "title": "Countries — ESRF.net",
+    "description": "Browse ESRF.net organisations by country — 29 European nations in the community.",
+    "kicker": "§ Community",
+    "hero_title": "Twenty-nine nations.",
+    "hero_deck": "Every country in the ESRF.net community — from the Atlantic to the Baltic, the Arctic to the Mediterranean."
+  },
+  "footer": {
+    "brand_desc": "European Security & Resilience Foundation — a decentralised community of 1,892 organisations across 29 countries.",
+    "community": "Community",
+    "foundation": "Foundation",
+    "legal": "Legal",
+    "five_pillars": "Five pillars",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "tagline": "Human Atlas"
+  },
+  "pillar": {
+    "prevent_verb": "Prevent",
+    "prevent_virtue": "Vigilance",
+    "prevent_body": "To notice before it is loud — structural attention to signals and systemic risks.",
+    "protect_verb": "Protect",
+    "protect_virtue": "Stewardship",
+    "protect_body": "To guard what sustains us — critical functions, vital processes, shared interests.",
+    "prepare_verb": "Prepare",
+    "prepare_virtue": "Empowerment",
+    "prepare_body": "To stand ready, together — through training, innovation and sustainable preparedness.",
+    "respond_verb": "Respond",
+    "respond_virtue": "Solidarity",
+    "respond_body": "To act as one when it matters — reliable networks, rapid coordination, mutual support.",
+    "recover_verb": "Recover",
+    "recover_virtue": "Renewal",
+    "recover_body": "To rise stronger than before — absorb shocks, accelerate recovery, renew the system."
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "foundation": "Stiftung",
+    "directory": "Verzeichnis",
+    "atlas": "Atlas",
+    "analytics": "Analysen",
+    "dispatch": "Berichte",
+    "request_listing": "Eintrag anfragen"
+  },
+  "common": {
+    "visit": "Besuchen →",
+    "visit_arrow": "↗",
+    "read_more": "Mehr lesen →",
+    "search": "Suchen",
+    "all": "Alle",
+    "back_to_top": "Zurück nach oben ↑",
+    "organisations": "Organisationen",
+    "countries": "Länder",
+    "sectors": "Sektoren",
+    "pillars": "Pfeiler",
+    "articles": "Artikel",
+    "shown": "angezeigt",
+    "load_more": "Mehr laden →",
+    "no_results": "Keine Organisationen entsprechen diesen Filtern.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "pillar": "Pfeiler",
+    "sector": "Sektor",
+    "country": "Land",
+    "all_pillars": "Alle",
+    "all_sectors": "Alle Sektoren",
+    "all_countries": "Alle Länder",
+    "search_placeholder": "Nach Name, Stadt, Beschreibung suchen…",
+    "search_organisations": "Organisationen suchen…",
+    "prevent": "Verhindern · Wachsamkeit",
+    "protect": "Schützen · Verantwortung",
+    "prepare": "Vorbereiten · Befähigung",
+    "respond": "Reagieren · Solidarität",
+    "recover": "Erholen · Erneuerung"
+  },
+  "cta": {
+    "request_listing": "Eintrag anfragen →",
+    "browse_directory": "Verzeichnis durchsuchen →",
+    "see_analytics": "Analysen ansehen →",
+    "open_atlas": "Vollständigen Atlas öffnen →",
+    "read_dispatch": "Ganzen Bericht lesen →",
+    "read_charter": "Charta lesen →",
+    "read_figures": "Alle Abbildungen lesen →"
+  },
+  "lang": {
+    "select": "Sprache wählen"
+  },
+  "index": {
+    "title": "ESRF.net — Europäische Gemeinschaft für Sicherheit und Resilienz",
+    "hero_title_1": "Die Menschen",
+    "hero_title_2": "die Europa",
+    "hero_title_3": "zusammen",
+    "hero_title_4": "halten."
+  },
+  "directory": {
+    "title": "Verzeichnis — ESRF.net",
+    "hero_title": "Das Verzeichnis der Praxis."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Gemeinschaftsatlas"
+  },
+  "analytics": {
+    "title": "Analysen — ESRF.net",
+    "hero_title": "Muster im Netzwerk."
+  },
+  "news": {
+    "title": "Berichte — ESRF.net",
+    "hero_title": "Vom Kontinent."
+  },
+  "about": {
+    "title": "Stiftung — ESRF.net",
+    "hero_title": "Ein Europa, das standhält."
+  },
+  "footer": {
+    "community": "Gemeinschaft",
+    "foundation": "Stiftung",
+    "legal": "Rechtliches",
+    "contact": "Kontakt",
+    "privacy": "Datenschutz",
+    "terms": "Nutzungsbedingungen"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "foundation": "Fundacja",
+    "directory": "Katalog",
+    "atlas": "Atlas",
+    "analytics": "Analityka",
+    "dispatch": "Biuletyn",
+    "request_listing": "Wniosek o wpis"
+  },
+  "common": {
+    "visit": "Odwiedź →",
+    "visit_arrow": "↗",
+    "read_more": "Czytaj więcej →",
+    "search": "Szukaj",
+    "all": "Wszystkie",
+    "back_to_top": "Powrót na górę ↑",
+    "organisations": "organizacji",
+    "countries": "krajów",
+    "sectors": "sektorów",
+    "pillars": "filarów",
+    "articles": "artykułów",
+    "shown": "wyświetlono",
+    "load_more": "Wczytaj więcej →",
+    "no_results": "Brak organizacji spełniających te kryteria.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "pillar": "Filar",
+    "sector": "Sektor",
+    "country": "Kraj",
+    "all_pillars": "Wszystkie",
+    "all_sectors": "Wszystkie sektory",
+    "all_countries": "Wszystkie kraje",
+    "search_placeholder": "Szukaj wg nazwy, miasta, opisu…",
+    "search_organisations": "Szukaj organizacji…",
+    "prevent": "Zapobieganie · Czujność",
+    "protect": "Ochrona · Zarządzanie",
+    "prepare": "Przygotowanie · Wzmocnienie",
+    "respond": "Reagowanie · Solidarność",
+    "recover": "Odbudowa · Odnowienie"
+  },
+  "cta": {
+    "request_listing": "Wniosek o wpis →",
+    "browse_directory": "Przeglądaj katalog →",
+    "see_analytics": "Zobacz analitykę →",
+    "open_atlas": "Otwórz pełny atlas →",
+    "read_dispatch": "Czytaj cały biuletyn →",
+    "read_charter": "Czytaj kartę →",
+    "read_figures": "Czytaj wszystkie rysunki →"
+  },
+  "lang": {
+    "select": "Wybierz język"
+  },
+  "index": {
+    "title": "ESRF.net — Europejska Wspólnota Bezpieczeństwa i Odporności",
+    "hero_title_1": "Ludzie",
+    "hero_title_2": "którzy trzymają",
+    "hero_title_3": "Europę",
+    "hero_title_4": "razem."
+  },
+  "directory": {
+    "title": "Katalog — ESRF.net",
+    "hero_title": "Katalog praktyki."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Atlas Społeczności"
+  },
+  "analytics": {
+    "title": "Analityka — ESRF.net",
+    "hero_title": "Wzorce w sieci."
+  },
+  "news": {
+    "title": "Biuletyn — ESRF.net",
+    "hero_title": "Z kontynentu."
+  },
+  "about": {
+    "title": "Fundacja — ESRF.net",
+    "hero_title": "Europa, która wytrzymuje."
+  },
+  "footer": {
+    "community": "Społeczność",
+    "foundation": "Fundacja",
+    "legal": "Prawne",
+    "contact": "Kontakt",
+    "privacy": "Prywatność",
+    "terms": "Warunki"
+  }
+}

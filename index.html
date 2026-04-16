@@ -20,15 +20,21 @@
 <!-- ═══ MASTHEAD (overlay on hero) ═══ -->
 <nav class="mast overlay" aria-label="Primary">
   <div class="mast-inner">
-    <a href="index.html" class="mast-logo">ESRF.net<sup>VOL·01</sup></a>
+    <a href="index.html" class="mast-logo">ESRF.net</a>
     <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
     <div class="mast-nav" id="primary-nav">
-      <a href="about.html">Foundation</a>
-      <a href="directory.html">Directory</a>
-      <a href="map.html">Atlas</a>
-      <a href="analytics.html">Analytics</a>
-      <a href="news.html">Dispatch</a>
-      <a href="#join" class="mast-cta">Request listing</a>
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <a href="#join" class="mast-cta" data-i18n="nav.request_listing">Request listing</a>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
     </div>
   </div>
 </nav>
@@ -38,7 +44,7 @@
   <div class="hero-frame"></div>
   <div class="hero-content">
     <div>
-      <span class="hero-kicker">Human Atlas · Vol. 01 · Spring 2026</span>
+      <span class="hero-kicker" data-i18n="index.hero_kicker">Human Atlas · Spring 2026</span>
       <h1 class="hero-title">
         <span>The people</span>
         <span class="italic">who hold</span>
@@ -51,10 +57,10 @@
         Where governments set policy and international bodies coordinate, <strong>ESRF.net</strong> unites the businesses, institutions and citizens whose daily work quietly sustains our shared life — a decentralised framework powered by the organisations that drive the economy.
       </p>
       <div class="hero-meta">
-        <span><strong>1,892</strong> organisations</span>
-        <span><strong>29</strong> countries</span>
-        <span><strong>10</strong> vital sectors</span>
-        <span><strong>5</strong> moral pillars</span>
+        <span><strong>1,892</strong> <span data-i18n="common.organisations">organisations</span></span>
+        <span><strong>29</strong> <span data-i18n="common.countries">countries</span></span>
+        <span><strong>10</strong> <span data-i18n="common.sectors">vital sectors</span></span>
+        <span><strong>5</strong> <span data-i18n="common.pillars">moral pillars</span></span>
       </div>
     </div>
   </div>
@@ -368,28 +374,28 @@
   <div class="foot-inner">
     <div class="foot-brand">
       <h3>ESRF.net</h3>
-      <p>European Security &amp; Resilience Foundation — a decentralised community of 1,892 organisations across 29 countries.</p>
+      <p data-i18n="footer.brand_desc">European Security &amp; Resilience Foundation — a decentralised community of 1,892 organisations across 29 countries.</p>
     </div>
     <div class="foot-col">
-      <h4>Community</h4>
+      <h4 data-i18n="footer.community">Community</h4>
       <ul>
-        <li><a href="directory.html">Directory</a></li>
-        <li><a href="map.html">Atlas</a></li>
+        <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li>
+        <li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
         <li><a href="countries/index.html">Countries</a></li>
-        <li><a href="analytics.html">Analytics</a></li>
+        <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
       </ul>
     </div>
     <div class="foot-col">
-      <h4>Foundation</h4>
+      <h4 data-i18n="footer.foundation">Foundation</h4>
       <ul>
         <li><a href="about.html">About</a></li>
         <li><a href="about.html#pillars">Five pillars</a></li>
-        <li><a href="news.html">Dispatch</a></li>
+        <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
         <li><a href="mailto:hello@esrf.net">Contact</a></li>
       </ul>
     </div>
     <div class="foot-col">
-      <h4>Legal</h4>
+      <h4 data-i18n="footer.legal">Legal</h4>
       <ul>
         <li><a href="privacy.html">Privacy</a></li>
         <li><a href="terms.html">Terms</a></li>
@@ -398,12 +404,13 @@
   </div>
   <div class="foot-bar">
     <div>© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
-    <div>Vol. 01 · Human Atlas <a href="#top">Back to top ↑</a></div>
+    <div><span data-i18n="footer.tagline">Human Atlas</span> <a href="#top" data-i18n="common.back_to_top">Back to top ↑</a></div>
   </div>
 </footer>
 
 <!-- ═══ SCRIPTS ═══ -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script>
   /* ── Dispatch teaser (top 3 articles) ── */
