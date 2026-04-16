@@ -1,0 +1,4 @@
+qa-*.png
+*.tmp
+gen_i18n.py
+patch_i18n.py
