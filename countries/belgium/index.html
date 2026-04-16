@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Belgium — ESRF.community | European Security & Resilience</title>
+  <meta name="description" content="As home to the EU institutions, Belgium is at the heart of European policy-making on security, resilience and crisis management. Its port infrastructure an">
+  <meta property="og:title" content="Belgium — ESRF.community">
+  <meta property="og:description" content="As home to the EU institutions, Belgium is at the heart of European policy-making on security, resilience and crisis management. Its port infrastructure and cybersecurity sector are central to contine">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.esrf.net/countries/belgium/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* ── COUNTRY PAGE STYLES ── */
+    .cp-hero {
+      padding: 100px 24px 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .cp-flag { font-size: 4rem; margin-bottom: 12px; }
+    .cp-hero h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--text-prim);
+      margin: 0 0 4px;
+    }
+    .cp-hero .cp-local-name {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .cp-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .cp-badge-eu { background: rgba(57,160,237,0.15); color: var(--cyan); }
+    .cp-badge-friend { background: rgba(255,107,53,0.15); color: var(--orange); }
+    .cp-intro {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text-sec);
+    }
+
+    /* Stats */
+    .cp-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .cp-stat-num { font-size: 1.8rem; font-weight: 700; color: var(--orange); }
+    .cp-stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Sections */
+    .cp-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    .cp-section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-prim);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cp-section-title span { font-size: 1.2rem; }
+
+    /* Company grid */
+    .cp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .cp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .cp-card:hover { border-color: var(--orange); transform: translateY(-2px); }
+    .cp-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+    .cp-card-name { font-size: 0.95rem; font-weight: 600; color: var(--text-prim); margin: 0; }
+    .cp-card-sector {
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--cyan);
+      background: rgba(57,160,237,0.1);
+      padding: 2px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .cp-card-city { font-size: 0.8rem; color: var(--text-muted); margin: 0 0 8px; }
+    .cp-card-desc { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 12px; }
+    .cp-card-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--orange);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .cp-card-link:hover { text-decoration: underline; }
+
+    /* Sectors */
+    .cp-sectors { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .cp-sector-tag {
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+    }
+
+    /* News */
+    .cp-news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .cp-news-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s;
+    }
+    .cp-news-card:hover { border-color: var(--orange); }
+    .cp-news-source { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; }
+    .cp-news-title { font-size: 0.92rem; font-weight: 600; color: var(--text-prim); margin: 0 0 8px; line-height: 1.4; }
+    .cp-news-snippet { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 8px; }
+    .cp-news-date { font-size: 0.7rem; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; }
+    .cp-news-empty { color: var(--text-muted); font-style: italic; }
+
+    /* Empty state */
+    .cp-empty { text-align: center; padding: 48px 24px; }
+    .cp-empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .cp-empty h3 { color: var(--text-prim); margin: 0 0 8px; }
+    .cp-empty p { color: var(--text-sec); max-width: 500px; margin: 0 auto 20px; }
+    .cp-empty-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--navy) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .cp-empty-btn:hover { background: #e85e2d; transform: translateY(-1px); }
+
+    /* CTA banner */
+    .cp-cta {
+      background: var(--orange-faint);
+      border-top: 1px solid rgba(255,107,53,0.15);
+      border-bottom: 1px solid rgba(255,107,53,0.15);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .cp-cta p { color: var(--text-sec); margin: 0 0 16px; }
+    .cp-cta-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--navy) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cp-cta-btn:hover { background: #e85e2d; transform: translateY(-1px); }
+
+    /* Sponsor slot */
+    .cp-sponsor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+    }
+    .cp-sponsor-inner {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* More link */
+    .cp-more { font-size: 0.85rem; color: var(--text-sec); margin-top: 16px; }
+    .cp-more a { color: var(--orange); text-decoration: none; }
+    .cp-more a:hover { text-decoration: underline; }
+
+    /* Breadcrumb */
+    .cp-breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 0;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cp-breadcrumb a { color: var(--text-sec); text-decoration: none; }
+    .cp-breadcrumb a:hover { color: var(--orange); }
+
+    /* Footer */
+    .cp-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cp-footer a { color: var(--orange); text-decoration: none; }
+    .cp-footer a:hover { text-decoration: underline; }
+
+    /* Nav overrides for subpages */
+    .cp-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+
+    @media (max-width: 768px) {
+      .cp-hero h1 { font-size: 1.6rem; }
+      .cp-grid { grid-template-columns: 1fr; }
+      .cp-news-grid { grid-template-columns: 1fr; }
+      .cp-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="brand">
+        <svg class="brand-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 20 L20 12 L28 20 L20 28Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <circle cx="20" cy="20" r="4" fill="currentColor"/>
+        </svg>
+        <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
+      </a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-right">
+        <a href="/#pillars" class="nav-link">Pillars</a>
+        <a href="/countries/" class="nav-link">Countries</a>
+        <a href="/news.html" class="nav-link">News</a>
+        <a href="/#about" class="nav-link">About</a>
+        <a href="/#" class="nav-cta-btn" onclick="window.location='/?request=1'; return false;">Request listing</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="cp-breadcrumb">
+    <a href="/">ESRF</a> / <a href="/countries/">Countries</a> / Belgium
+  </div>
+
+  <!-- HERO -->
+  <section class="cp-hero">
+    <div class="cp-flag">🇧🇪</div>
+    <h1>Belgium</h1>
+    <div class="cp-local-name">België / Belgique</div>
+    <span class="cp-badge cp-badge-eu">EU Member State</span>
+    <p class="cp-intro">As home to the EU institutions, Belgium is at the heart of European policy-making on security, resilience and crisis management. Its port infrastructure and cybersecurity sector are central to continental supply chain resilience.</p>
+    <div class="cp-stats">
+      <div><div class="cp-stat-num">24</div><div class="cp-stat-label">Organisations</div></div>
+      <div><div class="cp-stat-num">6</div><div class="cp-stat-label">Sectors</div></div>
+      <div><div class="cp-stat-num">1</div><div class="cp-stat-label">News articles</div></div>
+    </div>
+  </section>
+
+  <!-- SPONSOR SLOT: Country spotlight -->
+  <div class="cp-sponsor">
+    <div class="cp-sponsor-inner">
+      📣 Sponsor spotlight available for Belgium — <a href="mailto:office@esrf.net" style="color:var(--orange)">Contact us</a>
+    </div>
+  </div>
+
+  <!-- ORGANISATIONS -->
+  <section class="cp-section">
+    <h2 class="cp-section-title"><span>🏢</span> Organisations in Belgium</h2>
+    <div class="cp-sectors"><span class="cp-sector-tag">Cybersecurity (9)</span><span class="cp-sector-tag">Critical Infrastructure (6)</span><span class="cp-sector-tag">Security &amp; Protection (5)</span><span class="cp-sector-tag">Healthcare &amp; Medical (2)</span><span class="cp-sector-tag">Maritime &amp; Aerospace (1)</span><span class="cp-sector-tag">Knowledge &amp; Training (1)</span></div>
+    <div class="cp-grid">
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">SABCA</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Brussels (Haren)</p>
+              <p class="cp-card-desc">SABCA (Société Anonyme Belge de Constructions Aéronautiques) is Belgium&#x27;s leading aerospace and security technology company, specialising in aerostructures, actuation systems, and aircraft maintenance</p>
+              <a href="https://www.sabca.be" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Thales Belgium</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Herstal / Tubize / Brussels</p>
+              <p class="cp-card-desc">Thales Belgium employs over 1,200 people across nine sites, delivering security electronics, 70mm rocket systems, C4ISR solutions, cryptography, and cybersecurity services to international partners an</p>
+              <a href="https://www.thalesgroup.com/en/worldwide/belgium" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Naval Group Belgium</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Brussels</p>
+              <p class="cp-card-desc">Naval Group Belgium leads the Belgian-Dutch rMCM programme delivering twelve next-generation mine countermeasure vessels equipped with autonomous drone swarms for the Belgian and Dutch maritime servic</p>
+              <a href="https://www.naval-group.com/en/naval-group-belgium-0" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Barco</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Kortrijk</p>
+              <p class="cp-card-desc">Barco is a global Belgian technology company that provides mission-critical visualization systems, video walls, and control room software used in air security centres, national crisis rooms, and EU bo</p>
+              <a href="https://www.barco.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">imec</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Leuven</p>
+              <p class="cp-card-desc">imec is the world&#x27;s leading independent semiconductor research and innovation centre, developing next-generation chip technologies critical for secure communications, autonomous security systems, and </p>
+              <a href="https://www.imec-int.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">OIP Sensor Systems</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Oudenaarde</p>
+              <p class="cp-card-desc">OIP Sensor Systems is a Belgian security and space company with over a century of expertise in electro-optical systems, offering night-vision devices, thermal imagers, fire control systems, and space </p>
+              <a href="https://www.oip.be" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Port of Antwerp-Bruges</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Antwerp</p>
+              <p class="cp-card-desc">The Port of Antwerp-Bruges is Europe&#x27;s second-largest seaport and a critical node in European supply chains, handling over 280 million tonnes of cargo annually. Its advanced security operations—includ</p>
+              <a href="https://www.portofantwerpbruges.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Intigriti</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Antwerp</p>
+              <p class="cp-card-desc">Intigriti is Europe&#x27;s leading bug bounty and crowdsourced security platform, connecting over 125,000 vetted ethical hackers with organisations seeking to identify vulnerabilities before malicious acto</p>
+              <a href="https://www.intigriti.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">NVISO</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Brussels</p>
+              <p class="cp-card-desc">NVISO is a Belgian cybersecurity firm specialising in threat intelligence, incident response, penetration testing, and security operations centre services for critical infrastructure operators, govern</p>
+              <a href="https://www.nviso.eu" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Proximus</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Brussels</p>
+              <p class="cp-card-desc">Proximus is Belgium&#x27;s leading telecommunications operator and a key provider of secure connectivity, managed security services, and critical communications infrastructure for government and enterprise</p>
+              <a href="https://www.proximus.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Sweepatic</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Brussels</p>
+              <p class="cp-card-desc">Sweepatic is a Belgian cybersecurity scale-up specialising in continuous automated attack surface management, helping organisations discover and manage their exposed digital assets before adversaries </p>
+              <a href="https://www.sweepatic.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">RHEA Group</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Wavre</p>
+              <p class="cp-card-desc">RHEA Group is a Belgian-founded engineering and cybersecurity company supporting European space agencies, international security organisations, and critical infrastructure operators with advanced secu</p>
+              <a href="https://www.rheagroup.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Secutec</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Ghent</p>
+              <p class="cp-card-desc">Secutec is a Belgian managed security services provider offering 24/7 threat detection, incident response, and cybersecurity consulting to businesses and public organisations. It is a member of the Be</p>
+              <a href="https://www.secutec.be" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Toreon</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Mechelen</p>
+              <p class="cp-card-desc">Toreon is a Belgian cybersecurity consultancy specialising in security architecture, penetration testing, threat modelling, and privacy compliance. It helps organisations build security by design and </p>
+              <a href="https://www.toreon.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Space Applications Services</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Zaventem</p>
+              <p class="cp-card-desc">Space Applications Services is a Belgian company providing advanced space mission systems, ground control software, and real-time data services for ESA, international security organisations, and criti</p>
+              <a href="https://www.spaceapplications.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">CMB (Compagnie Maritime Belge)</h3>
+                <span class="cp-card-sector">Maritime &amp; Aerospace</span>
+              </div>
+              <p class="cp-card-city">Antwerp</p>
+              <p class="cp-card-desc">CMB is one of Belgium&#x27;s oldest and most prominent maritime groups, operating a global fleet of bulk carriers, container ships, and chemical tankers from its Antwerp base. As a major stakeholder in Ant</p>
+              <a href="https://www.cmb.be" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Thales Alenia Space Belgium</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Charleroi / Leuven / Hasselt</p>
+              <p class="cp-card-desc">Thales Alenia Space Belgium is the world leader in satellite power conditioning and distribution, and Europe&#x27;s sole automated manufacturer of satellite photovoltaic assemblies. Operating across facili</p>
+              <a href="https://www.thalesaleniaspace.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Elia Group</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Brussels</p>
+              <p class="cp-card-desc">Elia Group operates Belgium&#x27;s high-voltage electricity transmission grid, a piece of critical national infrastructure connecting Belgian industry and households to the European energy network. Its cyb</p>
+              <a href="https://www.eliagroup.eu" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Engie Belgium</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Brussels</p>
+              <p class="cp-card-desc">Engie Belgium operates the country&#x27;s nuclear power plants at Doel and Tihange, which together account for approximately half of Belgium&#x27;s electricity production. As a critical energy infrastructure op</p>
+              <a href="https://www.engie-electrabel.be" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">ASTRID</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Brussels</p>
+              <p class="cp-card-desc">ASTRID operates Belgium&#x27;s national emergency and security communications network, providing secure digital radio communications for police, fire services, emergency medical services, and other critica</p>
+              <a href="https://www.astrid.be" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Orange Cyberdefense Belgium</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Brussels</p>
+              <p class="cp-card-desc">Orange Cyberdefense Belgium is the Belgian arm of Orange&#x27;s global security division, providing CREST-accredited penetration testing, incident response, threat intelligence, and managed security servic</p>
+              <a href="https://www.orangecyberdefense.com/be" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">VITO NV</h3>
+                <span class="cp-card-sector">Knowledge &amp; Training</span>
+              </div>
+              <p class="cp-card-city">Mol</p>
+              <p class="cp-card-desc">Independent research organisation developing dual-use technologies for security and resilience in AI, sensors, energy and materials.</p>
+              <a href="https://vito.be/en/security-defence" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">UZ Leuven</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">Leuven</p>
+              <p class="cp-card-desc">Belgium&#x27;s largest university hospital with a major trauma centre and critical care capabilities for regional resilience.</p>
+              <a href="https://www.uzleuven.be" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Medical Component Belgian Armed Forces</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">Neder-Over-Heembeek</p>
+              <p class="cp-card-desc">Medical component providing field hospitals, medical support and healthcare for Belgian security services.</p>
+              <a href="https://www.mil.be" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div></div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cp-cta">
+    <p>Is your organisation based in Belgium and contributing to European resilience?</p>
+    <a href="/?request=1" class="cp-cta-btn">Request listing</a>
+  </div>
+
+  <!-- NEWS -->
+  <section class="cp-section">
+    <h2 class="cp-section-title"><span>📰</span> Latest news from Belgium</h2>
+    <div class="cp-news-grid">
+            <a href="https://www.politico.eu/article/iran-crisis-europe-economic-woes-off-eu-summit-agenda/?utm_source=RSS_Feed&amp;utm_medium=RSS&amp;utm_campaign=RSS_Syndication" target="_blank" rel="noopener" class="cp-news-card">
+              <div class="cp-news-source">Politico EU</div>
+              <h4 class="cp-news-title">Iran crisis shoves Europe’s economic woes off summit agenda</h4>
+              <p class="cp-news-snippet">War in Middle East will upend leaders&#x27; plans to talk about the bloc&#x27;s economy and budget next week.</p>
+              <span class="cp-news-date">2026-04-16</span>
+            </a></div>
+    <p class="cp-more" style="margin-top:16px;"><a href="/news.html">View all network news →</a></p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="cp-footer">
+    <p>ESRF.community — European Security & Resilience Framework</p>
+    <p><a href="/">Home</a> · <a href="/countries/">All countries</a> · <a href="/news.html">News</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+    <p>Contact: <a href="mailto:office@esrf.net">office@esrf.net</a></p>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    const btn = document.getElementById('hamburgerBtn');
+    const navRight = document.querySelector('.nav-right');
+    if (btn && navRight) {
+      btn.addEventListener('click', () => {
+        const open = navRight.classList.toggle('open');
+        btn.classList.toggle('active', open);
+        btn.setAttribute('aria-expanded', open);
+      });
+      document.addEventListener('click', (e) => {
+        if (!btn.contains(e.target) && !navRight.contains(e.target)) {
+          navRight.classList.remove('open');
+          btn.classList.remove('active');
+        }
+      });
+    }
+    // Nav scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+</body>
+</html>

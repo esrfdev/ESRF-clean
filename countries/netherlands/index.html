@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netherlands — ESRF.community | European Security & Resilience</title>
+  <meta name="description" content="The Netherlands is a European leader in water management, port logistics, cybersecurity, and critical infrastructure protection. The Port of Rotterdam, Eur">
+  <meta property="og:title" content="Netherlands — ESRF.community">
+  <meta property="og:description" content="The Netherlands is a European leader in water management, port logistics, cybersecurity, and critical infrastructure protection. The Port of Rotterdam, Europol, and a dense innovation ecosystem make i">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.esrf.net/countries/netherlands/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* ── COUNTRY PAGE STYLES ── */
+    .cp-hero {
+      padding: 100px 24px 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .cp-flag { font-size: 4rem; margin-bottom: 12px; }
+    .cp-hero h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--text-prim);
+      margin: 0 0 4px;
+    }
+    .cp-hero .cp-local-name {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .cp-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .cp-badge-eu { background: rgba(57,160,237,0.15); color: var(--cyan); }
+    .cp-badge-friend { background: rgba(255,107,53,0.15); color: var(--orange); }
+    .cp-intro {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text-sec);
+    }
+
+    /* Stats */
+    .cp-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .cp-stat-num { font-size: 1.8rem; font-weight: 700; color: var(--orange); }
+    .cp-stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Sections */
+    .cp-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    .cp-section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-prim);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cp-section-title span { font-size: 1.2rem; }
+
+    /* Company grid */
+    .cp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .cp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .cp-card:hover { border-color: var(--orange); transform: translateY(-2px); }
+    .cp-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+    .cp-card-name { font-size: 0.95rem; font-weight: 600; color: var(--text-prim); margin: 0; }
+    .cp-card-sector {
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--cyan);
+      background: rgba(57,160,237,0.1);
+      padding: 2px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .cp-card-city { font-size: 0.8rem; color: var(--text-muted); margin: 0 0 8px; }
+    .cp-card-desc { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 12px; }
+    .cp-card-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--orange);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .cp-card-link:hover { text-decoration: underline; }
+
+    /* Sectors */
+    .cp-sectors { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .cp-sector-tag {
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+    }
+
+    /* News */
+    .cp-news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .cp-news-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s;
+    }
+    .cp-news-card:hover { border-color: var(--orange); }
+    .cp-news-source { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; }
+    .cp-news-title { font-size: 0.92rem; font-weight: 600; color: var(--text-prim); margin: 0 0 8px; line-height: 1.4; }
+    .cp-news-snippet { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 8px; }
+    .cp-news-date { font-size: 0.7rem; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; }
+    .cp-news-empty { color: var(--text-muted); font-style: italic; }
+
+    /* Empty state */
+    .cp-empty { text-align: center; padding: 48px 24px; }
+    .cp-empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .cp-empty h3 { color: var(--text-prim); margin: 0 0 8px; }
+    .cp-empty p { color: var(--text-sec); max-width: 500px; margin: 0 auto 20px; }
+    .cp-empty-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--navy) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .cp-empty-btn:hover { background: #e85e2d; transform: translateY(-1px); }
+
+    /* CTA banner */
+    .cp-cta {
+      background: var(--orange-faint);
+      border-top: 1px solid rgba(255,107,53,0.15);
+      border-bottom: 1px solid rgba(255,107,53,0.15);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .cp-cta p { color: var(--text-sec); margin: 0 0 16px; }
+    .cp-cta-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--navy) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cp-cta-btn:hover { background: #e85e2d; transform: translateY(-1px); }
+
+    /* Sponsor slot */
+    .cp-sponsor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+    }
+    .cp-sponsor-inner {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* More link */
+    .cp-more { font-size: 0.85rem; color: var(--text-sec); margin-top: 16px; }
+    .cp-more a { color: var(--orange); text-decoration: none; }
+    .cp-more a:hover { text-decoration: underline; }
+
+    /* Breadcrumb */
+    .cp-breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 0;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cp-breadcrumb a { color: var(--text-sec); text-decoration: none; }
+    .cp-breadcrumb a:hover { color: var(--orange); }
+
+    /* Footer */
+    .cp-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cp-footer a { color: var(--orange); text-decoration: none; }
+    .cp-footer a:hover { text-decoration: underline; }
+
+    /* Nav overrides for subpages */
+    .cp-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+
+    @media (max-width: 768px) {
+      .cp-hero h1 { font-size: 1.6rem; }
+      .cp-grid { grid-template-columns: 1fr; }
+      .cp-news-grid { grid-template-columns: 1fr; }
+      .cp-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="brand">
+        <svg class="brand-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 20 L20 12 L28 20 L20 28Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <circle cx="20" cy="20" r="4" fill="currentColor"/>
+        </svg>
+        <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
+      </a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-right">
+        <a href="/#pillars" class="nav-link">Pillars</a>
+        <a href="/countries/" class="nav-link">Countries</a>
+        <a href="/news.html" class="nav-link">News</a>
+        <a href="/#about" class="nav-link">About</a>
+        <a href="/#" class="nav-cta-btn" onclick="window.location='/?request=1'; return false;">Request listing</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="cp-breadcrumb">
+    <a href="/">ESRF</a> / <a href="/countries/">Countries</a> / Netherlands
+  </div>
+
+  <!-- HERO -->
+  <section class="cp-hero">
+    <div class="cp-flag">🇳🇱</div>
+    <h1>Netherlands</h1>
+    <div class="cp-local-name">Nederland</div>
+    <span class="cp-badge cp-badge-eu">EU Member State</span>
+    <p class="cp-intro">The Netherlands is a European leader in water management, port logistics, cybersecurity, and critical infrastructure protection. The Port of Rotterdam, Europol, and a dense innovation ecosystem make it central to continental resilience.</p>
+    <div class="cp-stats">
+      <div><div class="cp-stat-num">137</div><div class="cp-stat-label">Organisations</div></div>
+      <div><div class="cp-stat-num">11</div><div class="cp-stat-label">Sectors</div></div>
+      <div><div class="cp-stat-num">15</div><div class="cp-stat-label">News articles</div></div>
+    </div>
+  </section>
+
+  <!-- SPONSOR SLOT: Country spotlight -->
+  <div class="cp-sponsor">
+    <div class="cp-sponsor-inner">
+      📣 Sponsor spotlight available for Netherlands — <a href="mailto:office@esrf.net" style="color:var(--orange)">Contact us</a>
+    </div>
+  </div>
+
+  <!-- ORGANISATIONS -->
+  <section class="cp-section">
+    <h2 class="cp-section-title"><span>🏢</span> Organisations in Netherlands</h2>
+    <div class="cp-sectors"><span class="cp-sector-tag">Critical Infrastructure (34)</span><span class="cp-sector-tag">Security &amp; Protection (34)</span><span class="cp-sector-tag">Cybersecurity (26)</span><span class="cp-sector-tag">Dual-use Technology (11)</span><span class="cp-sector-tag">Healthcare &amp; Medical (10)</span><span class="cp-sector-tag">Physical Security (5)</span><span class="cp-sector-tag">AI &amp; Surveillance (4)</span><span class="cp-sector-tag">Maritime &amp; Aerospace (4)</span><span class="cp-sector-tag">Drones &amp; Unmanned Systems (3)</span><span class="cp-sector-tag">Knowledge &amp; Training (3)</span><span class="cp-sector-tag">Space &amp; Satellite (3)</span></div>
+    <div class="cp-grid">
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Eurofins Cyber Security</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Groningen</p>
+              <p class="cp-card-desc">Specialised IoT security laboratory within the Groningen knowledge ecosystem; contributes to the digital resilience of critical devices and industrial systems in accordance with NIS2.</p>
+              <a href="https://www.eurofins-cybersecurity.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Warpnet</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Haren (Groningen)</p>
+              <p class="cp-card-desc">Regional cybersecurity anchor in the North Netherlands with a focus on government clients and critical infrastructure; ESRF-relevant due to its 24/7 SOC and the development of digital resilience in th</p>
+              <a href="https://warpnet.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">ODC-Noord / SSO-Noord</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Groningen</p>
+              <p class="cp-card-desc">Vital national government ICT infrastructure in the north of the Netherlands; a prime example of critical infrastructure requiring protection and resilience measures as envisaged by ESRF objectives.</p>
+              <a href="https://www.sso-noord.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Base Cyber Security</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Haren (Groningen)</p>
+              <p class="cp-card-desc">Contributes to building structural cybersecurity capacity in government and business; relevant to the ESRF network as a provider of human capital for resilience strengthening.</p>
+              <a href="https://basecybersecurity.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Cyber Security Noord</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Groningen</p>
+              <p class="cp-card-desc">Key organisation in the North Netherlands cybersecurity ecosystem; connects ESRF-relevant parties and strengthens collaboration between government, business, and education in the field of digital resi</p>
+              <a href="https://cybersecurity-noord.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Novar</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Groningen</p>
+              <p class="cp-card-desc">Concrete solution for grid congestion via private energy networks; increases energy security for industrial and potentially critical customers in the region, essential for national resilience infrastr</p>
+              <a href="https://www.novar.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">New Energy Coalition / EDIH Noord-Nederland</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Groningen</p>
+              <p class="cp-card-desc">Facilitator of energy innovation in the North Netherlands; relevant to ESRF due to its focus on energy resilience, smart grids, and hydrogen as a carrier of critical energy infrastructure.</p>
+              <a href="https://edih-nn.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">ITS – Innovative Technical Solutions</h3>
+                <span class="cp-card-sector">AI &amp; Surveillance</span>
+              </div>
+              <p class="cp-card-city">Groningen</p>
+              <p class="cp-card-desc">Specialised sensor technology for security services and critical infrastructure protection; night-vision systems are directly deployable for perimeter and asset protection of critical infrastructure a</p>
+              <a href="https://www.its-hightech.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">DDFR (Data- en Dienstverlening Friesland)</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Leeuwarden</p>
+              <p class="cp-card-desc">Critical digital infrastructure in the North Netherlands (Noord-IX), NIS2-compliant; serves as the backbone for digital resilience of governments and vital sectors in Friesland.</p>
+              <a href="https://www.ddfr.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Windpark Fryslân</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Kornwerderzand (Súdwest-Fryslân)</p>
+              <p class="cp-card-desc">Critical regional energy infrastructure with strategic importance for the energy independence of the North Netherlands; subject to NIS2 supervision as an essential energy supplier.</p>
+              <a href="https://www.windparkfryslan.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Cyber Safety Noord-Nederland</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Leeuwarden</p>
+              <p class="cp-card-desc">Regional platform for SME cyber resilience in the North Netherlands; supports smaller suppliers to vital sectors in meeting NIS2 requirements and ESRF-relevant resilience standards.</p>
+              <a href="https://cybersecurity-noord.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Veiligheidscampus Assen</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Assen</p>
+              <p class="cp-card-desc">National hub for resilience training and security-related education in the North Netherlands; makes a direct contribution to trained capacity for crisis management and national resilience.</p>
+              <a href="https://www.provincie.drenthe.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">DICTU (Dienst ICT Uitvoering)</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Assen</p>
+              <p class="cp-card-desc">Vital link in the digital infrastructure of the Dutch central government; manages systems for critical government tasks and contributes to the cybersecurity of the public domain.</p>
+              <a href="https://www.dictu.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Energy Hub Bargermeer</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Emmen</p>
+              <p class="cp-card-desc">Pilot project for energy resilience and grid congestion solutions at the industrial estate level; a blueprint for robust, self-sustaining energy infrastructure essential to national resilience.</p>
+              <a href="https://www.drenthe.nl/energie" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Dutch TechZone / Greenwise Campus Emmen</h3>
+                <span class="cp-card-sector">Dual-use Technology</span>
+              </div>
+              <p class="cp-card-city">Emmen</p>
+              <p class="cp-card-desc">Innovation platform for dual-use technologies in Drenthe; supports R&amp;D at the intersection of industry and security, relevant to the resilience agenda and the security supply chain.</p>
+              <a href="https://www.dutchtechzone.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Port of Zwolle</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Zwolle</p>
+              <p class="cp-card-desc">Designated as a strategic logistics port; vital for mobility routes along the eastern corridor towards Germany; directly relevant to ESRF logistics and resilience themes.</p>
+              <a href="https://portofzwolle.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Broshuis</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Kampen</p>
+              <p class="cp-card-desc">Direct supplier of heavy logistics equipment to Dutch government and international security partners; an essential link in the strategic supply chain and government mobility plans.</p>
+              <a href="https://www.broshuis.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">NFIR (No Frills Incident Response)</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Zwolle</p>
+              <p class="cp-card-desc">Recognised cybersecurity specialist with CCV certification; directly relevant to the digital resilience of government and critical infrastructure in the IJsselland region and nationally.</p>
+              <a href="https://www.nfir.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Heras</h3>
+                <span class="cp-card-sector">Physical Security</span>
+              </div>
+              <p class="cp-card-city">Goor (regio IJsselland/Twente)</p>
+              <p class="cp-card-desc">Leading supplier of perimeter security for critical locations such as ports, data centres, secure government sites, and energy infrastructure; an essential component of the physical security layer of </p>
+              <a href="https://www.heras.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Thales Nederland</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Hengelo</p>
+              <p class="cp-card-desc">Core supplier to Dutch security services and international partners; dual-use technologies (radar, cyber, C2 systems) with direct applications in national resilience and security investment relevant t</p>
+              <a href="https://www.thalesgroup.com/en/netherlands/defence-netherlands" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Height Technologies</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Enschede</p>
+              <p class="cp-card-desc">Pioneer in Dutch drone and counter-drone technology; direct supplier to government security services and active member of NIDV; embodies dual-use innovation within the Twente security cluster.</p>
+              <a href="https://heighttechnologies.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Demcon Security</h3>
+                <span class="cp-card-sector">Dual-use Technology</span>
+              </div>
+              <p class="cp-card-city">Enschede</p>
+              <p class="cp-card-desc">Versatile dual-use systems developer with direct government security contracts; the E-Lighter demonstrates how civilian high-tech innovation contributes to operational resilience and capability.</p>
+              <a href="https://demcon.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Aeronamic</h3>
+                <span class="cp-card-sector">Maritime &amp; Aerospace</span>
+              </div>
+              <p class="cp-card-city">Almelo</p>
+              <p class="cp-card-desc">Critical supplier for the European F-35 fleet and security aviation; a long-term maintenance contract for F-35 PTMS systems makes it an indispensable link in European air security capability.</p>
+              <a href="https://aeronamic.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">RJ Safety &amp; Security</h3>
+                <span class="cp-card-sector">Physical Security</span>
+              </div>
+              <p class="cp-card-city">Enschede</p>
+              <p class="cp-card-desc">Regional security partner for advanced technology companies such as Thales and the technology cluster in Twente; provides physical security for critical production and R&amp;D facilities in the region.</p>
+              <a href="https://rjsafety-security.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Novel-T</h3>
+                <span class="cp-card-sector">Dual-use Technology</span>
+              </div>
+              <p class="cp-card-city">Enschede</p>
+              <p class="cp-card-desc">Innovation driver of the Twente security cluster; connects university spin-offs and start-ups with security challenges through the Oost NL network and the Technology Base Enschede ecosystem.</p>
+              <a href="https://novelt.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Technology Base Enschede</h3>
+                <span class="cp-card-sector">Dual-use Technology</span>
+              </div>
+              <p class="cp-card-city">Enschede</p>
+              <p class="cp-card-desc">Unique national test facility for dual-use security technology; springboard for security innovation in Twente and incubator for companies such as Height Technologies and AnGard Microwave.</p>
+              <a href="https://technologybase.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">AnGard Microwave</h3>
+                <span class="cp-card-sector">AI &amp; Surveillance</span>
+              </div>
+              <p class="cp-card-city">Enschede</p>
+              <p class="cp-card-desc">Innovative counter-UAS company at the intersection of sensing and electronic protection; contributes to the protection of airports, energy infrastructure, and secure installations against drone threat</p>
+              <a href="https://technology-base.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">DotSafe Cyber Security</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Twente (regio)</p>
+              <p class="cp-card-desc">Regional cybersecurity partner for SMEs and suppliers in the Twente security cluster; strengthens the digital resilience of the supply chain of companies such as Thales and Demcon.</p>
+              <a href="https://dotsafe.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Rheinmetall Nederland</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Ede</p>
+              <p class="cp-card-desc">Leading security technology supplier on the Veluwe with direct contracts for Dutch and international security organisations; the Boxer programme is a core capability of European land security forces.</p>
+              <a href="https://www.rheinmetall.com/nl/onderneming/dochteronderneming/nl-rheinmetall-defence-nederland" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Defenture</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Tiel</p>
+              <p class="cp-card-desc">Dutch manufacturer of armoured security vehicles, including the Mammoth platform, used by international security forces, border agencies, and peacekeeping missions. Based in Haaksbergen, the company d</p>
+              <a href="https://www.defenture.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Oost NL – Veiligheid &amp; Innovatieprogramma</h3>
+                <span class="cp-card-sector">Dual-use Technology</span>
+              </div>
+              <p class="cp-card-city">Arnhem / Enschede</p>
+              <p class="cp-card-desc">Key connector in the East Netherlands security ecosystem, representing over 20% of national security market turnover; ESRF-relevant as an organisation linking dual-use innovation and resilience.</p>
+              <a href="https://oostnl.nl/defensie" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Alliander / Liander</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Arnhem</p>
+              <p class="cp-card-desc">Vital grid operator for one third of the Netherlands; directly relevant to ESRF themes of energy resilience, NIS2 compliance for critical infrastructure, and grid congestion solutions.</p>
+              <a href="https://www.alliander.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">TenneT</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Arnhem</p>
+              <p class="cp-card-desc">Critical European transmission infrastructure; as a TSO, responsible for the robustness of the electricity network underpinning all critical sectors, directly ESRF-relevant as vital energy infrastruct</p>
+              <a href="https://www.tennet.eu" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Kenter</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Duiven (regio Arnhem)</p>
+              <p class="cp-card-desc">Innovative energy services provider with solutions for grid congestion and flexibility markets; contributes to resilient energy systems for industrial and government clients in Gelderland.</p>
+              <a href="https://www.kenter.nu" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Allego</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Arnhem</p>
+              <p class="cp-card-desc">Critical EV charging infrastructure supporting energy-mobility security; relevant to future electrification of heavy-duty vehicle fleets and emergency services.</p>
+              <a href="https://www.allego.eu" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Schipper Security</h3>
+                <span class="cp-card-sector">Physical Security</span>
+              </div>
+              <p class="cp-card-city">Arnhem / Nijmegen</p>
+              <p class="cp-card-desc">Certified security partner for government, security-sensitive sites, and critical infrastructure in the Gelderland region; innovative drone security enhances the resilience of vital locations.</p>
+              <a href="https://schippersecurity.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Radboud Universiteit Nijmegen – Cybersecurity Onderzoeksgroep</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Nijmegen</p>
+              <p class="cp-card-desc">Internationally recognised cybersecurity research centre; delivers fundamental and applied research that directly contributes to national digital resilience and the security practices of government an</p>
+              <a href="https://www.ru.nl/icis" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Joulz</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Tiel (Gelderland-Zuid) / Delft</p>
+              <p class="cp-card-desc">Concrete evidence of energy resilience innovation in the Gelderland-Zuid region; the Tiel energy hub is a replicable model for strengthening the resilience of business parks and strategic logistics hu</p>
+              <a href="https://joulz.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">HAN University of Applied Sciences</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Arnhem / Nijmegen</p>
+              <p class="cp-card-desc">Academic institution delivering cybersecurity talent and practice-oriented research to the region; a relevant partner for ESRF-aligned knowledge development and human capital for digital resilience.</p>
+              <a href="https://www.han.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">VABO Composites</h3>
+                <span class="cp-card-sector">Maritime &amp; Aerospace</span>
+              </div>
+              <p class="cp-card-city">Emmeloord</p>
+              <p class="cp-card-desc">Direct supplier for the new Royal Netherlands maritime frigates; represents Flevoland&#x27;s business community at the LOI signing; embodies the region&#x27;s dual-use composites innovation capability.</p>
+              <a href="https://vabocomposites.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Secwatch</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Almere</p>
+              <p class="cp-card-desc">Experienced penetration testing specialist and SOC provider with security relevance; an active player in the Flevoland security innovation ecosystem, contributing to the digital resilience of governme</p>
+              <a href="https://secwatch.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Drone Test Center Marknesse</h3>
+                <span class="cp-card-sector">Dual-use Technology</span>
+              </div>
+              <p class="cp-card-city">Marknesse (Noordoostpolder)</p>
+              <p class="cp-card-desc">Unique national test facility for drones and autonomous systems in Flevoland; directly relevant to security innovation in counter-UAS, surveillance, and logistics drone applications.</p>
+              <a href="https://www.dronetestcenter.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Windpark Zeewolde</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Zeewolde</p>
+              <p class="cp-card-desc">Kritieke energieproductie-infrastructuur in Flevoland; enorme bijdrage aan nationale energieonafhankelijkheid en resilience; valt onder NIS2 als essentiële energieproductiefaciliteit.</p>
+              <a href="https://www.windparkzeewolde.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Security Delta (HSD)</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Den Haag</p>
+              <p class="cp-card-desc">Central hub for the Dutch security ecosystem; essential to ESRF.net as a gateway to the entire ecosystem of security innovators, investors, and government partners.</p>
+              <a href="https://www.securitydelta.nl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Thales Nederland</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Den Haag</p>
+              <p class="cp-card-desc">Core supplier to Dutch security services and international partners; dual-use technologies (radar, cyber, C2 systems) with direct applications in national resilience and security investment relevant t</p>
+              <a href="https://www.thalesgroup.com/en/netherlands" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Fox-IT (NCC Group)</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Rijswijk</p>
+              <p class="cp-card-desc">Critical link in the Dutch cyber resilience chain; its trusted position with government and security services makes this company a high-value asset in any ESRF.net portfolio focused on national cyber </p>
+              <a href="https://www.fox-it.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">TNO Safety &amp; Security</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Den Haag</p>
+              <p class="cp-card-desc">Knowledge base of the Dutch security and resilience sector; TNO innovations form the technological foundation for resilience initiatives that ESRF.net aims to finance and scale.</p>
+              <a href="https://www.tno.nl/en/about-tno/organisation/units/defence-safety-security/" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Fugro</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Leidschendam</p>
+              <p class="cp-card-desc">Essential for the protection of subsea critical infrastructure (cables, pipelines, offshore energy); highly relevant to ESRF.net given the growing hybrid threats to maritime infrastructure.</p>
+              <a href="https://www.fugro.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Cybersprint (Darktrace Company)</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Den Haag</p>
+              <p class="cp-card-desc">Innovative cybersecurity technology for attack surface management; as part of Darktrace, it illustrates the consolidation trend in the sector that ESRF.net financing can accelerate.</p>
+              <a href="https://www.cybersprint.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Capgemini Netherlands (Cybersecurity)</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Den Haag</p>
+              <p class="cp-card-desc">Key player in the digitalisation of Dutch government and EU cybersecurity; major government contracts and international security involvement make this company relevant to ESRF.net investment themes ar</p>
+              <a href="https://www.capgemini.com/nl-nl/" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div></div><p class="cp-more">Showing 50 of 137 organisations. <a href="/#directory">View full directory →</a></p>
+  </section>
+
+  <!-- CTA -->
+  <div class="cp-cta">
+    <p>Is your organisation based in Netherlands and contributing to European resilience?</p>
+    <a href="/?request=1" class="cp-cta-btn">Request listing</a>
+  </div>
+
+  <!-- NEWS -->
+  <section class="cp-section">
+    <h2 class="cp-section-title"><span>📰</span> Latest news from Netherlands</h2>
+    <div class="cp-news-grid">
+            <a href="https://www.portofrotterdam.com/nl/nieuws-en-persberichten/hcc-na-grondige-verbouwing-klaar-voor-toekomst" target="_blank" rel="noopener" class="cp-news-card">
+              <div class="cp-news-source">Port of Rotterdam</div>
+              <h4 class="cp-news-title">Het HCC, het ‘kloppend hart van de Rotterdamse haven’, is na een grondige verbouwing klaar voor de toekomst</h4>
+              <p class="cp-news-snippet">The Harbour Coordination Centre (HCC), the ‘beating heart of the port of Rotterdam’, is ready for the future following extensive renovations The Harbo</p>
+              <span class="cp-news-date">2026-04-08</span>
+            </a>
+            <a href="https://www.portofrotterdam.com/nl/nieuws-en-persberichten/nieuwe-regels-voor-veiliger-varen-snelheidslimieten-op-de-nieuwe-maas-gaan" target="_blank" rel="noopener" class="cp-news-card">
+              <div class="cp-news-source">Port of Rotterdam</div>
+              <h4 class="cp-news-title">Nieuwe regels voor veiliger varen: snelheidslimieten op de Nieuwe Maas gaan in vanaf 1 april 2026</h4>
+              <p class="cp-news-snippet">New rules for safer shipping: speed limits on the Nieuwe Maas enter into force on 1 April 2026 New rules for safer shipping: speed limits on the Nieuw</p>
+              <span class="cp-news-date">2026-03-26</span>
+            </a>
+            <a href="https://www.portofrotterdam.com/nl/nieuws-en-persberichten/haven-van-rotterdam-vergroent-verder-met-europese-financiering" target="_blank" rel="noopener" class="cp-news-card">
+              <div class="cp-news-source">Port of Rotterdam</div>
+              <h4 class="cp-news-title">Haven van Rotterdam vergroent verder met Europese financiering</h4>
+              <p class="cp-news-snippet">Port of Rotterdam continues greening efforts with EU financing Energy transition Port of Rotterdam continues greening efforts with EU financing 23 Mar</p>
+              <span class="cp-news-date">2026-03-23</span>
+            </a>
+            <a href="https://www.portofrotterdam.com/nl/nieuws-en-persberichten/marktconsultatie-vooral-onzekerheid-over-de-vraag-remt-investeringen" target="_blank" rel="noopener" class="cp-news-card">
+              <div class="cp-news-source">Port of Rotterdam</div>
+              <h4 class="cp-news-title">Marktconsultatie: vooral onzekerheid over de vraag remt investeringen in terminals voor waterstofdragers zoals ammoniak</h4>
+              <p class="cp-news-snippet">Market consultation: mainly uncertainty about demand is holding back investments in terminals for hydrogen carriers such as ammonia Energy transition </p>
+              <span class="cp-news-date">2026-03-11</span>
+            </a>
+            <a href="https://www.portofrotterdam.com/nl/nieuws-en-persberichten/tussen-groei-en-druk-containerjaar-2025-rotterdam-onder-de-loep" target="_blank" rel="noopener" class="cp-news-card">
+              <div class="cp-news-source">Port of Rotterdam</div>
+              <h4 class="cp-news-title">Tussen groei en druk: containerjaar 2025 Rotterdam onder de loep</h4>
+              <p class="cp-news-snippet">Between growth and pressure: Rotterdam&#x27;s 2025 container year under review Between growth and pressure: Rotterdam&#x27;s 2025 container year under review 10</p>
+              <span class="cp-news-date">2026-03-10</span>
+            </a>
+            <a href="https://www.portofrotterdam.com/nl/nieuws-en-persberichten/nautische-jaarcijfers-2025-havenmeester-focust-op-weerbaarheid-en" target="_blank" rel="noopener" class="cp-news-card">
+              <div class="cp-news-source">Port of Rotterdam</div>
+              <h4 class="cp-news-title">Nautische jaarcijfers 2025: Havenmeester focust op weerbaarheid en snelheidsbeperkingen rondom de Erasmusbrug</h4>
+              <p class="cp-news-snippet">Nautical annual figures 2025: The Harbour Master focused on resilience and speed limits around the Erasmusbrug Safe port Nautical annual figures 2025:</p>
+              <span class="cp-news-date">2026-02-03</span>
+            </a></div>
+    <p class="cp-more" style="margin-top:16px;"><a href="/news.html">View all network news →</a></p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="cp-footer">
+    <p>ESRF.community — European Security & Resilience Framework</p>
+    <p><a href="/">Home</a> · <a href="/countries/">All countries</a> · <a href="/news.html">News</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+    <p>Contact: <a href="mailto:office@esrf.net">office@esrf.net</a></p>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    const btn = document.getElementById('hamburgerBtn');
+    const navRight = document.querySelector('.nav-right');
+    if (btn && navRight) {
+      btn.addEventListener('click', () => {
+        const open = navRight.classList.toggle('open');
+        btn.classList.toggle('active', open);
+        btn.setAttribute('aria-expanded', open);
+      });
+      document.addEventListener('click', (e) => {
+        if (!btn.contains(e.target) && !navRight.contains(e.target)) {
+          navRight.classList.remove('open');
+          btn.classList.remove('active');
+        }
+      });
+    }
+    // Nav scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+</body>
+</html>

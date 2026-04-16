@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greece — ESRF.community | European Security & Resilience</title>
+  <meta name="description" content="Greece is vital for Eastern Mediterranean security and maritime resilience. Its expertise in natural disaster response — particularly wildfires and seismic">
+  <meta property="og:title" content="Greece — ESRF.community">
+  <meta property="og:description" content="Greece is vital for Eastern Mediterranean security and maritime resilience. Its expertise in natural disaster response — particularly wildfires and seismic events — strengthens European civil protecti">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.esrf.net/countries/greece/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* ── COUNTRY PAGE STYLES ── */
+    .cp-hero {
+      padding: 100px 24px 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .cp-flag { font-size: 4rem; margin-bottom: 12px; }
+    .cp-hero h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--text-prim);
+      margin: 0 0 4px;
+    }
+    .cp-hero .cp-local-name {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .cp-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .cp-badge-eu { background: rgba(57,160,237,0.15); color: var(--cyan); }
+    .cp-badge-friend { background: rgba(255,107,53,0.15); color: var(--orange); }
+    .cp-intro {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text-sec);
+    }
+
+    /* Stats */
+    .cp-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .cp-stat-num { font-size: 1.8rem; font-weight: 700; color: var(--orange); }
+    .cp-stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Sections */
+    .cp-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    .cp-section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-prim);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cp-section-title span { font-size: 1.2rem; }
+
+    /* Company grid */
+    .cp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .cp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .cp-card:hover { border-color: var(--orange); transform: translateY(-2px); }
+    .cp-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+    .cp-card-name { font-size: 0.95rem; font-weight: 600; color: var(--text-prim); margin: 0; }
+    .cp-card-sector {
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--cyan);
+      background: rgba(57,160,237,0.1);
+      padding: 2px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .cp-card-city { font-size: 0.8rem; color: var(--text-muted); margin: 0 0 8px; }
+    .cp-card-desc { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 12px; }
+    .cp-card-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--orange);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .cp-card-link:hover { text-decoration: underline; }
+
+    /* Sectors */
+    .cp-sectors { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .cp-sector-tag {
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+    }
+
+    /* News */
+    .cp-news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .cp-news-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s;
+    }
+    .cp-news-card:hover { border-color: var(--orange); }
+    .cp-news-source { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; }
+    .cp-news-title { font-size: 0.92rem; font-weight: 600; color: var(--text-prim); margin: 0 0 8px; line-height: 1.4; }
+    .cp-news-snippet { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 8px; }
+    .cp-news-date { font-size: 0.7rem; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; }
+    .cp-news-empty { color: var(--text-muted); font-style: italic; }
+
+    /* Empty state */
+    .cp-empty { text-align: center; padding: 48px 24px; }
+    .cp-empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .cp-empty h3 { color: var(--text-prim); margin: 0 0 8px; }
+    .cp-empty p { color: var(--text-sec); max-width: 500px; margin: 0 auto 20px; }
+    .cp-empty-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--navy) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .cp-empty-btn:hover { background: #e85e2d; transform: translateY(-1px); }
+
+    /* CTA banner */
+    .cp-cta {
+      background: var(--orange-faint);
+      border-top: 1px solid rgba(255,107,53,0.15);
+      border-bottom: 1px solid rgba(255,107,53,0.15);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .cp-cta p { color: var(--text-sec); margin: 0 0 16px; }
+    .cp-cta-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--navy) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cp-cta-btn:hover { background: #e85e2d; transform: translateY(-1px); }
+
+    /* Sponsor slot */
+    .cp-sponsor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+    }
+    .cp-sponsor-inner {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* More link */
+    .cp-more { font-size: 0.85rem; color: var(--text-sec); margin-top: 16px; }
+    .cp-more a { color: var(--orange); text-decoration: none; }
+    .cp-more a:hover { text-decoration: underline; }
+
+    /* Breadcrumb */
+    .cp-breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 0;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cp-breadcrumb a { color: var(--text-sec); text-decoration: none; }
+    .cp-breadcrumb a:hover { color: var(--orange); }
+
+    /* Footer */
+    .cp-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cp-footer a { color: var(--orange); text-decoration: none; }
+    .cp-footer a:hover { text-decoration: underline; }
+
+    /* Nav overrides for subpages */
+    .cp-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+
+    @media (max-width: 768px) {
+      .cp-hero h1 { font-size: 1.6rem; }
+      .cp-grid { grid-template-columns: 1fr; }
+      .cp-news-grid { grid-template-columns: 1fr; }
+      .cp-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="brand">
+        <svg class="brand-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 20 L20 12 L28 20 L20 28Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <circle cx="20" cy="20" r="4" fill="currentColor"/>
+        </svg>
+        <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
+      </a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-right">
+        <a href="/#pillars" class="nav-link">Pillars</a>
+        <a href="/countries/" class="nav-link">Countries</a>
+        <a href="/news.html" class="nav-link">News</a>
+        <a href="/#about" class="nav-link">About</a>
+        <a href="/#" class="nav-cta-btn" onclick="window.location='/?request=1'; return false;">Request listing</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="cp-breadcrumb">
+    <a href="/">ESRF</a> / <a href="/countries/">Countries</a> / Greece
+  </div>
+
+  <!-- HERO -->
+  <section class="cp-hero">
+    <div class="cp-flag">🇬🇷</div>
+    <h1>Greece</h1>
+    <div class="cp-local-name">Ελλάδα</div>
+    <span class="cp-badge cp-badge-eu">EU Member State</span>
+    <p class="cp-intro">Greece is vital for Eastern Mediterranean security and maritime resilience. Its expertise in natural disaster response — particularly wildfires and seismic events — strengthens European civil protection capabilities.</p>
+    <div class="cp-stats">
+      <div><div class="cp-stat-num">0</div><div class="cp-stat-label">Organisations</div></div>
+      <div><div class="cp-stat-num">0</div><div class="cp-stat-label">Sectors</div></div>
+      <div><div class="cp-stat-num">0</div><div class="cp-stat-label">News articles</div></div>
+    </div>
+  </section>
+
+  <!-- SPONSOR SLOT: Country spotlight -->
+  <div class="cp-sponsor">
+    <div class="cp-sponsor-inner">
+      📣 Sponsor spotlight available for Greece — <a href="mailto:office@esrf.net" style="color:var(--orange)">Contact us</a>
+    </div>
+  </div>
+
+  <!-- ORGANISATIONS -->
+  <section class="cp-section">
+    <h2 class="cp-section-title"><span>🏢</span> Organisations in Greece</h2>
+    
+    
+        <div class="cp-empty">
+          <div class="cp-empty-icon">🏢</div>
+          <h3>Be the first organisation listed in Greece</h3>
+          <p>No organisations from Greece are currently in the ESRF directory. Is your organisation contributing to European resilience?</p>
+          <a href="/#" onclick="document.querySelector('.cp-cta-btn')?.click(); return false;" class="cp-empty-btn">Request listing</a>
+        </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cp-cta">
+    <p>Is your organisation based in Greece and contributing to European resilience?</p>
+    <a href="/?request=1" class="cp-cta-btn">Request listing</a>
+  </div>
+
+  <!-- NEWS -->
+  <section class="cp-section">
+    <h2 class="cp-section-title"><span>📰</span> Latest news from Greece</h2>
+    <p class="cp-news-empty">No recent news from Greece. News coverage will expand as more sources are added.</p>
+    <p class="cp-more" style="margin-top:16px;"><a href="/news.html">View all network news →</a></p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="cp-footer">
+    <p>ESRF.community — European Security & Resilience Framework</p>
+    <p><a href="/">Home</a> · <a href="/countries/">All countries</a> · <a href="/news.html">News</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+    <p>Contact: <a href="mailto:office@esrf.net">office@esrf.net</a></p>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    const btn = document.getElementById('hamburgerBtn');
+    const navRight = document.querySelector('.nav-right');
+    if (btn && navRight) {
+      btn.addEventListener('click', () => {
+        const open = navRight.classList.toggle('open');
+        btn.classList.toggle('active', open);
+        btn.setAttribute('aria-expanded', open);
+      });
+      document.addEventListener('click', (e) => {
+        if (!btn.contains(e.target) && !navRight.contains(e.target)) {
+          navRight.classList.remove('open');
+          btn.classList.remove('active');
+        }
+      });
+    }
+    // Nav scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+</body>
+</html>
