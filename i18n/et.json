@@ -17,7 +17,6 @@
     "organisations": "organisatsiooni",
     "countries": "riiki",
     "sectors": "sektorit",
-    "pillars": "sammast",
     "articles": "artiklit",
     "shown": "näidatud",
     "load_more": "Laadi veel →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Sammas",
     "sector": "Sektor",
     "country": "Riik",
-    "all_pillars": "Kõik",
     "all_sectors": "Kõik sektorid",
     "all_countries": "Kõik riigid",
     "search_placeholder": "Otsi nime, linna, kirjelduse järgi…",
-    "search_organisations": "Otsi organisatsioone…",
-    "prevent": "Ennetamine · Valvsus",
-    "protect": "Kaitsmine · Haldamine",
-    "prepare": "Ettevalmistus · Mõjuvõim",
-    "respond": "Reageerimine · Solidaarsus",
-    "recover": "Taastumine · Uuenemine"
+    "search_organisations": "Otsi organisatsioone…"
   },
   "cta": {
     "request_listing": "Taotlus kandmiseks →",

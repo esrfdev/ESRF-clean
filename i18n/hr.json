@@ -17,7 +17,6 @@
     "organisations": "organizacija",
     "countries": "zemalja",
     "sectors": "sektora",
-    "pillars": "stupova",
     "articles": "članaka",
     "shown": "prikazano",
     "load_more": "Učitaj više →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Stup",
     "sector": "Sektor",
     "country": "Zemlja",
-    "all_pillars": "Sve",
     "all_sectors": "Svi sektori",
     "all_countries": "Sve zemlje",
     "search_placeholder": "Traži po nazivu, gradu, opisu…",
-    "search_organisations": "Traži organizacije…",
-    "prevent": "Sprječavanje · Budnost",
-    "protect": "Zaštita · Upravljanje",
-    "prepare": "Priprema · Osnaživanje",
-    "respond": "Reagiranje · Solidarnost",
-    "recover": "Oporavak · Obnova"
+    "search_organisations": "Traži organizacije…"
   },
   "cta": {
     "request_listing": "Zahtjev za uvrštavanje →",

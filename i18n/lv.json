@@ -17,7 +17,6 @@
     "organisations": "organizācijas",
     "countries": "valstis",
     "sectors": "sektori",
-    "pillars": "pīlāri",
     "articles": "raksti",
     "shown": "rādīts",
     "load_more": "Ielādēt vairāk →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Pīlārs",
     "sector": "Sektors",
     "country": "Valsts",
-    "all_pillars": "Visi",
     "all_sectors": "Visi sektori",
     "all_countries": "Visas valstis",
     "search_placeholder": "Meklēt pēc nosaukuma, pilsētas, apraksta…",
-    "search_organisations": "Meklēt organizācijas…",
-    "prevent": "Novēršana · Modrība",
-    "protect": "Aizsardzība · Pārvaldīšana",
-    "prepare": "Sagatavošana · Pilnvarošana",
-    "respond": "Reaģēšana · Solidaritāte",
-    "recover": "Atveseļošana · Atjaunošana"
+    "search_organisations": "Meklēt organizācijas…"
   },
   "cta": {
     "request_listing": "Pieteikums reģistrācijai →",

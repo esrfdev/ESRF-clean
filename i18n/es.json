@@ -17,7 +17,6 @@
     "organisations": "organizaciones",
     "countries": "países",
     "sectors": "sectores",
-    "pillars": "pilares",
     "articles": "artículos",
     "shown": "mostrado",
     "load_more": "Cargar más →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Pilar",
     "sector": "Sector",
     "country": "País",
-    "all_pillars": "Todos",
     "all_sectors": "Todos los sectores",
     "all_countries": "Todos los países",
     "search_placeholder": "Buscar por nombre, ciudad, descripción…",
-    "search_organisations": "Buscar organizaciones…",
-    "prevent": "Prevenir · Vigilancia",
-    "protect": "Proteger · Gestión",
-    "prepare": "Preparar · Empoderamiento",
-    "respond": "Responder · Solidaridad",
-    "recover": "Recuperar · Renovación"
+    "search_organisations": "Buscar organizaciones…"
   },
   "cta": {
     "request_listing": "Solicitar listado →",

@@ -17,7 +17,6 @@
     "organisations": "organizzazzjonijiet",
     "countries": "pajjiżi",
     "sectors": "setturi",
-    "pillars": "kolonni",
     "articles": "artikoli",
     "shown": "muri",
     "load_more": "Għabbi aktar →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Kolonna",
     "sector": "Settur",
     "country": "Pajjiż",
-    "all_pillars": "Kollha",
     "all_sectors": "Il-setturi kollha",
     "all_countries": "Il-pajjiżi kollha",
     "search_placeholder": "Fittex bl-isem, belt, deskrizzjoni…",
-    "search_organisations": "Fittex organizzazzjonijiet…",
-    "prevent": "Prevenzjoni · Viġilanza",
-    "protect": "Protezzjoni · Tmexxija",
-    "prepare": "Preparament · Tisħiħ",
-    "respond": "Risposta · Solidarjetà",
-    "recover": "Irkupru · Tiġdid"
+    "search_organisations": "Fittex organizzazzjonijiet…"
   },
   "cta": {
     "request_listing": "Talba għal dħul →",

@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Dispatch — ESRF.net</title>
-<meta name="description" content="The ESRF.net dispatch — curated European security and resilience signals, filed under the moral pillar each story touches." />
+<meta name="description" content="The ESRF.net dispatch — curated European security and resilience signals, filed by sector and topic." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,7 +38,7 @@
   <div class="phero-inner">
     <div class="kicker">§ 06 · Dispatch</div>
     <h1 class="phero-title">From the<br><i>continent</i>.</h1>
-    <p class="phero-deck">A curated ledger of European security, resilience and crisis signals — each filed under the pillar whose concerns it touches. Updated continuously.</p>
+    <p class="phero-deck">A curated ledger of European security, resilience and crisis signals — each filed by sector and topic. Updated continuously.</p>
     <div class="phero-meta" id="dispatch-meta">
       <span id="dispatch-count"><strong>41</strong> articles</span>
       <span id="dispatch-gen"></span>
@@ -46,17 +46,7 @@
   </div>
 </section>
 
-<div class="filter-bar">
-  <div class="filter-chips" role="group" aria-label="Filter by pillar">
-    <span class="filter-group-label">Pillar</span>
-    <button class="chip active" data-pillar="" data-i18n="filter.all_pillars">All</button>
-    <button class="chip pillar-prevent" data-pillar="prevent" data-i18n="filter.prevent">Prevent · Vigilance</button>
-    <button class="chip pillar-protect" data-pillar="protect" data-i18n="filter.protect">Protect · Stewardship</button>
-    <button class="chip pillar-prepare" data-pillar="prepare" data-i18n="filter.prepare">Prepare · Empowerment</button>
-    <button class="chip pillar-respond" data-pillar="respond" data-i18n="filter.respond">Respond · Solidarity</button>
-    <button class="chip pillar-recover" data-pillar="recover" data-i18n="filter.recover">Recover · Renewal</button>
-  </div>
-</div>
+
 
 <div class="news-list" id="news-list" aria-live="polite"></div>
 
@@ -98,33 +88,19 @@
     document.getElementById('dispatch-gen').innerHTML = `updated <strong>${d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</strong>`;
   }
 
-  const state = { pillar:'' };
-
-  document.querySelector('.filter-chips').addEventListener('click', e => {
-    const chip = e.target.closest('.chip'); if(!chip) return;
-    state.pillar = chip.dataset.pillar;
-    document.querySelectorAll('.filter-chips .chip').forEach(c=>c.classList.toggle('active', c.dataset.pillar===state.pillar));
-    render();
-  });
-
   function render(){
-    const filt = (data.articles||[]).filter(a => {
-      if(!state.pillar) return true;
-      return VIRTUE_TO_PILLAR[a.pillar] === state.pillar;
-    });
-    if(!filt.length){
-      list.innerHTML = '<div class="dir-empty" style="padding:100px 0">No articles match this pillar yet.</div>';
+    const articles = data.articles || [];
+    if(!articles.length){
+      list.innerHTML = '<div class="dir-empty" style="padding:100px 0">No articles yet.</div>';
       return;
     }
-    list.innerHTML = filt.map(a => {
-      const pk = VIRTUE_TO_PILLAR[a.pillar] || 'prevent';
-      const meta = PILLAR_META[pk];
+    list.innerHTML = articles.map(a => {
       const dt = new Date(a.date);
       const date = isNaN(dt) ? '' : dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
       return `
         <a class="news-item" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">
           <div class="news-meta-col">
-            <div class="news-pillar" style="color:${meta.color}">${meta.verb} · ${meta.virtue}</div>
+            <div class="news-pillar" style="color:var(--ink-dim)">${esc(a.pillar || '')}</div>
             <div class="news-date">${date}</div>
             <div class="news-source">${esc(a.source || a.organisation || '')}</div>
           </div>

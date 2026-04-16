@@ -17,7 +17,6 @@
     "organisations": "eagraíochtaí",
     "countries": "tíortha",
     "sectors": "earnálacha",
-    "pillars": "colúin",
     "articles": "alt",
     "shown": "léirithe",
     "load_more": "Luchtaigh tuilleadh →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Colún",
     "sector": "Earnáil",
     "country": "Tír",
-    "all_pillars": "Gach",
     "all_sectors": "Gach earnáil",
     "all_countries": "Gach tír",
     "search_placeholder": "Cuardaigh ainm, cathair, cur síos…",
-    "search_organisations": "Cuardaigh eagraíochtaí…",
-    "prevent": "Cosc · Airdeall",
-    "protect": "Cosaint · Maorgacht",
-    "prepare": "Ullmhúchán · Cumhachtú",
-    "respond": "Freagart · Dlúthpháirtíocht",
-    "recover": "Téarnamh · Athnuachan"
+    "search_organisations": "Cuardaigh eagraíochtaí…"
   },
   "cta": {
     "request_listing": "Iarratas ar liostáil →",

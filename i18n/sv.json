@@ -17,7 +17,6 @@
     "organisations": "organisationer",
     "countries": "länder",
     "sectors": "sektorer",
-    "pillars": "pelare",
     "articles": "artiklar",
     "shown": "visat",
     "load_more": "Ladda fler →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Pelare",
     "sector": "Sektor",
     "country": "Land",
-    "all_pillars": "Alla",
     "all_sectors": "Alla sektorer",
     "all_countries": "Alla länder",
     "search_placeholder": "Sök efter namn, stad, beskrivning…",
-    "search_organisations": "Sök organisationer…",
-    "prevent": "Förebygga · Vaksamhet",
-    "protect": "Skydda · Förvaltarskap",
-    "prepare": "Förbereda · Bemyndigande",
-    "respond": "Reagera · Solidaritet",
-    "recover": "Återhämta · Förnyelse"
+    "search_organisations": "Sök organisationer…"
   },
   "cta": {
     "request_listing": "Begär listning →",

@@ -17,7 +17,6 @@
     "organisations": "οργανισμοί",
     "countries": "χώρες",
     "sectors": "τομείς",
-    "pillars": "πυλώνες",
     "articles": "άρθρα",
     "shown": "εμφανίζονται",
     "load_more": "Φόρτωση →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Πυλώνας",
     "sector": "Τομέας",
     "country": "Χώρα",
-    "all_pillars": "Όλα",
     "all_sectors": "Όλοι οι τομείς",
     "all_countries": "Όλες οι χώρες",
     "search_placeholder": "Αναζήτηση κατά όνομα, πόλη…",
-    "search_organisations": "Αναζήτηση οργανισμών…",
-    "prevent": "Πρόληψη · Επαγρύπνηση",
-    "protect": "Προστασία · Επιστασία",
-    "prepare": "Προετοιμασία · Ενδυνάμωση",
-    "respond": "Ανταπόκριση · Αλληλεγγύη",
-    "recover": "Ανάκαμψη · Ανανέωση"
+    "search_organisations": "Αναζήτηση οργανισμών…"
   },
   "cta": {
     "request_listing": "Αίτηση καταχώρησης →",

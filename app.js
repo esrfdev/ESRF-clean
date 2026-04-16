@@ -2,33 +2,33 @@
    ESRF.net — shared helpers
    ════════════════════════════════════════════════════════════════ */
 
-// Sector → pillar mapping
-const SECTOR_TO_PILLAR = {
-  'Risk & Continuity Management'        : 'prevent',
-  'Knowledge, Training & Research'      : 'prevent',
-  'Security & Protection'               : 'protect',
-  'Critical Infrastructure'             : 'protect',
-  'Digital Infrastructure & Cybersecurity': 'prepare',
-  'Dual-use Technology & Manufacturing' : 'prepare',
-  'Emergency & Crisis Response'         : 'respond',
-  'Health & Medical Manufacturing'      : 'respond',
-  'Energy & Grid Resilience'            : 'recover',
-  'Transport, Maritime & Aerospace'     : 'recover',
+// Sector colour maps
+const SECTOR_COLOR = {
+  'Emergency & Crisis Response'          : 'var(--sec-emergency)',
+  'Security & Protection'                : 'var(--sec-security)',
+  'Risk & Continuity Management'         : 'var(--sec-risk)',
+  'Digital Infrastructure & Cybersecurity': 'var(--sec-digital)',
+  'Knowledge, Training & Research'       : 'var(--sec-knowledge)',
+  'Health & Medical Manufacturing'       : 'var(--sec-health)',
+  'Critical Infrastructure'              : 'var(--sec-critical)',
+  'Dual-use Technology & Manufacturing'  : 'var(--sec-dualuse)',
+  'Transport, Maritime & Aerospace'      : 'var(--sec-transport)',
+  'Energy & Grid Resilience'             : 'var(--sec-energy)',
 };
-
-const PILLAR_META = {
-  prevent:  { key:'prevent',  num:'01', verb:'Prevent',  virtue:'Vigilance',   color:'#204E7A', body:'To notice before it is loud — structural attention to signals and systemic risks.' },
-  protect:  { key:'protect',  num:'02', verb:'Protect',  virtue:'Stewardship', color:'#D24B1F', body:'To guard what sustains us — critical functions, vital processes, shared interests.' },
-  prepare:  { key:'prepare',  num:'03', verb:'Prepare',  virtue:'Empowerment', color:'#5A2E4A', body:'To stand ready, together — through training, innovation and sustainable preparedness.' },
-  respond:  { key:'respond',  num:'04', verb:'Respond',  virtue:'Solidarity',  color:'#A8741E', body:'To act as one when it matters — reliable networks, rapid coordination, mutual support.' },
-  recover:  { key:'recover',  num:'05', verb:'Recover',  virtue:'Renewal',     color:'#4F5E2F', body:'To rise stronger than before — absorb shocks, accelerate recovery, renew the system.' },
+const SECTOR_HEX = {
+  'Emergency & Crisis Response'          : '#C14A2E',
+  'Security & Protection'                : '#2F4858',
+  'Risk & Continuity Management'         : '#7A4B2E',
+  'Digital Infrastructure & Cybersecurity': '#3A5A7A',
+  'Knowledge, Training & Research'       : '#6B5D8A',
+  'Health & Medical Manufacturing'       : '#8C3A52',
+  'Critical Infrastructure'              : '#4A6B3A',
+  'Dual-use Technology & Manufacturing'  : '#A87C2B',
+  'Transport, Maritime & Aerospace'      : '#5B6B7A',
+  'Energy & Grid Resilience'             : '#AE5A1F',
 };
-
-// News tag (virtue) → pillar key
-const VIRTUE_TO_PILLAR = {
-  vigilance:'prevent', stewardship:'protect', empowerment:'prepare',
-  solidarity:'respond', renewal:'recover',
-};
+function sectorColor(sector){ return SECTOR_COLOR[sector] || 'var(--ink-dim)'; }
+function sectorColorHex(sector){ return SECTOR_HEX[sector] || '#7A6E62'; }
 
 const SECTOR_ORDER = [
   'Emergency & Crisis Response',
@@ -56,10 +56,6 @@ const SECTOR_SHORT = {
   'Transport, Maritime & Aerospace'     : 'Transport',
   'Energy & Grid Resilience'            : 'Energy',
 };
-
-function pillarOf(sector){ return SECTOR_TO_PILLAR[sector] || 'prevent'; }
-function pillarColor(p){ return PILLAR_META[p]?.color || '#7A6E62'; }
-function sectorColor(sector){ return pillarColor(pillarOf(sector)); }
 
 // Data loaders (cached)
 let _orgs = null, _news = null;
