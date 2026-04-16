@@ -1387,6 +1387,198 @@ a.country-pill:hover .count {
   justify-content: center;
 }
 
+
+/* ─── Sector Hero Chips ─────────────────────────────────── */
+.sectors-hero {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 24px 0;
+}
+.sector-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  text-decoration: none;
+  color: var(--text-dim);
+  font-size: 12px;
+  transition: background var(--transition), transform 0.15s ease;
+}
+.sector-chip:hover {
+  background: var(--navy-mid);
+  transform: translateY(-1px);
+  color: var(--text-light);
+}
+.sector-chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.sector-chip-label {
+  white-space: nowrap;
+}
+.sector-chip-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--orange);
+}
+
+/* ─── Manifest Cards (Moral Compass) ────────────────────── */
+.manifest-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.manifest-card {
+  background: var(--navy-mid);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+.manifest-card:hover {
+  transform: translateY(-2px);
+}
+.manifest-card-icon img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 12px;
+}
+.manifest-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--orange);
+  margin: 0 0 8px;
+}
+.manifest-card-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .manifest-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .manifest-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ─── Sectors Overview Cards ────────────────────────────── */
+.section-sectors {
+  padding: 80px 0;
+}
+.sectors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.sector-card {
+  background: var(--navy-mid);
+  border-radius: 12px;
+  padding: 24px;
+  transition: transform 0.2s ease;
+}
+.sector-card:hover {
+  transform: translateY(-2px);
+}
+.sector-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.sector-card-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.sector-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin: 0;
+}
+.sector-card-count {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: 12px;
+}
+.sector-card-count span {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 400;
+}
+.sector-browse-btn {
+  background: none;
+  border: 1px solid var(--text-dim);
+  color: var(--text-dim);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all var(--transition);
+  font-family: var(--font-mono);
+}
+.sector-browse-btn:hover {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+/* ─── Map Sector Filter ─────────────────────────────────── */
+.map-sector-filter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding: 0 16px;
+}
+.map-sector-filter .map-pill {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+.map-sector-filter .map-pill:hover,
+.map-sector-filter .map-pill.active {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: var(--navy-deep);
+}
+
+/* ─── Popup sector badge ────────────────────────────────── */
+.popup-sector {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #fff;
+  margin-top: 4px;
+}
+
 /* ─── Footer ────────────────────────────────────────────── */
 #footer {
   background: var(--navy-mid);
