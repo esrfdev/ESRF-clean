@@ -1,361 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Countries — ESRF.community | European Security & Resilience</title>
-  <meta name="description" content="Explore 27 EU member states and Friends of Europe in the ESRF network. Find organisations, news, and resilience initiatives per country.">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css">
-  <style>
-    .co-hero {
-      padding: 100px 24px 48px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-    }
-    .co-hero h1 { font-size: 2.2rem; font-weight: 700; color: var(--text-prim); margin: 0 0 12px; }
-    .co-hero p { color: var(--text-sec); max-width: 600px; margin: 0 auto; line-height: 1.6; }
-
-    .co-section {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 48px 24px;
-    }
-    .co-section-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text-prim);
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .co-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 12px;
-    }
-    .co-card {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      text-decoration: none;
-      color: inherit;
-      transition: border-color 0.2s, transform 0.15s;
-    }
-    .co-card:hover { border-color: var(--orange); transform: translateY(-1px); }
-    .co-flag { font-size: 1.6rem; flex-shrink: 0; }
-    .co-name { font-size: 0.88rem; font-weight: 600; color: var(--text-prim); }
-    .co-count { font-size: 0.72rem; color: var(--text-muted); margin-left: auto; white-space: nowrap; }
-
-    .co-friends {
-      border-top: 1px solid var(--border);
-      margin-top: 16px;
-      padding-top: 48px;
-    }
-
-    .co-footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 24px;
-      text-align: center;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-    .co-footer a { color: var(--orange); text-decoration: none; }
-
-    @media (max-width: 600px) {
-      .co-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-      .co-hero h1 { font-size: 1.6rem; }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Countries — ESRF.net</title>
+<meta name="description" content="Twenty-nine countries on the ESRF.net atlas — each with its own contribution to European security and resilience." />
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-  <nav id="navbar">
-    <div class="nav-inner">
-      <a href="/" class="nav-brand">
-        <svg class="nav-logo" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-label="ESRF Logo">
-          <rect x="2" y="2" width="28" height="28" rx="4" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
-          <path d="M8 10h16M8 16h12M8 22h16" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="24" cy="16" r="3" fill="var(--orange)" opacity="0.6"/>
-        </svg>
-        <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
-      </a>
-      <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <div class="nav-right">
-        <a href="/#pillars" class="nav-link">Framework</a>
-        <a href="/countries/" class="nav-link">Countries</a>
-        <a href="/news.html" class="nav-link">News</a>
-        <a href="/#about" class="nav-link">About</a>
-        <button class="nav-cta-btn" onclick="openRequestModal()">Request listing</button>
-      </div>
-    </div>
-  </nav>
 
-  <section class="co-hero">
-    <h1>Countries</h1>
-    <p>The ESRF network spans 27 EU member states and Friends of Europe. Explore organisations, news, and resilience initiatives per country.</p>
-  </section>
-
-  <section class="co-section">
-    <div class="co-section-title">🇪🇺 EU Member States (27)</div>
-    <div class="co-grid">
-        <a href="/countries/austria/" class="co-card">
-          <span class="co-flag">🇦🇹</span>
-          <span class="co-name">Austria</span>
-          <span class="co-count">61 orgs</span>
-        </a>
-        <a href="/countries/belgium/" class="co-card">
-          <span class="co-flag">🇧🇪</span>
-          <span class="co-name">Belgium</span>
-          <span class="co-count">64 orgs</span>
-        </a>
-        <a href="/countries/bulgaria/" class="co-card">
-          <span class="co-flag">🇧🇬</span>
-          <span class="co-name">Bulgaria</span>
-          <span class="co-count">38 orgs</span>
-        </a>
-        <a href="/countries/croatia/" class="co-card">
-          <span class="co-flag">🇭🇷</span>
-          <span class="co-name">Croatia</span>
-          <span class="co-count">52 orgs</span>
-        </a>
-        <a href="/countries/cyprus/" class="co-card">
-          <span class="co-flag">🇨🇾</span>
-          <span class="co-name">Cyprus</span>
-          <span class="co-count">40 orgs</span>
-        </a>
-        <a href="/countries/czech-republic/" class="co-card">
-          <span class="co-flag">🇨🇿</span>
-          <span class="co-name">Czech Republic</span>
-          <span class="co-count">51 orgs</span>
-        </a>
-        <a href="/countries/denmark/" class="co-card">
-          <span class="co-flag">🇩🇰</span>
-          <span class="co-name">Denmark</span>
-          <span class="co-count">51 orgs</span>
-        </a>
-        <a href="/countries/estonia/" class="co-card">
-          <span class="co-flag">🇪🇪</span>
-          <span class="co-name">Estonia</span>
-          <span class="co-count">56 orgs</span>
-        </a>
-        <a href="/countries/finland/" class="co-card">
-          <span class="co-flag">🇫🇮</span>
-          <span class="co-name">Finland</span>
-          <span class="co-count">63 orgs</span>
-        </a>
-        <a href="/countries/france/" class="co-card">
-          <span class="co-flag">🇫🇷</span>
-          <span class="co-name">France</span>
-          <span class="co-count">112 orgs</span>
-        </a>
-        <a href="/countries/germany/" class="co-card">
-          <span class="co-flag">🇩🇪</span>
-          <span class="co-name">Germany</span>
-          <span class="co-count">118 orgs</span>
-        </a>
-        <a href="/countries/greece/" class="co-card">
-          <span class="co-flag">🇬🇷</span>
-          <span class="co-name">Greece</span>
-          <span class="co-count">51 orgs</span>
-        </a>
-        <a href="/countries/hungary/" class="co-card">
-          <span class="co-flag">🇭🇺</span>
-          <span class="co-name">Hungary</span>
-          <span class="co-count">55 orgs</span>
-        </a>
-        <a href="/countries/ireland/" class="co-card">
-          <span class="co-flag">🇮🇪</span>
-          <span class="co-name">Ireland</span>
-          <span class="co-count">52 orgs</span>
-        </a>
-        <a href="/countries/italy/" class="co-card">
-          <span class="co-flag">🇮🇹</span>
-          <span class="co-name">Italy</span>
-          <span class="co-count">83 orgs</span>
-        </a>
-        <a href="/countries/latvia/" class="co-card">
-          <span class="co-flag">🇱🇻</span>
-          <span class="co-name">Latvia</span>
-          <span class="co-count">52 orgs</span>
-        </a>
-        <a href="/countries/lithuania/" class="co-card">
-          <span class="co-flag">🇱🇹</span>
-          <span class="co-name">Lithuania</span>
-          <span class="co-count">40 orgs</span>
-        </a>
-        <a href="/countries/luxembourg/" class="co-card">
-          <span class="co-flag">🇱🇺</span>
-          <span class="co-name">Luxembourg</span>
-          <span class="co-count">47 orgs</span>
-        </a>
-        <a href="/countries/malta/" class="co-card">
-          <span class="co-flag">🇲🇹</span>
-          <span class="co-name">Malta</span>
-          <span class="co-count">32 orgs</span>
-        </a>
-        <a href="/countries/netherlands/" class="co-card">
-          <span class="co-flag">🇳🇱</span>
-          <span class="co-name">Netherlands</span>
-          <span class="co-count">161 orgs</span>
-        </a>
-        <a href="/countries/poland/" class="co-card">
-          <span class="co-flag">🇵🇱</span>
-          <span class="co-name">Poland</span>
-          <span class="co-count">84 orgs</span>
-        </a>
-        <a href="/countries/portugal/" class="co-card">
-          <span class="co-flag">🇵🇹</span>
-          <span class="co-name">Portugal</span>
-          <span class="co-count">61 orgs</span>
-        </a>
-        <a href="/countries/romania/" class="co-card">
-          <span class="co-flag">🇷🇴</span>
-          <span class="co-name">Romania</span>
-          <span class="co-count">63 orgs</span>
-        </a>
-        <a href="/countries/slovakia/" class="co-card">
-          <span class="co-flag">🇸🇰</span>
-          <span class="co-name">Slovakia</span>
-          <span class="co-count">47 orgs</span>
-        </a>
-        <a href="/countries/slovenia/" class="co-card">
-          <span class="co-flag">🇸🇮</span>
-          <span class="co-name">Slovenia</span>
-          <span class="co-count">43 orgs</span>
-        </a>
-        <a href="/countries/spain/" class="co-card">
-          <span class="co-flag">🇪🇸</span>
-          <span class="co-name">Spain</span>
-          <span class="co-count">58 orgs</span>
-        </a>
-        <a href="/countries/sweden/" class="co-card">
-          <span class="co-flag">🇸🇪</span>
-          <span class="co-name">Sweden</span>
-          <span class="co-count">66 orgs</span>
-        </a></div>
-
-    <div class="co-friends">
-      <div class="co-section-title">🤝 Friends of Europe</div>
-      <div class="co-grid">
-        <a href="/countries/norway/" class="co-card">
-          <span class="co-flag">🇳🇴</span>
-          <span class="co-name">Norway</span>
-          <span class="co-count">63 orgs</span>
-        </a>
-        <a href="/countries/united-kingdom/" class="co-card">
-          <span class="co-flag">🇬🇧</span>
-          <span class="co-name">United Kingdom</span>
-          <span class="co-count">128 orgs</span>
-        </a></div>
-    </div>
-  </section>
-
-  <!-- ═══════════ REQUEST LISTING MODAL ═══════════ -->
-  <div class="req-modal-overlay" id="requestModal">
-    <div class="req-modal">
-      <button class="req-modal-close" onclick="closeRequestModal()">&times;</button>
-      <div id="requestForm">
-        <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:8px;">Request a listing</h2>
-        <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:28px;line-height:1.6;">Submit your organisation for inclusion in the ESRF network. We review all requests within 5 business days.</p>
-        <div class="req-form-group"><label>Contact name</label><input type="text" id="reqName" placeholder="Your full name" /></div>
-        <div class="req-form-group"><label>Email address</label><input type="email" id="reqEmail" placeholder="you@organisation.com" /></div>
-        <div class="req-form-group"><label>Organisation name</label><input type="text" id="reqOrg" placeholder="e.g. Resilience Solutions B.V." /></div>
-        <div class="req-form-group"><label>Website</label><input type="url" id="reqWebsite" placeholder="https://www.example.com" /><span style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;display:block;">Optional, but helps us verify your organisation faster</span></div>
-        <div class="req-form-group"><label>Country</label><select id="reqCountry"><option value="">Select country</option><option value="AT">Austria</option><option value="BE">Belgium</option><option value="BG">Bulgaria</option><option value="HR">Croatia</option><option value="CY">Cyprus</option><option value="CZ">Czech Republic</option><option value="DK">Denmark</option><option value="EE">Estonia</option><option value="FI">Finland</option><option value="FR">France</option><option value="DE">Germany</option><option value="GR">Greece</option><option value="HU">Hungary</option><option value="IE">Ireland</option><option value="IT">Italy</option><option value="LV">Latvia</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option><option value="MT">Malta</option><option value="NL">Netherlands</option><option value="PL">Poland</option><option value="PT">Portugal</option><option value="RO">Romania</option><option value="SK">Slovakia</option><option value="SI">Slovenia</option><option value="ES">Spain</option><option value="SE">Sweden</option><option value="NO">Norway</option><option value="UK">United Kingdom</option><option value="OTHER">Other European country</option></select></div>
-        <div class="req-form-group"><label>Most relevant sector</label><select id="reqSector"><option value="">Select sector</option><option value="Emergency &amp; Crisis Response">Emergency &amp; Crisis Response</option><option value="Security &amp; Protection">Security &amp; Protection</option><option value="Risk &amp; Continuity Management">Risk &amp; Continuity Management</option><option value="Digital Infrastructure &amp; Cybersecurity">Digital Infrastructure &amp; Cybersecurity</option><option value="Knowledge, Training &amp; Research">Knowledge, Training &amp; Research</option><option value="Health &amp; Medical Manufacturing">Health &amp; Medical Manufacturing</option><option value="Critical Infrastructure">Critical Infrastructure</option><option value="Dual-use Technology &amp; Manufacturing">Dual-use Technology &amp; Manufacturing</option><option value="Transport, Maritime &amp; Aerospace">Transport, Maritime &amp; Aerospace</option><option value="Energy &amp; Grid Resilience">Energy &amp; Grid Resilience</option></select></div>
-        <div class="req-form-group" style="margin-bottom:12px;"><div class="cf-turnstile" data-sitekey="0x4AAAAAAA_PLACEHOLDER_KEY" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div><span style="font-size:0.75rem;color:var(--text-muted);margin-top:8px;display:block;">Verification protects against automated submissions</span></div>
-        <button class="req-form-submit" id="reqSubmit" onclick="submitRequest()" disabled>Submit request</button>
-      </div>
-      <div id="requestSuccess" style="display:none;text-align:center;padding:20px 0;">
-        <div style="width:56px;height:56px;border-radius:50%;background:rgba(46,204,113,0.15);display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-        <h3 style="font-size:1.1rem;margin-bottom:8px;">Request submitted</h3>
-        <p style="font-size:0.85rem;color:var(--text-dim);">Thank you. We will review your organisation and respond to your email within 5 business days.</p>
-      </div>
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="../index.html" class="mast-logo">ESRF.net<sup>VOL·01</sup></a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="../about.html">Foundation</a>
+      <a href="../directory.html">Directory</a>
+      <a href="../map.html">Atlas</a>
+      <a href="../analytics.html">Analytics</a>
+      <a href="../news.html">Dispatch</a>
+      <a href="mailto:hello@esrf.net" class="mast-cta">Request listing</a>
     </div>
   </div>
+</nav>
 
-  <footer class="co-footer">
-    <p>ESRF.community — European Security & Resilience Framework</p>
-    <p><a href="/">Home</a> · <a href="/news.html">News</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
-    <p>Contact: <a href="mailto:office@esrf.net">office@esrf.net</a></p>
-  </footer>
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ 08 · Countries</div>
+    <h1 class="phero-title">Twenty-nine<br><i>nations</i>.</h1>
+    <p class="phero-deck">Each country in the ESRF.net community contributes a share of the whole — practitioners, institutions and infrastructures that together add up to a continent that holds.</p>
+    <div class="phero-meta">
+      <span><strong>29</strong> countries</span>
+      <span><strong>1,892</strong> organisations</span>
+    </div>
+  </div>
+</section>
 
-  <script>
-    const btn = document.getElementById('hamburgerBtn');
-    const navRight = document.querySelector('.nav-right');
-    if (btn && navRight) {
-      btn.addEventListener('click', () => {
-        const open = navRight.classList.toggle('open');
-        btn.classList.toggle('active', open);
-      });
-      document.addEventListener('click', (e) => {
-        if (!btn.contains(e.target) && !navRight.contains(e.target)) {
-          navRight.classList.remove('open');
-          btn.classList.remove('active');
-        }
-      });
-    }
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
-    }, { passive: true });
+<div class="countries-grid" id="countries-grid" aria-live="polite"></div>
 
-    // Request Listing Modal
-    var turnstileVerified = false;
-    function onTurnstileSuccess(token) { turnstileVerified = true; document.getElementById('reqSubmit').disabled = false; }
-    function onTurnstileExpired() { turnstileVerified = false; document.getElementById('reqSubmit').disabled = true; }
-    function openRequestModal() {
-      document.getElementById('requestModal').classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeRequestModal() {
-      document.getElementById('requestModal').classList.remove('active');
-      document.body.style.overflow = '';
-    }
-    document.getElementById('requestModal').addEventListener('click', function(e) { if (e.target === this) closeRequestModal(); });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeRequestModal(); });
-    function submitRequest() {
-      var name = document.getElementById('reqName').value.trim();
-      var email = document.getElementById('reqEmail').value.trim();
-      var org = document.getElementById('reqOrg').value.trim();
-      var website = document.getElementById('reqWebsite').value.trim();
-      var country = document.getElementById('reqCountry').value;
-      var sector = document.getElementById('reqSector').value;
-      if (!turnstileVerified) { alert('Please complete the verification first.'); return; }
-      if (!name || !email || !org) { alert('Please fill in your name, email, and organisation name.'); return; }
-      if (email.indexOf('@') < 0 || email.indexOf('.') < 0) { alert('Please enter a valid email address.'); return; }
-      var subject = encodeURIComponent('ESRF Listing Request: ' + org);
-      var body = encodeURIComponent('New listing request for ESRF.net
+<section class="join">
+  <h2 class="join-h">Missing a <i>country</i>?</h2>
+  <p class="join-sub">If your organisation is based in a country that should be represented, reach out — the atlas is built to grow.</p>
+  <a href="mailto:hello@esrf.net?subject=ESRF.net%20new%20country" class="btn on-accent">Reach the foundation →</a>
+</section>
 
-Contact name: ' + name + '
-Email: ' + email + '
-Organisation: ' + org + '
-Website: ' + (website||'Not provided') + '
-Country: ' + (country||'Not specified') + '
-Sector: ' + (sector||'Not specified') + '
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand"><h3>ESRF.net</h3><p>European Security &amp; Resilience Foundation — a decentralised community of 1,892 organisations across 29 countries.</p></div>
+    <div class="foot-col"><h4>Community</h4><ul>
+      <li><a href="../directory.html">Directory</a></li><li><a href="../map.html">Atlas</a></li>
+      <li><a href="index.html">Countries</a></li><li><a href="../analytics.html">Analytics</a></li></ul></div>
+    <div class="foot-col"><h4>Foundation</h4><ul>
+      <li><a href="../about.html">About</a></li><li><a href="../news.html">Dispatch</a></li>
+      <li><a href="mailto:hello@esrf.net">Contact</a></li></ul></div>
+    <div class="foot-col"><h4>Legal</h4><ul>
+      <li><a href="../privacy.html">Privacy</a></li><li><a href="../terms.html">Terms</a></li></ul></div>
+  </div>
+  <div class="foot-bar">
+    <div>© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
+    <div>Vol. 01 · Human Atlas</div>
+  </div>
+</footer>
 
-Submitted via ESRF.net');
-      window.location.href = 'mailto:office@esrf.net?subject=' + subject + '&body=' + body;
-      document.getElementById('requestForm').style.display = 'none';
-      document.getElementById('requestSuccess').style.display = 'block';
-      setTimeout(function() {
-        document.getElementById('requestForm').style.display = 'block';
-        document.getElementById('requestSuccess').style.display = 'none';
-        ['reqName','reqEmail','reqOrg','reqWebsite'].forEach(function(id){document.getElementById(id).value='';});
-        ['reqCountry','reqPillar'].forEach(function(id){document.getElementById(id).value='';});
-        turnstileVerified = false; document.getElementById('reqSubmit').disabled = true;
-        if (window.turnstile) turnstile.reset();
-        closeRequestModal();
-      }, 3000);
-    }
-  </script>
+<script src="../app.js"></script>
+<script>
+(async () => {
+  const orgs = await loadOrgsFromRoot();
+  const by = {};
+  orgs.forEach(o => {
+    const name = o.country_name_en || o.country;
+    const code = o.country;
+    if(!by[name]) by[name] = { name, code, count:0 };
+    by[name].count++;
+  });
+  const list = Object.values(by).sort((a,b)=>b.count-a.count);
+  const total = orgs.length;
+  const grid = document.getElementById('countries-grid');
+  grid.innerHTML = list.map(c => {
+    const pct = Math.round(c.count/total*1000)/10;
+    return `
+      <a class="country-cell" href="../directory.html?country=${encodeURIComponent(c.name)}" aria-label="${esc(c.name)} — ${c.count} organisations">
+        <div class="country-code">${esc(c.code || '')}</div>
+        <div class="country-name">${esc(c.name)}</div>
+        <div class="country-count"><strong>${c.count}</strong> organisations · ${pct}%</div>
+      </a>
+    `;
+  }).join('');
+})();
+</script>
 </body>
 </html>
