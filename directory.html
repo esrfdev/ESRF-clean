@@ -23,7 +23,7 @@
       <a href="map.html" data-i18n="nav.atlas">Atlas</a>
       <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
       <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
-      <a href="mailto:hello@esrf.net" class="mast-cta" data-i18n="nav.request_listing">Request listing</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Request listing</button>
     </div>
     <div class="lang-switch">
       <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
@@ -79,13 +79,21 @@
   </div>
 </div>
 
+<!-- Featured patrons band: 3 slots -->
+<div id="dir-sponsor-band"></div>
+
 <div class="biz-grid" id="dir-list" aria-live="polite"></div>
 <div class="load-more-wrap"><button class="btn outline" id="more" hidden data-i18n="common.load_more">Load more →</button></div>
+
+<div class="listing-banner">
+  <p data-i18n="directory.listing_banner">Don't see your organisation here?</p>
+  <button type="button" class="btn outline" data-open-modal="listing" data-i18n="cta.request_listing">Request your listing →</button>
+</div>
 
 <section class="join">
   <h2 class="join-h">Not yet on the <i>atlas?</i></h2>
   <p class="join-sub" data-i18n="directory.join_sub">Any organisation whose work contributes to European security and resilience is welcome in the ESRF.net community.</p>
-  <a href="mailto:hello@esrf.net?subject=ESRF.net%20listing%20request" class="btn on-accent" data-i18n="cta.request_listing">Request your listing →</a>
+  <button type="button" class="btn on-accent" data-open-modal="listing" data-i18n="cta.request_listing">Request your listing →</button>
 </section>
 
 <footer class="foot">
@@ -125,6 +133,7 @@
   </div>
 </footer>
 
+<script src="assets/flags.js"></script>
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script>
@@ -161,7 +170,8 @@
     const btn = document.createElement('button');
     btn.className = 'chip';
     btn.dataset.country = c;
-    btn.textContent = `${c} · ${countryCounts[c]}`;
+    const flagImg = (window.esrfFlags ? window.esrfFlags.flagForCountry(c, {size:'inline'}) : '');
+    btn.innerHTML = `${flagImg}${esc(c)} · ${countryCounts[c]}`;
     countryChips.appendChild(btn);
   });
 
@@ -260,7 +270,7 @@
       <article class="biz-card" data-pillar="${pillar}">
         <div class="biz-card-head">
           <span class="biz-sector mono">${esc(sectorShort)}</span>
-          <span class="biz-country mono">${esc(countryCode)}</span>
+          <span class="biz-country">${window.esrfFlags ? window.esrfFlags.flagHtml((o.country||'gb').toLowerCase().slice(0,2), {size:'inline'}) : ''}<span class="mono">${esc(countryCode)}</span></span>
         </div>
         <h3 class="biz-name">${esc(o.name)}</h3>
         ${cityStr ? `<p class="biz-city serif-i">${esc(cityStr)}</p>` : ''}
@@ -275,6 +285,16 @@
   }
 
   render();
+})();
+</script>
+<script>
+(async () => {
+  const bandEl = document.getElementById('dir-sponsor-band');
+  if (!bandEl) return;
+  const sponsors = await loadAndRenderSponsors();
+  if (!sponsors) return;
+  const slots = (sponsors.partners || []).slice(0, 3);
+  bandEl.innerHTML = buildSponsorBand(slots, 'Featured patrons', 'Become a partner →');
 })();
 </script>
 </body>

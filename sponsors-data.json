@@ -1,0 +1,20 @@
+{
+  "founding": [
+    {"slot": 1, "name": null, "logo": null, "url": null},
+    {"slot": 2, "name": null, "logo": null, "url": null},
+    {"slot": 3, "name": null, "logo": null, "url": null}
+  ],
+  "partners": [
+    {"slot": 1, "name": null, "logo": null, "url": null},
+    {"slot": 2, "name": null, "logo": null, "url": null},
+    {"slot": 3, "name": null, "logo": null, "url": null},
+    {"slot": 4, "name": null, "logo": null, "url": null},
+    {"slot": 5, "name": null, "logo": null, "url": null},
+    {"slot": 6, "name": null, "logo": null, "url": null}
+  ],
+  "supporters": [
+    {"slot": 1, "name": null, "logo": null, "url": null},
+    {"slot": 2, "name": null, "logo": null, "url": null},
+    {"slot": 3, "name": null, "logo": null, "url": null}
+  ]
+}

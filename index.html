@@ -28,7 +28,7 @@
       <a href="map.html" data-i18n="nav.atlas">Atlas</a>
       <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
       <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
-      <a href="#join" class="mast-cta" data-i18n="nav.request_listing">Request listing</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Request listing</button>
     <div class="lang-switch">
       <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
         <span data-lang-current>EN</span>
@@ -78,6 +78,9 @@
     <span>Brussels <em>●</em> Amsterdam <em>●</em> Warsaw <em>●</em> Rome <em>●</em> Lisbon <em>●</em> Tallinn <em>●</em> Athens <em>●</em> Berlin <em>●</em> Dublin <em>●</em> Helsinki <em>●</em> Paris <em>●</em> Madrid <em>●</em> Vienna <em>●</em> Prague <em>●</em> Copenhagen <em>●</em> Stockholm <em>●</em> Bucharest <em>●</em> Zagreb <em>●</em> Sofia <em>●</em> Vilnius <em>●</em> Riga <em>●</em> Bratislava <em>●</em> Luxembourg <em>●</em> Ljubljana <em>●</em> Nicosia <em>●</em> Valletta <em>●</em> Budapest <em>●</em> Oslo <em>●</em> London <em>●</em></span>
   </div>
 </div>
+
+<!-- Sponsor band: rendered by JS from sponsors-data.json -->
+<div id="home-sponsor-band"></div>
 
 <!-- ═══ §01 FOUNDATION FEATURE ═══ -->
 <section class="feature" id="foundation">
@@ -365,8 +368,8 @@
 <!-- ═══ §07 JOIN CTA ═══ -->
 <section class="join" id="join">
   <h2 class="join-h">Does your organisation<br>contribute to a <i>Europe that holds?</i></h2>
-  <p class="join-sub">Request a listing and take your place on the atlas. Membership of the ESRF.net community is free for organisations whose work strengthens European security and resilience.</p>
-  <a href="mailto:hello@esrf.net?subject=ESRF.net%20listing%20request" class="btn on-accent">Request your listing →</a>
+  <p class="join-sub" data-i18n="index.join_sub">Request a listing and take your place on the atlas. Membership of the ESRF.net community is free for organisations whose work strengthens European security and resilience.</p>
+  <button type="button" class="btn on-accent" data-open-modal="listing" data-i18n="cta.request_listing">Request your listing →</button>
 </section>
 
 <!-- ═══ FOOTER ═══ -->
@@ -391,6 +394,7 @@
         <li><a href="about.html">About</a></li>
         <li><a href="about.html#pillars">Five pillars</a></li>
         <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+        <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
         <li><a href="mailto:hello@esrf.net">Contact</a></li>
       </ul>
     </div>
@@ -410,6 +414,7 @@
 
 <!-- ═══ SCRIPTS ═══ -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/flags.js"></script>
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script>
@@ -454,6 +459,18 @@
       });
     }catch(e){ console.warn('teaser map', e); }
   })();
+</script>
+<script>
+// Render sponsor band on home
+(async () => {
+  const bandEl = document.getElementById('home-sponsor-band');
+  if (!bandEl) return;
+  const sponsors = await loadAndRenderSponsors();
+  if (!sponsors) return;
+  // Combine founding + first 3 partners for a 6-slot row
+  const slots = [...(sponsors.founding || []), ...(sponsors.partners || []).slice(0,3)];
+  bandEl.innerHTML = buildSponsorBand(slots, 'Supported by', 'Become a founding patron →');
+})();
 </script>
 
 </body>

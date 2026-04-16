@@ -30,7 +30,7 @@
       <a href="map.html" aria-current="page" data-i18n="nav.atlas">Atlas</a>
       <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
       <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
-      <a href="mailto:hello@esrf.net" class="mast-cta" data-i18n="nav.request_listing">Request listing</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Request listing</button>
     <div class="lang-switch">
       <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
         <span data-lang-current>EN</span>
@@ -72,6 +72,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="assets/flags.js"></script>
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script>

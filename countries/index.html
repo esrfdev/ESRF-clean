@@ -23,7 +23,7 @@
       <a href="../map.html" data-i18n="nav.atlas">Atlas</a>
       <a href="../analytics.html" data-i18n="nav.analytics">Analytics</a>
       <a href="../news.html" data-i18n="nav.dispatch">Dispatch</a>
-      <a href="mailto:hello@esrf.net" class="mast-cta" data-i18n="nav.request_listing">Request listing</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Request listing</button>
     <div class="lang-switch">
       <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
         <span data-lang-current>EN</span>
@@ -47,6 +47,11 @@
 </section>
 
 <div class="countries-grid" id="countries-grid" aria-live="polite"></div>
+
+<div class="listing-banner">
+  <p>Regional partners welcome — is your organisation on the atlas?</p>
+  <button type="button" class="btn outline" data-open-modal="listing">Request a listing →</button>
+</div>
 
 <section class="join">
   <h2 class="join-h">Missing a <i>country</i>?</h2>
@@ -72,6 +77,7 @@
   </div>
 </footer>
 
+<script src="../assets/flags.js"></script>
 <script src="../i18n/i18n.js"></script>
 <script src="../app.js"></script>
 <script>
@@ -89,14 +95,26 @@
   const grid = document.getElementById('countries-grid');
   grid.innerHTML = list.map(c => {
     const pct = Math.round(c.count/total*1000)/10;
+    const flagImg = window.esrfFlags ? window.esrfFlags.flagForCountry(c.code || c.name, {size:'card'}) : '';
     return `
       <a class="country-cell" href="../directory.html?country=${encodeURIComponent(c.name)}" aria-label="${esc(c.name)} — ${c.count} organisations">
-        <div class="country-code">${esc(c.code || '')}</div>
+        <div class="country-code">${flagImg}${esc(c.code || '')}</div>
         <div class="country-name">${esc(c.name)}</div>
         <div class="country-count"><strong>${c.count}</strong> organisations · ${pct}%</div>
       </a>
     `;
   }).join('');
+})();
+</script>
+<script>
+(async () => {
+  const sponsors = await loadAndRenderSponsors('../');
+  if (!sponsors) return;
+  const slots = (sponsors.supporters || []).slice(0, 3);
+  const bandEl = document.createElement('div');
+  bandEl.innerHTML = buildSponsorBand(slots, 'Regional partners', 'Support ESRF.net →');
+  const join = document.querySelector('.join');
+  if (join) join.parentNode.insertBefore(bandEl, join);
 })();
 </script>
 </body>
