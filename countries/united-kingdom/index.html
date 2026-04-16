@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>United Kingdom — ESRF.community | European Security & Resilience</title>
+  <meta name="description" content="The United Kingdom remains a vital Friend of Europe in security and resilience, with world-class capabilities in intelligence, cybersecurity, financial res">
+  <meta property="og:title" content="United Kingdom — ESRF.community">
+  <meta property="og:description" content="The United Kingdom remains a vital Friend of Europe in security and resilience, with world-class capabilities in intelligence, cybersecurity, financial resilience, and crisis management.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.esrf.net/countries/united-kingdom/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* ── COUNTRY PAGE STYLES ── */
+    .cp-hero {
+      padding: 100px 24px 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .cp-flag { font-size: 4rem; margin-bottom: 12px; }
+    .cp-hero h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--text-prim);
+      margin: 0 0 4px;
+    }
+    .cp-hero .cp-local-name {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .cp-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .cp-badge-eu { background: rgba(57,160,237,0.15); color: var(--cyan); }
+    .cp-badge-friend { background: rgba(255,107,53,0.15); color: var(--orange); }
+    .cp-intro {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text-sec);
+    }
+
+    /* Stats */
+    .cp-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .cp-stat-num { font-size: 1.8rem; font-weight: 700; color: var(--orange); }
+    .cp-stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Sections */
+    .cp-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    .cp-section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-prim);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cp-section-title span { font-size: 1.2rem; }
+
+    /* Company grid */
+    .cp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .cp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .cp-card:hover { border-color: var(--orange); transform: translateY(-2px); }
+    .cp-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+    .cp-card-name { font-size: 0.95rem; font-weight: 600; color: var(--text-prim); margin: 0; }
+    .cp-card-sector {
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--cyan);
+      background: rgba(57,160,237,0.1);
+      padding: 2px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .cp-card-city { font-size: 0.8rem; color: var(--text-muted); margin: 0 0 8px; }
+    .cp-card-desc { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 12px; }
+    .cp-card-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--orange);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .cp-card-link:hover { text-decoration: underline; }
+
+    /* Sectors */
+    .cp-sectors { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .cp-sector-tag {
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+    }
+
+    /* News */
+    .cp-news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .cp-news-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s;
+    }
+    .cp-news-card:hover { border-color: var(--orange); }
+    .cp-news-source { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; }
+    .cp-news-title { font-size: 0.92rem; font-weight: 600; color: var(--text-prim); margin: 0 0 8px; line-height: 1.4; }
+    .cp-news-snippet { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 8px; }
+    .cp-news-date { font-size: 0.7rem; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; }
+    .cp-news-empty { color: var(--text-muted); font-style: italic; }
+
+    /* Empty state */
+    .cp-empty { text-align: center; padding: 48px 24px; }
+    .cp-empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .cp-empty h3 { color: var(--text-prim); margin: 0 0 8px; }
+    .cp-empty p { color: var(--text-sec); max-width: 500px; margin: 0 auto 20px; }
+    .cp-empty-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--navy) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .cp-empty-btn:hover { background: #e85e2d; transform: translateY(-1px); }
+
+    /* CTA banner */
+    .cp-cta {
+      background: var(--orange-faint);
+      border-top: 1px solid rgba(255,107,53,0.15);
+      border-bottom: 1px solid rgba(255,107,53,0.15);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .cp-cta p { color: var(--text-sec); margin: 0 0 16px; }
+    .cp-cta-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--navy) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cp-cta-btn:hover { background: #e85e2d; transform: translateY(-1px); }
+
+    /* Sponsor slot */
+    .cp-sponsor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+    }
+    .cp-sponsor-inner {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* More link */
+    .cp-more { font-size: 0.85rem; color: var(--text-sec); margin-top: 16px; }
+    .cp-more a { color: var(--orange); text-decoration: none; }
+    .cp-more a:hover { text-decoration: underline; }
+
+    /* Breadcrumb */
+    .cp-breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 0;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cp-breadcrumb a { color: var(--text-sec); text-decoration: none; }
+    .cp-breadcrumb a:hover { color: var(--orange); }
+
+    /* Footer */
+    .cp-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cp-footer a { color: var(--orange); text-decoration: none; }
+    .cp-footer a:hover { text-decoration: underline; }
+
+    /* Nav overrides for subpages */
+    .cp-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+
+    @media (max-width: 768px) {
+      .cp-hero h1 { font-size: 1.6rem; }
+      .cp-grid { grid-template-columns: 1fr; }
+      .cp-news-grid { grid-template-columns: 1fr; }
+      .cp-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="brand">
+        <svg class="brand-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 20 L20 12 L28 20 L20 28Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <circle cx="20" cy="20" r="4" fill="currentColor"/>
+        </svg>
+        <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
+      </a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-right">
+        <a href="/#pillars" class="nav-link">Pillars</a>
+        <a href="/countries/" class="nav-link">Countries</a>
+        <a href="/news.html" class="nav-link">News</a>
+        <a href="/#about" class="nav-link">About</a>
+        <a href="/#" class="nav-cta-btn" onclick="window.location='/?request=1'; return false;">Request listing</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="cp-breadcrumb">
+    <a href="/">ESRF</a> / <a href="/countries/">Countries</a> / United Kingdom
+  </div>
+
+  <!-- HERO -->
+  <section class="cp-hero">
+    <div class="cp-flag">🇬🇧</div>
+    <h1>United Kingdom</h1>
+    <div class="cp-local-name">United Kingdom</div>
+    <span class="cp-badge cp-badge-friend">Friend of Europe</span>
+    <p class="cp-intro">The United Kingdom remains a vital Friend of Europe in security and resilience, with world-class capabilities in intelligence, cybersecurity, financial resilience, and crisis management.</p>
+    <div class="cp-stats">
+      <div><div class="cp-stat-num">44</div><div class="cp-stat-label">Organisations</div></div>
+      <div><div class="cp-stat-num">7</div><div class="cp-stat-label">Sectors</div></div>
+      <div><div class="cp-stat-num">0</div><div class="cp-stat-label">News articles</div></div>
+    </div>
+  </section>
+
+  <!-- SPONSOR SLOT: Country spotlight -->
+  <div class="cp-sponsor">
+    <div class="cp-sponsor-inner">
+      📣 Sponsor spotlight available for United Kingdom — <a href="mailto:office@esrf.net" style="color:var(--orange)">Contact us</a>
+    </div>
+  </div>
+
+  <!-- ORGANISATIONS -->
+  <section class="cp-section">
+    <h2 class="cp-section-title"><span>🏢</span> Organisations in United Kingdom</h2>
+    <div class="cp-sectors"><span class="cp-sector-tag">Security &amp; Protection (21)</span><span class="cp-sector-tag">Cybersecurity (9)</span><span class="cp-sector-tag">Healthcare &amp; Medical (6)</span><span class="cp-sector-tag">Critical Infrastructure (5)</span><span class="cp-sector-tag">Energy &amp; Grid Resilience (1)</span><span class="cp-sector-tag">Knowledge &amp; Training (1)</span><span class="cp-sector-tag">Maritime &amp; Aerospace (1)</span></div>
+    <div class="cp-grid">
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Rolls-Royce</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Derby</p>
+              <p class="cp-card-desc">Rolls-Royce is the world&#x27;s second-largest manufacturer of aero engines and a critical pillar of UK aerospace, powering the RAF&#x27;s Typhoon (EJ200) and the F-35B Lighting II (LiftSystem) as well as the U</p>
+              <a href="https://www.rolls-royce.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">QinetiQ</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Farnborough</p>
+              <p class="cp-card-desc">QinetiQ is a leading security technology company spun out of the UK Government&#x27;s evaluation and research agency (DERA) in 2001, employing over 8,000 people globally and holding the £1.54 billion Long-</p>
+              <a href="https://www.qinetiq.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Babcock International</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Bristol</p>
+              <p class="cp-card-desc">Babcock International is a leading critical services company and the UK&#x27;s largest maritime support provider, managing Devonport Royal Dockyard — the largest naval base in Western Europe — and providin</p>
+              <a href="https://www.babcockinternational.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Leonardo UK</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Yeovil</p>
+              <p class="cp-card-desc">Leonardo UK employs approximately 7,000 people at key sites in Yeovil (AgustaWestland helicopters) and Edinburgh (security electronics), delivering the AW101 Merlin, AW159 Wildcat, and AW149 helicopte</p>
+              <a href="https://uk.leonardo.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Airbus UK</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Filton</p>
+              <p class="cp-card-desc">Airbus UK employs approximately 13,000 people at Filton (Bristol) and Broughton (North Wales), designing and manufacturing every wing for Airbus civil aircraft as well as assembling A400M transport wi</p>
+              <a href="https://www.airbus.com/en/our-worldwide-presence/airbus-in-the-united-kingdom" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Chemring Group</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Romsey</p>
+              <p class="cp-card-desc">Chemring Group is a FTSE 250 security technology company headquartered in Romsey, Hampshire, generating £510 million in 2024 revenues and holding an estimated 50% of the global market for aircraft cou</p>
+              <a href="https://www.chemring.co.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Thales UK</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">Thales UK is the British arm of the global Thales Group, employing around 8,000 people at sites including Templecombe (sonar), Belfast (optronics), Crawley (avionics), and Glasgow (maritime systems), </p>
+              <a href="https://www.thalesgroup.com/en/united-kingdom" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">GKN Aerospace</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Redditch</p>
+              <p class="cp-card-desc">GKN Aerospace is a global leader in advanced aerostructures, manufacturing critical assemblies for the F-35 Lightning II, A350, and A400M at its UK sites including Redditch and East Cowes (Isle of Wig</p>
+              <a href="https://www.gknaerospace.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Marshall Aerospace</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Cambridge</p>
+              <p class="cp-card-desc">Marshall Aerospace and Security Group is an independent, family-owned UK aerospace company headquartered at Cambridge Airport, employing over 4,000 people and serving as the UK&#x27;s primary maintenance, </p>
+              <a href="https://www.marshallgroup.co.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Serco Group</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Hook</p>
+              <p class="cp-card-desc">Serco Group is a leading provider of public services and government support with a major UK presence, delivering air traffic management, naval base support, government logistics, and secure communicat</p>
+              <a href="https://www.serco.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Darktrace</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Cambridge</p>
+              <p class="cp-card-desc">Darktrace is a global AI-native cybersecurity company founded in 2013 by alumni of GCHQ, MI5, and Cambridge University, deploying self-learning AI to detect, investigate, and autonomously respond to c</p>
+              <a href="https://www.darktrace.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Sophos</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Abingdon</p>
+              <p class="cp-card-desc">Sophos is a leading UK-founded cybersecurity company headquartered in Abingdon, Oxfordshire, protecting over 600,000 organisations and 100 million users globally with AI-driven endpoint security, fire</p>
+              <a href="https://www.sophos.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">NCC Group</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Manchester</p>
+              <p class="cp-card-desc">NCC Group is a global cybersecurity services company headquartered in Manchester, providing penetration testing, security assurance, managed detection and response, and software escrow services to ove</p>
+              <a href="https://www.nccgroup.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Cobham Ultra</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Wimborne</p>
+              <p class="cp-card-desc">Cobham Ultra (formed by the 2022 acquisition of Ultra Electronics by Cobham, both owned by Advent International) is a UK specialist security electronics group producing submarine sonar systems, nuclea</p>
+              <a href="https://www.ultra.group" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">General Dynamics UK</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">General Dynamics UK is the British arm of the US-headquartered prime security contractor, delivering the Ajax armoured reconnaissance vehicle programme, tactical IT systems, and secure government comm</p>
+              <a href="https://www.gd-ms.com/uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">L3Harris UK</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Tewkesbury</p>
+              <p class="cp-card-desc">L3Harris UK, headquartered in Tewkesbury, Gloucestershire, provides advanced intelligence, surveillance, and reconnaissance (ISR) systems, electronic warfare capabilities, and secure networked communi</p>
+              <a href="https://www.l3harris.com/en-gb" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">DSTL (Security Science and Technology Laboratory)</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Porton Down</p>
+              <p class="cp-card-desc">DSTL (Security Science and Technology Laboratory) is an executive agency of the UK government based at Porton Down, Wiltshire, and Fort Halstead, employing over 4,500 scientists and engineers to deliv</p>
+              <a href="https://www.gov.uk/government/organisations/defence-science-and-technology-laboratory" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">BT Group</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">BT Group is the United Kingdom&#x27;s largest telecommunications company, operating the critical national communications backbone underpinning the UK Government, emergency services, and security communicat</p>
+              <a href="https://www.bt.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">National Grid</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">National Grid plc is the operator of the UK&#x27;s high-voltage electricity transmission network in England and Wales and has a major US presence, managing infrastructure that underpins every aspect of eco</p>
+              <a href="https://www.nationalgrid.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Centrica</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Windsor</p>
+              <p class="cp-card-desc">Centrica is a leading UK-listed energy services company operating British Gas, the UK&#x27;s largest domestic energy supplier, and Centrica Energy which manages gas storage assets critical to UK energy sec</p>
+              <a href="https://www.centrica.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Northrop Grumman UK</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Cheltenham</p>
+              <p class="cp-card-desc">Northrop Grumman UK operates a significant presence in the Cheltenham/Gloucester area adjacent to GCHQ, delivering space mission systems, cybersecurity, and advanced ISR capabilities to the UK governm</p>
+              <a href="https://www.northropgrumman.com/united-kingdom" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">NCSC (National Cyber Security Centre)</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">The National Cyber Security Centre (NCSC), a part of GCHQ, is the UK Government&#x27;s lead technical authority on cybersecurity, providing guidance, incident response, and threat intelligence to protect t</p>
+              <a href="https://www.ncsc.gov.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Cyber Resilience Centre for the South East</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Guildford</p>
+              <p class="cp-card-desc">The Cyber Resilience Centre for the South East (CRCSE) is one of the UK Government&#x27;s nine regional Cyber Resilience Centres, funded by the Home Office and operating in partnership with police forces a</p>
+              <a href="https://www.sercsa.co.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Palantir UK</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">Palantir Technologies UK is a major partner of the UK Government, NHS, and government agencies, delivering its Gotham and Foundry data integration and analytics platforms to support security intellige</p>
+              <a href="https://www.palantir.com/uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Leidos UK</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Reston / London</p>
+              <p class="cp-card-desc">Leidos UK delivers large-scale digital transformation, cyber security, and government IT programmes to the UK Government, most notably as the prime contractor for the Government Information Infrastruc</p>
+              <a href="https://www.leidos.com/company/global/leidos-uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Draken Europe</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Bournemouth</p>
+              <p class="cp-card-desc">Draken Europe is the UK&#x27;s leading provider of contract adversary air and combat air training services, operating a fleet of ex-service jet aircraft including L-159 ALCA and Hawk variants from Bournemo</p>
+              <a href="https://www.drakeneurope.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Fortinet UK</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Reading</p>
+              <p class="cp-card-desc">Fortinet UK is a major provider of network security, operational technology (OT) protection, and secure SD-WAN solutions to UK government departments, critical infrastructure operators, and financial </p>
+              <a href="https://www.fortinet.com/en-gb" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Frazer-Nash Consultancy</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Leatherhead</p>
+              <p class="cp-card-desc">Frazer-Nash Consultancy is an independent engineering and technology consultancy specialising in complex systems engineering for critical security applications, nuclear energy, and critical infrastruc</p>
+              <a href="https://www.fnc.co.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Reaction Engines</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Abingdon</p>
+              <p class="cp-card-desc">Reaction Engines is a pioneering UK aerospace company developing its SABRE (Synergetic Air-Breathing Rocket Engine) engine and advanced heat exchanger technology, backed by the UK Government, BAE Syst</p>
+              <a href="https://www.reactionengines.co.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Roke (Chemring Technology Solutions)</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Romsey</p>
+              <p class="cp-card-desc">Roke is a UK security and technology company owned by Chemring Group, headquartered at the historic Roke Manor estate near Romsey, Hampshire, employing over 500 engineers to deliver electronic warfare</p>
+              <a href="https://www.roke.co.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Rolls-Royce SMR</h3>
+                <span class="cp-card-sector">Energy &amp; Grid Resilience</span>
+              </div>
+              <p class="cp-card-city">Derby</p>
+              <p class="cp-card-desc">Rolls-Royce SMR is a UK-led consortium developing a 470 MWe small modular reactor (SMR) design that has received Generic Design Assessment (GDA) entry from the UK Government&#x27;s regulators, targeting th</p>
+              <a href="https://www.rolls-royce.com/innovation/small-modular-reactors.aspx" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Elbit Systems UK</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Staffordshire</p>
+              <p class="cp-card-desc">Elbit Systems UK is the British arm of Israeli security technology group Elbit Systems, providing electronic warfare suites, night-vision optronics, armoured vehicle systems, and border surveillance s</p>
+              <a href="https://www.elbitsystems.co.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">SureSafe / SureVision (DSEI cluster) – CGI UK</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">CGI UK is one of the largest IT and digital transformation companies serving UK government, delivering national border management systems (including e-Borders and the UK National Identity Service), go</p>
+              <a href="https://www.cgi.com/en/united-kingdom" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Inmarsat (Viasat Government UK)</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">Inmarsat, now part of Viasat following a 2023 acquisition, operates a global mobile satellite communications network critical for maritime safety, aviation, government, and secure communications, with</p>
+              <a href="https://www.inmarsat.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">BAE Systems Applied Intelligence</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Guildford</p>
+              <p class="cp-card-desc">BAE Systems Applied Intelligence, headquartered in Guildford with major operations in Cheltenham (adjacent to GCHQ), delivers advanced cyber protection, signals intelligence processing, financial crim</p>
+              <a href="https://www.baesystems.com/en/product/bae-systems-applied-intelligence" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Cranfield University Security Studies</h3>
+                <span class="cp-card-sector">Knowledge &amp; Training</span>
+              </div>
+              <p class="cp-card-city">Cranfield</p>
+              <p class="cp-card-desc">Leading UK university for security technology research, forensics, cybersecurity and heavy-duty vehicle engineering.</p>
+              <a href="https://www.cranfield.ac.uk/themes/defence-and-security" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Royal London Hospital Major Trauma Centre</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">One of the UK&#x27;s busiest major trauma centres and a key node in London&#x27;s emergency medical resilience network.</p>
+              <a href="https://www.bartshealth.nhs.uk/the-royal-london" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">British Red Cross</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">Supports emergency response, community resilience and crisis recovery across the UK and internationally.</p>
+              <a href="https://www.redcross.org.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">UK Health Security Agency</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">Government agency responsible for health protection, pandemic preparedness and response to health threats.</p>
+              <a href="https://www.gov.uk/government/organisations/uk-health-security-agency" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Maritime and Coastguard Agency (HM Coastguard)</h3>
+                <span class="cp-card-sector">Maritime &amp; Aerospace</span>
+              </div>
+              <p class="cp-card-city">Southampton</p>
+              <p class="cp-card-desc">Coordinates 24-hour maritime and coastal search and rescue service across the UK, responds to over 33,000 incidents annually including cliff, water, and mud rescues as a Category 1 civil responder und</p>
+              <a href="https://www.gov.uk/government/organisations/maritime-and-coastguard-agency" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Environment Agency</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Bristol</p>
+              <p class="cp-card-desc">Manages flood risk from rivers, sea, and reservoirs; issues flood warnings and coordinates multi-agency responses to flooding emergencies to protect communities and infrastructure.</p>
+              <a href="https://www.gov.uk/government/organisations/environment-agency" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">British Red Cross</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">Deploys emergency response teams for UK disasters and crises, providing support from preparation through recovery and reaching thousands affected by emergencies each year.</p>
+              <a href="https://www.redcross.org.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">London Fire Brigade</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">Provides firefighting, rescue, and hazardous materials response across London, handling fires, major incidents, and contributing to civil protection efforts.</p>
+              <a href="https://www.london-fire.gov.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">London Ambulance Service NHS Trust</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">London</p>
+              <p class="cp-card-desc">Operates the UK&#x27;s busiest emergency ambulance service, responding to over 2 million 999 calls annually and managing major incidents with pre-hospital medical care.</p>
+              <a href="https://www.londonambulance.nhs.uk" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div></div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cp-cta">
+    <p>Is your organisation based in United Kingdom and contributing to European resilience?</p>
+    <a href="/?request=1" class="cp-cta-btn">Request listing</a>
+  </div>
+
+  <!-- NEWS -->
+  <section class="cp-section">
+    <h2 class="cp-section-title"><span>📰</span> Latest news from United Kingdom</h2>
+    <p class="cp-news-empty">No recent news from United Kingdom. News coverage will expand as more sources are added.</p>
+    <p class="cp-more" style="margin-top:16px;"><a href="/news.html">View all network news →</a></p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="cp-footer">
+    <p>ESRF.community — European Security & Resilience Framework</p>
+    <p><a href="/">Home</a> · <a href="/countries/">All countries</a> · <a href="/news.html">News</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+    <p>Contact: <a href="mailto:office@esrf.net">office@esrf.net</a></p>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    const btn = document.getElementById('hamburgerBtn');
+    const navRight = document.querySelector('.nav-right');
+    if (btn && navRight) {
+      btn.addEventListener('click', () => {
+        const open = navRight.classList.toggle('open');
+        btn.classList.toggle('active', open);
+        btn.setAttribute('aria-expanded', open);
+      });
+      document.addEventListener('click', (e) => {
+        if (!btn.contains(e.target) && !navRight.contains(e.target)) {
+          navRight.classList.remove('open');
+          btn.classList.remove('active');
+        }
+      });
+    }
+    // Nav scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+</body>
+</html>

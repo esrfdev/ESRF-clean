@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poland — ESRF.community | European Security & Resilience</title>
+  <meta name="description" content="Poland is a key pillar of European security on the eastern flank. Its rapidly growing defence and IT sectors, combined with strategic border infrastructure">
+  <meta property="og:title" content="Poland — ESRF.community">
+  <meta property="og:description" content="Poland is a key pillar of European security on the eastern flank. Its rapidly growing defence and IT sectors, combined with strategic border infrastructure, strengthen the EU&#x27;s collective preparedness">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.esrf.net/countries/poland/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* ── COUNTRY PAGE STYLES ── */
+    .cp-hero {
+      padding: 100px 24px 48px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .cp-flag { font-size: 4rem; margin-bottom: 12px; }
+    .cp-hero h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--text-prim);
+      margin: 0 0 4px;
+    }
+    .cp-hero .cp-local-name {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .cp-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .cp-badge-eu { background: rgba(57,160,237,0.15); color: var(--cyan); }
+    .cp-badge-friend { background: rgba(255,107,53,0.15); color: var(--orange); }
+    .cp-intro {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text-sec);
+    }
+
+    /* Stats */
+    .cp-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .cp-stat-num { font-size: 1.8rem; font-weight: 700; color: var(--orange); }
+    .cp-stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Sections */
+    .cp-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+    .cp-section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-prim);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cp-section-title span { font-size: 1.2rem; }
+
+    /* Company grid */
+    .cp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .cp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .cp-card:hover { border-color: var(--orange); transform: translateY(-2px); }
+    .cp-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+    .cp-card-name { font-size: 0.95rem; font-weight: 600; color: var(--text-prim); margin: 0; }
+    .cp-card-sector {
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--cyan);
+      background: rgba(57,160,237,0.1);
+      padding: 2px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .cp-card-city { font-size: 0.8rem; color: var(--text-muted); margin: 0 0 8px; }
+    .cp-card-desc { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 12px; }
+    .cp-card-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--orange);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .cp-card-link:hover { text-decoration: underline; }
+
+    /* Sectors */
+    .cp-sectors { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .cp-sector-tag {
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+    }
+
+    /* News */
+    .cp-news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .cp-news-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s;
+    }
+    .cp-news-card:hover { border-color: var(--orange); }
+    .cp-news-source { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; }
+    .cp-news-title { font-size: 0.92rem; font-weight: 600; color: var(--text-prim); margin: 0 0 8px; line-height: 1.4; }
+    .cp-news-snippet { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; margin: 0 0 8px; }
+    .cp-news-date { font-size: 0.7rem; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; }
+    .cp-news-empty { color: var(--text-muted); font-style: italic; }
+
+    /* Empty state */
+    .cp-empty { text-align: center; padding: 48px 24px; }
+    .cp-empty-icon { font-size: 3rem; margin-bottom: 16px; }
+    .cp-empty h3 { color: var(--text-prim); margin: 0 0 8px; }
+    .cp-empty p { color: var(--text-sec); max-width: 500px; margin: 0 auto 20px; }
+    .cp-empty-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--navy) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .cp-empty-btn:hover { background: #e85e2d; transform: translateY(-1px); }
+
+    /* CTA banner */
+    .cp-cta {
+      background: var(--orange-faint);
+      border-top: 1px solid rgba(255,107,53,0.15);
+      border-bottom: 1px solid rgba(255,107,53,0.15);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .cp-cta p { color: var(--text-sec); margin: 0 0 16px; }
+    .cp-cta-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--navy) !important;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cp-cta-btn:hover { background: #e85e2d; transform: translateY(-1px); }
+
+    /* Sponsor slot */
+    .cp-sponsor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+    }
+    .cp-sponsor-inner {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* More link */
+    .cp-more { font-size: 0.85rem; color: var(--text-sec); margin-top: 16px; }
+    .cp-more a { color: var(--orange); text-decoration: none; }
+    .cp-more a:hover { text-decoration: underline; }
+
+    /* Breadcrumb */
+    .cp-breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 24px 0;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cp-breadcrumb a { color: var(--text-sec); text-decoration: none; }
+    .cp-breadcrumb a:hover { color: var(--orange); }
+
+    /* Footer */
+    .cp-footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .cp-footer a { color: var(--orange); text-decoration: none; }
+    .cp-footer a:hover { text-decoration: underline; }
+
+    /* Nav overrides for subpages */
+    .cp-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; }
+
+    @media (max-width: 768px) {
+      .cp-hero h1 { font-size: 1.6rem; }
+      .cp-grid { grid-template-columns: 1fr; }
+      .cp-news-grid { grid-template-columns: 1fr; }
+      .cp-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="brand">
+        <svg class="brand-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 20 L20 12 L28 20 L20 28Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <circle cx="20" cy="20" r="4" fill="currentColor"/>
+        </svg>
+        <span class="brand-esrf">ESRF</span><span class="brand-dot">.</span><span class="brand-net">community</span>
+      </a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-right">
+        <a href="/#pillars" class="nav-link">Pillars</a>
+        <a href="/countries/" class="nav-link">Countries</a>
+        <a href="/news.html" class="nav-link">News</a>
+        <a href="/#about" class="nav-link">About</a>
+        <a href="/#" class="nav-cta-btn" onclick="window.location='/?request=1'; return false;">Request listing</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="cp-breadcrumb">
+    <a href="/">ESRF</a> / <a href="/countries/">Countries</a> / Poland
+  </div>
+
+  <!-- HERO -->
+  <section class="cp-hero">
+    <div class="cp-flag">🇵🇱</div>
+    <h1>Poland</h1>
+    <div class="cp-local-name">Polska</div>
+    <span class="cp-badge cp-badge-eu">EU Member State</span>
+    <p class="cp-intro">Poland is a key pillar of European security on the eastern flank. Its rapidly growing defence and IT sectors, combined with strategic border infrastructure, strengthen the EU's collective preparedness.</p>
+    <div class="cp-stats">
+      <div><div class="cp-stat-num">26</div><div class="cp-stat-label">Organisations</div></div>
+      <div><div class="cp-stat-num">6</div><div class="cp-stat-label">Sectors</div></div>
+      <div><div class="cp-stat-num">0</div><div class="cp-stat-label">News articles</div></div>
+    </div>
+  </section>
+
+  <!-- SPONSOR SLOT: Country spotlight -->
+  <div class="cp-sponsor">
+    <div class="cp-sponsor-inner">
+      📣 Sponsor spotlight available for Poland — <a href="mailto:office@esrf.net" style="color:var(--orange)">Contact us</a>
+    </div>
+  </div>
+
+  <!-- ORGANISATIONS -->
+  <section class="cp-section">
+    <h2 class="cp-section-title"><span>🏢</span> Organisations in Poland</h2>
+    <div class="cp-sectors"><span class="cp-sector-tag">Security &amp; Protection (11)</span><span class="cp-sector-tag">Healthcare &amp; Medical (6)</span><span class="cp-sector-tag">Cybersecurity (5)</span><span class="cp-sector-tag">Critical Infrastructure (2)</span><span class="cp-sector-tag">Drones &amp; Unmanned Systems (1)</span><span class="cp-sector-tag">Space &amp; Satellite (1)</span></div>
+    <div class="cp-grid">
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">WB Group</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Ożarów Mazowiecki</p>
+              <p class="cp-card-desc">WB Group is Poland&#x27;s largest private security technology company, specializing in advanced electronics, C4ISR systems, secure communications (FONET), battlefield management, unmanned aerial vehicles (</p>
+              <a href="https://www.wbgroup.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">PCO S.A. (Industrial Optics Centre)</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">PCO is Poland&#x27;s premier manufacturer of precision optics and optronic systems for critical security applications, producing night-vision devices, thermal sights, and electro-optical systems for armore</p>
+              <a href="https://www.pco.com.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">PIT-Radwar S.A.</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">PIT-Radwar is a PGZ subsidiary and Poland&#x27;s leading developer and manufacturer of radar systems, air-protection command-and-control systems, and radio-electronic reconnaissance equipment. Its products</p>
+              <a href="https://www.pit-radwar.com.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Asseco Poland S.A.</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Rzeszów</p>
+              <p class="cp-card-desc">Asseco Poland is the country&#x27;s largest IT company, providing command-and-control software, battlefield management systems, cybersecurity platforms, and simulation environments to Polish security servi</p>
+              <a href="https://pl.asseco.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Enigma Systemy Ochrony Informacji (Enigma SOI)</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">Enigma SOI is a Warsaw-based information security company with over 25 years of experience, specialized in cryptographic hardware, classified information protection systems, and PKI solutions for gove</p>
+              <a href="https://www.enigma.com.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Siltec Sp. z o.o.</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Pruszków</p>
+              <p class="cp-card-desc">Siltec is a Polish ICT company with over 40 years of history supplying TEMPEST-certified hardware, secure radio and telecommunications systems, and deployable secure infrastructure to Polish security </p>
+              <a href="https://www.siltec.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Vector Synergy Sp. z o.o.</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">Vector Synergy is an internationally certified Polish technology company specializing in cyber resilience operations, secure software development, and cyber-range training platforms. Its proprietary C</p>
+              <a href="https://www.vectorsynergy.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">NASK (Research and Academic Computer Network) / CERT Polska</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">NASK is a Polish research institute operating the national .pl domain registry and hosting CERT Polska, Poland&#x27;s first and primary computer emergency response team, active since 1996. CERT Polska moni</p>
+              <a href="https://www.nask.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Lubawa S.A.</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Poznań</p>
+              <p class="cp-card-desc">Lubawa is a publicly traded Polish security technology company specializing in personal protective equipment, CBRN protection gear, multispectral camouflage systems, and rescue service equipment. Its </p>
+              <a href="https://www.lubawa.com.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Rosomak S.A.</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Siemianowice Śląskie</p>
+              <p class="cp-card-desc">Rosomak S.A. is a PGZ company producing the Rosomak 8x8 armored personnel carrier, Poland&#x27;s primary wheeled APC used extensively by Polish security services in international missions. The company is r</p>
+              <a href="https://www.rosomak.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">KenBIT Sp. z o.o.</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">KenBIT, founded by graduates of the Warsaw University of Technology, specializes in battlefield management systems (BMS), command-and-control software, and geographic information systems for security </p>
+              <a href="https://www.kenbit.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Nomios Poland Sp. z o.o.</h3>
+                <span class="cp-card-sector">Cybersecurity</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">Nomios Poland is a security-focused IT integrator accredited to the highest international security levels, providing 24/7 managed security operations (SOC/NOC), network security, and cybersecurity sol</p>
+              <a href="https://www.nomios.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Creotech Instruments S.A.</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Piaseczno</p>
+              <p class="cp-card-desc">Creotech Instruments is a leading Polish manufacturer of satellite systems, components, and advanced electronics for space and critical security applications. A publicly traded company, it develops sm</p>
+              <a href="https://www.creotech.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">ICEYE Poland Sp. z o.o.</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">ICEYE Poland is the Polish entity of the Finnish SAR satellite company co-founded by Polish engineers, operating the world&#x27;s largest synthetic aperture radar (SAR) constellation providing the most up-</p>
+              <a href="https://www.iceye.com" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">ZM Bumar-Łabędy (ZMBL)</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Gliwice</p>
+              <p class="cp-card-desc">ZM Bumar-Łabędy is a PGZ subsidiary and Poland&#x27;s main facility for the overhaul, maintenance, and modernization of main battle tanks, including the Leopard 2PL upgrade program in partnership with Rhei</p>
+              <a href="https://www.zmbl.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">PERN S.A. (Polish Oil Pipelines)</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Płock</p>
+              <p class="cp-card-desc">PERN is the Polish state-owned operator of the national oil pipeline and storage infrastructure, responsible for transporting crude oil and petroleum products to Poland and Germany via the Druzhba pip</p>
+              <a href="https://www.pern.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Gaz-System S.A.</h3>
+                <span class="cp-card-sector">Critical Infrastructure</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">Gaz-System is Poland&#x27;s national gas transmission system operator, managing over 11,500 km of high-pressure gas pipelines and key interconnection points with neighboring countries. It operates the Balt</p>
+              <a href="https://www.gaz-system.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Remontowa Shipbuilding S.A.</h3>
+                <span class="cp-card-sector">Security &amp; Protection</span>
+              </div>
+              <p class="cp-card-city">Gdańsk</p>
+              <p class="cp-card-desc">Remontowa Shipbuilding is a major Polish shipyard currently involved in the construction of three next-generation Miecznik-class multipurpose frigates for the Polish maritime service, in cooperation w</p>
+              <a href="https://www.remontowa-rsb.com.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Polski Czerwony Krzyż</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">Polish Red Cross providing blood donation, first aid training and disaster relief services.</p>
+              <a href="https://pck.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">REA KTO Polska</h3>
+                <span class="cp-card-sector">Drones &amp; Unmanned Systems</span>
+              </div>
+              <p class="cp-card-city">Krakow</p>
+              <p class="cp-card-desc">Polish developer of unmanned aerial systems and reconnaissance platforms for critical security applications.</p>
+              <a href="https://www.reakto.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Creotech Instruments</h3>
+                <span class="cp-card-sector">Space &amp; Satellite</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">Polish satellite and spacecraft manufacturer developing modular microsatellite platforms for Earth observation.</p>
+              <a href="https://www.creotech.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Państwowa Straż Pożarna (State Fire Service)</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">The National Headquarters (KG PSP) serves as Poland&#x27;s leading civil protection authority, managing the National Firefighting and Rescue System (KSRG) for emergency response including firefighting, sea</p>
+              <a href="https://www.gov.pl/web/kgpsp" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Rządowe Centrum Bezpieczeństwa (Government Centre for Security)</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">Subordinate to the Prime Minister, RCB leads risk assessment, planning, threat monitoring via 24/7 service, and issues national alerts (Alert RCB) for crisis management and civilian resilience.,</p>
+              <a href="https://www.gov.pl/web/rcb" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Polski Czerwony Krzyż (Polish Red Cross)</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">The oldest humanitarian organization in Poland operates Humanitarian Aid Groups providing rapid crisis response, shelters, food, supplies, and psychosocial support during disasters and emergencies.,</p>
+              <a href="https://pck.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Fundacja Polskie Centrum Pomocy Międzynarodowej (PCPM)</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">Warsaw</p>
+              <p class="cp-card-desc">NGO running Poland&#x27;s only WHO-certified Type 1 rapid-response Emergency Medical Team deployable within 48 hours for medical relief in disasters and humanitarian crises, with self-sufficient equipment </p>
+              <a href="https://pcpm.org.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div>
+            <div class="cp-card">
+              <div class="cp-card-header">
+                <h3 class="cp-card-name">Górskie Ochotnicze Pogotowie Ratunkowe (GOPR)</h3>
+                <span class="cp-card-sector">Healthcare &amp; Medical</span>
+              </div>
+              <p class="cp-card-city">Zakopane</p>
+              <p class="cp-card-desc">Volunteer-based non-profit organization specializing in mountain search and rescue operations, accident prevention, and assistance in mountainous terrain across Poland.,</p>
+              <a href="https://www.gopr.pl" target="_blank" rel="noopener" class="cp-card-link">Visit website ↗</a>
+            </div></div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cp-cta">
+    <p>Is your organisation based in Poland and contributing to European resilience?</p>
+    <a href="/?request=1" class="cp-cta-btn">Request listing</a>
+  </div>
+
+  <!-- NEWS -->
+  <section class="cp-section">
+    <h2 class="cp-section-title"><span>📰</span> Latest news from Poland</h2>
+    <p class="cp-news-empty">No recent news from Poland. News coverage will expand as more sources are added.</p>
+    <p class="cp-more" style="margin-top:16px;"><a href="/news.html">View all network news →</a></p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="cp-footer">
+    <p>ESRF.community — European Security & Resilience Framework</p>
+    <p><a href="/">Home</a> · <a href="/countries/">All countries</a> · <a href="/news.html">News</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+    <p>Contact: <a href="mailto:office@esrf.net">office@esrf.net</a></p>
+  </footer>
+
+  <script>
+    // Hamburger menu
+    const btn = document.getElementById('hamburgerBtn');
+    const navRight = document.querySelector('.nav-right');
+    if (btn && navRight) {
+      btn.addEventListener('click', () => {
+        const open = navRight.classList.toggle('open');
+        btn.classList.toggle('active', open);
+        btn.setAttribute('aria-expanded', open);
+      });
+      document.addEventListener('click', (e) => {
+        if (!btn.contains(e.target) && !navRight.contains(e.target)) {
+          navRight.classList.remove('open');
+          btn.classList.remove('active');
+        }
+      });
+    }
+    // Nav scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+</body>
+</html>

@@ -364,6 +364,7 @@ const UI = {
   en: {
     navTagline: 'European Security & Resilience Framework',
     navNews: 'News',
+    navCountries: 'Countries',
     navRequestListing: 'Request listing',
     inlineCtaText: 'Does your organisation contribute to European resilience?',
     navPillars: 'Pillars',
@@ -416,6 +417,7 @@ const UI = {
   bg: {
     navTagline: 'Европейска рамка за сигурност и устойчивост',
     navNews: 'Новини',
+    navCountries: 'Държави',
     navRequestListing: 'Заявка за включване',
     inlineCtaText: 'Вашата организация допринася ли за европейската устойчивост?',
     navPillars: 'Стълбове',
@@ -468,6 +470,7 @@ const UI = {
   cs: {
     navTagline: 'Evropský rámec bezpečnosti a odolnosti',
     navNews: 'Zprávy',
+    navCountries: 'Země',
     navRequestListing: 'Žádost o zařazení',
     inlineCtaText: 'Přispívá vaše organizace k evropské odolnosti?',
     navPillars: 'Pilíře',
@@ -520,6 +523,7 @@ const UI = {
   da: {
     navTagline: 'Europæisk Sikkerheds- & Resilienramme',
     navNews: 'Nyheder',
+    navCountries: 'Lande',
     navRequestListing: 'Anmod om optagelse',
     inlineCtaText: 'Bidrager din organisation til europæisk modstandskraft?',
     navPillars: 'Søjler',
@@ -572,6 +576,7 @@ const UI = {
   de: {
     navTagline: 'Europäischer Sicherheits- & Resilienzrahmen',
     navNews: 'Nachrichten',
+    navCountries: 'Länder',
     navRequestListing: 'Eintrag beantragen',
     inlineCtaText: 'Trägt Ihre Organisation zur europäischen Resilienz bei?',
     navPillars: 'Pfeiler',
@@ -624,6 +629,7 @@ const UI = {
   el: {
     navTagline: 'Ευρωπαϊκό Πλαίσιο Ασφάλειας και Ανθεκτικότητας',
     navNews: 'Νέα',
+    navCountries: 'Χώρες',
     navRequestListing: 'Αίτηση καταχώρησης',
     inlineCtaText: 'Συμβάλλει ο οργανισμός σας στην ευρωπαϊκή ανθεκτικότητα;',
     navPillars: 'Πυλώνες',
@@ -676,6 +682,7 @@ const UI = {
   es: {
     navTagline: 'Marco Europeo de Seguridad y Resiliencia',
     navNews: 'Noticias',
+    navCountries: 'Países',
     navRequestListing: 'Solicitar inclusión',
     inlineCtaText: '¿Su organización contribuye a la resiliencia europea?',
     navPillars: 'Pilares',
@@ -728,6 +735,7 @@ const UI = {
   et: {
     navTagline: 'Euroopa Julgeoleku- ja Vastupidavusraamistik',
     navNews: 'Uudised',
+    navCountries: 'Riigid',
     navRequestListing: 'Taotle lisamist',
     inlineCtaText: 'Kas teie organisatsioon panustab Euroopa vastupidavusse?',
     navPillars: 'Sambad',
@@ -780,6 +788,7 @@ const UI = {
   fi: {
     navTagline: 'Eurooppalainen turvallisuus- ja resilienssiviitekehys',
     navNews: 'Uutiset',
+    navCountries: 'Maat',
     navRequestListing: 'Pyydä listausta',
     inlineCtaText: 'Edistääkö organisaatiosi Euroopan resilienssiä?',
     navPillars: 'Pilarit',
@@ -832,6 +841,7 @@ const UI = {
   fr: {
     navTagline: 'Cadre Européen de Sécurité & Résilience',
     navNews: 'Actualités',
+    navCountries: 'Pays',
     navRequestListing: 'Demander une inscription',
     inlineCtaText: 'Votre organisation contribue-t-elle à la résilience européenne ?',
     navPillars: 'Piliers',
@@ -884,6 +894,7 @@ const UI = {
   ga: {
     navTagline: 'Creat Eorpach um Shlándáil agus Athléimneacht',
     navNews: 'Nuacht',
+    navCountries: 'Tíortha',
     navRequestListing: 'Iarr liostáil',
     inlineCtaText: 'An gcuireann d\'eagraíocht le hathléimneacht na hEorpa?',
     navPillars: 'Colúin',
@@ -936,6 +947,7 @@ const UI = {
   hr: {
     navTagline: 'Europski okvir sigurnosti i otpornosti',
     navNews: 'Vijesti',
+    navCountries: 'Zemlje',
     navRequestListing: 'Zatražite unos',
     inlineCtaText: 'Doprinosi li vaša organizacija europskoj otpornosti?',
     navPillars: 'Stupovi',
@@ -988,6 +1000,7 @@ const UI = {
   hu: {
     navTagline: 'Európai Biztonsági és Reziliencia Keretrendszer',
     navNews: 'Hírek',
+    navCountries: 'Országok',
     navRequestListing: 'Felvétel kérése',
     inlineCtaText: 'Hozzájárul szervezete az európai ellenálló képességhez?',
     navPillars: 'Pillérek',
@@ -1040,6 +1053,7 @@ const UI = {
   it: {
     navTagline: 'Quadro Europeo per la Sicurezza e la Resilienza',
     navNews: 'Notizie',
+    navCountries: 'Paesi',
     navRequestListing: 'Richiedi inserimento',
     inlineCtaText: 'La tua organizzazione contribuisce alla resilienza europea?',
     navPillars: 'Pilastri',
@@ -1092,6 +1106,7 @@ const UI = {
   lt: {
     navTagline: 'Europos Saugumo ir Atsparumo Sistema',
     navNews: 'Naujienos',
+    navCountries: 'Šalys',
     navRequestListing: 'Prašyti įtraukimo',
     inlineCtaText: 'Ar jūsų organizacija prisideda prie Europos atsparumo?',
     navPillars: 'Ramsčiai',
@@ -1144,6 +1159,7 @@ const UI = {
   lv: {
     navTagline: 'Eiropas Drošības un Noturības Ietvars',
     navNews: 'Ziņas',
+    navCountries: 'Valstis',
     navRequestListing: 'Pieprasīt iekļaušanu',
     inlineCtaText: 'Vai jūsu organizācija veicina Eiropas noturību?',
     navPillars: 'Pīlāri',
@@ -1196,6 +1212,7 @@ const UI = {
   mt: {
     navTagline: 'Qafas Ewropew tas-Sigurtà u r-Reżiljenza',
     navNews: 'Aħbarijiet',
+    navCountries: 'Pajjiżi',
     navRequestListing: 'Itlob elenkar',
     inlineCtaText: 'L-organizzazzjoni tiegħek tikkontribwixxi għar-reżiljenza Ewropea?',
     navPillars: 'Pilastri',
@@ -1248,6 +1265,7 @@ const UI = {
   nl: {
     navTagline: 'Europees Kader voor Veiligheid & Weerbaarheid',
     navNews: 'Nieuws',
+    navCountries: 'Landen',
     navRequestListing: 'Aanmelden',
     inlineCtaText: 'Draagt uw organisatie bij aan Europese weerbaarheid?',
     navPillars: 'Pijlers',
@@ -1300,6 +1318,7 @@ const UI = {
   no: {
     navTagline: 'Europeisk Sikkerhets- & Resilienrammeverk',
     navNews: 'Nyheter',
+    navCountries: 'Land',
     navRequestListing: 'Be om oppføring',
     inlineCtaText: 'Bidrar din organisasjon til europeisk motstandskraft?',
     navPillars: 'Søyler',
@@ -1352,6 +1371,7 @@ const UI = {
   pl: {
     navTagline: 'Europejskie Ramy Bezpieczeństwa i Odporności',
     navNews: 'Aktualności',
+    navCountries: 'Kraje',
     navRequestListing: 'Złóż wniosek',
     inlineCtaText: 'Czy Twoja organizacja przyczynia się do europejskiej odporności?',
     navPillars: 'Filary',
@@ -1404,6 +1424,7 @@ const UI = {
   pt: {
     navTagline: 'Quadro Europeu de Segurança e Resiliência',
     navNews: 'Notícias',
+    navCountries: 'Países',
     navRequestListing: 'Solicitar inclusão',
     inlineCtaText: 'A sua organização contribui para a resiliência europeia?',
     navPillars: 'Pilares',
@@ -1456,6 +1477,7 @@ const UI = {
   ro: {
     navTagline: 'Cadrul European de Securitate și Reziliență',
     navNews: 'Știri',
+    navCountries: 'Țări',
     navRequestListing: 'Solicitare includere',
     inlineCtaText: 'Organizația dvs. contribuie la reziliența europeană?',
     navPillars: 'Piloni',
@@ -1508,6 +1530,7 @@ const UI = {
   sk: {
     navTagline: 'Európsky rámec bezpečnosti a odolnosti',
     navNews: 'Správy',
+    navCountries: 'Krajiny',
     navRequestListing: 'Požiadať o zaradenie',
     inlineCtaText: 'Prispieva vaša organizácia k európskej odolnosti?',
     navPillars: 'Piliere',
@@ -1560,6 +1583,7 @@ const UI = {
   sl: {
     navTagline: 'Evropski okvir varnosti in odpornosti',
     navNews: 'Novice',
+    navCountries: 'Države',
     navRequestListing: 'Zaprosite uvrstitev',
     inlineCtaText: 'Ali vaša organizacija prispeva k evropski odpornosti?',
     navPillars: 'Stebri',
@@ -1612,6 +1636,7 @@ const UI = {
   sv: {
     navTagline: 'Europeiskt Säkerhets- & Resilienramverk',
     navNews: 'Nyheter',
+    navCountries: 'Länder',
     navRequestListing: 'Begär notering',
     inlineCtaText: 'Bidrar din organisation till europeisk motståndskraft?',
     navPillars: 'Pelare',
