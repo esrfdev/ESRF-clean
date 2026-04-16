@@ -215,6 +215,8 @@ async function initI18n() {
   renderLangMenu();
   updateLangDisplay(_currentLang);
   wireLangToggle();
+  // Notify pages that depend on t() for dynamic rendering (e.g. directory cards)
+  window.dispatchEvent(new CustomEvent('esrf:langchange', { detail: { lang: _currentLang, initial: true } }));
 }
 
 // Auto-init on DOMContentLoaded
