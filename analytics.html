@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Analytics — ESRF.net</title>
+<meta name="description" content="Three editorial figures — organisations per sector, per country, and the sector distribution across the five moral pillars of ESRF.net." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net<sup>VOL·01</sup></a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html">Foundation</a>
+      <a href="directory.html">Directory</a>
+      <a href="map.html">Atlas</a>
+      <a href="analytics.html" aria-current="page">Analytics</a>
+      <a href="news.html">Dispatch</a>
+      <a href="mailto:hello@esrf.net" class="mast-cta">Request listing</a>
+    </div>
+  </div>
+</nav>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ 05 · Analytics</div>
+    <h1 class="phero-title">Patterns in<br>the <i>network</i>.</h1>
+    <p class="phero-deck">Three figures published with every issue. Where the community concentrates, where it is sparse, and how the five moral pillars distribute their care across the ten vital sectors.</p>
+  </div>
+</section>
+
+<div class="charts">
+
+  <section class="chart-block" aria-labelledby="fig1">
+    <div class="chart-fig">Fig. 01</div>
+    <h2 class="chart-title" id="fig1">Organisations <i>per sector</i></h2>
+    <p class="chart-desc">The first responders and the risk engineers are the weight-bearing columns of the community; energy and transport are the frontier, where the framework is youngest.</p>
+    <div class="chart-canvas-wrap"><canvas id="c1" aria-label="Horizontal bar chart of organisations per sector"></canvas></div>
+    <p class="chart-caption">Fig. 01 — Counts of organisations in each of the ten vital sectors. Bar colour follows the moral pillar the sector belongs to.</p>
+  </section>
+
+  <section class="chart-block" aria-labelledby="fig2">
+    <div class="chart-fig">Fig. 02</div>
+    <h2 class="chart-title" id="fig2">Organisations <i>per country</i></h2>
+    <p class="chart-desc">Twenty-nine nations, each contributing a share of the whole. The Netherlands, United Kingdom and Germany currently carry the most; Malta and Bulgaria the fewest — a balance the framework is actively redistributing.</p>
+    <div class="chart-canvas-wrap"><canvas id="c2" aria-label="Bar chart of organisations per country"></canvas></div>
+    <p class="chart-caption">Fig. 02 — Distribution of listed organisations across the 29 countries represented on the atlas.</p>
+  </section>
+
+  <section class="chart-block" aria-labelledby="fig3">
+    <div class="chart-fig">Fig. 03</div>
+    <h2 class="chart-title" id="fig3">Sectors <i>per pillar</i></h2>
+    <p class="chart-desc">The five moral pillars — Prevent, Protect, Prepare, Respond, Recover — stacked by the sectors each gathers under its care. Respond (Solidarity) holds the largest sectors: emergency response and health.</p>
+    <div class="chart-canvas-wrap"><canvas id="c3" aria-label="Stacked bar chart of sector distribution per pillar"></canvas></div>
+    <p class="chart-caption">Fig. 03 — Each moral pillar stacks the sectors it stewards; the height of the bar reflects total community weight under that principle.</p>
+  </section>
+
+</div>
+
+<section class="join">
+  <h2 class="join-h">Read the <i>stories</i><br>behind the figures.</h2>
+  <p class="join-sub">The dispatch files each day's European resilience signals to the pillar it touches.</p>
+  <a href="news.html" class="btn on-accent">Open the dispatch →</a>
+</section>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p>European Security &amp; Resilience Foundation — a decentralised community of 1,892 organisations across 29 countries.</p>
+    </div>
+    <div class="foot-col"><h4>Community</h4><ul>
+      <li><a href="directory.html">Directory</a></li><li><a href="map.html">Atlas</a></li>
+      <li><a href="countries/index.html">Countries</a></li><li><a href="analytics.html">Analytics</a></li></ul></div>
+    <div class="foot-col"><h4>Foundation</h4><ul>
+      <li><a href="about.html">About</a></li><li><a href="news.html">Dispatch</a></li>
+      <li><a href="mailto:hello@esrf.net">Contact</a></li></ul></div>
+    <div class="foot-col"><h4>Legal</h4><ul>
+      <li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+  </div>
+  <div class="foot-bar">
+    <div>© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
+    <div>Vol. 01 · Human Atlas</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+<script>
+(async () => {
+  const orgs = await loadOrgs();
+
+  // Shared Chart.js defaults
+  Chart.defaults.font.family = "'PT Serif', Georgia, serif";
+  Chart.defaults.color = '#3D3530';
+  Chart.defaults.plugins.legend.labels.font = { family:"'IBM Plex Mono', monospace", size:11, weight:500 };
+  Chart.defaults.plugins.tooltip.titleFont = { family:"'Archivo', sans-serif", weight:'bold', size:13 };
+  Chart.defaults.plugins.tooltip.bodyFont = { family:"'PT Serif', serif", size:13 };
+  Chart.defaults.plugins.tooltip.backgroundColor = '#0F1419';
+  Chart.defaults.plugins.tooltip.titleColor = '#F8F2E6';
+  Chart.defaults.plugins.tooltip.bodyColor = '#F8F2E6';
+  Chart.defaults.plugins.tooltip.padding = 12;
+  Chart.defaults.plugins.tooltip.displayColors = false;
+
+  const gridColor = 'rgba(15,20,25,0.08)';
+  const axisFont = { family:"'IBM Plex Mono', monospace", size:10, weight:500 };
+
+  // ── FIG. 01 orgs per sector (horizontal bar) ──
+  const sectorCounts = {};
+  orgs.forEach(o => sectorCounts[o.sector_normalized] = (sectorCounts[o.sector_normalized]||0)+1);
+  const sortedSectors = SECTOR_ORDER.filter(s => sectorCounts[s]).slice().sort((a,b)=>sectorCounts[b]-sectorCounts[a]);
+  new Chart(document.getElementById('c1'), {
+    type:'bar',
+    data:{
+      labels: sortedSectors,
+      datasets:[{
+        label:'Organisations',
+        data: sortedSectors.map(s=>sectorCounts[s]),
+        backgroundColor: sortedSectors.map(s=>sectorColor(s)),
+        borderColor:'#0F1419', borderWidth:0,
+        borderRadius:0,
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ grid:{color:gridColor,drawBorder:false}, ticks:{font:axisFont} },
+        y:{ grid:{display:false}, ticks:{font:{family:"'PT Serif', serif", size:13}, color:'#0F1419'} },
+      }
+    }
+  });
+  document.getElementById('c1').parentElement.style.height = '520px';
+
+  // ── FIG. 02 orgs per country (bar) ──
+  const cc = {};
+  orgs.forEach(o => { const k=o.country_name_en||o.country; cc[k]=(cc[k]||0)+1; });
+  const countries = Object.keys(cc).sort((a,b)=>cc[b]-cc[a]);
+  new Chart(document.getElementById('c2'), {
+    type:'bar',
+    data:{
+      labels: countries,
+      datasets:[{
+        label:'Organisations',
+        data: countries.map(c=>cc[c]),
+        backgroundColor: '#D24B1F',
+        hoverBackgroundColor:'#8F3114',
+        borderRadius:0,
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ grid:{display:false}, ticks:{font:axisFont, maxRotation:60, minRotation:60} },
+        y:{ grid:{color:gridColor,drawBorder:false}, ticks:{font:axisFont} },
+      }
+    }
+  });
+  document.getElementById('c2').parentElement.style.height = '460px';
+
+  // ── FIG. 03 sectors per pillar (stacked horizontal bar) ──
+  const pillars = ['prevent','protect','prepare','respond','recover'];
+  const byPillar = {}; // {pillar: {sector: count}}
+  pillars.forEach(p => byPillar[p] = {});
+  orgs.forEach(o => {
+    const p = pillarOf(o.sector_normalized);
+    byPillar[p][o.sector_normalized] = (byPillar[p][o.sector_normalized]||0)+1;
+  });
+  // each sector becomes a dataset; we stack
+  const allSectors = SECTOR_ORDER;
+  const datasets = allSectors.map(s => ({
+    label: SECTOR_SHORT[s],
+    data: pillars.map(p => byPillar[p][s] || 0),
+    backgroundColor: sectorColor(s),
+    borderWidth:1,
+    borderColor:'#EFE8DC',
+  }));
+  const pillarLabels = pillars.map(p => `${PILLAR_META[p].verb} · ${PILLAR_META[p].virtue}`);
+  new Chart(document.getElementById('c3'), {
+    type:'bar',
+    data:{ labels: pillarLabels, datasets },
+    options:{
+      indexAxis:'y',
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'bottom', labels:{usePointStyle:true, pointStyle:'rect', boxWidth:14, padding:14, font:{family:"'IBM Plex Mono', monospace", size:10, weight:500}}},
+        tooltip:{callbacks:{
+          label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.x}`
+        }}
+      },
+      scales:{
+        x:{ stacked:true, grid:{color:gridColor,drawBorder:false}, ticks:{font:axisFont} },
+        y:{ stacked:true, grid:{display:false}, ticks:{font:{family:"'PT Serif', serif", size:13}} },
+      }
+    }
+  });
+  document.getElementById('c3').parentElement.style.height = '480px';
+})();
+</script>
+</body>
+</html>
