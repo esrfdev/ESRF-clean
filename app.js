@@ -28199,20 +28199,31 @@ function initCountUpObserver() {
   const statsSection = document.querySelector('.about-stats');
   if (!statsSection) return;
   let animated = false;
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !animated) {
-        animated = true;
-        const countries = new Set(COMPANIES.map(c => c.country)).size;
-        const sectorCount = new Set(COMPANIES.map(c => c.sector_normalized).filter(Boolean)).size;
-        animateCount(document.getElementById('aboutOrgCount'), COMPANIES.length, 1800);
-        animateCount(document.getElementById('aboutCountryCount'), countries, 1200);
-        animateCount(document.getElementById('aboutSectorCount'), sectorCount, 800);
-        observer.disconnect();
-      }
-    });
-  }, { threshold: 0.3 });
-  observer.observe(statsSection);
+  function runCountUp() {
+    if (animated) return;
+    animated = true;
+    const countries = new Set(COMPANIES.map(c => c.country)).size;
+    const sectorCount = new Set(COMPANIES.map(c => c.sector_normalized).filter(Boolean)).size;
+    animateCount(document.getElementById('aboutOrgCount'), COMPANIES.length, 1800);
+    animateCount(document.getElementById('aboutCountryCount'), countries, 1200);
+    animateCount(document.getElementById('aboutSectorCount'), sectorCount, 800);
+  }
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          runCountUp();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.1 });
+    observer.observe(statsSection);
+    // Fallback: if observer hasn't fired after 4 seconds, animate anyway
+    setTimeout(() => { runCountUp(); }, 4000);
+  } else {
+    // No IntersectionObserver support — animate immediately
+    runCountUp();
+  }
 }
 
 function init() {
