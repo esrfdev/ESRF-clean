@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Fondation",
+    "directory": "Annuaire",
+    "atlas": "Atlas",
+    "analytics": "Analyses",
+    "dispatch": "Bulletin",
+    "request_listing": "Demander un référencement"
+  },
+  "common": {
+    "visit": "Visiter →",
+    "visit_arrow": "↗",
+    "read_more": "Lire la suite →",
+    "search": "Rechercher",
+    "all": "Tous",
+    "back_to_top": "Retour en haut ↑",
+    "organisations": "organisations",
+    "countries": "pays",
+    "sectors": "secteurs",
+    "articles": "articles",
+    "shown": "affiché",
+    "load_more": "Charger plus →",
+    "no_results": "Aucune organisation ne correspond à ces filtres.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Secteur",
+    "country": "Pays",
+    "all_sectors": "Tous les secteurs",
+    "all_countries": "Tous les pays",
+    "search_placeholder": "Rechercher par nom, ville, description…",
+    "search_organisations": "Rechercher des organisations…"
+  },
+  "cta": {
+    "request_listing": "Demander un référencement →",
+    "browse_directory": "Parcourir l'annuaire →",
+    "see_analytics": "Voir les analyses →",
+    "open_atlas": "Ouvrir l'atlas complet →",
+    "read_dispatch": "Lire le bulletin complet →",
+    "read_charter": "Lire la charte →",
+    "read_figures": "Lire toutes les figures →"
+  },
+  "lang": {
+    "select": "Choisir la langue"
+  },
+  "index": {
+    "title": "ESRF.net — Communauté Européenne de Sécurité et Résilience",
+    "hero_title_1": "Les personnes",
+    "hero_title_2": "qui maintiennent",
+    "hero_title_3": "l'Europe",
+    "hero_title_4": "unie."
+  },
+  "directory": {
+    "title": "Annuaire — ESRF.net",
+    "hero_title": "L'annuaire de la pratique."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Atlas Communautaire"
+  },
+  "analytics": {
+    "title": "Analyses — ESRF.net",
+    "hero_title": "Modèles dans le réseau."
+  },
+  "news": {
+    "title": "Bulletin — ESRF.net",
+    "hero_title": "Du continent."
+  },
+  "about": {
+    "title": "Fondation — ESRF.net",
+    "hero_title": "Une Europe qui tient."
+  },
+  "footer": {
+    "community": "Communauté",
+    "foundation": "Fondation",
+    "legal": "Mentions légales",
+    "contact": "Contact",
+    "privacy": "Confidentialité",
+    "terms": "Conditions"
+  }
+}

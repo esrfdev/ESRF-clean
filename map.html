@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Atlas — ESRF.net</title>
+<meta name="description" content="The full-screen community atlas — 1,890 organisations mapped across 29 European countries, colour-coded and filterable by sector." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  html,body{height:100%;overflow:hidden}
+  .leaflet-container{font-family:'PT Serif',serif}
+</style>
+</head>
+<body class="map-page">
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" aria-current="page" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Request listing</button>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
+    </div>
+  </div>
+</nav>
+
+<div class="map-wrap">
+  <div id="map" role="application" aria-label="Interactive map of European organisations"></div>
+
+  <aside class="map-controls" aria-label="Map filters">
+    <div class="kicker">§ 04 · The Atlas</div>
+    <h2>Community Atlas</h2>
+    <p style="font-family:'PT Serif',serif;font-style:italic;font-size:14px;color:var(--ink-soft);margin:6px 0 14px" data-i18n="map.instructions">Click any marker for organisation detail. Filter by sector or search by name.</p>
+
+    <input id="q" type="search" placeholder="Search organisations…" data-i18n-placeholder="filter.search_organisations" aria-label="Search organisations" />
+
+    <span class="filter-group-label" data-i18n="filter.sector">Sector</span>
+    <div class="filter-chips" style="margin:0;gap:6px" id="sector-chips">
+      <button class="chip active" data-sector="" data-i18n="filter.all_sectors">All sectors</button>
+      <button class="chip" data-sector="Emergency &amp; Crisis Response">Emergency · 469</button>
+      <button class="chip" data-sector="Security &amp; Protection">Security · 382</button>
+      <button class="chip" data-sector="Risk &amp; Continuity Management">Risk · 366</button>
+      <button class="chip" data-sector="Digital Infrastructure &amp; Cybersecurity">Digital · 187</button>
+      <button class="chip" data-sector="Knowledge, Training &amp; Research">Knowledge · 159</button>
+      <button class="chip" data-sector="Health &amp; Medical Manufacturing">Health · 135</button>
+      <button class="chip" data-sector="Critical Infrastructure">Critical · 121</button>
+      <button class="chip" data-sector="Dual-use Technology &amp; Manufacturing">Dual-use · 53</button>
+      <button class="chip" data-sector="Transport, Maritime &amp; Aerospace">Transport · 11</button>
+      <button class="chip" data-sector="Energy &amp; Grid Resilience">Energy · 7</button>
+    </div>
+
+    <div class="map-count"><strong id="count">—</strong> · plotted <span style="opacity:.7">of 1,890</span></div>
+  </aside>
+
+  <aside class="map-panel" id="panel" aria-label="Organisation detail" aria-hidden="true">
+    <button class="map-panel-close" id="panel-close" aria-label="Close panel">✕ Close</button>
+    <div id="panel-body"></div>
+  </aside>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="assets/flags.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="app.js"></script>
+<script>
+(async () => {
+  const orgs = await loadOrgs();
+  const map = L.map('map', {
+    zoomControl:true, attributionControl:true, minZoom:3, maxZoom:18,
+  }).setView([52.0, 13.0], 4);
+  map.zoomControl.setPosition('bottomright');
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution:'© OpenStreetMap contributors · © CartoDB',
+    subdomains:'abcd', maxZoom:19,
+  }).addTo(map);
+
+  const cluster = L.markerClusterGroup({
+    maxClusterRadius: 55,
+    showCoverageOnHover:false,
+    iconCreateFunction: function(c){
+      const count = c.getChildCount();
+      const size = count < 10 ? 32 : count < 100 ? 40 : count < 500 ? 52 : 64;
+      return L.divIcon({
+        html: `<div style="background:#D24B1F;color:#F8F2E6;width:${size}px;height:${size}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;letter-spacing:0.05em;border:2px solid #F8F2E6;box-shadow:0 2px 8px rgba(15,20,25,0.25)">${count}</div>`,
+        className:'esrf-cluster', iconSize:[size,size],
+      });
+    }
+  });
+  map.addLayer(cluster);
+
+  const panel = document.getElementById('panel');
+  const panelBody = document.getElementById('panel-body');
+  document.getElementById('panel-close').addEventListener('click', ()=>{
+    panel.classList.remove('open'); panel.setAttribute('aria-hidden','true');
+  });
+
+  function openPanel(o){
+    panelBody.innerHTML = `
+      <div class="sector-tag" style="color:${sectorColorHex(o.sector_normalized)}">${esc(o.sector_normalized)}</div>
+      <h2>${esc(o.name)}</h2>
+      <div class="loc">${esc(o.city||'')}${o.city?' · ':''}${esc(o.country_name_en || o.country || '')}</div>
+      <p class="desc">${esc(o.description_en || '')}</p>
+      ${o.website ? `<a class="visit" href="${esc(o.website)}" target="_blank" rel="noopener">Visit website ↗</a>` : ''}
+    `;
+    panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
+  }
+
+  let currentMarkers = [];
+  function rebuild(filterFn){
+    cluster.clearLayers();
+    currentMarkers = [];
+    orgs.forEach(o => {
+      if(typeof o.lat !== 'number' || typeof o.lon !== 'number') return;
+      if(!filterFn(o)) return;
+      const c = sectorColorHex(o.sector_normalized);
+      const m = L.circleMarker([o.lat, o.lon], {
+        radius:6, color:'#F8F2E6', fillColor:c, fillOpacity:0.9, weight:1.5,
+      });
+      m.bindTooltip(`<b>${esc(o.name)}</b><br>${esc(o.city||'')} · ${esc(o.country_name_en||'')}`, {direction:'top',offset:[0,-6]});
+      m.on('click', ()=>openPanel(o));
+      currentMarkers.push(m);
+    });
+    cluster.addLayers(currentMarkers);
+    document.getElementById('count').textContent = currentMarkers.length.toLocaleString('en-GB');
+  }
+
+  const state = { sector:'', q:'' };
+  function apply(){
+    rebuild(o => {
+      if(state.sector && o.sector_normalized !== state.sector) return false;
+      if(state.q){
+        const hay = [o.name, o.city, o.country_name_en, o.sector_normalized].join(' ').toLowerCase();
+        if(!hay.includes(state.q)) return false;
+      }
+      return true;
+    });
+  }
+
+  document.getElementById('sector-chips').addEventListener('click', (e)=>{
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    state.sector = chip.dataset.sector;
+    document.querySelectorAll('#sector-chips .chip').forEach(c=>c.classList.toggle('active', c.dataset.sector===state.sector));
+    apply();
+  });
+  document.getElementById('q').addEventListener('input', (e)=>{
+    state.q = e.target.value.trim().toLowerCase(); apply();
+  });
+
+  apply();
+})();
+</script>
+</body>
+</html>

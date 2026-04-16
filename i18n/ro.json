@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Fundație",
+    "directory": "Director",
+    "atlas": "Atlas",
+    "analytics": "Analiză",
+    "dispatch": "Buletin",
+    "request_listing": "Cerere de listare"
+  },
+  "common": {
+    "visit": "Vizitați →",
+    "visit_arrow": "↗",
+    "read_more": "Citiți mai mult →",
+    "search": "Căutare",
+    "all": "Toate",
+    "back_to_top": "Înapoi sus ↑",
+    "organisations": "organizații",
+    "countries": "țări",
+    "sectors": "sectoare",
+    "articles": "articole",
+    "shown": "afișat",
+    "load_more": "Încarcă mai mult →",
+    "no_results": "Nicio organizație nu corespunde acestor filtre.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Sector",
+    "country": "Țară",
+    "all_sectors": "Toate sectoarele",
+    "all_countries": "Toate țările",
+    "search_placeholder": "Căutați după nume, oraș, descriere…",
+    "search_organisations": "Căutați organizații…"
+  },
+  "cta": {
+    "request_listing": "Cerere de listare →",
+    "browse_directory": "Răsfoiți directorul →",
+    "see_analytics": "Vedeți analiza →",
+    "open_atlas": "Deschideți atlasul complet →",
+    "read_dispatch": "Citiți buletinul complet →",
+    "read_charter": "Citiți carta →",
+    "read_figures": "Citiți toate figurile →"
+  },
+  "lang": {
+    "select": "Selectați limba"
+  },
+  "index": {
+    "title": "ESRF.net — Comunitatea Europeană de Securitate și Reziliență",
+    "hero_title_1": "Oamenii",
+    "hero_title_2": "care țin",
+    "hero_title_3": "Europa",
+    "hero_title_4": "împreună."
+  },
+  "directory": {
+    "title": "Director — ESRF.net",
+    "hero_title": "Directorul practicii."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Atlas Comunitar"
+  },
+  "analytics": {
+    "title": "Analiză — ESRF.net",
+    "hero_title": "Tipare în rețea."
+  },
+  "news": {
+    "title": "Buletin — ESRF.net",
+    "hero_title": "De pe continent."
+  },
+  "about": {
+    "title": "Fundație — ESRF.net",
+    "hero_title": "O Europă care rezistă."
+  },
+  "footer": {
+    "community": "Comunitate",
+    "foundation": "Fundație",
+    "legal": "Legal",
+    "contact": "Contact",
+    "privacy": "Confidențialitate",
+    "terms": "Termeni"
+  }
+}

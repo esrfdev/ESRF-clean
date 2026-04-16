@@ -1,1193 +1,134 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>News Hub — ESRF Community</title>
-  <meta name="description" content="Latest news from 500+ European security and resilience organisations. Curated intelligence from the ESRF network." />
-  <link rel="canonical" href="https://www.esrf.net/news.html" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.esrf.net/news.html" />
-  <meta property="og:title" content="News Hub — ESRF Community" />
-  <meta property="og:description" content="Latest news from 500+ European security and resilience organisations." />
-  <meta property="og:image" content="https://www.esrf.net/og-image.png" />
-
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-  <style>
-    :root {
-      --navy: #0D1B2A;
-      --navy-light: #132337;
-      --card: #14283D;
-      --border: #1E3A54;
-      --text: #E8F0F8;
-      --text-dim: #8BA5C0;
-      --text-muted: #4D6A85;
-      --orange: #FF6B35;
-      --cyan: #39A0ED;
-      --green: #2ECC71;
-      --purple: #9B59B6;
-      --gold: #F1C40F;
-      --pink: #E74C8B;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'IBM Plex Sans', system-ui, sans-serif;
-      background: var(--navy);
-      color: var(--text);
-      font-size: 15px;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-
-    /* ── NAV ── */
-    .news-nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(13, 27, 42, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-    }
-    .news-nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 56px;
-    }
-    .news-nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 1rem;
-      letter-spacing: 0.02em;
-    }
-    .news-nav-brand .brand-esrf { color: var(--orange); }
-    .news-nav-links { display: flex; gap: 24px; align-items: center; }
-    .news-nav-links a {
-      color: var(--text-dim);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .news-nav-links a:hover { color: var(--orange); }
-    .news-nav-links a.active { color: var(--orange); }
-    .news-nav-cta {
-      background: var(--orange);
-      color: var(--navy) !important;
-      border: none;
-      font-family: 'IBM Plex Sans', system-ui, sans-serif;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      padding: 7px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .news-nav-cta:hover {
-      background: #e85e2d;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
-    }
-
-    /* ── HERO ── */
-    .news-hero {
-      text-align: center;
-      padding: 72px 24px 48px;
-      border-bottom: 1px solid var(--border);
-    }
-    .news-kicker {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 16px;
-    }
-    .news-hero h1 {
-      font-size: 2.4rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
-    }
-    .news-hero p {
-      font-size: 1.05rem;
-      color: var(--text-dim);
-      max-width: 640px;
-      margin: 0 auto 32px;
-      line-height: 1.7;
-    }
-    .news-stats {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    .news-stat {
-      text-align: center;
-    }
-    .news-stat-num {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--orange);
-      font-family: 'IBM Plex Mono', monospace;
-    }
-    .news-stat-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    /* ── FILTERS ── */
-    .news-filters {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 24px 24px 0;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .news-search {
-      flex: 1;
-      min-width: 200px;
-      padding: 10px 16px;
-      background: var(--navy-light);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-size: 0.9rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .news-search::placeholder { color: var(--text-muted); }
-    .news-search:focus { border-color: var(--orange); }
-    .news-filter-select {
-      padding: 10px 32px 10px 16px;
-      background: var(--navy-light);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-size: 0.85rem;
-      font-family: inherit;
-      outline: none;
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234D6A85'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-    }
-    .news-filter-select:focus { border-color: var(--orange); }
-
-    /* ── FEED ── */
-    .news-feed {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 32px 24px 80px;
-    }
-
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 20px;
-    }
-
-    .news-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: border-color 0.2s, transform 0.15s;
-      color: inherit;
-    }
-    .news-card:hover {
-      border-color: var(--orange);
-      transform: translateY(-2px);
-    }
-
-    .news-card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .news-card-source-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-left: auto;
-      background: rgba(255,255,255,0.04);
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-    .news-card-source-badge svg {
-      width: 11px;
-      height: 11px;
-      opacity: 0.5;
-    }
-
-    .news-card-title {
-      font-size: 1rem;
-      font-weight: 600;
-      line-height: 1.45;
-    }
-    .news-card-title a {
-      color: var(--text);
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-    .news-card-title a:hover { color: var(--orange); }
-
-    .news-card-org {
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-    .news-card-org a {
-      color: var(--cyan);
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-    .news-card-org a:hover { color: var(--text); text-decoration: underline; }
-
-    .news-card-snippet {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      line-height: 1.55;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .news-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: auto;
-      padding-top: 10px;
-      border-top: 1px solid var(--border);
-    }
-    .news-card-meta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .news-card-date {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      font-family: 'IBM Plex Mono', monospace;
-    }
-    .news-card-country {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      background: rgba(255,255,255,0.04);
-      padding: 2px 8px;
-      border-radius: 3px;
-    }
-    .news-card-verify {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--orange);
-      text-decoration: none;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      transition: color 0.15s;
-    }
-    .news-card-verify:hover { color: #e85e2d; }
-    .news-card-verify svg {
-      width: 12px;
-      height: 12px;
-    }
-
-    /* ── TRUST BANNER ── */
-    .trust-banner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 16px 24px;
-    }
-    .trust-banner-inner {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 20px;
-      background: rgba(46,204,113,0.06);
-      border: 1px solid rgba(46,204,113,0.15);
-      border-radius: 8px;
-      font-size: 0.82rem;
-      color: var(--text-dim);
-      line-height: 1.5;
-    }
-    .trust-banner-icon {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      color: var(--green);
-    }
-    .trust-banner-inner strong {
-      color: var(--text-sec);
-    }
-
-    /* ── FRESHNESS BAR ── */
-    .news-freshness {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-    .news-freshness-text {
-      font-family: 'IBM Plex Mono', monospace;
-    }
-    .news-freshness-sources {
-      opacity: 0.7;
-    }
-
-    /* ── LOADING ── */
-    .news-loading {
-      text-align: center;
-      padding: 80px 24px;
-      color: var(--text-muted);
-    }
-    .news-loading-spinner {
-      display: inline-block;
-      width: 32px;
-      height: 32px;
-      border: 3px solid var(--border);
-      border-top-color: var(--orange);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 16px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── EMPTY STATE ── */
-    .news-empty {
-      text-align: center;
-      padding: 80px 24px;
-      color: var(--text-muted);
-    }
-    .news-empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.3; }
-
-    /* ── BANNER CTA ── */
-    .news-cta-banner {
-      max-width: 1200px;
-      margin: 0 auto 40px;
-      padding: 0 24px;
-    }
-    .news-cta-inner {
-      background: linear-gradient(135deg, rgba(255,107,53,0.08) 0%, rgba(57,160,237,0.06) 100%);
-      border: 1px solid rgba(255,107,53,0.2);
-      border-radius: 12px;
-      padding: 32px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .news-cta-text h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .news-cta-text p {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      max-width: 500px;
-    }
-    .news-cta-btn {
-      display: inline-block;
-      background: var(--orange);
-      color: #fff;
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 12px 28px;
-      border-radius: 6px;
-      text-decoration: none;
-      letter-spacing: 0.02em;
-      white-space: nowrap;
-      transition: opacity 0.2s;
-    }
-    .news-cta-btn:hover { opacity: 0.85; }
-
-    /* ── MODAL ── */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(6px);
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-    .modal-overlay.active { display: flex; }
-    .modal {
-      background: var(--navy-light);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      width: 100%;
-      max-width: 480px;
-      padding: 40px 36px 36px;
-      position: relative;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.4);
-    }
-    .modal-close {
-      position: absolute;
-      top: 16px; right: 16px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.4rem;
-      cursor: pointer;
-      padding: 4px 8px;
-      line-height: 1;
-      transition: color 0.2s;
-    }
-    .modal-close:hover { color: var(--text); }
-    .modal h2 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .modal .modal-desc {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      margin-bottom: 28px;
-      line-height: 1.6;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .form-group label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 6px;
-    }
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 12px 16px;
-      background: var(--navy);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-size: 0.9rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .form-group input::placeholder { color: var(--text-muted); }
-    .form-group input:focus,
-    .form-group select:focus { border-color: var(--orange); }
-    .form-group .form-hint {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-    .form-submit {
-      width: 100%;
-      padding: 14px;
-      background: var(--orange);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      font-family: inherit;
-      cursor: pointer;
-      letter-spacing: 0.02em;
-      transition: opacity 0.2s;
-      margin-top: 8px;
-    }
-    .form-submit:hover { opacity: 0.85; }
-    .form-submit:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .form-success {
-      display: none;
-      text-align: center;
-      padding: 20px 0;
-    }
-    .form-success .check-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: rgba(46,204,113,0.15);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-    .form-success .check-icon svg { stroke: var(--green); }
-    .form-success h3 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-    }
-    .form-success p {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-    }
-
-    /* ── LOAD MORE ── */
-    .news-load-more {
-      text-align: center;
-      padding: 20px;
-    }
-    .news-load-more button {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      padding: 12px 32px;
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 0.85rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .news-load-more button:hover {
-      border-color: var(--orange);
-      color: var(--text);
-    }
-
-    /* ── FOOTER ── */
-    .news-footer {
-      border-top: 1px solid var(--border);
-      text-align: center;
-      padding: 32px 24px;
-      color: var(--text-muted);
-      font-size: 0.8rem;
-    }
-    .news-footer a { color: var(--orange); text-decoration: none; }
-    .news-footer a:hover { text-decoration: underline; }
-
-    /* ── Hamburger ── */
-    .news-hamburger {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      flex-direction: column;
-      gap: 5px;
-      z-index: 1001;
-    }
-    .news-hamburger span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: var(--text);
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-    .news-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .news-hamburger.active span:nth-child(2) { opacity: 0; }
-    .news-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .news-hero h1 { font-size: 1.8rem; }
-      .news-grid { grid-template-columns: 1fr; }
-      .news-cta-inner { flex-direction: column; text-align: center; }
-      .news-stats { gap: 24px; }
-      .news-hamburger { display: flex; }
-      .news-nav-links {
-        display: none;
-        position: fixed;
-        top: 56px;
-        left: 0;
-        right: 0;
-        background: var(--navy-light);
-        border-bottom: 1px solid var(--border);
-        flex-direction: column;
-        padding: 16px 24px;
-        gap: 4px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-        z-index: 999;
-      }
-      .news-nav-links.open { display: flex; }
-      .news-nav-links a {
-        padding: 12px 16px !important;
-        font-size: 14px !important;
-        border-radius: 6px;
-      }
-      .news-nav-links a:hover { background: rgba(26, 47, 69, 0.8); }
-      .news-nav-cta {
-        width: 100%;
-        padding: 12px 16px !important;
-        font-size: 13px !important;
-        text-align: center;
-        margin-top: 4px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .news-filters { flex-direction: column; }
-      .news-search { min-width: unset; }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dispatch — ESRF.net</title>
+<meta name="description" content="The ESRF.net dispatch — curated European security and resilience signals, filed by sector and topic." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="news-nav">
-    <div class="news-nav-inner">
-      <a href="/" class="news-nav-brand">
-        <span class="brand-esrf">ESRF</span><span style="color:var(--text-muted)">.</span>community
-      </a>
-      <button class="news-hamburger" id="newsHamburger" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" aria-current="page" data-i18n="nav.dispatch">Dispatch</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Request listing</button>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
       </button>
-      <div class="news-nav-links" id="newsNavLinks">
-        <a href="/#pillars">Pillars</a>
-        <a href="/countries/">Countries</a>
-        <a href="/news.html" class="active">News</a>
-        <a href="/#about">About</a>
-        <button class="news-nav-cta" onclick="openRequestModal()">Request listing</button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="news-hero">
-    <div class="news-kicker">Network Intelligence</div>
-    <h1>News Hub</h1>
-    <p>Source-verified news monitoring across 500 organisations in the ESRF network. Every article links to the original publication for full transparency.</p>
-    <div class="news-stats">
-      <div class="news-stat">
-        <div class="news-stat-num" id="statArticles">—</div>
-        <div class="news-stat-label">Articles today</div>
-      </div>
-      <div class="news-stat">
-        <div class="news-stat-num" id="statOrgs">—</div>
-        <div class="news-stat-label">Organisations tracked</div>
-      </div>
-      <div class="news-stat">
-        <div class="news-stat-num" id="statCountries">—</div>
-        <div class="news-stat-label">Countries</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FILTERS -->
-  <div class="news-filters">
-    <input type="text" class="news-search" id="newsSearch" placeholder="Search articles, organisations..." />
-
-    <select class="news-filter-select" id="filterCountry">
-      <option value="">All Countries</option>
-    </select>
-    <select class="news-filter-select" id="filterTime">
-      <option value="7">Last 7 days</option>
-      <option value="1">Today</option>
-      <option value="3">Last 3 days</option>
-      <option value="30">Last 30 days</option>
-    </select>
-  </div>
-
-  <!-- TRUST BANNER -->
-  <div class="trust-banner">
-    <div class="trust-banner-inner">
-      <svg class="trust-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        <path d="M9 12l2 2 4-4"/>
-      </svg>
-      <span><strong>Verifiable news.</strong> Every article links directly to the original publication at its source. Click any headline or the "Verify" link to read the full report from the publisher.</span>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
     </div>
   </div>
+</nav>
 
-  <!-- CTA BANNER -->
-  <div class="news-cta-banner" style="margin-top: 24px;">
-    <div class="news-cta-inner">
-      <div class="news-cta-text">
-        <h3>Is your organisation part of the network?</h3>
-        <p>Listed organisations receive automatic news monitoring, cross-network visibility, and feature in our intelligence reports shared across 15 countries.</p>
-      </div>
-      <button class="news-cta-btn" onclick="openRequestModal()" style="border:none;cursor:pointer;font-family:inherit;">Request listing</button>
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ 06 · Dispatch</div>
+    <h1 class="phero-title">From the<br><i>continent</i>.</h1>
+    <p class="phero-deck">A curated ledger of European security, resilience and crisis signals — each filed by sector and topic. Updated continuously.</p>
+    <div class="phero-meta" id="dispatch-meta">
+      <span id="dispatch-count"><strong>41</strong> articles</span>
+      <span id="dispatch-gen"></span>
     </div>
   </div>
+</section>
 
-  <!-- REQUEST LISTING MODAL -->
-  <div class="modal-overlay" id="requestModal">
-    <div class="modal">
-      <button class="modal-close" onclick="closeRequestModal()">&times;</button>
-      <div id="requestForm">
-        <h2>Request a listing</h2>
-        <p class="modal-desc">Submit your organisation for inclusion in the ESRF network. We review all requests within 5 business days.</p>
-        <div class="form-group">
-          <label for="reqName">Contact name</label>
-          <input type="text" id="reqName" placeholder="Your full name" required />
-        </div>
-        <div class="form-group">
-          <label for="reqEmail">Email address</label>
-          <input type="email" id="reqEmail" placeholder="you@organisation.com" required />
-        </div>
-        <div class="form-group">
-          <label for="reqOrg">Organisation name</label>
-          <input type="text" id="reqOrg" placeholder="e.g. Resilience Solutions B.V." required />
-        </div>
-        <div class="form-group">
-          <label for="reqWebsite">Website</label>
-          <input type="url" id="reqWebsite" placeholder="https://www.example.com" />
-          <div class="form-hint">Optional, but helps us verify your organisation faster</div>
-        </div>
-        <div class="form-group">
-          <label for="reqCountry">Country</label>
-          <select id="reqCountry">
-            <option value="">Select country</option>
-            <option value="BE">Belgium</option>
-            <option value="DE">Germany</option>
-            <option value="DK">Denmark</option>
-            <option value="EE">Estonia</option>
-            <option value="ES">Spain</option>
-            <option value="FI">Finland</option>
-            <option value="FR">France</option>
-            <option value="IT">Italy</option>
-            <option value="LT">Lithuania</option>
-            <option value="LV">Latvia</option>
-            <option value="NL">Netherlands</option>
-            <option value="NO">Norway</option>
-            <option value="PL">Poland</option>
-            <option value="SE">Sweden</option>
-            <option value="UK">United Kingdom</option>
-            <option value="OTHER">Other European country</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="reqPillar">Most relevant pillar</label>
-          <select id="reqPillar">
-            <option value="">Select pillar</option>
-            <option value="Vigilance">Vigilance — threat awareness &amp; monitoring</option>
-            <option value="Stewardship">Stewardship — critical infrastructure protection</option>
-            <option value="Empowerment">Empowerment — innovation &amp; capacity building</option>
-            <option value="Solidarity">Solidarity — crisis coordination &amp; mutual aid</option>
-            <option value="Renewal">Renewal — recovery &amp; future transitions</option>
-          </select>
-        </div>
-        <div class="form-group" style="margin-bottom:12px;">
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAAC-Fx9zbc08WKHu2" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div>
-          <div class="form-hint" style="margin-top:8px;">Verification protects against automated submissions</div>
-        </div>
-        <button class="form-submit" id="reqSubmit" onclick="submitRequest()" disabled>Submit request</button>
-      </div>
-      <div class="form-success" id="requestSuccess">
-        <div class="check-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <h3>Request submitted</h3>
-        <p>Thank you. We will review your organisation and respond to your email within 5 business days.</p>
-      </div>
-    </div>
+
+
+<div class="news-list" id="news-list" aria-live="polite"></div>
+
+<section class="join">
+  <h2 class="join-h">Put your <i>signal</i><br>on the dispatch.</h2>
+  <p class="join-sub">Organisations listed on the atlas can contribute stories, reports and updates to the ESRF.net dispatch.</p>
+  <a href="mailto:dispatch@esrf.net" class="btn on-accent">Submit a signal →</a>
+</section>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand"><h3>ESRF.net</h3><p>European Security &amp; Resilience Foundation — a decentralised community of 1,890 organisations across 29 countries.</p></div>
+    <div class="foot-col"><h4>Community</h4><ul>
+      <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li><li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
+      <li><a href="countries/index.html">Countries</a></li><li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li></ul></div>
+    <div class="foot-col"><h4>Foundation</h4><ul>
+      <li><a href="about.html">About</a></li><li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+      <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
+        <li><a href="mailto:hello@esrf.net">Contact</a></li></ul></div>
+    <div class="foot-col"><h4>Legal</h4><ul>
+      <li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
   </div>
-
-  <!-- FEED -->
-  <div class="news-feed">
-    <div class="news-loading" id="newsLoading">
-      <div class="news-loading-spinner"></div>
-      <p>Loading verified news from network sources...</p>
-    </div>
-    <div class="news-empty" id="newsEmpty" style="display:none;">
-      <div class="news-empty-icon">📡</div>
-      <h3 style="color:var(--text);margin:0 0 8px;">No articles available</h3>
-      <p>News data is being collected from verified RSS sources across the ESRF network. Check back soon.</p>
-    </div>
-    <div class="news-freshness" id="dataFreshnessBar">
-      <span id="dataFreshness" class="news-freshness-text"></span>
-      <span class="news-freshness-sources">Sources: Europol · ENISA · ESA · WHO · ReliefWeb · Port of Rotterdam · Copernicus · Politico EU · The Guardian</span>
-    </div>
-    <div class="news-grid" id="newsGrid"></div>
-    <div class="news-load-more" id="newsLoadMore" style="display:none;">
-      <button onclick="loadMore()">Load more articles</button>
-    </div>
+  <div class="foot-bar">
+    <div>© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
+    <div><span data-i18n="footer.tagline">Human Atlas</span></div>
   </div>
+</footer>
 
-  <!-- FOOTER -->
-  <footer class="news-footer">
-    <p>
-      <a href="/">← Back to ESRF.net</a>
-      <span style="margin:0 12px;color:var(--border)">|</span>
-      News data refreshed daily from public sources
-      <span style="margin:0 12px;color:var(--border)">|</span>
-      © 2026 ESRF Community
-    </p>
-  </footer>
+<script src="assets/flags.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="app.js"></script>
+<script>
+(async () => {
+  const data = await loadNews();
+  const list = document.getElementById('news-list');
+  document.getElementById('dispatch-count').innerHTML = `<strong>${data.article_count}</strong> articles`;
+  if(data.generated){
+    const d = new Date(data.generated);
+    document.getElementById('dispatch-gen').innerHTML = `updated <strong>${d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</strong>`;
+  }
 
-  <script>
-    /* ═══════════════════════════════════════════════════════════
-       ESRF NEWS HUB — Client-side feed renderer
-       Expects JSON from: /api/news (Cloudflare Worker)
-       Fallback: Google News RSS via cors-anywhere or static demo
-       ═══════════════════════════════════════════════════════════ */
-
-    // ── Hamburger toggle ──
-    (function() {
-      const btn = document.getElementById('newsHamburger');
-      const links = document.getElementById('newsNavLinks');
-      if (!btn || !links) return;
-      btn.addEventListener('click', () => {
-        const open = links.classList.toggle('open');
-        btn.classList.toggle('active', open);
-        btn.setAttribute('aria-expanded', open);
-      });
-      links.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
-          links.classList.remove('open');
-          btn.classList.remove('active');
-          btn.setAttribute('aria-expanded', 'false');
-        });
-      });
-      document.addEventListener('click', (e) => {
-        if (!btn.contains(e.target) && !links.contains(e.target)) {
-          links.classList.remove('open');
-          btn.classList.remove('active');
-          btn.setAttribute('aria-expanded', 'false');
-        }
-      });
-    })();
-
-    const NEWS_DATA_URL = '/news-data.json';
-    const ITEMS_PER_PAGE = 24;
-    let allArticles = [];
-    let filteredArticles = [];
-    let currentPage = 0;
-
-    // ── PILLAR COLORS ──
-    const PILLAR_MAP = {
-      vigilance: 'vigilance',
-      stewardship: 'stewardship',
-      empowerment: 'empowerment',
-      solidarity: 'solidarity',
-      renewal: 'renewal'
-    };
-
-    // ── RENDER CARD ──
-    function renderCard(article) {
-      const card = document.createElement('div');
-      card.className = 'news-card';
-
-
-
-      const dateStr = article.date
-        ? new Date(article.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
-        : '';
-
-      // Time-ago for freshness indication
-      const timeAgo = article.date ? getTimeAgo(article.date) : '';
-
-      // Source URL = article URL (original publication)
-      const sourceUrl = article.url || '#';
-      const orgUrl = article.orgUrl || article.url || '#';
-      const sourceName = escapeHtml(article.source || 'Source');
-
-      card.innerHTML = `
-        <div class="news-card-header">
-          <span class="news-card-source-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            ${sourceName}
-          </span>
-        </div>
-        <div class="news-card-title">
-          <a href="${sourceUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(article.title)}</a>
-        </div>
-        ${article.organisation ? `<div class="news-card-org"><a href="${orgUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(article.organisation)}</a></div>` : ''}
-        ${article.snippet ? `<div class="news-card-snippet">${escapeHtml(article.snippet)}</div>` : ''}
-        <div class="news-card-footer">
-          <div class="news-card-meta">
-            <span class="news-card-date">${dateStr}${timeAgo ? ' · ' + timeAgo : ''}</span>
-            ${article.country ? `<span class="news-card-country">${article.country}</span>` : ''}
+  function render(){
+    const articles = data.articles || [];
+    if(!articles.length){
+      list.innerHTML = '<div class="dir-empty" style="padding:100px 0">No articles yet.</div>';
+      return;
+    }
+    list.innerHTML = articles.map(a => {
+      const dt = new Date(a.date);
+      const date = isNaN(dt) ? '' : dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+      return `
+        <a class="news-item" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">
+          <div class="news-meta-col">
+            <div class="news-pillar" style="color:var(--ink-dim)">${esc(a.pillar || '')}</div>
+            <div class="news-date">${date}</div>
+            <div class="news-source">${esc(a.source || a.organisation || '')}</div>
           </div>
-          <a href="${sourceUrl}" target="_blank" rel="noopener noreferrer" class="news-card-verify">
-            Verify
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </a>
-        </div>
-      `;
-      return card;
-    }
+          <div>
+            <h2 class="news-title">${esc(a.title)}</h2>
+            <p class="news-snippet">${esc(a.snippet || '')}</p>
+          </div>
+        </a>`;
+    }).join('');
+  }
 
-    // ── TIME AGO ──
-    function getTimeAgo(dateStr) {
-      const diff = Date.now() - new Date(dateStr).getTime();
-      const hours = Math.floor(diff / 3600000);
-      if (hours < 1) return 'just now';
-      if (hours < 24) return hours + 'h ago';
-      const days = Math.floor(hours / 24);
-      if (days === 1) return '1 day ago';
-      if (days < 7) return days + ' days ago';
-      return '';
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
-
-    // ── RENDER GRID ──
-    function renderGrid(reset) {
-      const grid = document.getElementById('newsGrid');
-      const loadMore = document.getElementById('newsLoadMore');
-      const empty = document.getElementById('newsEmpty');
-
-      if (reset) {
-        grid.innerHTML = '';
-        currentPage = 0;
-      }
-
-      const start = currentPage * ITEMS_PER_PAGE;
-      const end = start + ITEMS_PER_PAGE;
-      const slice = filteredArticles.slice(start, end);
-
-      if (filteredArticles.length === 0) {
-        empty.style.display = 'block';
-        loadMore.style.display = 'none';
-        return;
-      }
-
-      empty.style.display = 'none';
-      slice.forEach(a => grid.appendChild(renderCard(a)));
-      currentPage++;
-
-      loadMore.style.display = end < filteredArticles.length ? 'block' : 'none';
-    }
-
-    function loadMore() {
-      renderGrid(false);
-    }
-
-    // ── FILTERS ──
-    function applyFilters() {
-      const search = document.getElementById('newsSearch').value.toLowerCase().trim();
-
-      const country = document.getElementById('filterCountry').value;
-      const days = parseInt(document.getElementById('filterTime').value);
-      const cutoff = new Date();
-      cutoff.setDate(cutoff.getDate() - days);
-
-      filteredArticles = allArticles.filter(a => {
-
-        if (country && a.country !== country) return false;
-        if (a.date && new Date(a.date) < cutoff) return false;
-        if (search) {
-          const hay = ((a.title || '') + ' ' + (a.organisation || '') + ' ' + (a.snippet || '')).toLowerCase();
-          if (!hay.includes(search)) return false;
-        }
-        return true;
-      });
-
-      renderGrid(true);
-    }
-
-    document.getElementById('newsSearch').addEventListener('input', debounce(applyFilters, 300));
-
-    document.getElementById('filterCountry').addEventListener('change', applyFilters);
-    document.getElementById('filterTime').addEventListener('change', applyFilters);
-
-    function debounce(fn, ms) {
-      let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
-    }
-
-    // ── POPULATE COUNTRY FILTER ──
-    function populateCountries(articles) {
-      const sel = document.getElementById('filterCountry');
-      const countries = [...new Set(articles.map(a => a.country).filter(Boolean))].sort();
-      countries.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c;
-        opt.textContent = c;
-        sel.appendChild(opt);
-      });
-    }
-
-    // ── STATS ──
-    function updateStats(articles) {
-      const today = new Date().toISOString().slice(0, 10);
-      const todayCount = articles.filter(a => a.date && a.date.startsWith(today)).length;
-      const orgs = new Set(articles.map(a => a.organisation).filter(Boolean)).size;
-      const countries = new Set(articles.map(a => a.country).filter(Boolean)).size;
-
-      document.getElementById('statArticles').textContent = todayCount || articles.length;
-      document.getElementById('statOrgs').textContent = orgs || '500';
-      document.getElementById('statCountries').textContent = countries || '15';
-    }
-
-    // ── FETCH NEWS ──
-    async function fetchNews() {
-      const loading = document.getElementById('newsLoading');
-      const emptyState = document.getElementById('newsEmpty');
-      try {
-        const res = await fetch(NEWS_DATA_URL);
-        if (!res.ok) throw new Error('News data unavailable');
-        const data = await res.json();
-        allArticles = data.articles || [];
-
-        // Show data freshness
-        if (data.generated) {
-          const genDate = new Date(data.generated);
-          const freshEl = document.getElementById('dataFreshness');
-          if (freshEl) {
-            freshEl.textContent = 'Last updated: ' + genDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' UTC';
-          }
-        }
-      } catch (e) {
-        console.warn('Could not load news data:', e);
-        allArticles = [];
-      }
-
-      // Sort by date descending
-      allArticles.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-
-      loading.style.display = 'none';
-
-      if (allArticles.length === 0) {
-        emptyState.style.display = 'block';
-        return;
-      }
-
-      populateCountries(allArticles);
-      updateStats(allArticles);
-      filteredArticles = [...allArticles];
-      renderGrid(true);
-    }
-
-
-
-    // ── REQUEST MODAL ──
-    function openRequestModal() {
-      document.getElementById('requestModal').classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeRequestModal() {
-      document.getElementById('requestModal').classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    // Close on overlay click
-    document.getElementById('requestModal').addEventListener('click', function(e) {
-      if (e.target === this) closeRequestModal();
-    });
-
-    // Close on Escape
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeRequestModal();
-    });
-
-    // Turnstile callbacks
-    let turnstileVerified = false;
-    function onTurnstileSuccess(token) {
-      turnstileVerified = true;
-      document.getElementById('reqSubmit').disabled = false;
-    }
-    function onTurnstileExpired() {
-      turnstileVerified = false;
-      document.getElementById('reqSubmit').disabled = true;
-    }
-
-    function submitRequest() {
-      const name = document.getElementById('reqName').value.trim();
-      const email = document.getElementById('reqEmail').value.trim();
-      const org = document.getElementById('reqOrg').value.trim();
-      const website = document.getElementById('reqWebsite').value.trim();
-      const country = document.getElementById('reqCountry').value;
-      const pillar = document.getElementById('reqPillar').value;
-
-      // Bot check
-      if (!turnstileVerified) {
-        alert('Please complete the verification first.');
-        return;
-      }
-
-      // Validation
-      if (!name || !email || !org) {
-        alert('Please fill in your name, email, and organisation name.');
-        return;
-      }
-      if (!email.includes('@') || !email.includes('.')) {
-        alert('Please enter a valid email address.');
-        return;
-      }
-
-      // Build mailto
-      const subject = encodeURIComponent(`ESRF Listing Request: ${org}`);
-      const body = encodeURIComponent(
-        `New listing request for ESRF.net\n` +
-        `\n` +
-        `Contact name: ${name}\n` +
-        `Email: ${email}\n` +
-        `Organisation: ${org}\n` +
-        `Website: ${website || 'Not provided'}\n` +
-        `Country: ${country || 'Not specified'}\n` +
-        `Pillar: ${pillar || 'Not specified'}\n` +
-        `\n` +
-        `Submitted via ESRF.net News Hub`
-      );
-
-      // Open mailto
-      window.location.href = `mailto:office@esrf.net?subject=${subject}&body=${body}`;
-
-      // Show success
-      document.getElementById('requestForm').style.display = 'none';
-      document.getElementById('requestSuccess').style.display = 'block';
-
-      // Reset after 3 seconds
-      setTimeout(() => {
-        document.getElementById('requestForm').style.display = 'block';
-        document.getElementById('requestSuccess').style.display = 'none';
-        document.getElementById('reqName').value = '';
-        document.getElementById('reqEmail').value = '';
-        document.getElementById('reqOrg').value = '';
-        document.getElementById('reqWebsite').value = '';
-        document.getElementById('reqCountry').value = '';
-        document.getElementById('reqPillar').value = '';
-        turnstileVerified = false;
-        document.getElementById('reqSubmit').disabled = true;
-        if (window.turnstile) turnstile.reset();
-        closeRequestModal();
-      }, 3000);
-    }
-
-    // ── INIT ──
-    fetchNews();
-  </script>
-
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "52897243139b402dacc6d5d564320f8b"}'></script><!-- End Cloudflare Web Analytics -->
+  render();
+})();
+</script>
+<script>
+// Sponsor card in news
+(async () => {
+  const sponsors = await loadAndRenderSponsors();
+  if (!sponsors) return;
+  const slot = (sponsors.partners || [])[0];
+  if (!slot) return;
+  const band = document.createElement('div');
+  band.innerHTML = buildSponsorBand([slot], 'Programme partner', 'Partner with ESRF.net →');
+  const newsList = document.getElementById('news-list');
+  if (newsList && newsList.parentNode) {
+    newsList.parentNode.insertBefore(band, newsList.nextSibling);
+  }
+})();
+</script>
 </body>
 </html>

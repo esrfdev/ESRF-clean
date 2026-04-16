@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Säätiö",
+    "directory": "Hakemisto",
+    "atlas": "Atlas",
+    "analytics": "Analytiikka",
+    "dispatch": "Uutiskirje",
+    "request_listing": "Pyydä listausta"
+  },
+  "common": {
+    "visit": "Vieraile →",
+    "visit_arrow": "↗",
+    "read_more": "Lue lisää →",
+    "search": "Haku",
+    "all": "Kaikki",
+    "back_to_top": "Takaisin ylös ↑",
+    "organisations": "organisaatiota",
+    "countries": "maata",
+    "sectors": "sektoria",
+    "articles": "artikkelia",
+    "shown": "näytetty",
+    "load_more": "Lataa lisää →",
+    "no_results": "Ei organisaatioita vastaa näitä suodattimia.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Sektori",
+    "country": "Maa",
+    "all_sectors": "Kaikki sektorit",
+    "all_countries": "Kaikki maat",
+    "search_placeholder": "Hae nimen, kaupungin, kuvauksen mukaan…",
+    "search_organisations": "Hae organisaatioita…"
+  },
+  "cta": {
+    "request_listing": "Pyydä listausta →",
+    "browse_directory": "Selaa hakemistoa →",
+    "see_analytics": "Katso analytiikkaa →",
+    "open_atlas": "Avaa koko atlas →",
+    "read_dispatch": "Lue koko uutiskirje →",
+    "read_charter": "Lue peruskirja →",
+    "read_figures": "Lue kaikki kuviot →"
+  },
+  "lang": {
+    "select": "Valitse kieli"
+  },
+  "index": {
+    "title": "ESRF.net — Eurooppalainen Turvallisuus- ja Resilienssiyhteisö",
+    "hero_title_1": "Ihmiset",
+    "hero_title_2": "jotka pitävät",
+    "hero_title_3": "Euroopan",
+    "hero_title_4": "koossa."
+  },
+  "directory": {
+    "title": "Hakemisto — ESRF.net",
+    "hero_title": "Käytännön hakemisto."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Yhteisön Atlas"
+  },
+  "analytics": {
+    "title": "Analytiikka — ESRF.net",
+    "hero_title": "Kaavoja verkostossa."
+  },
+  "news": {
+    "title": "Uutiskirje — ESRF.net",
+    "hero_title": "Mantereelta."
+  },
+  "about": {
+    "title": "Säätiö — ESRF.net",
+    "hero_title": "Eurooppa, joka kestää."
+  },
+  "footer": {
+    "community": "Yhteisö",
+    "foundation": "Säätiö",
+    "legal": "Oikeudellinen",
+    "contact": "Yhteystiedot",
+    "privacy": "Yksityisyys",
+    "terms": "Ehdot"
+  }
+}

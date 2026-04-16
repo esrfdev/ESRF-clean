@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Sihtasutus",
+    "directory": "Kataloog",
+    "atlas": "Atlas",
+    "analytics": "Analüütika",
+    "dispatch": "Bülletään",
+    "request_listing": "Taotlus kandmiseks"
+  },
+  "common": {
+    "visit": "Külasta →",
+    "visit_arrow": "↗",
+    "read_more": "Loe edasi →",
+    "search": "Otsing",
+    "all": "Kõik",
+    "back_to_top": "Tagasi üles ↑",
+    "organisations": "organisatsiooni",
+    "countries": "riiki",
+    "sectors": "sektorit",
+    "articles": "artiklit",
+    "shown": "näidatud",
+    "load_more": "Laadi veel →",
+    "no_results": "Nendele filtritele vastavaid organisatsioone ei leitud.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Sektor",
+    "country": "Riik",
+    "all_sectors": "Kõik sektorid",
+    "all_countries": "Kõik riigid",
+    "search_placeholder": "Otsi nime, linna, kirjelduse järgi…",
+    "search_organisations": "Otsi organisatsioone…"
+  },
+  "cta": {
+    "request_listing": "Taotlus kandmiseks →",
+    "browse_directory": "Sirvi kataloogi →",
+    "see_analytics": "Vaata analüütikat →",
+    "open_atlas": "Ava täisatlas →",
+    "read_dispatch": "Loe kogu bülletääni →",
+    "read_charter": "Loe hartat →",
+    "read_figures": "Loe kõiki jooniseid →"
+  },
+  "lang": {
+    "select": "Vali keel"
+  },
+  "index": {
+    "title": "ESRF.net — Euroopa Julgeoleku ja Vastupidavuse Kogukond",
+    "hero_title_1": "Inimesed",
+    "hero_title_2": "kes hoiavad",
+    "hero_title_3": "Euroopat",
+    "hero_title_4": "koos."
+  },
+  "directory": {
+    "title": "Kataloog — ESRF.net",
+    "hero_title": "Praktika kataloog."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Kogukonna Atlas"
+  },
+  "analytics": {
+    "title": "Analüütika — ESRF.net",
+    "hero_title": "Mustrid võrgustikus."
+  },
+  "news": {
+    "title": "Bülletään — ESRF.net",
+    "hero_title": "Kontinendilt."
+  },
+  "about": {
+    "title": "Sihtasutus — ESRF.net",
+    "hero_title": "Euroopa, mis peab vastu."
+  },
+  "footer": {
+    "community": "Kogukond",
+    "foundation": "Sihtasutus",
+    "legal": "Õiguslik",
+    "contact": "Kontakt",
+    "privacy": "Privaatsus",
+    "terms": "Tingimused"
+  }
+}

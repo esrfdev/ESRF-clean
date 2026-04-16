@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Zaklada",
+    "directory": "Imenik",
+    "atlas": "Atlas",
+    "analytics": "Analitika",
+    "dispatch": "Bilten",
+    "request_listing": "Zahtjev za uvrštavanje"
+  },
+  "common": {
+    "visit": "Posjetite →",
+    "visit_arrow": "↗",
+    "read_more": "Pročitajte →",
+    "search": "Pretraži",
+    "all": "Sve",
+    "back_to_top": "Natrag na vrh ↑",
+    "organisations": "organizacija",
+    "countries": "zemalja",
+    "sectors": "sektora",
+    "articles": "članaka",
+    "shown": "prikazano",
+    "load_more": "Učitaj više →",
+    "no_results": "Nema organizacija koje odgovaraju ovim filterima.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Sektor",
+    "country": "Zemlja",
+    "all_sectors": "Svi sektori",
+    "all_countries": "Sve zemlje",
+    "search_placeholder": "Traži po nazivu, gradu, opisu…",
+    "search_organisations": "Traži organizacije…"
+  },
+  "cta": {
+    "request_listing": "Zahtjev za uvrštavanje →",
+    "browse_directory": "Pretraži imenik →",
+    "see_analytics": "Pogledaj analitiku →",
+    "open_atlas": "Otvori cijeli atlas →",
+    "read_dispatch": "Pročitaj cijeli bilten →",
+    "read_charter": "Pročitaj povelju →",
+    "read_figures": "Pročitaj sve slike →"
+  },
+  "lang": {
+    "select": "Odaberi jezik"
+  },
+  "index": {
+    "title": "ESRF.net — Europska zajednica sigurnosti i otpornosti",
+    "hero_title_1": "Ljudi",
+    "hero_title_2": "koji drže",
+    "hero_title_3": "Europu",
+    "hero_title_4": "zajedno."
+  },
+  "directory": {
+    "title": "Imenik — ESRF.net",
+    "hero_title": "Imenik prakse."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Zajednički Atlas"
+  },
+  "analytics": {
+    "title": "Analitika — ESRF.net",
+    "hero_title": "Uzorci u mreži."
+  },
+  "news": {
+    "title": "Bilten — ESRF.net",
+    "hero_title": "S kontinenta."
+  },
+  "about": {
+    "title": "Zaklada — ESRF.net",
+    "hero_title": "Europa koja izdrži."
+  },
+  "footer": {
+    "community": "Zajednica",
+    "foundation": "Zaklada",
+    "legal": "Pravno",
+    "contact": "Kontakt",
+    "privacy": "Privatnost",
+    "terms": "Uvjeti"
+  }
+}

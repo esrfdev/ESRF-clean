@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Nadácia",
+    "directory": "Adresár",
+    "atlas": "Atlas",
+    "analytics": "Analytika",
+    "dispatch": "Bulletin",
+    "request_listing": "Žiadosť o zápis"
+  },
+  "common": {
+    "visit": "Navštíviť →",
+    "visit_arrow": "↗",
+    "read_more": "Čítať viac →",
+    "search": "Hľadať",
+    "all": "Všetky",
+    "back_to_top": "Späť hore ↑",
+    "organisations": "organizácií",
+    "countries": "krajín",
+    "sectors": "sektorov",
+    "articles": "článkov",
+    "shown": "zobrazené",
+    "load_more": "Načítať viac →",
+    "no_results": "Žiadne organizácie nezodpovedajú týmto filtrom.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Sektor",
+    "country": "Krajina",
+    "all_sectors": "Všetky sektory",
+    "all_countries": "Všetky krajiny",
+    "search_placeholder": "Hľadať podľa názvu, mesta, popisu…",
+    "search_organisations": "Hľadať organizácie…"
+  },
+  "cta": {
+    "request_listing": "Žiadosť o zápis →",
+    "browse_directory": "Prehľadávať adresár →",
+    "see_analytics": "Zobraziť analytiku →",
+    "open_atlas": "Otvoriť celý atlas →",
+    "read_dispatch": "Čítať celý bulletin →",
+    "read_charter": "Čítať chartu →",
+    "read_figures": "Čítať všetky obrázky →"
+  },
+  "lang": {
+    "select": "Vybrať jazyk"
+  },
+  "index": {
+    "title": "ESRF.net — Európska komunita bezpečnosti a odolnosti",
+    "hero_title_1": "Ľudia",
+    "hero_title_2": "ktorí udržiavajú",
+    "hero_title_3": "Európu",
+    "hero_title_4": "pohromade."
+  },
+  "directory": {
+    "title": "Adresár — ESRF.net",
+    "hero_title": "Adresár praxe."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Komunitný Atlas"
+  },
+  "analytics": {
+    "title": "Analytika — ESRF.net",
+    "hero_title": "Vzory v sieti."
+  },
+  "news": {
+    "title": "Bulletin — ESRF.net",
+    "hero_title": "Z kontinentu."
+  },
+  "about": {
+    "title": "Nadácia — ESRF.net",
+    "hero_title": "Európa, ktorá vydrží."
+  },
+  "footer": {
+    "community": "Komunita",
+    "foundation": "Nadácia",
+    "legal": "Právne",
+    "contact": "Kontakt",
+    "privacy": "Súkromie",
+    "terms": "Podmienky"
+  }
+}

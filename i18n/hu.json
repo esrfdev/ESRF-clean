@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Alapítvány",
+    "directory": "Könyvtár",
+    "atlas": "Atlasz",
+    "analytics": "Elemzés",
+    "dispatch": "Hírlap",
+    "request_listing": "Regisztráció kérése"
+  },
+  "common": {
+    "visit": "Látogatás →",
+    "visit_arrow": "↗",
+    "read_more": "Olvass tovább →",
+    "search": "Keresés",
+    "all": "Összes",
+    "back_to_top": "Vissza a tetejére ↑",
+    "organisations": "szervezet",
+    "countries": "ország",
+    "sectors": "szektor",
+    "articles": "cikk",
+    "shown": "megjelenítve",
+    "load_more": "Több betöltése →",
+    "no_results": "Nincsenek a szűrőknek megfelelő szervezetek.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Szektor",
+    "country": "Ország",
+    "all_sectors": "Összes szektor",
+    "all_countries": "Összes ország",
+    "search_placeholder": "Keresés név, város, leírás alapján…",
+    "search_organisations": "Szervezetek keresése…"
+  },
+  "cta": {
+    "request_listing": "Regisztráció kérése →",
+    "browse_directory": "Könyvtár böngészése →",
+    "see_analytics": "Elemzések megtekintése →",
+    "open_atlas": "Teljes atlasz megnyitása →",
+    "read_dispatch": "Teljes hírlap olvasása →",
+    "read_charter": "Alapokmány olvasása →",
+    "read_figures": "Az összes ábra olvasása →"
+  },
+  "lang": {
+    "select": "Nyelv kiválasztása"
+  },
+  "index": {
+    "title": "ESRF.net — Európai Biztonsági és Reziliencia Közösség",
+    "hero_title_1": "Az emberek",
+    "hero_title_2": "akik összetartják",
+    "hero_title_3": "Európát.",
+    "hero_title_4": ""
+  },
+  "directory": {
+    "title": "Könyvtár — ESRF.net",
+    "hero_title": "A gyakorlat könyvtára."
+  },
+  "map": {
+    "title": "Atlasz — ESRF.net",
+    "heading": "Közösségi Atlasz"
+  },
+  "analytics": {
+    "title": "Elemzés — ESRF.net",
+    "hero_title": "Mintázatok a hálózatban."
+  },
+  "news": {
+    "title": "Hírlap — ESRF.net",
+    "hero_title": "A kontinensről."
+  },
+  "about": {
+    "title": "Alapítvány — ESRF.net",
+    "hero_title": "Egy Európa, amely kitart."
+  },
+  "footer": {
+    "community": "Közösség",
+    "foundation": "Alapítvány",
+    "legal": "Jogi",
+    "contact": "Kapcsolat",
+    "privacy": "Adatvédelem",
+    "terms": "Feltételek"
+  }
+}

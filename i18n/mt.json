@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "foundation": "Fondazzjoni",
+    "directory": "Direttorju",
+    "atlas": "Atlas",
+    "analytics": "Analitika",
+    "dispatch": "Bullettin",
+    "request_listing": "Talba għal dħul"
+  },
+  "common": {
+    "visit": "Żur →",
+    "visit_arrow": "↗",
+    "read_more": "Aqra aktar →",
+    "search": "Fittex",
+    "all": "Kollha",
+    "back_to_top": "Lura fil-quċċata ↑",
+    "organisations": "organizzazzjonijiet",
+    "countries": "pajjiżi",
+    "sectors": "setturi",
+    "articles": "artikoli",
+    "shown": "muri",
+    "load_more": "Għabbi aktar →",
+    "no_results": "L-ebda organizzazzjoni ma taqbel ma' dawn il-filtri.",
+    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+  },
+  "filter": {
+    "sector": "Settur",
+    "country": "Pajjiż",
+    "all_sectors": "Il-setturi kollha",
+    "all_countries": "Il-pajjiżi kollha",
+    "search_placeholder": "Fittex bl-isem, belt, deskrizzjoni…",
+    "search_organisations": "Fittex organizzazzjonijiet…"
+  },
+  "cta": {
+    "request_listing": "Talba għal dħul →",
+    "browse_directory": "Fittex fid-direttorju →",
+    "see_analytics": "Ara l-analitika →",
+    "open_atlas": "Iftaħ l-atlas sħiħ →",
+    "read_dispatch": "Aqra l-bullettin sħiħ →",
+    "read_charter": "Aqra l-karta →",
+    "read_figures": "Aqra l-figuri kollha →"
+  },
+  "lang": {
+    "select": "Agħżel il-lingwa"
+  },
+  "index": {
+    "title": "ESRF.net — Komunità Ewropea tas-Sigurtà u r-Reżiljenza",
+    "hero_title_1": "In-nies",
+    "hero_title_2": "li jżommu",
+    "hero_title_3": "l-Ewropa",
+    "hero_title_4": "flimkien."
+  },
+  "directory": {
+    "title": "Direttorju — ESRF.net",
+    "hero_title": "Id-direttorju tal-prattika."
+  },
+  "map": {
+    "title": "Atlas — ESRF.net",
+    "heading": "Atlas tal-Komunità"
+  },
+  "analytics": {
+    "title": "Analitika — ESRF.net",
+    "hero_title": "Mudelli fin-netwerk."
+  },
+  "news": {
+    "title": "Bullettin — ESRF.net",
+    "hero_title": "Mill-kontinent."
+  },
+  "about": {
+    "title": "Fondazzjoni — ESRF.net",
+    "hero_title": "Ewropa li żżomm."
+  },
+  "footer": {
+    "community": "Komunità",
+    "foundation": "Fondazzjoni",
+    "legal": "Legali",
+    "contact": "Kuntatt",
+    "privacy": "Privatezza",
+    "terms": "Termini"
+  }
+}
