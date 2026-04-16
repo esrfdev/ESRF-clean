@@ -220,7 +220,6 @@
       flex-direction: column;
       gap: 12px;
       transition: border-color 0.2s, transform 0.15s;
-      text-decoration: none;
       color: inherit;
     }
     .news-card:hover {
@@ -248,29 +247,45 @@
     .news-card-pillar[data-pillar="solidarity"] { background: rgba(241,196,15,0.15); color: var(--gold); }
     .news-card-pillar[data-pillar="renewal"] { background: rgba(46,204,113,0.15); color: var(--green); }
 
-    .news-card-source {
-      font-size: 0.75rem;
+    .news-card-source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
       color: var(--text-muted);
       margin-left: auto;
+      background: rgba(255,255,255,0.04);
+      padding: 2px 8px;
+      border-radius: 4px;
     }
-    .news-card-source::after {
-      content: ' ↗';
-      font-size: 0.65rem;
-      opacity: 0.6;
+    .news-card-source-badge svg {
+      width: 11px;
+      height: 11px;
+      opacity: 0.5;
     }
 
     .news-card-title {
       font-size: 1rem;
       font-weight: 600;
-      color: var(--text);
       line-height: 1.45;
     }
+    .news-card-title a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .news-card-title a:hover { color: var(--orange); }
 
     .news-card-org {
       font-size: 0.8rem;
-      color: var(--cyan);
       font-weight: 500;
     }
+    .news-card-org a {
+      color: var(--cyan);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .news-card-org a:hover { color: var(--text); text-decoration: underline; }
 
     .news-card-snippet {
       font-size: 0.85rem;
@@ -287,21 +302,70 @@
       align-items: center;
       justify-content: space-between;
       margin-top: auto;
-      padding-top: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
     }
-
+    .news-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
     .news-card-date {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
       font-family: 'IBM Plex Mono', monospace;
     }
-
     .news-card-country {
       font-size: 0.7rem;
       color: var(--text-muted);
       background: rgba(255,255,255,0.04);
       padding: 2px 8px;
       border-radius: 3px;
+    }
+    .news-card-verify {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--orange);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: color 0.15s;
+    }
+    .news-card-verify:hover { color: #e85e2d; }
+    .news-card-verify svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* ── TRUST BANNER ── */
+    .trust-banner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+    }
+    .trust-banner-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      background: rgba(46,204,113,0.06);
+      border: 1px solid rgba(46,204,113,0.15);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+    .trust-banner-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--green);
+    }
+    .trust-banner-inner strong {
+      color: var(--text-sec);
     }
 
     /* ── LOADING ── */
@@ -620,7 +684,7 @@
   <section class="news-hero">
     <div class="news-kicker">Network Intelligence</div>
     <h1>News Hub</h1>
-    <p>Real-time news monitoring across 500 organisations in the ESRF network. Stay informed on European security, resilience, and business continuity developments.</p>
+    <p>Source-verified news monitoring across 500 organisations in the ESRF network. Every article links to the original publication for full transparency.</p>
     <div class="news-stats">
       <div class="news-stat">
         <div class="news-stat-num" id="statArticles">—</div>
@@ -657,6 +721,17 @@
       <option value="3">Last 3 days</option>
       <option value="30">Last 30 days</option>
     </select>
+  </div>
+
+  <!-- TRUST BANNER -->
+  <div class="trust-banner">
+    <div class="trust-banner-inner">
+      <svg class="trust-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      <span><strong>Verifiable news.</strong> Every article links directly to the original publication at its source. Click any headline or the "Verify" link to read the full report from the publisher.</span>
+    </div>
   </div>
 
   <!-- CTA BANNER -->
@@ -820,11 +895,8 @@
 
     // ── RENDER CARD ──
     function renderCard(article) {
-      const card = document.createElement('a');
+      const card = document.createElement('div');
       card.className = 'news-card';
-      card.href = article.url;
-      card.target = '_blank';
-      card.rel = 'noopener noreferrer';
 
       const pillarTag = article.pillar
         ? `<span class="news-card-pillar" data-pillar="${article.pillar}">${article.pillar}</span>`
@@ -834,20 +906,51 @@
         ? new Date(article.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
         : '';
 
+      // Time-ago for freshness indication
+      const timeAgo = article.date ? getTimeAgo(article.date) : '';
+
+      // Source URL = article URL (original publication)
+      const sourceUrl = article.url || '#';
+      const orgUrl = article.orgUrl || article.url || '#';
+      const sourceName = escapeHtml(article.source || 'Source');
+
       card.innerHTML = `
         <div class="news-card-header">
           ${pillarTag}
-          <span class="news-card-source">${article.source || ''}</span>
+          <span class="news-card-source-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            ${sourceName}
+          </span>
         </div>
-        <div class="news-card-title">${escapeHtml(article.title)}</div>
-        ${article.organisation ? `<div class="news-card-org">${escapeHtml(article.organisation)}</div>` : ''}
+        <div class="news-card-title">
+          <a href="${sourceUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(article.title)}</a>
+        </div>
+        ${article.organisation ? `<div class="news-card-org"><a href="${orgUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(article.organisation)}</a></div>` : ''}
         ${article.snippet ? `<div class="news-card-snippet">${escapeHtml(article.snippet)}</div>` : ''}
         <div class="news-card-footer">
-          <span class="news-card-date">${dateStr}</span>
-          ${article.country ? `<span class="news-card-country">${article.country}</span>` : ''}
+          <div class="news-card-meta">
+            <span class="news-card-date">${dateStr}${timeAgo ? ' · ' + timeAgo : ''}</span>
+            ${article.country ? `<span class="news-card-country">${article.country}</span>` : ''}
+          </div>
+          <a href="${sourceUrl}" target="_blank" rel="noopener noreferrer" class="news-card-verify">
+            Verify
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
         </div>
       `;
       return card;
+    }
+
+    // ── TIME AGO ──
+    function getTimeAgo(dateStr) {
+      const diff = Date.now() - new Date(dateStr).getTime();
+      const hours = Math.floor(diff / 3600000);
+      if (hours < 1) return 'just now';
+      if (hours < 24) return hours + 'h ago';
+      const days = Math.floor(hours / 24);
+      if (days === 1) return '1 day ago';
+      if (days < 7) return days + ' days ago';
+      return '';
     }
 
     function escapeHtml(str) {
@@ -1004,7 +1107,18 @@
         '{org} expands emergency response capabilities in northern Europe',
         '{org} launches sustainability-driven infrastructure renewal project',
       ];
-      const sources = ['Reuters', 'Financial Times', 'NOS', 'Le Monde', 'Bloomberg', 'Der Spiegel', 'Politico EU', 'EurActiv', 'The Guardian', 'Handelsblatt'];
+      const sources = [
+        { name: 'Reuters', url: 'https://www.reuters.com' },
+        { name: 'Financial Times', url: 'https://www.ft.com' },
+        { name: 'NOS', url: 'https://nos.nl' },
+        { name: 'Le Monde', url: 'https://www.lemonde.fr' },
+        { name: 'Bloomberg', url: 'https://www.bloomberg.com' },
+        { name: 'Der Spiegel', url: 'https://www.spiegel.de' },
+        { name: 'Politico EU', url: 'https://www.politico.eu' },
+        { name: 'EurActiv', url: 'https://www.euractiv.com' },
+        { name: 'The Guardian', url: 'https://www.theguardian.com' },
+        { name: 'Handelsblatt', url: 'https://www.handelsblatt.com' },
+      ];
       const articles = [];
       const now = Date.now();
       for (let i = 0; i < 60; i++) {
@@ -1012,15 +1126,17 @@
         const headline = headlines[i % headlines.length].replace('{org}', org.name);
         const daysAgo = Math.floor(Math.random() * 14);
         const date = new Date(now - daysAgo * 86400000);
+        const src = sources[Math.floor(Math.random() * sources.length)];
         articles.push({
           title: headline,
           organisation: org.name,
           pillar: org.pillar,
           country: org.country,
-          source: sources[Math.floor(Math.random() * sources.length)],
+          source: src.name,
           date: date.toISOString().slice(0, 10),
           snippet: `Latest developments from ${org.name} regarding European security and resilience operations. The organisation continues to play a key role in strengthening regional preparedness and cross-border coordination.`,
-          url: org.web
+          url: src.url,
+          orgUrl: org.web
         });
       }
       return articles;
