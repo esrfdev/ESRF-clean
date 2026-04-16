@@ -26567,9 +26567,8 @@ const UI = {
     dirTitle: 'Organisation Directory',
     noResults: 'No organisations match the current filters.',
     statsTitle: 'Community Analytics',
-    chartSectorTitle: 'Organisations per Sector'Organisations per Pillar',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Distribution per Country',
-    chartSectorTitle: 'Sectors per Pillar',
     visitWebsite: 'Visit website',
     aboutKicker: 'ABOUT THE FOUNDATION',
     aboutTitle: 'European Security &\nResilience Framework',
@@ -26612,14 +26611,13 @@ const UI = {
     dirTitle: 'Директория на организациите',
     noResults: 'Няма организации, отговарящи на текущите филтри.',
     statsTitle: 'Анализи на общността',
-    chartSectorTitle: 'Organisations per Sector'Организации по стълб',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Разпределение по държава',
-    chartSectorTitle: 'Сектори по стълб',
     visitWebsite: 'Посетете уебсайта',
     aboutKicker: 'ЗА ФОНДАЦИЯТА',
     aboutTitle: 'Европейска рамка за\nсигурност и устойчивост',
     aboutAdagium: 'Лидерство чрез пример — за местно въздействие и устойчивост.',
-    browseSector: 'Разгледайте {pillar} →',
+    browseSector: 'Разгледайте {sector} →',
     footerDisclaimer: 'ESRF.net е независима, неправителствена инициатива. Нито една от изброените организации не е формално обвързана с рамката, освен ако това не е изрично договорено.',
     footerPrivacy: 'Политика за поверителност',
     footerTerms: 'Условия за ползване',
@@ -26652,14 +26650,13 @@ const UI = {
     dirTitle: 'Adresář organizací',
     noResults: 'Žádné organizace neodpovídají aktuálním filtrům.',
     statsTitle: 'Analytika komunity',
-    chartSectorTitle: 'Organisations per Sector'Organizace podle pilíře',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Distribuce podle země',
-    chartSectorTitle: 'Sektory podle pilíře',
     visitWebsite: 'Navštivte web',
     aboutKicker: 'O NADACI',
     aboutTitle: 'Evropský rámec pro\nbezpečnost a odolnost',
     aboutAdagium: 'Vedení příkladem — pro místní dopad a odolnost.',
-    browseSector: 'Prozkoumat {pillar} →',
+    browseSector: 'Prozkoumat {sector} →',
     footerDisclaimer: 'ESRF.net je nezávislá, nevládní iniciativa. Žádná z uvedených organizací není formálně vázána rámcem, pokud to není výslovně dohodnuto.',
     footerPrivacy: 'Zásady ochrany osobních údajů',
     footerTerms: 'Podmínky použití',
@@ -26693,14 +26690,13 @@ const UI = {
     dirTitle: 'Organisationsfortegnelse',
     noResults: 'Ingen organisationer matcher de aktuelle filtre.',
     statsTitle: 'Fællesskabsanalyse',
-    chartSectorTitle: 'Organisations per Sector'Organisationer pr. søjle',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Fordeling pr. land',
-    chartSectorTitle: 'Sektorer pr. søjle',
     visitWebsite: 'Besøg hjemmeside',
     aboutKicker: 'OM FONDEN',
     aboutTitle: 'Europæisk Sikkerheds- &\nResilienramme',
     aboutAdagium: 'Lederskab ved eksempel — for lokal indvirkning og resiliens.',
-    browseSector: 'Udforsk {pillar} →',
+    browseSector: 'Udforsk {sector} →',
     footerDisclaimer: 'ESRF.net er et uafhængigt, ikke-statsligt initiativ. Ingen af de anførte organisationer er formelt bundet af rammen, medmindre dette udtrykkeligt er aftalt.',
     footerPrivacy: 'Privatlivspolitik',
     footerTerms: 'Vilkår og betingelser',
@@ -26733,14 +26729,13 @@ const UI = {
     dirTitle: 'Organisationsverzeichnis',
     noResults: 'Keine Organisationen entsprechen den aktuellen Filtern.',
     statsTitle: 'Community-Analysen',
-    chartSectorTitle: 'Organisations per Sector'Organisationen pro Säule',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Verteilung pro Land',
-    chartSectorTitle: 'Sektoren pro Säule',
     visitWebsite: 'Website besuchen',
     aboutKicker: 'ÜBER DIE STIFTUNG',
     aboutTitle: 'Europäischer Sicherheits- &\nResilienzrahmen',
     aboutAdagium: 'Führung durch Vorbild — für lokale Wirkung und Resilienz.',
-    browseSector: '{pillar} entdecken →',
+    browseSector: '{sector} entdecken →',
     footerDisclaimer: 'ESRF.net ist eine unabhängige, nichtstaatliche Initiative. Keine der aufgeführten Organisationen ist formal an den Rahmen gebunden, sofern nicht ausdrücklich vereinbart.',
     footerPrivacy: 'Datenschutzrichtlinie',
     footerTerms: 'Nutzungsbedingungen',
@@ -26774,14 +26769,13 @@ const UI = {
     dirTitle: 'Κατάλογος Οργανισμών',
     noResults: 'Κανένας οργανισμός δεν ταιριάζει με τα τρέχοντα φίλτρα.',
     statsTitle: 'Αναλυτικά Κοινότητας',
-    chartSectorTitle: 'Organisations per Sector'Οργανισμοί ανά πυλώνα',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Κατανομή ανά χώρα',
-    chartSectorTitle: 'Τομείς ανά πυλώνα',
     visitWebsite: 'Επισκεφθείτε τον ιστότοπο',
     aboutKicker: 'ΣΧΕΤΙΚΑ ΜΕ ΤΟ ΙΔΡΥΜΑ',
     aboutTitle: 'Ευρωπαϊκό Πλαίσιο\nΑσφάλειας και Ανθεκτικότητας',
     aboutAdagium: 'Ηγεσία με το παράδειγμα — για τοπικό αντίκτυπο και ανθεκτικότητα.',
-    browseSector: 'Εξερευνήστε {pillar} →',
+    browseSector: 'Εξερευνήστε {sector} →',
     footerDisclaimer: 'Το ESRF.net είναι μια ανεξάρτητη, μη κυβερνητική πρωτοβουλία. Κανένας από τους αναφερόμενους οργανισμούς δεν δεσμεύεται επίσημα από το πλαίσιο εκτός εάν έχει συμφωνηθεί ρητά.',
     footerPrivacy: 'Πολιτική απορρήτου',
     footerTerms: 'Όροι χρήσης',
@@ -26814,14 +26808,13 @@ const UI = {
     dirTitle: 'Directorio de organizaciones',
     noResults: 'Ninguna organización coincide con los filtros actuales.',
     statsTitle: 'Analítica de la comunidad',
-    chartSectorTitle: 'Organisations per Sector'Organizaciones por pilar',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Distribución por país',
-    chartSectorTitle: 'Sectores por pilar',
     visitWebsite: 'Visitar sitio web',
     aboutKicker: 'SOBRE LA FUNDACIÓN',
     aboutTitle: 'Marco Europeo de\nSeguridad y Resiliencia',
     aboutAdagium: 'Liderazgo con el ejemplo — para el impacto local y la resiliencia.',
-    browseSector: 'Explorar {pillar} →',
+    browseSector: 'Explorar {sector} →',
     footerDisclaimer: 'ESRF.net es una iniciativa independiente y no gubernamental. Ninguna de las organizaciones mencionadas está formalmente vinculada al framework salvo acuerdo expreso.',
     footerPrivacy: 'Política de privacidad',
     footerTerms: 'Términos y condiciones',
@@ -26855,14 +26848,13 @@ const UI = {
     dirTitle: 'Organisatsioonide kataloog',
     noResults: 'Ükski organisatsioon ei vasta praegustele filtritele.',
     statsTitle: 'Kogukonna analüütika',
-    chartSectorTitle: 'Organisations per Sector'Organisatsioonid samba kaupa',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Jaotus riigiti',
-    chartSectorTitle: 'Sektorid samba kaupa',
     visitWebsite: 'Külasta veebisaiti',
     aboutKicker: 'SIHTASUTUSEST',
     aboutTitle: 'Euroopa Julgeoleku- &\nVastupidavusraamistik',
     aboutAdagium: 'Eestvedamine eeskuju kaudu — kohaliku mõju ja vastupidavuse heaks.',
-    browseSector: 'Sirvi {pillar} →',
+    browseSector: 'Sirvi {sector} →',
     footerDisclaimer: 'ESRF.net on sõltumatu, valitsusvälise algatuse. Ükski loetletud organisatsioonidest ei ole raamistikuga ametlikult seotud, välja arvatud juhul, kui see on selgesõnaliselt kokku lepitud.',
     footerPrivacy: 'Privaatsuspoliitika',
     footerTerms: 'Kasutustingimused',
@@ -26895,14 +26887,13 @@ const UI = {
     dirTitle: 'Organisaatiohakemisto',
     noResults: 'Mikään organisaatio ei vastaa nykyisiä suodattimia.',
     statsTitle: 'Yhteisöanalytiikka',
-    chartSectorTitle: 'Organisations per Sector'Organisaatiot pilareittain',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Jakautuminen maittain',
-    chartSectorTitle: 'Sektorit pilareittain',
     visitWebsite: 'Vieraile verkkosivustolla',
     aboutKicker: 'TIETOA SÄÄTIÖSTÄ',
     aboutTitle: 'Eurooppalainen turvallisuus- &\nresilienssiviitekehys',
     aboutAdagium: 'Johtajuus esimerkillä — paikallisen vaikutuksen ja resilienssin puolesta.',
-    browseSector: 'Selaa {pillar} →',
+    browseSector: 'Selaa {sector} →',
     footerDisclaimer: 'ESRF.net on riippumaton, ei-valtiollinen aloite. Mikään luetelluista organisaatioista ei ole muodollisesti sitoutunut viitekehykseen, ellei toisin ole nimenomaisesti sovittu.',
     footerPrivacy: 'Tietosuojakäytäntö',
     footerTerms: 'Käyttöehdot',
@@ -26936,14 +26927,13 @@ const UI = {
     dirTitle: 'Répertoire des organisations',
     noResults: 'Aucune organisation ne correspond aux filtres actuels.',
     statsTitle: 'Analytique communautaire',
-    chartSectorTitle: 'Organisations per Sector'Organisations par pilier',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Répartition par pays',
-    chartSectorTitle: 'Secteurs par pilier',
     visitWebsite: 'Visiter le site',
     aboutKicker: 'À PROPOS DE LA FONDATION',
     aboutTitle: 'Cadre Européen de\nSécurité & Résilience',
     aboutAdagium: 'Diriger par l’exemple — pour l’impact local et la résilience.',
-    browseSector: 'Parcourir {pillar} →',
+    browseSector: 'Parcourir {sector} →',
     footerDisclaimer: 'ESRF.net est une initiative indépendante et non gouvernementale. Aucune des organisations répertoriées n\'est formellement liée au cadre, sauf accord exprès.',
     footerPrivacy: 'Politique de confidentialité',
     footerTerms: 'Conditions générales',
@@ -26976,14 +26966,13 @@ const UI = {
     dirTitle: 'Eolaire Eagraíochtaí',
     noResults: 'Níl aon eagraíocht ag teacht leis na scagairí reatha.',
     statsTitle: 'Anailísíocht Phobail',
-    chartSectorTitle: 'Organisations per Sector'Eagraíochtaí de réir colúin',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Dáileadh de réir tíre',
-    chartSectorTitle: 'Earnálacha de réir colúin',
     visitWebsite: 'Tabhair cuairt ar an suíomh gréasáin',
     aboutKicker: 'FAOIN FHONDÚIREACHT',
     aboutTitle: 'Creat Eorpach um\nShlándáil agus Athléimneacht',
     aboutAdagium: 'Ceannaireacht trí Shampla — ar mhaithe le Tionchar Áitiúil agus Athléimneacht.',
-    browseSector: 'Taiscéalaigh {pillar} →',
+    browseSector: 'Taiscéalaigh {sector} →',
     footerDisclaimer: 'Is tionscnamh neamhspleách, neamhrialtasach é ESRF.net. Níl aon cheann de na heagraíochtaí luaite ceangailte go foirmiúil leis an gcreat mura n-aontaítear go sainráite amhlaidh.',
     footerPrivacy: 'Beartas Príobháideachais',
     footerTerms: 'Téarmaí',
@@ -27017,14 +27006,13 @@ const UI = {
     dirTitle: 'Imenik organizacija',
     noResults: 'Niti jedna organizacija ne odgovara trenutnim filterima.',
     statsTitle: 'Analitika zajednice',
-    chartSectorTitle: 'Organisations per Sector'Organizacije po stupu',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Raspodjela po zemlji',
-    chartSectorTitle: 'Sektori po stupu',
     visitWebsite: 'Posjetite web stranicu',
     aboutKicker: 'O FONDACIJI',
     aboutTitle: 'Europski okvir za\nsigurnost i otpornost',
     aboutAdagium: 'Vodstvo primjerom — za lokalni utjecaj i otpornost.',
-    browseSector: 'Istražite {pillar} →',
+    browseSector: 'Istražite {sector} →',
     footerDisclaimer: 'ESRF.net je neovisna, nevladina inicijativa. Nijedna od navedenih organizacija nije formalno vezana uz okvir osim ako nije izričito dogovoreno.',
     footerPrivacy: 'Politika privatnosti',
     footerTerms: 'Uvjeti',
@@ -27057,14 +27045,13 @@ const UI = {
     dirTitle: 'Szervezeti névjegyzék',
     noResults: 'Nincs a jelenlegi szűrőknek megfelelő szervezet.',
     statsTitle: 'Közösségi elemzések',
-    chartSectorTitle: 'Organisations per Sector'Szervezetek pillérenként',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Megoszlás országonként',
-    chartSectorTitle: 'Szektorok pillérenként',
     visitWebsite: 'Látogassa meg a weboldalt',
     aboutKicker: 'AZ ALAPÍTVÁNYRÓL',
     aboutTitle: 'Európai Biztonsági és\nReziliencia Keretrendszer',
     aboutAdagium: 'Vezessen példával — helyi hatásért és rezilienciáért.',
-    browseSector: 'Fedezze fel: {pillar} →',
+    browseSector: 'Fedezze fel: {sector} →',
     footerDisclaimer: 'Az ESRF.net egy független, nem kormányzati kezdeményezés. Az említett szervezetek egyike sem kötődik formálisan a keretrendszerhez, kivéve ha ezt kifejezetten megállapodták.',
     footerPrivacy: 'Adatvédelmi irányelvek',
     footerTerms: 'Feltételek',
@@ -27098,14 +27085,13 @@ const UI = {
     dirTitle: 'Elenco delle organizzazioni',
     noResults: 'Nessuna organizzazione corrisponde ai filtri attuali.',
     statsTitle: 'Analisi della comunità',
-    chartSectorTitle: 'Organisations per Sector'Organizzazioni per pilastro',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Distribuzione per paese',
-    chartSectorTitle: 'Settori per pilastro',
     visitWebsite: 'Visita il sito',
     aboutKicker: 'SULLA FONDAZIONE',
     aboutTitle: 'Quadro Europeo per la\nSicurezza e la Resilienza',
     aboutAdagium: 'Leadership attraverso l\'esempio — per un impatto locale e la resilienza.',
-    browseSector: 'Esplora {pillar} →',
+    browseSector: 'Esplora {sector} →',
     footerDisclaimer: 'ESRF.net è un\'iniziativa indipendente e non governativa. Nessuna delle organizzazioni elencate è formalmente vincolata al framework salvo esplicito accordo.',
     footerPrivacy: 'Informativa sulla privacy',
     footerTerms: 'Termini e condizioni',
@@ -27138,14 +27124,13 @@ const UI = {
     dirTitle: 'Organizacijų katalogas',
     noResults: 'Nė viena organizacija neatitinka esamų filtrų.',
     statsTitle: 'Bendruomenės analizė',
-    chartSectorTitle: 'Organisations per Sector'Organizacijos pagal ramstį',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Pasiskirstymas pagal šalį',
-    chartSectorTitle: 'Sektoriai pagal ramstį',
     visitWebsite: 'Apsilankyti svetainėje',
     aboutKicker: 'APIE FONDĄ',
     aboutTitle: 'Europos Saugumo &\nAtsparumo Sistema',
     aboutAdagium: 'Lyderystė rodant pavyzdį — vietinio poveikio ir atsparumo labui.',
-    browseSector: 'Naršyti {pillar} →',
+    browseSector: 'Naršyti {sector} →',
     footerDisclaimer: 'ESRF.net yra nepriklausoma, nevyriausybinė iniciatyva. Nė viena iš išvardytų organizacijų nėra oficialiai įpareigota pagal sistemą, jei tai nėra aiškiai susitarta.',
     footerPrivacy: 'Privatumo politika',
     footerTerms: 'Naudojimo sąlygos',
@@ -27179,14 +27164,13 @@ const UI = {
     dirTitle: 'Organizāciju katalogs',
     noResults: 'Neviena organizācija neatbilst pašreizējiem filtriem.',
     statsTitle: 'Kopienas analītika',
-    chartSectorTitle: 'Organisations per Sector'Organizācijas pa pīlāru',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Sadalījums pa valstīm',
-    chartSectorTitle: 'Nozares pa pīlāru',
     visitWebsite: 'Apmeklēt vietni',
     aboutKicker: 'PAR FONDU',
     aboutTitle: 'Eiropas Drošības &\nNoturības Ietvars',
     aboutAdagium: 'Vadība ar piemēru — vietējai ietekmei un noturībai.',
-    browseSector: 'Pārlūkot {pillar} →',
+    browseSector: 'Pārlūkot {sector} →',
     footerDisclaimer: 'ESRF.net ir neatkarīga, nevalstiska iniciatīva. Neviena no uzskaitītajām organizācijām nav formāli saistīta ar sistēmu, ja vien tas nav nepārprotami saskaņots.',
     footerPrivacy: 'Privātuma politika',
     footerTerms: 'Lietošanas noteikumi',
@@ -27219,14 +27203,13 @@ const UI = {
     dirTitle: 'Direttorju tal-Organizzazzjonijiet',
     noResults: 'L-ebda organizzazzjonijiet ma jaqblu mal-filtri attwali.',
     statsTitle: 'Analitika tal-Komunità',
-    chartSectorTitle: 'Organisations per Sector'Organizzazzjonijiet għal kull pilastru',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Distribuzzjoni għal kull pajjiż',
-    chartSectorTitle: 'Setturi għal kull pilastru',
     visitWebsite: 'Żur il-websajt',
     aboutKicker: 'DWAR IL-FONDAZZJONI',
     aboutTitle: 'Qafas Ewropew tas-\nSigurtà u r-Reżiljenza',
     aboutAdagium: 'Tmexxija bl-Eżempju — għal Impatt Lokali u Reżiljenza.',
-    browseSector: 'Esplora {pillar} →',
+    browseSector: 'Esplora {sector} →',
     footerDisclaimer: 'ESRF.net hija inizjattiva indipendenti, mhux governattiva. L-ebda waħda mill-organizzazzjonijiet imsemmija mhi formalment marbuta mal-qafas sakemm ma jkunx miftiehem espressament.',
     footerPrivacy: 'Politika tal-Privatezza',
     footerTerms: 'Termini',
@@ -27260,14 +27243,13 @@ const UI = {
     dirTitle: 'Organisatiegids',
     noResults: 'Geen organisaties gevonden met de huidige filters.',
     statsTitle: 'Community Analyse',
-    chartSectorTitle: 'Organisations per Sector'Organisaties per pijler',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Verdeling per land',
-    chartSectorTitle: 'Sectoren per pijler',
     visitWebsite: 'Website bezoeken',
     aboutKicker: 'OVER DE STICHTING',
     aboutTitle: 'Europees Kader voor\nVeiligheid & Weerbaarheid',
     aboutAdagium: 'Leiderschap door voorbeeld — voor lokale impact en weerbaarheid.',
-    browseSector: '{pillar} bekijken →',
+    browseSector: '{sector} bekijken →',
     footerDisclaimer: 'ESRF.net is een onafhankelijk, niet-gouvernementeel initiatief. Geen van de vermelde organisaties is formeel gebonden aan het framework tenzij uitdrukkelijk overeengekomen.',
     footerPrivacy: 'Privacybeleid',
     footerTerms: 'Voorwaarden',
@@ -27300,14 +27282,13 @@ const UI = {
     dirTitle: 'Organisasjonsregister',
     noResults: 'Ingen organisasjoner samsvarer med de gjeldende filtrene.',
     statsTitle: 'Fellesskapsanalyse',
-    chartSectorTitle: 'Organisations per Sector'Organisasjoner per pilar',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Fordeling per land',
-    chartSectorTitle: 'Sektorer per pilar',
     visitWebsite: 'Besøk nettsted',
     aboutKicker: 'OM STIFTELSEN',
     aboutTitle: 'Europeisk Sikkerhets- &\nResilienrammeverk',
     aboutAdagium: 'Lederskap ved eksempel — for lokal innvirkning og resiliens.',
-    browseSector: 'Utforsk {pillar} →',
+    browseSector: 'Utforsk {sector} →',
     footerDisclaimer: 'ESRF.net er et uavhengig, ikke-statlig initiativ. Ingen av de oppførte organisasjonene er formelt bundet av rammeverket med mindre dette er uttrykkelig avtalt.',
     footerPrivacy: 'Personvernregler',
     footerTerms: 'Vilkår og betingelser',
@@ -27341,14 +27322,13 @@ const UI = {
     dirTitle: 'Katalog organizacji',
     noResults: 'Żadna organizacja nie pasuje do aktualnych filtrów.',
     statsTitle: 'Analityka społeczności',
-    chartSectorTitle: 'Organisations per Sector'Organizacje wg filaru',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Rozkład wg kraju',
-    chartSectorTitle: 'Sektory wg filaru',
     visitWebsite: 'Odwiedź stronę',
     aboutKicker: 'O FUNDACJI',
     aboutTitle: 'Europejskie Ramy\nBezpieczeństwa i Odporności',
     aboutAdagium: 'Przywództwo przez przykład — dla lokalnego wpływu i odporności.',
-    browseSector: 'Przeglądaj {pillar} →',
+    browseSector: 'Przeglądaj {sector} →',
     footerDisclaimer: 'ESRF.net jest niezależną inicjatywą pozarządową. Żadna z wymienionych organizacji nie jest formalnie związana z ramami, chyba że zostało to wyraźnie uzgodnione.',
     footerPrivacy: 'Polityka prywatności',
     footerTerms: 'Regulamin',
@@ -27381,14 +27361,13 @@ const UI = {
     dirTitle: 'Diretório de Organizações',
     noResults: 'Nenhuma organização corresponde aos filtros atuais.',
     statsTitle: 'Análises da Comunidade',
-    chartSectorTitle: 'Organisations per Sector'Organizações por pilar',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Distribuição por país',
-    chartSectorTitle: 'Setores por pilar',
     visitWebsite: 'Visitar o site',
     aboutKicker: 'SOBRE A FUNDAÇÃO',
     aboutTitle: 'Quadro Europeu de\nSegurança e Resiliência',
     aboutAdagium: 'Liderar pelo Exemplo — para Impacto Local e Resiliência.',
-    browseSector: 'Explorar {pillar} →',
+    browseSector: 'Explorar {sector} →',
     footerDisclaimer: 'A ESRF.net é uma iniciativa independente e não governamental. Nenhuma das organizações mencionadas está formalmente vinculada ao framework, salvo acordo expresso.',
     footerPrivacy: 'Política de Privacidade',
     footerTerms: 'Termos e Condições',
@@ -27422,14 +27401,13 @@ const UI = {
     dirTitle: 'Directorul Organizațiilor',
     noResults: 'Nicio organizație nu corespunde filtrelor actuale.',
     statsTitle: 'Analize ale Comunității',
-    chartSectorTitle: 'Organisations per Sector'Organizații pe pilon',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Distribuție pe țară',
-    chartSectorTitle: 'Sectoare pe pilon',
     visitWebsite: 'Vizitați site-ul web',
     aboutKicker: 'DESPRE FUNDAȚIE',
     aboutTitle: 'Cadrul European de\nSecuritate și Reziliență',
     aboutAdagium: 'Conducere prin Exemplu — pentru Impact Local și Reziliență.',
-    browseSector: 'Explorați {pillar} →',
+    browseSector: 'Explorați {sector} →',
     footerDisclaimer: 'ESRF.net este o inițiativă independentă, non-guvernamentală. Niciuna dintre organizațiile menționate nu este formal legată de cadru, cu excepția cazului în care s-a convenit în mod expres.',
     footerPrivacy: 'Politica de confidențialitate',
     footerTerms: 'Termeni și condiții',
@@ -27462,14 +27440,13 @@ const UI = {
     dirTitle: 'Adresár organizácií',
     noResults: 'Žiadne organizácie nezodpovedajú aktuálnym filtrom.',
     statsTitle: 'Analytika komunity',
-    chartSectorTitle: 'Organisations per Sector'Organizácie podľa piliera',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Rozdelenie podľa krajiny',
-    chartSectorTitle: 'Sektory podľa piliera',
     visitWebsite: 'Navštívte web',
     aboutKicker: 'O NADÁCII',
     aboutTitle: 'Európsky rámec pre\nbezpečnosť a odolnosť',
     aboutAdagium: 'Vedenie príkladom — pre miestny dosah a odolnosť.',
-    browseSector: 'Preskúmať {pillar} →',
+    browseSector: 'Preskúmať {sector} →',
     footerDisclaimer: 'ESRF.net je nezávislá, mimovládna iniciatíva. Žiadna z uvedených organizácií nie je formálne viazaná na rámec, pokiaľ to nie je výslovne dohodnuté.',
     footerPrivacy: 'Zásady ochrany súkromia',
     footerTerms: 'Podmienky',
@@ -27503,14 +27480,13 @@ const UI = {
     dirTitle: 'Imenik organizacij',
     noResults: 'Nobena organizacija ne ustreza trenutnim filtrom.',
     statsTitle: 'Analitika skupnosti',
-    chartSectorTitle: 'Organisations per Sector'Organizacije po stebru',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Porazdelitev po državah',
-    chartSectorTitle: 'Sektorji po stebru',
     visitWebsite: 'Obiščite spletno stran',
     aboutKicker: 'O FUNDACIJI',
     aboutTitle: 'Evropski okvir za\nvarnost in odpornost',
     aboutAdagium: 'Vodenje z zgledom — za lokalni vpliv in odpornost.',
-    browseSector: 'Raziščite {pillar} →',
+    browseSector: 'Raziščite {sector} →',
     footerDisclaimer: 'ESRF.net je neodvisna, nevladna pobuda. Nobena od navedenih organizacij ni formalno vezana na okvir, razen če je to izrecno dogovorjeno.',
     footerPrivacy: 'Politika zasebnosti',
     footerTerms: 'Pogoji',
@@ -27543,14 +27519,13 @@ const UI = {
     dirTitle: 'Organisationskatalog',
     noResults: 'Inga organisationer matchar de aktuella filtren.',
     statsTitle: 'Gemenskapsanalys',
-    chartSectorTitle: 'Organisations per Sector'Organisationer per pelare',
+    chartSectorTitle: 'Organisations per Sector',
     chartCountryTitle: 'Fördelning per land',
-    chartSectorTitle: 'Sektorer per pelare',
     visitWebsite: 'Besök webbplats',
     aboutKicker: 'OM STIFTELSEN',
     aboutTitle: 'Europeiskt Säkerhets- &\nResilienramverk',
     aboutAdagium: 'Ledarskap genom exempel — för lokal verkan och resiliens.',
-    browseSector: 'Utforska {pillar} →',
+    browseSector: 'Utforska {sector} →',
     footerDisclaimer: 'ESRF.net är ett oberoende, icke-statligt initiativ. Ingen av de listade organisationerna är formellt bundna av ramverket om inte detta uttryckligen har överenskommits.',
     footerPrivacy: 'Integritetspolicy',
     footerTerms: 'Användarvillkor',
@@ -27591,10 +27566,13 @@ function applyLanguage(lang) {
     const key = el.dataset.i18n;
     if (strings[key] !== undefined) {
       let text = strings[key];
-      // Dynamic placeholders: {total}, {countries}
-      if (text.includes('{total}') || text.includes('{countries}')) {
+      // Dynamic placeholders: {total}, {countries}, {sectors}
+      if (text.includes('{total}') || text.includes('{countries}') || text.includes('{sectors}')) {
         const countries = new Set(COMPANIES.map(c => c.country)).size;
-        text = text.replace('{total}', COMPANIES.length.toLocaleString()).replace('{countries}', countries);
+        const sectors = new Set(COMPANIES.map(c => c.sector_normalized).filter(Boolean)).size;
+        text = text.replace('{total}', COMPANIES.length.toLocaleString())
+               .replace('{countries}', countries)
+               .replace('{sectors}', sectors);
       }
       if (typeof text === 'string' && (text.includes('\n') || text.includes('<'))) {
         el.innerHTML = text.replace(/\n/g, '<br>');
@@ -28104,7 +28082,7 @@ function buildCharts() {
     });
   }
 
-  // Sector per pillar (doughnut)
+  // Sector distribution (doughnut)
   const sectorMap = {};
   COMPANIES.forEach(c => {
     const s = c.sector_normalized || 'Other';
@@ -28115,7 +28093,7 @@ function buildCharts() {
   const sValues = sectorSorted.map(([,v]) => v);
   const sColors = sLabels.map(s => getSectorColor(s));
 
-  const ctxS = document.getElementById('chartSector');
+  const ctxS = document.getElementById('chartSectorDonut');
   if (ctxS) {
     if (chartSectorInstance) chartSectorInstance.destroy();
     chartSectorInstance = new Chart(ctxS, {
@@ -28226,8 +28204,10 @@ function initCountUpObserver() {
       if (entry.isIntersecting && !animated) {
         animated = true;
         const countries = new Set(COMPANIES.map(c => c.country)).size;
+        const sectorCount = new Set(COMPANIES.map(c => c.sector_normalized).filter(Boolean)).size;
         animateCount(document.getElementById('aboutOrgCount'), COMPANIES.length, 1800);
         animateCount(document.getElementById('aboutCountryCount'), countries, 1200);
+        animateCount(document.getElementById('aboutSectorCount'), sectorCount, 800);
         observer.disconnect();
       }
     });
@@ -28241,9 +28221,11 @@ function init() {
   // Hero subtitle
   const heroSub = document.getElementById('heroSubtitle');
   if (heroSub) {
+    const sectorCount = new Set(COMPANIES.map(c => c.sector_normalized).filter(Boolean)).size;
     heroSub.textContent = UI.en.heroSubtitle
-      .replace('{total}', COMPANIES.length)
-      .replace('{countries}', countries);
+      .replace('{total}', COMPANIES.length.toLocaleString())
+      .replace('{countries}', countries)
+      .replace('{sectors}', sectorCount);
   }
 
   // About section stats (dynamic from COMPANIES data)
@@ -28254,8 +28236,10 @@ function init() {
 
   // Start count-up animation when stats scroll into view
   // (resets to 0 first, animates on visibility)
+  const sectorCountEl = document.getElementById('aboutSectorCount');
   if (orgCountEl) orgCountEl.textContent = '0';
   if (countryCountEl) countryCountEl.textContent = '0';
+  if (sectorCountEl) sectorCountEl.textContent = '0';
   initCountUpObserver();
 
   // Pillar counts
@@ -28282,8 +28266,11 @@ function init() {
     const key = el.dataset.i18n;
     if (strings[key] !== undefined) {
       let text = strings[key];
-      if (key === 'heroSubtitle') {
-        text = text.replace('{total}', COMPANIES.length).replace('{sectors}', new Set(COMPANIES.map(c => c.sector_normalized)).size).replace('{countries}', countries);
+      if (text.includes('{total}') || text.includes('{countries}') || text.includes('{sectors}')) {
+        const sectorCount = new Set(COMPANIES.map(c => c.sector_normalized).filter(Boolean)).size;
+        text = text.replace('{total}', COMPANIES.length.toLocaleString())
+               .replace('{countries}', countries)
+               .replace('{sectors}', sectorCount);
       }
       if (typeof text === 'string' && (text.includes('\n') || text.includes('<'))) {
         el.innerHTML = text.replace(/\n/g, '<br>');
@@ -28295,7 +28282,7 @@ function init() {
 
   // Update pillar labels on all static elements (hero chips, pillar cards, map pills, footer)
   // pillar labels removed
-  updatePillarContent(startUiLang);
+  // updatePillarContent removed (replaced by sector functions)
 
   // Build filters, cards, and deferred map/charts
   rebuildSectorFilter(startLang);
@@ -28422,7 +28409,6 @@ function init() {
     resetBtn.addEventListener('click', () => {
       filterSearch = '';
       filterSector = '';
-      filterSector = '';
       filterCountry = '';
       sortMode = 'az';
       if (searchInput) searchInput.value = '';
@@ -28439,13 +28425,6 @@ function init() {
       updateFilterCount(filtered);
     });
   }
-
-  
-  });
-
-  // Pillar card browse buttons
-  
-  });
 
   initNavScroll();
   initHamburger();
