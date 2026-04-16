@@ -1,19 +1,9 @@
 {
-  "generated": "2026-04-16T05:24:00.922930+00:00",
-  "article_count": 97,
-  "org_count": 9,
+  "generated": "2026-04-16T05:32:42.569432+00:00",
+  "article_count": 41,
+  "org_count": 7,
+  "focus": "European resilience & regional strengthening",
   "articles": [
-    {
-      "title": "Russia pummels Ukraine with drone and missile strikes, killing at least 12",
-      "url": "https://www.theguardian.com/world/2026/apr/16/russia-drone-missile-strikes-ukraine-kyiv-dnipro",
-      "organisation": "The Guardian – Europe",
-      "orgUrl": "https://www.theguardian.com",
-      "pillar": "solidarity",
-      "country": "GB",
-      "source": "The Guardian – Europe",
-      "snippet": "Missile and drone attacks on the port city of Odesa killed six people, with other fatalities recorded in Kyiv and DniproRussian strikes killed at least 12 people in Ukraine, local authorities have said, after Moscow pummelled its neighbour in overnight attacks.Missile and drone attacks on the southe",
-      "date": "2026-04-16"
-    },
     {
       "title": "Iran crisis shoves Europe’s economic woes off summit agenda",
       "url": "https://www.politico.eu/article/iran-crisis-europe-economic-woes-off-eu-summit-agenda/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
@@ -26,213 +16,26 @@
       "date": "2026-04-16"
     },
     {
-      "title": "The Scandinavian Peninsula",
-      "url": "https://www.copernicus.eu/en/scandinavian-peninsula",
-      "organisation": "Copernicus",
-      "orgUrl": "https://www.copernicus.eu",
-      "pillar": "empowerment",
-      "country": "IT",
-      "source": "Copernicus",
-      "snippet": "The Scandinavian Peninsula ldhoop Wed, 15/04/2026 - 09:45 Embed: The Scandinavian Peninsula spans 🇳🇴 🇸🇪 🇫🇮, where early spring brings melting in the south and persistent snow in the north.🛰️ This #CopernicusEU Sentinel-3 image (11 Apr) shows snow-covered mountains, fjords and thawing landscapes.🔗 ht",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Super Typhoon Sinlaku hit the Mariana Islands in the Pacific Ocean",
-      "url": "https://www.copernicus.eu/en/media/image-day-gallery/super-typhoon-sinlaku-hit-mariana-islands-pacific-ocean",
-      "organisation": "Copernicus",
-      "orgUrl": "https://www.copernicus.eu",
-      "pillar": "empowerment",
-      "country": "IT",
-      "source": "Copernicus",
-      "snippet": "Super Typhoon Sinlaku hit the Mariana Islands in the Pacific Ocean roberto@alsoco… Wed, 15/04/2026 - 09:15 Super Typhoon Sinlaku formed over the western Pacific Ocean in early April 2026 and intensified rapidly as it approached the Mariana Islands, a United States territory east of the Philippines. ",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Honduras - Summary of Remaining Humanitarian Needs and Sector Recommendations (January 2026)",
-      "url": "https://reliefweb.int/report/honduras/honduras-summary-remaining-humanitarian-needs-and-sector-recommendations-january-2026",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Honduras Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached file. For full document in Spanish click here This document is a Summary of the document that the Humanitarian Forum created to reprioritize the 2025 HNRP into an analysis of areas and pocke",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "El Salvador: Anticipatory Action Framework for Drought (2026) | El Salvador: Marco de acción anticipatoria - Sequía (2026) [EN/ES]",
-      "url": "https://reliefweb.int/report/el-salvador/el-salvador-anticipatory-action-framework-drought-2026-el-salvador-marco-de-accion-anticipatoria-sequia-2026-enes",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: El Salvador Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached file. Executive Summary The humanitarian community is scaling up anticipatory action (AA), enabling proactive mobilisation of assistance to get ahead of predictable climate-related shocks",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Guatemala: Anticipatory Action Framework for Drought (2026) | Guatemala: Marco de acción anticipatoria - Sequía (2026) [EN/ES]",
-      "url": "https://reliefweb.int/report/guatemala/guatemala-anticipatory-action-framework-drought-2026-guatemala-marco-de-accion-anticipatoria-sequia-2026-enes",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Guatemala Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached file. Executive Summary The humanitarian community is scaling up anticipatory action (AA), enabling proactive mobilisation of assistance to get ahead of predictable climate-related shocks a",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Honduras: Anticipatory Action Framework for Drought (2026) | Honduras: Marco de acción anticipatoria - Sequía (2026) [EN/ES]",
-      "url": "https://reliefweb.int/report/honduras/honduras-anticipatory-action-framework-drought-2026-honduras-marco-de-accion-anticipatoria-sequia-2026-enes",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Honduras Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached file. Executive Summary The humanitarian community is scaling up anticipatory action (AA), enabling proactive mobilisation of assistance to get ahead of predictable climate-related shocks an",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Remarks at International Humanitarian Conference for Sudan by Tom Fletcher, USG for Humanitarian Affairs and Emergency Relief Coordinator",
-      "url": "https://reliefweb.int/report/sudan/remarks-international-humanitarian-conference-sudan-tom-fletcher-usg-humanitarian-affairs-and-emergency-relief-coordinator",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Sudan Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached file. As delivered Thank you, Commissioner [Hadja] Lahbib, and thank you to our hosts. As you have heard from the Secretary-General and others, this conference marks a grim and chastening miles",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Lebanon: Flash Update #17 - Escalation of hostilities in Lebanon (as of 13 April 2026)",
-      "url": "https://reliefweb.int/report/lebanon/lebanon-flash-update-17-escalation-hostilities-lebanon-13-april-2026",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Lebanon Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached file. HIGHLIGHTS More than 2,000 people killed and 1.2 million displaced since the escalation began on 2 March, including over 140,000 people sheltering in collective sites. Deadly airstrikes",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "World: The Pulse of Humanitarian Coordination 2024: Overview of IASC Structures at the Country Level (December 2025)",
-      "url": "https://reliefweb.int/report/world/pulse-humanitarian-coordination-2024-overview-iasc-structures-country-level-december-2025",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: World Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached file. In 2024, humanitarian coordination structures under the Inter-Agency Standing Committee (IASC) were active in 30 operations across 29 locations. These included responses to both protracte",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Yemen: Cash and Voucher Assistance (CVA) (January - December 2025)",
-      "url": "https://reliefweb.int/report/yemen/cash-and-voucher-assistance-cva-january-december-2025",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Yemen Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached Infographic.",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Lebanon: Conflict Intensity, 2 March - 13 April 2026",
-      "url": "https://reliefweb.int/map/lebanon/lebanon-conflict-intensity-2-march-13-april-2026",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Lebanon Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached Map.",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "South Sudan: Humanitarian Access Snapshot (March 2026)",
-      "url": "https://reliefweb.int/report/south-sudan/south-sudan-humanitarian-access-snapshot-march-2026",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: South Sudan Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached Infographic. In March, the most significant deterioration was observed in Jonglei State, where active hostilities between the South Sudan People’s Defense Forces and opposition groups tri",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Yemen: YHF 2nd Standard Allocation 2025 Dashboard",
-      "url": "https://reliefweb.int/report/yemen/yemen-yhf-2nd-standard-allocation-2025-dashboard",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Yemen Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached Infographic.",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "CAR - Sudan refugees - 13 April 2025",
-      "url": "https://www.unocha.org/media-centre/car-sudan-refugees-13-april-2025",
-      "organisation": "OCHA",
-      "orgUrl": "https://www.unocha.org",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "OCHA",
-      "snippet": "CAR - Sudan refugees - 13 April 2025 DescriptionSTORY: CAR / SUDAN THREE YEARS WARTRT: 2:27SOURCE: OCHARESTRICTIONS: PLEASE CREDIT OCHA ON SCREENLANGUAGE: ARABIC / NATS DATELINE: 9-11 APRIL 2026, BIRAO, CENTRAL AFRICAN REPUBLIC Shotlist09 APRIL 2026, BIRAO, CENTRAL AFRICAN REPUBLIC 1. Various shots,",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "UN Relief Chief: Sudan is an atrocities laboratory",
-      "url": "https://www.unocha.org/news/un-relief-chief-sudan-atrocities-laboratory",
-      "organisation": "OCHA",
-      "orgUrl": "https://www.unocha.org",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "OCHA",
-      "snippet": "UN Relief Chief: Sudan is an atrocities laboratory edited photo of child with leg lost in war Sudan.JPG Jaspreet Kindra 15 Apr. 2026 4.10 p.m. Remarks at International Humanitarian Conference for Sudan by Tom Fletcher, Under-Secretary-General for Humanitarian Affairs and Emergency Relief Coo",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Today's top news: Sudan, Iran, Lebanon, Occupied Palestinian Territory, Central African Republic",
-      "url": "https://www.unocha.org/news/todays-top-news-sudan-iran-lebanon-occupied-palestinian-territory-central-african-republic",
-      "organisation": "OCHA",
-      "orgUrl": "https://www.unocha.org",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "OCHA",
-      "snippet": "Today's top news: Sudan, Iran, Lebanon, Occupied Palestinian Territory, Central African Republic WhatsApp Image 2026-03-26 at 10.06.58 AM.jpeg Jaspreet Kindra 15 Apr. 2026 3.52 p.m. #Sudan",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Darfur's survivors of a war #3YearsTooLong",
-      "url": "https://www.unocha.org/news/darfurs-survivors-war-3yearstoolong",
-      "organisation": "OCHA",
-      "orgUrl": "https://www.unocha.org",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "OCHA",
-      "snippet": "Darfur's survivors of a war #3YearsTooLong SDN_022026_UNOCHA_DSC08306.jpg Jaspreet Kindra 15 Apr. 2026 12.33 p.m. By an OCHA team based on testimonies collected by Giles Clarke",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Portraits from Ukraine: An aid worker who persists despite personal tragedy",
-      "url": "https://www.unocha.org/news/portraits-ukraine-aid-worker-who-persists-despite-personal-tragedy",
-      "organisation": "OCHA",
-      "orgUrl": "https://www.unocha.org",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "OCHA",
-      "snippet": "Portraits from Ukraine: An aid worker who persists despite personal tragedy IMG_0074[1].jpg Jaspreet Kindra 15 Apr. 2026 10.14 a.m. By Viktoriia Andriievska",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "France seeks release of 86-year-old French widow detained by ICE",
-      "url": "https://www.theguardian.com/us-news/2026/apr/15/french-widow-detained-ice-marie-therese-ross",
+      "title": "Russia pummels Ukraine with drone and missile strikes, killing at least 12",
+      "url": "https://www.theguardian.com/world/2026/apr/16/russia-drone-missile-strikes-ukraine-kyiv-dnipro",
       "organisation": "The Guardian – Europe",
       "orgUrl": "https://www.theguardian.com",
       "pillar": "solidarity",
       "country": "GB",
       "source": "The Guardian – Europe",
-      "snippet": "Agents detained Marie-Therese Ross in Alabama on 1 April after she overstayed her 90-day visa, according to DHSThe French government is pressing the US Department of Homeland Security (DHS) to release the 86-year-old French widow of a military veteran from immigration custody after she was detained ",
-      "date": "2026-04-15"
+      "snippet": "Missile and drone attacks on the port city of Odesa killed six people, with other fatalities recorded in Kyiv and DniproRussian strikes killed at least 12 people in Ukraine, local authorities have said, after Moscow pummelled its neighbour in overnight attacks.Missile and drone attacks on the southe",
+      "date": "2026-04-16"
+    },
+    {
+      "title": "Ukraine war briefing: Netherlands to spend almost $300m on making drones for Ukraine",
+      "url": "https://www.theguardian.com/world/2026/apr/16/ukraine-war-briefing-netherlands-to-spend-almost-300m-on-making-drones-for-ukraine",
+      "organisation": "The Guardian – Europe",
+      "orgUrl": "https://www.theguardian.com",
+      "pillar": "solidarity",
+      "country": "GB",
+      "source": "The Guardian – Europe",
+      "snippet": "Nato promises not to lose sight of Ukraine conflict; Russia attacks Kyiv. What we know on day 1,512The Netherlands will spend 248m euros ($293m) on producing drones for Ukraine, Dutch defence minister Dilan Yesilgoz-Zegerius said on Wednesday. “Drones play a crucial role on the modern battlefield. U",
+      "date": "2026-04-16"
     },
     {
       "title": "Peace activist, 91, walks across Ireland in protest against US military stopovers",
@@ -268,25 +71,36 @@
       "date": "2026-04-15"
     },
     {
-      "title": "Online age checks are coming in Europe",
-      "url": "https://www.politico.eu/article/online-age-checks-are-coming-europe-children-social-media/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
-      "organisation": "Politico EU",
-      "orgUrl": "https://www.politico.eu",
-      "pillar": "stewardship",
-      "country": "BE",
-      "source": "Politico EU",
-      "snippet": "European Commission President Ursula von der Leyen says the world’s biggest tech platforms have “no more excuses” for not checking users’ ages before letting them access restricted content.",
-      "date": "2026-04-15"
-    },
-    {
-      "title": "Cabo San Lucas",
-      "url": "https://www.copernicus.eu/en/cabo-san-lucas",
+      "title": "The Scandinavian Peninsula",
+      "url": "https://www.copernicus.eu/en/scandinavian-peninsula",
       "organisation": "Copernicus",
       "orgUrl": "https://www.copernicus.eu",
       "pillar": "empowerment",
       "country": "IT",
       "source": "Copernicus",
-      "snippet": "Cabo San Lucas ldhoop Tue, 14/04/2026 - 10:53 Embed: 🏙️ Cabo San Lucas 🇲🇽 is rapidly expanding.🛰️ #CopernicusEU Sentinel-2 images (2017 vs 2026) show clear urban growth into surrounding desert areas, especially along road networks.🔗 https://t.co/pKQrDOLOtN#ImageOfTheDay pic.twitter.com/gVbHpFNBW6 — ",
+      "snippet": "The Scandinavian Peninsula ldhoop Wed, 15/04/2026 - 09:45 Embed: The Scandinavian Peninsula spans 🇳🇴 🇸🇪 🇫🇮, where early spring brings melting in the south and persistent snow in the north.🛰️ This #CopernicusEU Sentinel-3 image (11 Apr) shows snow-covered mountains, fjords and thawing landscapes.🔗 ht",
+      "date": "2026-04-15"
+    },
+    {
+      "title": "UK woman fears being stranded in Spain over new Home Office border rules",
+      "url": "https://www.theguardian.com/uk-news/2026/apr/14/uk-woman-fears-being-stranded-spain-new-home-office-border-rules",
+      "organisation": "The Guardian – Europe",
+      "orgUrl": "https://www.theguardian.com",
+      "pillar": "solidarity",
+      "country": "GB",
+      "source": "The Guardian – Europe",
+      "snippet": "Natasha Cochrane de la Rosa was refused boarding on flight to London because she was not aware of the rule changeA British woman has told how she fears being stranded in Spain for months after being refused boarding a on flight back home to London because she was not aware of new Home Office border ",
+      "date": "2026-04-14"
+    },
+    {
+      "title": "UK steel exports to EU at risk as bloc doubles tariffs and halves quotas",
+      "url": "https://www.theguardian.com/business/2026/apr/14/uk-steel-exports-eu-risk-tariffs-quotas",
+      "organisation": "The Guardian – Europe",
+      "orgUrl": "https://www.theguardian.com",
+      "pillar": "solidarity",
+      "country": "GB",
+      "source": "The Guardian – Europe",
+      "snippet": "Decision to reduce duty-free quotas by 47% aimed at curbing Chinese importsThe EU is to go ahead with plans to double tariffs and halve quotas on imports of steel from July, in a move designed to curb Chinese imports but which could damage UK exports to the bloc.The decision by EU lawmakers and memb",
       "date": "2026-04-14"
     },
     {
@@ -312,182 +126,6 @@
       "date": "2026-04-14"
     },
     {
-      "title": "CAMS global reanalysis (EAC4) monthly averaged fields",
-      "url": "https://www.copernicus.eu/en/access-data/copernicus-services-catalogue/cams-global-reanalysis-eac4-monthly-averaged-fields",
-      "organisation": "Copernicus",
-      "orgUrl": "https://www.copernicus.eu",
-      "pillar": "empowerment",
-      "country": "IT",
-      "source": "Copernicus",
-      "snippet": "CAMS global reanalysis (EAC4) monthly averaged fields Anonymous (not verified) Tue, 14/04/2026 - 05:01 EAC4 (ECMWF Atmospheric Composition Reanalysis 4) is the fourth generation ECMWF global reanalysis of atmospheric composition. Reanalysis combines model data with observations from across the world",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "CAMS solar radiation time-series",
-      "url": "https://www.copernicus.eu/en/access-data/copernicus-services-catalogue/cams-solar-radiation-time-series",
-      "organisation": "Copernicus",
-      "orgUrl": "https://www.copernicus.eu",
-      "pillar": "empowerment",
-      "country": "IT",
-      "source": "Copernicus",
-      "snippet": "CAMS solar radiation time-series Anonymous (not verified) Tue, 14/04/2026 - 05:01 The CAMS solar radiation services provide historical values (2004 to present) of global (GHI), direct (BHI) and diffuse (DHI) solar irradiation, as well as direct normal irradiation (BNI). The aim is to fulfil the need",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "CAMS global emission inventories",
-      "url": "https://www.copernicus.eu/en/access-data/copernicus-services-catalogue/cams-global-emission-inventories",
-      "organisation": "Copernicus",
-      "orgUrl": "https://www.copernicus.eu",
-      "pillar": "empowerment",
-      "country": "IT",
-      "source": "Copernicus",
-      "snippet": "CAMS global emission inventories Anonymous (not verified) Tue, 14/04/2026 - 05:01 This data set contains gridded distributions of global anthropogenic and natural emissions. Natural and anthropogenic emissions of atmospheric pollutants and greenhouse gases are key drivers of the evolution of the com",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "CAMS global radiative forcings",
-      "url": "https://www.copernicus.eu/en/access-data/copernicus-services-catalogue/cams-global-radiative-forcings",
-      "organisation": "Copernicus",
-      "orgUrl": "https://www.copernicus.eu",
-      "pillar": "empowerment",
-      "country": "IT",
-      "source": "Copernicus",
-      "snippet": "CAMS global radiative forcings Anonymous (not verified) Tue, 14/04/2026 - 05:01 This dataset provides geographical distributions of the radiative forcing (RF) by key atmospheric constituents. The radiative forcing estimates are based on the CAMS reanalysis and additional model simulations and are pr",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "CAMS global radiative forcing - auxilliary variables",
-      "url": "https://www.copernicus.eu/en/access-data/copernicus-services-catalogue/cams-global-radiative-forcing-auxilliary-variables",
-      "organisation": "Copernicus",
-      "orgUrl": "https://www.copernicus.eu",
-      "pillar": "empowerment",
-      "country": "IT",
-      "source": "Copernicus",
-      "snippet": "CAMS global radiative forcing - auxilliary variables Anonymous (not verified) Tue, 14/04/2026 - 05:01 This dataset provides aerosol optical depths and aerosol-radiation radiative effects for four different aerosol origins: anthropogenic, mineral dust, marine, and land-based fine-mode natural aerosol",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "DR Congo: TORs for the Inter-Agency Humanitarian Evaluation of the Response in Eastern DRC (April 2026)",
-      "url": "https://reliefweb.int/report/democratic-republic-congo/tors-inter-agency-humanitarian-evaluation-response-eastern-drc-april-2026",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Democratic Republic of the Congo Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached file. Eastern DRC is experiencing one of the world’s most severe and protracted humanitarian crises, marked by escalating conflict, mass displacement, and collapsing ",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "Burkina Faso : HRP 2026 - Suivi périodique de la réponse humanitaire, février 2026",
-      "url": "https://reliefweb.int/report/burkina-faso/burkina-faso-hrp-2026-suivi-periodique-de-la-reponse-humanitaire-fevrier-2026",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Burkina Faso Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached Infographic. En janvier et février 2026, les partenaires humanitaires ont atteint cumulativement plus de 452 000 personnes, soit 17 % de la cible intersectorielle, dont près de 182 000 p",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "Haiti: L'ONU alloue 140 millions de dollars pour fournir une aide vitale à 1 million de personnes dans le contexte de l’aggravation de la crise humanitaire en Haïti - Déclaration de la coordinatrice humanitaire, Nicole Boni Kouassi [FRANCAIS+KREYOL]",
-      "url": "https://reliefweb.int/report/haiti/lonu-alloue-140-millions-de-dollars-pour-fournir-une-aide-vitale-1-million-de-personnes-dans-le-contexte-de-laggravation-de-la-crise-humanitaire-en-haiti-declaration-de-la-coordinatrice-humanitaire-nicole-boni-kouassi-francaiskreyol",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Haiti Sources: UN Office for the Coordination of Humanitarian Affairs, UN Resident and Humanitarian Coordinator in Haiti Please refer to the attached files. Port-au-Prince, 14 April 2026 - Les Nations Unies ont débloqué 140,5 millions de dollars en financement d'urgence afin de venir en aid",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "Briefing to the Security Council on the humanitarian situation in Yemen by Ms. Edem Wosornu, Director, Crisis Response Division, OCHA, on behalf of Tom Fletcher, USG and Emergency Relief Coordinator",
-      "url": "https://reliefweb.int/report/yemen/briefing-security-council-humanitarian-situation-yemen-ms-edem-wosornu-director-crisis-response-division-ocha-behalf-tom-fletcher-usg-and-emergency-relief-coordinator",
-      "organisation": "ReliefWeb",
-      "orgUrl": "https://reliefweb.int",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "ReliefWeb",
-      "snippet": "Country: Yemen Source: UN Office for the Coordination of Humanitarian Affairs Please refer to the attached file. As delivered Thank you, Mr. President. This is our third briefing to the Security Council this year. What I am about to share is not new – but a deterioration of an already terrible situa",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "Today's top news: Lebanon, Occupied Palestinian Territory, Sudan, Yemen, Ukraine",
-      "url": "https://www.unocha.org/news/todays-top-news-lebanon-occupied-palestinian-territory-sudan-yemen-ukraine",
-      "organisation": "OCHA",
-      "orgUrl": "https://www.unocha.org",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "OCHA",
-      "snippet": "Today's top news: Lebanon, Occupied Palestinian Territory, Sudan, Yemen, Ukraine shelter Lebanon.jpg Jaspreet Kindra 14 Apr. 2026 5.02 p.m. #Lebanon",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "At Security Council, OCHA appeals for unimpeded access as Yemen crisis deteriorates",
-      "url": "https://www.unocha.org/news/security-council-ocha-appeals-unimpeded-access-yemen-crisis-deteriorates",
-      "organisation": "OCHA",
-      "orgUrl": "https://www.unocha.org",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "OCHA",
-      "snippet": "At Security Council, OCHA appeals for unimpeded access as Yemen crisis deteriorates WFP yemen.jpg Jaspreet Kindra 14 Apr. 2026 3.21 p.m. Briefing to the Security Council on the humanitarian situation in Yemen by Ms.",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "Sudan’s humanitarian workers continue to show up for their people",
-      "url": "https://www.unocha.org/news/sudans-humanitarian-workers-continue-show-their-people",
-      "organisation": "OCHA",
-      "orgUrl": "https://www.unocha.org",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "OCHA",
-      "snippet": "Sudan’s humanitarian workers continue to show up for their people Untitled (16 x 9 in) (2).png Jaspreet Kindra 14 Apr. 2026 2.06 p.m. The sound of gunfire and heavy artillery shook Mohammed Gimish's house in Khartoum.",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "UN Relief Chief: Three years on, Sudan remains a test the world is failing",
-      "url": "https://www.unocha.org/news/un-relief-chief-three-years-sudan-remains-test-world-failing",
-      "organisation": "OCHA",
-      "orgUrl": "https://www.unocha.org",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "OCHA",
-      "snippet": "UN Relief Chief: Three years on, Sudan remains a test the world is failing SDN_022026_UNOCHA_DSC08203-2_Halima edited.JPG Jaspreet Kindra 14 Apr. 2026 10.22 a.m. Statement by Tom Fletcher, Under-Secretary-General for Humanitarian Affairs and Emergency Relief Coordinator",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "UK steel exports to EU at risk as bloc doubles tariffs and halves quotas",
-      "url": "https://www.theguardian.com/business/2026/apr/14/uk-steel-exports-eu-risk-tariffs-quotas",
-      "organisation": "The Guardian – Europe",
-      "orgUrl": "https://www.theguardian.com",
-      "pillar": "solidarity",
-      "country": "GB",
-      "source": "The Guardian – Europe",
-      "snippet": "Decision to reduce duty-free quotas by 47% aimed at curbing Chinese importsThe EU is to go ahead with plans to double tariffs and halve quotas on imports of steel from July, in a move designed to curb Chinese imports but which could damage UK exports to the bloc.The decision by EU lawmakers and memb",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "After three years of conflict, Sudan faces a deeper health crisis",
-      "url": "https://www.who.int/news/item/14-04-2026-after-three-years-of-conflict--sudan-faces-a-deeper-health-crisis",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "Three years of war in Sudan have created the world’s largest humanitarian and displacement crisis, with devastating consequences for people’s health.While the situation is improving in some states, the health crisis is deepening in areas where fighting continues. Disease outbreaks and malnutrition a",
-      "date": "2026-04-14"
-    },
-    {
-      "title": "Today's top news: Middle East, Iran, Lebanon, Occupied Palestinian Territory, Sudan, Afghanistan, Haiti",
-      "url": "https://www.unocha.org/news/todays-top-news-middle-east-iran-lebanon-occupied-palestinian-territory-sudan-afghanistan",
-      "organisation": "OCHA",
-      "orgUrl": "https://www.unocha.org",
-      "pillar": "solidarity",
-      "country": "CH",
-      "source": "OCHA",
-      "snippet": "Today's top news: Middle East, Iran, Lebanon, Occupied Palestinian Territory, Sudan, Afghanistan, Haiti OPT WHO.jpg Jaspreet Kindra 13 Apr. 2026 5.24 p.m. #Middle East",
-      "date": "2026-04-13"
-    },
-    {
       "title": "Renewed ties with EU needed to boost UK security and economy, says Starmer",
       "url": "https://www.theguardian.com/politics/2026/apr/13/keir-starmer-defends-plan-for-closer-alignment-with-eu-rules",
       "organisation": "The Guardian – Europe",
@@ -496,28 +134,6 @@
       "country": "GB",
       "source": "The Guardian – Europe",
       "snippet": "PM says lessons must be learned from shocks to cost of living as government plans to align with bloc’s rules by defaultThe economic and security benefits of a closer relationship with the EU are “simply too big to ignore”, Keir Starmer has told parliament as the British government prepares for more ",
-      "date": "2026-04-13"
-    },
-    {
-      "title": "Shabana Mahmood says Southport inquiry report exposed ‘systematic failures across multiple public sector organisations’ – as it happened",
-      "url": "https://www.theguardian.com/politics/live/2026/apr/13/iran-war-keir-starmer-brexit-trump-strait-hormuz-oil-fuel-southport-latest-news-updates",
-      "organisation": "The Guardian – Europe",
-      "orgUrl": "https://www.theguardian.com",
-      "pillar": "solidarity",
-      "country": "GB",
-      "source": "The Guardian – Europe",
-      "snippet": "The home secretary made the comments after an inquiry revealed that the system ‘completely failed’Keir Starmer has confirmed that he wants to stop children being exposed to addictive scrolling features on their phones as part of measures to protect them from social media.The PM is under pressure to ",
-      "date": "2026-04-13"
-    },
-    {
-      "title": "Will Orbán’s defeat in Hungary be a turning point for Europe? – The Latest",
-      "url": "https://www.theguardian.com/world/video/2026/apr/13/will-orbans-defeat-in-hungary-be-a-turning-point-for-europe-the-latest",
-      "organisation": "The Guardian – Europe",
-      "orgUrl": "https://www.theguardian.com",
-      "pillar": "solidarity",
-      "country": "GB",
-      "source": "The Guardian – Europe",
-      "snippet": "Viktor Orbán’s 16-year rule has come to an end after the opposition Tisza party, led by Péter Magyar, won the Hungary election by a landslide. Orbán quickly conceded after what he described as a 'painful but unambiguous' result. His defeat will come as a blow to Donald Trump, who has repeatedly endo",
       "date": "2026-04-13"
     },
     {
@@ -532,15 +148,15 @@
       "date": "2026-04-13"
     },
     {
-      "title": "First-ever WHO Forum unites 800+ Collaborating Centres for stronger scientific collaboration",
-      "url": "https://www.who.int/news/item/09-04-2026-first-ever-who-forum-unites-800--collaborating-centres-for-stronger-scientific-collaboration",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
+      "title": "Thousands celebrate in Hungary as Péter Magyar ends Viktor Orbán's 16-year rule – video",
+      "url": "https://www.theguardian.com/world/video/2026/apr/13/thousands-celebrate-hungary-peter-magyar-viktor-orban-16-year-rule-video",
+      "organisation": "The Guardian – Europe",
+      "orgUrl": "https://www.theguardian.com",
       "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "The World Health Organization (WHO) has convened the historic first Global Forum of Collaborating Centres—one of the world’s largest and most diverse public health networks—bringing together representatives from over 800 institutions designated as WHO Collaborating Centres (CCs) across more than 80 ",
-      "date": "2026-04-09"
+      "country": "GB",
+      "source": "The Guardian – Europe",
+      "snippet": "Thousands flooded the streets as Hungary's opposition leader, Péter Magyar, declared victory after his Tisza party claimed a landslide win over Viktor Orbán's Fidesz party. The victory ends Orbán's 16-year rule and marks a significant shift for Hungary's relationship with the EU and Russia. Orbán wa",
+      "date": "2026-04-13"
     },
     {
       "title": "Het HCC, het ‘kloppend hart van de Rotterdamse haven’, is na een grondige verbouwing klaar voor de toekomst",
@@ -552,28 +168,6 @@
       "source": "Port of Rotterdam",
       "snippet": "The Harbour Coordination Centre (HCC), the ‘beating heart of the port of Rotterdam’, is ready for the future following extensive renovations The Harbour Coordination Centre (HCC), the ‘beating heart of the port of Rotterdam’, is ready for the future following extensive renovations 8 April 2026 How c",
       "date": "2026-04-08"
-    },
-    {
-      "title": "WHO and France shift One Health vision to action with new high-impact initiatives",
-      "url": "https://www.who.int/news/item/07-04-2026-who-and-france-shift-one-health-vision-to-action-with-new-high-impact-initiatives",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "The World Health Organization (WHO) and France hosted the One Health Summit on World Health Day 2026, announcing new initiatives to protect human, animal, and environmental health through the One Health approach. The Summit highlighted urgent global challenges such as climate change, zoonotic diseas",
-      "date": "2026-04-07"
-    },
-    {
-      "title": "WHO calls for action: “Together for health. Stand with science.” to mark World Health Day",
-      "url": "https://www.who.int/news/item/06-04-2026-who-calls-for-action---together-for-health.-stand-with-science.--to-mark-world-health-day",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "The World Health Organization (WHO) today calls on people everywhere to renew their commitment to working together and supporting science as the twin engines driving better health, under the World Health Day 2026 theme: “Together for health. Stand with science.” The campaign marks the anniversary of",
-      "date": "2026-04-06"
     },
     {
       "title": "WHO Member States agree to extend negotiations on key annex to the Pandemic Agreement",
@@ -598,28 +192,6 @@
       "date": "2026-03-26"
     },
     {
-      "title": "Encouraging progress in inclusive health policies for refugees and migrants",
-      "url": "https://www.who.int/news/item/26-03-2026-encouraging-progress-in-inclusive-health-policies-for-refugees-and-migrants",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "WHO reports a major shift in how countries are responding to the health needs of refugees and migrants, with new data showing more than 60 countries – two thirds of those surveyed – now include them in their national health policies and laws.",
-      "date": "2026-03-26"
-    },
-    {
-      "title": "WHO recommends new diagnostic tools to help end TB",
-      "url": "https://www.who.int/news/item/24-03-2026-who-recommends-new-diagnostic-tools-to-help-end-tb",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "On World TB Day, the World Health Organization (WHO) is urging countries to accelerate action to end tuberculosis (TB) and expand access to lifesaving services by using new innovations such as diagnostic tests that can be used near the point-of-care and tongue swabs that can help detect the disease ",
-      "date": "2026-03-24"
-    },
-    {
       "title": "Haven van Rotterdam vergroent verder met Europese financiering",
       "url": "https://www.portofrotterdam.com/nl/nieuws-en-persberichten/haven-van-rotterdam-vergroent-verder-met-europese-financiering",
       "organisation": "Port of Rotterdam",
@@ -631,17 +203,6 @@
       "date": "2026-03-23"
     },
     {
-      "title": "Progress in reducing child deaths slows as 4.9 million children die before age five",
-      "url": "https://www.who.int/news/item/18-03-2026-progress-in-reducing-child-deaths-slows-as-4.9-million-children-die-before-age-five",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "An estimated 4.9 million children died before their fifth birthday in 2024, including 2.3 million newborns, according to new estimates released today. Most of these deaths are preventable with proven, low-cost interventions and access to quality health care.According to the report – Levels & Trends ",
-      "date": "2026-03-18"
-    },
-    {
       "title": "Marktconsultatie: vooral onzekerheid over de vraag remt investeringen in terminals voor waterstofdragers zoals ammoniak",
       "url": "https://www.portofrotterdam.com/nl/nieuws-en-persberichten/marktconsultatie-vooral-onzekerheid-over-de-vraag-remt-investeringen",
       "organisation": "Port of Rotterdam",
@@ -650,17 +211,6 @@
       "country": "NL",
       "source": "Port of Rotterdam",
       "snippet": "Market consultation: mainly uncertainty about demand is holding back investments in terminals for hydrogen carriers such as ammonia Energy transition Market consultation: mainly uncertainty about demand is holding back investments in terminals for hydrogen carriers such as ammonia 11 March 2026 How ",
-      "date": "2026-03-11"
-    },
-    {
-      "title": "Conflict deepens health crisis across Middle East, WHO says",
-      "url": "https://www.who.int/news/item/11-03-2026-conflict-deepens-health-crisis-across-middle-east--who-says",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "More than ten days into the latest escalation of conflict in the Middle East, health systems across the Region are coming under strain as injuries and displacement rise, attacks on health care continue, and public health risks increase.National health authorities in Iran report more than 1300 deaths",
       "date": "2026-03-11"
     },
     {
@@ -675,70 +225,15 @@
       "date": "2026-03-10"
     },
     {
-      "title": "Chile becomes the first country in the Americas to be verified by WHO for the elimination of leprosy",
-      "url": "https://www.who.int/news/item/04-03-2026-chile-becomes-the-first-country-in-the-americas-to-be-verified-by-who-for-the-elimination-of-leprosy",
+      "title": "Global commitment on display as countries negotiate key annex to the Pandemic Agreement",
+      "url": "https://www.who.int/news/item/17-02-2026-global-commitment-on-display-as-countries-negotiate-key-annex-to-the-pandemic-agreement",
       "organisation": "WHO Europe",
       "orgUrl": "https://www.who.int/europe",
       "pillar": "solidarity",
       "country": "DK",
       "source": "WHO Europe",
-      "snippet": "The World Health Organization (WHO), together with the Pan American Health Organization (PAHO), congratulates Chile for becoming the first country in the Americas – and the second globally – to be officially verified as having eliminated leprosy disease.",
-      "date": "2026-03-04"
-    },
-    {
-      "title": "Recommendations for influenza vaccine composition for the 2026-2027 northern hemisphere season",
-      "url": "https://www.who.int/news/item/27-02-2026-recommendations-for-influenza-vaccine-composition-for-the-2026-2027-northern-hemisphere-season",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "The World Health Organization (WHO) today announced recommendations for the viral composition of influenza (or “flu”) vaccines for the 2026-2027 northern hemisphere influenza season. The announcement was made following a 4-day consultation examining global influenza surveillance data.",
-      "date": "2026-02-27"
-    },
-    {
-      "title": "Denmark becomes first country in the European Union to eliminate mother-to-child transmission of HIV and syphilis",
-      "url": "https://www.who.int/news/item/27-02-2026-denmark-becomes-first-country-in-the-european-union-to-eliminate-of-mother-to-child-transmission-of-hiv-and-syphilis",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "The World Health Organization (WHO) has certified Denmark for the elimination of mother-to-child transmission (EMTCT) of HIV and syphilis, recognizing the country's sustained commitment to ensuring every child is born free of these infections.",
-      "date": "2026-02-26"
-    },
-    {
-      "title": "WHO Director-General visits Jordan to recognize strong collaboration on health system delivery, emergency relief and advancing mental health",
-      "url": "https://www.who.int/news/item/25-02-2026-who-director-general-visits-jordan-to-recognize-strong-collaboration-on-health-system-delivery--emergency-relief-and-advancing-mental-health",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "The Director-General of the World Health Organization, Dr Tedros Adhanom Ghebreyesus, today concluded the first day of his two-day State visit to the Hashemite Kingdom of Jordan, underscoring the strong partnership between WHO and Jordan across the areas of universal health coverage (UHC), mental he",
-      "date": "2026-02-25"
-    },
-    {
-      "title": "Attacks on Ukraine’s health care increased by 20% in 2025",
-      "url": "https://www.who.int/news/item/23-02-2026-attacks-on-ukraine-s-health-care-increased-by-20-in-2025",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "As Ukraine enters the fifth year of full-scale war, its people have endured the highest number of attacks on their health care in 2025 – increasing by nearly 20% compared to 2024.Since the beginning of the full-scale war on 24 February 2022, WHO has documented at least 2881 attacks on health care in",
-      "date": "2026-02-23"
-    },
-    {
-      "title": "WHO validates elimination of trachoma as a public health problem in Libya",
-      "url": "https://www.who.int/news/item/18-02-2026-who-validates-elimination-of-trachoma-as-a-public-health-problem-in-libya",
-      "organisation": "WHO Europe",
-      "orgUrl": "https://www.who.int/europe",
-      "pillar": "solidarity",
-      "country": "DK",
-      "source": "WHO Europe",
-      "snippet": "WHO today announced that Libya has eliminated trachoma as a public health problem, a landmark victory for public health in WHO’s Eastern Mediterranean Region. This hard-won achievement protects future generations from preventable blindness and provides a powerful reminder that countries can overcome",
-      "date": "2026-02-18"
+      "snippet": "Member States of the World Health Organization (WHO) concluded a weeklong round of negotiations on draft annex for Pathogen Access and Benefit Sharing (PABS) – a key component of the WHO Pandemic Agreement. The fifth meeting of the Intergovernmental Working Group on the WHO Pandemic Agreement (IGWG)",
+      "date": "2026-02-17"
     },
     {
       "title": "Nautische jaarcijfers 2025: Havenmeester focust op weerbaarheid en snelheidsbeperkingen rondom de Erasmusbrug",
@@ -763,17 +258,6 @@
       "date": "2026-01-28"
     },
     {
-      "title": "API Developer Portal",
-      "url": "https://www.portofrotterdam.com/nl/api-developer-portal",
-      "organisation": "Port of Rotterdam",
-      "orgUrl": "https://www.portofrotterdam.com",
-      "pillar": "stewardship",
-      "country": "NL",
-      "source": "Port of Rotterdam",
-      "snippet": "API Developer Portal CelwinFrenzen Thu, 15 Jan 2026 - 13:43 Log in to explore our available APIs. You’ll find documentation, practical examples, and the option to request access so you can get started right away. No API Developer Portal HBR 0 Teaserimage api-icon.png Teaserafbeelding alt API icon Ex",
-      "date": "2026-01-15"
-    },
-    {
       "title": "Defensie-terminal in noordwesthoek Maasvlakte 2",
       "url": "https://www.portofrotterdam.com/nl/nieuws-en-persberichten/defensie-terminal-noordwesthoek-maasvlakte-2",
       "organisation": "Port of Rotterdam",
@@ -796,39 +280,6 @@
       "date": "2025-11-26"
     },
     {
-      "title": "Hera Mars flyby",
-      "url": "https://www.esa.int/ESA_Multimedia/Images/2025/03/Hera_Mars_flyby",
-      "organisation": "ESA",
-      "orgUrl": "https://www.esa.int",
-      "pillar": "stewardship",
-      "country": "FR",
-      "source": "ESA",
-      "snippet": "Image: Hera Mars flyby",
-      "date": "2025-03-10"
-    },
-    {
-      "title": "Hera: Target Deimos",
-      "url": "https://www.esa.int/ESA_Multimedia/Images/2025/03/Hera_Target_Deimos",
-      "organisation": "ESA",
-      "orgUrl": "https://www.esa.int",
-      "pillar": "stewardship",
-      "country": "FR",
-      "source": "ESA",
-      "snippet": "Image: Hera: Target Deimos",
-      "date": "2025-03-10"
-    },
-    {
-      "title": "Moon waves goodbye to Hera",
-      "url": "https://www.esa.int/ESA_Multimedia/Images/2024/11/Moon_waves_goodbye_to_Hera",
-      "organisation": "ESA",
-      "orgUrl": "https://www.esa.int",
-      "pillar": "stewardship",
-      "country": "FR",
-      "source": "ESA",
-      "snippet": "Image: Moon waves goodbye to Hera",
-      "date": "2024-11-05"
-    },
-    {
       "title": "Nearing Hera era in space",
       "url": "https://www.esa.int/ESA_Multimedia/Images/2024/09/Nearing_Hera_era_in_space",
       "organisation": "ESA",
@@ -838,17 +289,6 @@
       "source": "ESA",
       "snippet": "Image: Nearing Hera era in space",
       "date": "2024-09-30"
-    },
-    {
-      "title": "View from Hera’s Asteroid Deck",
-      "url": "https://www.esa.int/ESA_Multimedia/Images/2024/09/View_from_Hera_s_Asteroid_Deck",
-      "organisation": "ESA",
-      "orgUrl": "https://www.esa.int",
-      "pillar": "stewardship",
-      "country": "FR",
-      "source": "ESA",
-      "snippet": "Image: View from Hera’s Asteroid Deck",
-      "date": "2024-09-27"
     },
     {
       "title": "Josef Aschbacher and Simonetta di Pippo discuss space debris",
@@ -904,17 +344,6 @@
       "source": "ESA",
       "snippet": "Amateur astronomers around the world are being asked to help the proposed ESA asteroid mission. As well as exploring its final destination – the Didymos binary asteroid system – the Hera spacecraft could potentially fly past one or more bodies on the way. But the mission team require additional obse",
       "date": "2019-11-26"
-    },
-    {
-      "title": "Planetary Society endorses Hera",
-      "url": "https://www.planetary.org/press-room/releases/2019/planetary-society-supports-the-hera-mission.html",
-      "organisation": "ESA",
-      "orgUrl": "https://www.esa.int",
-      "pillar": "stewardship",
-      "country": "FR",
-      "source": "ESA",
-      "snippet": "Planetary Society endorses Hera The Planetary Society urges ESA's Member States to fund the Hera mission",
-      "date": "2019-11-25"
     },
     {
       "title": "Luxembourg firm enabling peek inside asteroid",
@@ -983,28 +412,6 @@
       "date": null
     },
     {
-      "title": "From Vietnam to the EU by air: 8 arrested in a migrant smuggling sting across Europe",
-      "url": "https://www.europol.europa.eu/media-press/newsroom/news/vietnam-to-eu-air-8-arrested-in-migrant-smuggling-sting-across-europe",
-      "organisation": "Europol",
-      "orgUrl": "https://www.europol.europa.eu",
-      "pillar": "vigilance",
-      "country": "NL",
-      "source": "Europol",
-      "snippet": "On 30 March 2026, a coordinated international French-led operation, which was supported by Europol and involved law enforcement and judicial authorities from Germany and Hungary, led to the dismantling of a Vietnamese migrant smuggling network. The criminal organisation operated across several Europ",
-      "date": null
-    },
-    {
-      "title": "Up to EUR 50 000 for a passage to the UK: 19 suspected migrant smugglers arrested",
-      "url": "https://www.europol.europa.eu/media-press/newsroom/news/eur-50-000-for-passage-to-uk-19-suspected-migrant-smugglers-arrested",
-      "organisation": "Europol",
-      "orgUrl": "https://www.europol.europa.eu",
-      "pillar": "vigilance",
-      "country": "NL",
-      "source": "Europol",
-      "snippet": "On 30 March 2025, Europol supported an action day against criminal networks smuggling migrants from Vietnam to the European Union and the United Kingdom. Law enforcement authorities across Europe have intensified their efforts to disrupt migrant smuggling networks as part of a coordinated whole-rout",
-      "date": null
-    },
-    {
       "title": "From intelligence to conviction: Europol helps dismantle Terrorgram Collective",
       "url": "https://www.europol.europa.eu/media-press/newsroom/news/intelligence-to-conviction-europol-helps-dismantle-terrorgram-collective",
       "organisation": "Europol",
@@ -1024,28 +431,6 @@
       "country": "NL",
       "source": "Europol",
       "snippet": "The main suspect, a Turkish national holding a Greek residence permit, is believed to have coordinated the sourcing and transport of firearms into Spain, while overseeing the purchase and onward distribution of drugs to countries including Greece and Bulgaria.Flow of illicit firearms into the EUThe ",
-      "date": null
-    },
-    {
-      "title": "Major operation targets one of Scotland’s most violent crime networks",
-      "url": "https://www.europol.europa.eu/media-press/newsroom/news/major-operation-targets-one-of-scotland%E2%80%99s-most-violent-crime-networks",
-      "organisation": "Europol",
-      "orgUrl": "https://www.europol.europa.eu",
-      "pillar": "vigilance",
-      "country": "NL",
-      "source": "Europol",
-      "snippet": "Violence, drugs and controlThe gang is known for using violence to dominate territory and protect its criminal activity. Investigators believe it maintained control over parts of the United Kingdom through intimidation, retaliation and organised violence tied to drug trafficking.While violence playe",
-      "date": null
-    },
-    {
-      "title": "A legal vacuum on CSAM detection puts children at greater risk",
-      "url": "https://www.europol.europa.eu/media-press/newsroom/news/combatting-child-sexual-exploitation-statement-catherine-de-bolle",
-      "organisation": "Europol",
-      "orgUrl": "https://www.europol.europa.eu",
-      "pillar": "vigilance",
-      "country": "NL",
-      "source": "Europol",
-      "snippet": "The removal of the current legal basis enabling voluntary detection by online platforms could have far-reaching implications for safeguarding children.Last year alone, Europol processed around 1.1 million of so-called CyberTips, originating from the National Center for Missing & Exploited Children (",
       "date": null
     },
     {
