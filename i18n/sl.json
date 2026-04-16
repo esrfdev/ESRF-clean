@@ -17,7 +17,6 @@
     "organisations": "organizacij",
     "countries": "držav",
     "sectors": "sektorjev",
-    "pillars": "stebrov",
     "articles": "člankov",
     "shown": "prikazano",
     "load_more": "Naloži več →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Steber",
     "sector": "Sektor",
     "country": "Država",
-    "all_pillars": "Vse",
     "all_sectors": "Vsi sektorji",
     "all_countries": "Vse države",
     "search_placeholder": "Išči po imenu, mestu, opisu…",
-    "search_organisations": "Išči organizacije…",
-    "prevent": "Preprečevanje · Budnost",
-    "protect": "Zaščita · Upravljanje",
-    "prepare": "Priprava · Opolnomočenje",
-    "respond": "Odzivanje · Solidarnost",
-    "recover": "Okrevanje · Obnova"
+    "search_organisations": "Išči organizacije…"
   },
   "cta": {
     "request_listing": "Zahteva za vpis →",

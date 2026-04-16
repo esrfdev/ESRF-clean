@@ -17,7 +17,6 @@
     "organisations": "організацій",
     "countries": "країн",
     "sectors": "секторів",
-    "pillars": "стовпів",
     "articles": "статей",
     "shown": "показано",
     "load_more": "Завантажити ще →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Стовп",
     "sector": "Сектор",
     "country": "Країна",
-    "all_pillars": "Усі",
     "all_sectors": "Усі сектори",
     "all_countries": "Усі країни",
     "search_placeholder": "Шукати за назвою, містом, описом…",
-    "search_organisations": "Пошук організацій…",
-    "prevent": "Запобігання · Пильність",
-    "protect": "Захист · Управління",
-    "prepare": "Підготовка · Посилення",
-    "respond": "Реагування · Солідарність",
-    "recover": "Відновлення · Оновлення"
+    "search_organisations": "Пошук організацій…"
   },
   "cta": {
     "request_listing": "Запит на внесення →",

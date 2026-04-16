@@ -17,7 +17,6 @@
     "organisations": "organisasjoner",
     "countries": "land",
     "sectors": "sektorer",
-    "pillars": "søyler",
     "articles": "artikler",
     "shown": "vist",
     "load_more": "Last inn mer →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Søyle",
     "sector": "Sektor",
     "country": "Land",
-    "all_pillars": "Alle",
     "all_sectors": "Alle sektorer",
     "all_countries": "Alle land",
     "search_placeholder": "Søk etter navn, by, beskrivelse…",
-    "search_organisations": "Søk organisasjoner…",
-    "prevent": "Forhindre · Årvåkenhet",
-    "protect": "Beskytte · Forvaltning",
-    "prepare": "Forberede · Myndiggjøring",
-    "respond": "Reagere · Solidaritet",
-    "recover": "Gjenopprette · Fornyelse"
+    "search_organisations": "Søk organisasjoner…"
   },
   "cta": {
     "request_listing": "Be om oppføring →",

@@ -17,7 +17,6 @@
     "organisations": "organizací",
     "countries": "zemí",
     "sectors": "sektorů",
-    "pillars": "pilířů",
     "articles": "článků",
     "shown": "zobrazeno",
     "load_more": "Načíst více →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Pilíř",
     "sector": "Sektor",
     "country": "Země",
-    "all_pillars": "Vše",
     "all_sectors": "Všechny sektory",
     "all_countries": "Všechny země",
     "search_placeholder": "Hledat podle názvu, města, popisu…",
-    "search_organisations": "Hledat organizace…",
-    "prevent": "Prevence · Bdělost",
-    "protect": "Ochrana · Správcovství",
-    "prepare": "Příprava · Posílení",
-    "respond": "Reakce · Solidarita",
-    "recover": "Obnova · Obnovení"
+    "search_organisations": "Hledat organizace…"
   },
   "cta": {
     "request_listing": "Požádat o zápis →",

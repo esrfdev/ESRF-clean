@@ -18,7 +18,6 @@
     "organisations": "organisations",
     "countries": "countries",
     "sectors": "sectors",
-    "pillars": "pillars",
     "articles": "articles",
     "shown": "shown",
     "load_more": "Load more →",
@@ -27,19 +26,12 @@
     "languages": "languages"
   },
   "filter": {
-    "pillar": "Pillar",
     "sector": "Sector",
     "country": "Country",
-    "all_pillars": "All",
     "all_sectors": "All sectors",
     "all_countries": "All countries",
     "search_placeholder": "Search by name, city, description…",
-    "search_organisations": "Search organisations…",
-    "prevent": "Prevent · Vigilance",
-    "protect": "Protect · Stewardship",
-    "prepare": "Prepare · Empowerment",
-    "respond": "Respond · Solidarity",
-    "recover": "Recover · Renewal"
+    "search_organisations": "Search organisations…"
   },
   "cta": {
     "request_listing": "Request your listing →",
@@ -81,19 +73,17 @@
     "atlas_lede": "Every pin is an organisation; every cluster, a city; every colour, a sector. The atlas is a living record of who sustains the daily machinery of a resilient Europe.",
     "analytics_kicker": "§ 05 · Analytics",
     "analytics_title": "Patterns in the network.",
-    "analytics_lede": "Three figures, published each issue — where the community is concentrated, where it is sparse, and how the five moral pillars distribute across vital sectors.",
     "dispatch_kicker": "§ 06 · Dispatch",
     "dispatch_title": "From the continent.",
-    "dispatch_lede": "A curated feed of European security, resilience and crisis signals — filed under the pillar each story touches. The full dispatch is updated continuously.",
     "join_title": "Does your organisation contribute to a Europe that holds?",
     "join_sub": "Request a listing and take your place on the atlas. Membership of the ESRF.net community is free for organisations whose work strengthens European security and resilience."
   },
   "directory": {
     "title": "Directory — ESRF.net",
-    "description": "Browse 1,892 organisations across 29 European countries that form the ESRF.net community — filter by sector, country and moral pillar.",
+    "description": "Browse 1,892 organisations across 29 European countries that form the ESRF.net community — filter by sector and country.",
     "kicker": "§ 03 · Vital Sectors · Directory",
     "hero_title": "The directory of practice.",
-    "hero_deck": "One thousand eight hundred and ninety-two organisations — sorted by sector, country and moral pillar. Search, filter, and read who holds each part of Europe together.",
+    "hero_deck": "One thousand eight hundred and ninety-two organisations — sorted by sector, country and mission. Search, filter, and read who holds each part of Europe together.",
     "join_title": "Not yet on the atlas?",
     "join_sub": "Any organisation whose work contributes to European security and resilience is welcome in the ESRF.net community.",
     "listing_banner": "Don't see your organisation here?"
@@ -108,17 +98,17 @@
   },
   "analytics": {
     "title": "Analytics — ESRF.net",
-    "description": "Data analytics for the ESRF.net community — sector distribution, country breakdown and moral pillar analysis across 1,892 organisations.",
+    "description": "Data analytics for the ESRF.net community — sector distribution, country breakdown and community growth.",
     "kicker": "§ 05 · Analytics",
     "hero_title": "Patterns in the network.",
-    "hero_deck": "Three figures from the current atlas — where the community is concentrated, where it is sparse, and how the five moral pillars distribute across vital sectors."
+    "hero_deck": "Three figures published with every issue. Where the community concentrates, where it is sparse, and how the ten sectors distribute across countries."
   },
   "news": {
     "title": "Dispatch — ESRF.net",
-    "description": "The ESRF.net dispatch — curated European security and resilience signals, filed under the moral pillar each story touches.",
+    "description": "The ESRF.net dispatch — curated European security and resilience signals, filed by sector and topic.",
     "kicker": "§ 06 · Dispatch",
     "hero_title": "From the continent.",
-    "hero_deck": "A curated ledger of European security, resilience and crisis signals — each filed under the pillar whose concerns it touches. Updated continuously."
+    "hero_deck": "A curated ledger of European security, resilience and crisis signals — each filed by sector and topic. Updated continuously."
   },
   "about": {
     "title": "Foundation — ESRF.net",
@@ -153,7 +143,7 @@
     "community": "Community",
     "foundation": "Foundation",
     "legal": "Legal",
-    "five_pillars": "Five pillars",
+    "five_pillars": "Principles",
     "contact": "Contact",
     "privacy": "Privacy",
     "terms": "Terms",

@@ -17,7 +17,6 @@
     "organisations": "organizacijos",
     "countries": "šalys",
     "sectors": "sektoriai",
-    "pillars": "ramsčiai",
     "articles": "straipsniai",
     "shown": "rodoma",
     "load_more": "Įkelti daugiau →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Ramstis",
     "sector": "Sektorius",
     "country": "Šalis",
-    "all_pillars": "Visi",
     "all_sectors": "Visi sektoriai",
     "all_countries": "Visos šalys",
     "search_placeholder": "Ieškoti pagal pavadinimą, miestą, aprašymą…",
-    "search_organisations": "Ieškoti organizacijų…",
-    "prevent": "Prevencija · Budrumas",
-    "protect": "Apsauga · Atsakomybė",
-    "prepare": "Pasiruošimas · Įgalinimas",
-    "respond": "Reagavimas · Solidarumas",
-    "recover": "Atsigavimas · Atsinaujinimas"
+    "search_organisations": "Ieškoti organizacijų…"
   },
   "cta": {
     "request_listing": "Prašymas įtraukti →",

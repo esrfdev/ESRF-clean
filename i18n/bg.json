@@ -17,7 +17,6 @@
     "organisations": "организации",
     "countries": "държави",
     "sectors": "сектори",
-    "pillars": "стълбове",
     "articles": "статии",
     "shown": "показани",
     "load_more": "Зареди още →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Стълб",
     "sector": "Сектор",
     "country": "Държава",
-    "all_pillars": "Всички",
     "all_sectors": "Всички сектори",
     "all_countries": "Всички държави",
     "search_placeholder": "Търсете по име, град, описание…",
-    "search_organisations": "Търсете организации…",
-    "prevent": "Предотвратяване · Бдителност",
-    "protect": "Защита · Управление",
-    "prepare": "Подготовка · Овластяване",
-    "respond": "Реагиране · Солидарност",
-    "recover": "Възстановяване · Обновяване"
+    "search_organisations": "Търсете организации…"
   },
   "cta": {
     "request_listing": "Заявете вписване →",

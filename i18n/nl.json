@@ -18,7 +18,6 @@
     "organisations": "organisaties",
     "countries": "landen",
     "sectors": "sectoren",
-    "pillars": "pijlers",
     "articles": "artikelen",
     "shown": "getoond",
     "load_more": "Meer laden →",
@@ -27,19 +26,12 @@
     "languages": "talen"
   },
   "filter": {
-    "pillar": "Pijler",
     "sector": "Sector",
     "country": "Land",
-    "all_pillars": "Alle",
     "all_sectors": "Alle sectoren",
     "all_countries": "Alle landen",
     "search_placeholder": "Zoek op naam, stad, beschrijving…",
-    "search_organisations": "Zoek organisaties…",
-    "prevent": "Preventie · Waakzaamheid",
-    "protect": "Bescherming · Rentmeesterschap",
-    "prepare": "Voorbereiding · Empowerment",
-    "respond": "Respons · Solidariteit",
-    "recover": "Herstel · Vernieuwing"
+    "search_organisations": "Zoek organisaties…"
   },
   "cta": {
     "request_listing": "Aanmelding aanvragen →",
@@ -81,19 +73,17 @@
     "atlas_lede": "Elke pin is een organisatie; elke cluster een stad; elke kleur een sector. De atlas is een levend register van wie de dagelijkse machinerie van een veerkrachtig Europa in stand houdt.",
     "analytics_kicker": "§ 05 · Analyse",
     "analytics_title": "Patronen in het netwerk.",
-    "analytics_lede": "Drie figuren, elke uitgave gepubliceerd — waar de gemeenschap is geconcentreerd, waar zij schaars is, en hoe de vijf morele pijlers zich over vitale sectoren verdelen.",
     "dispatch_kicker": "§ 06 · Dispatch",
     "dispatch_title": "Van het continent.",
-    "dispatch_lede": "Een samengesteld overzicht van Europese veiligheids-, veerkrachts- en crisissignalen — gerangschikt onder de pijler die elk verhaal raakt. De volledige dispatch wordt continu bijgewerkt.",
     "join_title": "Draagt uw organisatie bij aan een Europa dat standhoudt?",
     "join_sub": "Vraag een vermelding aan en neem uw plaats op de atlas in. Lidmaatschap van de ESRF.net-gemeenschap is gratis voor organisaties wier werk de Europese veiligheid en veerkracht versterkt."
   },
   "directory": {
     "title": "Directory — ESRF.net",
-    "description": "Blader door 1.892 organisaties in 29 Europese landen die deel uitmaken van de ESRF.net-gemeenschap — filter op sector, land en morele pijler.",
+    "description": "Blader door 1.892 organisaties in 29 Europese landen die deel uitmaken van de ESRF.net-gemeenschap — filter op sector en land.",
     "kicker": "§ 03 · Vitale Sectoren · Directory",
     "hero_title": "De praktijkdirectory.",
-    "hero_deck": "Duizend achthonderd tweeënnegentig organisaties — gesorteerd op sector, land en morele pijler. Zoek, filter en lees wie elk deel van Europa bij elkaar houdt.",
+    "hero_deck": "Eenduizend achthonderdtweeënnegentig organisaties — gesorteerd op sector, land en missie. Zoek, filter en ontdek wie elk deel van Europa bij elkaar houdt.",
     "join_title": "Nog niet op de atlas?",
     "join_sub": "Elke organisatie wier werk bijdraagt aan Europese veiligheid en veerkracht is welkom in de ESRF.net-gemeenschap.",
     "listing_banner": "Staat uw organisatie er niet bij?"
@@ -108,17 +98,17 @@
   },
   "analytics": {
     "title": "Analyse — ESRF.net",
-    "description": "Data-analyse voor de ESRF.net-gemeenschap — sectorverdeling, landenanalyse en morele pijleranalyse over 1.892 organisaties.",
+    "description": "Data-analyse voor de ESRF.net-gemeenschap — sectordistributie, landenverdeling en groei van de gemeenschap.",
     "kicker": "§ 05 · Analyse",
     "hero_title": "Patronen in het netwerk.",
-    "hero_deck": "Drie figuren uit de huidige atlas — waar de gemeenschap geconcentreerd is, waar zij schaars is, en hoe de vijf morele pijlers zich over vitale sectoren verdelen."
+    "hero_deck": "Drie figuren gepubliceerd bij elke editie. Waar de gemeenschap zich concentreert, waar zij schaars is, en hoe de tien sectoren zich over landen verdelen."
   },
   "news": {
     "title": "Dispatch — ESRF.net",
-    "description": "De ESRF.net dispatch — samengestelde Europese veiligheids- en veerkrachtsignalen, gerangschikt onder de morele pijler die elk verhaal raakt.",
+    "description": "De ESRF.net dispatch — samengestelde Europese veiligheids- en veerkrachtsignalen, geordend op sector en onderwerp.",
     "kicker": "§ 06 · Dispatch",
     "hero_title": "Van het continent.",
-    "hero_deck": "Een samengesteld register van Europese veiligheids-, veerkrachts- en crisissignalen — elk gerangschikt onder de pijler wier zorgen het raakt. Continu bijgewerkt."
+    "hero_deck": "Een samengesteld register van Europese veiligheids-, veerkrachts- en crisissignalen — elk geordend op sector en onderwerp. Continu bijgewerkt."
   },
   "about": {
     "title": "Fundament — ESRF.net",
@@ -153,7 +143,7 @@
     "community": "Gemeenschap",
     "foundation": "Fundament",
     "legal": "Juridisch",
-    "five_pillars": "Vijf pijlers",
+    "five_pillars": "Principes",
     "contact": "Contact",
     "privacy": "Privacy",
     "terms": "Voorwaarden",

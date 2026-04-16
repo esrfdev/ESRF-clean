@@ -17,7 +17,6 @@
     "organisations": "szervezet",
     "countries": "ország",
     "sectors": "szektor",
-    "pillars": "pillér",
     "articles": "cikk",
     "shown": "megjelenítve",
     "load_more": "Több betöltése →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Pillér",
     "sector": "Szektor",
     "country": "Ország",
-    "all_pillars": "Összes",
     "all_sectors": "Összes szektor",
     "all_countries": "Összes ország",
     "search_placeholder": "Keresés név, város, leírás alapján…",
-    "search_organisations": "Szervezetek keresése…",
-    "prevent": "Megelőzés · Éberség",
-    "protect": "Védelem · Gondnokság",
-    "prepare": "Felkészülés · Felhatalmazás",
-    "respond": "Reagálás · Szolidaritás",
-    "recover": "Helyreállítás · Megújulás"
+    "search_organisations": "Szervezetek keresése…"
   },
   "cta": {
     "request_listing": "Regisztráció kérése →",

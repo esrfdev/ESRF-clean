@@ -13,12 +13,24 @@
   --accent:#D24B1F;
   --accent-deep:#8F3114;
 
-  /* Pillar colours */
+  /* Pillar colours — kept for about.html narrative */
   --blue:#204E7A;      /* Prevent — Vigilance */
   --orange:#D24B1F;    /* Protect — Stewardship (same as accent) */
   --plum:#5A2E4A;      /* Prepare — Empowerment */
   --gold:#A8741E;      /* Respond — Solidarity */
   --olive:#4F5E2F;     /* Recover — Renewal */
+
+  /* Sector colours */
+  --sec-emergency: #C14A2E;
+  --sec-security:  #2F4858;
+  --sec-risk:      #7A4B2E;
+  --sec-digital:   #3A5A7A;
+  --sec-knowledge: #6B5D8A;
+  --sec-health:    #8C3A52;
+  --sec-critical:  #4A6B3A;
+  --sec-dualuse:   #A87C2B;
+  --sec-transport: #5B6B7A;
+  --sec-energy:    #AE5A1F;
 
   --max:1400px;
   --pad-x:40px;
@@ -390,7 +402,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .sector-name{
   font-family:'PT Serif',serif;font-weight:700;font-size:22px;line-height:1.2;color:var(--ink);
 }
-.sector-pillar{
+.sector-pillar-hidden{display:none}.sector-pillar{
   font-family:'IBM Plex Mono',monospace;font-weight:500;
   font-size:10px;letter-spacing:0.25em;text-transform:uppercase;
 }
@@ -585,11 +597,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 }
 .chip:hover{border-color:var(--ink);color:var(--ink)}
 .chip.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
-.chip.pillar-prevent.active{background:var(--blue);border-color:var(--blue)}
-.chip.pillar-protect.active{background:var(--accent);border-color:var(--accent)}
-.chip.pillar-prepare.active{background:var(--plum);border-color:var(--plum)}
-.chip.pillar-respond.active{background:var(--gold);border-color:var(--gold)}
-.chip.pillar-recover.active{background:var(--olive);border-color:var(--olive)}
+
 .filter-group-label{
   font-family:'IBM Plex Mono',monospace;font-weight:500;
   font-size:10px;letter-spacing:0.25em;text-transform:uppercase;
@@ -620,11 +628,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   box-shadow:0 12px 32px rgba(15,20,25,0.08);
   border-left-width:6px;
 }
-.biz-card[data-pillar="prevent"]{border-left-color:var(--blue)}
-.biz-card[data-pillar="protect"]{border-left-color:var(--orange)}
-.biz-card[data-pillar="prepare"]{border-left-color:var(--plum)}
-.biz-card[data-pillar="respond"]{border-left-color:var(--gold)}
-.biz-card[data-pillar="recover"]{border-left-color:var(--olive)}
+
 .biz-card-head{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--ink-dim)}
 .biz-sector{padding:3px 8px;background:rgba(15,20,25,0.06);border-radius:2px}
 .biz-country{font-weight:600;color:var(--ink)}
@@ -632,7 +636,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .biz-city{font-size:14px;color:var(--ink-dim);margin-top:-4px}
 .biz-desc{font-size:14px;line-height:1.5;color:var(--ink-soft);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
 .biz-card-foot{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid rgba(15,20,25,0.08);margin-top:4px}
-.biz-pillar{font-size:10px;color:var(--ink-dim)}
+
 .biz-link{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);text-decoration:none;font-weight:500}
 .biz-link:hover{text-decoration:underline}
 .dir-empty{
@@ -709,6 +713,11 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   position:absolute;top:20px;right:20px;
   font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--ink);
   background:transparent;cursor:pointer;
+}
+.map-panel .sector-tag{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:10px;letter-spacing:0.25em;text-transform:uppercase;
+  padding:6px 0;border-top:2px solid currentColor;width:fit-content;margin-bottom:18px;
 }
 .map-panel .pillar-tag{
   font-family:'IBM Plex Mono',monospace;font-weight:500;

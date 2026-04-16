@@ -17,7 +17,6 @@
     "organisations": "organisaatiota",
     "countries": "maata",
     "sectors": "sektoria",
-    "pillars": "pilaria",
     "articles": "artikkelia",
     "shown": "näytetty",
     "load_more": "Lataa lisää →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Pilari",
     "sector": "Sektori",
     "country": "Maa",
-    "all_pillars": "Kaikki",
     "all_sectors": "Kaikki sektorit",
     "all_countries": "Kaikki maat",
     "search_placeholder": "Hae nimen, kaupungin, kuvauksen mukaan…",
-    "search_organisations": "Hae organisaatioita…",
-    "prevent": "Estäminen · Valppaana olo",
-    "protect": "Suojaaminen · Hallinta",
-    "prepare": "Valmistautuminen · Voimaistaminen",
-    "respond": "Reagoiminen · Solidaarisuus",
-    "recover": "Toipuminen · Uudistuminen"
+    "search_organisations": "Hae organisaatioita…"
   },
   "cta": {
     "request_listing": "Pyydä listausta →",

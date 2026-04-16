@@ -17,7 +17,6 @@
     "organisations": "stofnanir",
     "countries": "lönd",
     "sectors": "geirar",
-    "pillars": "stoðir",
     "articles": "greinar",
     "shown": "sýnt",
     "load_more": "Hlaða meira →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Stoð",
     "sector": "Geiri",
     "country": "Land",
-    "all_pillars": "Allt",
     "all_sectors": "Allir geirar",
     "all_countries": "Öll lönd",
     "search_placeholder": "Leita eftir nafni, borg, lýsingu…",
-    "search_organisations": "Leita að stofnunum…",
-    "prevent": "Forvarnir · Gát",
-    "protect": "Vernd · Umsjón",
-    "prepare": "Undirbúningur · Styrkur",
-    "respond": "Viðbrögð · Samstaða",
-    "recover": "Bati · Endurnýjun"
+    "search_organisations": "Leita að stofnunum…"
   },
   "cta": {
     "request_listing": "Biðja um skráningu →",

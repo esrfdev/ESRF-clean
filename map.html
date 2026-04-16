@@ -114,11 +114,8 @@
   });
 
   function openPanel(o){
-    const pillar = pillarOf(o.sector_normalized);
-    const meta = PILLAR_META[pillar];
     panelBody.innerHTML = `
-      <div class="pillar-tag" style="color:${meta.color}">${meta.verb} · ${meta.virtue}</div>
-      <div class="sector">${esc(o.sector_normalized)}</div>
+      <div class="sector-tag" style="color:${sectorColorHex(o.sector_normalized)}">${esc(o.sector_normalized)}</div>
       <h2>${esc(o.name)}</h2>
       <div class="loc">${esc(o.city||'')}${o.city?' · ':''}${esc(o.country_name_en || o.country || '')}</div>
       <p class="desc">${esc(o.description_en || '')}</p>
@@ -134,7 +131,7 @@
     orgs.forEach(o => {
       if(typeof o.lat !== 'number' || typeof o.lon !== 'number') return;
       if(!filterFn(o)) return;
-      const c = sectorColor(o.sector_normalized);
+      const c = sectorColorHex(o.sector_normalized);
       const m = L.circleMarker([o.lat, o.lon], {
         radius:6, color:'#F8F2E6', fillColor:c, fillOpacity:0.9, weight:1.5,
       });

@@ -17,7 +17,6 @@
     "organisations": "organizații",
     "countries": "țări",
     "sectors": "sectoare",
-    "pillars": "piloni",
     "articles": "articole",
     "shown": "afișat",
     "load_more": "Încarcă mai mult →",
@@ -25,19 +24,12 @@
     "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
   },
   "filter": {
-    "pillar": "Pilon",
     "sector": "Sector",
     "country": "Țară",
-    "all_pillars": "Toate",
     "all_sectors": "Toate sectoarele",
     "all_countries": "Toate țările",
     "search_placeholder": "Căutați după nume, oraș, descriere…",
-    "search_organisations": "Căutați organizații…",
-    "prevent": "Prevenire · Vigilență",
-    "protect": "Protecție · Administrare",
-    "prepare": "Pregătire · Împuternicire",
-    "respond": "Răspuns · Solidaritate",
-    "recover": "Recuperare · Reînnoire"
+    "search_organisations": "Căutați organizații…"
   },
   "cta": {
     "request_listing": "Cerere de listare →",
