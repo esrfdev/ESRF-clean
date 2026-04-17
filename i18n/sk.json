@@ -494,5 +494,10 @@
     "title": "Pridajte svoju organizáciu",
     "intro": "Každá organizácia, ktorej práca posilňuje európsku bezpečnosť a odolnosť, je vítaná. Zápis je bezplatný. Žiadosti sú posúdené do troch pracovných dní.",
     "full_form_link": "Otvoriť celý formulár →"
-  }
+  },
+  "consent.text": "ESRF.net uses minimal advertising to support its mission. We use cookies for personalised ads. You can accept or decline.",
+  "consent.privacy_link": "Privacy policy",
+  "consent.accept": "Accept",
+  "consent.decline": "Decline",
+  "ads.label": "Advertisement"
 }

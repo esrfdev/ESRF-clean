@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
+<script src="consent.js" defer></script>
 </head>
 <body>
 
@@ -73,6 +74,17 @@
 
 <div class="biz-grid" id="dir-list" aria-live="polite"></div>
 <div class="load-more-wrap"><button class="btn outline" id="more" hidden data-i18n="common.load_more">Load more →</button></div>
+
+<!-- Ad placement: between directory grid and listing banner -->
+<div class="esrf-ad-wrap">
+  <span class="esrf-ad-label" data-i18n="ads.label">Advertisement</span>
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+       data-ad-slot="XXXXXXXXXX"
+       data-ad-format="horizontal"
+       data-full-width-responsive="true"></ins>
+</div>
 
 <div class="listing-banner">
   <p data-i18n="directory.listing_banner">Don't see your organisation here?</p>

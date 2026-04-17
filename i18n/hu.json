@@ -494,5 +494,10 @@
     "title": "Adja hozzá szervezetét",
     "intro": "Minden szervezet, amelynek munkája erősíti az európai biztonságot és rezilienciát, szívesen látott. A bejegyzés ingyenes. A kérelmeket három munkanapon belül bírálják el.",
     "full_form_link": "Teljes űrlap megnyitása →"
-  }
+  },
+  "consent.text": "ESRF.net uses minimal advertising to support its mission. We use cookies for personalised ads. You can accept or decline.",
+  "consent.privacy_link": "Privacy policy",
+  "consent.accept": "Accept",
+  "consent.decline": "Decline",
+  "ads.label": "Advertisement"
 }
