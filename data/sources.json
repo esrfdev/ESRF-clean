@@ -1,0 +1,67 @@
+{
+  "_comment": "Source catalogue for the ESRF.net dispatch. scope=european is shown to all visitors. scope=national is shown first to visitors using the matching lang. Keep only verified working RSS endpoints — the fetch script silently skips broken feeds but keeping dead entries pollutes logs. To add a source: verify the RSS URL returns 200 + parseable XML, then add here.",
+  "european": [
+    { "name": "Politico EU",            "url": "https://www.politico.eu/feed/",                            "site": "https://www.politico.eu",          "country": "EU",  "pillar": "stewardship" },
+    { "name": "The Guardian – Europe",  "url": "https://www.theguardian.com/world/europe-news/rss",        "site": "https://www.theguardian.com",      "country": "GB",  "pillar": "solidarity" },
+    { "name": "Euronews",               "url": "https://www.euronews.com/rss?level=theme&name=news",       "site": "https://www.euronews.com",         "country": "EU",  "pillar": "stewardship" },
+    { "name": "ESA",                    "url": "https://www.esa.int/rssfeed/Our_Activities",               "site": "https://www.esa.int",              "country": "EU",  "pillar": "renewal" },
+    { "name": "EURACTIV",               "url": "https://www.euractiv.com/feed/",                           "site": "https://www.euractiv.com",         "country": "EU",  "pillar": "foundation" },
+    { "name": "Deutsche Welle – Europe","url": "https://rss.dw.com/rdf/rss-en-eu",                         "site": "https://www.dw.com",               "country": "DE",  "pillar": "stewardship" },
+    { "name": "BBC Europe",             "url": "https://feeds.bbci.co.uk/news/world/europe/rss.xml",       "site": "https://www.bbc.com/news",         "country": "GB",  "pillar": "stewardship" }
+  ],
+  "national": {
+    "nl": [
+      { "name": "NOS Nieuws",           "url": "https://feeds.nos.nl/nosnieuwsalgemeen",                  "site": "https://nos.nl",                  "country": "NL", "pillar": "stewardship" }
+    ],
+    "de": [
+      { "name": "Tagesschau",           "url": "https://www.tagesschau.de/inland/index~rss2.xml",         "site": "https://www.tagesschau.de",       "country": "DE", "pillar": "stewardship" }
+    ],
+    "fr": [
+      { "name": "Le Monde – International","url": "https://www.lemonde.fr/international/rss_full.xml",    "site": "https://www.lemonde.fr",          "country": "FR", "pillar": "solidarity" }
+    ],
+    "it": [
+      { "name": "ANSA",                 "url": "https://www.ansa.it/sito/ansait_rss.xml",                 "site": "https://www.ansa.it",             "country": "IT", "pillar": "stewardship" }
+    ],
+    "pt": [
+      { "name": "RTP Notícias",         "url": "https://www.rtp.pt/noticias/rss",                         "site": "https://www.rtp.pt/noticias",     "country": "PT", "pillar": "stewardship" }
+    ],
+    "sv": [
+      { "name": "SVT Nyheter",          "url": "https://www.svt.se/nyheter/rss.xml",                      "site": "https://www.svt.se",              "country": "SE", "pillar": "stewardship" }
+    ],
+    "no": [
+      { "name": "NRK Nyheter",          "url": "https://www.nrk.no/nyheter/siste.rss",                    "site": "https://www.nrk.no",              "country": "NO", "pillar": "stewardship" }
+    ],
+    "da": [
+      { "name": "DR Nyheder",           "url": "https://www.dr.dk/nyheder/service/feeds/allenyheder",     "site": "https://www.dr.dk/nyheder",       "country": "DK", "pillar": "stewardship" }
+    ],
+    "fi": [
+      { "name": "Yle Uutiset",          "url": "https://feeds.yle.fi/uutiset/v1/majorHeadlines/YLE_UUTISET.rss", "site": "https://yle.fi/uutiset",    "country": "FI", "pillar": "stewardship" },
+      { "name": "Huoltovarmuuskeskus",  "url": "https://www.huoltovarmuuskeskus.fi/feed",                 "site": "https://www.huoltovarmuuskeskus.fi", "country": "FI", "pillar": "foundation" }
+    ],
+    "cs": [
+      { "name": "ČT24",                 "url": "https://ct24.ceskatelevize.cz/rss",                       "site": "https://ct24.ceskatelevize.cz",   "country": "CZ", "pillar": "stewardship" },
+      { "name": "HZS ČR",               "url": "https://www.hzscr.cz/rss.aspx",                           "site": "https://www.hzscr.cz",            "country": "CZ", "pillar": "response" }
+    ],
+    "el": [
+      { "name": "ERT News",             "url": "https://www.ertnews.gr/feed/",                            "site": "https://www.ertnews.gr",          "country": "GR", "pillar": "stewardship" }
+    ],
+    "ro": [
+      { "name": "Digi24",               "url": "https://www.digi24.ro/rss",                               "site": "https://www.digi24.ro",           "country": "RO", "pillar": "stewardship" }
+    ],
+    "sl": [
+      { "name": "RTV SLO",              "url": "https://www.rtvslo.si/feeds/00.xml",                      "site": "https://www.rtvslo.si",           "country": "SI", "pillar": "stewardship" }
+    ],
+    "lv": [
+      { "name": "LSM",                  "url": "https://www.lsm.lv/rss/",                                 "site": "https://www.lsm.lv",              "country": "LV", "pillar": "stewardship" }
+    ],
+    "et": [
+      { "name": "ERR",                  "url": "https://www.err.ee/rss",                                  "site": "https://www.err.ee",              "country": "EE", "pillar": "stewardship" }
+    ],
+    "uk": [
+      { "name": "Ukrinform",            "url": "https://www.ukrinform.ua/rss/block-lastnews",              "site": "https://www.ukrinform.ua",        "country": "UA", "pillar": "solidarity" }
+    ],
+    "is": [
+      { "name": "RÚV",                  "url": "https://www.ruv.is/rss/frettir",                          "site": "https://www.ruv.is",              "country": "IS", "pillar": "stewardship" }
+    ]
+  }
+}

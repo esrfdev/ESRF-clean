@@ -187,7 +187,9 @@
     "submit_title_1": "Soumettez votre",
     "submit_title_2": "signal",
     "submit_title_3": "sur le dispatch.",
-    "submit_sub": "Les organisations référencées sur l’atlas peuvent contribuer des articles, rapports et mises à jour au dispatch ESRF.net."
+    "submit_sub": "Les organisations référencées sur l’atlas peuvent contribuer des articles, rapports et mises à jour au dispatch ESRF.net.",
+    "section_national": "De votre pays",
+    "section_european": "Du continent"
   },
   "about": {
     "title": "Fondation — ESRF.net",

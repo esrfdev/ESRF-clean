@@ -187,7 +187,9 @@
     "submit_title_1": "Pošalji svoj",
     "submit_title_2": "signal",
     "submit_title_3": "u bilten.",
-    "submit_sub": "Organizacije upisane na atlas mogu doprinositi pričama, izvješćima i ažuriranjima biltenu ESRF.net."
+    "submit_sub": "Organizacije upisane na atlas mogu doprinositi pričama, izvješćima i ažuriranjima biltenu ESRF.net.",
+    "section_national": "Iz vaše zemlje",
+    "section_european": "S kontinenta"
   },
   "about": {
     "title": "Zaklada — ESRF.net",

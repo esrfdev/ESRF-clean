@@ -187,7 +187,9 @@
     "submit_title_3": "á dispatch.",
     "submit_sub": "Stofnanir sem eru skráðar á atlasinum geta lagt til sögur, skýrslur og uppfærslur í ESRF.net-dispatch.",
     "kicker": "§ 06 · Dispatch",
-    "description": "ESRF.net dispatch — kurerat evrópsk öryggis- og seiglumarki, skráð eftir geira og efni."
+    "description": "ESRF.net dispatch — kurerat evrópsk öryggis- og seiglumarki, skráð eftir geira og efni.",
+    "section_national": "Frá þínu landi",
+    "section_european": "Frá álfunni"
   },
   "about": {
     "title": "Stofnun — ESRF.net",

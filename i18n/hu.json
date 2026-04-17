@@ -187,7 +187,9 @@
     "submit_title_3": "a hírlapban.",
     "submit_sub": "Az atlaszon bejegyzett szervezetek hozzájárulhatnak történetekkel, jelentésekkel és frissítésekkel az ESRF.net hírlaphoz.",
     "description": "Az ESRF.net hírlapja — válogatott európai biztonsági és rezilienciajelzések, szektorok és témák szerint rendezve.",
-    "kicker": "§ 06 · Hírlap"
+    "kicker": "§ 06 · Hírlap",
+    "section_national": "Az Ön országából",
+    "section_european": "A kontinensről"
   },
   "about": {
     "title": "Alapítvány — ESRF.net",

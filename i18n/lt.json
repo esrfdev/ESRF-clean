@@ -187,7 +187,9 @@
     "submit_title_1": "Pateikite savo",
     "submit_title_2": "signalą",
     "submit_title_3": "dispatch.",
-    "submit_sub": "Atlase išvardytos organizacijos gali teikti istorijas, ataskaitas ir naujienas ESRF.net dispatch."
+    "submit_sub": "Atlase išvardytos organizacijos gali teikti istorijas, ataskaitas ir naujienas ESRF.net dispatch.",
+    "section_national": "Iš jūsų šalies",
+    "section_european": "Iš žemyno"
   },
   "about": {
     "title": "Fondas — ESRF.net",
