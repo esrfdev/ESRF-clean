@@ -1,0 +1,2555 @@
+{
+  "AT|Bregenz": {
+    "lat": 47.5025779,
+    "lon": 9.7472924,
+    "source": "nominatim"
+  },
+  "AT|Dornbirn": {
+    "lat": 47.4136351,
+    "lon": 9.7423762,
+    "source": "nominatim"
+  },
+  "AT|Eisenstadt": {
+    "lat": 47.8454821,
+    "lon": 16.5249288,
+    "source": "nominatim"
+  },
+  "AT|Innsbruck": {
+    "lat": 47.2654296,
+    "lon": 11.3927685,
+    "source": "nominatim"
+  },
+  "AT|Klagenfurt": {
+    "lat": 46.623943,
+    "lon": 14.3075976,
+    "source": "nominatim"
+  },
+  "AT|Lebring-Sankt Margarethen": {
+    "lat": 46.8522,
+    "lon": 15.5383,
+    "source": "nominatim"
+  },
+  "AT|Leobendorf": {
+    "lat": 48.3774194,
+    "lon": 16.3198352,
+    "source": "nominatim"
+  },
+  "AT|Linz": {
+    "lat": 48.3059078,
+    "lon": 14.286198,
+    "source": "nominatim"
+  },
+  "AT|Salzburg": {
+    "lat": 47.7981346,
+    "lon": 13.0464806,
+    "source": "nominatim"
+  },
+  "AT|Spittal an der Drau": {
+    "lat": 46.7982211,
+    "lon": 13.4963308,
+    "source": "nominatim"
+  },
+  "AT|St. Pölten": {
+    "lat": 48.2043985,
+    "lon": 15.6229118,
+    "source": "nominatim"
+  },
+  "AT|Vienna": {
+    "lat": 48.2083537,
+    "lon": 16.3725042,
+    "source": "nominatim"
+  },
+  "AT|Wels": {
+    "lat": 48.1565472,
+    "lon": 14.0243752,
+    "source": "nominatim"
+  },
+  "AT|Wien": {
+    "lat": 48.2083537,
+    "lon": 16.3725042,
+    "source": "nominatim"
+  },
+  "BE|Antwerp": {
+    "lat": 51.2211097,
+    "lon": 4.3997081,
+    "source": "nominatim"
+  },
+  "BE|Antwerpen": {
+    "lat": 51.2211097,
+    "lon": 4.3997081,
+    "source": "nominatim"
+  },
+  "BE|Arlon": {
+    "lat": 49.6834601,
+    "lon": 5.8167711,
+    "source": "nominatim"
+  },
+  "BE|Beerse": {
+    "lat": 51.3191388,
+    "lon": 4.8564494,
+    "source": "nominatim"
+  },
+  "BE|Bruges": {
+    "lat": 51.2085526,
+    "lon": 3.226772,
+    "source": "nominatim"
+  },
+  "BE|Brussels": {
+    "lat": 50.8467372,
+    "lon": 4.352493,
+    "source": "nominatim"
+  },
+  "BE|Dilbeek": {
+    "lat": 50.8480711,
+    "lon": 4.2662591,
+    "source": "nominatim"
+  },
+  "BE|Gent": {
+    "lat": 51.0538286,
+    "lon": 3.7250121,
+    "source": "nominatim"
+  },
+  "BE|Ghent": {
+    "lat": 51.0538286,
+    "lon": 3.7250121,
+    "source": "nominatim"
+  },
+  "BE|Hasselt": {
+    "lat": 50.9303735,
+    "lon": 5.3378043,
+    "source": "nominatim"
+  },
+  "BE|Kortrijk": {
+    "lat": 50.8276429,
+    "lon": 3.2659884,
+    "source": "nominatim"
+  },
+  "BE|La Louvière": {
+    "lat": 50.4793576,
+    "lon": 4.18563,
+    "source": "nominatim"
+  },
+  "BE|Leuven": {
+    "lat": 50.879202,
+    "lon": 4.7011675,
+    "source": "nominatim"
+  },
+  "BE|Liège": {
+    "lat": 50.6450944,
+    "lon": 5.5736112,
+    "source": "nominatim"
+  },
+  "BE|Mechelen": {
+    "lat": 51.0281381,
+    "lon": 4.4803453,
+    "source": "nominatim"
+  },
+  "BE|Namur": {
+    "lat": 50.4665284,
+    "lon": 4.8661892,
+    "source": "nominatim"
+  },
+  "BE|Oostende": {
+    "lat": 51.2258565,
+    "lon": 2.919496,
+    "source": "nominatim"
+  },
+  "BE|Orcq": {
+    "lat": 50.6019544,
+    "lon": 3.3463392,
+    "source": "nominatim"
+  },
+  "BE|Ronse": {
+    "lat": 50.7526199,
+    "lon": 3.6014477,
+    "source": "nominatim"
+  },
+  "BE|Sint-Niklaas": {
+    "lat": 51.1646685,
+    "lon": 4.1395124,
+    "source": "nominatim"
+  },
+  "BE|Verviers": {
+    "lat": 50.59324,
+    "lon": 5.867828,
+    "source": "nominatim"
+  },
+  "BE|Waregem": {
+    "lat": 50.8868222,
+    "lon": 3.4323622,
+    "source": "nominatim"
+  },
+  "BE|Wevelgem": {
+    "lat": 50.8089591,
+    "lon": 3.1841013,
+    "source": "nominatim"
+  },
+  "BE|Zaventem": {
+    "lat": 50.8806207,
+    "lon": 4.4730008,
+    "source": "nominatim"
+  },
+  "BE|Zoersel": {
+    "lat": 51.2716725,
+    "lon": 4.7132557,
+    "source": "nominatim"
+  },
+  "BG|Burgas": {
+    "lat": 42.4936616,
+    "lon": 27.4721276,
+    "source": "nominatim"
+  },
+  "BG|Plovdiv": {
+    "lat": 42.1418541,
+    "lon": 24.7499297,
+    "source": "nominatim"
+  },
+  "BG|Ruse": {
+    "lat": 43.8480413,
+    "lon": 25.9542057,
+    "source": "nominatim"
+  },
+  "BG|Sofia": {
+    "lat": 42.6977028,
+    "lon": 23.3217359,
+    "source": "nominatim"
+  },
+  "BG|Varna": {
+    "lat": 43.2073873,
+    "lon": 27.9166653,
+    "source": "nominatim"
+  },
+  "CY|Geri": {
+    "lat": 35.1068501,
+    "lon": 33.4204148,
+    "source": "nominatim"
+  },
+  "CY|Larnaca": {
+    "lat": 34.9236095,
+    "lon": 33.6236184,
+    "source": "nominatim"
+  },
+  "CY|Latsia": {
+    "lat": 35.0995648,
+    "lon": 33.3815988,
+    "source": "nominatim"
+  },
+  "CY|Limassol": {
+    "lat": 34.6852901,
+    "lon": 33.0332657,
+    "source": "nominatim"
+  },
+  "CY|Nicosia": {
+    "lat": 35.1746503,
+    "lon": 33.3638783,
+    "source": "nominatim"
+  },
+  "CY|Paphos": {
+    "lat": 34.7743988,
+    "lon": 32.4231586,
+    "source": "nominatim"
+  },
+  "CZ|Brno": {
+    "lat": 49.1922443,
+    "lon": 16.6113382,
+    "source": "nominatim"
+  },
+  "CZ|Heřmanův Městec": {
+    "lat": 49.9470444,
+    "lon": 15.6646587,
+    "source": "nominatim"
+  },
+  "CZ|Hradec Králové": {
+    "lat": 50.2092113,
+    "lon": 15.8327512,
+    "source": "nominatim"
+  },
+  "CZ|Jihlava": {
+    "lat": 49.396064,
+    "lon": 15.5903065,
+    "source": "nominatim"
+  },
+  "CZ|Karlovy Vary": {
+    "lat": 50.2306216,
+    "lon": 12.8701437,
+    "source": "nominatim"
+  },
+  "CZ|Kladno": {
+    "lat": 49.7724743,
+    "lon": 15.9822811,
+    "source": "nominatim"
+  },
+  "CZ|Klecany": {
+    "lat": 50.1756713,
+    "lon": 14.4117052,
+    "source": "nominatim"
+  },
+  "CZ|Liberec": {
+    "lat": 50.7702648,
+    "lon": 15.0583947,
+    "source": "nominatim"
+  },
+  "CZ|Olomouc": {
+    "lat": 49.5940567,
+    "lon": 17.251143,
+    "source": "nominatim"
+  },
+  "CZ|Ostrava": {
+    "lat": 49.8349139,
+    "lon": 18.2820084,
+    "source": "nominatim"
+  },
+  "CZ|Otrokovice": {
+    "lat": 49.2088284,
+    "lon": 17.5353865,
+    "source": "nominatim"
+  },
+  "CZ|Pardubice": {
+    "lat": 50.0385812,
+    "lon": 15.7791356,
+    "source": "nominatim"
+  },
+  "CZ|Plzeň": {
+    "lat": 49.7477415,
+    "lon": 13.3775249,
+    "source": "nominatim"
+  },
+  "CZ|Prague": {
+    "lat": 50.0874654,
+    "lon": 14.4212535,
+    "source": "nominatim"
+  },
+  "CZ|Praha": {
+    "lat": 50.0874654,
+    "lon": 14.4212535,
+    "source": "nominatim"
+  },
+  "CZ|Zlín": {
+    "lat": 49.226766,
+    "lon": 17.6667415,
+    "source": "nominatim"
+  },
+  "CZ|Ústí nad Labem": {
+    "lat": 50.6603327,
+    "lon": 14.0381357,
+    "source": "nominatim"
+  },
+  "CZ|České Budějovice": {
+    "lat": 48.9747357,
+    "lon": 14.474285,
+    "source": "nominatim"
+  },
+  "CZ|Špindlerův Mlýn": {
+    "lat": 50.7256448,
+    "lon": 15.6067567,
+    "source": "nominatim"
+  },
+  "DE|Aachen": {
+    "lat": 50.776351,
+    "lon": 6.083862,
+    "source": "nominatim"
+  },
+  "DE|Augsburg": {
+    "lat": 48.3690341,
+    "lon": 10.8979522,
+    "source": "nominatim"
+  },
+  "DE|Bad Vilbel": {
+    "lat": 50.19339,
+    "lon": 8.74918,
+    "source": "nominatim"
+  },
+  "DE|Berlin": {
+    "lat": 52.5173885,
+    "lon": 13.3951309,
+    "source": "nominatim"
+  },
+  "DE|Bonn": {
+    "lat": 50.7352621,
+    "lon": 7.1024635,
+    "source": "nominatim"
+  },
+  "DE|Braunschweig": {
+    "lat": 52.2646577,
+    "lon": 10.5236066,
+    "source": "nominatim"
+  },
+  "DE|Bremen": {
+    "lat": 53.0758196,
+    "lon": 8.8071646,
+    "source": "nominatim"
+  },
+  "DE|Cologne": {
+    "lat": 50.938361,
+    "lon": 6.959974,
+    "source": "nominatim"
+  },
+  "DE|Darmstadt": {
+    "lat": 49.872775,
+    "lon": 8.651177,
+    "source": "nominatim"
+  },
+  "DE|Dortmund": {
+    "lat": 51.5142273,
+    "lon": 7.4652789,
+    "source": "nominatim"
+  },
+  "DE|Dresden": {
+    "lat": 51.0493286,
+    "lon": 13.7381437,
+    "source": "nominatim"
+  },
+  "DE|Duisburg": {
+    "lat": 51.434999,
+    "lon": 6.759562,
+    "source": "nominatim"
+  },
+  "DE|Düsseldorf": {
+    "lat": 51.2254018,
+    "lon": 6.7763137,
+    "source": "nominatim"
+  },
+  "DE|Essen": {
+    "lat": 51.4582235,
+    "lon": 7.0158171,
+    "source": "nominatim"
+  },
+  "DE|Frankfurt": {
+    "lat": 50.1106444,
+    "lon": 8.6820917,
+    "source": "nominatim"
+  },
+  "DE|Hamburg": {
+    "lat": 53.5501721,
+    "lon": 10.0013165,
+    "source": "nominatim"
+  },
+  "DE|Hannover": {
+    "lat": 52.3744779,
+    "lon": 9.7385532,
+    "source": "nominatim"
+  },
+  "DE|Heilbronn": {
+    "lat": 49.142291,
+    "lon": 9.218655,
+    "source": "nominatim"
+  },
+  "DE|Köln": {
+    "lat": 50.938361,
+    "lon": 6.959974,
+    "source": "nominatim"
+  },
+  "DE|Leipzig": {
+    "lat": 51.3406321,
+    "lon": 12.3747329,
+    "source": "nominatim"
+  },
+  "DE|Lübeck": {
+    "lat": 53.866444,
+    "lon": 10.684738,
+    "source": "nominatim"
+  },
+  "DE|Munich": {
+    "lat": 48.1371079,
+    "lon": 11.5753822,
+    "source": "nominatim"
+  },
+  "DE|Möhnesee": {
+    "lat": 51.5,
+    "lon": 8.13333,
+    "source": "nominatim"
+  },
+  "DE|München": {
+    "lat": 48.1371079,
+    "lon": 11.5753822,
+    "source": "nominatim"
+  },
+  "DE|Potsdam": {
+    "lat": 52.4009309,
+    "lon": 13.0591397,
+    "source": "nominatim"
+  },
+  "DE|Reutlingen": {
+    "lat": 48.4919508,
+    "lon": 9.2114144,
+    "source": "nominatim"
+  },
+  "DE|Samerberg": {
+    "lat": 47.7833,
+    "lon": 12.2167,
+    "source": "nominatim"
+  },
+  "DE|Stuttgart": {
+    "lat": 48.7784485,
+    "lon": 9.1800132,
+    "source": "nominatim"
+  },
+  "DK|Aalborg": {
+    "lat": 57.0462626,
+    "lon": 9.9215263,
+    "source": "nominatim"
+  },
+  "DK|Aarhus": {
+    "lat": 56.1496278,
+    "lon": 10.2134046,
+    "source": "nominatim"
+  },
+  "DK|Birkerød": {
+    "lat": 55.8403369,
+    "lon": 12.4287796,
+    "source": "nominatim"
+  },
+  "DK|Brønderslev": {
+    "lat": 57.2700129,
+    "lon": 9.9448631,
+    "source": "nominatim"
+  },
+  "DK|Copenhagen": {
+    "lat": 55.6867243,
+    "lon": 12.5700724,
+    "source": "nominatim"
+  },
+  "DK|Esbjerg": {
+    "lat": 55.4664892,
+    "lon": 8.4520751,
+    "source": "nominatim"
+  },
+  "DK|Gentofte": {
+    "lat": 55.7535946,
+    "lon": 12.541436,
+    "source": "nominatim"
+  },
+  "DK|Herlev": {
+    "lat": 55.7337528,
+    "lon": 12.4294486,
+    "source": "nominatim"
+  },
+  "DK|Herning": {
+    "lat": 56.1379757,
+    "lon": 8.9746623,
+    "source": "nominatim"
+  },
+  "DK|Horsens": {
+    "lat": 55.8611696,
+    "lon": 9.8444774,
+    "source": "nominatim"
+  },
+  "DK|Hvidovre": {
+    "lat": 55.6644909,
+    "lon": 12.4750154,
+    "source": "nominatim"
+  },
+  "DK|Køge": {
+    "lat": 55.4565009,
+    "lon": 12.1818964,
+    "source": "nominatim"
+  },
+  "DK|Lillerød": {
+    "lat": 55.8707776,
+    "lon": 12.3556762,
+    "source": "nominatim"
+  },
+  "DK|Odense": {
+    "lat": 55.3997225,
+    "lon": 10.3852104,
+    "source": "nominatim"
+  },
+  "DK|Randers": {
+    "lat": 56.4617545,
+    "lon": 10.0371476,
+    "source": "nominatim"
+  },
+  "DK|Silkeborg": {
+    "lat": 56.169453,
+    "lon": 9.5495141,
+    "source": "nominatim"
+  },
+  "DK|Slagelse": {
+    "lat": 55.4061196,
+    "lon": 11.3525415,
+    "source": "nominatim"
+  },
+  "DK|Søborg": {
+    "lat": 55.736468,
+    "lon": 12.5088728,
+    "source": "nominatim"
+  },
+  "DK|Tinglev": {
+    "lat": 54.9316288,
+    "lon": 9.2482003,
+    "source": "nominatim"
+  },
+  "DK|Vejle": {
+    "lat": 55.707931,
+    "lon": 9.5329419,
+    "source": "nominatim"
+  },
+  "EE|Jõgeva": {
+    "lat": 58.7634819,
+    "lon": 26.399928,
+    "source": "nominatim"
+  },
+  "EE|Jõhvi": {
+    "lat": 59.3579433,
+    "lon": 27.4135654,
+    "source": "nominatim"
+  },
+  "EE|Kuressaare": {
+    "lat": 58.2527693,
+    "lon": 22.4849207,
+    "source": "nominatim"
+  },
+  "EE|Maardu": {
+    "lat": 59.468192,
+    "lon": 24.9896751,
+    "source": "nominatim"
+  },
+  "EE|Peetri": {
+    "lat": 58.9413953,
+    "lon": 25.842787,
+    "source": "nominatim"
+  },
+  "EE|Pärnu": {
+    "lat": 58.3870833,
+    "lon": 24.502831,
+    "source": "nominatim"
+  },
+  "EE|Rakvere": {
+    "lat": 59.3482229,
+    "lon": 26.3617173,
+    "source": "nominatim"
+  },
+  "EE|Tallinn": {
+    "lat": 59.437242,
+    "lon": 24.7572693,
+    "source": "nominatim"
+  },
+  "EE|Tartu": {
+    "lat": 58.3779528,
+    "lon": 26.7290023,
+    "source": "nominatim"
+  },
+  "EE|Viljandi": {
+    "lat": 58.36454,
+    "lon": 25.5878074,
+    "source": "nominatim"
+  },
+  "ES|Barcelona": {
+    "lat": 41.3825802,
+    "lon": 2.177073,
+    "source": "nominatim"
+  },
+  "ES|Bilbao": {
+    "lat": 43.2630018,
+    "lon": -2.9350039,
+    "source": "nominatim"
+  },
+  "ES|Cabanas": {
+    "lat": 43.4186891,
+    "lon": -8.1609242,
+    "source": "nominatim"
+  },
+  "ES|Córdoba": {
+    "lat": 37.8845813,
+    "lon": -4.7760138,
+    "source": "nominatim"
+  },
+  "ES|Huelva": {
+    "lat": 37.2575874,
+    "lon": -6.9484945,
+    "source": "nominatim"
+  },
+  "ES|Las Palmas de Gran Canaria": {
+    "lat": 28.1288694,
+    "lon": -15.4349015,
+    "source": "nominatim"
+  },
+  "ES|Madrid": {
+    "lat": 40.416782,
+    "lon": -3.703507,
+    "source": "nominatim"
+  },
+  "ES|Murcia": {
+    "lat": 37.9923795,
+    "lon": -1.1305431,
+    "source": "nominatim"
+  },
+  "ES|Málaga": {
+    "lat": 36.7213028,
+    "lon": -4.4216366,
+    "source": "nominatim"
+  },
+  "ES|Oviedo": {
+    "lat": 43.3533452,
+    "lon": -5.8795096,
+    "source": "nominatim"
+  },
+  "ES|Palma": {
+    "lat": 39.5695818,
+    "lon": 2.6500745,
+    "source": "nominatim"
+  },
+  "ES|Pamplona": {
+    "lat": 42.815686,
+    "lon": -1.6522353,
+    "source": "nominatim"
+  },
+  "ES|Pontevedra": {
+    "lat": 42.428065,
+    "lon": -8.6041447,
+    "source": "nominatim"
+  },
+  "ES|Sada": {
+    "lat": 42.5871778,
+    "lon": -1.3983063,
+    "source": "nominatim"
+  },
+  "ES|Salvatierra do Miño": {
+    "lat": 42.0826719,
+    "lon": -8.4990303,
+    "source": "nominatim"
+  },
+  "ES|San Cristóbal de La Laguna": {
+    "lat": 28.4857715,
+    "lon": -16.3159422,
+    "source": "nominatim"
+  },
+  "ES|Santiago de Compostela": {
+    "lat": 42.8804219,
+    "lon": -8.5458608,
+    "source": "nominatim"
+  },
+  "ES|Sevilla": {
+    "lat": 37.3886303,
+    "lon": -5.9953403,
+    "source": "nominatim"
+  },
+  "ES|Undisclosed": null,
+  "ES|Valencia": {
+    "lat": 39.4697065,
+    "lon": -0.3763353,
+    "source": "nominatim"
+  },
+  "ES|Vizcaya": {
+    "lat": 43.238482,
+    "lon": -2.8516316,
+    "source": "nominatim"
+  },
+  "ES|Zaragoza": {
+    "lat": 41.6521342,
+    "lon": -0.8809428,
+    "source": "nominatim"
+  },
+  "FI|Espoo": {
+    "lat": 60.2049651,
+    "lon": 24.6559808,
+    "source": "nominatim"
+  },
+  "FI|Helsinki": {
+    "lat": 60.1666204,
+    "lon": 24.9435408,
+    "source": "nominatim"
+  },
+  "FI|Hämeenlinna": {
+    "lat": 60.9966192,
+    "lon": 24.465141,
+    "source": "nominatim"
+  },
+  "FI|Joensuu": {
+    "lat": 62.6006375,
+    "lon": 29.7619759,
+    "source": "nominatim"
+  },
+  "FI|Jyväskylä": {
+    "lat": 62.241672,
+    "lon": 25.7495806,
+    "source": "nominatim"
+  },
+  "FI|Kajaani": {
+    "lat": 64.2246862,
+    "lon": 27.7339281,
+    "source": "nominatim"
+  },
+  "FI|Kokkola": {
+    "lat": 63.8391421,
+    "lon": 23.1336845,
+    "source": "nominatim"
+  },
+  "FI|Kouvola": {
+    "lat": 60.8679237,
+    "lon": 26.7041116,
+    "source": "nominatim"
+  },
+  "FI|Kuopio": {
+    "lat": 62.8924628,
+    "lon": 27.6783603,
+    "source": "nominatim"
+  },
+  "FI|Lahti": {
+    "lat": 60.982628,
+    "lon": 25.6613418,
+    "source": "nominatim"
+  },
+  "FI|Lappeenranta": {
+    "lat": 61.0583417,
+    "lon": 28.1862293,
+    "source": "nominatim"
+  },
+  "FI|Mikkeli": {
+    "lat": 61.6877823,
+    "lon": 27.2731918,
+    "source": "nominatim"
+  },
+  "FI|Oulu": {
+    "lat": 65.0117914,
+    "lon": 25.4701973,
+    "source": "nominatim"
+  },
+  "FI|Pori": {
+    "lat": 61.4866126,
+    "lon": 21.7972071,
+    "source": "nominatim"
+  },
+  "FI|Porvoo": {
+    "lat": 60.3944372,
+    "lon": 25.661997,
+    "source": "nominatim"
+  },
+  "FI|Rovaniemi": {
+    "lat": 66.5025537,
+    "lon": 25.7303912,
+    "source": "nominatim"
+  },
+  "FI|Seinäjoki": {
+    "lat": 62.790666,
+    "lon": 22.8397378,
+    "source": "nominatim"
+  },
+  "FI|Tampere": {
+    "lat": 61.4977929,
+    "lon": 23.7616372,
+    "source": "nominatim"
+  },
+  "FI|Turku": {
+    "lat": 60.4515942,
+    "lon": 22.2669988,
+    "source": "nominatim"
+  },
+  "FI|Vaasa": {
+    "lat": 63.0957722,
+    "lon": 21.6159187,
+    "source": "nominatim"
+  },
+  "FI|Vantaa": {
+    "lat": 60.2929883,
+    "lon": 25.0436744,
+    "source": "nominatim"
+  },
+  "FR|Aix-en-Provence": {
+    "lat": 43.5298424,
+    "lon": 5.4474738,
+    "source": "nominatim"
+  },
+  "FR|Amiens": {
+    "lat": 49.8941708,
+    "lon": 2.2956951,
+    "source": "nominatim"
+  },
+  "FR|Bordeaux": {
+    "lat": 44.841225,
+    "lon": -0.5800364,
+    "source": "nominatim"
+  },
+  "FR|Brest": {
+    "lat": 48.3905283,
+    "lon": -4.4860088,
+    "source": "nominatim"
+  },
+  "FR|Châlons-en-Champagne": {
+    "lat": 48.9566218,
+    "lon": 4.3628851,
+    "source": "nominatim"
+  },
+  "FR|Colomiers": {
+    "lat": 43.6112476,
+    "lon": 1.3367443,
+    "source": "nominatim"
+  },
+  "FR|Dijon": {
+    "lat": 47.3215806,
+    "lon": 5.0414701,
+    "source": "nominatim"
+  },
+  "FR|Gennevilliers": {
+    "lat": 48.9254221,
+    "lon": 2.2940122,
+    "source": "nominatim"
+  },
+  "FR|Grenoble": {
+    "lat": 45.1875602,
+    "lon": 5.7357819,
+    "source": "nominatim"
+  },
+  "FR|La Rochelle": {
+    "lat": 46.159732,
+    "lon": -1.1515951,
+    "source": "nominatim"
+  },
+  "FR|La Roquette-sur-Siagne": {
+    "lat": 43.5810901,
+    "lon": 6.9557118,
+    "source": "nominatim"
+  },
+  "FR|Lille": {
+    "lat": 50.6365654,
+    "lon": 3.0635282,
+    "source": "nominatim"
+  },
+  "FR|Lyon": {
+    "lat": 45.7578137,
+    "lon": 4.8320114,
+    "source": "nominatim"
+  },
+  "FR|Marseille": {
+    "lat": 43.2961743,
+    "lon": 5.3699525,
+    "source": "nominatim"
+  },
+  "FR|Montpellier": {
+    "lat": 43.6112422,
+    "lon": 3.8767337,
+    "source": "nominatim"
+  },
+  "FR|Nanterre": {
+    "lat": 48.8924273,
+    "lon": 2.2071267,
+    "source": "nominatim"
+  },
+  "FR|Nantes": {
+    "lat": 47.2186371,
+    "lon": -1.5541362,
+    "source": "nominatim"
+  },
+  "FR|Nice": {
+    "lat": 43.7009358,
+    "lon": 7.2683912,
+    "source": "nominatim"
+  },
+  "FR|Paris": {
+    "lat": 48.8534951,
+    "lon": 2.3483915,
+    "source": "nominatim"
+  },
+  "FR|Poitiers": {
+    "lat": 46.5802596,
+    "lon": 0.340196,
+    "source": "nominatim"
+  },
+  "FR|Rennes": {
+    "lat": 48.1113387,
+    "lon": -1.6800198,
+    "source": "nominatim"
+  },
+  "FR|Rouen": {
+    "lat": 49.4404591,
+    "lon": 1.0939658,
+    "source": "nominatim"
+  },
+  "FR|Saint-Denis": {
+    "lat": 48.9383732,
+    "lon": 2.3627508,
+    "source": "nominatim"
+  },
+  "FR|Saint-Étienne-du-Rouvray": {
+    "lat": 49.3831,
+    "lon": 1.09163,
+    "source": "nominatim"
+  },
+  "FR|Strasbourg": {
+    "lat": 48.584614,
+    "lon": 7.7507127,
+    "source": "nominatim"
+  },
+  "FR|Toulouse": {
+    "lat": 43.6044638,
+    "lon": 1.4442433,
+    "source": "nominatim"
+  },
+  "GR|Athens": {
+    "lat": 37.9755648,
+    "lon": 23.7348324,
+    "source": "nominatim"
+  },
+  "GR|Heraklion": {
+    "lat": 35.33908,
+    "lon": 25.1332843,
+    "source": "nominatim"
+  },
+  "GR|Larissa": {
+    "lat": 39.6383092,
+    "lon": 22.4160706,
+    "source": "nominatim"
+  },
+  "GR|Patra": {
+    "lat": 38.246242,
+    "lon": 21.7350847,
+    "source": "nominatim"
+  },
+  "GR|Patras": {
+    "lat": 38.246242,
+    "lon": 21.7350847,
+    "source": "nominatim"
+  },
+  "GR|Peristeri": {
+    "lat": 38.0128111,
+    "lon": 23.6955137,
+    "source": "nominatim"
+  },
+  "GR|Piraeus": {
+    "lat": 37.9431594,
+    "lon": 23.6470593,
+    "source": "nominatim"
+  },
+  "GR|Thessaloniki": {
+    "lat": 40.6403167,
+    "lon": 22.9352716,
+    "source": "nominatim"
+  },
+  "HR|Dubrovnik": {
+    "lat": 42.6491029,
+    "lon": 18.0939501,
+    "source": "nominatim"
+  },
+  "HR|Kraljevica": {
+    "lat": 45.2741319,
+    "lon": 14.5688736,
+    "source": "nominatim"
+  },
+  "HR|Ozalj": {
+    "lat": 45.6126311,
+    "lon": 15.477888,
+    "source": "nominatim"
+  },
+  "HR|Pula": {
+    "lat": 44.8702281,
+    "lon": 13.8455311,
+    "source": "nominatim"
+  },
+  "HR|Rijeka": {
+    "lat": 45.3267976,
+    "lon": 14.442208,
+    "source": "nominatim"
+  },
+  "HR|Split": {
+    "lat": 43.5116383,
+    "lon": 16.4399659,
+    "source": "nominatim"
+  },
+  "HR|Sveta Nedjelja": {
+    "lat": 45.7968126,
+    "lon": 15.776914,
+    "source": "nominatim"
+  },
+  "HR|Zagreb": {
+    "lat": 45.8130967,
+    "lon": 15.9772795,
+    "source": "nominatim"
+  },
+  "HU|Budapest": {
+    "lat": 47.4813896,
+    "lon": 19.1457723,
+    "source": "nominatim"
+  },
+  "HU|Debrecen": {
+    "lat": 47.531399,
+    "lon": 21.6259782,
+    "source": "nominatim"
+  },
+  "HU|Kőszeg": {
+    "lat": 47.3894949,
+    "lon": 16.5406843,
+    "source": "nominatim"
+  },
+  "HU|Miskolc": {
+    "lat": 48.1030643,
+    "lon": 20.7900429,
+    "source": "nominatim"
+  },
+  "HU|Pécs": {
+    "lat": 46.0765092,
+    "lon": 18.2280317,
+    "source": "nominatim"
+  },
+  "HU|Solymár": {
+    "lat": 47.5913333,
+    "lon": 18.9284943,
+    "source": "nominatim"
+  },
+  "HU|Szeged": {
+    "lat": 46.2546312,
+    "lon": 20.1486016,
+    "source": "nominatim"
+  },
+  "HU|Szombathely": {
+    "lat": 47.2291184,
+    "lon": 16.6187625,
+    "source": "nominatim"
+  },
+  "HU|Székesfehérvár": {
+    "lat": 47.1910169,
+    "lon": 18.410811,
+    "source": "nominatim"
+  },
+  "HU|Tatabánya": {
+    "lat": 47.583845,
+    "lon": 18.3979855,
+    "source": "nominatim"
+  },
+  "HU|Vác": {
+    "lat": 47.7782873,
+    "lon": 19.1278294,
+    "source": "nominatim"
+  },
+  "HU|Zalaegerszeg": {
+    "lat": 46.8415803,
+    "lon": 16.8456316,
+    "source": "nominatim"
+  },
+  "HU|Érd": {
+    "lat": 47.3772495,
+    "lon": 18.9213833,
+    "source": "nominatim"
+  },
+  "IE|Ballinasloe": {
+    "lat": 53.3302722,
+    "lon": -8.221376,
+    "source": "nominatim"
+  },
+  "IE|Bray": {
+    "lat": 53.2014604,
+    "lon": -6.1105049,
+    "source": "nominatim"
+  },
+  "IE|Cork": {
+    "lat": 51.8985136,
+    "lon": -8.4726423,
+    "source": "nominatim"
+  },
+  "IE|Dublin": {
+    "lat": 53.3493795,
+    "lon": -6.2605593,
+    "source": "nominatim"
+  },
+  "IE|Dún Laoghaire": {
+    "lat": 53.2922794,
+    "lon": -6.1360079,
+    "source": "nominatim"
+  },
+  "IE|Galway": {
+    "lat": 53.2744122,
+    "lon": -9.0490601,
+    "source": "nominatim"
+  },
+  "IE|Kenmare": {
+    "lat": 51.8791008,
+    "lon": -9.583952,
+    "source": "nominatim"
+  },
+  "IE|Limerick": {
+    "lat": 52.661252,
+    "lon": -8.6301239,
+    "source": "nominatim"
+  },
+  "IE|Naas": {
+    "lat": 53.2214677,
+    "lon": -6.6574093,
+    "source": "nominatim"
+  },
+  "IE|Roscrea": {
+    "lat": 52.9551598,
+    "lon": -7.7990264,
+    "source": "nominatim"
+  },
+  "IE|Sligo": {
+    "lat": 54.2720696,
+    "lon": -8.4751357,
+    "source": "nominatim"
+  },
+  "IE|Youghal": {
+    "lat": 51.9494736,
+    "lon": -7.8431892,
+    "source": "nominatim"
+  },
+  "IT|Agrate Brianza": {
+    "lat": 45.5761735,
+    "lon": 9.3509475,
+    "source": "nominatim"
+  },
+  "IT|Agrigento": {
+    "lat": 37.3122991,
+    "lon": 13.57465,
+    "source": "nominatim"
+  },
+  "IT|Alessandria": {
+    "lat": 44.8349534,
+    "lon": 8.7450304,
+    "source": "nominatim"
+  },
+  "IT|Ancona": {
+    "lat": 43.4801189,
+    "lon": 13.2187279,
+    "source": "nominatim"
+  },
+  "IT|Arezzo": {
+    "lat": 43.5171442,
+    "lon": 11.7639282,
+    "source": "nominatim"
+  },
+  "IT|Asti": {
+    "lat": 44.8260127,
+    "lon": 8.2026863,
+    "source": "nominatim"
+  },
+  "IT|Avellino": {
+    "lat": 40.9965446,
+    "lon": 15.140569,
+    "source": "nominatim"
+  },
+  "IT|Bari": {
+    "lat": 41.1257843,
+    "lon": 16.8620293,
+    "source": "nominatim"
+  },
+  "IT|Bergamo": {
+    "lat": 45.7566557,
+    "lon": 9.7542192,
+    "source": "nominatim"
+  },
+  "IT|Bologna": {
+    "lat": 44.4938203,
+    "lon": 11.3426327,
+    "source": "nominatim"
+  },
+  "IT|Catanzaro": {
+    "lat": 38.8299603,
+    "lon": 16.4315569,
+    "source": "nominatim"
+  },
+  "IT|Firenze": {
+    "lat": 43.7697955,
+    "lon": 11.2556404,
+    "source": "nominatim"
+  },
+  "IT|Gorle": {
+    "lat": 45.7037349,
+    "lon": 9.7190224,
+    "source": "nominatim"
+  },
+  "IT|Milan": {
+    "lat": 45.4641943,
+    "lon": 9.1896346,
+    "source": "nominatim"
+  },
+  "IT|Milano": {
+    "lat": 45.4641943,
+    "lon": 9.1896346,
+    "source": "nominatim"
+  },
+  "IT|Naples": {
+    "lat": 40.8358846,
+    "lon": 14.2487679,
+    "source": "nominatim"
+  },
+  "IT|Napoli": {
+    "lat": 40.8358846,
+    "lon": 14.2487679,
+    "source": "nominatim"
+  },
+  "IT|Palermo": {
+    "lat": 38.1112268,
+    "lon": 13.3524434,
+    "source": "nominatim"
+  },
+  "IT|Pavia": {
+    "lat": 45.0368547,
+    "lon": 9.1378251,
+    "source": "nominatim"
+  },
+  "IT|Perugia": {
+    "lat": 43.1070321,
+    "lon": 12.4029962,
+    "source": "nominatim"
+  },
+  "IT|Pisa": {
+    "lat": 43.4714722,
+    "lon": 10.6797912,
+    "source": "nominatim"
+  },
+  "IT|Pomigliano d'Arco": {
+    "lat": 40.907912,
+    "lon": 14.386233,
+    "source": "nominatim"
+  },
+  "IT|Roma": {
+    "lat": 41.8933203,
+    "lon": 12.4829321,
+    "source": "nominatim"
+  },
+  "IT|Rome": {
+    "lat": 41.8933203,
+    "lon": 12.4829321,
+    "source": "nominatim"
+  },
+  "IT|Sesto San Giovanni": {
+    "lat": 45.5357218,
+    "lon": 9.2376549,
+    "source": "nominatim"
+  },
+  "IT|Torino": {
+    "lat": 45.0677551,
+    "lon": 7.6824892,
+    "source": "nominatim"
+  },
+  "IT|Treviolo": {
+    "lat": 45.6715427,
+    "lon": 9.6117418,
+    "source": "nominatim"
+  },
+  "IT|Turin": {
+    "lat": 45.0677551,
+    "lon": 7.6824892,
+    "source": "nominatim"
+  },
+  "IT|Vimercate": {
+    "lat": 45.6139627,
+    "lon": 9.37006,
+    "source": "nominatim"
+  },
+  "IT|Volpiano": {
+    "lat": 45.201451,
+    "lon": 7.778222,
+    "source": "nominatim"
+  },
+  "IT|placeholder": null,
+  "LT|Kaunas": {
+    "lat": 54.8982139,
+    "lon": 23.9044817,
+    "source": "nominatim"
+  },
+  "LT|Klaipėda": {
+    "lat": 55.7127529,
+    "lon": 21.1350469,
+    "source": "nominatim"
+  },
+  "LT|Vilnius": {
+    "lat": 54.6870458,
+    "lon": 25.2829111,
+    "source": "nominatim"
+  },
+  "LU|Bertrange": {
+    "lat": 49.6106029,
+    "lon": 6.0501598,
+    "source": "nominatim"
+  },
+  "LU|Betzdorf": {
+    "lat": 49.68738,
+    "lon": 6.3507938,
+    "source": "nominatim"
+  },
+  "LU|Contern": {
+    "lat": 49.5858294,
+    "lon": 6.2262883,
+    "source": "nominatim"
+  },
+  "LU|Ellange": {
+    "lat": 49.5210112,
+    "lon": 6.2977065,
+    "source": "nominatim"
+  },
+  "LU|Esch-sur-Alzette": {
+    "lat": 49.4959628,
+    "lon": 5.9850306,
+    "source": "nominatim"
+  },
+  "LU|Koerich": {
+    "lat": 49.6697542,
+    "lon": 5.949443,
+    "source": "nominatim"
+  },
+  "LU|Luxembourg": {
+    "lat": 49.8158683,
+    "lon": 6.1296751,
+    "source": "nominatim"
+  },
+  "LU|Luxembourg City": {
+    "lat": 49.5999265,
+    "lon": 6.1352894,
+    "source": "nominatim"
+  },
+  "LU|Mamer": {
+    "lat": 49.6266028,
+    "lon": 6.0229288,
+    "source": "nominatim"
+  },
+  "LU|Niederanven": {
+    "lat": 49.6512224,
+    "lon": 6.2552342,
+    "source": "nominatim"
+  },
+  "LU|Pétange": {
+    "lat": 49.5566918,
+    "lon": 5.8776052,
+    "source": "nominatim"
+  },
+  "LU|Roeser": {
+    "lat": 49.5423193,
+    "lon": 6.1471163,
+    "source": "nominatim"
+  },
+  "LU|Sandweiler": {
+    "lat": 49.616081,
+    "lon": 6.2173651,
+    "source": "nominatim"
+  },
+  "LU|Schuttrange": {
+    "lat": 49.6226683,
+    "lon": 6.2714312,
+    "source": "nominatim"
+  },
+  "LV|Daugavpils": {
+    "lat": 55.8712267,
+    "lon": 26.5159337,
+    "source": "nominatim"
+  },
+  "LV|Jelgava": {
+    "lat": 56.6522063,
+    "lon": 23.7291999,
+    "source": "nominatim"
+  },
+  "LV|Liepāja": {
+    "lat": 56.5048435,
+    "lon": 21.0070903,
+    "source": "nominatim"
+  },
+  "LV|Marupe": {
+    "lat": 56.9048817,
+    "lon": 24.043818,
+    "source": "nominatim"
+  },
+  "LV|Riga": {
+    "lat": 56.9493977,
+    "lon": 24.1051846,
+    "source": "nominatim"
+  },
+  "LV|Rēzekne": {
+    "lat": 56.506281,
+    "lon": 27.3306623,
+    "source": "nominatim"
+  },
+  "LV|Rīga": {
+    "lat": 56.9493977,
+    "lon": 24.1051846,
+    "source": "nominatim"
+  },
+  "LV|Valmiera": {
+    "lat": 57.5389148,
+    "lon": 25.4261688,
+    "source": "nominatim"
+  },
+  "LV|Ventspils": {
+    "lat": 57.3903918,
+    "lon": 21.5635991,
+    "source": "nominatim"
+  },
+  "MT|Attard": {
+    "lat": 35.8909172,
+    "lon": 14.4430093,
+    "source": "nominatim"
+  },
+  "MT|Birkirkara": {
+    "lat": 35.8994577,
+    "lon": 14.4649552,
+    "source": "nominatim"
+  },
+  "MT|B’Kara": {
+    "lat": 35.8994577,
+    "lon": 14.4649552,
+    "source": "nominatim"
+  },
+  "MT|Gzira": {
+    "lat": 35.9077803,
+    "lon": 14.4961247,
+    "source": "nominatim"
+  },
+  "MT|Hamrun": {
+    "lat": 35.8867896,
+    "lon": 14.4854096,
+    "source": "nominatim"
+  },
+  "MT|Marsa": {
+    "lat": 35.882892,
+    "lon": 14.4944898,
+    "source": "nominatim"
+  },
+  "MT|Mosta": {
+    "lat": 35.9079178,
+    "lon": 14.4241508,
+    "source": "nominatim"
+  },
+  "MT|Msida": {
+    "lat": 35.8956943,
+    "lon": 14.4891829,
+    "source": "nominatim"
+  },
+  "MT|Paola": {
+    "lat": 35.8717994,
+    "lon": 14.5073748,
+    "source": "nominatim"
+  },
+  "MT|Pieta": {
+    "lat": 35.892353,
+    "lon": 14.4934881,
+    "source": "nominatim"
+  },
+  "MT|Qormi": {
+    "lat": 35.877464,
+    "lon": 14.4739598,
+    "source": "nominatim"
+  },
+  "MT|Siġġiewi": {
+    "lat": 35.8539354,
+    "lon": 14.438063,
+    "source": "nominatim"
+  },
+  "MT|Sta Venera": {
+    "lat": 35.8882398,
+    "lon": 14.4743559,
+    "source": "nominatim"
+  },
+  "MT|Valletta": {
+    "lat": 35.8989979,
+    "lon": 14.5136607,
+    "source": "nominatim"
+  },
+  "MT|Żebbuġ": {
+    "lat": 35.8725956,
+    "lon": 14.4398593,
+    "source": "nominatim"
+  },
+  "NL|'s-Hertogenbosch": {
+    "lat": 51.6889387,
+    "lon": 5.303116,
+    "source": "nominatim"
+  },
+  "NL|Amersfoort": {
+    "lat": 52.1637703,
+    "lon": 5.4088845,
+    "source": "nominatim"
+  },
+  "NL|Amsterdam": {
+    "lat": 52.3730796,
+    "lon": 4.8924534,
+    "source": "nominatim"
+  },
+  "NL|Arnhem": {
+    "lat": 52.0056642,
+    "lon": 5.8762345,
+    "source": "nominatim"
+  },
+  "NL|Assen": {
+    "lat": 52.997225,
+    "lon": 6.5506458,
+    "source": "nominatim"
+  },
+  "NL|Breda": {
+    "lat": 51.5887845,
+    "lon": 4.7760237,
+    "source": "nominatim"
+  },
+  "NL|Capelle aan den IJssel": {
+    "lat": 51.9358538,
+    "lon": 4.5894609,
+    "source": "nominatim"
+  },
+  "NL|Coevorden": {
+    "lat": 52.6612281,
+    "lon": 6.7407359,
+    "source": "nominatim"
+  },
+  "NL|Delft": {
+    "lat": 52.0114017,
+    "lon": 4.35839,
+    "source": "nominatim"
+  },
+  "NL|Den Haag": {
+    "lat": 52.0749456,
+    "lon": 4.2696802,
+    "source": "nominatim"
+  },
+  "NL|Eindhoven": {
+    "lat": 51.4392648,
+    "lon": 5.478633,
+    "source": "nominatim"
+  },
+  "NL|Enschede": {
+    "lat": 52.2209855,
+    "lon": 6.8940537,
+    "source": "nominatim"
+  },
+  "NL|Groningen": {
+    "lat": 53.2190652,
+    "lon": 6.5680077,
+    "source": "nominatim"
+  },
+  "NL|Haarlem": {
+    "lat": 52.3837281,
+    "lon": 4.6435679,
+    "source": "nominatim"
+  },
+  "NL|Helmond": {
+    "lat": 51.4790956,
+    "lon": 5.6557686,
+    "source": "nominatim"
+  },
+  "NL|Leeuwarden": {
+    "lat": 53.2005936,
+    "lon": 5.7918548,
+    "source": "nominatim"
+  },
+  "NL|Noordwijk": {
+    "lat": 52.2410856,
+    "lon": 4.4461969,
+    "source": "nominatim"
+  },
+  "NL|Numansdorp": {
+    "lat": 51.7266233,
+    "lon": 4.4374377,
+    "source": "nominatim"
+  },
+  "NL|Oldenzaal": {
+    "lat": 52.3116616,
+    "lon": 6.9241615,
+    "source": "nominatim"
+  },
+  "NL|Rijswijk": {
+    "lat": 52.0446265,
+    "lon": 4.3188215,
+    "source": "nominatim"
+  },
+  "NL|Rotterdam": {
+    "lat": 51.9244424,
+    "lon": 4.47775,
+    "source": "nominatim"
+  },
+  "NL|Tiel": {
+    "lat": 51.8874333,
+    "lon": 5.4372681,
+    "source": "nominatim"
+  },
+  "NL|Unknown": {
+    "lat": 52.3866987,
+    "lon": 4.9236056,
+    "source": "nominatim"
+  },
+  "NL|Utrecht": {
+    "lat": 52.0907006,
+    "lon": 5.1215634,
+    "source": "nominatim"
+  },
+  "NL|Warnsveld": {
+    "lat": 52.1443409,
+    "lon": 6.2268734,
+    "source": "nominatim"
+  },
+  "NL|Zutphen": {
+    "lat": 52.1396933,
+    "lon": 6.194772,
+    "source": "nominatim"
+  },
+  "NO|Bergen": {
+    "lat": 60.3943055,
+    "lon": 5.3259192,
+    "source": "nominatim"
+  },
+  "NO|Bodø": {
+    "lat": 67.2844313,
+    "lon": 14.3817503,
+    "source": "nominatim"
+  },
+  "NO|Drammen": {
+    "lat": 59.6964936,
+    "lon": 10.175642,
+    "source": "nominatim"
+  },
+  "NO|Drøbak": {
+    "lat": 59.6633005,
+    "lon": 10.6293392,
+    "source": "nominatim"
+  },
+  "NO|Evje": {
+    "lat": 59.8997806,
+    "lon": 10.5138417,
+    "source": "nominatim"
+  },
+  "NO|Harstad": {
+    "lat": 68.799943,
+    "lon": 16.5440322,
+    "source": "nominatim"
+  },
+  "NO|Haugesund": {
+    "lat": 59.4682479,
+    "lon": 5.0827612,
+    "source": "nominatim"
+  },
+  "NO|Horten": {
+    "lat": 59.4101728,
+    "lon": 10.4437392,
+    "source": "nominatim"
+  },
+  "NO|Kristiansund": {
+    "lat": 63.2168194,
+    "lon": 7.545259,
+    "source": "nominatim"
+  },
+  "NO|Lillehammer": {
+    "lat": 61.1333408,
+    "lon": 10.4265855,
+    "source": "nominatim"
+  },
+  "NO|Lillestrøm": {
+    "lat": 59.9155396,
+    "lon": 11.2170354,
+    "source": "nominatim"
+  },
+  "NO|Lom": {
+    "lat": 61.7142578,
+    "lon": 8.4258977,
+    "source": "nominatim"
+  },
+  "NO|Lørenskog": {
+    "lat": 59.8970034,
+    "lon": 10.9669148,
+    "source": "nominatim"
+  },
+  "NO|Misterstad": null,
+  "NO|Myrset": {
+    "lat": 69.5425533,
+    "lon": 30.0952498,
+    "source": "nominatim"
+  },
+  "NO|Narvik": {
+    "lat": 68.4383796,
+    "lon": 17.4271978,
+    "source": "nominatim"
+  },
+  "NO|Oslo": {
+    "lat": 59.9133301,
+    "lon": 10.7389701,
+    "source": "nominatim"
+  },
+  "NO|Porsgrunn": {
+    "lat": 59.103735,
+    "lon": 9.7363538,
+    "source": "nominatim"
+  },
+  "NO|Røyken": {
+    "lat": 69.2879957,
+    "lon": 16.0001732,
+    "source": "nominatim"
+  },
+  "NO|Stavanger": {
+    "lat": 58.9699675,
+    "lon": 5.7318101,
+    "source": "nominatim"
+  },
+  "NO|Trondheim": {
+    "lat": 63.4304475,
+    "lon": 10.3952118,
+    "source": "nominatim"
+  },
+  "NO|Tønsberg": {
+    "lat": 59.3549795,
+    "lon": 10.2820491,
+    "source": "nominatim"
+  },
+  "NO|Ås": {
+    "lat": 59.6792809,
+    "lon": 10.7741636,
+    "source": "nominatim"
+  },
+  "PL|Bełchatów": {
+    "lat": 51.3667319,
+    "lon": 19.3694645,
+    "source": "nominatim"
+  },
+  "PL|Białystok": {
+    "lat": 53.1275051,
+    "lon": 23.1470509,
+    "source": "nominatim"
+  },
+  "PL|Bydgoszcz": {
+    "lat": 53.1297127,
+    "lon": 18.0294488,
+    "source": "nominatim"
+  },
+  "PL|Gdańsk": {
+    "lat": 54.3482907,
+    "lon": 18.6540233,
+    "source": "nominatim"
+  },
+  "PL|Gorzów Wielkopolski": {
+    "lat": 52.7305756,
+    "lon": 15.2107553,
+    "source": "nominatim"
+  },
+  "PL|Katowice": {
+    "lat": 50.2598987,
+    "lon": 19.0215852,
+    "source": "nominatim"
+  },
+  "PL|Kraków": {
+    "lat": 50.0469432,
+    "lon": 19.9971534,
+    "source": "nominatim"
+  },
+  "PL|Lublin": {
+    "lat": 51.2181945,
+    "lon": 22.5546776,
+    "source": "nominatim"
+  },
+  "PL|Olsztyn": {
+    "lat": 53.776644,
+    "lon": 20.4777531,
+    "source": "nominatim"
+  },
+  "PL|Pabianice": {
+    "lat": 51.6639859,
+    "lon": 19.3535024,
+    "source": "nominatim"
+  },
+  "PL|Poznań": {
+    "lat": 52.4006632,
+    "lon": 16.9197326,
+    "source": "nominatim"
+  },
+  "PL|Płock": {
+    "lat": 52.5464521,
+    "lon": 19.7008606,
+    "source": "nominatim"
+  },
+  "PL|Radomsko": {
+    "lat": 51.071061,
+    "lon": 19.4498464,
+    "source": "nominatim"
+  },
+  "PL|Rzeszów": {
+    "lat": 50.013319,
+    "lon": 22.0161677,
+    "source": "nominatim"
+  },
+  "PL|Sieradz": {
+    "lat": 51.5942475,
+    "lon": 18.7378774,
+    "source": "nominatim"
+  },
+  "PL|Szczecin": {
+    "lat": 53.4301818,
+    "lon": 14.5509623,
+    "source": "nominatim"
+  },
+  "PL|Tomaszów Mazowiecki": {
+    "lat": 51.5316918,
+    "lon": 20.0084195,
+    "source": "nominatim"
+  },
+  "PL|Warsaw": {
+    "lat": 52.2333742,
+    "lon": 21.0711489,
+    "source": "nominatim"
+  },
+  "PL|Warszawa": {
+    "lat": 52.2319581,
+    "lon": 21.0067249,
+    "source": "nominatim"
+  },
+  "PL|Wrocław": {
+    "lat": 51.1263106,
+    "lon": 16.9781963,
+    "source": "nominatim"
+  },
+  "PL|Włoszczowa": {
+    "lat": 50.8520727,
+    "lon": 19.9667772,
+    "source": "nominatim"
+  },
+  "PL|Łódź": {
+    "lat": 51.7687323,
+    "lon": 19.4569911,
+    "source": "nominatim"
+  },
+  "PL|Świecie": {
+    "lat": 53.4072518,
+    "lon": 18.4455253,
+    "source": "nominatim"
+  },
+  "PT|Almada": {
+    "lat": 38.6831302,
+    "lon": -9.1576301,
+    "source": "nominatim"
+  },
+  "PT|Amadora": {
+    "lat": 38.758959,
+    "lon": -9.2365233,
+    "source": "nominatim"
+  },
+  "PT|Aveiro": {
+    "lat": 40.640496,
+    "lon": -8.6537841,
+    "source": "nominatim"
+  },
+  "PT|Beja": {
+    "lat": 38.0154479,
+    "lon": -7.8650368,
+    "source": "nominatim"
+  },
+  "PT|Bragança": {
+    "lat": 41.5084468,
+    "lon": -6.7733024,
+    "source": "nominatim"
+  },
+  "PT|Carnaxide": {
+    "lat": 38.7275721,
+    "lon": -9.2381707,
+    "source": "nominatim"
+  },
+  "PT|Cascais": {
+    "lat": 38.6968919,
+    "lon": -9.4204495,
+    "source": "nominatim"
+  },
+  "PT|Castelo Branco": {
+    "lat": 39.9767583,
+    "lon": -7.4460599,
+    "source": "nominatim"
+  },
+  "PT|Faro": {
+    "lat": 37.0162944,
+    "lon": -7.935182,
+    "source": "nominatim"
+  },
+  "PT|Figueira da Foz": {
+    "lat": 40.1485808,
+    "lon": -8.855655,
+    "source": "nominatim"
+  },
+  "PT|Guimarães": {
+    "lat": 41.4417677,
+    "lon": -8.2955712,
+    "source": "nominatim"
+  },
+  "PT|Lagos": {
+    "lat": 37.1027964,
+    "lon": -8.6728689,
+    "source": "nominatim"
+  },
+  "PT|Leiria": {
+    "lat": 39.7437902,
+    "lon": -8.8071119,
+    "source": "nominatim"
+  },
+  "PT|Lisboa": {
+    "lat": 38.7077507,
+    "lon": -9.1365919,
+    "source": "nominatim"
+  },
+  "PT|Lisbon": {
+    "lat": 38.7077507,
+    "lon": -9.1365919,
+    "source": "nominatim"
+  },
+  "PT|Oeiras": {
+    "lat": 38.6925777,
+    "lon": -9.3123076,
+    "source": "nominatim"
+  },
+  "PT|Porto": {
+    "lat": 41.1502195,
+    "lon": -8.6103497,
+    "source": "nominatim"
+  },
+  "PT|Rebordosa": {
+    "lat": 41.2202567,
+    "lon": -8.4112601,
+    "source": "nominatim"
+  },
+  "PT|Setúbal": {
+    "lat": 38.5241783,
+    "lon": -8.8932341,
+    "source": "nominatim"
+  },
+  "PT|Sintra": {
+    "lat": 38.8355446,
+    "lon": -9.3522371,
+    "source": "nominatim"
+  },
+  "PT|Vila Nova de Gaia": {
+    "lat": 41.1292264,
+    "lon": -8.6057396,
+    "source": "nominatim"
+  },
+  "PT|Viseu": {
+    "lat": 40.6574713,
+    "lon": -7.9138664,
+    "source": "nominatim"
+  },
+  "PT|Évora": {
+    "lat": 38.5707742,
+    "lon": -7.9092808,
+    "source": "nominatim"
+  },
+  "RO|Alba Iulia": {
+    "lat": 46.0682753,
+    "lon": 23.5664761,
+    "source": "nominatim"
+  },
+  "RO|Bacău": {
+    "lat": 46.5560493,
+    "lon": 26.9153557,
+    "source": "nominatim"
+  },
+  "RO|Baia Mare": {
+    "lat": 47.6565584,
+    "lon": 23.5719843,
+    "source": "nominatim"
+  },
+  "RO|Bistrița": {
+    "lat": 47.1327012,
+    "lon": 24.4963949,
+    "source": "nominatim"
+  },
+  "RO|Brașov": {
+    "lat": 45.6525105,
+    "lon": 25.6105654,
+    "source": "nominatim"
+  },
+  "RO|Bucharest": {
+    "lat": 44.4361414,
+    "lon": 26.102684,
+    "source": "nominatim"
+  },
+  "RO|București": {
+    "lat": 44.4361414,
+    "lon": 26.102684,
+    "source": "nominatim"
+  },
+  "RO|Cluj-Napoca": {
+    "lat": 46.769379,
+    "lon": 23.5899542,
+    "source": "nominatim"
+  },
+  "RO|Craiova": {
+    "lat": 44.3190159,
+    "lon": 23.7965614,
+    "source": "nominatim"
+  },
+  "RO|Galați": {
+    "lat": 45.4338215,
+    "lon": 28.0549395,
+    "source": "nominatim"
+  },
+  "RO|Oradea": {
+    "lat": 47.0549163,
+    "lon": 21.9285231,
+    "source": "nominatim"
+  },
+  "RO|Piatra Neamț": {
+    "lat": 46.9319894,
+    "lon": 26.3695046,
+    "source": "nominatim"
+  },
+  "RO|Ploiești": {
+    "lat": 44.9417468,
+    "lon": 26.0236504,
+    "source": "nominatim"
+  },
+  "RO|Slatina": {
+    "lat": 44.4299971,
+    "lon": 24.3631837,
+    "source": "nominatim"
+  },
+  "RO|Timisoara": {
+    "lat": 45.7538355,
+    "lon": 21.2257474,
+    "source": "nominatim"
+  },
+  "RO|Timișoara": {
+    "lat": 45.7538355,
+    "lon": 21.2257474,
+    "source": "nominatim"
+  },
+  "SE|Alingsås": {
+    "lat": 57.9299658,
+    "lon": 12.5329678,
+    "source": "nominatim"
+  },
+  "SE|Borås": {
+    "lat": 57.7210839,
+    "lon": 12.9407407,
+    "source": "nominatim"
+  },
+  "SE|Enköping": {
+    "lat": 59.6356115,
+    "lon": 17.077856,
+    "source": "nominatim"
+  },
+  "SE|Gävle": {
+    "lat": 60.6750132,
+    "lon": 17.1467019,
+    "source": "nominatim"
+  },
+  "SE|Göteborg": {
+    "lat": 57.7072326,
+    "lon": 11.9670171,
+    "source": "nominatim"
+  },
+  "SE|Helsingborg": {
+    "lat": 56.0442098,
+    "lon": 12.703706,
+    "source": "nominatim"
+  },
+  "SE|Karlskrona": {
+    "lat": 56.1621073,
+    "lon": 15.5866422,
+    "source": "nominatim"
+  },
+  "SE|Karlstad": {
+    "lat": 59.3809146,
+    "lon": 13.5027631,
+    "source": "nominatim"
+  },
+  "SE|Linköping": {
+    "lat": 58.4098135,
+    "lon": 15.6245252,
+    "source": "nominatim"
+  },
+  "SE|Malmö": {
+    "lat": 55.6052931,
+    "lon": 13.0001566,
+    "source": "nominatim"
+  },
+  "SE|Mora": {
+    "lat": 61.0086787,
+    "lon": 14.5442519,
+    "source": "nominatim"
+  },
+  "SE|Norrköping": {
+    "lat": 58.5909124,
+    "lon": 16.1903511,
+    "source": "nominatim"
+  },
+  "SE|Nässjö": {
+    "lat": 57.6530377,
+    "lon": 14.6981554,
+    "source": "nominatim"
+  },
+  "SE|Näsviken": {
+    "lat": 61.757556,
+    "lon": 16.8669534,
+    "source": "nominatim"
+  },
+  "SE|Råda": {
+    "lat": 60.0053678,
+    "lon": 13.5973937,
+    "source": "nominatim"
+  },
+  "SE|Sollentuna": {
+    "lat": 59.4293164,
+    "lon": 17.9500556,
+    "source": "nominatim"
+  },
+  "SE|Stockholm": {
+    "lat": 59.3251172,
+    "lon": 18.0710935,
+    "source": "nominatim"
+  },
+  "SE|Umeå": {
+    "lat": 63.8256568,
+    "lon": 20.2630745,
+    "source": "nominatim"
+  },
+  "SE|Uppsala": {
+    "lat": 59.8586126,
+    "lon": 17.6387436,
+    "source": "nominatim"
+  },
+  "SE|Vänersborg": {
+    "lat": 58.3811988,
+    "lon": 12.3226877,
+    "source": "nominatim"
+  },
+  "SE|Växjö": {
+    "lat": 56.8787183,
+    "lon": 14.8094385,
+    "source": "nominatim"
+  },
+  "SE|Örebro": {
+    "lat": 59.2747287,
+    "lon": 15.2151181,
+    "source": "nominatim"
+  },
+  "SI|Celje": {
+    "lat": 46.2293889,
+    "lon": 15.2616828,
+    "source": "nominatim"
+  },
+  "SI|Golnik": {
+    "lat": 46.2941397,
+    "lon": 15.6230674,
+    "source": "nominatim"
+  },
+  "SI|Kamnik": {
+    "lat": 46.2750998,
+    "lon": 14.6267707,
+    "source": "nominatim"
+  },
+  "SI|Kranj": {
+    "lat": 46.2432913,
+    "lon": 14.3549353,
+    "source": "nominatim"
+  },
+  "SI|Kresnice": {
+    "lat": 46.1028949,
+    "lon": 14.7917216,
+    "source": "nominatim"
+  },
+  "SI|Ljubljana": {
+    "lat": 46.0500268,
+    "lon": 14.5069289,
+    "source": "nominatim"
+  },
+  "SI|Maribor": {
+    "lat": 46.5576439,
+    "lon": 15.6455854,
+    "source": "nominatim"
+  },
+  "SI|Murska Sobota": {
+    "lat": 46.6624644,
+    "lon": 16.1655256,
+    "source": "nominatim"
+  },
+  "SI|Nova Gorica": {
+    "lat": 45.9581509,
+    "lon": 13.6474998,
+    "source": "nominatim"
+  },
+  "SI|Novo mesto": {
+    "lat": 45.8040475,
+    "lon": 15.1696684,
+    "source": "nominatim"
+  },
+  "SI|Postojna": {
+    "lat": 45.7752847,
+    "lon": 14.2139937,
+    "source": "nominatim"
+  },
+  "SI|Ptuj": {
+    "lat": 46.4198096,
+    "lon": 15.8717378,
+    "source": "nominatim"
+  },
+  "SI|Trzin": {
+    "lat": 46.1278132,
+    "lon": 14.5444206,
+    "source": "nominatim"
+  },
+  "SI|Velenje": {
+    "lat": 46.3592869,
+    "lon": 15.1150301,
+    "source": "nominatim"
+  },
+  "SK|Bratislava": {
+    "lat": 48.1516988,
+    "lon": 17.1093063,
+    "source": "nominatim"
+  },
+  "SK|Košice": {
+    "lat": 48.7172272,
+    "lon": 21.2496774,
+    "source": "nominatim"
+  },
+  "SK|Levice": {
+    "lat": 48.2163194,
+    "lon": 18.6000869,
+    "source": "nominatim"
+  },
+  "SK|Nitra": {
+    "lat": 48.31295,
+    "lon": 18.0894593,
+    "source": "nominatim"
+  },
+  "SK|Topoľčany": {
+    "lat": 48.5594345,
+    "lon": 18.1754394,
+    "source": "nominatim"
+  },
+  "SK|Trnava": {
+    "lat": 48.3767652,
+    "lon": 17.5858175,
+    "source": "nominatim"
+  },
+  "SK|Vysoké Tatry": {
+    "lat": 49.1999166,
+    "lon": 20.179831,
+    "source": "nominatim"
+  },
+  "SK|Zvolen": {
+    "lat": 48.5782517,
+    "lon": 19.1247135,
+    "source": "nominatim"
+  },
+  "UK|Arnold": {
+    "lat": 53.0052605,
+    "lon": -1.1255532,
+    "source": "nominatim"
+  },
+  "UK|Belfast": {
+    "lat": 54.5975805,
+    "lon": -5.9277097,
+    "source": "nominatim"
+  },
+  "UK|Birkenshaw": {
+    "lat": 55.8353762,
+    "lon": -4.0887028,
+    "source": "nominatim"
+  },
+  "UK|Birmingham": {
+    "lat": 52.4796992,
+    "lon": -1.9026911,
+    "source": "nominatim"
+  },
+  "UK|Brighton": {
+    "lat": 50.8214626,
+    "lon": -0.1400561,
+    "source": "nominatim"
+  },
+  "UK|Bristol": {
+    "lat": 51.4538022,
+    "lon": -2.5972985,
+    "source": "nominatim"
+  },
+  "UK|Camborne": {
+    "lat": 50.2138922,
+    "lon": -5.2993901,
+    "source": "nominatim"
+  },
+  "UK|Cambridge": {
+    "lat": 52.2055314,
+    "lon": 0.1186637,
+    "source": "nominatim"
+  },
+  "UK|Cambuslang": {
+    "lat": 55.8191936,
+    "lon": -4.1685904,
+    "source": "nominatim"
+  },
+  "UK|Chester": {
+    "lat": 53.1908873,
+    "lon": -2.8908955,
+    "source": "nominatim"
+  },
+  "UK|Chichester": {
+    "lat": 50.8364862,
+    "lon": -0.7791721,
+    "source": "nominatim"
+  },
+  "UK|Chippenham": {
+    "lat": 51.4587621,
+    "lon": -2.1159032,
+    "source": "nominatim"
+  },
+  "UK|Coventry": {
+    "lat": 52.4081812,
+    "lon": -1.510477,
+    "source": "nominatim"
+  },
+  "UK|Durham": {
+    "lat": 54.666667,
+    "lon": -1.75,
+    "source": "nominatim"
+  },
+  "UK|Easingwold": {
+    "lat": 54.0928536,
+    "lon": -1.1803666,
+    "source": "nominatim"
+  },
+  "UK|Eastleigh": {
+    "lat": 50.9573882,
+    "lon": -1.3602724,
+    "source": "nominatim"
+  },
+  "UK|Edinburgh": {
+    "lat": 55.9533456,
+    "lon": -3.1883749,
+    "source": "nominatim"
+  },
+  "UK|Exeter": {
+    "lat": 50.7256138,
+    "lon": -3.5269209,
+    "source": "nominatim"
+  },
+  "UK|Glasgow": {
+    "lat": 55.861155,
+    "lon": -4.2501687,
+    "source": "nominatim"
+  },
+  "UK|Gloucester": {
+    "lat": 51.8653705,
+    "lon": -2.2458192,
+    "source": "nominatim"
+  },
+  "UK|Huntingdon": {
+    "lat": 52.3305093,
+    "lon": -0.1843514,
+    "source": "nominatim"
+  },
+  "UK|Ipswich": {
+    "lat": 52.0579324,
+    "lon": 1.1528095,
+    "source": "nominatim"
+  },
+  "UK|Leicester": {
+    "lat": 52.6362,
+    "lon": -1.1331969,
+    "source": "nominatim"
+  },
+  "UK|Liverpool": {
+    "lat": 53.3933411,
+    "lon": -2.9166389,
+    "source": "nominatim"
+  },
+  "UK|Llanelli": {
+    "lat": 51.6797331,
+    "lon": -4.1620223,
+    "source": "nominatim"
+  },
+  "UK|London": {
+    "lat": 51.5074456,
+    "lon": -0.1277653,
+    "source": "nominatim"
+  },
+  "UK|Lytham St Annes": {
+    "lat": 53.7485046,
+    "lon": -2.9990745,
+    "source": "nominatim"
+  },
+  "UK|Maidstone": {
+    "lat": 51.2748258,
+    "lon": 0.5231646,
+    "source": "nominatim"
+  },
+  "UK|Manchester": {
+    "lat": 53.4794892,
+    "lon": -2.2451148,
+    "source": "nominatim"
+  },
+  "UK|Newbury": {
+    "lat": 51.4020243,
+    "lon": -1.3242212,
+    "source": "nominatim"
+  },
+  "UK|Northallerton": {
+    "lat": 54.3404812,
+    "lon": -1.4344936,
+    "source": "nominatim"
+  },
+  "UK|Penrith": {
+    "lat": 54.6639494,
+    "lon": -2.7522543,
+    "source": "nominatim"
+  },
+  "UK|Perth": {
+    "lat": 56.3958757,
+    "lon": -3.4303103,
+    "source": "nominatim"
+  },
+  "UK|Poole": {
+    "lat": 50.7179472,
+    "lon": -1.981521,
+    "source": "nominatim"
+  },
+  "UK|Portishead": {
+    "lat": 51.4852547,
+    "lon": -2.7683212,
+    "source": "nominatim"
+  },
+  "UK|Preston": {
+    "lat": 53.7593363,
+    "lon": -2.6992717,
+    "source": "nominatim"
+  },
+  "UK|Reading": {
+    "lat": 51.4514953,
+    "lon": -0.9836342,
+    "source": "nominatim"
+  },
+  "UK|Ripley": {
+    "lat": 53.0501932,
+    "lon": -1.4074771,
+    "source": "nominatim"
+  },
+  "UK|Sheffield": {
+    "lat": 53.3806626,
+    "lon": -1.4702278,
+    "source": "nominatim"
+  },
+  "UK|Shrewsbury": {
+    "lat": 52.707755,
+    "lon": -2.7540658,
+    "source": "nominatim"
+  },
+  "UK|Solihull": {
+    "lat": 52.4130189,
+    "lon": -1.7768935,
+    "source": "nominatim"
+  },
+  "UK|St. Leonards-On-Sea": {
+    "lat": 50.8697619,
+    "lon": 0.5526563,
+    "source": "nominatim"
+  },
+  "UK|Stevenage": {
+    "lat": 51.9016663,
+    "lon": -0.2027155,
+    "source": "nominatim"
+  },
+  "UK|Stone": {
+    "lat": 52.9029803,
+    "lon": -2.148095,
+    "source": "nominatim"
+  },
+  "UK|Stourbridge": {
+    "lat": 52.4577615,
+    "lon": -2.1474345,
+    "source": "nominatim"
+  },
+  "UK|Sunderland": {
+    "lat": 54.9058512,
+    "lon": -1.3828727,
+    "source": "nominatim"
+  },
+  "UK|Swinton": {
+    "lat": 53.5095363,
+    "lon": -2.3417975,
+    "source": "nominatim"
+  },
+  "UK|Walton-on-Thames": {
+    "lat": 51.3856837,
+    "lon": -0.419814,
+    "source": "nominatim"
+  },
+  "UK|Warrington": {
+    "lat": 53.4018582,
+    "lon": -2.5680224,
+    "source": "nominatim"
+  }
+}

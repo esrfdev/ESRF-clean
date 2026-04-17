@@ -144,6 +144,7 @@
     currentMarkers = [];
     orgs.forEach(o => {
       if(typeof o.lat !== 'number' || typeof o.lon !== 'number') return;
+      if(o.lat === 0 && o.lon === 0) return;  // skip null-island placeholders
       if(!filterFn(o)) return;
       const c = sectorColorHex(o.sector_normalized);
       const m = L.circleMarker([o.lat, o.lon], {

@@ -485,11 +485,6 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .p-prepare,.p-empowerment{color:var(--plum)}
 .p-respond,.p-solidarity{color:var(--gold)}
 .p-recover,.p-renewal{color:var(--olive)}
-.bg-prevent{background:var(--blue)}
-.bg-protect{background:var(--accent)}
-.bg-prepare{background:var(--plum)}
-.bg-respond{background:var(--gold)}
-.bg-recover{background:var(--olive)}
 
 /* ═══ CTA buttons ═══ */
 .btn{
