@@ -25,14 +25,8 @@
     "pt": [
       { "name": "RTP Notícias",         "url": "https://www.rtp.pt/noticias/rss",                         "site": "https://www.rtp.pt/noticias",     "country": "PT", "pillar": "stewardship" }
     ],
-    "sv": [
-      { "name": "SVT Nyheter",          "url": "https://www.svt.se/nyheter/rss.xml",                      "site": "https://www.svt.se",              "country": "SE", "pillar": "stewardship" }
-    ],
     "no": [
       { "name": "NRK Nyheter",          "url": "https://www.nrk.no/nyheter/siste.rss",                    "site": "https://www.nrk.no",              "country": "NO", "pillar": "stewardship" }
-    ],
-    "da": [
-      { "name": "DR Nyheder",           "url": "https://www.dr.dk/nyheder/service/feeds/allenyheder",     "site": "https://www.dr.dk/nyheder",       "country": "DK", "pillar": "stewardship" }
     ],
     "fi": [
       { "name": "Yle Uutiset",          "url": "https://feeds.yle.fi/uutiset/v1/majorHeadlines/YLE_UUTISET.rss", "site": "https://yle.fi/uutiset",    "country": "FI", "pillar": "stewardship" },

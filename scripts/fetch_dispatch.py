@@ -32,13 +32,16 @@ import requests
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SOURCES_PATH = os.path.join(ROOT, "data", "sources.json")
+FILTER_PATH = os.path.join(ROOT, "data", "topic_filter.json")
 OUT_PATH = os.path.join(ROOT, "news-data.json")
 
 MAX_AGE_DAYS = 30
 PER_SOURCE_CAP = 8
 SNIPPET_CHARS = 300
 HTTP_TIMEOUT = 15
-USER_AGENT = "ESRF.net dispatch-bot/1.0 (+https://www.esrf.net)"
+# Some public broadcaster RSS endpoints (SVT, DR) block bot-UA strings; use a
+# browser-style UA to be treated as a normal client.
+USER_AGENT = "Mozilla/5.0 (compatible; ESRF.net dispatch-bot/1.0; +https://www.esrf.net)"
 
 TAG_RE = re.compile(r"<[^>]+>")
 WS_RE = re.compile(r"\s+")
@@ -65,6 +68,22 @@ def to_iso_date(entry) -> str:
     return dt.date.today().isoformat()
 
 
+# Loaded once in main() and passed to fetch_one
+_FILTER: dict[str, Any] = {}
+
+
+def passes_topic_filter(title: str, snippet: str, source_name: str, lang: str) -> bool:
+    """Keep article if the source is always_keep OR if title+snippet contain a
+    topic keyword in the locale. Our source catalogue is already geographically
+    scoped to Europe, so we do not require an explicit Europe reference here
+    (that would reject relevant national stories like 'Germany floods')."""
+    if source_name in _FILTER.get("always_keep_sources", []):
+        return True
+    hay = f"{title} {snippet}".lower()
+    topic_kws = _FILTER.get("topic", {}).get(lang) or _FILTER.get("topic", {}).get("en", [])
+    return any(kw in hay for kw in topic_kws)
+
+
 def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str, Any]]:
     """Return list of article dicts for one source. Never raises."""
     name = source["name"]
@@ -87,7 +106,8 @@ def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str
 
     out: list[dict[str, Any]] = []
     cutoff = dt.date.today() - dt.timedelta(days=MAX_AGE_DAYS)
-    for entry in parsed.entries[: PER_SOURCE_CAP * 2]:
+    # Scan more entries than cap so the topic filter has room to reject
+    for entry in parsed.entries[: PER_SOURCE_CAP * 6]:
         link = entry.get("link") or ""
         title = (entry.get("title") or "").strip()
         if not link or not title:
@@ -99,6 +119,11 @@ def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str
         except Exception:  # noqa: BLE001
             pass
         snippet = clean_snippet(entry.get("summary") or entry.get("description") or "")
+        # Topic filter: for european scope use source's own feed language (English for most),
+        # for national scope use the target lang
+        filter_lang = lang if scope == "national" else "en"
+        if not passes_topic_filter(title, snippet, name, filter_lang):
+            continue
         out.append(
             {
                 "title": title,
@@ -116,13 +141,16 @@ def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str
         )
         if len(out) >= PER_SOURCE_CAP:
             break
-    print(f"  · [{name}] {len(out)} articles", file=sys.stderr)
+    print(f"  · [{name}] {len(parsed.entries)} raw → {len(out)} kept", file=sys.stderr)
     return out
 
 
 def main() -> int:
+    global _FILTER
     with open(SOURCES_PATH, encoding="utf-8") as f:
         cfg = json.load(f)
+    with open(FILTER_PATH, encoding="utf-8") as f:
+        _FILTER = json.load(f)
 
     tasks: list[tuple[dict[str, Any], str, str]] = []
     for src in cfg.get("european", []):
