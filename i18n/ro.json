@@ -187,7 +187,9 @@
     "submit_title_3": "în buletin.",
     "submit_sub": "Organizațiile înregistrate pe atlas pot contribui cu știri, rapoarte și actualizări la buletinul ESRF.net.",
     "description": "Buletinul ESRF.net — semnale europene de securitate și reziliență selectate, clasificate după sector și subiect.",
-    "kicker": "§ 06 · Buletin"
+    "kicker": "§ 06 · Buletin",
+    "section_national": "Din țara dumneavoastră",
+    "section_european": "De pe continent"
   },
   "about": {
     "title": "Fundație — ESRF.net",

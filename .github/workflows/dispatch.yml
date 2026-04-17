@@ -1,0 +1,48 @@
+name: Refresh dispatch (news-data.json)
+
+# Daily at 05:00 UTC (07:00 CEST). Manual trigger available via "Run workflow".
+on:
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dispatch-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install --no-cache-dir feedparser==6.0.11 requests==2.32.3
+
+      - name: Fetch RSS feeds
+        run: python3 scripts/fetch_dispatch.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "dispatch-bot"
+          git config user.email "dispatch-bot@esrf.net"
+          if git diff --quiet -- news-data.json; then
+            echo "No changes in news-data.json — skipping commit."
+            exit 0
+          fi
+          git add news-data.json
+          COUNT=$(python3 -c "import json; print(json.load(open('news-data.json'))['article_count'])")
+          SOURCES=$(python3 -c "import json; d=json.load(open('news-data.json')); print(len({a['source'] for a in d['articles']}))")
+          git commit -m "chore(dispatch): daily refresh — ${COUNT} articles from ${SOURCES} sources"
+          git push

@@ -187,7 +187,9 @@
     "submit_title_1": "Pane oma",
     "submit_title_2": "signaal",
     "submit_title_3": "dispätšisse.",
-    "submit_sub": "Atlasil loetletud organisatsioonid saavad esitada lugusid, aruandeid ja uuendusi ESRF.net-i dispätšile."
+    "submit_sub": "Atlasil loetletud organisatsioonid saavad esitada lugusid, aruandeid ja uuendusi ESRF.net-i dispätšile.",
+    "section_national": "Teie riigist",
+    "section_european": "Kontinendilt"
   },
   "about": {
     "title": "Sihtasutus — ESRF.net",

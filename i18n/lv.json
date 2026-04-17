@@ -187,7 +187,9 @@
     "submit_title_1": "Ievietojiet savu",
     "submit_title_2": "signālu",
     "submit_title_3": "dispatch.",
-    "submit_sub": "Organizācijas, kas norādītas kartē, var iesniegt stāstus, ziņojumus un atjauninājumus ESRF.net dispatch."
+    "submit_sub": "Organizācijas, kas norādītas kartē, var iesniegt stāstus, ziņojumus un atjauninājumus ESRF.net dispatch.",
+    "section_national": "No jūsu valsts",
+    "section_european": "No kontinenta"
   },
   "about": {
     "title": "Fonds — ESRF.net",

@@ -187,7 +187,9 @@
     "submit_title_1": "Inserite il vostro",
     "submit_title_2": "segnale",
     "submit_title_3": "nel dispatch.",
-    "submit_sub": "Le organizzazioni inserite nell’atlante possono contribuire notizie, rapporti e aggiornamenti al dispatch di ESRF.net."
+    "submit_sub": "Le organizzazioni inserite nell’atlante possono contribuire notizie, rapporti e aggiornamenti al dispatch di ESRF.net.",
+    "section_national": "Dal vostro paese",
+    "section_european": "Dal continente"
   },
   "about": {
     "title": "Fondazione — ESRF.net",

@@ -187,7 +187,9 @@
     "submit_title_1": "Cuir do",
     "submit_title_2": "chomhartha",
     "submit_title_3": "ar an dispatch.",
-    "submit_sub": "Is féidir le heagraíochtaí atá liostaithe ar an atlas scéalta, tuarascálacha agus nuashonruithe a chur isteach sa dispatch ESRF.net."
+    "submit_sub": "Is féidir le heagraíochtaí atá liostaithe ar an atlas scéalta, tuarascálacha agus nuashonruithe a chur isteach sa dispatch ESRF.net.",
+    "section_national": "Ó do thír",
+    "section_european": "Ón mór-roinn"
   },
   "about": {
     "title": "Fondúireacht — ESRF.net",

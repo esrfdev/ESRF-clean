@@ -187,7 +187,9 @@
     "submit_title_1": "Ponga su",
     "submit_title_2": "señal",
     "submit_title_3": "en el dispatch.",
-    "submit_sub": "Las organizaciones incluidas en el atlas pueden aportar noticias, informes y actualizaciones al dispatch de ESRF.net."
+    "submit_sub": "Las organizaciones incluidas en el atlas pueden aportar noticias, informes y actualizaciones al dispatch de ESRF.net.",
+    "section_national": "Desde su país",
+    "section_european": "Desde el continente"
   },
   "about": {
     "title": "Fundación — ESRF.net",

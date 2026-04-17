@@ -187,7 +187,9 @@
     "submit_title_3": "dispatchiin.",
     "submit_sub": "Atlaksella listatut organisaatiot voivat osallistua tarinoilla, raporteilla ja päivityksillä ESRF.net-dispatchiin.",
     "kicker": "§ 06 · Dispatch",
-    "description": "ESRF.net-dispatch — kuratoituja eurooppalaisia turvallisuus- ja resilienssisignaaleja, arkistoituna sektori- ja aihekohtaisesti."
+    "description": "ESRF.net-dispatch — kuratoituja eurooppalaisia turvallisuus- ja resilienssisignaaleja, arkistoituna sektori- ja aihekohtaisesti.",
+    "section_national": "Maastasi",
+    "section_european": "Mantereelta"
   },
   "about": {
     "title": "Säätiö — ESRF.net",

@@ -260,4 +260,4 @@ if (document.readyState === 'loading') {
 }
 
 // Export for use in other scripts
-window.esrfI18n = { t, switchLang, initI18n, LANGS, getCurrentLang: () => _currentLang };
+window.esrfI18n = { t, switchLang, initI18n, LANGS, getCurrentLang: () => _currentLang, applyTranslations };

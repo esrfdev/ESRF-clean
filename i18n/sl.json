@@ -187,7 +187,9 @@
     "submit_title_1": "Pošlji svoj",
     "submit_title_2": "signal",
     "submit_title_3": "v bilten.",
-    "submit_sub": "Organizacije, vpisane na atlas, lahko prispevajo zgodbe, poročila in posodobitve k biltenu ESRF.net."
+    "submit_sub": "Organizacije, vpisane na atlas, lahko prispevajo zgodbe, poročila in posodobitve k biltenu ESRF.net.",
+    "section_national": "Iz vaše države",
+    "section_european": "S celine"
   },
   "about": {
     "title": "Fundacija — ESRF.net",

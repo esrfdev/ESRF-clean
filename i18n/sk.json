@@ -187,7 +187,9 @@
     "submit_title_3": "do spravodaja.",
     "submit_sub": "Organizácie zapísané v atlase môžu prispievať príbehmi, správami a aktualizáciami do spravodaja ESRF.net.",
     "description": "Spravodaj ESRF.net — vybrané európske signály bezpečnosti a odolnosti, triedené podľa sektora a témy.",
-    "kicker": "§ 06 · Spravodaj"
+    "kicker": "§ 06 · Spravodaj",
+    "section_national": "Z vašej krajiny",
+    "section_european": "Z kontinentu"
   },
   "about": {
     "title": "Nadácia — ESRF.net",
