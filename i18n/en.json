@@ -22,7 +22,7 @@
     "shown": "shown",
     "load_more": "Load more →",
     "no_results": "No organisations match these filters.",
-    "copyright": "© 2026 Stichting ESRF.net · European Security & Resilience Framework",
+    "copyright": "© 2026 Stichting ESRF European Security and Resilience Fund",
     "languages": "languages",
     "read_charter": "Read the charter →",
     "browse_directory": "Browse the directory →",
@@ -42,7 +42,7 @@
     "contact": "Contact",
     "updated": "updated",
     "no_articles": "No articles yet.",
-    "foot_copyright": "© 2026 Stichting ESRF.net · European Security & Resilience Framework"
+    "foot_copyright": "© 2026 Stichting ESRF European Security and Resilience Fund"
   },
   "filter": {
     "sector": "Sector",
@@ -79,7 +79,7 @@
     "foundation_sub": "For local impact. For shared resilience. For a Europe that holds.",
     "foundation_body_1": "The European Security & Resilience Framework is the backbone of ESRF.net — a decentralised network built for, and by, the entrepreneurs with local impact. We believe security is not merely a government mandate. It is an entrepreneurial responsibility, and a civic one.",
     "foundation_pull": "Security is not just a mandate. It is a responsibility we carry, together.",
-    "foundation_body_2": "By building resilience from the ground up, we connect organisations across twenty-nine countries into self-sustaining ecosystems with regional impact. The foundation receives donations and contributions to strengthen the network and expand its reach across the continent.",
+    "foundation_body_2": "By building resilience from the ground up, we connect organisations across twenty-nine countries into self-sustaining ecosystems with regional impact. Stichting ESRF European Security and Resilience Fund receives donations and contributions to strengthen the network and expand its reach across the continent.",
     "foundation_body_3": "Organisations are classified across ten vital sectors aligned with the EU NIS2 Directive and guided by five moral principles: vigilance, stewardship, empowerment, solidarity and renewal.",
     "pillars_kicker": "§ 02 · The Moral Compass",
     "pillars_title": "Five ways to hold the line.",
@@ -223,7 +223,7 @@
     "what_body_1_html": "<strong>ESRF.net</strong> is the community layer of the European Security &amp; Resilience Framework — a curated directory of <strong>1,890 organisations</strong> across <strong>29 countries</strong> whose work, visible or otherwise, strengthens the continent's ability to prevent harm, protect what sustains us, prepare for shocks, respond in solidarity and recover with renewal.",
     "what_body_2_html": "Where governments set policy and international bodies coordinate, ESRF.net unites the <strong>entrepreneurs, institutions and first responders</strong> whose daily practice is the actual substrate of resilience. We classify organisations across ten vital sectors — aligned with the EU NIS2 Directive.",
     "what_pull_html": "We are not a regulator. <em>We are a community of practice.</em>",
-    "what_body_3": "Stichting ESRF.net receives donations and contributions to strengthen the network and expand its reach. Listings are free; contributions are welcome; participation is a matter of stewardship, not subscription.",
+    "what_body_3": "Stichting ESRF European Security and Resilience Fund receives donations and contributions to strengthen the network and expand its reach. Listings are free; contributions are welcome; participation is a matter of stewardship, not subscription.",
     "pillars_kicker": "§ 02 · The Moral Compass",
     "pillars_title_1": "Five",
     "pillars_title_2": "principles",
@@ -258,15 +258,15 @@
     "governance_title_3": "design",
     "governance_sub": "Governance, methodology, selection — all in the open.",
     "gov_entity_title": "Legal entity",
-    "gov_entity_body": "ESRF.net is operated by Stichting ESRF.net, a not-for-profit foundation registered in the Netherlands. The foundation exists solely to maintain the framework, fund the editorial operation, and protect the independence of the directory.",
+    "gov_entity_body": "ESRF.net is operated by Stichting ESRF European Security and Resilience Fund, a not-for-profit foundation registered in the Netherlands (KvK). The foundation — referred to as ESRF.net when acting as community enabler — exists solely to maintain the framework, fund the editorial operation, and protect the independence of the directory.",
     "gov_methodology_title": "Methodology",
     "gov_methodology_body_html": "Organisations are classified across <strong>ten vital sectors</strong> aligned with the EU NIS2 Directive and the Critical Entities Resilience (CER) Directive. Each listing is editorially reviewed against three criteria: (1) the organisation's work must demonstrably contribute to European security or resilience, (2) it must operate in or serve at least one of the 29 covered countries, and (3) it must have a verifiable public presence (website, chamber of commerce registration, or equivalent).",
     "gov_selection_title": "Selection criteria",
     "gov_selection_body": "ESRF.net does not sell listings, rank its members, or charge subscription fees. Organisations may request a listing or be identified through open-source intelligence. Every listing is reviewed by the editorial team against the sector taxonomy and the three criteria above. Listings that no longer meet the criteria are archived, not deleted — transparency applies in both directions.",
     "gov_stichting_title": "Stichting vs. network",
-    "gov_stichting_body": "The foundation (Stichting ESRF.net) is the legal shell. The network is the community of 1,890 organisations. The foundation does not own, control or represent the organisations it lists — it curates the directory, maintains the atlas, publishes the dispatch, and channels contributions into initiatives that make the network grow and more robust. The organisations themselves are sovereign; the directory is a public good.",
+    "gov_stichting_body": "The foundation (Stichting ESRF European Security and Resilience Fund) is the legal entity. The network is the community of 1,890 organisations. The foundation does not own, control or represent the organisations it lists — it curates the directory, maintains the atlas, publishes the dispatch, and channels contributions into initiatives that make the network grow and more robust. The organisations themselves are sovereign; the directory is a public good.",
     "gov_contact_title": "Contact",
-    "gov_contact_body_html": "Stichting ESRF.net · The Netherlands<br>General enquiries: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Privacy matters: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
+    "gov_contact_body_html": "Stichting ESRF European Security and Resilience Fund · The Netherlands<br>General enquiries: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Privacy matters: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
   },
   "privacy": {
     "title": "Privacy — ESRF.net",
