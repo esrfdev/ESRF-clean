@@ -33,6 +33,7 @@ import requests
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SOURCES_PATH = os.path.join(ROOT, "data", "sources.json")
 FILTER_PATH = os.path.join(ROOT, "data", "topic_filter.json")
+DIRECTORY_PATH = os.path.join(ROOT, "companies_extracted.json")
 OUT_PATH = os.path.join(ROOT, "news-data.json")
 
 MAX_AGE_DAYS = 30
@@ -68,20 +69,95 @@ def to_iso_date(entry) -> str:
     return dt.date.today().isoformat()
 
 
-# Loaded once in main() and passed to fetch_one
+# Loaded once in main()
 _FILTER: dict[str, Any] = {}
+_DIRECTORY_NAMES: list[str] = []  # lowercase, length ≥ MIN_DIR_NAME_LEN
+_DIR_PATTERNS: list[tuple[str, re.Pattern[str]]] = []  # (name, compiled \bname\b regex)
+
+# Minimum length of an org name to be considered for mention matching.
+# Raising this from 6 to 8 eliminates short/common words like 'safely',
+# 'resolve', 'intersec' that were slipping through as false positives.
+MIN_DIR_NAME_LEN = 8
+
+# Common words and short ambiguous org names to exclude from the match list.
+# These either clash with English/European vocabulary or are too generic to
+# reliably indicate a directory mention.
+_DIR_NAME_BLOCKLIST = {
+    # single-word generic brand words
+    "orange", "shield", "phoenix", "vision", "horizon", "summit", "sentinel",
+    "atlas", "apex", "delta", "nexus", "beacon", "compass", "frontier", "alpha",
+    "bravo", "charlie", "fortress", "eagle", "falcon", "lion", "bear", "titan",
+    "omega", "sigma", "global", "europe", "european", "security", "defence",
+    "defense", "systems", "solutions", "group", "holdings", "services",
+    "technology", "technologies", "international", "limited", "corporation",
+    "industries", "consulting", "advisory", "networks", "partners", "digital",
+    "cyber", "secure", "shield ltd", "trust",
+    # confirmed false-positives from live runs
+    "safely", "resolve", "intersec", "advisor", "consent", "envira", "aquarius",
+    "acronyms", "biotope", "calima", "corbel", "delair", "delska", "aureus+",
+    "astrid", "celerity", "centrica", "argotec",
+}
 
 
-def passes_topic_filter(title: str, snippet: str, source_name: str, lang: str) -> bool:
-    """Keep article if the source is always_keep OR if title+snippet contain a
-    topic keyword in the locale. Our source catalogue is already geographically
-    scoped to Europe, so we do not require an explicit Europe reference here
-    (that would reject relevant national stories like 'Germany floods')."""
+def find_mentioned_orgs(haystack: str) -> list[str]:
+    """Return directory org names that appear as whole words in text.
+    Uses word-boundary regex to avoid substring false positives like
+    'intersec' matching 'intersecția'. Case-insensitive."""
+    if not _DIR_PATTERNS:
+        return []
+    hay = haystack.lower()
+    hits: list[str] = []
+    for name, pat in _DIR_PATTERNS:
+        if pat.search(hay):
+            hits.append(name)
+            if len(hits) >= 3:
+                break
+    return hits
+
+
+def is_directory_mention(title: str, snippet: str) -> list[str]:
+    return find_mentioned_orgs(f"{title} {snippet}")
+
+
+# Sources in national scope that nevertheless carry world news (international
+# desks of European newspapers). Even though they are scoped to a country,
+# their articles must still reference Europe explicitly — otherwise we get
+# stories about Madagascar, Sudan, etc. slipping through just because they
+# mention "crise".
+_WORLD_BUREAU_SOURCES = {
+    "Le Monde – International",
+}
+
+
+def passes_topic_filter(title: str, snippet: str, source_name: str, lang: str, scope: str) -> bool:
+    """Filter rules:
+    1. Sources in always_keep_sources bypass the filter (these are official
+       crisis/security agencies where everything is on-topic).
+    2. Every other source must contain a topic keyword in title+snippet.
+    3. For european-scope general media (Politico, Guardian, BBC, etc.), the
+       article must ALSO reference Europe explicitly — this rejects global
+       politics stories that happen to mention 'crisis' or 'cyberattack'.
+    4. National-scope sources from international news desks (Le Monde International,
+       etc.) also require Europe-ref.
+    5. Other national-scope sources are exempt from the Europe-ref check because
+       they are by definition reporting on their own European country.
+    """
     if source_name in _FILTER.get("always_keep_sources", []):
         return True
     hay = f"{title} {snippet}".lower()
+    # Directory mention is always enough to pass — if a European resilience
+    # organisation from our directory is named, the story is relevant.
+    if find_mentioned_orgs(hay):
+        return True
     topic_kws = _FILTER.get("topic", {}).get(lang) or _FILTER.get("topic", {}).get("en", [])
-    return any(kw in hay for kw in topic_kws)
+    if not any(kw in hay for kw in topic_kws):
+        return False
+    require_europe = (scope == "european") or (source_name in _WORLD_BUREAU_SOURCES)
+    if require_europe:
+        europe_kws = _FILTER.get("europe_ref", [])
+        if europe_kws and not any(kw in hay for kw in europe_kws):
+            return False
+    return True
 
 
 def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str, Any]]:
@@ -122,8 +198,9 @@ def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str
         # Topic filter: for european scope use source's own feed language (English for most),
         # for national scope use the target lang
         filter_lang = lang if scope == "national" else "en"
-        if not passes_topic_filter(title, snippet, name, filter_lang):
+        if not passes_topic_filter(title, snippet, name, filter_lang, scope):
             continue
+        mentions = is_directory_mention(title, snippet)
         out.append(
             {
                 "title": title,
@@ -137,6 +214,7 @@ def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str
                 "date": date_iso,
                 "lang": lang,
                 "scope": scope,
+                "mentions": mentions,
             }
         )
         if len(out) >= PER_SOURCE_CAP:
@@ -146,11 +224,34 @@ def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str
 
 
 def main() -> int:
-    global _FILTER
+    global _FILTER, _DIRECTORY_NAMES, _DIR_PATTERNS
     with open(SOURCES_PATH, encoding="utf-8") as f:
         cfg = json.load(f)
     with open(FILTER_PATH, encoding="utf-8") as f:
         _FILTER = json.load(f)
+    try:
+        with open(DIRECTORY_PATH, encoding="utf-8") as f:
+            directory = json.load(f)
+        # Only include org names ≥ MIN_DIR_NAME_LEN chars and not in blocklist
+        _DIRECTORY_NAMES = []
+        seen_names: set[str] = set()
+        for o in directory:
+            if not (isinstance(o, dict) and o.get("name")):
+                continue
+            nm = o["name"].strip().lower()
+            if len(nm) < MIN_DIR_NAME_LEN or nm in _DIR_NAME_BLOCKLIST or nm in seen_names:
+                continue
+            seen_names.add(nm)
+            _DIRECTORY_NAMES.append(nm)
+        # Compile \bname\b patterns once; re.UNICODE so Dutch/French/German
+        # accented characters still count as word chars at boundaries.
+        _DIR_PATTERNS = [
+            (nm, re.compile(rf"\b{re.escape(nm)}\b", flags=re.UNICODE))
+            for nm in _DIRECTORY_NAMES
+        ]
+        print(f"Loaded {len(_DIRECTORY_NAMES)} directory org names for mention-matching", file=sys.stderr)
+    except FileNotFoundError:
+        print("Directory file not found — skipping mention matching", file=sys.stderr)
 
     tasks: list[tuple[dict[str, Any], str, str]] = []
     for src in cfg.get("european", []):
