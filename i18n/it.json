@@ -239,7 +239,7 @@
     "join_title_2": "posto",
     "join_sub": "L’inserimento è gratuito. La responsabilità è l’unica quota che chiediamo.",
     "join_body_1": "Qualsiasi organizzazione — commerciale, istituzionale, no-profit — il cui lavoro rafforza la sicurezza e la resilienza europee è benvenuta nell’atlante. Ci sono tre passaggi:",
-    "join_step_1_html": "<strong>Richiedete un inserimento.</strong> Scrivete a <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a> con il nome della vostra organizzazione, una descrizione di un paragrafo e il vostro settore principale di attività.",
+    "join_step_1_html": "<strong>Richiedete un inserimento.</strong> Compilate il <a href=\"request-listing.html\" style=\"color:var(--accent)\">modulo di richiesta</a> con il nome della vostra organizzazione, una descrizione di un paragrafo e il vostro settore principale di attività.",
     "join_step_2_html": "<strong>Allineate con la carta.</strong> Ogni organizzazione inserita sottoscrive la carta di ESRF.net — una pagina, senza clausole in piccolo.",
     "join_step_3_html": "<strong>Comparite nell’atlante.</strong> Il vostro inserimento va online nell’elenco, sulla mappa e, dove pertinente, nel dispatch.",
     "join_body_2": "I contributi alla fondazione — finanziari o in natura — sono benvenuti ma mai richiesti. ESRF.net non vende inserimenti, non classifica i propri membri né addebita quote di abbonamento."

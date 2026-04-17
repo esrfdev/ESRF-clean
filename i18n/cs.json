@@ -236,7 +236,7 @@
     "join_title_2": "místo",
     "join_sub": "Zápis je zdarma. Správcovství je jediný příspěvek, který vybíráme.",
     "join_body_1": "Každá organizace — komerční, institucionální, nezisková — jejíž práce posiluje evropskou bezpečnost a odolnost, je vítána v atlase. Postup má tři kroky:",
-    "join_step_1_html": "<strong>Požádejte o zápis.</strong> Napište na adresu <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a> s názvem organizace, popisem v jednom odstavci a primárním sektorem vaší činnosti.",
+    "join_step_1_html": "<strong>Požádejte o zápis.</strong> Vyplňte <a href=\"request-listing.html\" style=\"color:var(--accent)\">registrační formulář</a> s názvem organizace, popisem v jednom odstavci a primárním sektorem vaší činnosti.",
     "join_step_2_html": "<strong>Přijměte chartu.</strong> Každá zapsaná organizace podepisuje chartu ESRF.net — jedna strana, žádný drobný tisk.",
     "join_step_3_html": "<strong>Objevte se v atlase.</strong> Váš zápis se zobrazí v adresáři, na mapě a — kde je to relevantní — ve zpravodaji.",
     "join_body_2": "Příspěvky nadaci — finanční nebo věcné — jsou vítány, ale nikdy povinné. ESRF.net neprodává zápisy, neřadí své členy ani nevybírá poplatky za předplatné.",
