@@ -228,11 +228,16 @@
     <div class="atlas-map" id="teaser-map" aria-label="Map teaser showing European organisations"></div>
 
     <div class="atlas-legend" aria-hidden="true">
-      <span><i class="bg-prevent"></i> Prevent · Vigilance</span>
-      <span><i class="bg-protect"></i> Protect · Stewardship</span>
-      <span><i class="bg-prepare"></i> Prepare · Empowerment</span>
-      <span><i class="bg-respond"></i> Respond · Solidarity</span>
-      <span><i class="bg-recover"></i> Recover · Renewal</span>
+      <span><i style="background:#C14A2E"></i> <span data-i18n="sector.short_emergency">Emergency</span></span>
+      <span><i style="background:#2F4858"></i> <span data-i18n="sector.short_security">Security</span></span>
+      <span><i style="background:#7A4B2E"></i> <span data-i18n="sector.short_risk">Risk</span></span>
+      <span><i style="background:#3A5A7A"></i> <span data-i18n="sector.short_digital">Digital</span></span>
+      <span><i style="background:#6B5D8A"></i> <span data-i18n="sector.short_knowledge">Knowledge</span></span>
+      <span><i style="background:#8C3A52"></i> <span data-i18n="sector.short_health">Health</span></span>
+      <span><i style="background:#4A6B3A"></i> <span data-i18n="sector.short_critical">Critical</span></span>
+      <span><i style="background:#A87C2B"></i> <span data-i18n="sector.short_dual_use">Dual-use</span></span>
+      <span><i style="background:#5B6B7A"></i> <span data-i18n="sector.short_transport">Transport</span></span>
+      <span><i style="background:#AE5A1F"></i> <span data-i18n="sector.short_energy">Energy</span></span>
     </div>
 
     <div style="margin-top:40px">
@@ -395,6 +400,7 @@
       L.control.attribution({prefix:false}).addAttribution('© OpenStreetMap · CartoDB').addTo(map);
       orgs.forEach(o=>{
         if(typeof o.lat !== 'number' || typeof o.lon !== 'number') return;
+        if(o.lat === 0 && o.lon === 0) return;
         const c = sectorColor(o.sector_normalized);
         L.circleMarker([o.lat,o.lon], {
           radius:3, color:c, fillColor:c, fillOpacity:0.75, weight:0,
