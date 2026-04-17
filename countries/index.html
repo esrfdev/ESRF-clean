@@ -90,20 +90,35 @@
     if(!by[name]) by[name] = { name, code, count:0 };
     by[name].count++;
   });
+
+  const EU_CODES = ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE'];
   const list = Object.values(by).sort((a,b)=>b.count-a.count);
+  const euList = list.filter(c => EU_CODES.includes(c.code));
+  const friendList = list.filter(c => !EU_CODES.includes(c.code));
   const total = orgs.length;
-  const grid = document.getElementById('countries-grid');
-  grid.innerHTML = list.map(c => {
+
+  function renderCard(c) {
     const pct = Math.round(c.count/total*1000)/10;
     const flagImg = window.esrfFlags ? window.esrfFlags.flagForCountry(c.code || c.name, {size:'card'}) : '';
+    const slug = (c.name || '').toLowerCase().replace(/\s+/g,'-');
     return `
-      <a class="country-cell" href="../directory.html?country=${encodeURIComponent(c.name)}" aria-label="${esc(c.name)} — ${c.count} organisations">
+      <a class="country-cell" href="${slug}/" aria-label="${esc(c.name)} — ${c.count} organisations">
         <div class="country-code">${flagImg}${esc(c.code || '')}</div>
         <div class="country-name">${esc(c.name)}</div>
         <div class="country-count"><strong>${c.count}</strong> organisations · ${pct}%</div>
       </a>
     `;
-  }).join('');
+  }
+
+  const grid = document.getElementById('countries-grid');
+  var html = '';
+  html += '<div class="country-group-label"><span class="kicker">EU Member States</span></div>';
+  html += '<div class="countries-subgrid">' + euList.map(renderCard).join('') + '</div>';
+  if (friendList.length) {
+    html += '<div class="country-group-label" style="margin-top:48px"><span class="kicker" style="color:var(--accent)">Friends of Europe</span></div>';
+    html += '<div class="countries-subgrid">' + friendList.map(renderCard).join('') + '</div>';
+  }
+  grid.innerHTML = html;
 })();
 </script>
 <script>

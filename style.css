@@ -1031,6 +1031,20 @@ body.modal-open{overflow:hidden}
 .listing-banner p{font-family:'PT Serif',serif;font-style:italic;font-size:18px;color:var(--ink-soft);margin-bottom:16px}
 .listing-banner .btn{display:inline-block}
 
+/* ═══ Country group labels ═══ */
+.country-group-label{
+  max-width:var(--max);margin:0 auto;padding:0 var(--pad-x);
+}
+.country-group-label .kicker{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--ink-dim);
+}
+.countries-subgrid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1px;max-width:var(--max);margin:12px auto 0;padding:0 var(--pad-x);
+}
+
 /* ═══ GDPR Cookie Consent Banner ═══ */
 #esrf-consent{
   position:fixed;bottom:0;left:0;right:0;z-index:9999;
