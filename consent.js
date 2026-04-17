@@ -11,7 +11,7 @@
   'use strict';
 
   const STORAGE_KEY = 'esrf_ad_consent';
-  const PUBLISHER_ID = 'ca-pub-XXXXXXXXXXXXXXXX'; // ← Replace with your AdSense publisher ID
+  const PUBLISHER_ID = 'ca-pub-9792236154813874'; // ← Replace with your AdSense publisher ID
 
   /* ── Read stored consent ── */
   function getConsent() {
