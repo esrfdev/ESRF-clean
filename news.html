@@ -92,30 +92,57 @@
   renderMeta();
   window.addEventListener('esrf:langchange', renderMeta);
 
+  function itemHtml(a){
+    const dt = new Date(a.date);
+    const date = isNaN(dt) ? '' : dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+    return `
+      <a class="news-item" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">
+        <div class="news-meta-col">
+          <div class="news-date">${date}</div>
+          <div class="news-source">${esc(a.source || a.organisation || '')}</div>
+        </div>
+        <div>
+          <h2 class="news-title">${esc(a.title)}</h2>
+          <p class="news-snippet">${esc(a.snippet || '')}</p>
+        </div>
+      </a>`;
+  }
+
+  function sectionHtml(labelKey, labelFallback, items){
+    if(!items.length) return '';
+    return `
+      <div class="news-section">
+        <div class="news-section-label kicker" data-i18n="${labelKey}">${esc(labelFallback)}</div>
+        ${items.map(itemHtml).join('')}
+      </div>`;
+  }
+
   function render(){
     const articles = data.articles || [];
     if(!articles.length){
       list.innerHTML = `<div class="dir-empty" style="padding:100px 0">${t('common.no_articles','No articles yet.')}</div>`;
       return;
     }
-    list.innerHTML = articles.map(a => {
-      const dt = new Date(a.date);
-      const date = isNaN(dt) ? '' : dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
-      return `
-        <a class="news-item" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">
-          <div class="news-meta-col">
-            <div class="news-date">${date}</div>
-            <div class="news-source">${esc(a.source || a.organisation || '')}</div>
-          </div>
-          <div>
-            <h2 class="news-title">${esc(a.title)}</h2>
-            <p class="news-snippet">${esc(a.snippet || '')}</p>
-          </div>
-        </a>`;
-    }).join('');
+    const lang = (window.esrfI18n && window.esrfI18n.getCurrentLang) ? window.esrfI18n.getCurrentLang() : 'en';
+    const national = articles.filter(a => a.scope === 'national' && a.lang === lang);
+    const european = articles.filter(a => a.scope !== 'national' || a.lang !== lang);
+    const parts = [];
+    if(national.length){
+      parts.push(sectionHtml('news.section_national', 'From your country', national));
+    }
+    parts.push(sectionHtml('news.section_european', 'From the continent', european));
+    list.innerHTML = parts.join('');
+    // Re-apply i18n to newly injected section labels
+    if(window.esrfI18n && typeof window.esrfI18n.applyTranslations === 'function'){
+      window.esrfI18n.applyTranslations();
+    } else {
+      // Fallback: replace labels manually
+      list.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n'), el.textContent); });
+    }
   }
 
   render();
+  window.addEventListener('esrf:langchange', render);
 })();
 </script>
 <script>

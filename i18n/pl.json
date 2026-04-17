@@ -187,7 +187,9 @@
     "submit_title_3": "w biuletynie.",
     "submit_sub": "Organizacje umieszczone w atlasie mogą przekazywać artykuły, raporty i aktualizacje do biuletynu ESRF.net.",
     "description": "Biuletyn ESRF.net — wyselekcjonowane europejskie sygnały bezpieczeństwa i odporności, pogrupowane według sektora i tematu.",
-    "kicker": "§ 06 · Biuletyn"
+    "kicker": "§ 06 · Biuletyn",
+    "section_national": "Z Twojego kraju",
+    "section_european": "Z kontynentu"
   },
   "about": {
     "title": "Fundacja — ESRF.net",

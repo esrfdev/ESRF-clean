@@ -187,7 +187,9 @@
     "submit_title_1": "Put your",
     "submit_title_2": "signal",
     "submit_title_3": "on the dispatch.",
-    "submit_sub": "Organisations listed on the atlas can contribute stories, reports and updates to the ESRF.net dispatch."
+    "submit_sub": "Organisations listed on the atlas can contribute stories, reports and updates to the ESRF.net dispatch.",
+    "section_national": "From your country",
+    "section_european": "From the continent"
   },
   "about": {
     "title": "Foundation — ESRF.net",

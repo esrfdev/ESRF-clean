@@ -187,7 +187,9 @@
     "submit_title_1": "Plaats uw",
     "submit_title_2": "signaal",
     "submit_title_3": "op het bulletin.",
-    "submit_sub": "Organisaties die op de atlas staan, kunnen verhalen, rapporten en updates aanleveren voor het ESRF.net-bulletin."
+    "submit_sub": "Organisaties die op de atlas staan, kunnen verhalen, rapporten en updates aanleveren voor het ESRF.net-bulletin.",
+    "section_national": "Uit uw land",
+    "section_european": "Van het continent"
   },
   "about": {
     "title": "Fundament — ESRF.net",

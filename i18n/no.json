@@ -187,7 +187,9 @@
     "submit_title_3": "på dispatchen.",
     "submit_sub": "Organisasjoner listet på atlaset kan bidra med historier, rapporter og oppdateringer til ESRF.net-dispatchen.",
     "kicker": "§ 06 · Dispatch",
-    "description": "ESRF.net-dispatchen — kurerte europeiske sikkerhets- og motstandsdyktighetssignaler, arkivert etter sektor og emne."
+    "description": "ESRF.net-dispatchen — kurerte europeiske sikkerhets- og motstandsdyktighetssignaler, arkivert etter sektor og emne.",
+    "section_national": "Fra ditt land",
+    "section_european": "Fra kontinentet"
   },
   "about": {
     "title": "Stiftelse — ESRF.net",

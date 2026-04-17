@@ -187,7 +187,9 @@
     "submit_title_1": "Reichen Sie Ihr",
     "submit_title_2": "Signal",
     "submit_title_3": "im Dispatch ein.",
-    "submit_sub": "Im Atlas gelistete Organisationen können Berichte, Meldungen und Aktualisierungen zum ESRF.net-Dispatch beitragen."
+    "submit_sub": "Im Atlas gelistete Organisationen können Berichte, Meldungen und Aktualisierungen zum ESRF.net-Dispatch beitragen.",
+    "section_national": "Aus Ihrem Land",
+    "section_european": "Vom Kontinent"
   },
   "about": {
     "title": "Stiftung — ESRF.net",
