@@ -130,17 +130,15 @@
   },
   "directory": {
     "title": "Skrá — ESRF.net",
-    "hero_title": "Skrá faglegrar starfsemi.",
-    "title_word_the": "Skráin",
-    "title_word_of_practice": "faglegrar starfsemi.",
     "join_title_prefix": "Ekki enn á",
     "join_title_suffix": "atlasinum?",
     "description": "Skoðaðu 1.890 stofnanir í 29 evrópskum löndum sem mynda ESRF.net-samfélagið — sía eftir geira og landi.",
     "kicker": "§ 03 · Lífsnauðsynlegir geirar · Skrá",
-    "hero_deck": "Þúsund og níu hundruð og níutíu og tvær stofnanir — raðaðar eftir geira, landi og hlutverki. Leitaðu, sía og lestu um hverjir halda hverjum hluta Evrópu saman.",
+    "hero_deck": "1.890 stofnanir — raðaðar eftir geira, landi og hlutverki. Leitaðu, sía og lestu um hverjir halda hverjum hluta Evrópu saman.",
     "join_title": "Ekki enn á atlasinum?",
     "join_sub": "Sérhver stofnun þar sem vinna stuðlar að evrópskum öryggi og seiglu er velkomin í ESRF.net-samfélagið.",
-    "listing_banner": "Finnurðu ekki stofnun þína hér?"
+    "listing_banner": "Finnurðu ekki stofnun þína hér?",
+    "hero_title_html": "Skrá <i>faglegrar</i><br>starfsemi."
   },
   "map": {
     "title": "Atlas — ESRF.net",

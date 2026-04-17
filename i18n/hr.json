@@ -132,15 +132,13 @@
     "title": "Imenik — ESRF.net",
     "description": "Pregledajte 1.890 organizacija u 29 europskih zemalja koje čine zajednicu ESRF.net — filtrirajte po sektoru i zemlji.",
     "kicker": "§ 03 · Ključni sektori · Imenik",
-    "hero_title": "Imenik prakse.",
-    "hero_deck": "Tisuću osiamsto devedeset i dvije organizacije — sortirane po sektoru, zemlji i misiji. Pretražujte, filtrirajte i saznajte tko drži svaki dio Europe zajedno.",
+    "hero_deck": "1.890 organizacija — sortirane po sektoru, zemlji i misiji. Pretražujte, filtrirajte i saznajte tko drži svaki dio Europe zajedno.",
     "join_title": "Još niste na atlasu?",
     "join_sub": "Svaka organizacija čiji rad doprinosi europskoj sigurnosti i otpornosti je dobrodošla u zajednicu ESRF.net.",
     "listing_banner": "Ne vidite svoju organizaciju ovdje?",
-    "title_word_the": "",
-    "title_word_of_practice": "prakse.",
     "join_title_prefix": "Još niste na",
-    "join_title_suffix": "atlasu?"
+    "join_title_suffix": "atlasu?",
+    "hero_title_html": "<i>Imenik</i> prakse."
   },
   "map": {
     "title": "Atlas — ESRF.net",

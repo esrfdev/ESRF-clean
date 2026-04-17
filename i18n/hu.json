@@ -130,17 +130,15 @@
   },
   "directory": {
     "title": "Tárjegyzék — ESRF.net",
-    "hero_title": "A gyakorlat tárjegyzéke.",
-    "title_word_the": "A gyakorlat",
-    "title_word_of_practice": "tárjegyzéke.",
     "join_title_prefix": "Még nem szerepel az",
     "join_title_suffix": "atlaszon?",
     "description": "Böngésszen 1 890 szervezet között 29 európai országból, amelyek az ESRF.net közösséget alkotják — szűrjön szektoronként és országonként.",
     "kicker": "§ 03 · Létfontosságú szektorok · Tárjegyzék",
-    "hero_deck": "Egyezernyolcszázkilencvenkettő szervezet — szektoronként, országonként és küldetés szerint rendezve. Keressen, szűrjön és olvassa el, ki tartja össze Európa egyes részeit.",
+    "hero_deck": "1890 szervezet — szektoronként, országonként és küldetés szerint rendezve. Keressen, szűrjön és olvassa el, ki tartja össze Európa egyes részeit.",
     "join_title": "Még nem szerepel az atlaszon?",
     "join_sub": "Minden szervezet, amelynek munkája hozzájárul az európai biztonsághoz és rezilienciához, szívesen látott az ESRF.net közösségében.",
-    "listing_banner": "Nem találja szervezetét?"
+    "listing_banner": "Nem találja szervezetét?",
+    "hero_title_html": "A gyakorlat <i>jegyzéke</i>."
   },
   "map": {
     "title": "Atlasz — ESRF.net",

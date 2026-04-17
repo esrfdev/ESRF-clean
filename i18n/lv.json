@@ -132,15 +132,13 @@
     "title": "Katalogs — ESRF.net",
     "description": "Pārlūkot 1 890 organizācijas 29 Eiropas valstīs, kas veido ESRF.net kopienu.",
     "kicker": "§ 03 · Vitāli svarīgās nozares · Katalogs",
-    "hero_title": "Prakses katalogs.",
-    "hero_deck": "Tūkstoš astoņi simti deviņdesmit divas organizācijas — sakārtotas pēc nozares, valsts un pilsētas.",
+    "hero_deck": "1890 organizācijas — sakārtotas pēc nozares, valsts un pilsētas.",
     "join_title": "Vēl nav kartē?",
     "join_sub": "Katra organizācija, kuras darbs veicina Eiropas drošību un noturību, ir laipni aicināta ESRF.net kopienā.",
     "listing_banner": "Neredzat savu organizāciju šeit?",
-    "title_word_the": "Prakses",
-    "title_word_of_practice": "katalogs.",
     "join_title_prefix": "Vēl nav",
-    "join_title_suffix": "kartē?"
+    "join_title_suffix": "kartē?",
+    "hero_title_html": "Prakses <i>katalogs</i>."
   },
   "map": {
     "title": "Atlants — ESRF.net",

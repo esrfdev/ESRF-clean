@@ -132,15 +132,13 @@
     "title": "Kataloog — ESRF.net",
     "description": "Sirvi 1 890 organisatsiooni 29 Euroopa riigis, mis moodustavad ESRF.net-i kogukonna.",
     "kicker": "§ 03 · Elutähtsad sektorid · Kataloog",
-    "hero_title": "Praktika kataloog.",
-    "hero_deck": "Üks tuhat kaheksasada üheksakümmend kaks organisatsiooni — sorteeritud sektori, riigi ja linna järgi.",
+    "hero_deck": "1890 organisatsiooni — sorteeritud sektori, riigi ja linna järgi.",
     "join_title": "Ei ole veel atlasil?",
     "join_sub": "Iga organisatsioon, mille töö aitab kaasa Euroopa julgeolekule ja vastupanuvõimele, on oodatud ESRF.net kogukonda.",
     "listing_banner": "Ei leia oma organisatsiooni siit?",
-    "title_word_the": "Praktika",
-    "title_word_of_practice": "kataloog.",
     "join_title_prefix": "Ei ole veel",
-    "join_title_suffix": "atlasil?"
+    "join_title_suffix": "atlasil?",
+    "hero_title_html": "Praktika <i>kataloog</i>."
   },
   "map": {
     "title": "Atlas — ESRF.net",

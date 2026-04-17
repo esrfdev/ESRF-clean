@@ -132,15 +132,13 @@
     "title": "Direttorju — ESRF.net",
     "description": "Ifittex 1,890 organizzazzjoni minn 29 pajjiż Ewropew li jiffurmaw il-komunità ta' ESRF.net.",
     "kicker": "§ 03 · Setturi Vitali · Direttorju",
-    "hero_title": "Id-direttorju tal-prattika.",
-    "hero_deck": "Elf u tmien mitt u tnejn u disgħin organizzazzjoni — issortjati skont is-settur, il-pajjiż u l-belt.",
+    "hero_deck": "1,890 organizzazzjoni — issortjati skont is-settur, il-pajjiż u l-belt.",
     "join_title": "Għadek mhux fuq l-atlas?",
     "join_sub": "Kull organizzazzjoni li l-ħidma tagħha ssaħħaħ is-sigurtà u r-reżiljenza Ewropea hija milqugħa fil-komunità ta' ESRF.net.",
     "listing_banner": "Ma tarax l-organizzazzjoni tiegħek hawn?",
-    "title_word_the": "Id-direttorju",
-    "title_word_of_practice": "tal-prattika.",
     "join_title_prefix": "Għadek mhux fuq l-",
-    "join_title_suffix": "atlas?"
+    "join_title_suffix": "atlas?",
+    "hero_title_html": "Id-<i>direttorju</i><br>tal-prattika."
   },
   "map": {
     "title": "Atlas — ESRF.net",

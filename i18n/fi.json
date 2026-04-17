@@ -130,17 +130,15 @@
   },
   "directory": {
     "title": "Hakemisto — ESRF.net",
-    "hero_title": "Käytännön hakemisto.",
-    "title_word_the": "Hakemisto",
-    "title_word_of_practice": "käytännöstä.",
     "join_title_prefix": "Ei vielä",
     "join_title_suffix": "atlaksella?",
     "description": "Selaa 1 890 organisaatiota 29 Euroopan maassa, jotka muodostavat ESRF.net-yhteisön — suodata sektorin ja maan mukaan.",
     "kicker": "§ 03 · Elintärkeät sektorit · Hakemisto",
-    "hero_deck": "Tuhat kahdeksansataayhdeksänkymmentäkaksi organisaatiota — lajiteltu sektorin, maan ja tehtävän mukaan. Hae, suodata ja lue siitä, kuka pitää jokaisen Euroopan osan koossa.",
+    "hero_deck": "1 890 organisaatiota — lajiteltu sektorin, maan ja tehtävän mukaan. Hae, suodata ja lue siitä, kuka pitää jokaisen Euroopan osan koossa.",
     "join_title": "Ei vielä atlaksella?",
     "join_sub": "Jokainen organisaatio, jonka työ edistää eurooppalaista turvallisuutta ja resilienssiä, on tervetullut ESRF.net-yhteisöön.",
-    "listing_banner": "Etkö löydä organisaatiotasi täältä?"
+    "listing_banner": "Etkö löydä organisaatiotasi täältä?",
+    "hero_title_html": "Käytännön <i>hakemisto</i>."
   },
   "map": {
     "title": "Atlas — ESRF.net",

@@ -132,15 +132,13 @@
     "title": "Eolaire — ESRF.net",
     "description": "Brabhsáil 1,890 eagraíocht i 29 tír Eorpach a fhoirmíonn pobal ESRF.net.",
     "kicker": "§ 03 · Earnálacha Ríthábhachtacha · Eolaire",
-    "hero_title": "Eolaire na cleachtóirí.",
-    "hero_deck": "Míle ocht gcéad nócha dó eagraíocht — sórtáilte de réir earnála, tíre agus cathrach.",
+    "hero_deck": "1,890 eagraíocht — sórtáilte de réir earnála, tíre agus cathrach.",
     "join_title": "Gan bheith ar an atlas go fóill?",
     "join_sub": "Tá fáilte roimh aon eagraíocht a bhfuil a cuid oibre ag neartú slándála agus athléimneachta na hEorpa i bpobal ESRF.net.",
     "listing_banner": "Ní fheiceann tú d'eagraíocht anseo?",
-    "title_word_the": "Eolaire",
-    "title_word_of_practice": "na gcleachtóirí.",
     "join_title_prefix": "Gan bheith ar an",
-    "join_title_suffix": "atlas go fóill?"
+    "join_title_suffix": "atlas go fóill?",
+    "hero_title_html": "<i>Eolaire</i> na<br>gcleachtóirí."
   },
   "map": {
     "title": "Atlas — ESRF.net",
