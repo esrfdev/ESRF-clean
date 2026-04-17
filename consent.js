@@ -1,73 +1,21 @@
 /* ════════════════════════════════════════════════════════════════
-   ESRF.net — GDPR Cookie Consent + AdSense activator
+   ESRF.net — AdSense activator (Google CMP in charge of consent UI)
    ════════════════════════════════════════════════════════════════
-   • Shows a minimal consent banner on first visit
-   • Stores choice in localStorage (no cookies for consent itself)
+   • Google's own CMP (Privacy & messaging in AdSense) renders the GDPR dialog
    • AdSense loader is placed statically in <head> with pauseAdRequests = 1
-   • This script only *activates* ads (pauseAdRequests = 0) after consent
-   • Respects ad-blocker gracefully (hides empty ad slots)
+   • This script listens to IAB TCF v2.2 signals from the Google CMP
+   • When consent is granted (or outside EER/TCF scope) it unpauses and pushes ads
+   • When consent is denied it hides empty ad slots gracefully
    ════════════════════════════════════════════════════════════════ */
 
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'esrf_ad_consent';
+  var activated = false;
 
-  function getConsent() {
-    try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
-  }
-  function setConsent(value) {
-    try { localStorage.setItem(STORAGE_KEY, value); } catch (e) {}
-  }
-
-  function showBanner() {
-    if (document.getElementById('esrf-consent')) return;
-    const banner = document.createElement('div');
-    banner.id = 'esrf-consent';
-    banner.setAttribute('role', 'dialog');
-    banner.setAttribute('aria-label', 'Cookie consent');
-    banner.innerHTML = `
-      <div class="consent-inner">
-        <p class="consent-text" data-i18n="consent.text">
-          ESRF.net uses minimal advertising to support its mission.
-          We use cookies for personalised ads. You can accept or decline.
-          <a href="privacy.html" data-i18n="consent.privacy_link">Privacy policy</a>
-        </p>
-        <div class="consent-actions">
-          <button class="consent-btn consent-accept" id="consent-accept" data-i18n="consent.accept">Accept</button>
-          <button class="consent-btn consent-decline" id="consent-decline" data-i18n="consent.decline">Decline</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(banner);
-
-    if (window.esrfI18n && typeof window.esrfI18n.applyTranslations === 'function') {
-      window.esrfI18n.applyTranslations();
-    }
-
-    document.getElementById('consent-accept').addEventListener('click', function () {
-      setConsent('granted');
-      banner.classList.add('consent-hide');
-      setTimeout(function () { banner.remove(); }, 400);
-      activateAds();
-    });
-
-    document.getElementById('consent-decline').addEventListener('click', function () {
-      setConsent('denied');
-      banner.classList.add('consent-hide');
-      setTimeout(function () { banner.remove(); }, 400);
-      hideAdSlots();
-    });
-  }
-
-  /* AdSense loader is already in <head> with pauseAdRequests=1.
-     This function flips the switch and fires the ad pushes. */
   function activateAds() {
-    window.gtag && window.gtag('consent', 'update', {
-      ad_user_data: 'granted',
-      ad_personalization: 'granted',
-      ad_storage: 'granted',
-    });
+    if (activated) return;
+    activated = true;
 
     (window.adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 0;
 
@@ -91,32 +39,60 @@
     });
   }
 
-  /* Google consent mode defaults (before AdSense activates) */
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { window.dataLayer.push(arguments); }
-  window.gtag = gtag;
-  gtag('consent', 'default', {
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    ad_storage: 'denied',
-    analytics_storage: 'denied',
-    wait_for_update: 500,
-  });
+  /* Check if TCData signals full consent for Google (vendor 755) and purposes 1-4.
+     This is a pragmatic check; AdSense itself will re-check TC string server-side. */
+  function hasAdsConsent(tcData) {
+    if (!tcData) return false;
+    if (tcData.gdprApplies === false) return true; // outside EER
+    var p = tcData.purpose && tcData.purpose.consents;
+    if (!p) return false;
+    return !!(p[1] && p[2] && p[3] && p[4]);
+  }
 
-  function init() {
-    var consent = getConsent();
-    if (consent === 'granted') {
+  /* Wait for Google CMP (__tcfapi) to initialise and react to consent events. */
+  function waitForCMP() {
+    var timeout = setTimeout(function () {
+      // No TCF API detected within 3s: likely outside EER or CMP failed to load.
+      // Let AdSense decide — unpause so Google CMP (if any) can still show its own UI.
       activateAds();
-    } else if (consent === 'denied') {
-      hideAdSlots();
+    }, 3000);
+
+    function onTcData(tcData, success) {
+      if (!success || !tcData) return;
+      if (tcData.eventStatus === 'tcloaded' ||
+          tcData.eventStatus === 'useractioncomplete') {
+        clearTimeout(timeout);
+        if (hasAdsConsent(tcData)) {
+          activateAds();
+        } else {
+          hideAdSlots();
+        }
+      } else if (tcData.eventStatus === 'cmpuishown') {
+        // CMP dialog is showing; keep ads paused, clear the no-CMP timeout.
+        clearTimeout(timeout);
+      }
+    }
+
+    if (typeof window.__tcfapi === 'function') {
+      window.__tcfapi('addEventListener', 2, onTcData);
     } else {
-      showBanner();
+      // Poll briefly for the API to appear (Google CMP loads async via adsbygoogle.js).
+      var tries = 0;
+      var poll = setInterval(function () {
+        tries++;
+        if (typeof window.__tcfapi === 'function') {
+          clearInterval(poll);
+          window.__tcfapi('addEventListener', 2, onTcData);
+        } else if (tries > 30) { // ~3s
+          clearInterval(poll);
+        }
+      }, 100);
     }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', waitForCMP);
   } else {
-    init();
+    waitForCMP();
   }
 })();
