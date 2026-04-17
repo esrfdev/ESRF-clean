@@ -10,8 +10,8 @@
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'esrf_ad_consent';
-  const PUBLISHER_ID = 'ca-pub-9792236154813874'; // ← Replace with your AdSense publisher ID
+  var STORAGE_KEY = 'esrf_ad_consent';
+  var PUBLISHER_ID = 'ca-pub-9792236154813874';
 
   /* ── Read stored consent ── */
   function getConsent() {
@@ -21,54 +21,70 @@
     try { localStorage.setItem(STORAGE_KEY, value); } catch (e) { /* private mode */ }
   }
 
-  /* ── i18n helper (falls back to English) ── */
-  function ct(key, fallback) {
-    if (window.t && typeof window.t === 'function') {
-      const v = window.t(key, fallback);
-      return (v === key) ? fallback : v;
-    }
-    return fallback;
-  }
-
   /* ── Inject consent banner ── */
   function showBanner() {
     if (document.getElementById('esrf-consent')) return;
 
-    const banner = document.createElement('div');
+    var banner = document.createElement('div');
     banner.id = 'esrf-consent';
     banner.setAttribute('role', 'dialog');
     banner.setAttribute('aria-label', 'Cookie consent');
-    banner.innerHTML = `
-      <div class="consent-inner">
-        <p class="consent-text" data-i18n="consent.text">
-          ESRF.net uses minimal advertising to support its mission.
-          We use cookies for personalised ads. You can accept or decline.
-          <a href="privacy.html" data-i18n="consent.privacy_link">Privacy policy</a>
-        </p>
-        <div class="consent-actions">
-          <button class="consent-btn consent-accept" id="consent-accept" data-i18n="consent.accept">Accept</button>
-          <button class="consent-btn consent-decline" id="consent-decline" data-i18n="consent.decline">Decline</button>
-        </div>
-      </div>
-    `;
+
+    var inner = document.createElement('div');
+    inner.className = 'consent-inner';
+
+    var text = document.createElement('p');
+    text.className = 'consent-text';
+    text.setAttribute('data-i18n', 'consent.text');
+    text.textContent = 'ESRF.net uses minimal advertising to support its mission. We use cookies for personalised ads. You can accept or decline. ';
+
+    var privLink = document.createElement('a');
+    privLink.href = 'privacy.html';
+    privLink.setAttribute('data-i18n', 'consent.privacy_link');
+    privLink.textContent = 'Privacy policy';
+    text.appendChild(privLink);
+
+    var actions = document.createElement('div');
+    actions.className = 'consent-actions';
+
+    var acceptBtn = document.createElement('button');
+    acceptBtn.className = 'consent-btn consent-accept';
+    acceptBtn.id = 'consent-accept';
+    acceptBtn.setAttribute('data-i18n', 'consent.accept');
+    acceptBtn.textContent = 'Accept';
+
+    var declineBtn = document.createElement('button');
+    declineBtn.className = 'consent-btn consent-decline';
+    declineBtn.id = 'consent-decline';
+    declineBtn.setAttribute('data-i18n', 'consent.decline');
+    declineBtn.textContent = 'Decline';
+
+    actions.appendChild(acceptBtn);
+    actions.appendChild(declineBtn);
+    inner.appendChild(text);
+    inner.appendChild(actions);
+    banner.appendChild(inner);
     document.body.appendChild(banner);
 
-    // Re-translate if i18n is loaded
+    /* Re-translate if i18n is loaded */
     if (window.esrfI18n && typeof window.esrfI18n.applyTranslations === 'function') {
       window.esrfI18n.applyTranslations();
     }
 
-    document.getElementById('consent-accept').addEventListener('click', function () {
-      setConsent('granted');
+    function dismiss() {
       banner.classList.add('consent-hide');
-      setTimeout(function () { banner.remove(); }, 400);
+      setTimeout(function () { if (banner.parentNode) banner.parentNode.removeChild(banner); }, 400);
+    }
+
+    acceptBtn.addEventListener('click', function () {
+      setConsent('granted');
+      dismiss();
       loadAds();
     });
 
-    document.getElementById('consent-decline').addEventListener('click', function () {
+    declineBtn.addEventListener('click', function () {
       setConsent('denied');
-      banner.classList.add('consent-hide');
-      setTimeout(function () { banner.remove(); }, 400);
+      dismiss();
       hideAdSlots();
     });
   }
@@ -77,12 +93,14 @@
   function loadAds() {
     if (document.getElementById('esrf-adsense-script')) return;
 
-    // Google tag consent mode — grant
-    window.gtag && window.gtag('consent', 'update', {
-      ad_user_data: 'granted',
-      ad_personalization: 'granted',
-      ad_storage: 'granted',
-    });
+    /* Google tag consent mode — grant */
+    if (typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', {
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        ad_storage: 'granted'
+      });
+    }
 
     var s = document.createElement('script');
     s.id = 'esrf-adsense-script';
@@ -92,28 +110,30 @@
     document.head.appendChild(s);
 
     s.onload = function () {
-      // Push all ad slots on the page
-      document.querySelectorAll('.adsbygoogle').forEach(function () {
+      var slots = document.querySelectorAll('.adsbygoogle');
+      for (var i = 0; i < slots.length; i++) {
         try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { /* */ }
-      });
+      }
     };
 
-    // Fallback: if ads don't fill, hide the containers after 4 seconds
+    /* Fallback: hide unfilled containers after 4s */
     setTimeout(function () {
-      document.querySelectorAll('.esrf-ad-wrap').forEach(function (wrap) {
-        var ins = wrap.querySelector('ins.adsbygoogle');
+      var wraps = document.querySelectorAll('.esrf-ad-wrap');
+      for (var i = 0; i < wraps.length; i++) {
+        var ins = wraps[i].querySelector('ins.adsbygoogle');
         if (ins && (!ins.dataset.adStatus || ins.dataset.adStatus === 'unfilled')) {
-          wrap.style.display = 'none';
+          wraps[i].style.display = 'none';
         }
-      });
+      }
     }, 4000);
   }
 
   /* ── Hide ad slots when consent is denied or ad-blocker active ── */
   function hideAdSlots() {
-    document.querySelectorAll('.esrf-ad-wrap').forEach(function (el) {
-      el.style.display = 'none';
-    });
+    var els = document.querySelectorAll('.esrf-ad-wrap');
+    for (var i = 0; i < els.length; i++) {
+      els[i].style.display = 'none';
+    }
   }
 
   /* ── Google consent mode defaults (before AdSense loads) ── */
@@ -125,7 +145,7 @@
     ad_personalization: 'denied',
     ad_storage: 'denied',
     analytics_storage: 'denied',
-    wait_for_update: 500,
+    wait_for_update: 500
   });
 
   /* ── Init ── */
@@ -140,7 +160,7 @@
     }
   }
 
-  // Run after DOM is ready
+  /* Run when DOM is ready */
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
