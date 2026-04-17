@@ -125,7 +125,10 @@
     "dispatch_lede": "A curated feed of European security, resilience and crisis signals — filed under the sector each story touches. The full dispatch is updated continuously.",
     "join_title_1": "Does your organisation",
     "join_title_2": "contribute to a",
-    "join_title_3": "Europe that holds?"
+    "join_title_3": "Europe that holds?",
+    "fig03_title_1": "Sectors",
+    "fig03_title_2": "across countries",
+    "fig03_desc": "How the ten sectors distribute across the fifteen most represented nations — specialisation vs. diversification at a glance."
   },
   "directory": {
     "title": "Directory — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Read the",
     "cta_title_2": "stories",
     "cta_title_3": "behind the figures.",
-    "cta_sub": "The dispatch files each day's European resilience signals to the sector it touches."
+    "cta_sub": "The dispatch files each day's European resilience signals to the sector it touches.",
+    "fig03_label": "Fig. 03",
+    "fig03_title_1": "Sectors",
+    "fig03_title_2": "across countries",
+    "fig03_desc": "How the ten vital sectors distribute across the fifteen most represented nations. Each bar is a country; each colour, a sector. Where one colour dominates, the local ecosystem is specialised; where the spread is even, it is diversified.",
+    "fig03_caption": "Fig. 03 — Sector composition of the top fifteen countries by number of listed organisations. Bar colour follows the sector palette."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

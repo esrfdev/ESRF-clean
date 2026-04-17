@@ -63,6 +63,14 @@
     <p class="chart-caption" data-i18n="analytics.fig02_caption">Fig. 02 — Distribution of listed organisations across the 29 countries represented on the atlas.</p>
   </section>
 
+  <section class="chart-block" aria-labelledby="fig3">
+    <div class="chart-fig" data-i18n="analytics.fig03_label">Fig. 03</div>
+    <h2 class="chart-title" id="fig3"><span data-i18n="analytics.fig03_title_1">Sectors</span> <i data-i18n="analytics.fig03_title_2">across countries</i></h2>
+    <p class="chart-desc" data-i18n="analytics.fig03_desc">How the ten vital sectors distribute across the fifteen most represented nations. Each bar is a country; each colour, a sector. Where one colour dominates, the local ecosystem is specialised; where the spread is even, it is diversified.</p>
+    <div class="chart-canvas-wrap"><canvas id="c3" aria-label="Stacked bar chart of sector distribution across countries"></canvas></div>
+    <p class="chart-caption" data-i18n="analytics.fig03_caption">Fig. 03 — Sector composition of the top fifteen countries by number of listed organisations. Bar colour follows the sector palette.</p>
+  </section>
+
 
 </div>
 
@@ -171,6 +179,63 @@
     }
   });
   document.getElementById('c2').parentElement.style.height = '460px';
+
+  // ── FIG. 03 sectors across countries (stacked bar, top 15) ──
+  const countryBySector = {};
+  orgs.forEach(o => {
+    const cn = o.country_name_en || o.country;
+    if (!countryBySector[cn]) countryBySector[cn] = {};
+    countryBySector[cn][o.sector_normalized] = (countryBySector[cn][o.sector_normalized]||0) + 1;
+  });
+  const top15 = Object.keys(countryBySector)
+    .map(c => ({ name:c, total: Object.values(countryBySector[c]).reduce((a,b)=>a+b,0) }))
+    .sort((a,b) => b.total - a.total)
+    .slice(0, 15)
+    .map(c => c.name);
+
+  const stackedDatasets = SECTOR_ORDER.filter(s => sectorCounts[s]).map(sector => ({
+    label: sector,
+    data: top15.map(c => countryBySector[c][sector] || 0),
+    backgroundColor: sectorColorHex(sector),
+    borderWidth: 0,
+    borderRadius: 0,
+  }));
+
+  new Chart(document.getElementById('c3'), {
+    type: 'bar',
+    data: { labels: top15, datasets: stackedDatasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            font: { family:"'IBM Plex Mono', monospace", size:10, weight:500 },
+            boxWidth: 12, boxHeight: 12, padding: 12,
+            usePointStyle: false,
+          }
+        },
+        tooltip: {
+          mode: 'index',
+          filter: item => item.raw > 0,
+        },
+      },
+      scales: {
+        x: {
+          stacked: true,
+          grid: { display: false },
+          ticks: { font: axisFont, maxRotation: 45, minRotation: 45 }
+        },
+        y: {
+          stacked: true,
+          grid: { color: gridColor, drawBorder: false },
+          ticks: { font: axisFont }
+        }
+      }
+    }
+  });
+  document.getElementById('c3').parentElement.style.height = '520px';
 
 })();
 </script>
