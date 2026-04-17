@@ -130,7 +130,13 @@
     if(national.length){
       parts.push(sectionHtml('news.section_national', 'From your country', national));
     }
-    parts.push(sectionHtml('news.section_european', 'From the continent', european));
+    if(european.length){
+      parts.push(sectionHtml('news.section_european', 'From the continent', european));
+    }
+    if(!parts.length){
+      list.innerHTML = `<div class="dir-empty" style="padding:100px 0">${t('common.no_articles','No articles yet.')}</div>`;
+      return;
+    }
     list.innerHTML = parts.join('');
     // Re-apply i18n to newly injected section labels
     if(window.esrfI18n && typeof window.esrfI18n.applyTranslations === 'function'){
