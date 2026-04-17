@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Atlas — ESRF.net</title>
+<title data-i18n="map.title_tag">Atlas — ESRF.net</title>
 <meta name="description" content="The full-screen community atlas — 1,890 organisations mapped across 29 European countries, colour-coded and filterable by sector." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,32 +45,20 @@
   <div id="map" role="application" aria-label="Interactive map of European organisations"></div>
 
   <aside class="map-controls" aria-label="Map filters">
-    <div class="kicker">§ 04 · The Atlas</div>
-    <h2>Community Atlas</h2>
+    <div class="kicker" data-i18n="map.kicker">§ 04 · The Atlas</div>
+    <h2 data-i18n="map.heading">Community Atlas</h2>
     <p style="font-family:'PT Serif',serif;font-style:italic;font-size:14px;color:var(--ink-soft);margin:6px 0 14px" data-i18n="map.instructions">Click any marker for organisation detail. Filter by sector or search by name.</p>
 
     <input id="q" type="search" placeholder="Search organisations…" data-i18n-placeholder="filter.search_organisations" aria-label="Search organisations" />
 
     <span class="filter-group-label" data-i18n="filter.sector">Sector</span>
-    <div class="filter-chips" style="margin:0;gap:6px" id="sector-chips">
-      <button class="chip active" data-sector="" data-i18n="filter.all_sectors">All sectors</button>
-      <button class="chip" data-sector="Emergency &amp; Crisis Response">Emergency · 469</button>
-      <button class="chip" data-sector="Security &amp; Protection">Security · 382</button>
-      <button class="chip" data-sector="Risk &amp; Continuity Management">Risk · 366</button>
-      <button class="chip" data-sector="Digital Infrastructure &amp; Cybersecurity">Digital · 187</button>
-      <button class="chip" data-sector="Knowledge, Training &amp; Research">Knowledge · 159</button>
-      <button class="chip" data-sector="Health &amp; Medical Manufacturing">Health · 135</button>
-      <button class="chip" data-sector="Critical Infrastructure">Critical · 121</button>
-      <button class="chip" data-sector="Dual-use Technology &amp; Manufacturing">Dual-use · 53</button>
-      <button class="chip" data-sector="Transport, Maritime &amp; Aerospace">Transport · 11</button>
-      <button class="chip" data-sector="Energy &amp; Grid Resilience">Energy · 7</button>
-    </div>
+    <div class="filter-chips" style="margin:0;gap:6px" id="sector-chips"></div>
 
-    <div class="map-count"><strong id="count">—</strong> · plotted <span style="opacity:.7">of 1,890</span></div>
+    <div class="map-count"><strong id="count">—</strong> <span data-i18n="common.plotted">· plotted</span> <span style="opacity:.7" data-i18n="common.of_total">of 1,890</span></div>
   </aside>
 
   <aside class="map-panel" id="panel" aria-label="Organisation detail" aria-hidden="true">
-    <button class="map-panel-close" id="panel-close" aria-label="Close panel">✕ Close</button>
+    <button class="map-panel-close" id="panel-close" aria-label="Close panel" data-i18n="common.close_panel">✕ Close</button>
     <div id="panel-body"></div>
   </aside>
 </div>
@@ -83,6 +71,32 @@
 <script>
 (async () => {
   const orgs = await loadOrgs();
+
+  // ── Sector chips rendered via i18n ──
+  const SECTOR_CHIPS = [
+    {key:'', shortKey:'common.all_sectors', fullKey:null, count:null},
+    {key:'Emergency & Crisis Response', shortKey:'sector.short_emergency', count:469},
+    {key:'Security & Protection', shortKey:'sector.short_security', count:382},
+    {key:'Risk & Continuity Management', shortKey:'sector.short_risk', count:366},
+    {key:'Digital Infrastructure & Cybersecurity', shortKey:'sector.short_digital', count:187},
+    {key:'Knowledge, Training & Research', shortKey:'sector.short_knowledge', count:159},
+    {key:'Health & Medical Manufacturing', shortKey:'sector.short_health', count:135},
+    {key:'Critical Infrastructure', shortKey:'sector.short_critical', count:121},
+    {key:'Dual-use Technology & Manufacturing', shortKey:'sector.short_dual_use', count:53},
+    {key:'Transport, Maritime & Aerospace', shortKey:'sector.short_transport', count:11},
+    {key:'Energy & Grid Resilience', shortKey:'sector.short_energy', count:7},
+  ];
+  function renderChips(){
+    const wrap = document.getElementById('sector-chips');
+    wrap.innerHTML = SECTOR_CHIPS.map(c=>{
+      const isAll = c.key==='';
+      const label = isAll ? t('filter.all_sectors','All sectors')
+                          : `${t(c.shortKey, c.shortKey.split('.').pop())} · ${c.count}`;
+      const active = c.key === (state?.sector || '');
+      return `<button class="chip${active?' active':''}" data-sector="${esc(c.key)}">${label}</button>`;
+    }).join('');
+  }
+  window.addEventListener('esrf:langchange', renderChips);
   const map = L.map('map', {
     zoomControl:true, attributionControl:true, minZoom:3, maxZoom:18,
   }).setView([52.0, 13.0], 4);
@@ -119,7 +133,7 @@
       <h2>${esc(o.name)}</h2>
       <div class="loc">${esc(o.city||'')}${o.city?' · ':''}${esc(o.country_name_en || o.country || '')}</div>
       <p class="desc">${esc(o.description_en || '')}</p>
-      ${o.website ? `<a class="visit" href="${esc(o.website)}" target="_blank" rel="noopener">Visit website ↗</a>` : ''}
+      ${o.website ? `<a class="visit" href="${esc(o.website)}" target="_blank" rel="noopener">${t('common.visit_website','Visit website ↗')}</a>` : ''}
     `;
     panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
   }
@@ -144,6 +158,7 @@
   }
 
   const state = { sector:'', q:'' };
+  renderChips();
   function apply(){
     rebuild(o => {
       if(state.sector && o.sector_normalized !== state.sector) return false;

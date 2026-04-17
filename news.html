@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Dispatch — ESRF.net</title>
+<title data-i18n="news.title_tag">Dispatch — ESRF.net</title>
 <meta name="description" content="The ESRF.net dispatch — curated European security and resilience signals, filed by sector and topic." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,11 +36,11 @@
 
 <section class="phero">
   <div class="phero-inner">
-    <div class="kicker">§ 06 · Dispatch</div>
-    <h1 class="phero-title">From the<br><i>continent</i>.</h1>
-    <p class="phero-deck">A curated ledger of European security, resilience and crisis signals — each filed by sector and topic. Updated continuously.</p>
+    <div class="kicker" data-i18n="news.hero_kicker">§ 06 · Dispatch</div>
+    <h1 class="phero-title"><span data-i18n="news.hero_title_1">From the</span><br><i data-i18n="news.hero_title_2">continent</i>.</h1>
+    <p class="phero-deck" data-i18n="news.hero_deck">A curated ledger of European security, resilience and crisis signals — each filed by sector and topic. Updated continuously.</p>
     <div class="phero-meta" id="dispatch-meta">
-      <span id="dispatch-count"><strong>41</strong> articles</span>
+      <span id="dispatch-count"><strong>41</strong> <span data-i18n="common.articles">articles</span></span>
       <span id="dispatch-gen"></span>
     </div>
   </div>
@@ -51,26 +51,26 @@
 <div class="news-list" id="news-list" aria-live="polite"></div>
 
 <section class="join">
-  <h2 class="join-h">Put your <i>signal</i><br>on the dispatch.</h2>
-  <p class="join-sub">Organisations listed on the atlas can contribute stories, reports and updates to the ESRF.net dispatch.</p>
-  <a href="mailto:dispatch@esrf.net" class="btn on-accent">Submit a signal →</a>
+  <h2 class="join-h"><span data-i18n="news.submit_title_1">Put your</span> <i data-i18n="news.submit_title_2">signal</i><br><span data-i18n="news.submit_title_3">on the dispatch.</span></h2>
+  <p class="join-sub" data-i18n="news.submit_sub">Organisations listed on the atlas can contribute stories, reports and updates to the ESRF.net dispatch.</p>
+  <a href="mailto:dispatch@esrf.net" class="btn on-accent" data-i18n="common.submit_signal">Submit a signal →</a>
 </section>
 
 <footer class="foot">
   <div class="foot-inner">
-    <div class="foot-brand"><h3>ESRF.net</h3><p>European Security &amp; Resilience Foundation — a decentralised community of 1,890 organisations across 29 countries.</p></div>
-    <div class="foot-col"><h4>Community</h4><ul>
+    <div class="foot-brand"><h3>ESRF.net</h3><p data-i18n="footer.brand_desc">European Security &amp; Resilience Foundation — a decentralised community of 1,890 organisations across 29 countries.</p></div>
+    <div class="foot-col"><h4 data-i18n="footer.community">Community</h4><ul>
       <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li><li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
-      <li><a href="countries/index.html">Countries</a></li><li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li></ul></div>
-    <div class="foot-col"><h4>Foundation</h4><ul>
-      <li><a href="about.html">About</a></li><li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+      <li><a href="countries/index.html" data-i18n="common.countries">Countries</a></li><li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li></ul></div>
+    <div class="foot-col"><h4 data-i18n="footer.foundation">Foundation</h4><ul>
+      <li><a href="about.html" data-i18n="common.about">About</a></li><li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
       <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
-        <li><a href="mailto:hello@esrf.net">Contact</a></li></ul></div>
-    <div class="foot-col"><h4>Legal</h4><ul>
-      <li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li></ul></div>
+        <li><a href="mailto:hello@esrf.net" data-i18n="common.contact">Contact</a></li></ul></div>
+    <div class="foot-col"><h4 data-i18n="footer.legal">Legal</h4><ul>
+      <li><a href="privacy.html" data-i18n="footer.privacy">Privacy</a></li><li><a href="terms.html" data-i18n="footer.terms">Terms</a></li></ul></div>
   </div>
   <div class="foot-bar">
-    <div>© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
+    <div data-i18n="common.foot_copyright">© 2026 ESRF.net · European Security &amp; Resilience Foundation</div>
     <div><span data-i18n="footer.tagline">Human Atlas</span></div>
   </div>
 </footer>
@@ -82,16 +82,20 @@
 (async () => {
   const data = await loadNews();
   const list = document.getElementById('news-list');
-  document.getElementById('dispatch-count').innerHTML = `<strong>${data.article_count}</strong> articles`;
-  if(data.generated){
-    const d = new Date(data.generated);
-    document.getElementById('dispatch-gen').innerHTML = `updated <strong>${d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</strong>`;
+  function renderMeta(){
+    document.getElementById('dispatch-count').innerHTML = `<strong>${data.article_count}</strong> ${t('common.articles','articles')}`;
+    if(data.generated){
+      const d = new Date(data.generated);
+      document.getElementById('dispatch-gen').innerHTML = `${t('common.updated','updated')} <strong>${d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</strong>`;
+    }
   }
+  renderMeta();
+  window.addEventListener('esrf:langchange', renderMeta);
 
   function render(){
     const articles = data.articles || [];
     if(!articles.length){
-      list.innerHTML = '<div class="dir-empty" style="padding:100px 0">No articles yet.</div>';
+      list.innerHTML = `<div class="dir-empty" style="padding:100px 0">${t('common.no_articles','No articles yet.')}</div>`;
       return;
     }
     list.innerHTML = articles.map(a => {

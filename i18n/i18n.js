@@ -111,6 +111,23 @@ function applyTranslations() {
     const val = t(key);
     if (val !== key) el.setAttribute('title', val);
   });
+  document.querySelectorAll('[data-i18n-label]').forEach(el => {
+    const key = el.getAttribute('data-i18n-label');
+    const val = t(key);
+    if (val !== key) el.setAttribute('label', val);
+  });
+  // Generic attribute i18n: data-i18n-attr="content" targets content attr
+  document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+    const attrName = el.getAttribute('data-i18n-attr');
+    const keyAttr = el.getAttribute('data-i18n');
+    // If data-i18n is also on element we already handled textContent; check a dedicated key instead.
+    // Expected pattern: <meta data-i18n-attr="content" data-i18n-attr-key="meta.description">
+    const key = el.getAttribute('data-i18n-attr-key');
+    if (attrName && key) {
+      const val = t(key);
+      if (val !== key) el.setAttribute(attrName, val);
+    }
+  });
 }
 
 /* ── Update lang current display ── */
