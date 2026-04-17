@@ -7,7 +7,10 @@
     { "name": "ESA",                    "url": "https://www.esa.int/rssfeed/Our_Activities",               "site": "https://www.esa.int",              "country": "EU",  "pillar": "renewal" },
     { "name": "EURACTIV",               "url": "https://www.euractiv.com/feed/",                           "site": "https://www.euractiv.com",         "country": "EU",  "pillar": "foundation" },
     { "name": "Deutsche Welle – Europe","url": "https://rss.dw.com/rdf/rss-en-eu",                         "site": "https://www.dw.com",               "country": "DE",  "pillar": "stewardship" },
-    { "name": "BBC Europe",             "url": "https://feeds.bbci.co.uk/news/world/europe/rss.xml",       "site": "https://www.bbc.com/news",         "country": "GB",  "pillar": "stewardship" }
+    { "name": "BBC Europe",             "url": "https://feeds.bbci.co.uk/news/world/europe/rss.xml",       "site": "https://www.bbc.com/news",         "country": "GB",  "pillar": "stewardship" },
+    { "name": "ECDC",                   "url": "https://www.ecdc.europa.eu/en/taxonomy/term/all/feed",     "site": "https://www.ecdc.europa.eu",       "country": "EU",  "pillar": "response" },
+    { "name": "EMSA",                   "url": "https://www.emsa.europa.eu/newsroom/latest-news.feed",     "site": "https://www.emsa.europa.eu",       "country": "EU",  "pillar": "foundation" },
+    { "name": "European Commission",    "url": "https://ec.europa.eu/commission/presscorner/api/rss?language=EN", "site": "https://ec.europa.eu/commission/presscorner", "country": "EU", "pillar": "stewardship" }
   ],
   "national": {
     "nl": [
