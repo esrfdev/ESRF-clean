@@ -494,5 +494,11 @@
     "north_macedonia": "Noord-Macedonië",
     "serbia": "Servië",
     "turkey": "Turkije"
-  }
+  },
+  "consent.text": "ESRF.net gebruikt minimale advertenties om haar missie te ondersteunen. We gebruiken cookies voor gepersonaliseerde advertenties. U kunt accepteren of weigeren.",
+  "consent.privacy_link": "Privacybeleid",
+  "consent.accept": "Accepteren",
+  "consent.decline": "Weigeren",
+  "ads.label": "Advertentie",
+  "sponsor.why_body_1": "ESRF.net is redactioneel onafhankelijk. Wij accepteren geen overheidsmandaten en geen betaalde rankingposities. De directory wordt samengesteld door een klein team van professionals die dit vakgebied kennen — en dat zo willen houden. Hoewel wij minimale, niet-opdringerige advertenties tonen om de operatie te ondersteunen, is transparant mecenaat van organisaties die in de missie geloven de ware motor achter dit netwerk."
 }

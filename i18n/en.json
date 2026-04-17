@@ -494,5 +494,11 @@
     "north_macedonia": "North Macedonia",
     "serbia": "Serbia",
     "turkey": "Turkey"
-  }
+  },
+  "consent.text": "ESRF.net uses minimal advertising to support its mission. We use cookies for personalised ads. You can accept or decline.",
+  "consent.privacy_link": "Privacy policy",
+  "consent.accept": "Accept",
+  "consent.decline": "Decline",
+  "ads.label": "Advertisement",
+  "sponsor.why_body_1": "ESRF.net is editorially independent. We accept no government mandates and no pay-to-rank listings. The directory is curated by a small team of practitioners who know this space — and who intend to keep it that way. While we display minimal, non-intrusive advertising to sustain operations, the true engine behind this network is transparent patronage from organisations who believe in the mission."
 }

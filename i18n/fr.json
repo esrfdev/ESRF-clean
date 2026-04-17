@@ -494,5 +494,10 @@
     "north_macedonia": "Macédoine du Nord",
     "serbia": "Serbie",
     "turkey": "Turquie"
-  }
+  },
+  "consent.text": "ESRF.net uses minimal advertising to support its mission. We use cookies for personalised ads. You can accept or decline.",
+  "consent.privacy_link": "Privacy policy",
+  "consent.accept": "Accept",
+  "consent.decline": "Decline",
+  "ads.label": "Advertisement"
 }
