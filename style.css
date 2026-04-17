@@ -1099,3 +1099,48 @@ body.modal-open{overflow:hidden}
   .consent-inner{flex-direction:column;text-align:center}
   .consent-actions{justify-content:center;width:100%}
 }
+
+/* ═══ Fund / Contribute page ═══ */
+.fund-card{
+  background:var(--cream);border:1px solid rgba(15,20,25,0.08);
+  border-radius:6px;padding:32px 28px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.fund-card-pct{
+  font-family:'Archivo',sans-serif;font-weight:800;
+  font-size:clamp(36px,4vw,52px);letter-spacing:-0.03em;line-height:1;
+  margin-bottom:4px;
+}
+.fund-card-title{
+  font-family:'Archivo',sans-serif;font-weight:700;
+  font-size:15px;letter-spacing:-0.01em;
+}
+.fund-card-body{
+  font-family:'PT Serif',serif;font-size:15px;line-height:1.6;
+  color:var(--ink-soft);
+}
+.fund-impact-item{
+  background:var(--cream);border:1px solid rgba(15,20,25,0.08);
+  border-radius:6px;padding:32px 28px;
+  text-align:center;
+}
+.fund-impact-amount{
+  font-family:'Archivo',sans-serif;font-weight:800;
+  font-size:clamp(32px,4vw,48px);letter-spacing:-0.03em;line-height:1;
+  color:var(--accent);margin-bottom:12px;
+}
+.fund-impact-desc{
+  font-family:'PT Serif',serif;font-size:15px;line-height:1.6;
+  color:var(--ink-soft);
+}
+.fund-eligibility{
+  background:rgba(32,78,122,0.06);border-left:3px solid var(--blue);
+  border-radius:0 6px 6px 0;padding:16px 20px;
+  font-family:'PT Serif',serif;font-size:15px;line-height:1.65;
+  color:var(--ink-soft);margin:20px 0;
+}
+.fund-eligibility strong{color:var(--ink);font-weight:700}
+@media(max-width:768px){
+  .fund-card{padding:24px 20px}
+  .fund-impact-item{padding:24px 20px}
+}
