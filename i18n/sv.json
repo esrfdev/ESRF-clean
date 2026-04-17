@@ -236,7 +236,7 @@
     "join_title_2": "plats",
     "join_sub": "En listning är gratis. Förvaltarskap är den enda avgift vi tar ut.",
     "join_body_1": "Varje organisation — kommersiell, institutionell, ideell — vars arbete stärker europeisk säkerhet och motståndskraft är välkommen på atlasen. Det finns tre steg:",
-    "join_step_1_html": "<strong>Begär en listning.</strong> Skriv till <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a> med din organisations namn, en enmeningsbeskrivning och din primära praktiksektor.",
+    "join_step_1_html": "<strong>Begär en listning.</strong> Fyll i <a href=\"request-listing.html\" style=\"color:var(--accent)\">anmälningsformuläret</a> med din organisations namn, en enmeningsbeskrivning och din primära praktiksektor.",
     "join_step_2_html": "<strong>Anpassa dig till stadgan.</strong> Varje listad organisation ansluter sig till ESRF.net-stadgan — en sida, inga noter.",
     "join_step_3_html": "<strong>Visa upp dig på atlasen.</strong> Din listning publiceras i katalogen, på kartan och, där relevant, i dispatchen.",
     "join_body_2": "Bidrag till stiftelsen — finansiella eller in natura — är välkomna men aldrig obligatoriska. ESRF.net säljer inte listningar, rangordnar inte sina medlemmar och tar inte ut prenumerationsavgifter.",

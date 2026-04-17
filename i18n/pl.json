@@ -236,7 +236,7 @@
     "join_title_2": "miejsce",
     "join_sub": "Wpis jest bezpłatny. Zarządzanie to jedyna składka, którą zbieramy.",
     "join_body_1": "Każda organizacja — komercyjna, instytucjonalna, non-profit — której praca wzmacnia europejskie bezpieczeństwo i odporność, jest mile widziana w atlasie. Wymagane są trzy kroki:",
-    "join_step_1_html": "<strong>Złóż wniosek o wpis.</strong> Napisz na adres <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a> podając nazwę organizacji, opis w jednym akapicie i główny sektor działalności.",
+    "join_step_1_html": "<strong>Złóż wniosek o wpis.</strong> Wypełnij <a href=\"request-listing.html\" style=\"color:var(--accent)\">formularz zgłoszeniowy</a>, podając nazwę organizacji, opis w jednym akapicie i główny sektor działalności.",
     "join_step_2_html": "<strong>Zgodność z kartą.</strong> Każda zarejestrowana organizacja podpisuje kartę ESRF.net — jedna strona, bez drobnego druku.",
     "join_step_3_html": "<strong>Pojawienie się w atlasie.</strong> Twój wpis jest widoczny w katalogu, na mapie i — tam gdzie jest to stosowne — w biuletynie.",
     "join_body_2": "Wkłady na rzecz fundacji — finansowe lub rzeczowe — są mile widziane, ale nigdy wymagane. ESRF.net nie sprzedaje wpisów, nie rankinguje swoich członków ani nie pobiera opłat subskrypcyjnych.",
