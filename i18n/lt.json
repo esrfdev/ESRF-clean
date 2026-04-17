@@ -132,15 +132,13 @@
     "title": "Katalogas — ESRF.net",
     "description": "Naršykite 1 890 organizacijų iš 29 Europos šalių, sudarančių ESRF.net bendruomenę.",
     "kicker": "§ 03 · Gyvybiškai svarbūs sektoriai · Katalogas",
-    "hero_title": "Praktikos katalogas.",
-    "hero_deck": "Tūkstantis aštuoni šimtai devyniasdešimt dvi organizacijos — surūšiuotos pagal sektorių, šalį ir miestą.",
+    "hero_deck": "1 890 organizacijų — surūšiuotos pagal sektorių, šalį ir miestą.",
     "join_title": "Dar nėra atlase?",
     "join_sub": "Kiekviena organizacija, kurios darbas stiprina Europos saugumą ir atsparumą, yra laukiama ESRF.net bendruomenėje.",
     "listing_banner": "Nematote savo organizacijos čia?",
-    "title_word_the": "Praktikos",
-    "title_word_of_practice": "katalogas.",
     "join_title_prefix": "Dar nėra",
-    "join_title_suffix": "atlase?"
+    "join_title_suffix": "atlase?",
+    "hero_title_html": "Praktikos <i>katalogas</i>."
   },
   "map": {
     "title": "Atlasas — ESRF.net",

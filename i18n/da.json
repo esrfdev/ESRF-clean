@@ -130,17 +130,15 @@
   },
   "directory": {
     "title": "Bibliotek — ESRF.net",
-    "hero_title": "Praksissens bibliotek.",
-    "title_word_the": "Biblioteket",
-    "title_word_of_practice": "for praksis.",
     "join_title_prefix": "Ikke endnu på",
     "join_title_suffix": "atlas?",
     "description": "Gennemse 1.890 organisationer i 29 europæiske lande, der udgør ESRF.net-fællesskabet — filtrer efter sektor og land.",
     "kicker": "§ 03 · Vitale Sektorer · Bibliotek",
-    "hero_deck": "Et tusinde ottehundrede og to og halvfems organisationer — sorteret efter sektor, land og mission. Søg, filtrer og læs om hvem der holder hvert hjørne af Europa samlet.",
+    "hero_deck": "1.890 organisationer — sorteret efter sektor, land og mission. Søg, filtrer og læs om hvem der holder hvert hjørne af Europa samlet.",
     "join_title": "Ikke endnu på atlas?",
     "join_sub": "Enhver organisation, hvis arbejde bidrager til europæisk sikkerhed og modstandsdygtighed, er velkommen i ESRF.net-fællesskabet.",
-    "listing_banner": "Kan du ikke se din organisation her?"
+    "listing_banner": "Kan du ikke se din organisation her?",
+    "hero_title_html": "<i>Praksisregisteret</i>."
   },
   "map": {
     "title": "Atlas — ESRF.net",

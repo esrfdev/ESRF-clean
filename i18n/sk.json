@@ -130,17 +130,15 @@
   },
   "directory": {
     "title": "Adresár — ESRF.net",
-    "hero_title": "Adresár praxe.",
-    "title_word_the": "Adresár",
-    "title_word_of_practice": "praxe.",
     "join_title_prefix": "Nie ste ešte v",
     "join_title_suffix": "atlase?",
     "description": "Prechádzajte 1 890 organizácií z 29 európskych krajín tvoriacich komunitu ESRF.net — filtrujte podľa sektora a krajiny.",
     "kicker": "§ 03 · Kľúčové sektory · Adresár",
-    "hero_deck": "Tisíc osemsto deväťdesiatdvě organizácií — zoradené podľa sektora, krajiny a poslania. Hľadajte, filtrujte a zistite, kto drží každú časť Európy pohromade.",
+    "hero_deck": "1 890 organizácií — zoradené podľa sektora, krajiny a poslania. Hľadajte, filtrujte a zistite, kto drží každú časť Európy pohromade.",
     "join_title": "Nie ste ešte v atlase?",
     "join_sub": "Každá organizácia, ktorej práca prispieva k európskej bezpečnosti a odolnosti, je vítaná v komunite ESRF.net.",
-    "listing_banner": "Nevidíte svoju organizáciu?"
+    "listing_banner": "Nevidíte svoju organizáciu?",
+    "hero_title_html": "Adresár <i>praxe</i>."
   },
   "map": {
     "title": "Atlas — ESRF.net",

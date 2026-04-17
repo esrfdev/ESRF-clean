@@ -130,17 +130,15 @@
   },
   "directory": {
     "title": "Katalog — ESRF.net",
-    "hero_title": "Katalog praktyki.",
-    "title_word_the": "Katalog",
-    "title_word_of_practice": "praktyki.",
     "join_title_prefix": "Nie ma Cię jeszcze w",
     "join_title_suffix": "atlasie?",
     "description": "Przeglądaj 1 890 organizacji z 29 europejskich krajów tworzących społeczność ESRF.net — filtruj według sektora i kraju.",
     "kicker": "§ 03 · Kluczowe Sektory · Katalog",
-    "hero_deck": "Tysiąc osiemset dziewięćdziesiąt dwie organizacje — posortowane według sektora, kraju i misji. Szukaj, filtruj i dowiedz się, kto spaja każdą część Europy.",
+    "hero_deck": "1890 organizacji — posortowane według sektora, kraju i misji. Szukaj, filtruj i dowiedz się, kto spaja każdą część Europy.",
     "join_title": "Nie ma Cię jeszcze w atlasie?",
     "join_sub": "Każda organizacja, której praca przyczynia się do europejskiego bezpieczeństwa i odporności, jest mile widziana w społeczności ESRF.net.",
-    "listing_banner": "Nie widzisz swojej organizacji?"
+    "listing_banner": "Nie widzisz swojej organizacji?",
+    "hero_title_html": "<i>Katalog</i> praktyki."
   },
   "map": {
     "title": "Atlas — ESRF.net",

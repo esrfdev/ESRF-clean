@@ -132,15 +132,13 @@
     "title": "Directory — ESRF.net",
     "description": "Browse 1,890 organisations across 29 European countries that form the ESRF.net community — filter by sector and country.",
     "kicker": "§ 03 · Vital Sectors · Directory",
-    "hero_title": "The directory of practice.",
-    "hero_deck": "One thousand eight hundred and ninety-two organisations — sorted by sector, country and mission. Search, filter, and read who holds each part of Europe together.",
+    "hero_deck": "1,890 organisations — sorted by sector, country and mission. Search, filter, and read who holds each part of Europe together.",
     "join_title": "Not yet on the atlas?",
     "join_sub": "Any organisation whose work contributes to European security and resilience is welcome in the ESRF.net community.",
     "listing_banner": "Don't see your organisation here?",
-    "title_word_the": "The",
-    "title_word_of_practice": "of practice.",
     "join_title_prefix": "Not yet on the",
-    "join_title_suffix": "atlas?"
+    "join_title_suffix": "atlas?",
+    "hero_title_html": "The <i>directory</i><br>of practice."
   },
   "map": {
     "title": "Atlas — ESRF.net",
