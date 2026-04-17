@@ -374,7 +374,6 @@
         const date = new Date(a.date).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
         return `
           <a class="dispatch-item" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">
-            <div class="dispatch-kicker" style="color:var(--ink-dim)">${esc(a.pillar || '')}</div>
             <h3 class="dispatch-title">${esc(a.title)}</h3>
             <p class="dispatch-snippet">${esc(a.snippet || '')}</p>
             <div class="dispatch-meta">${esc(a.source)} · ${date}</div>
