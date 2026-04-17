@@ -239,7 +239,7 @@
     "join_title_2": "svoje mesto",
     "join_sub": "Vpis je brezplačen. Skrbnost je edina nadomestilo, ki ga zbiramo.",
     "join_body_1": "Vsaka organizacija — komercialna, institucionalna, neprofitna — katere delo krepi evropsko varnost in odpornost je dobrodošla na atlasu. Obstajajo trije koraki:",
-    "join_step_1_html": "<strong>Zahtevaj vpis.</strong> Pišite na <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a> z imenom vaše organizacije, enostavčnim opisom in vašim primarnim sektorjem prakse.",
+    "join_step_1_html": "<strong>Zahtevaj vpis.</strong> Izpolnite <a href=\"request-listing.html\" style=\"color:var(--accent)\">prijavni obrazec</a> z imenom vaše organizacije, enostavčnim opisom in vašim primarnim sektorjem prakse.",
     "join_step_2_html": "<strong>Uskladite se z listino.</strong> Vsaka vpisana organizacija se naroči na listino ESRF.net — ena stran, brez drobnega tiska.",
     "join_step_3_html": "<strong>Pojavite se na atlasu.</strong> Vaš vpis se aktivira v imeniku, na zemljevidu in, kjer je relevantno, v biltenu.",
     "join_body_2": "Prispevki fundaciji — finančni ali v naravi — so dobrodošli, a nikoli zahtevani. ESRF.net ne prodaja vpisov, ne razvršča svojih članov in ne zaračunava naročnin."

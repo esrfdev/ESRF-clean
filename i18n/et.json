@@ -239,7 +239,7 @@
     "join_title_2": "koht",
     "join_sub": "Kirje on tasuta. Haldus on ainus maks, mida kogume.",
     "join_body_1": "Iga organisatsioon — kaubanduslik, institutsionaalne, mittetulunduslik — mille töö tugevdab Euroopa julgeolekut ja vastupanuvõimet, on oodatud.",
-    "join_step_1_html": "<strong>Küsi kirjet.</strong> Kirjuta aadressile <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a> või kasuta vormi allpool.",
+    "join_step_1_html": "<strong>Küsi kirjet.</strong> Täida <a href=\"request-listing.html\" style=\"color:var(--accent)\">registreerimisvorm</a> organisatsiooni nime, lühikirjelduse ja peamise tegevusvaldkonnaga.",
     "join_step_2_html": "<strong>Ühine põhikirjaga.</strong> Iga loetletud organisatsioon liitub ESRF.net-i hartaga — viie moraalse põhimõttega.",
     "join_step_3_html": "<strong>Ilmu atlasele.</strong> Sinu kirje avaldatakse kataloogis, kaardil ja — olenevalt sektorist — analüütikas.",
     "join_body_2": "Panused sihtasutusele — rahalised või mitterahalised — on teretulnud, kuid mitte kunagi nõutavad. ESRF.net ei müü kirjeid ega reklaami."

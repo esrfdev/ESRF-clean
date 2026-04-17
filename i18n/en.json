@@ -239,7 +239,7 @@
     "join_title_2": "place",
     "join_sub": "A listing is free. Stewardship is the only dues we collect.",
     "join_body_1": "Any organisation — commercial, institutional, non-profit — whose work strengthens European security and resilience is welcome on the atlas. There are three steps:",
-    "join_step_1_html": "<strong>Request a listing.</strong> Write to <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a> with your organisation's name, a one-paragraph description and your primary sector of practice.",
+    "join_step_1_html": "<strong>Request a listing.</strong> Fill in the <a href=\"request-listing.html\" style=\"color:var(--accent)\">request-a-listing form</a> with your organisation’s name, a one-paragraph description and your primary sector of practice.",
     "join_step_2_html": "<strong>Align with the charter.</strong> Every listed organisation subscribes to the ESRF.net charter — one page, no fine print.",
     "join_step_3_html": "<strong>Appear on the atlas.</strong> Your listing goes live on the directory, the map and, where relevant, the dispatch.",
     "join_body_2": "Contributions to the foundation — financial or in-kind — are welcome but never required. ESRF.net does not sell listings, rank its members, or charge subscription fees."
