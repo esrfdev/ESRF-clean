@@ -5,7 +5,7 @@
     "atlas": "Atlas",
     "analytics": "Analyse",
     "dispatch": "Dispatch",
-    "request_listing": "Aanmelding aanvragen",
+    "request_listing": "Claim je vermelding",
     "support": "Ondersteunen"
   },
   "common": {
@@ -22,7 +22,7 @@
     "shown": "getoond",
     "load_more": "Meer laden →",
     "no_results": "Geen organisaties voldoen aan deze filters.",
-    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation",
+    "copyright": "© 2026 Stichting ESRF.net · European Security & Resilience Framework",
     "languages": "talen",
     "read_charter": "Lees het charter →",
     "browse_directory": "Bekijk de directory →",
@@ -32,7 +32,7 @@
     "read_dispatch": "Lees het volledige bulletin →",
     "open_dispatch": "Open het bulletin →",
     "submit_signal": "Dien een signaal in →",
-    "request_listing_cta": "Vraag uw vermelding aan →",
+    "request_listing_cta": "Claim je vermelding →",
     "visit_website": "Bezoek website ↗",
     "close_panel": "✕ Sluiten",
     "plotted": "· zichtbaar",
@@ -42,7 +42,7 @@
     "contact": "Contact",
     "updated": "bijgewerkt",
     "no_articles": "Nog geen artikelen.",
-    "foot_copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+    "foot_copyright": "© 2026 Stichting ESRF.net · European Security & Resilience Framework"
   },
   "filter": {
     "sector": "Sector",
@@ -53,7 +53,7 @@
     "search_organisations": "Zoek organisaties…"
   },
   "cta": {
-    "request_listing": "Aanmelding aanvragen →",
+    "request_listing": "Claim je vermelding →",
     "browse_directory": "Bekijk de directory →",
     "see_analytics": "Bekijk analyses →",
     "open_atlas": "Open de volledige atlas →",
@@ -265,7 +265,7 @@
     "hero_deck": "Elk land in de ESRF.net-gemeenschap — van de Atlantische Oceaan tot de Baltische Zee, van het Noordpoolgebied tot de Middellandse Zee."
   },
   "footer": {
-    "brand_desc": "European Security & Resilience Foundation — een gedecentraliseerde gemeenschap van 1.890 organisaties in 29 landen.",
+    "brand_desc": "ESRF.net — European Security & Resilience Framework. Een gecureerde directory van 1.890 organisaties in 29 landen.",
     "community": "Gemeenschap",
     "foundation": "Fundament",
     "legal": "Juridisch",

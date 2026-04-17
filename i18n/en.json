@@ -5,7 +5,7 @@
     "atlas": "Atlas",
     "analytics": "Analytics",
     "dispatch": "Dispatch",
-    "request_listing": "Request listing",
+    "request_listing": "Claim your listing",
     "support": "Support"
   },
   "common": {
@@ -22,7 +22,7 @@
     "shown": "shown",
     "load_more": "Load more →",
     "no_results": "No organisations match these filters.",
-    "copyright": "© 2026 ESRF.net · European Security & Resilience Foundation",
+    "copyright": "© 2026 Stichting ESRF.net · European Security & Resilience Framework",
     "languages": "languages",
     "read_charter": "Read the charter →",
     "browse_directory": "Browse the directory →",
@@ -32,7 +32,7 @@
     "read_dispatch": "Read the full dispatch →",
     "open_dispatch": "Open the dispatch →",
     "submit_signal": "Submit a signal →",
-    "request_listing_cta": "Request your listing →",
+    "request_listing_cta": "Claim your listing →",
     "visit_website": "Visit website ↗",
     "close_panel": "✕ Close",
     "plotted": "· plotted",
@@ -42,7 +42,7 @@
     "contact": "Contact",
     "updated": "updated",
     "no_articles": "No articles yet.",
-    "foot_copyright": "© 2026 ESRF.net · European Security & Resilience Foundation"
+    "foot_copyright": "© 2026 Stichting ESRF.net · European Security & Resilience Framework"
   },
   "filter": {
     "sector": "Sector",
@@ -53,7 +53,7 @@
     "search_organisations": "Search organisations…"
   },
   "cta": {
-    "request_listing": "Request your listing →",
+    "request_listing": "Claim your listing →",
     "browse_directory": "Browse the directory →",
     "see_analytics": "See analytics →",
     "open_atlas": "Open the full atlas →",
@@ -77,9 +77,9 @@
     "foundation_kicker": "§ 01 · The Foundation",
     "foundation_title": "Leadership by example.",
     "foundation_sub": "For local impact. For shared resilience. For a Europe that holds.",
-    "foundation_body_1": "The European Security & Resilience Framework is the foundation of ESRF.net — a decentralised network built for, and by, the entrepreneurs with local impact. We believe security is not merely a government mandate. It is an entrepreneurial responsibility, and a civic one.",
+    "foundation_body_1": "The European Security & Resilience Framework is the backbone of ESRF.net — a decentralised network built for, and by, the entrepreneurs with local impact. We believe security is not merely a government mandate. It is an entrepreneurial responsibility, and a civic one.",
     "foundation_pull": "Security is not just a mandate. It is a responsibility we carry, together.",
-    "foundation_body_2": "By building resilience from the ground up, we connect organisations across twenty-nine countries into self-sustaining ecosystems with regional impact. The foundation channels donations, contributions and aligned capital into initiatives that strengthen the network and expand its reach across the continent.",
+    "foundation_body_2": "By building resilience from the ground up, we connect organisations across twenty-nine countries into self-sustaining ecosystems with regional impact. The foundation receives donations and contributions to strengthen the network and expand its reach across the continent.",
     "foundation_body_3": "Organisations are classified across ten vital sectors aligned with the EU NIS2 Directive and guided by five moral principles: vigilance, stewardship, empowerment, solidarity and renewal.",
     "pillars_kicker": "§ 02 · The Moral Compass",
     "pillars_title": "Five ways to hold the line.",
@@ -94,7 +94,7 @@
     "dispatch_kicker": "§ 06 · Dispatch",
     "dispatch_title": "From the continent.",
     "join_title": "Does your organisation contribute to a Europe that holds?",
-    "join_sub": "Request a listing and take your place on the atlas. Membership of the ESRF.net community is free for organisations whose work strengthens European security and resilience.",
+    "join_sub": "Claim a listing and take your place on the atlas. Joining the ESRF.net community is free for organisations whose work strengthens European security and resilience.",
     "hero_deck_html": "Where governments set policy and international bodies coordinate, <strong>ESRF.net</strong> unites the businesses, institutions and citizens whose daily work quietly sustains our shared life — a decentralised framework powered by the organisations that drive the economy.",
     "hero_fig_label": "Fig. 01",
     "hero_fig_caption": "A community of practitioners, spanning twenty-nine nations, bound by five moral principles.",
@@ -212,10 +212,10 @@
     "what_title_2": "built",
     "what_title_3": "from below",
     "what_sub": "Decentralised by design, civic in purpose, European in reach.",
-    "what_body_1_html": "<strong>ESRF.net</strong> is the community layer of the European Security &amp; Resilience Framework — a network of <strong>1,890 organisations</strong> across <strong>29 countries</strong> whose work, visible or otherwise, strengthens the continent's ability to prevent harm, protect what sustains us, prepare for shocks, respond in solidarity and recover with renewal.",
+    "what_body_1_html": "<strong>ESRF.net</strong> is the community layer of the European Security &amp; Resilience Framework — a curated directory of <strong>1,890 organisations</strong> across <strong>29 countries</strong> whose work, visible or otherwise, strengthens the continent's ability to prevent harm, protect what sustains us, prepare for shocks, respond in solidarity and recover with renewal.",
     "what_body_2_html": "Where governments set policy and international bodies coordinate, ESRF.net unites the <strong>entrepreneurs, institutions and first responders</strong> whose daily practice is the actual substrate of resilience. We classify organisations across ten vital sectors — aligned with the EU NIS2 Directive.",
     "what_pull_html": "We are not a regulator. <em>We are a community of practice.</em>",
-    "what_body_3": "The foundation channels donations, contributions and aligned capital into initiatives that strengthen the network and expand its reach. Listings are free; contributions are welcome; participation is a matter of stewardship, not subscription.",
+    "what_body_3": "Stichting ESRF.net receives donations and contributions to strengthen the network and expand its reach. Listings are free; contributions are welcome; participation is a matter of stewardship, not subscription.",
     "pillars_kicker": "§ 02 · The Moral Compass",
     "pillars_title_1": "Five",
     "pillars_title_2": "principles",
@@ -235,7 +235,7 @@
     "pillar5_num": "Nº 05 · Recover",
     "pillar5_name": "Renewal",
     "pillar5_body_html": "To rise stronger than before. The fifth pillar is the discipline of absorbing shocks and restarting systems. Renewal treats every recovery as an opportunity to fix what the last crisis revealed.",
-    "join_kicker": "§ 07 · How to join",
+    "join_kicker": "§ 04 · How to join",
     "join_title_1": "Take your",
     "join_title_2": "place",
     "join_sub": "A listing is free. Stewardship is the only dues we collect.",
@@ -243,7 +243,22 @@
     "join_step_1_html": "<strong>Request a listing.</strong> Fill in the <a href=\"request-listing.html\" style=\"color:var(--accent)\">request-a-listing form</a> with your organisation’s name, a one-paragraph description and your primary sector of practice.",
     "join_step_2_html": "<strong>Align with the charter.</strong> Every listed organisation subscribes to the ESRF.net charter — one page, no fine print.",
     "join_step_3_html": "<strong>Appear on the atlas.</strong> Your listing goes live on the directory, the map and, where relevant, the dispatch.",
-    "join_body_2": "Contributions to the foundation — financial or in-kind — are welcome but never required. ESRF.net does not sell listings, rank its members, or charge subscription fees."
+    "join_body_2": "Contributions to the foundation — financial or in-kind — are welcome but never required. ESRF.net does not sell listings, rank its members, or charge subscription fees.",
+    "governance_kicker": "§ 03 · How it works",
+    "governance_title_1": "Transparent",
+    "governance_title_2": "by",
+    "governance_title_3": "design",
+    "governance_sub": "Governance, methodology, selection — all in the open.",
+    "gov_entity_title": "Legal entity",
+    "gov_entity_body": "ESRF.net is operated by Stichting ESRF.net, a not-for-profit foundation registered in the Netherlands. The foundation exists solely to maintain the framework, fund the editorial operation, and protect the independence of the directory.",
+    "gov_methodology_title": "Methodology",
+    "gov_methodology_body_html": "Organisations are classified across <strong>ten vital sectors</strong> aligned with the EU NIS2 Directive and the Critical Entities Resilience (CER) Directive. Each listing is editorially reviewed against three criteria: (1) the organisation's work must demonstrably contribute to European security or resilience, (2) it must operate in or serve at least one of the 29 covered countries, and (3) it must have a verifiable public presence (website, chamber of commerce registration, or equivalent).",
+    "gov_selection_title": "Selection criteria",
+    "gov_selection_body": "ESRF.net does not sell listings, rank its members, or charge subscription fees. Organisations may request a listing or be identified through open-source intelligence. Every listing is reviewed by the editorial team against the sector taxonomy and the three criteria above. Listings that no longer meet the criteria are archived, not deleted — transparency applies in both directions.",
+    "gov_stichting_title": "Stichting vs. network",
+    "gov_stichting_body": "The foundation (Stichting ESRF.net) is the legal shell. The network is the community of 1,890 organisations. The foundation does not own, control or represent the organisations it lists — it curates the directory, maintains the atlas, publishes the dispatch, and channels contributions into initiatives that make the network grow and more robust. The organisations themselves are sovereign; the directory is a public good.",
+    "gov_contact_title": "Contact",
+    "gov_contact_body_html": "Stichting ESRF.net · The Netherlands<br>General enquiries: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Privacy matters: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
   },
   "privacy": {
     "title": "Privacy — ESRF.net",
@@ -265,7 +280,7 @@
     "hero_deck": "Every country in the ESRF.net community — from the Atlantic to the Baltic, the Arctic to the Mediterranean."
   },
   "footer": {
-    "brand_desc": "European Security & Resilience Foundation — a decentralised community of 1,890 organisations across 29 countries.",
+    "brand_desc": "ESRF.net — European Security & Resilience Framework. A curated directory of 1,890 organisations across 29 countries.",
     "community": "Community",
     "foundation": "Foundation",
     "legal": "Legal",
@@ -296,8 +311,8 @@
   "form": {
     "page_title": "Request a listing — ESRF.net",
     "kicker": "§ Community · Listing request",
-    "hero_title": "Request a listing.",
-    "hero_deck": "Any organisation whose work strengthens European security and resilience is welcome in the ESRF.net community. Submissions are reviewed within three working days. Listing is free.",
+    "hero_title": "Claim your listing.",
+    "hero_deck": "Any organisation whose work strengthens European security and resilience is welcome in the ESRF.net community. Submissions are reviewed by the editorial team within three working days. Listing is free — we ask only that your work genuinely contributes to one of our ten vital sectors.",
     "label_name": "Organisation name",
     "label_country": "Country",
     "label_city": "City",
@@ -334,12 +349,12 @@
   },
   "modal": {
     "kicker": "§ Community · Listing request",
-    "title": "Add your organisation",
+    "title": "Claim your listing",
     "intro": "Any organisation whose work strengthens European security and resilience is welcome. Listing is free. Submissions are reviewed within three working days.",
     "full_form_link": "Open the full form →"
   },
   "sponsor": {
-    "page_title": "Support ESRF.net — Sponsor the European Security & Resilience community",
+    "page_title": "Support — ESRF.net",
     "kicker": "§ Support · ESRF.net",
     "hero_title": "Support ESRF.net.",
     "hero_deck": "Back the network that connects Europe's security and resilience community — 1,890 organisations, 29 countries, ten vital sectors. Your support keeps the atlas independent, open and growing.",
