@@ -130,17 +130,15 @@
   },
   "directory": {
     "title": "Director — ESRF.net",
-    "hero_title": "Directorul practicii.",
-    "title_word_the": "Directorul",
-    "title_word_of_practice": "practicii.",
     "join_title_prefix": "Nu sunteți încă pe",
     "join_title_suffix": "atlas?",
     "description": "Răsfoiți 1.890 de organizații din 29 de țări europene care formează comunitatea ESRF.net — filtrați după sector și țară.",
     "kicker": "§ 03 · Sectoare vitale · Director",
-    "hero_deck": "O mie opt sute nouăzeci și două de organizații — sortate după sector, țară și misiune. Căutați, filtrați și citiți cine ține fiecare parte a Europei unită.",
+    "hero_deck": "1.890 de organizații — sortate după sector, țară și misiune. Căutați, filtrați și citiți cine ține fiecare parte a Europei unită.",
     "join_title": "Nu sunteți încă pe atlas?",
     "join_sub": "Orice organizație a cărei muncă contribuie la securitatea și reziliența europeană este binevenită în comunitatea ESRF.net.",
-    "listing_banner": "Nu vă vedeți organizația?"
+    "listing_banner": "Nu vă vedeți organizația?",
+    "hero_title_html": "<i>Directorul</i> practicii."
   },
   "map": {
     "title": "Atlas — ESRF.net",

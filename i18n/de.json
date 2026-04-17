@@ -132,15 +132,13 @@
     "title": "Verzeichnis — ESRF.net",
     "description": "Durchsuchen Sie 1.890 Organisationen aus 29 europäischen Ländern, die die ESRF.net-Gemeinschaft bilden — nach Sektor und Land filtern.",
     "kicker": "§ 03 · Wichtige Sektoren · Verzeichnis",
-    "hero_title": "Das Verzeichnis der Praxis.",
-    "hero_deck": "Tausendachthundertzweiundneunzig Organisationen — sortiert nach Sektor, Land und Auftrag. Suchen, filtern und lesen, wer jeden Teil Europas zusammenhält.",
+    "hero_deck": "1.890 Organisationen — sortiert nach Sektor, Land und Auftrag. Suchen, filtern und lesen, wer jeden Teil Europas zusammenhält.",
     "join_title": "Noch nicht im Atlas?",
     "join_sub": "Jede Organisation, deren Arbeit zur europäischen Sicherheit und Resilienz beiträgt, ist in der ESRF.net-Gemeinschaft willkommen.",
     "listing_banner": "Ihre Organisation nicht gefunden?",
-    "title_word_the": "Das",
-    "title_word_of_practice": "der Praxis.",
     "join_title_prefix": "Noch nicht im",
-    "join_title_suffix": "Atlas?"
+    "join_title_suffix": "Atlas?",
+    "hero_title_html": "Das <i>Verzeichnis</i><br>der Praxis."
   },
   "map": {
     "title": "Atlas — ESRF.net",

@@ -132,15 +132,13 @@
     "title": "Elenco — ESRF.net",
     "description": "Esplorate 1.890 organizzazioni in 29 paesi europei che formano la comunità ESRF.net — filtrate per settore e paese.",
     "kicker": "§ 03 · Settori vitali · Elenco",
-    "hero_title": "L’elenco della pratica.",
-    "hero_deck": "Milleottocentonovantadue organizzazioni — ordinate per settore, paese e missione. Cercate, filtrate e leggete chi tiene insieme ogni parte d’Europa.",
+    "hero_deck": "1.890 organizzazioni — ordinate per settore, paese e missione. Cercate, filtrate e leggete chi tiene insieme ogni parte d’Europa.",
     "join_title": "Non ancora nell’atlante?",
     "join_sub": "Qualsiasi organizzazione il cui lavoro contribuisca alla sicurezza e resilienza europee è benvenuta nella comunità ESRF.net.",
     "listing_banner": "Non trovate la vostra organizzazione?",
-    "title_word_the": "L’",
-    "title_word_of_practice": "della pratica.",
     "join_title_prefix": "Non ancora nell’",
-    "join_title_suffix": "atlante?"
+    "join_title_suffix": "atlante?",
+    "hero_title_html": "L’<i>elenco</i><br>della pratica."
   },
   "map": {
     "title": "Atlante — ESRF.net",

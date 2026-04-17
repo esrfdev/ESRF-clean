@@ -130,17 +130,15 @@
   },
   "directory": {
     "title": "Katalog — ESRF.net",
-    "hero_title": "Praksiskatalogen.",
-    "title_word_the": "Katalogen",
-    "title_word_of_practice": "for praksis.",
     "join_title_prefix": "Ikke ennå på",
     "join_title_suffix": "atlaset?",
     "description": "Bla gjennom 1 890 organisasjoner i 29 europeiske land som utgjør ESRF.net-fellesskapet — filtrer etter sektor og land.",
     "kicker": "§ 03 · Vitale Sektorer · Katalog",
-    "hero_deck": "Et tusen åtte hundre og nittito organisasjoner — sortert etter sektor, land og oppdrag. Søk, filtrer og les om hvem som holder hvert hjørne av Europa sammen.",
+    "hero_deck": "1 890 organisasjoner — sortert etter sektor, land og oppdrag. Søk, filtrer og les om hvem som holder hvert hjørne av Europa sammen.",
     "join_title": "Ikke ennå på atlaset?",
     "join_sub": "Enhver organisasjon hvis arbeid bidrar til europeisk sikkerhet og motstandsdyktighet er velkommen i ESRF.net-fellesskapet.",
-    "listing_banner": "Finner du ikke organisasjonen din her?"
+    "listing_banner": "Finner du ikke organisasjonen din her?",
+    "hero_title_html": "<i>Praksiskatalogen</i>."
   },
   "map": {
     "title": "Atlas — ESRF.net",

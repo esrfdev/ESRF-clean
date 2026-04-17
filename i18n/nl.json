@@ -132,15 +132,13 @@
     "title": "Directory — ESRF.net",
     "description": "Blader door 1.890 organisaties in 29 Europese landen die deel uitmaken van de ESRF.net-gemeenschap — filter op sector en land.",
     "kicker": "§ 03 · Vitale Sectoren · Directory",
-    "hero_title": "De praktijkdirectory.",
-    "hero_deck": "Eenduizend achthonderdtweeënnegentig organisaties — gesorteerd op sector, land en missie. Zoek, filter en ontdek wie elk deel van Europa bij elkaar houdt.",
+    "hero_deck": "1.890 organisaties — gesorteerd op sector, land en missie. Zoek, filter en ontdek wie elk deel van Europa bij elkaar houdt.",
     "join_title": "Nog niet op de atlas?",
     "join_sub": "Elke organisatie wier werk bijdraagt aan Europese veiligheid en veerkracht is welkom in de ESRF.net-gemeenschap.",
     "listing_banner": "Staat uw organisatie er niet bij?",
-    "title_word_the": "De",
-    "title_word_of_practice": "van de praktijk.",
     "join_title_prefix": "Nog niet op de",
-    "join_title_suffix": "atlas?"
+    "join_title_suffix": "atlas?",
+    "hero_title_html": "De <i>directory</i><br>van de praktijk."
   },
   "map": {
     "title": "Atlas — ESRF.net",
