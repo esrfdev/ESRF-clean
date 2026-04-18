@@ -248,12 +248,78 @@
 }
 .ev-count strong{color:var(--accent);font-weight:500;font-size:13px}
 
+/* ── Submit Banner ── */
+.ev-submit-banner{
+  max-width:var(--max);margin:0 auto;
+  padding:12px var(--pad-x);
+}
+.ev-submit-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 24px;
+  background:var(--ink);color:var(--cream);
+  border:1px solid var(--ink);
+}
+.ev-submit-text{display:flex;align-items:center;gap:12px}
+.ev-submit-kicker{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;
+  letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);
+  background:rgba(201,108,59,0.15);padding:3px 8px;
+}
+.ev-submit-headline{
+  font-family:'Archivo',sans-serif;font-weight:700;
+  font-size:15px;letter-spacing:-0.01em;color:var(--cream);
+}
+.ev-submit-btn{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:8px 20px;border:1px solid var(--cream);color:var(--cream);
+  text-decoration:none;white-space:nowrap;transition:all .2s;
+}
+.ev-submit-btn:hover{background:var(--cream);color:var(--ink)}
+
+/* ── Month Navigator ── */
+.ev-month-nav{
+  max-width:var(--max);margin:0 auto;
+  padding:12px var(--pad-x) 0;
+}
+.ev-month-nav-inner{
+  display:flex;align-items:center;gap:8px;
+}
+.ev-month-arrow{
+  width:36px;height:36px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;color:var(--ink-dim);border:1px solid rgba(15,20,25,0.12);
+  background:var(--cream);cursor:pointer;transition:all .2s;
+  font-family:system-ui;
+}
+.ev-month-arrow:hover:not(:disabled){border-color:var(--ink);color:var(--ink)}
+.ev-month-arrow:disabled{opacity:0.3;cursor:default}
+.ev-month-pills{
+  display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;flex:1;padding:2px 0;
+}
+.ev-month-pills::-webkit-scrollbar{display:none}
+.ev-month-pill{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+  padding:7px 14px;border:1px solid rgba(15,20,25,0.12);
+  color:var(--ink-dim);background:transparent;cursor:pointer;
+  white-space:nowrap;transition:all .2s;flex-shrink:0;
+}
+.ev-month-pill:hover{border-color:var(--ink);color:var(--ink)}
+.ev-month-pill.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.ev-month-pill .pill-count{
+  font-size:9px;color:var(--accent);margin-left:4px;
+}
+.ev-month-pill.active .pill-count{color:rgba(255,255,255,0.6)}
+.ev-month-pill.all-pill{background:var(--accent);color:var(--cream);border-color:var(--accent)}
+.ev-month-pill.all-pill:not(.active){background:transparent;color:var(--accent);border-color:var(--accent)}
+
 /* ── Timeline ── */
 .ev-timeline{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x) 60px}
 .ev-month{
-  position:sticky;top:130px;z-index:10;background:var(--bg);
   padding:24px 0 12px;border-bottom:2px solid var(--ink);
-  margin-top:32px;display:flex;align-items:baseline;gap:12px;
+  margin-top:12px;display:flex;align-items:baseline;gap:12px;
 }
 .ev-month:first-child{margin-top:12px}
 .ev-month-name{font-family:'Archivo',sans-serif;font-weight:800;font-size:28px;letter-spacing:-0.02em;color:var(--ink);line-height:1}
@@ -368,6 +434,13 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   .ev-venue{font-size:9px;padding:4px 10px}
   .ev-hero{padding:20px 16px 0}
   .ev-timeline{padding:0 16px 60px}
+  .ev-submit-banner{padding:12px 16px}
+  .ev-submit-inner{padding:12px 16px;flex-wrap:wrap;gap:10px}
+  .ev-submit-text{gap:8px}
+  .ev-submit-headline{font-size:13px}
+  .ev-month-nav{padding:12px 16px 0}
+  .ev-month-pill{padding:6px 10px;font-size:9px}
+  .ev-month-arrow{width:32px;height:32px;font-size:18px}
 }
 @media(max-width:480px){
   .ev-kpis{grid-template-columns:repeat(2,1fr)}
@@ -465,6 +538,17 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   </div>
 </div>
 
+<!-- ═══ Submit Banner (above timeline) ═══ -->
+<div class="ev-submit-banner" id="ev-submit-banner">
+  <div class="ev-submit-inner">
+    <div class="ev-submit-text">
+      <span class="ev-submit-kicker">Community</span>
+      <span class="ev-submit-headline">Know of an event?</span>
+    </div>
+    <a href="submit-event.html" class="ev-submit-btn">Submit an event →</a>
+  </div>
+</div>
+
 <!-- ═══ Filter toolbar ═══ -->
 <div class="ev-toolbar" id="ev-toolbar">
   <div class="ev-toolbar-inner">
@@ -474,6 +558,15 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
     </label>
     <div class="ev-chips" id="ev-type-chips"></div>
     <span class="ev-count"><strong id="ev-count">0</strong> · events</span>
+  </div>
+</div>
+
+<!-- ═══ Month Navigator ═══ -->
+<div class="ev-month-nav" id="ev-month-nav">
+  <div class="ev-month-nav-inner">
+    <button class="ev-month-arrow" id="ev-month-prev" title="Previous month" aria-label="Previous month">‹</button>
+    <div class="ev-month-pills" id="ev-month-pills"></div>
+    <button class="ev-month-arrow" id="ev-month-next" title="Next month" aria-label="Next month">›</button>
   </div>
 </div>
 
@@ -490,11 +583,7 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   </div>
 </aside>
 
-<!-- ═══ Submit CTA ═══ -->
-<div class="listing-banner">
-  <p>Hosting an event relevant to European security &amp; resilience?</p>
-  <a href="submit-event.html" class="btn outline">Submit an event →</a>
-</div>
+<!-- Submit CTA removed — now placed above toolbar -->
 
 <section class="join">
   <h2 class="join-h">Stay <i>informed</i>.</h2>
@@ -562,12 +651,67 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   $('ev-tab-past-n').textContent=past.length;
 
   /* ═══ State ═══ */
-  const S={tab:'upcoming',type:'',q:'',country:''};
+  const S={tab:'upcoming',type:'',q:'',country:'',month:''};
+
+  /* ═══ Month navigator ═══ */
+  const monthNavEl=$('ev-month-nav');
+  const monthPillsEl=$('ev-month-pills');
+  const monthPrevBtn=$('ev-month-prev');
+  const monthNextBtn=$('ev-month-next');
+
+  function getMonthKeys(list){
+    const keys=new Set();
+    list.forEach(e=>keys.add(mKey(e._date)));
+    return [...keys].sort((a,b)=>S.tab==='past'?b.localeCompare(a):a.localeCompare(b));
+  }
+
+  function buildMonthPills(){
+    const all=filtered();
+    const keys=getMonthKeys(all);
+    const counts={};
+    all.forEach(e=>{const k=mKey(e._date);counts[k]=(counts[k]||0)+1});
+    let html=`<button class="ev-month-pill${S.month===''?' active':''}" data-month="">All<span class="pill-count">${all.length}</span></button>`;
+    keys.forEach(k=>{
+      const d=new Date(+k.slice(0,4),+k.slice(5));
+      const label=d.toLocaleString('en-GB',{month:'short'}).toUpperCase()+' '+d.getFullYear();
+      html+=`<button class="ev-month-pill${S.month===k?' active':''}" data-month="${k}">${label}<span class="pill-count">${counts[k]||0}</span></button>`;
+    });
+    monthPillsEl.innerHTML=html;
+    // Scroll active pill into view
+    const activePill=monthPillsEl.querySelector('.active');
+    if(activePill)activePill.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+    // Update arrow state
+    const idx=keys.indexOf(S.month);
+    monthPrevBtn.disabled=(S.month===''||idx<=0);
+    monthNextBtn.disabled=(S.month===''||idx>=keys.length-1);
+  }
+
+  monthPillsEl.addEventListener('click',e=>{
+    const pill=e.target.closest('.ev-month-pill');if(!pill)return;
+    S.month=pill.dataset.month;
+    render();
+    buildMonthPills();
+  });
+
+  monthPrevBtn.addEventListener('click',()=>{
+    const keys=getMonthKeys(filtered());
+    const idx=keys.indexOf(S.month);
+    if(idx>0){S.month=keys[idx-1];render();buildMonthPills()}
+    else if(S.month!==''){S.month='';render();buildMonthPills()}
+  });
+
+  monthNextBtn.addEventListener('click',()=>{
+    const keys=getMonthKeys(filtered());
+    const idx=keys.indexOf(S.month);
+    if(S.month===''&&keys.length){S.month=keys[0];render();buildMonthPills()}
+    else if(idx<keys.length-1){S.month=keys[idx+1];render();buildMonthPills()}
+  });
 
   /* ═══ Tabs ═══ */
   tabsEl.addEventListener('click',e=>{
     const t=e.target.closest('.ev-tab');if(!t)return;
     S.tab=t.dataset.tab;
+    S.month='';
     tabsEl.querySelectorAll('.ev-tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===S.tab));
     fullUpdate();
   });
@@ -581,13 +725,14 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   chipsEl.addEventListener('click',e=>{
     const c=e.target.closest('.ev-chip');if(!c)return;
     S.type=c.dataset.type;
+    S.month='';
     chipsEl.querySelectorAll('.ev-chip').forEach(x=>x.classList.toggle('active',x.dataset.type===S.type));
     fullUpdate();
   });
 
   /* ═══ Search ═══ */
   let deb;
-  qInput.addEventListener('input',()=>{clearTimeout(deb);deb=setTimeout(()=>{S.q=qInput.value.trim().toLowerCase();fullUpdate()},150)});
+  qInput.addEventListener('input',()=>{clearTimeout(deb);deb=setTimeout(()=>{S.q=qInput.value.trim().toLowerCase();S.month='';fullUpdate()},150)});
 
   /* ═══ Legend ═══ */
   const typeColors={conference:'#C14A2E',expo:'#2B5A2B',training:'#2B3A5A',exercise:'#5A2B2B',webinar:'#4A2B5A'};
@@ -812,7 +957,9 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
 
   /* ═══ Render timeline ═══ */
   function render(){
-    const rows=filtered();
+    const allRows=filtered();
+    /* Filter by selected month */
+    const rows=S.month?allRows.filter(e=>mKey(e._date)===S.month):allRows;
     countEl.textContent=rows.length;
     if(!rows.length){timeline.innerHTML='<div class="ev-empty">No events match your filters.</div>';return}
     const nextUp=S.tab==='upcoming'?rows.find(e=>e._date>=NOW):null;
@@ -872,6 +1019,12 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   /* ═══ Full update (all panels) ═══ */
   function fullUpdate(){
     const list=filtered();
+    /* Auto-select first month if none selected */
+    if(!S.month){
+      const keys=getMonthKeys(list);
+      if(keys.length)S.month=keys[0];
+    }
+    buildMonthPills();
     render();
     buildMarkers(list);
     buildSlider(list);
