@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Submit an event — ESRF.net</title>
+<meta name="description" content="Submit a security & resilience event or training for inclusion on the ESRF.net events dashboard. All submissions are verified by the editorial team." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<script src="consent.js" defer></script>
+<script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="events.html">Events</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
+    </div>
+  </div>
+</nav>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ Events · Submission</div>
+    <h1 class="phero-title">Submit an<br><i>event</i>.</h1>
+    <p class="phero-deck">Know of a conference, training, exercise or expo relevant to European security and resilience? Submit it below. All submissions are reviewed by the ESRF.net editorial team to verify authenticity before publication. Events from EU agencies, national cybersecurity centres, research institutions and industry partners are welcome.</p>
+  </div>
+</section>
+
+<div class="form-wrap">
+
+  <!-- Error state -->
+  <div id="form-error" class="form-error" hidden role="alert" aria-live="assertive"></div>
+
+  <!-- Form -->
+  <form id="event-form" class="form-grid" novalidate autocomplete="on">
+
+    <!-- Honeypot -->
+    <input type="text" name="company_website_hp" tabindex="-1" autocomplete="off"
+      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
+
+    <!-- ── Section: Event details ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">Event details</legend>
+
+      <div class="form-row">
+        <label for="ev-name">Event name <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="ev-name" name="event_name" required maxlength="160"
+          placeholder="European Cyber Security Conference 2026" />
+      </div>
+
+      <div class="form-row">
+        <label for="ev-type">Event type <span class="req" aria-hidden="true">*</span></label>
+        <select id="ev-type" name="event_type" required>
+          <option value="">Select a type…</option>
+          <option value="Conference">Conference</option>
+          <option value="Expo">Expo / Exhibition</option>
+          <option value="Training">Training / Workshop</option>
+          <option value="Exercise">Exercise / Drill</option>
+          <option value="Webinar">Webinar / Online event</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-row form-row-pair">
+        <div class="form-row">
+          <label for="ev-date-start">Start date <span class="req" aria-hidden="true">*</span></label>
+          <input type="date" id="ev-date-start" name="date_start" required />
+        </div>
+        <div class="form-row">
+          <label for="ev-date-end">End date</label>
+          <input type="date" id="ev-date-end" name="date_end" />
+          <span class="hint">Leave blank for single-day events</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="ev-description">Short description <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="ev-description" name="description" required maxlength="500"
+          placeholder="Brief description of the event, its scope and expected audience…"></textarea>
+        <div class="counter" id="desc-counter" aria-live="polite">0 / 500</div>
+      </div>
+
+      <div class="form-row">
+        <label for="ev-topics">Topics / Keywords</label>
+        <input type="text" id="ev-topics" name="topics" maxlength="200"
+          placeholder="e.g. cybersecurity, NIS2, critical infrastructure, crisis management" />
+        <span class="hint">Comma-separated — helps us categorise and verify relevance</span>
+      </div>
+    </fieldset>
+
+    <!-- ── Section: Venue & location ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">Venue &amp; location</legend>
+
+      <div class="form-row form-row-pair">
+        <div class="form-row">
+          <label for="ev-city">City <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="ev-city" name="city" required maxlength="80"
+            placeholder="Brussels" autocomplete="address-level2" />
+        </div>
+        <div class="form-row">
+          <label for="ev-country">Country <span class="req" aria-hidden="true">*</span></label>
+          <select id="ev-country" name="country" required>
+            <option value="">Select a country…</option>
+            <optgroup label="EU Member States">
+              <option value="AT">Austria</option><option value="BE">Belgium</option>
+              <option value="BG">Bulgaria</option><option value="HR">Croatia</option>
+              <option value="CY">Cyprus</option><option value="CZ">Czech Republic</option>
+              <option value="DK">Denmark</option><option value="EE">Estonia</option>
+              <option value="FI">Finland</option><option value="FR">France</option>
+              <option value="DE">Germany</option><option value="GR">Greece</option>
+              <option value="HU">Hungary</option><option value="IE">Ireland</option>
+              <option value="IT">Italy</option><option value="LV">Latvia</option>
+              <option value="LT">Lithuania</option><option value="LU">Luxembourg</option>
+              <option value="MT">Malta</option><option value="NL">Netherlands</option>
+              <option value="PL">Poland</option><option value="PT">Portugal</option>
+              <option value="RO">Romania</option><option value="SK">Slovakia</option>
+              <option value="SI">Slovenia</option><option value="ES">Spain</option>
+              <option value="SE">Sweden</option>
+            </optgroup>
+            <optgroup label="Other European Countries">
+              <option value="IS">Iceland</option><option value="NO">Norway</option>
+              <option value="UA">Ukraine</option><option value="GB">United Kingdom</option>
+              <option value="CH">Switzerland</option><option value="AL">Albania</option>
+              <option value="BA">Bosnia and Herzegovina</option>
+              <option value="ME">Montenegro</option><option value="MK">North Macedonia</option>
+              <option value="RS">Serbia</option><option value="TR">Turkey</option>
+            </optgroup>
+            <optgroup label="Virtual">
+              <option value="ONLINE">Online / Virtual</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="ev-venue">Venue name</label>
+        <input type="text" id="ev-venue" name="venue" maxlength="120"
+          placeholder="Brussels Expo, Palais 12" />
+      </div>
+    </fieldset>
+
+    <!-- ── Section: Verification ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">Verification</legend>
+      <p class="fieldset-intro">To ensure the quality and authenticity of our events dashboard, we ask for verifiable sources. This helps our editorial team confirm that events are genuine and open to the relevant community.</p>
+
+      <div class="form-row">
+        <label for="ev-website">Official event website <span class="req" aria-hidden="true">*</span></label>
+        <input type="url" id="ev-website" name="event_website" required
+          placeholder="https://event-website.eu" pattern="https?://.+" />
+        <span class="hint">The official event page or registration link — must begin with https:// or http://</span>
+      </div>
+
+      <div class="form-row">
+        <label for="ev-organiser">Organising body <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="ev-organiser" name="organiser" required maxlength="160"
+          placeholder="e.g. ENISA, NCSC, Fraunhofer AISEC, NATO CCDCOE" />
+        <span class="hint">Full name of the organisation hosting or organising this event</span>
+      </div>
+
+      <div class="form-row">
+        <label for="ev-organiser-url">Organiser website</label>
+        <input type="url" id="ev-organiser-url" name="organiser_website"
+          placeholder="https://organiser-website.eu" pattern="https?://.+" />
+        <span class="hint">Helps us verify the organiser — particularly useful for lesser-known organisations</span>
+      </div>
+
+      <div class="form-row">
+        <label for="ev-source">Additional source or press release</label>
+        <input type="url" id="ev-source" name="source_url"
+          placeholder="https://press-release-or-announcement.eu" pattern="https?://.+" />
+        <span class="hint">Link to a press release, news article or social media announcement confirming this event</span>
+      </div>
+    </fieldset>
+
+    <!-- ── Section: Your details ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">Your details</legend>
+      <p class="fieldset-intro">We need your contact information to follow up on the submission. Your details will not be published.</p>
+
+      <div class="form-row">
+        <label for="ev-contact-name">Your name <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="ev-contact-name" name="contact_name" required maxlength="80"
+          placeholder="Your full name" autocomplete="name" />
+      </div>
+
+      <div class="form-row">
+        <label for="ev-contact-email">Your email <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="ev-contact-email" name="contact_email" required
+          placeholder="you@organisation.eu" autocomplete="email" />
+        <span class="hint">Use your professional email — submissions from personal accounts require additional verification</span>
+      </div>
+
+      <div class="form-row">
+        <label for="ev-contact-role">Your role / affiliation</label>
+        <input type="text" id="ev-contact-role" name="contact_role" maxlength="120"
+          placeholder="e.g. Communications Officer at ENISA" />
+        <span class="hint">Helps us verify your connection to the event or organiser</span>
+      </div>
+    </fieldset>
+
+    <!-- ── Consent ── -->
+    <div class="form-check">
+      <input type="checkbox" id="ev-gdpr" name="gdpr_consent" required>
+      <label for="ev-gdpr">
+        I agree to the <a href="privacy.html">privacy policy</a> and consent to the storage of this data for event review purposes. I confirm that the information provided is accurate to the best of my knowledge.
+      </label>
+    </div>
+
+    <div>
+      <button type="submit" class="form-submit" id="submit-btn">
+        Submit event for review
+      </button>
+    </div>
+
+  </form>
+
+  <!-- Success state -->
+  <div id="form-success" class="form-success" hidden>
+    <div class="kicker">§ Received</div>
+    <h2>Submission received.</h2>
+    <p style="color:var(--ink-soft);max-width:480px;margin:0 auto;line-height:1.6">Thank you. The ESRF.net editorial team will verify your event and, if approved, add it to the <a href="events.html" style="color:var(--accent)">events dashboard</a> within five working days. You will receive a confirmation at the email address provided.</p>
+    <a href="events.html" class="btn outline" style="margin-top:32px">Back to events →</a>
+  </div>
+
+</div>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p data-i18n="footer.brand_desc">ESRF.net — European security and resilience, powered by 1,931 organisations across 30 countries.</p>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.community">Community</h4>
+      <ul>
+        <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li>
+        <li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
+        <li><a href="countries/index.html" data-i18n="footer.countries">Countries</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.foundation">Foundation</h4>
+      <ul>
+        <li><a href="about.html" data-i18n="nav.foundation">About</a></li>
+        <li><a href="events.html">Events</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+        <li><a href="fund.html" data-i18n="nav.fund">Contribute</a></li>
+        <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
+        <li><a href="mailto:hello@esrf.net" data-i18n="footer.contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <ul>
+        <li><a href="privacy.html" data-i18n="footer.privacy">Privacy</a></li>
+        <li><a href="terms.html" data-i18n="footer.terms">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div data-i18n="common.copyright">© 2026 Stichting ESRF European Security and Resilience Fund</div>
+    <div><span data-i18n="footer.tagline">Atlas of Organisations</span> <a href="#top">Back to top ↑</a></div>
+  </div>
+</footer>
+
+<script src="assets/flags.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="app.js"></script>
+<script>
+(function(){
+  window.__formLoadedAt = Date.now();
+
+  // Description counter
+  const descEl = document.getElementById('ev-description');
+  const counter = document.getElementById('desc-counter');
+  if (descEl && counter) {
+    descEl.addEventListener('input', function(){
+      counter.textContent = this.value.length + ' / 500';
+    });
+  }
+
+  // End date must be >= start date
+  const startEl = document.getElementById('ev-date-start');
+  const endEl = document.getElementById('ev-date-end');
+  if (startEl && endEl) {
+    startEl.addEventListener('change', function(){
+      endEl.min = this.value;
+      if (endEl.value && endEl.value < this.value) endEl.value = this.value;
+    });
+  }
+
+  // Form submit → mailto:event@esrf.net
+  const form = document.getElementById('event-form');
+  const errorBox = document.getElementById('form-error');
+  const successBox = document.getElementById('form-success');
+  const submitBtn = document.getElementById('submit-btn');
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
+    errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  function hideError() {
+    errorBox.hidden = true;
+    errorBox.textContent = '';
+  }
+
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      hideError();
+
+      const data = new FormData(form);
+
+      // Honeypot
+      if (data.get('company_website_hp')) return;
+
+      // Timer
+      const elapsed = Date.now() - (window.__formLoadedAt || 0);
+      if (elapsed < 3000) {
+        showError('Please take a moment to review the form before submitting.');
+        return;
+      }
+
+      // Required fields
+      const eventName = data.get('event_name') || '';
+      const eventType = data.get('event_type') || '';
+      const dateStart = data.get('date_start') || '';
+      const description = data.get('description') || '';
+      const city = data.get('city') || '';
+      const country = data.get('country') || '';
+      const eventWebsite = data.get('event_website') || '';
+      const organiser = data.get('organiser') || '';
+      const contactName = data.get('contact_name') || '';
+      const contactEmail = data.get('contact_email') || '';
+      const gdpr = data.get('gdpr_consent');
+
+      if (!eventName || !eventType || !dateStart || !description || !city || !country || !eventWebsite || !organiser || !contactName || !contactEmail) {
+        showError('Please fill in all required fields.');
+        return;
+      }
+      if (!gdpr) {
+        showError('Please accept the privacy policy to continue.');
+        return;
+      }
+      if (!/^https?:\/\/.+/.test(eventWebsite)) {
+        showError('Please enter a valid event website URL starting with https:// or http://');
+        return;
+      }
+      if (!/^[^@]+@[^@]+\.[^@]+$/.test(contactEmail)) {
+        showError('Please enter a valid email address.');
+        return;
+      }
+
+      // Build mailto body
+      const dateEnd = data.get('date_end') || '';
+      const venue = data.get('venue') || '';
+      const topics = data.get('topics') || '';
+      const organiserUrl = data.get('organiser_website') || '';
+      const sourceUrl = data.get('source_url') || '';
+      const contactRole = data.get('contact_role') || '';
+
+      const countryLabel = document.querySelector('#ev-country option:checked')?.textContent || country;
+      const typeLabel = document.querySelector('#ev-type option:checked')?.textContent || eventType;
+
+      const lines = [
+        '═══════════════════════════════════════',
+        'EVENT SUBMISSION — ESRF.net',
+        '═══════════════════════════════════════',
+        '',
+        '▸ EVENT DETAILS',
+        '  Name:          ' + eventName,
+        '  Type:          ' + typeLabel,
+        '  Date:          ' + dateStart + (dateEnd ? ' → ' + dateEnd : ''),
+        '  Description:   ' + description,
+        topics ? '  Topics:        ' + topics : '',
+        '',
+        '▸ VENUE & LOCATION',
+        '  City:          ' + city,
+        '  Country:       ' + countryLabel,
+        venue ? '  Venue:         ' + venue : '',
+        '',
+        '▸ VERIFICATION',
+        '  Event URL:     ' + eventWebsite,
+        '  Organiser:     ' + organiser,
+        organiserUrl ? '  Organiser URL: ' + organiserUrl : '',
+        sourceUrl ? '  Source/Press:  ' + sourceUrl : '',
+        '',
+        '▸ SUBMITTED BY',
+        '  Name:          ' + contactName,
+        '  Email:         ' + contactEmail,
+        contactRole ? '  Role:          ' + contactRole : '',
+        '',
+        '═══════════════════════════════════════',
+        'Submitted via ESRF.net/submit-event',
+        'Time: ' + new Date().toISOString(),
+        '═══════════════════════════════════════',
+      ].filter(l => l !== '').join('\n');
+
+      const subject = 'Event submission: ' + eventName + ' — ' + city + ', ' + countryLabel;
+
+      // Open mailto
+      const mailtoUrl = 'mailto:event@esrf.net'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(lines);
+
+      window.location.href = mailtoUrl;
+
+      // Show success after short delay (mail client will have opened)
+      setTimeout(function(){
+        form.hidden = true;
+        successBox.hidden = false;
+        successBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 500);
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -974,6 +974,12 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .form-error{padding:14px 18px;background:rgba(210,75,31,0.1);border-left:3px solid var(--accent);margin-bottom:20px;color:var(--ink);font-size:14px}
 .form-success{text-align:center;padding:60px 20px}
 .form-success h2{font-family:'Archivo',sans-serif;font-size:40px;margin-bottom:16px}
+.form-fieldset{border:none;padding:0;margin:0 0 12px}
+.form-fieldset .form-row{margin-bottom:0}
+.form-legend{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:var(--accent);padding:0 0 10px;border-bottom:1px solid rgba(15,20,25,0.1);margin-bottom:20px;width:100%;font-weight:500}
+.fieldset-intro{font-size:14px;color:var(--ink-dim);line-height:1.55;margin:-8px 0 20px}
+.form-row-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:600px){.form-row-pair{grid-template-columns:1fr}}
 
 /* ── Modal ── */
 .modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px}
