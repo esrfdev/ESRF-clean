@@ -76,7 +76,7 @@ export async function onRequestPost(context) {
       },
       body: JSON.stringify({
         from: 'ESRF.net <noreply@esrf.net>',
-        to: ['hello@esrf.net'],
+        to: ['partnership@esrf.net'],
         reply_to: body.contact_email,
         subject: `New sponsor inquiry: ${tierLabel} — ${body.organisation}`,
         text: formatSubmission(submission)
