@@ -1,19 +1,218 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Events & Training — ESRF.net</title>
-<meta name="description" content="Upcoming European security, resilience, cybersecurity and crisis management events, conferences, and training programmes curated by ESRF.net." />
-<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<meta name="description" content="Upcoming European security, resilience, cybersecurity and crisis management events, conferences, and training programmes curated by ESRF.net."/>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script src="consent.js" defer></script>
 <style>
-/* ═══ Events page styles ═══ */
+/* ═══ Events Dashboard v3 — Integrated Visual Dashboard ═══ */
 
+/* ── Hero KPI strip ── */
+.ev-hero{
+  max-width:var(--max);margin:0 auto;
+  padding:28px var(--pad-x) 0;
+}
+.ev-hero-title{
+  font-family:'Archivo',sans-serif;font-weight:800;
+  font-size:32px;letter-spacing:-0.03em;color:var(--ink);
+  line-height:1;margin-bottom:4px;
+}
+.ev-hero-sub{
+  font-family:'PT Serif',serif;font-style:italic;
+  font-size:15px;color:var(--ink-dim);margin-bottom:20px;
+}
+.ev-kpis{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+  border:1px solid var(--ink);
+}
+.ev-kpi{
+  padding:16px 20px;border-right:1px solid rgba(15,20,25,0.12);
+  transition:background .2s;cursor:default;
+}
+.ev-kpi:last-child{border-right:none}
+.ev-kpi:hover{background:rgba(15,20,25,0.02)}
+.ev-kpi-val{
+  font-family:'Archivo',sans-serif;font-weight:800;
+  font-size:28px;letter-spacing:-0.02em;color:var(--accent);line-height:1;
+}
+.ev-kpi-label{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
+  margin-top:4px;
+}
+
+/* ── Tabs ── */
+.ev-tabs{
+  max-width:var(--max);margin:0 auto;
+  padding:20px var(--pad-x) 0;
+  display:flex;gap:0;border-bottom:2px solid var(--ink);
+}
+.ev-tab{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  padding:10px 24px;border:2px solid transparent;border-bottom:none;
+  color:var(--ink-dim);cursor:pointer;transition:all .2s;
+  position:relative;bottom:-2px;background:transparent;
+}
+.ev-tab:hover{color:var(--ink)}
+.ev-tab.active{
+  color:var(--ink);background:var(--bg);
+  border-color:var(--ink);border-bottom-color:var(--bg);
+}
+.ev-tab .ev-tab-count{
+  display:inline-block;margin-left:6px;
+  font-size:9px;background:var(--accent);color:var(--cream);
+  padding:1px 6px;border-radius:2px;letter-spacing:0.05em;
+  vertical-align:middle;
+}
+.ev-tab.active .ev-tab-count{background:var(--ink)}
+
+/* ── Dashboard grid ── */
+.ev-dash{
+  max-width:var(--max);margin:0 auto;
+  padding:20px var(--pad-x) 0;
+  display:grid;
+  grid-template-columns:1fr 340px;
+  grid-template-rows:auto auto;
+  gap:20px;
+}
+.ev-dash-map{grid-column:1;grid-row:1/3}
+.ev-dash-charts{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:16px}
+.ev-dash-slider{grid-column:1/-1;grid-row:3}
+
+/* ── Map ── */
+.ev-map-wrap{
+  position:relative;border:1px solid var(--ink);
+  background:var(--cream);overflow:hidden;height:100%;min-height:460px;
+}
+#ev-map{height:100%;width:100%;z-index:1}
+.leaflet-container{background:var(--cream)!important;font-family:'PT Serif',serif!important}
+.leaflet-tile-pane{filter:saturate(0.3) contrast(0.90) brightness(1.08)}
+.leaflet-popup-content-wrapper{
+  border-radius:0!important;
+  box-shadow:0 4px 24px rgba(15,20,25,0.15)!important;
+  font-family:'PT Serif',serif!important;border:1px solid var(--ink);
+}
+.leaflet-popup-tip{display:none}
+.ev-popup{padding:4px 0;max-width:260px}
+.ev-popup-type{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+.ev-popup-name{font-family:'Archivo',sans-serif;font-weight:700;font-size:13px;line-height:1.3;margin-bottom:2px}
+.ev-popup-loc{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-dim)}
+.ev-popup-date{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink-soft);margin-top:2px}
+
+/* Markers */
+.ev-marker{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid var(--cream);box-shadow:0 1px 4px rgba(0,0,0,0.3);
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+  opacity:0;transform:scale(0);
+}
+.ev-marker.visible{opacity:1;transform:scale(1)}
+.ev-marker.pulsing{animation:evPulse 1.2s ease-out}
+.ev-marker.highlighted{width:20px;height:20px;border-width:3px;z-index:999!important;box-shadow:0 0 0 4px rgba(210,75,31,0.3),0 2px 8px rgba(0,0,0,0.3)}
+@keyframes evPulse{0%{box-shadow:0 0 0 0 rgba(210,75,31,0.5)}100%{box-shadow:0 0 0 16px rgba(210,75,31,0)}}
+.ev-marker-conference{background:#C14A2E}
+.ev-marker-expo{background:#2B5A2B}
+.ev-marker-training{background:#2B3A5A}
+.ev-marker-exercise{background:#5A2B2B}
+.ev-marker-webinar{background:#4A2B5A}
+
+/* ── Chart panels ── */
+.ev-chart-panel{
+  border:1px solid var(--ink);background:var(--cream);
+  padding:14px 16px;
+}
+.ev-chart-title{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
+  margin-bottom:8px;
+}
+.ev-chart-box{position:relative;width:100%;height:160px}
+.ev-chart-box canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+/* Country list chart */
+.ev-country-bars{list-style:none;padding:0;margin:0;max-height:160px;overflow-y:auto}
+.ev-country-bar{
+  display:flex;align-items:center;gap:8px;
+  padding:3px 0;font-size:11px;cursor:pointer;
+  transition:background .15s;
+}
+.ev-country-bar:hover{background:rgba(15,20,25,0.03)}
+.ev-country-bar.active{background:rgba(210,75,31,0.08)}
+.ev-country-name{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);
+  min-width:100px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.ev-country-fill{
+  flex:1;height:12px;background:rgba(15,20,25,0.06);position:relative;overflow:hidden;
+}
+.ev-country-fill-inner{height:100%;background:var(--accent);transition:width .4s cubic-bezier(.4,0,.2,1)}
+.ev-country-n{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;
+  color:var(--ink-dim);min-width:16px;text-align:right;
+}
+
+/* ── Time slider ── */
+.ev-slider-section{
+  max-width:var(--max);margin:0 auto;
+  padding:0 var(--pad-x);
+}
+.ev-slider-wrap{
+  border:1px solid var(--ink);background:var(--cream);
+  padding:16px 20px 12px;
+}
+.ev-slider-header{
+  display:flex;align-items:baseline;justify-content:space-between;
+  margin-bottom:10px;
+}
+.ev-slider-title{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
+}
+.ev-slider-row{display:flex;align-items:center;gap:14px}
+.ev-play-btn{
+  width:32px;height:32px;
+  border:1px solid var(--ink-dim);background:transparent;
+  font-size:14px;color:var(--ink);cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ev-play-btn:hover{border-color:var(--accent);color:var(--accent)}
+.ev-play-btn.playing{background:var(--accent);color:var(--cream);border-color:var(--accent)}
+#ev-slider{
+  flex:1;-webkit-appearance:none;appearance:none;
+  height:4px;background:var(--ink-dim);outline:none;cursor:pointer;
+}
+#ev-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;background:var(--accent);
+  border:2px solid var(--cream);border-radius:0;box-shadow:0 1px 4px rgba(0,0,0,0.2);cursor:grab;
+}
+#ev-slider::-moz-range-thumb{
+  width:18px;height:18px;background:var(--accent);
+  border:2px solid var(--cream);border-radius:0;box-shadow:0 1px 4px rgba(0,0,0,0.2);cursor:grab;
+}
+.ev-slider-label{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);
+  min-width:120px;text-align:right;white-space:nowrap;
+}
+.ev-slider-ticks{
+  display:flex;justify-content:space-between;padding:6px 46px 0;
+}
+.ev-slider-tick{
+  font-family:'IBM Plex Mono',monospace;font-size:7px;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-dim);
+}
+
+/* ── Filter toolbar ── */
 .ev-toolbar{
   position:sticky;top:69px;z-index:30;
   background:var(--bg);border-bottom:1px solid var(--ink);
@@ -28,14 +227,12 @@
   flex:1;min-width:200px;
   display:flex;align-items:center;gap:10px;
   border:1px solid var(--ink);padding:8px 14px;background:var(--cream);
-  transition:border-color .2s, box-shadow .2s;
+  transition:border-color .2s,box-shadow .2s;
 }
 .ev-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px rgba(201,108,59,0.15)}
 .ev-search input{flex:1;background:transparent;border:0;outline:0;font-family:'PT Serif',serif;font-size:15px;color:var(--ink)}
 .ev-search input::placeholder{color:var(--ink-dim);font-style:italic}
 .ev-search-icon{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent)}
-
-/* Type filter chips — compact row */
 .ev-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .ev-chip{
   font-family:'IBM Plex Mono',monospace;font-weight:500;
@@ -46,7 +243,6 @@
 }
 .ev-chip:hover{border-color:var(--ink);color:var(--ink)}
 .ev-chip.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
-
 .ev-count{
   font-family:'IBM Plex Mono',monospace;font-weight:500;
   font-size:11px;letter-spacing:0.2em;text-transform:uppercase;
@@ -55,176 +251,131 @@
 .ev-count strong{color:var(--accent);font-weight:500;font-size:13px}
 
 /* ── Timeline ── */
-.ev-timeline{
-  max-width:var(--max);margin:0 auto;
-  padding:0 var(--pad-x) 80px;
-}
-
-/* Month header */
+.ev-timeline{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x) 60px}
 .ev-month{
-  position:sticky;top:130px;z-index:10;
-  background:var(--bg);
-  padding:24px 0 12px;
-  border-bottom:2px solid var(--ink);
-  margin-top:40px;
-  display:flex;align-items:baseline;gap:12px;
+  position:sticky;top:130px;z-index:10;background:var(--bg);
+  padding:24px 0 12px;border-bottom:2px solid var(--ink);
+  margin-top:32px;display:flex;align-items:baseline;gap:12px;
 }
-.ev-month:first-child{margin-top:16px}
-.ev-month-name{
-  font-family:'Archivo',sans-serif;font-weight:800;
-  font-size:28px;letter-spacing:-0.02em;color:var(--ink);line-height:1;
-}
-.ev-month-year{
-  font-family:'IBM Plex Mono',monospace;font-size:11px;
-  letter-spacing:0.15em;color:var(--ink-dim);text-transform:uppercase;
-}
-.ev-month-count{
-  font-family:'IBM Plex Mono',monospace;font-size:10px;
-  letter-spacing:0.1em;color:var(--accent);margin-left:auto;
-}
+.ev-month:first-child{margin-top:12px}
+.ev-month-name{font-family:'Archivo',sans-serif;font-weight:800;font-size:28px;letter-spacing:-0.02em;color:var(--ink);line-height:1}
+.ev-month-year{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.15em;color:var(--ink-dim);text-transform:uppercase}
+.ev-month-count{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--accent);margin-left:auto}
 
-/* Event card */
+/* ── Event card ── */
 .ev-card{
-  display:grid;
-  grid-template-columns:80px 1fr auto;
-  gap:20px;align-items:start;
-  padding:20px 0;
-  border-bottom:1px solid rgba(15,20,25,0.08);
-  transition:background .2s;
-  opacity:0;transform:translateY(8px);
-  animation:evIn .4s ease forwards;
+  display:grid;grid-template-columns:80px 1fr auto;gap:20px;align-items:start;
+  padding:18px 0;border-bottom:1px solid rgba(15,20,25,0.08);
+  transition:background .2s,border-color .2s;
+  opacity:0;transform:translateY(8px);animation:evIn .4s ease forwards;
 }
 @keyframes evIn{to{opacity:1;transform:translateY(0)}}
 .ev-card:hover{background:rgba(15,20,25,0.02)}
+.ev-card.ev-highlight{background:rgba(201,108,59,0.06);border-bottom-color:var(--accent)}
 
-/* Date column */
-.ev-date{
-  text-align:center;
-  padding:8px 0;
-}
-.ev-date-day{
-  font-family:'Archivo',sans-serif;font-weight:800;
-  font-size:32px;line-height:1;letter-spacing:-0.02em;color:var(--ink);
-}
-.ev-date-month{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
-  margin-top:2px;
-}
-.ev-date-range{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  color:var(--ink-dim);margin-top:4px;
-}
+/* Date col */
+.ev-date{text-align:center;padding:8px 0}
+.ev-date-day{font-family:'Archivo',sans-serif;font-weight:800;font-size:32px;line-height:1;letter-spacing:-0.02em;color:var(--ink)}
+.ev-date-month{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);margin-top:2px}
+.ev-date-range{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink-dim);margin-top:4px}
 
-/* Content column */
-.ev-content{}
-.ev-type-badge{
-  display:inline-block;
-  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;
-  letter-spacing:0.12em;text-transform:uppercase;
-  padding:2px 8px;margin-bottom:6px;
-}
+/* Content col */
+.ev-type-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:2px 8px;margin-bottom:6px}
 .ev-type-conference{background:#E8D5C4;color:#6B4226}
 .ev-type-expo{background:#D4E4D4;color:#2B5A2B}
 .ev-type-training{background:#D4DAE8;color:#2B3A5A}
 .ev-type-exercise{background:#E8D4D4;color:#5A2B2B}
 .ev-type-webinar{background:#E4D8E8;color:#4A2B5A}
+.ev-name{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;line-height:1.3;letter-spacing:-0.01em;color:var(--ink);margin-bottom:4px}
+.ev-organiser{font-family:'PT Serif',serif;font-style:italic;font-size:13px;color:var(--ink-dim);margin-bottom:8px}
 
-.ev-name{
-  font-family:'Archivo',sans-serif;font-weight:700;
-  font-size:18px;line-height:1.3;letter-spacing:-0.01em;color:var(--ink);
-  margin-bottom:4px;
-}
-.ev-organiser{
-  font-family:'PT Serif',serif;font-style:italic;
-  font-size:14px;color:var(--ink-dim);margin-bottom:6px;
-}
-.ev-desc{
-  font-size:14px;line-height:1.5;color:var(--ink-soft);
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
-}
-.ev-meta{
-  display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;
-}
-.ev-meta-tag{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--ink-dim);padding:2px 6px;
-  background:rgba(15,20,25,0.04);
-}
-.ev-location{
+/* Venue — standout block */
+.ev-venue{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;margin-bottom:8px;
+  background:var(--ink);color:var(--cream);
   font-family:'IBM Plex Mono',monospace;font-size:10px;
-  letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--ink);font-weight:500;
+  font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  transition:background .2s;
 }
+.ev-venue .flag-icon{margin-right:0}
+.ev-venue-pin{font-style:normal;font-size:12px;margin-right:2px}
+.ev-card:hover .ev-venue{background:var(--accent)}
+.ev-desc{font-size:13px;line-height:1.5;color:var(--ink-soft);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ev-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ev-meta-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-dim);padding:2px 6px;background:rgba(15,20,25,0.04)}
 
-/* Actions column */
-.ev-actions{
-  display:flex;flex-direction:column;gap:6px;align-items:flex-end;
-  padding-top:8px;
-}
-.ev-countdown{
-  font-family:'IBM Plex Mono',monospace;font-size:10px;
-  letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--accent);font-weight:500;white-space:nowrap;
-}
+/* Actions col */
+.ev-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;padding-top:8px}
+.ev-countdown{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);font-weight:500;white-space:nowrap}
 .ev-countdown.past{color:var(--ink-dim)}
-.ev-btn{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  letter-spacing:0.12em;text-transform:uppercase;
-  padding:6px 12px;border:1px solid var(--ink-dim);
-  color:var(--ink-soft);background:transparent;
-  text-decoration:none;cursor:pointer;transition:all .2s;
-  white-space:nowrap;
-}
+.ev-btn{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:6px 12px;border:1px solid var(--ink-dim);color:var(--ink-soft);background:transparent;text-decoration:none;cursor:pointer;transition:all .2s;white-space:nowrap}
 .ev-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-/* Highlight/next-up */
-.ev-card.next-up{
-  background:rgba(201,108,59,0.04);
-  border-left:3px solid var(--accent);
-  padding-left:17px;
-}
-.ev-next-badge{
-  font-family:'IBM Plex Mono',monospace;font-size:8px;
-  letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--cream);background:var(--accent);
-  padding:2px 8px;display:inline-block;margin-bottom:6px;
-}
+/* Next-up */
+.ev-card.next-up{background:rgba(201,108,59,0.04);border-left:3px solid var(--accent);padding-left:17px}
+.ev-next-badge{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);background:var(--accent);padding:2px 8px;display:inline-block;margin-bottom:6px}
 
-/* Summary bar */
-.ev-summary{
-  max-width:var(--max);margin:0 auto;
-  padding:16px var(--pad-x) 0;
-  display:flex;gap:24px;flex-wrap:wrap;
-}
-.ev-summary-stat{
-  font-family:'IBM Plex Mono',monospace;font-size:10px;
-  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
-}
-.ev-summary-stat strong{color:var(--accent);font-weight:500;font-size:18px;display:block;letter-spacing:-0.01em}
-
-/* Empty state */
-.ev-empty{
-  padding:80px 0;text-align:center;
-  font-family:'PT Serif',serif;font-style:italic;font-size:20px;color:var(--ink-dim);
-}
-
-/* Search highlight */
+.ev-empty{padding:60px 0;text-align:center;font-family:'PT Serif',serif;font-style:italic;font-size:18px;color:var(--ink-dim)}
 mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-radius:1px}
 
+/* ── Legend ── */
+.ev-legend{
+  display:flex;flex-wrap:wrap;gap:12px;
+  padding:10px 16px;border-top:1px solid rgba(15,20,25,0.08);
+}
+.ev-legend-item{
+  display:flex;align-items:center;gap:5px;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-dim);
+  cursor:pointer;transition:opacity .2s;
+}
+.ev-legend-item:hover{opacity:0.7}
+.ev-legend-dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(255,255,255,0.4)}
+.ev-legend-dot.conference{background:#C14A2E}
+.ev-legend-dot.expo{background:#2B5A2B}
+.ev-legend-dot.training{background:#2B3A5A}
+.ev-legend-dot.exercise{background:#5A2B2B}
+.ev-legend-dot.webinar{background:#4A2B5A}
+
 /* ── Responsive ── */
+@media(max-width:1024px){
+  .ev-dash{grid-template-columns:1fr;grid-template-rows:auto auto auto}
+  .ev-dash-map{grid-column:1;grid-row:1;min-height:340px}
+  .ev-dash-charts{grid-column:1;grid-row:2;flex-direction:row;flex-wrap:wrap}
+  .ev-dash-charts .ev-chart-panel{flex:1;min-width:200px}
+  .ev-dash-slider{grid-column:1;grid-row:3}
+}
 @media(max-width:768px){
+  .ev-hero-title{font-size:24px}
+  .ev-kpis{grid-template-columns:repeat(3,1fr)}
+  .ev-kpi:nth-child(4),.ev-kpi:nth-child(5){border-top:1px solid rgba(15,20,25,0.12)}
   .ev-toolbar{top:56px;padding:10px 16px}
   .ev-toolbar-inner{gap:8px;flex-wrap:wrap}
   .ev-search{min-width:100%;order:-1}
   .ev-count{display:none}
-  .ev-card{grid-template-columns:60px 1fr;gap:12px}
+  .ev-card{grid-template-columns:56px 1fr;gap:10px}
   .ev-actions{grid-column:1/-1;flex-direction:row;align-items:center}
   .ev-date-day{font-size:24px}
-  .ev-name{font-size:16px}
+  .ev-name{font-size:15px}
   .ev-month-name{font-size:22px}
-  .ev-summary{padding:12px 16px 0}
+  .ev-tabs{padding:14px 16px 0}
+  .ev-tab{padding:8px 14px;font-size:10px;letter-spacing:0.12em}
+  .ev-dash{padding:12px 16px 0;gap:12px}
+  .ev-map-wrap{min-height:280px}
+  .ev-slider-section{padding:0 16px}
+  .ev-slider-ticks{padding:4px 40px 0}
+  .ev-slider-label{min-width:80px;font-size:10px}
+  .ev-venue{font-size:9px;padding:4px 10px}
+  .ev-hero{padding:20px 16px 0}
+  .ev-timeline{padding:0 16px 60px}
+}
+@media(max-width:480px){
+  .ev-kpis{grid-template-columns:repeat(2,1fr)}
+  .ev-kpi:nth-child(3){border-top:1px solid rgba(15,20,25,0.12)}
+  .ev-kpi:nth-child(odd){border-right:1px solid rgba(15,20,25,0.12)}
+  .ev-kpi:nth-child(even){border-right:none}
+  .ev-kpi:last-child{grid-column:1/-1;border-right:none;border-top:1px solid rgba(15,20,25,0.12)}
 }
 </style>
 </head>
@@ -253,25 +404,88 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   </div>
 </nav>
 
-<!-- ── Filter toolbar ── -->
+<!-- ═══ Hero KPIs ═══ -->
+<div class="ev-hero">
+  <h1 class="ev-hero-title">Events & Training</h1>
+  <p class="ev-hero-sub">Conferences, expos, trainings and exercises across the European security and resilience community.</p>
+  <div class="ev-kpis" id="ev-kpis">
+    <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-total">—</div><div class="ev-kpi-label">Total events</div></div>
+    <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-upcoming">—</div><div class="ev-kpi-label">Upcoming</div></div>
+    <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-countries">—</div><div class="ev-kpi-label">Countries</div></div>
+    <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-organisers">—</div><div class="ev-kpi-label">Organisers</div></div>
+    <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-next">—</div><div class="ev-kpi-label">Next event</div></div>
+  </div>
+</div>
+
+<!-- ═══ Tabs ═══ -->
+<div class="ev-tabs" id="ev-tabs">
+  <button class="ev-tab active" data-tab="upcoming">Upcoming <span class="ev-tab-count" id="ev-tab-upcoming-n">0</span></button>
+  <button class="ev-tab" data-tab="past">Past <span class="ev-tab-count" id="ev-tab-past-n">0</span></button>
+</div>
+
+<!-- ═══ Dashboard: Map + Charts ═══ -->
+<div class="ev-dash">
+  <!-- Map (left / main) -->
+  <div class="ev-dash-map">
+    <div class="ev-map-wrap">
+      <div id="ev-map"></div>
+      <div class="ev-legend" id="ev-legend"></div>
+    </div>
+  </div>
+
+  <!-- Charts sidebar (right) -->
+  <div class="ev-dash-charts">
+    <!-- Events by type — doughnut -->
+    <div class="ev-chart-panel">
+      <div class="ev-chart-title">By type</div>
+      <div class="ev-chart-box"><canvas id="chart-type"></canvas></div>
+    </div>
+
+    <!-- Events by month — bar -->
+    <div class="ev-chart-panel">
+      <div class="ev-chart-title">Timeline distribution</div>
+      <div class="ev-chart-box"><canvas id="chart-timeline"></canvas></div>
+    </div>
+
+    <!-- Top countries — horizontal bars -->
+    <div class="ev-chart-panel">
+      <div class="ev-chart-title">Top locations</div>
+      <ul class="ev-country-bars" id="ev-country-bars"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Time slider ═══ -->
+<div class="ev-slider-section">
+  <div class="ev-slider-wrap">
+    <div class="ev-slider-header">
+      <span class="ev-slider-title">Scrub through time</span>
+      <span class="ev-slider-label" id="ev-slider-label">All events</span>
+    </div>
+    <div class="ev-slider-row">
+      <button class="ev-play-btn" id="ev-play" title="Animate timeline">▶</button>
+      <input type="range" id="ev-slider" min="0" max="100" value="100" step="1" aria-label="Time range"/>
+    </div>
+    <div class="ev-slider-ticks" id="ev-slider-ticks"></div>
+  </div>
+</div>
+
+<!-- ═══ Filter toolbar ═══ -->
 <div class="ev-toolbar" id="ev-toolbar">
   <div class="ev-toolbar-inner">
     <label class="ev-search">
       <span class="ev-search-icon" aria-hidden="true">⌕</span>
-      <input id="q" type="search" placeholder="Search events, organisers, cities…" aria-label="Search events" />
+      <input id="q" type="search" placeholder="Search events, organisers, cities…" aria-label="Search events"/>
     </label>
     <div class="ev-chips" id="ev-type-chips"></div>
     <span class="ev-count"><strong id="ev-count">0</strong> · events</span>
   </div>
 </div>
 
-<!-- ── Summary stats ── -->
-<div class="ev-summary" id="ev-summary"></div>
-
-<!-- ── Timeline ── -->
+<!-- ═══ Timeline ═══ -->
 <div class="ev-timeline" id="ev-timeline" aria-live="polite"></div>
 
-<!-- ── Submit event CTA ── -->
+<!-- ═══ Submit CTA ═══ -->
 <div class="listing-banner">
   <p>Hosting an event relevant to European security &amp; resilience?</p>
   <a href="mailto:hello@esrf.net?subject=Event%20submission%20for%20ESRF.net&body=Event%20name:%0ADate:%0ACity%20/%20Country:%0AWebsite:%0AShort%20description:" class="btn outline">Submit an event →</a>
@@ -285,38 +499,13 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
 
 <footer class="foot">
   <div class="foot-inner">
-    <div class="foot-brand">
-      <h3>ESRF.net</h3>
-      <p data-i18n="footer.brand_desc">ESRF.net — European Security &amp; Resilience Framework. A curated directory of 1,934 organisations across 29 countries.</p>
-    </div>
-    <div class="foot-col">
-      <h4 data-i18n="footer.community">Community</h4>
-      <ul>
-        <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li>
-        <li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
-        <li><a href="countries/index.html">Countries</a></li>
-        <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
-        <li><a href="events.html">Events</a></li>
-      </ul>
-    </div>
-    <div class="foot-col">
-      <h4 data-i18n="footer.foundation">Foundation</h4>
-      <ul>
-        <li><a href="about.html" data-i18n="nav.foundation">About</a></li>
-        <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
-        <li><a href="mailto:hello@esrf.net" data-i18n="footer.contact">Contact</a></li>
-      </ul>
-    </div>
-    <div class="foot-col">
-      <h4 data-i18n="footer.legal">Legal</h4>
-      <ul>
-        <li><a href="privacy.html" data-i18n="footer.privacy">Privacy</a></li>
-        <li><a href="terms.html" data-i18n="footer.terms">Terms</a></li>
-      </ul>
-    </div>
+    <div class="foot-brand"><h3>ESRF.net</h3><p data-i18n="footer.brand_desc">ESRF.net — European Security &amp; Resilience Framework. A curated directory of 1,934 organisations across 29 countries.</p></div>
+    <div class="foot-col"><h4 data-i18n="footer.community">Community</h4><ul><li><a href="directory.html" data-i18n="nav.directory">Directory</a></li><li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li><li><a href="countries/index.html">Countries</a></li><li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li><li><a href="events.html">Events</a></li></ul></div>
+    <div class="foot-col"><h4 data-i18n="footer.foundation">Foundation</h4><ul><li><a href="about.html" data-i18n="nav.foundation">About</a></li><li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li><li><a href="mailto:hello@esrf.net" data-i18n="footer.contact">Contact</a></li></ul></div>
+    <div class="foot-col"><h4 data-i18n="footer.legal">Legal</h4><ul><li><a href="privacy.html" data-i18n="footer.privacy">Privacy</a></li><li><a href="terms.html" data-i18n="footer.terms">Terms</a></li></ul></div>
   </div>
   <div class="foot-bar">
-    <div data-i18n="common.copyright">© 2026 Stichting ESRF European Security and Resilience Fund</div>
+    <div data-i18n="common.copyright">&copy; 2026 Stichting ESRF European Security and Resilience Fund</div>
     <div><span data-i18n="footer.tagline">Human Atlas</span> <a href="#top" data-i18n="common.back_to_top">Back to top ↑</a></div>
   </div>
 </footer>
@@ -324,198 +513,374 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
 <script src="assets/flags.js"></script>
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-(async () => {
-  const timeline  = document.getElementById('ev-timeline');
-  const countEl   = document.getElementById('ev-count');
-  const summaryEl = document.getElementById('ev-summary');
-  const toolbar   = document.getElementById('ev-toolbar');
-  const qInput    = document.getElementById('q');
-  const chipsEl   = document.getElementById('ev-type-chips');
+(async()=>{
+  /* ═══ DOM ═══ */
+  const $=id=>document.getElementById(id);
+  const timeline=$('ev-timeline'), countEl=$('ev-count'),
+        toolbar=$('ev-toolbar'), qInput=$('q'),
+        chipsEl=$('ev-type-chips'), tabsEl=$('ev-tabs'),
+        sliderEl=$('ev-slider'), sliderLbl=$('ev-slider-label'),
+        playBtn=$('ev-play'), ticksEl=$('ev-slider-ticks'),
+        legendEl=$('ev-legend'), countryBarsEl=$('ev-country-bars');
 
-  /* ── Load events ── */
-  const res = await fetch('events.json');
-  const events = await res.json();
-
-  /* ── Parse dates for sorting ── */
-  const MONTHS = {January:0,February:1,March:2,April:3,May:4,June:5,July:6,August:7,September:8,October:9,November:10,December:11};
-  function parseStartDate(dateStr) {
-    // Handle "26–29 May 2026", "7 May 2026", "October 2026", "Q3 2027", etc.
-    const m = dateStr.match(/(\d{1,2})\s*[–-]?\s*\d*\s*(\w+)\s+(\d{4})/);
-    if (m) return new Date(+m[3], MONTHS[m[2]]||0, +m[1]);
-    const m2 = dateStr.match(/(\w+)\s+(\d{4})/);
-    if (m2) return new Date(+m2[2], MONTHS[m2[1]]||0, 1);
-    const m3 = dateStr.match(/Q(\d)\s+(\d{4})/);
-    if (m3) return new Date(+m3[2], (+m3[1]-1)*3, 1);
-    return new Date(2027, 11, 31); // fallback far future
+  /* ═══ Load & parse ═══ */
+  const events=await(await fetch('events.json')).json();
+  const MO={January:0,February:1,March:2,April:3,May:4,June:5,July:6,August:7,September:8,October:9,November:10,December:11};
+  function parseDate(s){
+    let m=s.match(/(\d{1,2})\s*[–-]?\s*\d*\s*(\w+)\s+(\d{4})/);
+    if(m)return new Date(+m[3],MO[m[2]]||0,+m[1]);
+    m=s.match(/(\w+)\s+(\d{4})/);if(m)return new Date(+m[2],MO[m[1]]||0,1);
+    m=s.match(/Q(\d)\s+(\d{4})/);if(m)return new Date(+m[2],(+m[1]-1)*3,1);
+    return new Date(2027,11,31);
   }
+  events.forEach(e=>{e._date=parseDate(e.dates)});
+  events.sort((a,b)=>a._date-b._date);
+  const NOW=new Date();
+  const upcoming=events.filter(e=>e._date>=NOW);
+  const past=events.filter(e=>e._date<NOW).reverse();
 
-  events.forEach(e => { e._date = parseStartDate(e.dates); });
-  events.sort((a,b) => a._date - b._date);
+  /* ═══ KPIs ═══ */
+  const allCountries=new Set(events.map(e=>e.country));
+  const allOrganisers=new Set(events.map(e=>e.organiser));
+  $('kpi-total').textContent=events.length;
+  $('kpi-upcoming').textContent=upcoming.length;
+  $('kpi-countries').textContent=allCountries.size;
+  $('kpi-organisers').textContent=allOrganisers.size;
+  if(upcoming.length){
+    const next=upcoming[0];
+    const d=Math.ceil((next._date-NOW)/(1000*60*60*24));
+    $('kpi-next').textContent=d<=0?'Today':d===1?'Tomorrow':d+'d';
+  }
+  $('ev-tab-upcoming-n').textContent=upcoming.length;
+  $('ev-tab-past-n').textContent=past.length;
 
-  /* ── State ── */
-  const state = { type: '', q: '' };
+  /* ═══ State ═══ */
+  const S={tab:'upcoming',type:'',q:'',country:''};
 
-  /* ── Build type chips ── */
-  const types = ['conference','expo','training','exercise','webinar'];
-  const typeLabels = {conference:'Conferences',expo:'Expos',training:'Training',exercise:'Exercises',webinar:'Webinars'};
-  let chipHtml = '<button class="ev-chip active" data-type="">All</button>';
-  types.forEach(t => {
-    const count = events.filter(e => e.type === t).length;
-    if (count) chipHtml += `<button class="ev-chip" data-type="${t}">${typeLabels[t]||t} · ${count}</button>`;
-  });
-  chipsEl.innerHTML = chipHtml;
-
-  chipsEl.addEventListener('click', e => {
-    const chip = e.target.closest('.ev-chip');
-    if (!chip) return;
-    state.type = chip.dataset.type;
-    chipsEl.querySelectorAll('.ev-chip').forEach(c => c.classList.toggle('active', c.dataset.type === state.type));
-    render();
-  });
-
-  /* ── Search ── */
-  let debounce;
-  qInput.addEventListener('input', () => {
-    clearTimeout(debounce);
-    debounce = setTimeout(() => { state.q = qInput.value.trim().toLowerCase(); render(); }, 150);
+  /* ═══ Tabs ═══ */
+  tabsEl.addEventListener('click',e=>{
+    const t=e.target.closest('.ev-tab');if(!t)return;
+    S.tab=t.dataset.tab;
+    tabsEl.querySelectorAll('.ev-tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===S.tab));
+    fullUpdate();
   });
 
-  /* ── Helpers ── */
-  function esc(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+  /* ═══ Type chips ═══ */
+  const types=['conference','expo','training','exercise','webinar'];
+  const tLabels={conference:'Conferences',expo:'Expos',training:'Training',exercise:'Exercises',webinar:'Webinars'};
+  let ch='<button class="ev-chip active" data-type="">All</button>';
+  types.forEach(t=>{const n=events.filter(e=>e.type===t).length;if(n)ch+=`<button class="ev-chip" data-type="${t}">${tLabels[t]} · ${n}</button>`});
+  chipsEl.innerHTML=ch;
+  chipsEl.addEventListener('click',e=>{
+    const c=e.target.closest('.ev-chip');if(!c)return;
+    S.type=c.dataset.type;
+    chipsEl.querySelectorAll('.ev-chip').forEach(x=>x.classList.toggle('active',x.dataset.type===S.type));
+    fullUpdate();
+  });
 
-  function highlight(text, query) {
-    if (!query || !text) return esc(text||'');
-    const escaped = esc(text);
-    const qEsc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return escaped.replace(new RegExp(`(${qEsc})`, 'gi'), '<mark class="ev-hl">$1</mark>');
+  /* ═══ Search ═══ */
+  let deb;
+  qInput.addEventListener('input',()=>{clearTimeout(deb);deb=setTimeout(()=>{S.q=qInput.value.trim().toLowerCase();fullUpdate()},150)});
+
+  /* ═══ Legend ═══ */
+  const typeColors={conference:'#C14A2E',expo:'#2B5A2B',training:'#2B3A5A',exercise:'#5A2B2B',webinar:'#4A2B5A'};
+  let legHtml='';
+  types.forEach(t=>{
+    legHtml+=`<span class="ev-legend-item" data-type="${t}"><span class="ev-legend-dot ${t}"></span>${tLabels[t]}</span>`;
+  });
+  legendEl.innerHTML=legHtml;
+  legendEl.addEventListener('click',e=>{
+    const item=e.target.closest('.ev-legend-item');if(!item)return;
+    const t=item.dataset.type;
+    S.type=S.type===t?'':t;
+    chipsEl.querySelectorAll('.ev-chip').forEach(x=>x.classList.toggle('active',x.dataset.type===S.type));
+    fullUpdate();
+  });
+
+  /* ═══ Helpers ═══ */
+  function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+  function hl(t,q){
+    if(!q||!t)return esc(t||'');
+    const e=esc(t),qe=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    return e.replace(new RegExp(`(${qe})`,'gi'),'<mark class="ev-hl">$1</mark>');
+  }
+  function countdown(d){
+    const diff=d-NOW;if(diff<0)return{text:'Past',past:true};
+    const days=Math.ceil(diff/864e5);
+    if(days===0)return{text:'Today',past:false};
+    if(days===1)return{text:'Tomorrow',past:false};
+    if(days<=7)return{text:days+' days',past:false};
+    if(days<=30)return{text:Math.ceil(days/7)+' weeks',past:false};
+    return{text:Math.ceil(days/30)+' months',past:false};
+  }
+  function mKey(d){return d.getFullYear()+'-'+String(d.getMonth()).padStart(2,'0')}
+  function mName(d){return d.toLocaleString('en-GB',{month:'long'})}
+  function makeICS(ev){
+    const d=ev._date,p=n=>String(n).padStart(2,'0');
+    const s=`${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`;
+    return `data:text/calendar;charset=utf-8,${encodeURIComponent(`BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:${s}\nDTEND;VALUE=DATE:${s}\nSUMMARY:${ev.event_name}\nLOCATION:${ev.city}, ${ev.country}\nDESCRIPTION:${ev.description}\\n\\n${ev.url}\nURL:${ev.url}\nEND:VEVENT\nEND:VCALENDAR`)}`;
+  }
+  /* Normalise country for grouping */
+  function normCountry(c){
+    return c.replace(/\s*\(.*?\)/g,'').replace(/\s*\/.*$/,'').trim();
   }
 
-  function countdown(date) {
-    const now = new Date();
-    const diff = date - now;
-    if (diff < 0) return { text: 'Past', past: true };
-    const days = Math.ceil(diff / (1000*60*60*24));
-    if (days === 0) return { text: 'Today', past: false };
-    if (days === 1) return { text: 'Tomorrow', past: false };
-    if (days <= 7) return { text: `${days} days`, past: false };
-    if (days <= 30) return { text: `${Math.ceil(days/7)} weeks`, past: false };
-    return { text: `${Math.ceil(days/30)} months`, past: false };
-  }
-
-  function monthKey(d) {
-    return `${d.getFullYear()}-${String(d.getMonth()).padStart(2,'0')}`;
-  }
-  function monthName(d) {
-    return d.toLocaleString('en-GB', { month: 'long' });
-  }
-
-  function makeICS(ev) {
-    const d = ev._date;
-    const pad = n => String(n).padStart(2,'0');
-    const dtStart = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
-    const dtEnd = dtStart; // single day fallback
-    return `data:text/calendar;charset=utf-8,${encodeURIComponent(
-      `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:${dtStart}\nDTEND;VALUE=DATE:${dtEnd}\nSUMMARY:${ev.event_name}\nLOCATION:${ev.city}, ${ev.country}\nDESCRIPTION:${ev.description}\\n\\n${ev.url}\nURL:${ev.url}\nEND:VEVENT\nEND:VCALENDAR`
-    )}`;
-  }
-
-  /* ── Filter ── */
-  function filtered() {
-    return events.filter(e => {
-      if (state.type && e.type !== state.type) return false;
-      if (state.q) {
-        const hay = [e.event_name, e.organiser, e.city, e.country, e.description, ...(e.sector_relevance||[])].join(' ').toLowerCase();
-        if (!hay.includes(state.q)) return false;
+  /* ═══ Filter ═══ */
+  function activeSet(){return S.tab==='upcoming'?upcoming:past}
+  function filtered(){
+    return activeSet().filter(e=>{
+      if(S.type&&e.type!==S.type)return false;
+      if(S.country&&normCountry(e.country)!==S.country)return false;
+      if(S.q){
+        const h=[e.event_name,e.organiser,e.city,e.country,e.description,...(e.sector_relevance||[])].join(' ').toLowerCase();
+        if(!h.includes(S.q))return false;
       }
       return true;
     });
   }
 
-  /* ── Render ── */
-  function render() {
-    const rows = filtered();
-    countEl.textContent = rows.length;
+  /* ═══ Leaflet map ═══ */
+  const map=L.map('ev-map',{center:[50.5,10],zoom:4,minZoom:3,maxZoom:10,zoomControl:true,scrollWheelZoom:false,attributionControl:true});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+    attribution:'© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>',
+    subdomains:'abcd',maxZoom:19
+  }).addTo(map);
 
-    // Summary
-    const countries = new Set(rows.map(e => e.country));
-    const organisers = new Set(rows.map(e => e.organiser));
-    summaryEl.innerHTML = `
-      <div class="ev-summary-stat"><strong>${rows.length}</strong> events</div>
-      <div class="ev-summary-stat"><strong>${countries.size}</strong> countries</div>
-      <div class="ev-summary-stat"><strong>${organisers.size}</strong> organisers</div>
-    `;
+  let markers=[];
+  function mkIcon(type){return L.divIcon({className:`ev-marker ev-marker-${type}`,iconSize:[14,14],iconAnchor:[7,7],popupAnchor:[0,-10]})}
 
-    if (!rows.length) {
-      timeline.innerHTML = '<div class="ev-empty">No events match your search.</div>';
-      return;
-    }
-
-    // Find next upcoming event
-    const now = new Date();
-    const nextUp = rows.find(e => e._date >= now);
-
-    // Group by month
-    const groups = {};
-    rows.forEach(e => {
-      const key = monthKey(e._date);
-      if (!groups[key]) groups[key] = { date: e._date, events: [] };
-      groups[key].events.push(e);
+  function buildMarkers(list){
+    markers.forEach(m=>map.removeLayer(m));markers=[];
+    list.forEach(e=>{
+      if(!e.lat||!e.lon)return;
+      const m=L.marker([e.lat,e.lon],{icon:mkIcon(e.type)});
+      m._ev=e;
+      m.bindPopup(`<div class="ev-popup"><div class="ev-popup-type">${esc(e.type)}</div><div class="ev-popup-name">${esc(e.event_name)}</div><div class="ev-popup-loc">${esc(e.city)}, ${esc(e.country)}</div><div class="ev-popup-date">${esc(e.dates)}</div></div>`,{maxWidth:280,closeButton:false});
+      m.on('click',()=>{
+        // Highlight matching card in timeline
+        document.querySelectorAll('.ev-card.ev-highlight').forEach(c=>c.classList.remove('ev-highlight'));
+        const card=document.querySelector(`.ev-card[data-eid="${CSS.escape(e.event_name)}"]`);
+        if(card){card.classList.add('ev-highlight');card.scrollIntoView({behavior:'smooth',block:'center'})}
+      });
+      m.addTo(map);markers.push(m);
     });
+  }
 
-    let html = '';
-    Object.keys(groups).sort().forEach(key => {
-      const g = groups[key];
-      html += `
-        <div class="ev-month">
-          <span class="ev-month-name">${monthName(g.date)}</span>
-          <span class="ev-month-year">${g.date.getFullYear()}</span>
-          <span class="ev-month-count">${g.events.length} event${g.events.length>1?'s':''}</span>
-        </div>`;
+  /* ═══ Time slider ═══ */
+  let sliderMonths=[];
+  function buildSlider(list){
+    if(!list.length){sliderMonths=[];ticksEl.innerHTML='';return}
+    const sorted=[...list].sort((a,b)=>a._date-b._date);
+    const min=new Date(sorted[0]._date.getFullYear(),sorted[0]._date.getMonth(),1);
+    const max=new Date(sorted[sorted.length-1]._date.getFullYear(),sorted[sorted.length-1]._date.getMonth()+1,0);
+    sliderMonths=[];let d=new Date(min);
+    while(d<=max){sliderMonths.push(new Date(d));d.setMonth(d.getMonth()+1)}
+    sliderEl.max=sliderMonths.length;sliderEl.value=sliderMonths.length;
+    const step=Math.max(1,Math.floor(sliderMonths.length/6));
+    let th='';for(let i=0;i<sliderMonths.length;i+=step){
+      th+=`<span class="ev-slider-tick">${sliderMonths[i].toLocaleString('en-GB',{month:'short'})} ${sliderMonths[i].getFullYear()}</span>`;
+    }
+    ticksEl.innerHTML=th;
+  }
+  function sliderCutoff(){
+    const v=+sliderEl.value;
+    if(v>=sliderMonths.length||!sliderMonths.length)return null;
+    if(v<=0)return sliderMonths[0];
+    return new Date(sliderMonths[v].getFullYear(),sliderMonths[v].getMonth()+1,0);
+  }
+  function applySlider(){
+    const cut=sliderCutoff(),v=+sliderEl.value;
+    if(!cut){
+      sliderLbl.textContent='All events';
+      markers.forEach(m=>{m.getElement()?.classList.add('visible')});
+    }else{
+      sliderLbl.textContent=(S.tab==='upcoming'?'Through ':'From ')+cut.toLocaleString('en-GB',{month:'long',year:'numeric'});
+      markers.forEach(m=>{
+        const ed=m._ev._date;
+        const show=S.tab==='upcoming'?ed<=cut:(ed>=sliderMonths[v]||v>=sliderMonths.length);
+        const el=m.getElement();
+        if(el){
+          if(show&&!el.classList.contains('visible')){el.classList.add('visible','pulsing');setTimeout(()=>el.classList.remove('pulsing'),1200)}
+          else if(!show)el.classList.remove('visible');
+        }
+      });
+    }
+  }
+  sliderEl.addEventListener('input',applySlider);
 
-      g.events.forEach((e, i) => {
-        const cd = countdown(e._date);
-        const isNext = (e === nextUp);
-        const day = e._date.getDate();
-        const mon = e._date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
-        const delay = Math.min(i * 40, 400);
+  /* ── Play ── */
+  let playInt=null;
+  playBtn.addEventListener('click',()=>{
+    if(playInt){clearInterval(playInt);playInt=null;playBtn.classList.remove('playing');playBtn.textContent='▶';return}
+    playBtn.classList.add('playing');playBtn.textContent='❚❚';sliderEl.value=0;applySlider();
+    playInt=setInterval(()=>{
+      let v=+sliderEl.value+1;
+      if(v>+sliderEl.max){clearInterval(playInt);playInt=null;playBtn.classList.remove('playing');playBtn.textContent='▶';return}
+      sliderEl.value=v;applySlider();
+    },500);
+  });
 
-        html += `
-        <article class="ev-card ${isNext ? 'next-up' : ''}" style="animation-delay:${delay}ms">
+  /* ═══ Charts ═══ */
+  const chartFont={family:"'IBM Plex Mono',monospace",size:10};
+  Chart.defaults.font=chartFont;
+  Chart.defaults.color='#7A6E62';
+
+  /* Type doughnut */
+  const ctxType=$('chart-type');
+  const chartType=new Chart(ctxType,{
+    type:'doughnut',
+    data:{labels:[],datasets:[{data:[],backgroundColor:Object.values(typeColors),borderWidth:0}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,cutout:'60%',
+      plugins:{legend:{display:true,position:'right',labels:{boxWidth:10,padding:8,font:{size:9,family:"'IBM Plex Mono',monospace"},usePointStyle:true,pointStyle:'circle'}}},
+      onClick:(evt,el)=>{
+        if(el.length){
+          const idx=el[0].index;
+          const clickedType=types[idx];
+          S.type=S.type===clickedType?'':clickedType;
+          chipsEl.querySelectorAll('.ev-chip').forEach(x=>x.classList.toggle('active',x.dataset.type===S.type));
+          fullUpdate();
+        }
+      }
+    }
+  });
+
+  /* Timeline bar chart */
+  const ctxTL=$('chart-timeline');
+  const chartTL=new Chart(ctxTL,{
+    type:'bar',
+    data:{labels:[],datasets:[{data:[],backgroundColor:'rgba(210,75,31,0.7)',borderWidth:0,borderRadius:2}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      scales:{x:{grid:{display:false},ticks:{font:{size:8},maxRotation:45}},y:{beginAtZero:true,grid:{color:'rgba(15,20,25,0.06)'},ticks:{stepSize:1,font:{size:8}}}},
+      plugins:{legend:{display:false}},
+      onClick:(evt,el)=>{
+        // Could filter by month — future enhancement
+      }
+    }
+  });
+
+  function updateCharts(list){
+    /* Type doughnut */
+    const tCounts=types.map(t=>list.filter(e=>e.type===t).length);
+    chartType.data.labels=types.map(t=>tLabels[t]);
+    chartType.data.datasets[0].data=tCounts;
+    chartType.update('none');
+
+    /* Timeline bar */
+    const sorted=[...list].sort((a,b)=>a._date-b._date);
+    const monthBuckets={};
+    sorted.forEach(e=>{
+      const k=e._date.toLocaleString('en-GB',{month:'short',year:'2-digit'});
+      monthBuckets[k]=(monthBuckets[k]||0)+1;
+    });
+    chartTL.data.labels=Object.keys(monthBuckets);
+    chartTL.data.datasets[0].data=Object.values(monthBuckets);
+    chartTL.update('none');
+
+    /* Country bars */
+    const cc={};
+    list.forEach(e=>{const c=normCountry(e.country);cc[c]=(cc[c]||0)+1});
+    const sorted2=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,10);
+    const maxN=sorted2.length?sorted2[0][1]:1;
+    countryBarsEl.innerHTML=sorted2.map(([c,n])=>`
+      <li class="ev-country-bar${S.country===c?' active':''}" data-country="${esc(c)}">
+        <span class="ev-country-name">${esc(c)}</span>
+        <span class="ev-country-fill"><span class="ev-country-fill-inner" style="width:${Math.round(n/maxN*100)}%"></span></span>
+        <span class="ev-country-n">${n}</span>
+      </li>`).join('');
+  }
+
+  /* Country bar click → filter */
+  countryBarsEl.addEventListener('click',e=>{
+    const bar=e.target.closest('.ev-country-bar');if(!bar)return;
+    const c=bar.dataset.country;
+    S.country=S.country===c?'':c;
+    fullUpdate();
+  });
+
+  /* ═══ Render timeline ═══ */
+  function render(){
+    const rows=filtered();
+    countEl.textContent=rows.length;
+    if(!rows.length){timeline.innerHTML='<div class="ev-empty">No events match your filters.</div>';return}
+    const nextUp=S.tab==='upcoming'?rows.find(e=>e._date>=NOW):null;
+    const groups={};
+    rows.forEach(e=>{const k=mKey(e._date);if(!groups[k])groups[k]={date:e._date,events:[]};groups[k].events.push(e)});
+    const keys=Object.keys(groups).sort((a,b)=>S.tab==='past'?b.localeCompare(a):a.localeCompare(b));
+    let html='';
+    keys.forEach(k=>{
+      const g=groups[k];
+      html+=`<div class="ev-month"><span class="ev-month-name">${mName(g.date)}</span><span class="ev-month-year">${g.date.getFullYear()}</span><span class="ev-month-count">${g.events.length} event${g.events.length>1?'s':''}</span></div>`;
+      g.events.forEach((e,i)=>{
+        const cd=countdown(e._date),isNext=e===nextUp;
+        const day=e._date.getDate(),mon=e._date.toLocaleString('en-GB',{month:'short'}).toUpperCase();
+        const delay=Math.min(i*40,400);
+        const flag=window.esrfFlags?window.esrfFlags.flagForCountry(e.country,{size:'inline'}):'';
+        html+=`
+        <article class="ev-card${isNext?' next-up':''}" data-eid="${esc(e.event_name)}" style="animation-delay:${delay}ms">
           <div class="ev-date">
             <div class="ev-date-day">${day}</div>
             <div class="ev-date-month">${mon}</div>
-            ${e.dates.includes('–') || e.dates.includes('-') ? `<div class="ev-date-range">${esc(e.dates.replace(/\s+\d{4}$/,''))}</div>` : ''}
+            ${e.dates.includes('–')||e.dates.includes('-')?`<div class="ev-date-range">${esc(e.dates.replace(/\s+\d{4}$/,''))}</div>`:''}
           </div>
           <div class="ev-content">
-            ${isNext ? '<span class="ev-next-badge">Next up</span>' : ''}
+            ${isNext?'<span class="ev-next-badge">Next up</span>':''}
             <span class="ev-type-badge ev-type-${e.type}">${esc(e.type)}</span>
-            <h3 class="ev-name">${highlight(e.event_name, state.q)}</h3>
-            <div class="ev-organiser">${highlight(e.organiser, state.q)}</div>
-            <div class="ev-location">${window.esrfFlags ? window.esrfFlags.flagForCountry(e.country, {size:'inline'}) : ''}${highlight(e.city + ', ' + e.country, state.q)}</div>
-            <p class="ev-desc">${highlight(e.description, state.q)}</p>
-            <div class="ev-meta">
-              ${(e.sector_relevance||[]).map(s => `<span class="ev-meta-tag">${esc(s)}</span>`).join('')}
-            </div>
+            <h3 class="ev-name">${hl(e.event_name,S.q)}</h3>
+            <div class="ev-organiser">${hl(e.organiser,S.q)}</div>
+            <div class="ev-venue"><span class="ev-venue-pin" aria-hidden="true">◉</span>${flag}${hl(e.city+', '+e.country,S.q)}</div>
+            <p class="ev-desc">${hl(e.description,S.q)}</p>
+            <div class="ev-meta">${(e.sector_relevance||[]).map(s=>`<span class="ev-meta-tag">${esc(s)}</span>`).join('')}</div>
           </div>
           <div class="ev-actions">
-            <span class="ev-countdown ${cd.past?'past':''}">${cd.text}</span>
+            <span class="ev-countdown${cd.past?' past':''}">${cd.text}</span>
             <a class="ev-btn" href="${esc(e.url)}" target="_blank" rel="noopener">Details →</a>
-            ${!cd.past ? `<a class="ev-btn" href="${makeICS(e)}" download="${esc(e.event_name.replace(/[^a-zA-Z0-9]/g,'_'))}.ics">+ Calendar</a>` : ''}
+            ${!cd.past?`<a class="ev-btn" href="${makeICS(e)}" download="${esc(e.event_name.replace(/[^a-zA-Z0-9]/g,'_'))}.ics">+ Calendar</a>`:''}
           </div>
         </article>`;
       });
     });
+    timeline.innerHTML=html;
 
-    timeline.innerHTML = html;
+    /* Hover card → highlight marker */
+    timeline.querySelectorAll('.ev-card').forEach(card=>{
+      card.addEventListener('mouseenter',()=>{
+        const name=card.dataset.eid;
+        markers.forEach(m=>{
+          const el=m.getElement();
+          if(el)el.classList.toggle('highlighted',m._ev.event_name===name);
+        });
+      });
+      card.addEventListener('mouseleave',()=>{
+        markers.forEach(m=>{const el=m.getElement();if(el)el.classList.remove('highlighted')});
+      });
+    });
   }
 
-  /* ── Toolbar shadow ── */
-  window.addEventListener('scroll', () => {
-    toolbar.classList.toggle('scrolled', window.scrollY > 80);
-  }, { passive: true });
+  /* ═══ Full update (all panels) ═══ */
+  function fullUpdate(){
+    const list=filtered();
+    render();
+    buildMarkers(list);
+    buildSlider(list);
+    applySlider();
+    updateCharts(list);
+    // Animate markers in
+    setTimeout(()=>{
+      markers.forEach((m,i)=>{
+        setTimeout(()=>{const el=m.getElement();if(el){el.classList.add('visible','pulsing');setTimeout(()=>el.classList.remove('pulsing'),1200)}},i*25);
+      });
+    },100);
+  }
 
-  render();
+  /* ═══ Toolbar shadow ═══ */
+  window.addEventListener('scroll',()=>{toolbar.classList.toggle('scrolled',window.scrollY>80)},{passive:true});
+
+  /* ═══ Init ═══ */
+  fullUpdate();
 })();
 </script>
 </body>
