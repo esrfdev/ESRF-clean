@@ -123,7 +123,7 @@ function injectListingModal() {
 
             <div class="form-row">
               <label for="m-name" data-i18n="form.label_name">Organisation name <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="m-name" name="name" required maxlength="120" placeholder="ACME Security GmbH" autocomplete="organization">
+              <input type="text" id="m-name" name="name" required maxlength="120" placeholder="My organisation" autocomplete="organization">
             </div>
             <div class="form-row">
               <label for="m-country" data-i18n="form.label_country">Country <span class="req" aria-hidden="true">*</span></label>
