@@ -160,8 +160,8 @@ NEW_KEYS = {
             'nl':'Voor lokale impact. Voor gedeelde weerbaarheid. Voor een Europa dat standhoudt.'
         },
         'foundation_body_1_html': {
-            'en':"The European Security &amp; Resilience Framework is the foundation of <strong>ESRF.net</strong> — a decentralised network built for, and by, the entrepreneurs with local impact. We believe security is not merely a government mandate. It is an entrepreneurial responsibility, and a civic one.",
-            'nl':"Het European Security &amp; Resilience Framework is de basis van <strong>ESRF.net</strong> — een gedecentraliseerd netwerk gebouwd voor, en door, ondernemers met lokale impact. Wij geloven dat veiligheid niet louter een overheidsmandaat is. Het is een ondernemersverantwoordelijkheid, en een burgerlijke."
+            'en':"<strong>ESRF.net</strong> is a decentralised network built for, and by, the entrepreneurs with local impact. Funded by <strong>Stichting ESRF European Security and Resilience Fund</strong>, we believe security is not merely a government mandate. It is an entrepreneurial responsibility, and a civic one.",
+            'nl':"<strong>ESRF.net</strong> is een gedecentraliseerd netwerk gebouwd voor, en door, ondernemers met lokale impact. Gefinancierd door <strong>Stichting ESRF European Security and Resilience Fund</strong>, geloven wij dat veiligheid niet louter een overheidsmandaat is. Het is een ondernemersverantwoordelijkheid, en een burgerlijke."
         },
         'foundation_pull_html': {
             'en':"Security is not just a mandate. <em>It is a responsibility we carry, together.</em>",
@@ -231,8 +231,8 @@ NEW_KEYS = {
         'hero_title_2': {'en':'that','nl':'dat'},
         'hero_title_3': {'en':'holds','nl':'standhoudt'},
         'hero_deck': {
-            'en':'The European Security & Resilience Framework — the foundation of ESRF.net — is built on a simple conviction: resilience is not the exclusive work of states. It is the everyday labour of the organisations, institutions and citizens whose local impact sustains the whole.',
-            'nl':'Het European Security & Resilience Framework — de basis van ESRF.net — rust op één overtuiging: weerbaarheid is niet het exclusieve werk van staten. Het is de dagelijkse arbeid van organisaties, instellingen en burgers wier lokale impact het geheel draagt.'
+            'en':'ESRF.net is built on a simple conviction: resilience is not the exclusive work of states. It is the everyday labour of the organisations, institutions and citizens whose local impact sustains the whole.',
+            'nl':'ESRF.net rust op één overtuiging: weerbaarheid is niet het exclusieve werk van staten. Het is de dagelijkse arbeid van organisaties, instellingen en burgers wier lokale impact het geheel draagt.'
         },
         'charter_line1': {'en':'Security is not just a mandate.','nl':'Veiligheid is geen mandaat alleen.'},
         'charter_line2': {'en':'It is a responsibility','nl':'Het is een verantwoordelijkheid'},
@@ -244,8 +244,8 @@ NEW_KEYS = {
         'what_title_3': {'en':'from below','nl':'van onderop'},
         'what_sub': {'en':'Decentralised by design, civic in purpose, European in reach.','nl':'Gedecentraliseerd van opzet, burgerlijk van doel, Europees in bereik.'},
         'what_body_1_html': {
-            'en':"<strong>ESRF.net</strong> is the community layer of the European Security &amp; Resilience Framework — a network of <strong>1,890 organisations</strong> across <strong>29 countries</strong> whose work, visible or otherwise, strengthens the continent's ability to prevent harm, protect what sustains us, prepare for shocks, respond in solidarity and recover with renewal.",
-            'nl':"<strong>ESRF.net</strong> is de community-laag van het European Security &amp; Resilience Framework — een netwerk van <strong>1.890 organisaties</strong> in <strong>29 landen</strong> wier werk, zichtbaar of niet, het vermogen van het continent versterkt om schade te voorkomen, te beschermen wat ons draagt, zich voor te bereiden op schokken, te reageren in solidariteit en te herstellen met vernieuwing."
+            'en':"<strong>ESRF.net</strong> is a network of <strong>1,890 organisations</strong> across <strong>29 countries</strong> whose work, visible or otherwise, strengthens the continent's ability to prevent harm, protect what sustains us, prepare for shocks, respond in solidarity and recover with renewal.",
+            'nl':"<strong>ESRF.net</strong> is een netwerk van <strong>1.890 organisaties</strong> in <strong>29 landen</strong> wier werk, zichtbaar of niet, het vermogen van het continent versterkt om schade te voorkomen, te beschermen wat ons draagt, zich voor te bereiden op schokken, te reageren in solidariteit en te herstellen met vernieuwing."
         },
         'what_body_2_html': {
             'en':"Where governments set policy and international bodies coordinate, ESRF.net unites the <strong>entrepreneurs, institutions and first responders</strong> whose daily practice is the actual substrate of resilience. We classify organisations across ten vital sectors — aligned with the EU NIS2 Directive — and file each under one of five moral pillars.",
