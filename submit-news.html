@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Submit a signal — ESRF.net</title>
+<meta name="description" content="Submit a news signal, report or press release for the ESRF.net Dispatch. All submissions are verified by the editorial team before publication." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<script src="consent.js" defer></script>
+<script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="events.html">Events</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
+      <a href="fund.html" class="mast-contribute" data-i18n="nav.fund">Contribute</a>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
+    </div>
+  </div>
+</nav>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ Dispatch · Submission</div>
+    <h1 class="phero-title">Submit a<br><i>signal</i>.</h1>
+    <p class="phero-deck">Have a news story, report, press release or security signal relevant to European resilience? Submit it below. All submissions are reviewed by the ESRF.net editorial team for relevance and authenticity before publication on the Dispatch. Signals from EU agencies, national authorities, research institutions, industry partners and network members are welcome.</p>
+  </div>
+</section>
+
+<div class="form-wrap">
+
+  <!-- Error state -->
+  <div id="form-error" class="form-error" hidden role="alert" aria-live="assertive"></div>
+
+  <!-- Form -->
+  <form id="news-form" class="form-grid" novalidate autocomplete="on">
+
+    <!-- Honeypot -->
+    <input type="text" name="company_website_hp" tabindex="-1" autocomplete="off"
+      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
+
+    <!-- ── Section 1: Signal details ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">Signal details</legend>
+
+      <div class="form-row">
+        <label for="nw-headline">Headline / title <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="nw-headline" name="headline" required maxlength="200"
+          placeholder="e.g. ENISA publishes 2026 Threat Landscape Report" />
+      </div>
+
+      <div class="form-row">
+        <label for="nw-category">Category <span class="req" aria-hidden="true">*</span></label>
+        <select id="nw-category" name="category" required>
+          <option value="">Select a category…</option>
+          <option value="Cybersecurity">Cybersecurity</option>
+          <option value="Critical infrastructure">Critical infrastructure</option>
+          <option value="Crisis management">Crisis management</option>
+          <option value="Business continuity">Business continuity</option>
+          <option value="Regulation & policy">Regulation & policy (NIS2, DORA, CRA…)</option>
+          <option value="Research & innovation">Research & innovation</option>
+          <option value="Defence & security">Defence & security</option>
+          <option value="Climate & energy">Climate & energy resilience</option>
+          <option value="Public safety">Public safety</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="nw-scope">Scope <span class="req" aria-hidden="true">*</span></label>
+        <select id="nw-scope" name="scope" required>
+          <option value="">Select scope…</option>
+          <option value="European">European (EU / pan-European)</option>
+          <option value="National">National (single country)</option>
+          <option value="Regional">Regional (sub-national / cross-border)</option>
+          <option value="Global">Global (with European relevance)</option>
+        </select>
+      </div>
+
+      <div class="form-row form-row-pair">
+        <div class="form-row">
+          <label for="nw-date">Publication date <span class="req" aria-hidden="true">*</span></label>
+          <input type="date" id="nw-date" name="publication_date" required />
+          <span class="hint">When the signal was published or announced</span>
+        </div>
+        <div class="form-row">
+          <label for="nw-country">Country of origin</label>
+          <select id="nw-country" name="country">
+            <option value="">Select a country…</option>
+            <option value="EU">European Union (institution)</option>
+            <optgroup label="EU Member States">
+              <option value="AT">Austria</option><option value="BE">Belgium</option>
+              <option value="BG">Bulgaria</option><option value="HR">Croatia</option>
+              <option value="CY">Cyprus</option><option value="CZ">Czech Republic</option>
+              <option value="DK">Denmark</option><option value="EE">Estonia</option>
+              <option value="FI">Finland</option><option value="FR">France</option>
+              <option value="DE">Germany</option><option value="GR">Greece</option>
+              <option value="HU">Hungary</option><option value="IE">Ireland</option>
+              <option value="IT">Italy</option><option value="LV">Latvia</option>
+              <option value="LT">Lithuania</option><option value="LU">Luxembourg</option>
+              <option value="MT">Malta</option><option value="NL">Netherlands</option>
+              <option value="PL">Poland</option><option value="PT">Portugal</option>
+              <option value="RO">Romania</option><option value="SK">Slovakia</option>
+              <option value="SI">Slovenia</option><option value="ES">Spain</option>
+              <option value="SE">Sweden</option>
+            </optgroup>
+            <optgroup label="Other European Countries">
+              <option value="IS">Iceland</option><option value="NO">Norway</option>
+              <option value="UA">Ukraine</option><option value="GB">United Kingdom</option>
+              <option value="CH">Switzerland</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="nw-summary">Summary <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="nw-summary" name="summary" required maxlength="800"
+          placeholder="What happened? Why does it matter for European security and resilience? Include the key facts, organisations involved, and any immediate implications."></textarea>
+        <div class="counter" id="summary-counter" aria-live="polite">0 / 800</div>
+      </div>
+
+      <div class="form-row">
+        <label for="nw-topics">Topics / keywords</label>
+        <input type="text" id="nw-topics" name="topics" maxlength="200"
+          placeholder="e.g. NIS2, threat landscape, ransomware, supply chain" />
+        <span class="hint">Comma-separated — helps us categorise the signal on the Dispatch</span>
+      </div>
+    </fieldset>
+
+    <!-- ── Section 2: Source & verification ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">Source &amp; verification</legend>
+      <p class="fieldset-intro">Verifiable sources help our editorial team confirm the signal is genuine and relevant. At least one source URL is required.</p>
+
+      <div class="form-row">
+        <label for="nw-source-url">Primary source URL <span class="req" aria-hidden="true">*</span></label>
+        <input type="url" id="nw-source-url" name="source_url" required
+          placeholder="https://original-source.eu" pattern="https?://.+" />
+        <span class="hint">Link to the original publication, report, press release or official announcement</span>
+      </div>
+
+      <div class="form-row">
+        <label for="nw-source-name">Source name <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="nw-source-name" name="source_name" required maxlength="160"
+          placeholder="e.g. ENISA, BSI, European Commission, Reuters" />
+        <span class="hint">Organisation or publication that originally published the signal</span>
+      </div>
+
+      <div class="form-row">
+        <label for="nw-source2-url">Additional source</label>
+        <input type="url" id="nw-source2-url" name="source2_url"
+          placeholder="https://secondary-source-or-coverage.eu" pattern="https?://.+" />
+        <span class="hint">Second source, media coverage or corroborating link (strengthens verification)</span>
+      </div>
+    </fieldset>
+
+    <!-- ── Section 3: Exclusive article option ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">Exclusive article</legend>
+      <p class="fieldset-intro">Beyond listing your signal on the Dispatch, ESRF.net can publish an in-depth exclusive article that gives your story broader reach across the European security and resilience community. This is optional — you can always submit a signal without requesting an article.</p>
+
+      <div class="form-row">
+        <label for="nw-exclusive">Would you like an exclusive article on ESRF.net?</label>
+        <select id="nw-exclusive" name="exclusive_article">
+          <option value="No">No, just list the signal on the Dispatch</option>
+          <option value="Yes">Yes, I would like to discuss an exclusive article</option>
+          <option value="Maybe">Maybe — I'd like to know more about the options</option>
+        </select>
+        <span class="hint">If you select yes or maybe, our editorial team will contact you to discuss scope, timeline and terms</span>
+      </div>
+
+      <div class="form-row" id="nw-exclusive-details-wrap" hidden>
+        <label for="nw-exclusive-details">What angle or story would you like covered?</label>
+        <textarea id="nw-exclusive-details" name="exclusive_details" maxlength="500"
+          placeholder="Briefly describe the angle, interview availability, supporting data or visuals you can provide…"></textarea>
+        <div class="counter" id="exclusive-counter" aria-live="polite">0 / 500</div>
+      </div>
+    </fieldset>
+
+    <!-- ── Section 4: Your details ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">Your details</legend>
+      <p class="fieldset-intro">We need your contact information to follow up on the submission. Your details will not be published without your consent.</p>
+
+      <div class="form-row">
+        <label for="nw-contact-name">Your name <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="nw-contact-name" name="contact_name" required maxlength="80"
+          placeholder="Your full name" autocomplete="name" />
+      </div>
+
+      <div class="form-row">
+        <label for="nw-contact-email">Your email <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="nw-contact-email" name="contact_email" required
+          placeholder="you@organisation.eu" autocomplete="email" />
+        <span class="hint">Use your professional email — submissions from personal accounts require additional verification</span>
+      </div>
+
+      <div class="form-row form-row-pair">
+        <div class="form-row">
+          <label for="nw-contact-org">Organisation</label>
+          <input type="text" id="nw-contact-org" name="contact_organisation" maxlength="120"
+            placeholder="e.g. ENISA, Fraunhofer, Dutch NCSC" />
+        </div>
+        <div class="form-row">
+          <label for="nw-contact-role">Your role</label>
+          <input type="text" id="nw-contact-role" name="contact_role" maxlength="120"
+            placeholder="e.g. Press Officer, Security Analyst" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="nw-relation">Your relation to this signal</label>
+        <select id="nw-relation" name="relation">
+          <option value="">Select…</option>
+          <option value="Author / publisher">I am the author or publisher</option>
+          <option value="Organisation involved">My organisation is directly involved</option>
+          <option value="Community member">I am a community member sharing a relevant signal</option>
+          <option value="Press / media">I represent press or media</option>
+          <option value="Other">Other</option>
+        </select>
+        <span class="hint">Helps us assess the source and prioritise verification</span>
+      </div>
+    </fieldset>
+
+    <!-- ── Consent ── -->
+    <div class="form-check">
+      <input type="checkbox" id="nw-gdpr" name="gdpr_consent" required>
+      <label for="nw-gdpr">
+        I agree to the <a href="privacy.html">privacy policy</a> and consent to the storage of this data for editorial review purposes. I confirm that the information provided is accurate to the best of my knowledge.
+      </label>
+    </div>
+
+    <div>
+      <button type="submit" class="form-submit" id="submit-btn">
+        Submit signal for review
+      </button>
+    </div>
+
+  </form>
+
+  <!-- Success state -->
+  <div id="form-success" class="form-success" hidden>
+    <div class="kicker">§ Received</div>
+    <h2>Signal received.</h2>
+    <p style="color:var(--ink-soft);max-width:480px;margin:0 auto;line-height:1.6">Thank you. The ESRF.net editorial team will review your signal and, if approved, publish it on the <a href="news.html" style="color:var(--accent)">Dispatch</a> within five working days. You will receive a confirmation at the email address provided.</p>
+    <a href="news.html" class="btn outline" style="margin-top:32px">Back to Dispatch →</a>
+  </div>
+
+</div>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p data-i18n="footer.brand_desc">ESRF.net — European security and resilience, powered by 1,931 organisations across 30 countries.</p>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.community">Community</h4>
+      <ul>
+        <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li>
+        <li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
+        <li><a href="countries/index.html" data-i18n="common.countries">Countries</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+        <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.foundation">Foundation</h4>
+      <ul>
+        <li><a href="about.html" data-i18n="common.about">About</a></li>
+        <li><a href="fund.html" class="foot-contribute" data-i18n="nav.fund">Contribute</a></li>
+        <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
+        <li><a href="mailto:hello@esrf.net" data-i18n="common.contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <ul>
+        <li><a href="privacy.html" data-i18n="footer.privacy">Privacy</a></li>
+        <li><a href="terms.html" data-i18n="footer.terms">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div data-i18n="common.foot_copyright">&copy; 2026 Stichting ESRF European Security and Resilience Fund</div>
+    <div><span data-i18n="footer.tagline">Atlas of Organisations</span></div>
+  </div>
+</footer>
+
+<script src="assets/flags.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="app.js"></script>
+<script>
+(function(){
+  window.__formLoadedAt = Date.now();
+
+  // Summary counter
+  const summaryEl = document.getElementById('nw-summary');
+  const summaryCounter = document.getElementById('summary-counter');
+  if (summaryEl && summaryCounter) {
+    summaryEl.addEventListener('input', function(){
+      summaryCounter.textContent = this.value.length + ' / 800';
+    });
+  }
+
+  // Exclusive details counter
+  const exclEl = document.getElementById('nw-exclusive-details');
+  const exclCounter = document.getElementById('exclusive-counter');
+  if (exclEl && exclCounter) {
+    exclEl.addEventListener('input', function(){
+      exclCounter.textContent = this.value.length + ' / 500';
+    });
+  }
+
+  // Show/hide exclusive details based on selection
+  const exclusiveSelect = document.getElementById('nw-exclusive');
+  const exclusiveWrap = document.getElementById('nw-exclusive-details-wrap');
+  if (exclusiveSelect && exclusiveWrap) {
+    exclusiveSelect.addEventListener('change', function(){
+      exclusiveWrap.hidden = (this.value === 'No');
+    });
+  }
+
+  // Form submit → mailto:news@esrf.net
+  const form = document.getElementById('news-form');
+  const errorBox = document.getElementById('form-error');
+  const successBox = document.getElementById('form-success');
+  const submitBtn = document.getElementById('submit-btn');
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
+    errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  function hideError() {
+    errorBox.hidden = true;
+    errorBox.textContent = '';
+  }
+
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      hideError();
+
+      const data = new FormData(form);
+
+      // Honeypot
+      if (data.get('company_website_hp')) return;
+
+      // Timer
+      const elapsed = Date.now() - (window.__formLoadedAt || 0);
+      if (elapsed < 3000) {
+        showError('Please take a moment to review the form before submitting.');
+        return;
+      }
+
+      // Required fields
+      const headline = data.get('headline') || '';
+      const category = data.get('category') || '';
+      const scope = data.get('scope') || '';
+      const pubDate = data.get('publication_date') || '';
+      const summary = data.get('summary') || '';
+      const sourceUrl = data.get('source_url') || '';
+      const sourceName = data.get('source_name') || '';
+      const contactName = data.get('contact_name') || '';
+      const contactEmail = data.get('contact_email') || '';
+      const gdpr = data.get('gdpr_consent');
+
+      if (!headline || !category || !scope || !pubDate || !summary || !sourceUrl || !sourceName || !contactName || !contactEmail) {
+        showError('Please fill in all required fields.');
+        return;
+      }
+      if (!gdpr) {
+        showError('Please accept the privacy policy to continue.');
+        return;
+      }
+      if (!/^https?:\/\/.+/.test(sourceUrl)) {
+        showError('Please enter a valid source URL starting with https:// or http://');
+        return;
+      }
+      if (!/^[^@]+@[^@]+\.[^@]+$/.test(contactEmail)) {
+        showError('Please enter a valid email address.');
+        return;
+      }
+
+      // Optional fields
+      const country = data.get('country') || '';
+      const topics = data.get('topics') || '';
+      const source2Url = data.get('source2_url') || '';
+      const exclusive = data.get('exclusive_article') || 'No';
+      const exclusiveDetails = data.get('exclusive_details') || '';
+      const contactOrg = data.get('contact_organisation') || '';
+      const contactRole = data.get('contact_role') || '';
+      const relation = data.get('relation') || '';
+
+      const categoryLabel = document.querySelector('#nw-category option:checked')?.textContent || category;
+      const scopeLabel = document.querySelector('#nw-scope option:checked')?.textContent || scope;
+      const countryLabel = document.querySelector('#nw-country option:checked')?.textContent || country;
+      const relationLabel = document.querySelector('#nw-relation option:checked')?.textContent || relation;
+
+      const lines = [
+        '═══════════════════════════════════════',
+        'DISPATCH SIGNAL — ESRF.net',
+        '═══════════════════════════════════════',
+        '',
+        '▸ SIGNAL DETAILS',
+        '  Headline:      ' + headline,
+        '  Category:      ' + categoryLabel,
+        '  Scope:         ' + scopeLabel,
+        '  Date:          ' + pubDate,
+        country ? '  Country:       ' + countryLabel : '',
+        topics ? '  Topics:        ' + topics : '',
+        '',
+        '  Summary:',
+        '  ' + summary,
+        '',
+        '▸ SOURCE & VERIFICATION',
+        '  Source:         ' + sourceName,
+        '  Source URL:     ' + sourceUrl,
+        source2Url ? '  Additional:    ' + source2Url : '',
+        '',
+        '▸ EXCLUSIVE ARTICLE',
+        '  Requested:     ' + exclusive,
+        exclusiveDetails ? '  Details:       ' + exclusiveDetails : '',
+        '',
+        '▸ SUBMITTED BY',
+        '  Name:          ' + contactName,
+        '  Email:         ' + contactEmail,
+        contactOrg ? '  Organisation:  ' + contactOrg : '',
+        contactRole ? '  Role:          ' + contactRole : '',
+        relation ? '  Relation:      ' + relationLabel : '',
+        '',
+        '═══════════════════════════════════════',
+        'Submitted via ESRF.net/submit-news',
+        'Time: ' + new Date().toISOString(),
+        '═══════════════════════════════════════',
+      ].filter(l => l !== '').join('\n');
+
+      const exclusiveTag = exclusive !== 'No' ? ' [EXCLUSIVE REQUEST]' : '';
+      const subject = 'Dispatch signal: ' + headline + exclusiveTag;
+
+      // Open mailto
+      const mailtoUrl = 'mailto:news@esrf.net'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(lines);
+
+      window.location.href = mailtoUrl;
+
+      // Show success after short delay (mail client will have opened)
+      setTimeout(function(){
+        form.hidden = true;
+        successBox.hidden = false;
+        successBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 500);
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -969,6 +969,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .form-wrap{max-width:680px;margin:0 auto;padding:40px var(--pad-x) 120px}
 .form-grid{display:grid;gap:20px}
 .form-row{display:flex;flex-direction:column;gap:6px}
+.form-row[hidden]{display:none}
 .form-row label{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:var(--ink-soft)}
 .form-row label .req{color:var(--accent)}
 .form-row input,.form-row select,.form-row textarea{
