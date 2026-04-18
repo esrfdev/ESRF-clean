@@ -19,30 +19,30 @@
 /* ── Hero KPI strip ── */
 .ev-hero{
   max-width:var(--max);margin:0 auto;
-  padding:28px var(--pad-x) 0;
+  padding:20px var(--pad-x) 0;
 }
 .ev-hero-title{
   font-family:'Archivo',sans-serif;font-weight:800;
-  font-size:32px;letter-spacing:-0.03em;color:var(--ink);
+  font-size:28px;letter-spacing:-0.03em;color:var(--ink);
   line-height:1;margin-bottom:4px;
 }
 .ev-hero-sub{
   font-family:'PT Serif',serif;font-style:italic;
-  font-size:15px;color:var(--ink-dim);margin-bottom:20px;
+  font-size:14px;color:var(--ink-dim);margin-bottom:14px;
 }
 .ev-kpis{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
   border:1px solid var(--ink);
 }
 .ev-kpi{
-  padding:16px 20px;border-right:1px solid rgba(15,20,25,0.12);
+  padding:12px 16px;border-right:1px solid rgba(15,20,25,0.12);
   transition:background .2s;cursor:default;
 }
 .ev-kpi:last-child{border-right:none}
 .ev-kpi:hover{background:rgba(15,20,25,0.02)}
 .ev-kpi-val{
   font-family:'Archivo',sans-serif;font-weight:800;
-  font-size:28px;letter-spacing:-0.02em;color:var(--accent);line-height:1;
+  font-size:24px;letter-spacing:-0.02em;color:var(--accent);line-height:1;
 }
 .ev-kpi-label{
   font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;
@@ -79,14 +79,13 @@
 /* ── Dashboard grid ── */
 .ev-dash{
   max-width:var(--max);margin:0 auto;
-  padding:20px var(--pad-x) 0;
+  padding:12px var(--pad-x) 0;
   display:grid;
-  grid-template-columns:1fr 340px;
-  grid-template-rows:auto auto;
-  gap:20px;
+  grid-template-columns:1fr 280px;
+  gap:12px;
 }
-.ev-dash-map{grid-column:1;grid-row:1/3}
-.ev-dash-charts{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:16px}
+.ev-dash-map{grid-column:1;grid-row:1}
+.ev-dash-charts{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:12px}
 /* slider now lives inside .ev-map-wrap */
 
 /* ── Map ── */
@@ -138,28 +137,7 @@
 }
 .ev-chart-box{position:relative;width:100%;height:160px}
 .ev-chart-box canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
-/* Country list chart */
-.ev-country-bars{list-style:none;padding:0;margin:0;max-height:160px;overflow-y:auto}
-.ev-country-bar{
-  display:flex;align-items:center;gap:8px;
-  padding:3px 0;font-size:11px;cursor:pointer;
-  transition:background .15s;
-}
-.ev-country-bar:hover{background:rgba(15,20,25,0.03)}
-.ev-country-bar.active{background:rgba(210,75,31,0.08)}
-.ev-country-name{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;
-  letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);
-  min-width:100px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.ev-country-fill{
-  flex:1;height:12px;background:rgba(15,20,25,0.06);position:relative;overflow:hidden;
-}
-.ev-country-fill-inner{height:100%;background:var(--accent);transition:width .4s cubic-bezier(.4,0,.2,1)}
-.ev-country-n{
-  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;
-  color:var(--ink-dim);min-width:16px;text-align:right;
-}
+
 
 /* ── Time slider (inside map-wrap) ── */
 .ev-slider-wrap{
@@ -413,7 +391,8 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
 @media(max-width:768px){
   .ev-hero-title{font-size:24px}
   .ev-kpis{grid-template-columns:repeat(3,1fr)}
-  .ev-kpi:nth-child(4),.ev-kpi:nth-child(5){border-top:1px solid rgba(15,20,25,0.12)}
+  .ev-dash-charts{display:none}
+  .ev-dash{grid-template-columns:1fr}
   .ev-toolbar{top:56px;padding:10px 16px}
   .ev-toolbar-inner{gap:8px;flex-wrap:wrap}
   .ev-search{min-width:100%;order:-1}
@@ -442,13 +421,6 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   .ev-month-pill{padding:6px 10px;font-size:9px}
   .ev-month-arrow{width:32px;height:32px;font-size:18px}
 }
-@media(max-width:480px){
-  .ev-kpis{grid-template-columns:repeat(2,1fr)}
-  .ev-kpi:nth-child(3){border-top:1px solid rgba(15,20,25,0.12)}
-  .ev-kpi:nth-child(odd){border-right:1px solid rgba(15,20,25,0.12)}
-  .ev-kpi:nth-child(even){border-right:none}
-  .ev-kpi:last-child{grid-column:1/-1;border-right:none;border-top:1px solid rgba(15,20,25,0.12)}
-}
 </style>
 </head>
 <body>
@@ -459,10 +431,10 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
     <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
     <div class="mast-nav" id="primary-nav">
       <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="events.html" aria-current="page">Events</a>
       <a href="directory.html" data-i18n="nav.directory">Directory</a>
       <a href="map.html" data-i18n="nav.atlas">Atlas</a>
       <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
-      <a href="events.html" aria-current="page">Events</a>
       <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
       <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
     </div>
@@ -481,10 +453,8 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   <h1 class="ev-hero-title">Events & Training</h1>
   <p class="ev-hero-sub">Conferences, expos, trainings and exercises across the European security and resilience community.</p>
   <div class="ev-kpis" id="ev-kpis">
-    <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-total">—</div><div class="ev-kpi-label">Total events</div></div>
     <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-upcoming">—</div><div class="ev-kpi-label">Upcoming</div></div>
     <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-countries">—</div><div class="ev-kpi-label">Countries</div></div>
-    <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-organisers">—</div><div class="ev-kpi-label">Organisers</div></div>
     <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-next">—</div><div class="ev-kpi-label">Next event</div></div>
   </div>
 </div>
@@ -516,24 +486,11 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
     </div>
   </div>
 
-  <!-- Charts sidebar (right) -->
+  <!-- Timeline chart (right on desktop, hidden on mobile) -->
   <div class="ev-dash-charts">
-    <!-- Events by type — doughnut -->
-    <div class="ev-chart-panel">
-      <div class="ev-chart-title">By type</div>
-      <div class="ev-chart-box"><canvas id="chart-type"></canvas></div>
-    </div>
-
-    <!-- Events by month — bar -->
     <div class="ev-chart-panel">
       <div class="ev-chart-title">Timeline distribution</div>
       <div class="ev-chart-box"><canvas id="chart-timeline"></canvas></div>
-    </div>
-
-    <!-- Top countries — horizontal bars -->
-    <div class="ev-chart-panel">
-      <div class="ev-chart-title">Top locations</div>
-      <ul class="ev-country-bars" id="ev-country-bars"></ul>
     </div>
   </div>
 </div>
@@ -617,7 +574,7 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
         chipsEl=$('ev-type-chips'), tabsEl=$('ev-tabs'),
         sliderEl=$('ev-slider'), sliderLbl=$('ev-slider-label'),
         playBtn=$('ev-play'), ticksEl=$('ev-slider-ticks'),
-        legendEl=$('ev-legend'), countryBarsEl=$('ev-country-bars');
+        legendEl=$('ev-legend');
 
   /* ═══ Load & parse ═══ */
   const events=await(await fetch('events.json')).json();
@@ -638,10 +595,8 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   /* ═══ KPIs ═══ */
   const allCountries=new Set(events.map(e=>e.country));
   const allOrganisers=new Set(events.map(e=>e.organiser));
-  $('kpi-total').textContent=events.length;
   $('kpi-upcoming').textContent=upcoming.length;
   $('kpi-countries').textContent=allCountries.size;
-  $('kpi-organisers').textContent=allOrganisers.size;
   if(upcoming.length){
     const next=upcoming[0];
     const d=Math.ceil((next._date-NOW)/(1000*60*60*24));
@@ -881,26 +836,6 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   Chart.defaults.font=chartFont;
   Chart.defaults.color='#7A6E62';
 
-  /* Type doughnut */
-  const ctxType=$('chart-type');
-  const chartType=new Chart(ctxType,{
-    type:'doughnut',
-    data:{labels:[],datasets:[{data:[],backgroundColor:Object.values(typeColors),borderWidth:0}]},
-    options:{
-      responsive:true,maintainAspectRatio:false,cutout:'60%',
-      plugins:{legend:{display:true,position:'right',labels:{boxWidth:10,padding:8,font:{size:9,family:"'IBM Plex Mono',monospace"},usePointStyle:true,pointStyle:'circle'}}},
-      onClick:(evt,el)=>{
-        if(el.length){
-          const idx=el[0].index;
-          const clickedType=types[idx];
-          S.type=S.type===clickedType?'':clickedType;
-          chipsEl.querySelectorAll('.ev-chip').forEach(x=>x.classList.toggle('active',x.dataset.type===S.type));
-          fullUpdate();
-        }
-      }
-    }
-  });
-
   /* Timeline bar chart */
   const ctxTL=$('chart-timeline');
   const chartTL=new Chart(ctxTL,{
@@ -917,12 +852,6 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
   });
 
   function updateCharts(list){
-    /* Type doughnut */
-    const tCounts=types.map(t=>list.filter(e=>e.type===t).length);
-    chartType.data.labels=types.map(t=>tLabels[t]);
-    chartType.data.datasets[0].data=tCounts;
-    chartType.update('none');
-
     /* Timeline bar */
     const sorted=[...list].sort((a,b)=>a._date-b._date);
     const monthBuckets={};
@@ -933,27 +862,7 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
     chartTL.data.labels=Object.keys(monthBuckets);
     chartTL.data.datasets[0].data=Object.values(monthBuckets);
     chartTL.update('none');
-
-    /* Country bars */
-    const cc={};
-    list.forEach(e=>{const c=normCountry(e.country);cc[c]=(cc[c]||0)+1});
-    const sorted2=Object.entries(cc).sort((a,b)=>b[1]-a[1]).slice(0,10);
-    const maxN=sorted2.length?sorted2[0][1]:1;
-    countryBarsEl.innerHTML=sorted2.map(([c,n])=>`
-      <li class="ev-country-bar${S.country===c?' active':''}" data-country="${esc(c)}">
-        <span class="ev-country-name">${esc(c)}</span>
-        <span class="ev-country-fill"><span class="ev-country-fill-inner" style="width:${Math.round(n/maxN*100)}%"></span></span>
-        <span class="ev-country-n">${n}</span>
-      </li>`).join('');
   }
-
-  /* Country bar click → filter */
-  countryBarsEl.addEventListener('click',e=>{
-    const bar=e.target.closest('.ev-country-bar');if(!bar)return;
-    const c=bar.dataset.country;
-    S.country=S.country===c?'':c;
-    fullUpdate();
-  });
 
   /* ═══ Render timeline ═══ */
   function render(){
