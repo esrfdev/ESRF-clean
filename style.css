@@ -98,6 +98,14 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   color:var(--ink) !important;border-bottom:1px solid var(--ink) !important;
 }
 .mast-cta:hover{background:var(--ink);color:var(--cream) !important}
+.mast-contribute{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:10px;letter-spacing:0.12em;text-transform:uppercase;
+  padding:8px 14px;border:1px solid var(--accent);border-radius:999px;
+  color:var(--accent)!important;text-decoration:none;white-space:nowrap;
+  transition:all .2s;
+}
+.mast-contribute:hover{background:var(--accent);color:var(--cream)!important}
 .mast-burger{display:none}
 
 /* ═══ Language switcher ═══ */
@@ -137,6 +145,8 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .mast.overlay .mast-nav a:hover{border-bottom-color:var(--accent)}
 .mast.overlay .mast-cta{border-color:var(--cream);color:var(--cream) !important}
 .mast.overlay .mast-cta:hover{background:var(--cream);color:var(--ink) !important}
+.mast.overlay .mast-contribute{border-color:var(--accent);color:var(--accent)!important}
+.mast.overlay .mast-contribute:hover{background:var(--accent);color:var(--cream)!important}
 
 /* ═══ Section architecture ═══ */
 .section{padding:120px var(--pad-x)}
@@ -526,6 +536,15 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   font-family:'PT Serif',serif;font-style:italic;font-size:20px;line-height:1.5;
   max-width:640px;margin:0 auto 40px;opacity:0.9;
 }
+.join-actions{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+.join-secondary{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:12px;letter-spacing:0.25em;text-transform:uppercase;
+  padding:16px 28px;border-radius:999px;
+  border:2px solid var(--cream);color:var(--cream);
+  text-decoration:none;transition:transform .25s,background .25s,color .25s;
+}
+.join-secondary:hover{background:var(--cream);color:var(--accent);transform:translateY(-2px)}
 
 /* ═══ Footer ═══ */
 .foot{
@@ -555,6 +574,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   font-family:'PT Serif',serif;font-size:15px;
 }
 .foot-col a:hover{opacity:1;color:var(--accent)}
+.foot-contribute{color:var(--accent)!important;opacity:1!important;font-weight:700}
 .foot-bar{
   max-width:var(--max);margin:48px auto 0;padding-top:28px;
   border-top:1px solid rgba(248,242,230,0.12);
@@ -896,6 +916,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
     font-family:'IBM Plex Mono',monospace;font-size:18px;
   }
   .mast-cta{display:none}
+  .mast-contribute{display:block;text-align:center;margin-top:8px;border-radius:0;border:1px solid var(--accent);padding:10px 14px}
   .lang-switch{margin-left:0}
 
   .section,.section.tight{padding:72px var(--pad-x)}
