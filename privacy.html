@@ -56,7 +56,7 @@
   <ul>
     <li><strong>Listing data</strong> — name, sector, city, country, website and description of organisations that request a listing.</li>
     <li><strong>Contact data</strong> — email addresses, names and role titles of individuals who write to us to request listings, submit dispatch items or contribute to the foundation.</li>
-    <li><strong>Technical data</strong> — anonymised server logs (IP address truncated, user agent, timestamp) kept for security and auditing.</li>
+    <li><strong>Technical data</strong> — anonymised server logs (IP address truncated to remove the last octet, no user-agent stored) kept for security and rate-limiting only.</li>
   </ul>
   <p>We do not sell personal data.</p>
 
@@ -79,7 +79,14 @@
   <p>We use Google's Consent Mode v2, which means no advertising data is collected until you explicitly consent. If you decline, no advertising cookies are set and no personal data is shared with advertising partners. You can change your preference at any time by clearing your browser's local storage for esrf.net.</p>
 
   <h2>7. Third parties</h2>
-  <p>We use a small number of trusted processors — in particular, map tile providers (CartoDB, OpenStreetMap), static hosting infrastructure (Cloudflare), and Google AdSense for advertising. These processors operate under GDPR-compliant terms. Google's privacy policy applies to the use of advertising cookies: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>. No personal data from our listings is shared with advertisers.</p>
+  <p>We use a small number of trusted processors:</p>
+  <ul>
+    <li><strong>Cloudflare</strong> (hosting, serverless functions, KV storage) — EU data centres; GDPR-compliant DPA in place.</li>
+    <li><strong>Resend</strong> (transactional email delivery, EU region eu-west-1) — processes only the data necessary to deliver form notification emails (sender, recipient, subject, body). Resend does not retain email content beyond delivery. <a href="https://resend.com/legal/dpa" target="_blank" rel="noopener">Resend DPA</a>.</li>
+    <li><strong>CartoDB / OpenStreetMap</strong> (map tiles) — no personal data is shared.</li>
+    <li><strong>Google AdSense</strong> (contextual advertising) — Google's privacy policy applies: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>. No personal data from our listings is shared with advertisers.</li>
+  </ul>
+  <p>All processors operate under GDPR-compliant terms. Form submission data is stored with automatic expiry (maximum 24 months) and IP addresses are truncated before storage to prevent individual identification.</p>
 
   <h2>8. Changes</h2>
   <p>We will post material changes to this notice on this page. Where a change is substantive, we will also attempt to inform listed organisations by email.</p>

@@ -1,21 +1,33 @@
 // Cloudflare Pages Function — POST /api/submit-listing
 // ESRF.net listing request handler
+// Privacy-hardened: IP truncation, input sanitization, CORS, TTL on stored data
+
+const ALLOWED_ORIGINS = ['https://www.esrf.net', 'https://esrf.net'];
+const MAX_FIELD_LENGTH = 500;
+const KV_TTL_SECONDS = 63072000; // 24 months (GDPR retention limit)
+
 export async function onRequestPost(context) {
   const { request, env } = context;
+
+  // 0. CORS — only accept requests from esrf.net
+  const origin = request.headers.get('origin') || '';
+  if (!ALLOWED_ORIGINS.includes(origin)) {
+    return corsResponse(jsonErr('Forbidden origin', 403), origin);
+  }
 
   // 1. Parse JSON
   let body;
   try { body = await request.json(); }
-  catch(e) { return jsonErr('Invalid JSON', 400); }
+  catch(e) { return corsResponse(jsonErr('Invalid JSON', 400), origin); }
 
   // 2. Honeypot check
   if (body.company_website_hp) {
-    return jsonErr('Invalid submission', 400);
+    return corsResponse(jsonErr('Invalid submission', 400), origin);
   }
 
   // 3. Timer check (client-reported; server rejects if too fast)
   if (!body.form_duration_ms || body.form_duration_ms < 3000) {
-    return jsonErr('Form submitted too quickly', 400);
+    return corsResponse(jsonErr('Form submitted too quickly', 400), origin);
   }
 
   // 4. Turnstile verification
@@ -29,41 +41,53 @@ export async function onRequestPost(context) {
         remoteip: request.headers.get('cf-connecting-ip') || ''
       })
     }).then(r => r.json());
-    if (!verify.success) return jsonErr('Turnstile verification failed', 400);
+    if (!verify.success) return corsResponse(jsonErr('Turnstile verification failed', 400), origin);
   }
 
-  // 5. Rate-limit via KV (if bound)
+  // 5. Rate-limit via KV (if bound) — uses truncated IP
+  const fullIp = request.headers.get('cf-connecting-ip') || 'unknown';
+  const truncatedIp = truncateIp(fullIp);
+
   if (env.RATE_LIMIT_KV) {
-    const ip = request.headers.get('cf-connecting-ip') || 'unknown';
-    const key = 'rl:' + ip;
+    const key = 'rl:' + truncatedIp;
     const prev = parseInt(await env.RATE_LIMIT_KV.get(key) || '0');
-    if (prev >= 3) return jsonErr('Too many requests, try again later', 429);
+    if (prev >= 3) return corsResponse(jsonErr('Too many requests, try again later', 429), origin);
     await env.RATE_LIMIT_KV.put(key, String(prev + 1), { expirationTtl: 3600 });
   }
 
-  // 6. Validate fields
+  // 6. Validate and sanitize fields
   const required = ['name', 'country', 'website', 'sector', 'contact_name', 'contact_email'];
-  for (const f of required) if (!body[f]) return jsonErr(`Missing field: ${f}`, 400);
-  if (!body.gdpr_consent) return jsonErr('GDPR consent required', 400);
-  if (!/^https?:\/\//.test(body.website)) return jsonErr('Invalid website URL', 400);
-  if (!/^[^@]+@[^@]+\.[^@]+$/.test(body.contact_email)) return jsonErr('Invalid email', 400);
+  for (const f of required) if (!body[f]) return corsResponse(jsonErr(`Missing field: ${f}`, 400), origin);
+  if (!body.gdpr_consent) return corsResponse(jsonErr('GDPR consent required', 400), origin);
+  if (!/^https?:\/\//.test(body.website)) return corsResponse(jsonErr('Invalid website URL', 400), origin);
+  if (!/^[^@]+@[^@]+\.[^@]+$/.test(body.contact_email)) return corsResponse(jsonErr('Invalid email', 400), origin);
 
-  // 7. Persist to KV (if bound)
-  const submission = {
-    ...body,
+  // Sanitize all string inputs (strip HTML/scripts, enforce max length)
+  const sanitized = {
+    name: sanitize(body.name),
+    country: sanitize(body.country),
+    website: sanitizeUrl(body.website),
+    sector: sanitize(body.sector),
+    contact_name: sanitize(body.contact_name),
+    contact_email: sanitize(body.contact_email),
+    description: sanitize(body.description || ''),
+    gdpr_consent: true,
     submitted_at: new Date().toISOString(),
-    ip: request.headers.get('cf-connecting-ip') || '',
-    user_agent: request.headers.get('user-agent') || ''
+    // GDPR: only store truncated IP (last octet/segment zeroed)
+    ip_truncated: truncatedIp,
+    // Do NOT store user-agent (unnecessary personal data)
   };
-  delete submission.company_website_hp;
-  delete submission.turnstile_token;
 
+  // 7. Persist to KV (if bound) — with automatic TTL expiry
   if (env.LISTING_SUBMISSIONS) {
     const id = 'sub:' + Date.now() + ':' + Math.random().toString(36).slice(2, 8);
-    await env.LISTING_SUBMISSIONS.put(id, JSON.stringify(submission));
+    await env.LISTING_SUBMISSIONS.put(id, JSON.stringify(sanitized), {
+      expirationTtl: KV_TTL_SECONDS
+    });
   }
 
   // 8. Email via Resend (if configured)
+  // Note: email contains only sanitized data, no IP or user-agent
   if (env.RESEND_API_KEY) {
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -74,16 +98,49 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         from: 'ESRF.net <noreply@esrf.net>',
         to: ['hello@esrf.net'],
-        reply_to: body.contact_email,
-        subject: `New listing request: ${body.name}`,
-        text: formatSubmission(submission)
+        reply_to: sanitized.contact_email,
+        subject: `New listing request: ${sanitized.name}`,
+        text: formatEmail(sanitized)
       })
     }).catch(() => { /* don't fail the request if email delivery fails */ });
   }
 
-  return new Response(JSON.stringify({ ok: true }), {
-    status: 200,
-    headers: { 'content-type': 'application/json' }
+  return corsResponse(
+    new Response(JSON.stringify({ ok: true }), {
+      status: 200,
+      headers: { 'content-type': 'application/json' }
+    }),
+    origin
+  );
+}
+
+// Handle preflight OPTIONS requests for CORS
+export async function onRequestOptions(context) {
+  const origin = context.request.headers.get('origin') || '';
+  if (!ALLOWED_ORIGINS.includes(origin)) {
+    return new Response(null, { status: 403 });
+  }
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'access-control-allow-origin': origin,
+      'access-control-allow-methods': 'POST, OPTIONS',
+      'access-control-allow-headers': 'content-type',
+      'access-control-max-age': '86400',
+    }
+  });
+}
+
+// --- Helpers ---
+
+function corsResponse(response, origin) {
+  const headers = new Headers(response.headers);
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    headers.set('access-control-allow-origin', origin);
+  }
+  return new Response(response.body, {
+    status: response.status,
+    headers
   });
 }
 
@@ -94,6 +151,50 @@ function jsonErr(msg, status) {
   });
 }
 
-function formatSubmission(s) {
-  return Object.entries(s).map(([k, v]) => `${k}: ${v}`).join('\n');
+/** Strip HTML tags, trim, and enforce max length */
+function sanitize(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .replace(/<[^>]*>/g, '')    // strip HTML tags
+    .replace(/[<>"'`]/g, '')    // remove dangerous characters
+    .trim()
+    .slice(0, MAX_FIELD_LENGTH);
+}
+
+/** Sanitize URL — only allow http/https, strip scripts */
+function sanitizeUrl(url) {
+  if (typeof url !== 'string') return '';
+  url = url.trim().slice(0, MAX_FIELD_LENGTH);
+  if (!/^https?:\/\//i.test(url)) return '';
+  return url.replace(/[<>"'`]/g, '');
+}
+
+/** Truncate IP for GDPR compliance — zero last octet (IPv4) or last 80 bits (IPv6) */
+function truncateIp(ip) {
+  if (!ip || ip === 'unknown') return 'unknown';
+  if (ip.includes('.')) {
+    // IPv4: zero last octet (e.g. 192.168.1.42 → 192.168.1.0)
+    const parts = ip.split('.');
+    parts[3] = '0';
+    return parts.join('.');
+  }
+  if (ip.includes(':')) {
+    // IPv6: keep first 3 segments, zero rest
+    const parts = ip.split(':');
+    return parts.slice(0, 3).join(':') + '::';
+  }
+  return 'unknown';
+}
+
+function formatEmail(s) {
+  return [
+    `Organisation: ${s.name}`,
+    `Country: ${s.country}`,
+    `Website: ${s.website}`,
+    `Sector: ${s.sector}`,
+    `Contact: ${s.contact_name}`,
+    `Email: ${s.contact_email}`,
+    s.description ? `Description: ${s.description}` : '',
+    `Submitted: ${s.submitted_at}`,
+  ].filter(Boolean).join('\n');
 }
