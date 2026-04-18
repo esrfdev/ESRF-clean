@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Responsible Disclosure — ESRF.net</title>
+<meta name="description" content="Responsible disclosure policy for ESRF.net — how to report security vulnerabilities in the European security and resilience community platform." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<script src="consent.js" defer></script>
+    <script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="events.html">Events</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
+      <a href="fund.html" class="mast-contribute" data-i18n="nav.fund">Contribute</a>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
+    </div>
+  </div>
+</nav>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ 100 · Security</div>
+    <h1 class="phero-title">Responsible<br><i>disclosure</i>.</h1>
+    <p class="phero-deck">How to report security vulnerabilities in ESRF.net — we value the work of security researchers and are committed to working with the community to verify and address any potential issues.</p>
+  </div>
+</section>
+
+<article class="legal">
+  <p><em>Last updated: 18 April 2026.</em></p>
+
+  <h2>1. Scope</h2>
+  <p>This policy applies to all services operated under the <strong>esrf.net</strong> domain, including the website, directory, atlas, dispatch, and any associated subdomains. It does not cover third-party services we use (Cloudflare, Google, GitHub) — please report vulnerabilities in those services directly to the respective provider.</p>
+
+  <h2>2. How to report</h2>
+  <p>If you have discovered a potential security vulnerability, please report it to us via email:</p>
+  <p style="margin:1.2em 0;padding:1em 1.5em;background:rgba(255,255,255,.06);border-left:3px solid var(--accent,#d4a15e);font-size:1.1em;">
+    <strong><a href="mailto:security@esrf.net">security@esrf.net</a></strong>
+  </p>
+  <p>You may also refer to our <a href="/.well-known/security.txt">security.txt</a> file, published in accordance with <a href="https://www.rfc-editor.org/rfc/rfc9116" target="_blank" rel="noopener">RFC 9116</a>.</p>
+
+  <h2>3. What to include</h2>
+  <p>To help us assess and resolve the issue efficiently, please include:</p>
+  <ul>
+    <li>A description of the vulnerability and its potential impact.</li>
+    <li>Step-by-step instructions to reproduce the issue.</li>
+    <li>The URL(s) or component(s) affected.</li>
+    <li>Screenshots or proof-of-concept code, if applicable.</li>
+    <li>Your contact information for follow-up.</li>
+  </ul>
+
+  <h2>4. Our commitment</h2>
+  <p>When you report a vulnerability in good faith, we commit to:</p>
+  <ul>
+    <li><strong>Acknowledgement</strong> — we will confirm receipt of your report within <strong>48 hours</strong>.</li>
+    <li><strong>Assessment</strong> — we will investigate and provide an initial assessment within <strong>5 business days</strong>.</li>
+    <li><strong>Resolution</strong> — we will work to resolve confirmed vulnerabilities as quickly as possible and keep you informed of progress.</li>
+    <li><strong>Credit</strong> — with your permission, we will publicly acknowledge your contribution after the issue is resolved.</li>
+    <li><strong>No legal action</strong> — we will not take legal action against researchers who act in good faith and in compliance with this policy.</li>
+  </ul>
+
+  <h2>5. Guidelines for researchers</h2>
+  <p>We ask that you:</p>
+  <ul>
+    <li>Do not access, modify or delete data belonging to other users or organisations.</li>
+    <li>Do not perform denial-of-service attacks or any actions that could disrupt our services.</li>
+    <li>Do not publicly disclose the vulnerability before we have had a reasonable opportunity to address it (minimum 90 days).</li>
+    <li>Do not use automated scanning tools that generate excessive traffic.</li>
+    <li>Act in good faith to avoid privacy violations and disruption to our community.</li>
+  </ul>
+
+  <h2>6. Out of scope</h2>
+  <p>The following are generally not considered in-scope vulnerabilities:</p>
+  <ul>
+    <li>Clickjacking on pages with no sensitive actions (informational pages).</li>
+    <li>Missing HTTP headers that do not lead to a direct exploit (unless covered by our CSP).</li>
+    <li>Reports from automated tools without a demonstrated impact.</li>
+    <li>Social engineering attacks against ESRF staff or community members.</li>
+    <li>Issues in third-party services (Cloudflare, Google AdSense, etc.).</li>
+  </ul>
+
+  <h2>7. Legal framework</h2>
+  <p>This responsible disclosure policy is aligned with the NIS2 Directive (EU 2022/2555) and Dutch coordinated vulnerability disclosure guidelines as published by the <a href="https://www.ncsc.nl/onderwerpen/coordinated-vulnerability-disclosure" target="_blank" rel="noopener">NCSC-NL</a>. Stichting ESRF European Security and Resilience Fund encourages responsible security research and considers it an essential contribution to the resilience of our platform.</p>
+</article>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p data-i18n="footer.brand_desc">ESRF.net — European security and resilience, powered by 1,931 organisations across 30 countries.</p>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.community">Community</h4>
+      <ul>
+        <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li>
+        <li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
+        <li><a href="countries/index.html" data-i18n="common.countries">Countries</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+        <li><a href="submit-news.html">Submit signal</a></li>
+        <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.foundation">Foundation</h4>
+      <ul>
+        <li><a href="about.html" data-i18n="common.about">About</a></li>
+        <li><a href="fund.html" class="foot-contribute" data-i18n="nav.fund">Contribute</a></li>
+        <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
+        <li><a href="mailto:hello@esrf.net" data-i18n="common.contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <ul>
+        <li><a href="privacy.html" data-i18n="footer.privacy">Privacy</a></li>
+        <li><a href="terms.html" data-i18n="footer.terms">Terms</a></li>
+        <li><a href="responsible-disclosure.html">Responsible Disclosure</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div data-i18n="common.foot_copyright">&copy; 2026 Stichting ESRF European Security and Resilience Fund</div>
+    <div><span data-i18n="footer.tagline">Atlas of Organisations</span></div>
+  </div>
+</footer>
+<script src="assets/flags.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
