@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Events & Training — ESRF.net</title>
+<meta name="description" content="Upcoming European security, resilience, cybersecurity and crisis management events, conferences, and training programmes curated by ESRF.net." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<script src="consent.js" defer></script>
+<style>
+/* ═══ Events page styles ═══ */
+
+.ev-toolbar{
+  position:sticky;top:69px;z-index:30;
+  background:var(--bg);border-bottom:1px solid var(--ink);
+  padding:14px var(--pad-x);transition:box-shadow .3s;
+}
+.ev-toolbar.scrolled{box-shadow:0 4px 24px rgba(15,20,25,0.08)}
+.ev-toolbar-inner{
+  max-width:var(--max);margin:0 auto;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.ev-search{
+  flex:1;min-width:200px;
+  display:flex;align-items:center;gap:10px;
+  border:1px solid var(--ink);padding:8px 14px;background:var(--cream);
+  transition:border-color .2s, box-shadow .2s;
+}
+.ev-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px rgba(201,108,59,0.15)}
+.ev-search input{flex:1;background:transparent;border:0;outline:0;font-family:'PT Serif',serif;font-size:15px;color:var(--ink)}
+.ev-search input::placeholder{color:var(--ink-dim);font-style:italic}
+.ev-search-icon{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent)}
+
+/* Type filter chips — compact row */
+.ev-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ev-chip{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:9px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:6px 12px;border:1px solid var(--ink-dim);
+  color:var(--ink-soft);background:transparent;cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+}
+.ev-chip:hover{border-color:var(--ink);color:var(--ink)}
+.ev-chip.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+
+.ev-count{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--ink-dim);white-space:nowrap;margin-left:auto;
+}
+.ev-count strong{color:var(--accent);font-weight:500;font-size:13px}
+
+/* ── Timeline ── */
+.ev-timeline{
+  max-width:var(--max);margin:0 auto;
+  padding:0 var(--pad-x) 80px;
+}
+
+/* Month header */
+.ev-month{
+  position:sticky;top:130px;z-index:10;
+  background:var(--bg);
+  padding:24px 0 12px;
+  border-bottom:2px solid var(--ink);
+  margin-top:40px;
+  display:flex;align-items:baseline;gap:12px;
+}
+.ev-month:first-child{margin-top:16px}
+.ev-month-name{
+  font-family:'Archivo',sans-serif;font-weight:800;
+  font-size:28px;letter-spacing:-0.02em;color:var(--ink);line-height:1;
+}
+.ev-month-year{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  letter-spacing:0.15em;color:var(--ink-dim);text-transform:uppercase;
+}
+.ev-month-count{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.1em;color:var(--accent);margin-left:auto;
+}
+
+/* Event card */
+.ev-card{
+  display:grid;
+  grid-template-columns:80px 1fr auto;
+  gap:20px;align-items:start;
+  padding:20px 0;
+  border-bottom:1px solid rgba(15,20,25,0.08);
+  transition:background .2s;
+  opacity:0;transform:translateY(8px);
+  animation:evIn .4s ease forwards;
+}
+@keyframes evIn{to{opacity:1;transform:translateY(0)}}
+.ev-card:hover{background:rgba(15,20,25,0.02)}
+
+/* Date column */
+.ev-date{
+  text-align:center;
+  padding:8px 0;
+}
+.ev-date-day{
+  font-family:'Archivo',sans-serif;font-weight:800;
+  font-size:32px;line-height:1;letter-spacing:-0.02em;color:var(--ink);
+}
+.ev-date-month{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
+  margin-top:2px;
+}
+.ev-date-range{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  color:var(--ink-dim);margin-top:4px;
+}
+
+/* Content column */
+.ev-content{}
+.ev-type-badge{
+  display:inline-block;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:2px 8px;margin-bottom:6px;
+}
+.ev-type-conference{background:#E8D5C4;color:#6B4226}
+.ev-type-expo{background:#D4E4D4;color:#2B5A2B}
+.ev-type-training{background:#D4DAE8;color:#2B3A5A}
+.ev-type-exercise{background:#E8D4D4;color:#5A2B2B}
+.ev-type-webinar{background:#E4D8E8;color:#4A2B5A}
+
+.ev-name{
+  font-family:'Archivo',sans-serif;font-weight:700;
+  font-size:18px;line-height:1.3;letter-spacing:-0.01em;color:var(--ink);
+  margin-bottom:4px;
+}
+.ev-organiser{
+  font-family:'PT Serif',serif;font-style:italic;
+  font-size:14px;color:var(--ink-dim);margin-bottom:6px;
+}
+.ev-desc{
+  font-size:14px;line-height:1.5;color:var(--ink-soft);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.ev-meta{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;
+}
+.ev-meta-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--ink-dim);padding:2px 6px;
+  background:rgba(15,20,25,0.04);
+}
+.ev-location{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--ink);font-weight:500;
+}
+
+/* Actions column */
+.ev-actions{
+  display:flex;flex-direction:column;gap:6px;align-items:flex-end;
+  padding-top:8px;
+}
+.ev-countdown{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--accent);font-weight:500;white-space:nowrap;
+}
+.ev-countdown.past{color:var(--ink-dim)}
+.ev-btn{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:6px 12px;border:1px solid var(--ink-dim);
+  color:var(--ink-soft);background:transparent;
+  text-decoration:none;cursor:pointer;transition:all .2s;
+  white-space:nowrap;
+}
+.ev-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Highlight/next-up */
+.ev-card.next-up{
+  background:rgba(201,108,59,0.04);
+  border-left:3px solid var(--accent);
+  padding-left:17px;
+}
+.ev-next-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--cream);background:var(--accent);
+  padding:2px 8px;display:inline-block;margin-bottom:6px;
+}
+
+/* Summary bar */
+.ev-summary{
+  max-width:var(--max);margin:0 auto;
+  padding:16px var(--pad-x) 0;
+  display:flex;gap:24px;flex-wrap:wrap;
+}
+.ev-summary-stat{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
+}
+.ev-summary-stat strong{color:var(--accent);font-weight:500;font-size:18px;display:block;letter-spacing:-0.01em}
+
+/* Empty state */
+.ev-empty{
+  padding:80px 0;text-align:center;
+  font-family:'PT Serif',serif;font-style:italic;font-size:20px;color:var(--ink-dim);
+}
+
+/* Search highlight */
+mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-radius:1px}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .ev-toolbar{top:56px;padding:10px 16px}
+  .ev-toolbar-inner{gap:8px;flex-wrap:wrap}
+  .ev-search{min-width:100%;order:-1}
+  .ev-count{display:none}
+  .ev-card{grid-template-columns:60px 1fr;gap:12px}
+  .ev-actions{grid-column:1/-1;flex-direction:row;align-items:center}
+  .ev-date-day{font-size:24px}
+  .ev-name{font-size:16px}
+  .ev-month-name{font-size:22px}
+  .ev-summary{padding:12px 16px 0}
+}
+</style>
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="events.html" aria-current="page">Events</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Filter toolbar ── -->
+<div class="ev-toolbar" id="ev-toolbar">
+  <div class="ev-toolbar-inner">
+    <label class="ev-search">
+      <span class="ev-search-icon" aria-hidden="true">⌕</span>
+      <input id="q" type="search" placeholder="Search events, organisers, cities…" aria-label="Search events" />
+    </label>
+    <div class="ev-chips" id="ev-type-chips"></div>
+    <span class="ev-count"><strong id="ev-count">0</strong> · events</span>
+  </div>
+</div>
+
+<!-- ── Summary stats ── -->
+<div class="ev-summary" id="ev-summary"></div>
+
+<!-- ── Timeline ── -->
+<div class="ev-timeline" id="ev-timeline" aria-live="polite"></div>
+
+<!-- ── Submit event CTA ── -->
+<div class="listing-banner">
+  <p>Hosting an event relevant to European security &amp; resilience?</p>
+  <a href="mailto:hello@esrf.net?subject=Event%20submission%20for%20ESRF.net&body=Event%20name:%0ADate:%0ACity%20/%20Country:%0AWebsite:%0AShort%20description:" class="btn outline">Submit an event →</a>
+</div>
+
+<section class="join">
+  <h2 class="join-h">Stay <i>informed</i>.</h2>
+  <p class="join-sub">New events are added weekly. Bookmark this page or follow ESRF.net to stay current with the European security and resilience community.</p>
+  <a href="directory.html" class="btn on-accent">Browse the directory →</a>
+</section>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p data-i18n="footer.brand_desc">ESRF.net — European Security &amp; Resilience Framework. A curated directory of 1,934 organisations across 29 countries.</p>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.community">Community</h4>
+      <ul>
+        <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li>
+        <li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
+        <li><a href="countries/index.html">Countries</a></li>
+        <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
+        <li><a href="events.html">Events</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.foundation">Foundation</h4>
+      <ul>
+        <li><a href="about.html" data-i18n="nav.foundation">About</a></li>
+        <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+        <li><a href="mailto:hello@esrf.net" data-i18n="footer.contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <ul>
+        <li><a href="privacy.html" data-i18n="footer.privacy">Privacy</a></li>
+        <li><a href="terms.html" data-i18n="footer.terms">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div data-i18n="common.copyright">© 2026 Stichting ESRF European Security and Resilience Fund</div>
+    <div><span data-i18n="footer.tagline">Human Atlas</span> <a href="#top" data-i18n="common.back_to_top">Back to top ↑</a></div>
+  </div>
+</footer>
+
+<script src="assets/flags.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="app.js"></script>
+<script>
+(async () => {
+  const timeline  = document.getElementById('ev-timeline');
+  const countEl   = document.getElementById('ev-count');
+  const summaryEl = document.getElementById('ev-summary');
+  const toolbar   = document.getElementById('ev-toolbar');
+  const qInput    = document.getElementById('q');
+  const chipsEl   = document.getElementById('ev-type-chips');
+
+  /* ── Load events ── */
+  const res = await fetch('events.json');
+  const events = await res.json();
+
+  /* ── Parse dates for sorting ── */
+  const MONTHS = {January:0,February:1,March:2,April:3,May:4,June:5,July:6,August:7,September:8,October:9,November:10,December:11};
+  function parseStartDate(dateStr) {
+    // Handle "26–29 May 2026", "7 May 2026", "October 2026", "Q3 2027", etc.
+    const m = dateStr.match(/(\d{1,2})\s*[–-]?\s*\d*\s*(\w+)\s+(\d{4})/);
+    if (m) return new Date(+m[3], MONTHS[m[2]]||0, +m[1]);
+    const m2 = dateStr.match(/(\w+)\s+(\d{4})/);
+    if (m2) return new Date(+m2[2], MONTHS[m2[1]]||0, 1);
+    const m3 = dateStr.match(/Q(\d)\s+(\d{4})/);
+    if (m3) return new Date(+m3[2], (+m3[1]-1)*3, 1);
+    return new Date(2027, 11, 31); // fallback far future
+  }
+
+  events.forEach(e => { e._date = parseStartDate(e.dates); });
+  events.sort((a,b) => a._date - b._date);
+
+  /* ── State ── */
+  const state = { type: '', q: '' };
+
+  /* ── Build type chips ── */
+  const types = ['conference','expo','training','exercise','webinar'];
+  const typeLabels = {conference:'Conferences',expo:'Expos',training:'Training',exercise:'Exercises',webinar:'Webinars'};
+  let chipHtml = '<button class="ev-chip active" data-type="">All</button>';
+  types.forEach(t => {
+    const count = events.filter(e => e.type === t).length;
+    if (count) chipHtml += `<button class="ev-chip" data-type="${t}">${typeLabels[t]||t} · ${count}</button>`;
+  });
+  chipsEl.innerHTML = chipHtml;
+
+  chipsEl.addEventListener('click', e => {
+    const chip = e.target.closest('.ev-chip');
+    if (!chip) return;
+    state.type = chip.dataset.type;
+    chipsEl.querySelectorAll('.ev-chip').forEach(c => c.classList.toggle('active', c.dataset.type === state.type));
+    render();
+  });
+
+  /* ── Search ── */
+  let debounce;
+  qInput.addEventListener('input', () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => { state.q = qInput.value.trim().toLowerCase(); render(); }, 150);
+  });
+
+  /* ── Helpers ── */
+  function esc(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+  function highlight(text, query) {
+    if (!query || !text) return esc(text||'');
+    const escaped = esc(text);
+    const qEsc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return escaped.replace(new RegExp(`(${qEsc})`, 'gi'), '<mark class="ev-hl">$1</mark>');
+  }
+
+  function countdown(date) {
+    const now = new Date();
+    const diff = date - now;
+    if (diff < 0) return { text: 'Past', past: true };
+    const days = Math.ceil(diff / (1000*60*60*24));
+    if (days === 0) return { text: 'Today', past: false };
+    if (days === 1) return { text: 'Tomorrow', past: false };
+    if (days <= 7) return { text: `${days} days`, past: false };
+    if (days <= 30) return { text: `${Math.ceil(days/7)} weeks`, past: false };
+    return { text: `${Math.ceil(days/30)} months`, past: false };
+  }
+
+  function monthKey(d) {
+    return `${d.getFullYear()}-${String(d.getMonth()).padStart(2,'0')}`;
+  }
+  function monthName(d) {
+    return d.toLocaleString('en-GB', { month: 'long' });
+  }
+
+  function makeICS(ev) {
+    const d = ev._date;
+    const pad = n => String(n).padStart(2,'0');
+    const dtStart = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
+    const dtEnd = dtStart; // single day fallback
+    return `data:text/calendar;charset=utf-8,${encodeURIComponent(
+      `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART;VALUE=DATE:${dtStart}\nDTEND;VALUE=DATE:${dtEnd}\nSUMMARY:${ev.event_name}\nLOCATION:${ev.city}, ${ev.country}\nDESCRIPTION:${ev.description}\\n\\n${ev.url}\nURL:${ev.url}\nEND:VEVENT\nEND:VCALENDAR`
+    )}`;
+  }
+
+  /* ── Filter ── */
+  function filtered() {
+    return events.filter(e => {
+      if (state.type && e.type !== state.type) return false;
+      if (state.q) {
+        const hay = [e.event_name, e.organiser, e.city, e.country, e.description, ...(e.sector_relevance||[])].join(' ').toLowerCase();
+        if (!hay.includes(state.q)) return false;
+      }
+      return true;
+    });
+  }
+
+  /* ── Render ── */
+  function render() {
+    const rows = filtered();
+    countEl.textContent = rows.length;
+
+    // Summary
+    const countries = new Set(rows.map(e => e.country));
+    const organisers = new Set(rows.map(e => e.organiser));
+    summaryEl.innerHTML = `
+      <div class="ev-summary-stat"><strong>${rows.length}</strong> events</div>
+      <div class="ev-summary-stat"><strong>${countries.size}</strong> countries</div>
+      <div class="ev-summary-stat"><strong>${organisers.size}</strong> organisers</div>
+    `;
+
+    if (!rows.length) {
+      timeline.innerHTML = '<div class="ev-empty">No events match your search.</div>';
+      return;
+    }
+
+    // Find next upcoming event
+    const now = new Date();
+    const nextUp = rows.find(e => e._date >= now);
+
+    // Group by month
+    const groups = {};
+    rows.forEach(e => {
+      const key = monthKey(e._date);
+      if (!groups[key]) groups[key] = { date: e._date, events: [] };
+      groups[key].events.push(e);
+    });
+
+    let html = '';
+    Object.keys(groups).sort().forEach(key => {
+      const g = groups[key];
+      html += `
+        <div class="ev-month">
+          <span class="ev-month-name">${monthName(g.date)}</span>
+          <span class="ev-month-year">${g.date.getFullYear()}</span>
+          <span class="ev-month-count">${g.events.length} event${g.events.length>1?'s':''}</span>
+        </div>`;
+
+      g.events.forEach((e, i) => {
+        const cd = countdown(e._date);
+        const isNext = (e === nextUp);
+        const day = e._date.getDate();
+        const mon = e._date.toLocaleString('en-GB', { month: 'short' }).toUpperCase();
+        const delay = Math.min(i * 40, 400);
+
+        html += `
+        <article class="ev-card ${isNext ? 'next-up' : ''}" style="animation-delay:${delay}ms">
+          <div class="ev-date">
+            <div class="ev-date-day">${day}</div>
+            <div class="ev-date-month">${mon}</div>
+            ${e.dates.includes('–') || e.dates.includes('-') ? `<div class="ev-date-range">${esc(e.dates.replace(/\s+\d{4}$/,''))}</div>` : ''}
+          </div>
+          <div class="ev-content">
+            ${isNext ? '<span class="ev-next-badge">Next up</span>' : ''}
+            <span class="ev-type-badge ev-type-${e.type}">${esc(e.type)}</span>
+            <h3 class="ev-name">${highlight(e.event_name, state.q)}</h3>
+            <div class="ev-organiser">${highlight(e.organiser, state.q)}</div>
+            <div class="ev-location">${window.esrfFlags ? window.esrfFlags.flagForCountry(e.country, {size:'inline'}) : ''}${highlight(e.city + ', ' + e.country, state.q)}</div>
+            <p class="ev-desc">${highlight(e.description, state.q)}</p>
+            <div class="ev-meta">
+              ${(e.sector_relevance||[]).map(s => `<span class="ev-meta-tag">${esc(s)}</span>`).join('')}
+            </div>
+          </div>
+          <div class="ev-actions">
+            <span class="ev-countdown ${cd.past?'past':''}">${cd.text}</span>
+            <a class="ev-btn" href="${esc(e.url)}" target="_blank" rel="noopener">Details →</a>
+            ${!cd.past ? `<a class="ev-btn" href="${makeICS(e)}" download="${esc(e.event_name.replace(/[^a-zA-Z0-9]/g,'_'))}.ics">+ Calendar</a>` : ''}
+          </div>
+        </article>`;
+      });
+    });
+
+    timeline.innerHTML = html;
+  }
+
+  /* ── Toolbar shadow ── */
+  window.addEventListener('scroll', () => {
+    toolbar.classList.toggle('scrolled', window.scrollY > 80);
+  }, { passive: true });
+
+  render();
+})();
+</script>
+</body>
+</html>
