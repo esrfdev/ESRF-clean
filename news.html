@@ -51,7 +51,32 @@
   </div>
 </section>
 
-
+<!-- Filter bar -->
+<div class="dispatch-filters" id="dispatch-filters">
+  <div class="dispatch-filters-inner">
+    <div class="dispatch-filter-group">
+      <label for="filter-lang" class="dispatch-filter-label">Language</label>
+      <select id="filter-lang" class="dispatch-filter-select">
+        <option value="">All languages</option>
+      </select>
+    </div>
+    <div class="dispatch-filter-group">
+      <label for="filter-pillar" class="dispatch-filter-label">Topic</label>
+      <select id="filter-pillar" class="dispatch-filter-select">
+        <option value="">All topics</option>
+      </select>
+    </div>
+    <div class="dispatch-filter-group">
+      <label for="filter-scope" class="dispatch-filter-label">Scope</label>
+      <select id="filter-scope" class="dispatch-filter-select">
+        <option value="">All</option>
+        <option value="european">European</option>
+        <option value="national">National</option>
+      </select>
+    </div>
+    <div class="dispatch-filter-count" id="filter-count" aria-live="polite"></div>
+  </div>
+</div>
 
 <!-- Ad placement: between hero and news list -->
 <div class="esrf-ad-wrap">
@@ -65,6 +90,9 @@
 </div>
 
 <div class="news-list" id="news-list" aria-live="polite"></div>
+
+<!-- Pagination -->
+<div class="dispatch-pager" id="dispatch-pager" hidden></div>
 
 <!-- Ad placement: between news list and join CTA -->
 <div class="esrf-ad-wrap">
@@ -131,6 +159,46 @@
 (async () => {
   const data = await loadNews();
   const list = document.getElementById('news-list');
+  const pager = document.getElementById('dispatch-pager');
+  const filterCount = document.getElementById('filter-count');
+  const filterLang = document.getElementById('filter-lang');
+  const filterPillar = document.getElementById('filter-pillar');
+  const filterScope = document.getElementById('filter-scope');
+
+  const PER_PAGE = 15;
+  var currentPage = 1;
+
+  /* ── Language display names ── */
+  const LANG_NAMES = {
+    cs: 'Čeština', de: 'Deutsch', el: 'Ελληνικά', en: 'English',
+    et: 'Eesti', eu: 'European (EN)', fi: 'Suomi', fr: 'Français',
+    it: 'Italiano', nl: 'Nederlands', no: 'Norsk', pt: 'Português',
+    ro: 'Română', sl: 'Slovenščina', uk: 'Українська'
+  };
+
+  /* ── Pillar / topic display names ── */
+  const PILLAR_NAMES = {
+    foundation: 'Foundation',
+    renewal: 'Renewal',
+    response: 'Response',
+    solidarity: 'Solidarity',
+    stewardship: 'Stewardship'
+  };
+
+  /* ── Build filter options from data ── */
+  function buildFilters(){
+    const articles = data.articles || [];
+    const langs = [...new Set(articles.map(a => a.lang))].sort();
+    const pillars = [...new Set(articles.map(a => a.pillar))].filter(Boolean).sort();
+
+    filterLang.innerHTML = '<option value="">All languages</option>' +
+      langs.map(l => `<option value="${l}">${LANG_NAMES[l] || l.toUpperCase()}</option>`).join('');
+
+    filterPillar.innerHTML = '<option value="">All topics</option>' +
+      pillars.map(p => `<option value="${p}">${PILLAR_NAMES[p] || p}</option>`).join('');
+  }
+
+  /* ── Meta ── */
   function renderMeta(){
     document.getElementById('dispatch-count').innerHTML = `<strong>${data.article_count}</strong> ${t('common.articles','articles')}`;
     if(data.generated){
@@ -138,17 +206,31 @@
       document.getElementById('dispatch-gen').innerHTML = `${t('common.updated','updated')} <strong>${d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</strong>`;
     }
   }
-  renderMeta();
-  window.addEventListener('esrf:langchange', renderMeta);
 
+  /* ── Filtered articles ── */
+  function getFiltered(){
+    let articles = data.articles || [];
+    const lang = filterLang.value;
+    const pillar = filterPillar.value;
+    const scope = filterScope.value;
+    if(lang) articles = articles.filter(a => a.lang === lang);
+    if(pillar) articles = articles.filter(a => a.pillar === pillar);
+    if(scope) articles = articles.filter(a => a.scope === scope);
+    return articles;
+  }
+
+  /* ── Single item HTML ── */
   function itemHtml(a){
     const dt = new Date(a.date);
     const date = isNaN(dt) ? '' : dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+    const langTag = a.lang && a.lang !== 'eu' ? `<span class="news-lang">${(a.lang || '').toUpperCase()}</span>` : '';
+    const pillarTag = a.pillar ? `<span class="news-pillar-tag">${PILLAR_NAMES[a.pillar] || a.pillar}</span>` : '';
     return `
       <a class="news-item" href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">
         <div class="news-meta-col">
           <div class="news-date">${date}</div>
           <div class="news-source">${esc(a.source || a.organisation || '')}</div>
+          <div class="news-tags">${langTag}${pillarTag}</div>
         </div>
         <div>
           <h2 class="news-title">${esc(a.title)}</h2>
@@ -157,47 +239,94 @@
       </a>`;
   }
 
-  function sectionHtml(labelKey, labelFallback, items){
-    if(!items.length) return '';
-    return `
-      <div class="news-section">
-        <div class="news-section-label kicker" data-i18n="${labelKey}">${esc(labelFallback)}</div>
-        ${items.map(itemHtml).join('')}
-      </div>`;
+  /* ── Pagination controls ── */
+  function renderPager(total){
+    const pages = Math.ceil(total / PER_PAGE);
+    if(pages <= 1){ pager.hidden = true; return; }
+    pager.hidden = false;
+
+    let html = '';
+    // Prev
+    html += `<button class="pager-btn" data-page="${currentPage - 1}" ${currentPage <= 1 ? 'disabled' : ''}>← Prev</button>`;
+
+    // Page numbers
+    for(let i = 1; i <= pages; i++){
+      if(pages > 7){
+        // Show first, last, current ± 1, with ellipses
+        if(i === 1 || i === pages || (i >= currentPage - 1 && i <= currentPage + 1)){
+          html += `<button class="pager-btn ${i === currentPage ? 'pager-active' : ''}" data-page="${i}">${i}</button>`;
+        } else if(i === currentPage - 2 || i === currentPage + 2){
+          html += `<span class="pager-dots">…</span>`;
+        }
+      } else {
+        html += `<button class="pager-btn ${i === currentPage ? 'pager-active' : ''}" data-page="${i}">${i}</button>`;
+      }
+    }
+
+    // Next
+    html += `<button class="pager-btn" data-page="${currentPage + 1}" ${currentPage >= pages ? 'disabled' : ''}>Next →</button>`;
+    pager.innerHTML = html;
   }
 
+  /* ── Main render ── */
   function render(){
-    const articles = data.articles || [];
-    if(!articles.length){
-      list.innerHTML = `<div class="dir-empty" style="padding:100px 0">${t('common.no_articles','No articles yet.')}</div>`;
+    const filtered = getFiltered();
+    const total = filtered.length;
+    const pages = Math.ceil(total / PER_PAGE);
+
+    // Clamp page
+    if(currentPage > pages) currentPage = pages;
+    if(currentPage < 1) currentPage = 1;
+
+    const start = (currentPage - 1) * PER_PAGE;
+    const pageItems = filtered.slice(start, start + PER_PAGE);
+
+    // Count
+    const totalAll = (data.articles || []).length;
+    if(total === totalAll){
+      filterCount.textContent = `${total} signals`;
+    } else {
+      filterCount.textContent = `${total} of ${totalAll} signals`;
+    }
+
+    if(!pageItems.length){
+      list.innerHTML = `<div class="dir-empty" style="padding:80px 0;text-align:center">No signals match your filters.</div>`;
+      pager.hidden = true;
       return;
     }
-    const lang = (window.esrfI18n && window.esrfI18n.getCurrentLang) ? window.esrfI18n.getCurrentLang() : 'en';
-    const national = articles.filter(a => a.scope === 'national' && a.lang === lang);
-    const european = articles.filter(a => a.scope !== 'national' || a.lang !== lang);
-    const parts = [];
-    if(national.length){
-      parts.push(sectionHtml('news.section_national', 'From your country', national));
-    }
-    if(european.length){
-      parts.push(sectionHtml('news.section_european', 'From the continent', european));
-    }
-    if(!parts.length){
-      list.innerHTML = `<div class="dir-empty" style="padding:100px 0">${t('common.no_articles','No articles yet.')}</div>`;
-      return;
-    }
-    list.innerHTML = parts.join('');
-    // Re-apply i18n to newly injected section labels
+
+    list.innerHTML = pageItems.map(itemHtml).join('');
+    renderPager(total);
+
+    // Re-apply i18n
     if(window.esrfI18n && typeof window.esrfI18n.applyTranslations === 'function'){
       window.esrfI18n.applyTranslations();
-    } else {
-      // Fallback: replace labels manually
-      list.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n'), el.textContent); });
     }
   }
 
+  /* ── Events ── */
+  filterLang.addEventListener('change', () => { currentPage = 1; render(); });
+  filterPillar.addEventListener('change', () => { currentPage = 1; render(); });
+  filterScope.addEventListener('change', () => { currentPage = 1; render(); });
+
+  pager.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-page]');
+    if(!btn || btn.disabled) return;
+    currentPage = parseInt(btn.dataset.page, 10);
+    render();
+    // Scroll to top of list
+    list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* ── Init ── */
+  buildFilters();
+  renderMeta();
   render();
-  window.addEventListener('esrf:langchange', render);
+
+  window.addEventListener('esrf:langchange', () => {
+    renderMeta();
+    render();
+  });
 })();
 </script>
 <script>
