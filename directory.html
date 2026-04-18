@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title data-i18n="directory.title">Directory — ESRF.net</title>
-<meta name="description" data-i18n-attr="content" content="Browse 1,931 organisations across 30 European countries that form the ESRF.net community — filter by sector and country." />
+<meta name="description" data-i18n-attr="content" content="Browse 1,890 organisations across 29 European countries that form the ESRF.net community — filter by sector and country." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +13,227 @@
 <script src="consent.js" defer></script>
     <script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
+<style>
+/* ═══ Directory v2 — compact filter bar + infinite scroll ═══ */
+
+/* ── Sticky filter toolbar ── */
+.dir-toolbar{
+  position:sticky;top:69px;z-index:30;
+  background:var(--bg);
+  border-bottom:1px solid var(--ink);
+  padding:14px var(--pad-x);
+  transition:box-shadow .3s;
+}
+.dir-toolbar.scrolled{box-shadow:0 4px 24px rgba(15,20,25,0.08)}
+.dir-toolbar-inner{
+  max-width:var(--max);margin:0 auto;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+
+/* ── Search ── */
+.dir-search{
+  flex:1;min-width:220px;
+  display:flex;align-items:center;gap:10px;
+  border:1px solid var(--ink);padding:8px 14px;background:var(--cream);
+  transition:border-color .2s, box-shadow .2s;
+}
+.dir-search:focus-within{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px rgba(201,108,59,0.15);
+}
+.dir-search input{
+  flex:1;background:transparent;border:0;outline:0;
+  font-family:'PT Serif',serif;font-size:15px;color:var(--ink);
+}
+.dir-search input::placeholder{color:var(--ink-dim);font-style:italic}
+.dir-search-icon{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent)}
+
+/* ── Dropdown filters ── */
+.dir-dropdown{position:relative}
+.dir-dropdown-btn{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
+  padding:9px 14px 9px 12px;
+  border:1px solid var(--ink-dim);background:transparent;color:var(--ink-soft);
+  cursor:pointer;transition:all .2s;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;
+}
+.dir-dropdown-btn:hover{border-color:var(--ink);color:var(--ink)}
+.dir-dropdown-btn.has-filter{
+  background:var(--ink);color:var(--cream);border-color:var(--ink);
+}
+.dir-dropdown-btn .dd-arrow{
+  font-size:8px;transition:transform .2s;
+}
+.dir-dropdown.open .dd-arrow{transform:rotate(180deg)}
+.dir-dropdown-panel{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;
+  min-width:280px;max-height:360px;overflow-y:auto;
+  background:var(--bg);border:1px solid var(--ink);
+  box-shadow:0 16px 48px rgba(15,20,25,0.12);
+  z-index:50;padding:6px 0;
+}
+.dir-dropdown.open .dir-dropdown-panel{display:block;animation:ddFade .15s ease}
+@keyframes ddFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+.dd-search{
+  padding:8px 12px;border-bottom:1px solid rgba(15,20,25,0.08);
+}
+.dd-search input{
+  width:100%;border:1px solid var(--ink-dim);padding:6px 10px;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  background:var(--cream);color:var(--ink);outline:0;
+}
+.dd-search input:focus{border-color:var(--accent)}
+
+.dd-option{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 14px;cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--ink-soft);transition:background .15s, color .15s;
+  gap:8px;
+}
+.dd-option:hover{background:rgba(15,20,25,0.04);color:var(--ink)}
+.dd-option.active{color:var(--accent);font-weight:600}
+.dd-option .dd-count{
+  font-size:10px;color:var(--ink-dim);font-weight:400;
+  min-width:28px;text-align:right;
+}
+.dd-option .dd-flag{margin-right:4px}
+
+/* ── Count badge ── */
+.dir-count{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--ink-dim);white-space:nowrap;margin-left:auto;
+}
+.dir-count strong{color:var(--accent);font-weight:500;font-size:13px}
+
+/* ── Active filter tags ── */
+.dir-active-filters{
+  max-width:var(--max);margin:0 auto;
+  display:flex;flex-wrap:wrap;gap:6px;
+  padding:8px var(--pad-x) 0;
+}
+.dir-active-filters:empty{display:none}
+.dir-filter-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:4px 10px 4px 12px;
+  background:var(--ink);color:var(--cream);
+  display:flex;align-items:center;gap:6px;
+  cursor:pointer;transition:opacity .2s;
+}
+.dir-filter-tag:hover{opacity:0.8}
+.dir-filter-tag .tag-x{font-size:12px;line-height:1;opacity:0.7}
+
+/* ── Card grid — tighter ── */
+.dir-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
+  gap:14px;
+  padding:24px var(--pad-x) 80px;
+  max-width:var(--max);margin:0 auto;
+}
+.dir-card{
+  position:relative;
+  background:var(--cream);
+  border:1px solid rgba(15,20,25,0.10);
+  border-left:3px solid var(--ink-dim);
+  padding:18px 20px 16px;
+  display:flex;flex-direction:column;gap:6px;
+  transition:transform .25s ease, box-shadow .25s ease, border-left-width .15s ease, opacity .35s ease;
+  opacity:0;transform:translateY(12px);
+}
+.dir-card.visible{opacity:1;transform:translateY(0)}
+.dir-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 36px rgba(15,20,25,0.10);
+  border-left-width:6px;
+}
+.dir-card-head{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:10px;color:var(--ink-dim);
+}
+.dir-sector{
+  padding:2px 7px;background:rgba(15,20,25,0.06);border-radius:2px;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;
+}
+.dir-country{
+  font-family:'IBM Plex Mono',monospace;font-weight:600;
+  color:var(--ink);letter-spacing:0.1em;text-transform:uppercase;font-size:10px;
+  display:flex;align-items:center;gap:4px;
+}
+.dir-name{
+  font-family:'Archivo',sans-serif;font-weight:700;
+  font-size:17px;line-height:1.25;letter-spacing:-0.01em;color:var(--ink);
+}
+.dir-city{font-family:'PT Serif',serif;font-style:italic;font-size:13px;color:var(--ink-dim);margin-top:-2px}
+.dir-desc{
+  font-size:13px;line-height:1.5;color:var(--ink-soft);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  flex:1;
+}
+.dir-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:10px;border-top:1px solid rgba(15,20,25,0.06);margin-top:2px;
+}
+.dir-link{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  text-transform:uppercase;letter-spacing:0.15em;
+  color:var(--accent);text-decoration:none;font-weight:500;
+  transition:color .15s;
+}
+.dir-link:hover{text-decoration:underline}
+
+/* Search highlight */
+mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-radius:1px}
+
+/* Scroll sentinel */
+.dir-sentinel{height:1px}
+
+/* Loading shimmer for infinite scroll */
+.dir-loading{
+  grid-column:1/-1;text-align:center;
+  padding:40px 0;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
+}
+.dir-empty{
+  grid-column:1/-1;
+  padding:80px 0;text-align:center;
+  font-family:'PT Serif',serif;font-style:italic;font-size:20px;color:var(--ink-dim);
+}
+
+/* Summary bar */
+.dir-summary{
+  max-width:var(--max);margin:0 auto;
+  padding:16px var(--pad-x) 0;
+  display:flex;gap:24px;flex-wrap:wrap;
+}
+.dir-summary-stat{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
+}
+.dir-summary-stat strong{color:var(--accent);font-weight:500;font-size:18px;display:block;letter-spacing:-0.01em}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .dir-toolbar{position:sticky;top:56px;padding:10px 16px}
+  .dir-toolbar-inner{gap:8px;flex-wrap:wrap}
+  .dir-search{min-width:100%;order:-1;padding:7px 10px}
+  .dir-search input{font-size:14px}
+  .dir-dropdown-btn{padding:7px 10px;font-size:9px}
+  .dir-dropdown-panel{min-width:0;width:calc(100vw - 32px);position:fixed;left:16px;top:auto}
+  .dir-grid{grid-template-columns:1fr;gap:10px;padding:16px 16px 60px}
+  .dir-card{padding:14px 16px 12px}
+  .dir-count{display:none}
+  .dir-summary{padding:12px 16px 0}
+  .dir-summary-stat strong{font-size:15px}
+}
+</style>
 </head>
 <body>
 
@@ -38,46 +259,52 @@
   </div>
 </nav>
 
-<section class="phero">
-  <div class="phero-inner">
-    <div class="kicker" data-i18n="directory.kicker">§ 03 · Vital Sectors · Directory</div>
-    <h1 class="phero-title" data-i18n-html="directory.hero_title_html">The <i>directory</i><br>of practice.</h1>
-    <p class="phero-deck" data-i18n="directory.hero_deck">1,931 organisations — sorted by sector, country and mission. Search, filter, and read who holds each part of Europe together.</p>
-    <div class="phero-meta">
-      <span><strong>1,931</strong> <span data-i18n="common.organisations">organisations</span></span>
-      <span><strong>29</strong> <span data-i18n="common.countries">countries</span></span>
-      <span><strong>10</strong> <span data-i18n="common.sectors">sectors</span></span>
-    </div>
-  </div>
-</section>
-
-<div class="filter-bar">
-  <div class="filter-inner">
-    <label class="filter-search">
-      <span class="filter-search-icon" aria-hidden="true">⌕</span>
+<!-- ── Compact filter toolbar ── -->
+<div class="dir-toolbar" id="dir-toolbar">
+  <div class="dir-toolbar-inner">
+    <label class="dir-search">
+      <span class="dir-search-icon" aria-hidden="true">⌕</span>
       <input id="q" type="search" placeholder="Search by name, city, description…" data-i18n-placeholder="filter.search_placeholder" aria-label="Search directory" />
     </label>
-    <div class="filter-count"><strong id="count">1,931</strong> · <span data-i18n="common.shown">shown</span></div>
-  </div>
 
-  <div class="filter-chips" role="group" aria-label="Filter by sector" id="sector-chips">
-    <span class="filter-group-label" data-i18n="filter.sector">Sector</span>
-    <button class="chip active" data-sector="" data-i18n="filter.all_sectors">All sectors</button>
-  </div>
+    <div class="dir-dropdown" id="dd-sector">
+      <button type="button" class="dir-dropdown-btn" aria-expanded="false">
+        <span class="dd-label" data-i18n="filter.sector">Sector</span>
+        <span class="dd-arrow" aria-hidden="true">▾</span>
+      </button>
+      <div class="dir-dropdown-panel" role="listbox" aria-label="Select sector">
+        <div class="dd-search"><input type="text" placeholder="Filter sectors…" /></div>
+        <div class="dd-options" id="dd-sector-options"></div>
+      </div>
+    </div>
 
-  <div class="filter-chips" role="group" aria-label="Filter by country" id="country-chips">
-    <span class="filter-group-label" data-i18n="filter.country">Country</span>
-    <button class="chip active" data-country="" data-i18n="filter.all_countries">All countries</button>
+    <div class="dir-dropdown" id="dd-country">
+      <button type="button" class="dir-dropdown-btn" aria-expanded="false">
+        <span class="dd-label" data-i18n="filter.country">Country</span>
+        <span class="dd-arrow" aria-hidden="true">▾</span>
+      </button>
+      <div class="dir-dropdown-panel" role="listbox" aria-label="Select country">
+        <div class="dd-search"><input type="text" placeholder="Filter countries…" /></div>
+        <div class="dd-options" id="dd-country-options"></div>
+      </div>
+    </div>
+
+    <span class="dir-count"><strong id="count">1,890</strong> · <span data-i18n="common.shown">shown</span></span>
   </div>
+  <div class="dir-active-filters" id="active-filters"></div>
 </div>
+
+<!-- ── Summary stats ── -->
+<div class="dir-summary" id="dir-summary"></div>
 
 <!-- Featured patrons band: 3 slots -->
 <div id="dir-sponsor-band"></div>
 
-<div class="biz-grid" id="dir-list" aria-live="polite"></div>
-<div class="load-more-wrap"><button class="btn outline" id="more" hidden data-i18n="common.load_more">Load more →</button></div>
+<!-- ── Card grid ── -->
+<div class="dir-grid" id="dir-list" aria-live="polite"></div>
+<div class="dir-sentinel" id="dir-sentinel"></div>
 
-<!-- Ad placement: between directory grid and listing banner -->
+<!-- Ad placement -->
 <div class="esrf-ad-wrap">
   <span class="esrf-ad-label" data-i18n="ads.label">Advertisement</span>
   <ins class="adsbygoogle"
@@ -103,7 +330,7 @@
   <div class="foot-inner">
     <div class="foot-brand">
       <h3>ESRF.net</h3>
-      <p data-i18n="footer.brand_desc">ESRF.net — European security and resilience, powered by 1,931 organisations across 30 countries.</p>
+      <p data-i18n="footer.brand_desc">ESRF.net — European Security &amp; Resilience Framework. A curated directory of 1,890 organisations across 29 countries.</p>
     </div>
     <div class="foot-col">
       <h4 data-i18n="footer.community">Community</h4>
@@ -119,8 +346,6 @@
       <ul>
         <li><a href="about.html" data-i18n="nav.foundation">About</a></li>
         <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
-        <li><a href="fund.html" data-i18n="nav.fund">Contribute</a></li>
-        <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
         <li><a href="mailto:hello@esrf.net" data-i18n="footer.contact">Contact</a></li>
       </ul>
     </div>
@@ -134,7 +359,7 @@
   </div>
   <div class="foot-bar">
     <div data-i18n="common.copyright">© 2026 Stichting ESRF European Security and Resilience Fund</div>
-    <div><span data-i18n="footer.tagline">Atlas of Organisations</span> <a href="#top" data-i18n="common.back_to_top">Back to top ↑</a></div>
+    <div><span data-i18n="footer.tagline">Human Atlas</span> <a href="#top" data-i18n="common.back_to_top">Back to top ↑</a></div>
   </div>
 </footer>
 
@@ -143,144 +368,272 @@
 <script src="app.js"></script>
 <script>
 (async () => {
-  const list = document.getElementById('dir-list');
-  const countEl = document.getElementById('count');
-  const q = document.getElementById('q');
-  const more = document.getElementById('more');
+  const grid     = document.getElementById('dir-list');
+  const countEl  = document.getElementById('count');
+  const qInput   = document.getElementById('q');
+  const toolbar  = document.getElementById('dir-toolbar');
+  const sentinel = document.getElementById('dir-sentinel');
+  const filtersEl = document.getElementById('active-filters');
+  const summaryEl = document.getElementById('dir-summary');
 
   const orgs = await loadOrgs();
 
-  // Count sectors & countries for chips
-  const sectorCounts = {};
-  const countryCounts = {};
+  /* ── Count sectors & countries ── */
+  const sectorCounts = {}, countryCounts = {};
   orgs.forEach(o => {
     sectorCounts[o.sector_normalized] = (sectorCounts[o.sector_normalized]||0) + 1;
     const key = o.country_name_en || o.country;
     countryCounts[key] = (countryCounts[key]||0) + 1;
   });
 
-  // Sector chips (ordered by size)
-  const sectorChips = document.getElementById('sector-chips');
-  SECTOR_ORDER.forEach(s => {
-    const btn = document.createElement('button');
-    btn.className = 'chip';
-    btn.dataset.sector = s;
-    btn.textContent = `${SECTOR_SHORT[s]} · ${sectorCounts[s]||0}`;
-    sectorChips.appendChild(btn);
-  });
-
-  // Country chips (alphabetical)
-  const countryChips = document.getElementById('country-chips');
-  Object.keys(countryCounts).sort().forEach(c => {
-    const btn = document.createElement('button');
-    btn.className = 'chip';
-    btn.dataset.country = c;
-    const flagImg = (window.esrfFlags ? window.esrfFlags.flagForCountry(c, {size:'inline'}) : '');
-    btn.innerHTML = `${flagImg}${esc(c)} · ${countryCounts[c]}`;
-    countryChips.appendChild(btn);
-  });
-
+  /* ── State ── */
   const urlParams = new URLSearchParams(location.search);
   const state = {
-    sector: urlParams.get('sector') || '',
+    sector:  urlParams.get('sector') || '',
     country: urlParams.get('country') || '',
-    q: urlParams.get('q') || '',
-    shown: 60,
+    q:       urlParams.get('q') || '',
+    shown:   80,
   };
-  const PAGE = 60;
-  if(state.q) q.value = state.q;
-  // sync chip highlights after chips rendered:
-  setTimeout(()=>{
-    activate('#sector-chips','sector',state.sector);
-    activate('#country-chips','country',state.country);
-  }, 0);
+  const BATCH = 80;
+  if (state.q) qInput.value = state.q;
 
-  function activate(group, attr, value){
-    document.querySelectorAll(`${group} .chip`).forEach(c => {
-      c.classList.toggle('active', c.dataset[attr] === value);
+  /* ── Build dropdowns ── */
+  function buildSectorOptions(filter = '') {
+    const container = document.getElementById('dd-sector-options');
+    const fl = filter.toLowerCase();
+    let html = `<div class="dd-option ${!state.sector ? 'active' : ''}" data-value="" role="option">All sectors <span class="dd-count">${orgs.length}</span></div>`;
+    SECTOR_ORDER.forEach(s => {
+      const label = SECTOR_SHORT[s] || s;
+      if (fl && !label.toLowerCase().includes(fl)) return;
+      html += `<div class="dd-option ${state.sector===s?'active':''}" data-value="${esc(s)}" role="option">${esc(label)} <span class="dd-count">${sectorCounts[s]||0}</span></div>`;
     });
+    container.innerHTML = html;
   }
 
-  document.querySelectorAll('.filter-chips').forEach(group=>{
-    group.addEventListener('click', (e) => {
-      const chip = e.target.closest('.chip'); if(!chip) return;
-      if('sector' in chip.dataset){ state.sector = chip.dataset.sector; activate('#sector-chips','sector',state.sector); }
-      if('country' in chip.dataset){ state.country = chip.dataset.country; activate('#country-chips','country',state.country); }
-      state.shown = PAGE; render();
+  function buildCountryOptions(filter = '') {
+    const container = document.getElementById('dd-country-options');
+    const fl = filter.toLowerCase();
+    let html = `<div class="dd-option ${!state.country ? 'active' : ''}" data-value="" role="option">All countries <span class="dd-count">${orgs.length}</span></div>`;
+    Object.keys(countryCounts).sort().forEach(c => {
+      if (fl && !c.toLowerCase().includes(fl)) return;
+      const flagImg = (window.esrfFlags ? window.esrfFlags.flagForCountry(c, {size:'inline'}) : '');
+      html += `<div class="dd-option ${state.country===c?'active':''}" data-value="${esc(c)}" role="option"><span class="dd-flag">${flagImg}</span>${esc(c)} <span class="dd-count">${countryCounts[c]}</span></div>`;
+    });
+    container.innerHTML = html;
+  }
+
+  buildSectorOptions();
+  buildCountryOptions();
+
+  /* ── Dropdown interaction ── */
+  document.querySelectorAll('.dir-dropdown').forEach(dd => {
+    const btn   = dd.querySelector('.dir-dropdown-btn');
+    const panel = dd.querySelector('.dir-dropdown-panel');
+    const searchInput = dd.querySelector('.dd-search input');
+    const isSector = dd.id === 'dd-sector';
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Close other dropdowns
+      document.querySelectorAll('.dir-dropdown.open').forEach(d => { if(d!==dd) d.classList.remove('open') });
+      dd.classList.toggle('open');
+      if (dd.classList.contains('open')) {
+        searchInput.value = '';
+        isSector ? buildSectorOptions() : buildCountryOptions();
+        searchInput.focus();
+      }
+    });
+
+    searchInput.addEventListener('input', () => {
+      isSector ? buildSectorOptions(searchInput.value) : buildCountryOptions(searchInput.value);
+    });
+    searchInput.addEventListener('click', e => e.stopPropagation());
+
+    panel.addEventListener('click', (e) => {
+      const opt = e.target.closest('.dd-option');
+      if (!opt) return;
+      e.stopPropagation();
+      const val = opt.dataset.value;
+      if (isSector) { state.sector = val; }
+      else { state.country = val; }
+      dd.classList.remove('open');
+      state.shown = BATCH;
+      updateDropdownLabels();
+      render();
     });
   });
 
-  q.addEventListener('input', (e)=>{
-    state.q = e.target.value.trim().toLowerCase();
-    state.shown = PAGE;
-    render();
+  // Close dropdowns on outside click
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.dir-dropdown.open').forEach(d => d.classList.remove('open'));
   });
 
-  more.addEventListener('click', ()=>{ state.shown += PAGE; render(); });
+  function updateDropdownLabels() {
+    const sBtn = document.querySelector('#dd-sector .dd-label');
+    const cBtn = document.querySelector('#dd-country .dd-label');
+    const sBtnEl = document.querySelector('#dd-sector .dir-dropdown-btn');
+    const cBtnEl = document.querySelector('#dd-country .dir-dropdown-btn');
 
-  // Re-render on language change (visit label updates)
-  window.addEventListener('esrf:langchange', () => render());
+    if (state.sector) {
+      sBtn.textContent = SECTOR_SHORT[state.sector] || state.sector;
+      sBtnEl.classList.add('has-filter');
+    } else {
+      sBtn.textContent = 'Sector';
+      sBtnEl.classList.remove('has-filter');
+    }
+    if (state.country) {
+      cBtn.textContent = state.country;
+      cBtnEl.classList.add('has-filter');
+    } else {
+      cBtn.textContent = 'Country';
+      cBtnEl.classList.remove('has-filter');
+    }
+    // Rebuild options to show active state
+    buildSectorOptions();
+    buildCountryOptions();
+  }
 
-  function filtered(){
+  /* ── Search ── */
+  let debounceTimer;
+  qInput.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      state.q = qInput.value.trim().toLowerCase();
+      state.shown = BATCH;
+      render();
+    }, 150);
+  });
+
+  /* ── Filter + highlight logic ── */
+  function filtered() {
     return orgs.filter(o => {
-      if(state.sector && o.sector_normalized !== state.sector) return false;
-      if(state.country && (o.country_name_en || o.country) !== state.country) return false;
-      if(state.q){
+      if (state.sector && o.sector_normalized !== state.sector) return false;
+      if (state.country && (o.country_name_en || o.country) !== state.country) return false;
+      if (state.q) {
         const hay = [o.name, o.city, o.country_name_en, o.country_name_local, o.description_en, o.sector_normalized].join(' ').toLowerCase();
-        if(!hay.includes(state.q)) return false;
+        if (!hay.includes(state.q)) return false;
       }
       return true;
     });
   }
 
-  const T_FALLBACK = {
-    'common.visit': 'Visit →',
-    'common.no_results': 'No organisations match these filters.'
-  };
+  function highlight(text, query) {
+    if (!query || !text) return esc(text || '');
+    const escaped = esc(text);
+    const qEsc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return escaped.replace(new RegExp(`(${qEsc})`, 'gi'), '<mark class="dir-hl">$1</mark>');
+  }
+
+  /* ── Active filter tags ── */
+  function renderFilterTags() {
+    let html = '';
+    if (state.sector) {
+      html += `<span class="dir-filter-tag" data-clear="sector">${esc(SECTOR_SHORT[state.sector]||state.sector)} <span class="tag-x">✕</span></span>`;
+    }
+    if (state.country) {
+      html += `<span class="dir-filter-tag" data-clear="country">${esc(state.country)} <span class="tag-x">✕</span></span>`;
+    }
+    if (state.q) {
+      html += `<span class="dir-filter-tag" data-clear="q">"${esc(state.q)}" <span class="tag-x">✕</span></span>`;
+    }
+    filtersEl.innerHTML = html;
+  }
+
+  filtersEl.addEventListener('click', (e) => {
+    const tag = e.target.closest('.dir-filter-tag');
+    if (!tag) return;
+    const key = tag.dataset.clear;
+    if (key === 'sector') state.sector = '';
+    if (key === 'country') state.country = '';
+    if (key === 'q') { state.q = ''; qInput.value = ''; }
+    state.shown = BATCH;
+    updateDropdownLabels();
+    render();
+  });
+
+  /* ── Summary stats ── */
+  function renderSummary(rows) {
+    const sectors = new Set(rows.map(o => o.sector_normalized));
+    const countries = new Set(rows.map(o => o.country_name_en || o.country));
+    summaryEl.innerHTML = `
+      <div class="dir-summary-stat"><strong>${rows.length.toLocaleString('en-GB')}</strong> organisations</div>
+      <div class="dir-summary-stat"><strong>${countries.size}</strong> countries</div>
+      <div class="dir-summary-stat"><strong>${sectors.size}</strong> sectors</div>
+    `;
+  }
+
+  /* ── i18n helper ── */
+  const T_FALLBACK = { 'common.visit':'Visit →', 'common.no_results':'No organisations match these filters.' };
   function t(key) {
     const fb = T_FALLBACK[key] || '';
-    if (window.esrfI18n && window.esrfI18n.t) {
-      const v = window.esrfI18n.t(key, fb);
-      // if i18n returned the key itself (not yet loaded), use our hard fallback
-      return (v === key) ? fb : v;
-    }
+    if (window.esrfI18n && window.esrfI18n.t) { const v = window.esrfI18n.t(key, fb); return (v===key)?fb:v; }
     return fb;
   }
 
-  function render(){
+  /* ── Render ── */
+  function render() {
     const rows = filtered();
     countEl.textContent = rows.length.toLocaleString('en-GB');
+    renderFilterTags();
+    renderSummary(rows);
+
     const slice = rows.slice(0, state.shown);
     const visitLabel = t('common.visit') || 'Visit →';
     const noResultsMsg = t('common.no_results') || 'No organisations match these filters.';
 
-    list.innerHTML = slice.map((o) => {
+    grid.innerHTML = slice.map((o, i) => {
       const sectorShort = SECTOR_SHORT[o.sector_normalized] || o.sector_normalized;
       const countryCode = (o.country || '').toUpperCase().slice(0,2);
       const cityStr = [o.city, o.country_name_en || o.country].filter(Boolean).join(', ');
       const borderColor = sectorColorHex(o.sector_normalized);
+      const delay = Math.min(i * 20, 600);
 
       const linkHtml = o.website
-        ? `<a class="biz-link" href="${esc(o.website)}" target="_blank" rel="noopener">${esc(visitLabel)}</a>`
-        : `<span class="biz-link" style="color:var(--ink-dim)">—</span>`;
+        ? `<a class="dir-link" href="${esc(o.website)}" target="_blank" rel="noopener">${esc(visitLabel)}</a>`
+        : `<span class="dir-link" style="color:var(--ink-dim)">—</span>`;
 
       return `
-      <article class="biz-card" style="border-left-color:${borderColor}">
-        <div class="biz-card-head">
-          <span class="biz-sector mono">${esc(sectorShort)}</span>
-          <span class="biz-country">${window.esrfFlags ? window.esrfFlags.flagHtml((o.country||'gb').toLowerCase().slice(0,2), {size:'inline'}) : ''}<span class="mono">${esc(countryCode)}</span></span>
+      <article class="dir-card" style="border-left-color:${borderColor};transition-delay:${delay}ms">
+        <div class="dir-card-head">
+          <span class="dir-sector">${esc(sectorShort)}</span>
+          <span class="dir-country">${window.esrfFlags ? window.esrfFlags.flagHtml((o.country||'gb').toLowerCase().slice(0,2), {size:'inline'}) : ''}<span>${esc(countryCode)}</span></span>
         </div>
-        <h3 class="biz-name">${esc(o.name)}</h3>
-        ${cityStr ? `<p class="biz-city serif-i">${esc(cityStr)}</p>` : ''}
-        ${o.description_en ? `<p class="biz-desc">${esc(o.description_en)}</p>` : ''}
-        <div class="biz-card-foot">
-          ${linkHtml}
-        </div>
+        <h3 class="dir-name">${highlight(o.name, state.q)}</h3>
+        ${cityStr ? `<p class="dir-city">${highlight(cityStr, state.q)}</p>` : ''}
+        ${o.description_en ? `<p class="dir-desc">${highlight(o.description_en, state.q)}</p>` : ''}
+        <div class="dir-foot">${linkHtml}</div>
       </article>`;
-    }).join('') || `<div class="dir-empty" style="grid-column:1/-1">${esc(noResultsMsg)}</div>`;
-    more.hidden = rows.length <= state.shown;
+    }).join('') || `<div class="dir-empty">${esc(noResultsMsg)}</div>`;
+
+    // Stagger card entrance animation
+    requestAnimationFrame(() => {
+      grid.querySelectorAll('.dir-card:not(.visible)').forEach((card, i) => {
+        setTimeout(() => card.classList.add('visible'), Math.min(i * 20, 600));
+      });
+    });
+
+    window._dirRows = rows;
   }
 
+  /* ── Infinite scroll via IntersectionObserver ── */
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && window._dirRows && state.shown < window._dirRows.length) {
+      state.shown += BATCH;
+      render();
+    }
+  }, { rootMargin: '400px' });
+  observer.observe(sentinel);
+
+  /* ── Toolbar shadow on scroll ── */
+  window.addEventListener('scroll', () => {
+    toolbar.classList.toggle('scrolled', window.scrollY > 120);
+  }, { passive: true });
+
+  /* ── Re-render on language change ── */
+  window.addEventListener('esrf:langchange', () => render());
+
+  /* ── URL sync ── */
+  if (state.sector || state.country) updateDropdownLabels();
   render();
 })();
 </script>
@@ -289,9 +642,10 @@
   const bandEl = document.getElementById('dir-sponsor-band');
   if (!bandEl) return;
   const sponsors = await loadAndRenderSponsors();
-  if (!sponsors) return;
-  const slots = (sponsors.partners || []).slice(0, 3);
-  bandEl.innerHTML = buildSponsorBand(slots, 'Featured patrons', 'Become a partner →');
+  if (!sponsors) { bandEl.style.display='none'; return; }
+  const slots = (sponsors.partners || []).filter(s => s && s.name);
+  if (!slots.length) { bandEl.style.display='none'; return; }
+  bandEl.innerHTML = buildSponsorBand(slots.slice(0,3), 'Featured patrons', 'Become a partner →');
 })();
 </script>
 </body>
