@@ -125,7 +125,7 @@ NEW_KEYS = {
         'visit_website': {'en':'Visit website ↗','nl':'Bezoek website ↗'},
         'close_panel': {'en':'✕ Close','nl':'✕ Sluiten'},
         'plotted': {'en':'· plotted','nl':'· zichtbaar'},
-        'of_total': {'en':'of 1,928','nl':'van 1.928'},
+        'of_total': {'en':'of 1,931','nl':'van 1.931'},
         'about': {'en':'About','nl':'Over ons'},
         'principles': {'en':'Principles','nl':'Principes'},
         'contact': {'en':'Contact','nl':'Contact'},
@@ -147,8 +147,8 @@ NEW_KEYS = {
         },
         'hero_fig_label': {'en':'Fig. 01','nl':'Fig. 01'},
         'hero_fig_caption': {
-            'en':'A community of practitioners, spanning twenty-nine nations, bound by five moral principles.',
-            'nl':'Een gemeenschap van professionals, verspreid over negenentwintig landen, verbonden door vijf morele principes.'
+            'en':'A community of practitioners, spanning thirty nations, bound by five moral principles.',
+            'nl':'Een gemeenschap van professionals, verspreid over dertig landen, verbonden door vijf morele principes.'
         },
         'scroll_hint': {'en':'Scroll · the atlas opens ↓','nl':'Scrol · de atlas opent ↓'},
         'foundation_kicker': {'en':'§ 01 · The Foundation','nl':'§ 01 · De Stichting'},
@@ -168,8 +168,8 @@ NEW_KEYS = {
             'nl':"Veiligheid is geen mandaat alleen. <em>Het is een verantwoordelijkheid die we samen dragen.</em>"
         },
         'foundation_body_2': {
-            'en':'By building resilience from the ground up, we connect organisations across twenty-nine countries into self-sustaining ecosystems with regional impact. The foundation channels donations, contributions and aligned capital into initiatives that strengthen the network and expand its reach across the continent.',
-            'nl':'Door weerbaarheid van onderop op te bouwen verbinden we organisaties in negenentwintig landen tot zelfvoorzienende ecosystemen met regionale impact. De stichting leidt donaties, bijdragen en afgestemd kapitaal naar initiatieven die het netwerk versterken en zijn bereik over het continent uitbreiden.'
+            'en':'By building resilience from the ground up, we connect organisations across thirty countries into self-sustaining ecosystems with regional impact. The foundation channels donations, contributions and aligned capital into initiatives that strengthen the network and expand its reach across the continent.',
+            'nl':'Door weerbaarheid van onderop op te bouwen verbinden we organisaties in dertig landen tot zelfvoorzienende ecosystemen met regionale impact. De stichting leidt donaties, bijdragen en afgestemd kapitaal naar initiatieven die het netwerk versterken en zijn bereik over het continent uitbreiden.'
         },
         'foundation_body_3_html': {
             'en':"Organisations are classified across <strong>ten vital sectors</strong> aligned with the EU NIS2 Directive and guided by five moral principles: <em>vigilance, stewardship, empowerment, solidarity</em> and <em>renewal</em>.",
@@ -208,8 +208,8 @@ NEW_KEYS = {
         'fig02_title_1': {'en':'Organisations','nl':'Organisaties'},
         'fig02_title_2': {'en':'per country','nl':'per land'},
         'fig02_desc': {
-            'en':'A bar across twenty-nine nations. The Netherlands, United Kingdom and Germany carry the current weight of the network.',
-            'nl':'Een staaf over negenentwintig landen. Nederland, het Verenigd Koninkrijk en Duitsland dragen momenteel het gewicht van het netwerk.'
+            'en':'A bar across thirty nations. The Netherlands, United Kingdom and Germany carry the current weight of the network.',
+            'nl':'Een staaf over dertig landen. Nederland, het Verenigd Koninkrijk en Duitsland dragen momenteel het gewicht van het netwerk.'
         },
         'dispatch_kicker': {'en':'§ 06 · Dispatch','nl':'§ 06 · Bulletin'},
         'dispatch_title_1': {'en':'From the','nl':'Vanaf het'},
@@ -244,8 +244,8 @@ NEW_KEYS = {
         'what_title_3': {'en':'from below','nl':'van onderop'},
         'what_sub': {'en':'Decentralised by design, civic in purpose, European in reach.','nl':'Gedecentraliseerd van opzet, burgerlijk van doel, Europees in bereik.'},
         'what_body_1_html': {
-            'en':"<strong>ESRF.net</strong> is a network of <strong>1,928 organisations</strong> across <strong>29 countries</strong> whose work, visible or otherwise, strengthens the continent's ability to prevent harm, protect what sustains us, prepare for shocks, respond in solidarity and recover with renewal.",
-            'nl':"<strong>ESRF.net</strong> is een netwerk van <strong>1.928 organisaties</strong> in <strong>29 landen</strong> wier werk, zichtbaar of niet, het vermogen van het continent versterkt om schade te voorkomen, te beschermen wat ons draagt, zich voor te bereiden op schokken, te reageren in solidariteit en te herstellen met vernieuwing."
+            'en':"<strong>ESRF.net</strong> is a network of <strong>1,931 organisations</strong> across <strong>29 countries</strong> whose work, visible or otherwise, strengthens the continent's ability to prevent harm, protect what sustains us, prepare for shocks, respond in solidarity and recover with renewal.",
+            'nl':"<strong>ESRF.net</strong> is een netwerk van <strong>1.931 organisaties</strong> in <strong>29 landen</strong> wier werk, zichtbaar of niet, het vermogen van het continent versterkt om schade te voorkomen, te beschermen wat ons draagt, zich voor te bereiden op schokken, te reageren in solidariteit en te herstellen met vernieuwing."
         },
         'what_body_2_html': {
             'en':"Where governments set policy and international bodies coordinate, ESRF.net unites the <strong>entrepreneurs, institutions and first responders</strong> whose daily practice is the actual substrate of resilience. We classify organisations across ten vital sectors — aligned with the EU NIS2 Directive — and file each under one of five moral pillars.",
@@ -354,8 +354,8 @@ NEW_KEYS = {
         'fig02_title_1': {'en':'Organisations','nl':'Organisaties'},
         'fig02_title_2': {'en':'per country','nl':'per land'},
         'fig02_desc': {
-            'en':'Twenty-nine nations, each contributing a share of the whole. The Netherlands, United Kingdom and Germany currently carry the most; Malta and Bulgaria the fewest — a balance the framework is actively redistributing.',
-            'nl':'Negenentwintig landen, elk met een aandeel in het geheel. Nederland, het Verenigd Koninkrijk en Duitsland dragen momenteel het meeste; Malta en Bulgarije het minst — een balans die het raamwerk actief herverdeelt.'
+            'en':'Thirty nations, each contributing a share of the whole. The Netherlands, United Kingdom and Germany currently carry the most; Malta and Bulgaria the fewest — a balance the framework is actively redistributing.',
+            'nl':'Dertig landen, elk met een aandeel in het geheel. Nederland, het Verenigd Koninkrijk en Duitsland dragen momenteel het meeste; Malta en Bulgarije het minst — een balans die het raamwerk actief herverdeelt.'
         },
         'fig02_caption': {
             'en':'Fig. 02 — Distribution of listed organisations across the 29 countries represented on the atlas.',

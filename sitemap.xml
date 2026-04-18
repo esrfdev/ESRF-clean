@@ -205,6 +205,9 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.esrf.net/countries/switzerland/</loc>
+  </url>
+  <url>
     <loc>https://www.esrf.net/countries/united-kingdom/</loc>
     <lastmod>2026-04-16</lastmod>
     <changefreq>weekly</changefreq>
