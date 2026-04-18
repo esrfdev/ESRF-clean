@@ -94,8 +94,13 @@ function slugify(s){
 function wireBurger(){
   document.querySelectorAll('.mast-burger').forEach(b=>{
     b.addEventListener('click', ()=>{
-      const nav = b.closest('.mast').querySelector('.mast-nav');
-      nav.classList.toggle('open');
+      const mast = b.closest('.mast');
+      const nav = mast.querySelector('.mast-nav');
+      const isOpen = nav.classList.toggle('open');
+      mast.classList.toggle('nav-open', isOpen);
+      b.setAttribute('aria-expanded', isOpen);
+      b.textContent = isOpen ? '✕' : '≡';
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
   });
 }
