@@ -310,7 +310,7 @@
     "label_contact_email": "E-mailadres contactpersoon",
     "label_description": "Korte beschrijving",
     "label_gdpr": "Ik ga akkoord met de privacyverklaring en geef toestemming voor het opslaan van deze gegevens.",
-    "placeholder_name": "ACME Security GmbH",
+    "placeholder_name": "Mijn organisatie",
     "placeholder_city": "Amsterdam",
     "placeholder_website": "https://example.com",
     "placeholder_contact_name": "Jan de Vries",

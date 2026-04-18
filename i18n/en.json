@@ -333,7 +333,7 @@
     "label_contact_email": "Contact email",
     "label_description": "Short description",
     "label_gdpr": "I agree to the privacy policy and consent to the storage of this data for listing review purposes.",
-    "placeholder_name": "ACME Security GmbH",
+    "placeholder_name": "My organisation",
     "placeholder_city": "Amsterdam",
     "placeholder_website": "https://example.com",
     "placeholder_contact_name": "Jane Smith",
