@@ -125,7 +125,7 @@ NEW_KEYS = {
         'visit_website': {'en':'Visit website ↗','nl':'Bezoek website ↗'},
         'close_panel': {'en':'✕ Close','nl':'✕ Sluiten'},
         'plotted': {'en':'· plotted','nl':'· zichtbaar'},
-        'of_total': {'en':'of 1,890','nl':'van 1.890'},
+        'of_total': {'en':'of 1,928','nl':'van 1.928'},
         'about': {'en':'About','nl':'Over ons'},
         'principles': {'en':'Principles','nl':'Principes'},
         'contact': {'en':'Contact','nl':'Contact'},
@@ -244,8 +244,8 @@ NEW_KEYS = {
         'what_title_3': {'en':'from below','nl':'van onderop'},
         'what_sub': {'en':'Decentralised by design, civic in purpose, European in reach.','nl':'Gedecentraliseerd van opzet, burgerlijk van doel, Europees in bereik.'},
         'what_body_1_html': {
-            'en':"<strong>ESRF.net</strong> is a network of <strong>1,890 organisations</strong> across <strong>29 countries</strong> whose work, visible or otherwise, strengthens the continent's ability to prevent harm, protect what sustains us, prepare for shocks, respond in solidarity and recover with renewal.",
-            'nl':"<strong>ESRF.net</strong> is een netwerk van <strong>1.890 organisaties</strong> in <strong>29 landen</strong> wier werk, zichtbaar of niet, het vermogen van het continent versterkt om schade te voorkomen, te beschermen wat ons draagt, zich voor te bereiden op schokken, te reageren in solidariteit en te herstellen met vernieuwing."
+            'en':"<strong>ESRF.net</strong> is a network of <strong>1,928 organisations</strong> across <strong>29 countries</strong> whose work, visible or otherwise, strengthens the continent's ability to prevent harm, protect what sustains us, prepare for shocks, respond in solidarity and recover with renewal.",
+            'nl':"<strong>ESRF.net</strong> is een netwerk van <strong>1.928 organisaties</strong> in <strong>29 landen</strong> wier werk, zichtbaar of niet, het vermogen van het continent versterkt om schade te voorkomen, te beschermen wat ons draagt, zich voor te bereiden op schokken, te reageren in solidariteit en te herstellen met vernieuwing."
         },
         'what_body_2_html': {
             'en':"Where governments set policy and international bodies coordinate, ESRF.net unites the <strong>entrepreneurs, institutions and first responders</strong> whose daily practice is the actual substrate of resilience. We classify organisations across ten vital sectors — aligned with the EU NIS2 Directive — and file each under one of five moral pillars.",
