@@ -17,6 +17,16 @@
     if (activated) return;
     activated = true;
 
+    /* Grant consent for GA4 + AdSense via Consent Mode v2 */
+    if (typeof gtag === 'function') {
+      gtag('consent', 'update', {
+        'analytics_storage': 'granted',
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted'
+      });
+    }
+
     (window.adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 0;
 
     document.querySelectorAll('ins.adsbygoogle').forEach(function () {
