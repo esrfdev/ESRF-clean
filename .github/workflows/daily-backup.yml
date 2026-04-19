@@ -1,10 +1,13 @@
-name: Daily Backup to Google Drive
+name: Daily Backup
 
 on:
   schedule:
     # Elke nacht om 02:00 UTC (04:00 CEST)
     - cron: '0 2 * * *'
   workflow_dispatch: # Handmatig triggeren mogelijk
+
+permissions:
+  contents: write
 
 jobs:
   backup:
@@ -20,13 +23,13 @@ jobs:
           zip -r "ESRF-backup-${DATE}.zip" . -x ".git/*" ".github/*"
           ls -lh "ESRF-backup-${DATE}.zip"
 
-      - name: Upload to Google Drive
-        uses: adityak74/google-drive-upload-git-action@main
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          credentials: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
-          filename: "ESRF-backup-${{ env.BACKUP_DATE }}.zip"
-          folderId: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
-          overwrite: "false"
+          tag_name: "backup-${{ env.BACKUP_DATE }}"
+          name: "Backup ${{ env.BACKUP_DATE }}"
+          body: "Automatische dagelijkse backup van esrf.net — ${{ env.BACKUP_DATE }}"
+          files: "ESRF-backup-${{ env.BACKUP_DATE }}.zip"
 
       - name: Summary
-        run: echo "✅ Backup ESRF-backup-${{ env.BACKUP_DATE }}.zip uploaded to Google Drive"
+        run: echo "✅ Backup ESRF-backup-${{ env.BACKUP_DATE }}.zip published as GitHub Release"
