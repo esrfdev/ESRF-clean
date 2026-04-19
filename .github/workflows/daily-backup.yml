@@ -1,0 +1,32 @@
+name: Daily Backup to Google Drive
+
+on:
+  schedule:
+    # Elke nacht om 02:00 UTC (04:00 CEST)
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Handmatig triggeren mogelijk
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create dated ZIP archive
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          echo "BACKUP_DATE=${DATE}" >> $GITHUB_ENV
+          zip -r "ESRF-backup-${DATE}.zip" . -x ".git/*" ".github/*"
+          ls -lh "ESRF-backup-${DATE}.zip"
+
+      - name: Upload to Google Drive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          credentials: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          filename: "ESRF-backup-${{ env.BACKUP_DATE }}.zip"
+          folderId: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+          overwrite: "false"
+
+      - name: Summary
+        run: echo "✅ Backup ESRF-backup-${{ env.BACKUP_DATE }}.zip uploaded to Google Drive"
