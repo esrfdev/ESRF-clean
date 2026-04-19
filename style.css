@@ -550,7 +550,14 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .foot{
   background:var(--ink);color:var(--ink-dim);
   padding:60px var(--pad-x) 40px;
+  position:relative;overflow:hidden;
 }
+.foot::before{
+  content:'';position:absolute;inset:0;
+  background:url('assets/footer-network.png') center center / cover no-repeat;
+  opacity:0.12;pointer-events:none;z-index:0;
+}
+.foot-inner,.foot-bar{position:relative;z-index:1;}
 .foot-inner{
   max-width:var(--max);margin:0 auto;
   display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;
