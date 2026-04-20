@@ -614,8 +614,8 @@
     "title_tag": "Oil Shortage in Europe — what to do and how to communicate with customers as a business — ESRF.net",
     "meta_desc": "Europe is bracing for potential shortages of oil, diesel, kerosene and petrol. An editorial on operational measures and effective customer communication for businesses.",
     "kicker": "§ Editorial · Stewardship",
-    "hero_title_1": "Oil Shortage in Europe — what to do and how to communicate with customers as a",
-    "hero_title_2": "business",
+    "hero_title_1": "Oil Shortage in",
+    "hero_title_2": "Europe",
     "hero_deck": "Europe is bracing for potential shortages of oil, diesel, kerosene and petrol. An editorial on operational measures and effective customer communication for businesses.",
     "tag_stewardship": "Upravljanje",
     "byline": "20 tra 2026 · ESRF.net Editorial · Vrijeme čitanja ±8 min",
@@ -624,6 +624,19 @@
     "join_sub": "Organisations on the ESRF.net atlas can contribute stories, reports and analyses to the Dispatch.",
     "join_cta": "Pošaljite signal →",
     "tag_1": "Energy",
-    "tag_2": "Crisis Communication"
+    "tag_2": "Crisis Communication",
+    "hero_subtitle": "What to do and how to communicate with customers as a business",
+    "brief_subject": "Subject: Delivery update — European fuel supply situation",
+    "brief_greeting": "Dear [name],",
+    "brief_intro": "As you may have seen in the media, Europe has been experiencing pressure on fuel supplies since late February due to the blockade of the Strait of Hormuz. We want to inform you in a timely manner about what this means for your deliveries.",
+    "brief_h_changes": "What changes for you?",
+    "brief_li_1": "<strong>Delivery times</strong> may increase from the usual 3 working days to 5 to 7 working days from [date].",
+    "brief_li_2": "<strong>Fuel surcharge</strong> — from [date] we will charge a surcharge of [X%] on transport-sensitive orders. This surcharge is based on the current diesel price index and is reviewed monthly.",
+    "brief_li_3": "<strong>Bundled deliveries</strong> — to reduce trips, we bundle orders by region where possible. You can indicate a preferred delivery day with your order.",
+    "brief_h_actions": "What are we doing?",
+    "brief_actions": "We are following the National Oil Crisis Plan of the government and optimising our logistics: route planning, fleet management and alternative suppliers. Our goal is to minimise the impact for you.",
+    "brief_h_updates": "How will we keep you informed?",
+    "brief_updates": "We will send you a brief update every two weeks via [email / customer portal]. If you have questions about a specific order in the meantime, please contact us at [phone number] or [email address].",
+    "brief_thanks": "We appreciate your understanding and trust."
   }
 }

@@ -707,8 +707,8 @@
     "title_tag": "Olietekort in Europa — wat te doen en hoe communiceer je als bedrijf naar klanten — ESRF.net",
     "meta_desc": "Europa bereidt zich voor op mogelijke tekorten aan olie, diesel, kerosine en benzine. Een editorial over operationele maatregelen en effectieve klantcommunicatie voor bedrijven.",
     "kicker": "§ Editorial · Stewardship",
-    "hero_title_1": "Olietekort in Europa — wat te doen en hoe communiceer je als bedrijf naar",
-    "hero_title_2": "klanten",
+    "hero_title_1": "Olietekort in",
+    "hero_title_2": "Europa",
     "hero_deck": "Europa bereidt zich voor op mogelijke tekorten aan olie, diesel, kerosine en benzine. Een editorial over operationele maatregelen en effectieve klantcommunicatie voor bedrijven.",
     "tag_stewardship": "Stewardship",
     "byline": "20 apr 2026 · ESRF.net Editorial · Leestijd ±8 min",
@@ -717,6 +717,19 @@
     "join_sub": "Organisaties op de ESRF.net-atlas kunnen verhalen, rapporten en analyses bijdragen aan de Dispatch.",
     "join_cta": "Dien een signaal in →",
     "tag_1": "Energie",
-    "tag_2": "Crisiscommunicatie"
+    "tag_2": "Crisiscommunicatie",
+    "hero_subtitle": "Wat te doen en hoe communiceer je als bedrijf naar klanten",
+    "brief_subject": "Onderwerp: Update over leveringen — situatie brandstofvoorziening Europa",
+    "brief_greeting": "Geachte heer/mevrouw [naam],",
+    "brief_intro": "Zoals u mogelijk via de media heeft vernomen, ondervindt Europa sinds eind februari druk op de brandstofvoorziening als gevolg van de blokkade van de Straat van Hormuz. Wij willen u tijdig informeren over wat dit voor uw leveringen betekent.",
+    "brief_h_changes": "Wat verandert er voor u?",
+    "brief_li_1": "<strong>Levertijden</strong> kunnen vanaf [datum] oplopen van de gebruikelijke 3 werkdagen naar 5 tot 7 werkdagen.",
+    "brief_li_2": "<strong>Brandstoftoeslag</strong> — vanaf [datum] rekenen wij een toeslag van [X%] op transportgevoelige bestellingen. Deze toeslag is gebaseerd op de actuele dieselprijsindex en wordt maandelijks herzien.",
+    "brief_li_3": "<strong>Gebundelde leveringen</strong> — om ritten te beperken, bundelen wij waar mogelijk bestellingen per regio. U kunt bij uw bestelling een voorkeur opgeven voor een vaste leverdag.",
+    "brief_h_actions": "Wat doen wij?",
+    "brief_actions": "Wij volgen het Landelijk Crisisplan Olie van de Rijksoverheid en optimaliseren onze logistiek: routeplanning, wagenparkbeheer en alternatieve leveranciers. Ons doel is om de impact voor u zo klein mogelijk te houden.",
+    "brief_h_updates": "Hoe houden wij u op de hoogte?",
+    "brief_updates": "Wij sturen u elke twee weken een korte update via [e-mail / klantportaal]. Heeft u tussentijds vragen over een specifieke bestelling? Neem gerust contact op via [telefoonnummer] of [e-mailadres].",
+    "brief_thanks": "Wij waarderen uw begrip en vertrouwen."
   }
 }
