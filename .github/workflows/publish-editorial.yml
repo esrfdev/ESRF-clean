@@ -30,7 +30,9 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Publish editorial
+      - name: Publish editorial (with DeepL translations)
+        env:
+          DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
         run: python3 scripts/publish_editorial.py "${{ github.event.inputs.draft_file }}"
 
       - name: Commit & push
@@ -39,5 +41,5 @@ jobs:
           git config user.email "editorial-bot@esrf.net"
           git add -A
           SLUG=$(echo "${{ github.event.inputs.draft_file }}" | sed 's|.*/||;s|\.md$||')
-          git commit -m "editorial: ${SLUG} — published via automation"
+          git commit -m "editorial: ${SLUG} — published via automation [DeepL i18n]"
           git push

@@ -10,10 +10,39 @@
 
 De Action genereert automatisch:
 - Gestileerde HTML-pagina in het ESRF-ontwerpsysteem
-- i18n-vertalingen voor alle 27 talen
+- **DeepL-vertalingen** van alle body-tekst naar 23 talen (+ EN fallback voor 4 niet-ondersteunde talen)
+- Gelokaliseerde UI-elementen (byline, tags, koppen) per taal via `LANG_OVERRIDES`
 - Vermelding in de Dispatch-feed
 - Sitemap-entry
 - Commit + push → Cloudflare Pages deployt automatisch
+
+## Vertalingen — hoe werkt het?
+
+Het publish-script vertaalt automatisch via de **DeepL API**:
+
+| Taal | Body-tekst | UI-elementen |
+|------|-----------|--------------|
+| NL   | Nederlands (bron) | Nederlands |
+| EN   | DeepL NL→EN | Engels |
+| DE   | DeepL NL→DE | Duits (Lesezeit, Quellen, ...) |
+| FR   | DeepL NL→FR | Frans |
+| ... (19 andere) | DeepL NL→{taal} | Gelokaliseerd per taal |
+| GA, HR, IS, MT | EN fallback | Gelokaliseerd per taal |
+
+### DeepL API-key instellen
+
+1. Maak een gratis account op [deepl.com/pro#developer](https://www.deepl.com/pro#developer)
+2. Kopieer je API-key (eindigt op `:fx` voor Free tier)
+3. Voeg toe als GitHub Secret:
+   **Repo → Settings → Secrets → Actions → New secret**
+   - Name: `DEEPL_API_KEY`
+   - Value: je API-key
+
+Zonder key werkt het script nog steeds, maar dan krijgen niet-NL talen Engels als fallback.
+
+### Gratis limiet
+
+DeepL Free: **500.000 tekens/maand** — genoeg voor ~1 editorial per maand (±375K tekens voor 25 talen).
 
 ## Markdown-formaat
 
@@ -67,8 +96,13 @@ Verwijs in de tekst met `[1]`, `[2]` etc.
 ## Lokaal testen
 
 ```bash
+# Zonder vertalingen (EN fallback):
 python3 scripts/publish_editorial.py editorials/drafts/mijn-artikel.md
-# Bekijk het gegenereerde HTML-bestand en i18n-wijzigingen
+
+# Met DeepL-vertalingen:
+DEEPL_API_KEY="your-key:fx" python3 scripts/publish_editorial.py editorials/drafts/mijn-artikel.md
+
+# Bekijk wijzigingen:
 git diff
 ```
 

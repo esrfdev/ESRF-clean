@@ -4,9 +4,14 @@ ESRF.net — Automated Editorial Publisher
 =========================================
 Reads a Markdown editorial from `editorials/drafts/` and:
   1. Generates a styled HTML page in the ESRF design system
-  2. Creates i18n keys (NL source + EN) and distributes to all 27 languages
-  3. Adds the article to news-data.json (Dispatch feed)
-  4. Updates sitemap.xml
+  2. Creates i18n keys (NL source) and distributes to all 27 languages
+  3. Translates body text to all 25 non-NL languages via DeepL API
+  4. Adds the article to news-data.json (Dispatch feed)
+  5. Updates sitemap.xml
+
+Environment:
+  DEEPL_API_KEY   — DeepL Free or Pro API key (required for translations)
+                    Without it, EN fallback from front-matter is used.
 
 Usage:
   python3 scripts/publish_editorial.py editorials/drafts/my-article.md
@@ -49,6 +54,10 @@ import os
 import re
 import sys
 import html
+import time
+import urllib.request
+import urllib.parse
+import urllib.error
 from datetime import datetime
 from typing import Any
 
@@ -123,6 +132,144 @@ MONTH_NAMES = {
     "sv": ["jan","feb","mar","apr","maj","jun","jul","aug","sep","okt","nov","dec"],
     "uk": ["січ","лют","бер","квіт","трав","черв","лип","серп","вер","жовт","лист","груд"],
 }
+
+# ── DeepL language code mapping ──
+# ESRF code → DeepL target_lang code
+# DeepL uses specific codes: PT-PT (not PT), EN-GB (not EN), etc.
+DEEPL_LANG_MAP = {
+    "bg": "BG", "cs": "CS", "da": "DA", "de": "DE", "el": "EL",
+    "en": "EN-GB", "es": "ES", "et": "ET", "fi": "FI", "fr": "FR",
+    "hu": "HU", "it": "IT", "lt": "LT", "lv": "LV",
+    "pl": "PL", "pt": "PT-PT", "ro": "RO", "sk": "SK", "sl": "SL",
+    "sv": "SV", "uk": "UK",
+    # Not supported by DeepL (will use EN fallback):
+    # ga (Irish), hr (Croatian), is (Icelandic), mt (Maltese), no (Norwegian)
+}
+# Norwegian: DeepL supports NB (Bokmål)
+DEEPL_LANG_MAP["no"] = "NB"
+
+# Languages not supported by DeepL — will get EN fallback
+DEEPL_UNSUPPORTED = {"ga", "hr", "is", "mt"}
+
+
+def deepl_translate_batch(texts: list[str], target_lang: str, api_key: str) -> list[str]:
+    """
+    Translate a batch of texts from NL to target_lang via DeepL API.
+    Handles HTML tags (preserves <sup>, <a>, <strong>, <em> etc.).
+    Returns translated texts in same order.
+    """
+    # Determine API endpoint (free vs pro key)
+    if api_key.endswith(":fx"):
+        base_url = "https://api-free.deepl.com/v2/translate"
+    else:
+        base_url = "https://api.deepl.com/v2/translate"
+
+    # DeepL accepts max ~50 texts per request, batch if needed
+    BATCH_SIZE = 50
+    all_translated = []
+
+    for i in range(0, len(texts), BATCH_SIZE):
+        batch = texts[i:i + BATCH_SIZE]
+
+        # Build form data
+        params = {
+            "source_lang": "NL",
+            "target_lang": target_lang,
+            "tag_handling": "html",
+            "split_sentences": "nonewlines",
+        }
+        # URL-encode: multiple 'text' params
+        parts = [urllib.parse.urlencode(params)]
+        for t in batch:
+            parts.append(urllib.parse.urlencode({"text": t}))
+        body = "&".join(parts).encode("utf-8")
+
+        req = urllib.request.Request(
+            base_url,
+            data=body,
+            headers={
+                "Authorization": f"DeepL-Auth-Key {api_key}",
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        )
+
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                result = json.loads(resp.read().decode("utf-8"))
+                for item in result.get("translations", []):
+                    all_translated.append(item["text"])
+        except urllib.error.HTTPError as e:
+            error_body = e.read().decode("utf-8", errors="replace")
+            print(f"    ⚠ DeepL API error {e.code} for {target_lang}: {error_body[:200]}")
+            # Fallback: return original texts
+            all_translated.extend(batch)
+        except Exception as e:
+            print(f"    ⚠ DeepL request failed for {target_lang}: {e}")
+            all_translated.extend(batch)
+
+        # Rate limiting: small pause between batches
+        if i + BATCH_SIZE < len(texts):
+            time.sleep(0.3)
+
+    return all_translated
+
+
+def translate_body_keys(
+    nl_keys: dict[str, str],
+    i18n_prefix: str,
+    meta_keys: set[str],
+    api_key: str,
+) -> dict[str, dict[str, str]]:
+    """
+    Translate all non-meta i18n keys from NL to every supported language.
+    Returns {lang_code: {key: translated_value, ...}, ...}
+    """
+    # Separate body keys (need translation) from meta keys (already localised)
+    body_keys = [(k, v) for k, v in nl_keys.items() if k not in meta_keys]
+    if not body_keys:
+        return {}
+
+    key_names = [k for k, _ in body_keys]
+    nl_texts = [v for _, v in body_keys]
+
+    translations: dict[str, dict[str, str]] = {}
+    target_langs = [l for l in LANGS if l != "nl"]
+
+    print(f"\n── DeepL translation ({len(nl_texts)} keys × {len(target_langs)} languages) ──")
+
+    for lang in target_langs:
+        if lang in DEEPL_UNSUPPORTED:
+            # Use EN translation as fallback for unsupported languages
+            if "en" in translations:
+                translations[lang] = dict(translations["en"])
+                print(f"  ✓ {lang} — EN fallback (not supported by DeepL)")
+            else:
+                # EN not translated yet, will be filled later
+                translations[lang] = None  # placeholder
+                print(f"  ⏳ {lang} — deferred (waiting for EN)")
+            continue
+
+        deepl_code = DEEPL_LANG_MAP.get(lang)
+        if not deepl_code:
+            print(f"  ⚠ {lang} — no DeepL mapping, skipping")
+            continue
+
+        translated_texts = deepl_translate_batch(nl_texts, deepl_code, api_key)
+        translations[lang] = {k: v for k, v in zip(key_names, translated_texts)}
+        print(f"  ✓ {lang} — {len(translated_texts)} keys translated")
+
+        # Small delay between languages to respect rate limits
+        time.sleep(0.2)
+
+    # Fill deferred languages with EN fallback
+    en_trans = translations.get("en", {})
+    for lang in target_langs:
+        if translations.get(lang) is None and en_trans:
+            translations[lang] = dict(en_trans)
+            print(f"  ✓ {lang} — EN fallback applied")
+
+    return translations
+
 
 READ_TIME_LABELS = {
     "bg": "Четене", "cs": "Doba čtení", "da": "Læsetid", "de": "Lesezeit",
@@ -687,8 +834,17 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
 #  I18N DISTRIBUTION
 # ══════════════════════════════════════════════════════════════════
 
-def distribute_i18n(i18n_prefix: str, nl_keys: dict, en_keys: dict, meta: dict):
-    """Write i18n keys to all 27 language JSON files."""
+def distribute_i18n(
+    i18n_prefix: str,
+    nl_keys: dict,
+    en_keys: dict,
+    meta: dict,
+    deepl_translations: dict[str, dict[str, str]] | None = None,
+):
+    """
+    Write i18n keys to all 27 language JSON files.
+    If deepl_translations is provided, body keys are replaced with DeepL output.
+    """
     date = datetime.strptime(meta.get("date", datetime.now().strftime("%Y-%m-%d")), "%Y-%m-%d")
     read_min = int(meta.get("read_time", 8))
     tags_en = [t.strip() for t in meta.get("tags_en", meta.get("tags", "")).split(",") if t.strip()]
@@ -698,7 +854,7 @@ def distribute_i18n(i18n_prefix: str, nl_keys: dict, en_keys: dict, meta: dict):
     for lang in LANGS:
         filepath = os.path.join(I18N_DIR, f"{lang}.json")
         if not os.path.exists(filepath):
-            print(f"  ⚠ {lang}.json not found, skipping")
+            print(f"  \u26a0 {lang}.json not found, skipping")
             continue
 
         with open(filepath, "r", encoding="utf-8") as f:
@@ -710,12 +866,20 @@ def distribute_i18n(i18n_prefix: str, nl_keys: dict, en_keys: dict, meta: dict):
             # Dutch = source
             section = dict(nl_keys)
         elif lang == "en":
-            # English = translated version
+            # Start from EN meta keys
             section = dict(en_keys)
+            # If DeepL translations available, overlay body keys
+            if deepl_translations and "en" in deepl_translations:
+                for k, v in deepl_translations["en"].items():
+                    section[k] = v
         else:
-            # Other languages: use English keys as base, with localised overrides
+            # Start from EN keys as base
             section = dict(en_keys)
-            # Override visible fields
+            # Overlay DeepL translations for this language if available
+            if deepl_translations and lang in deepl_translations:
+                for k, v in deepl_translations[lang].items():
+                    section[k] = v
+            # Override localised meta fields
             section[f"{i18n_prefix}.byline"] = format_byline(lang, date, read_min)
             section[f"{i18n_prefix}.h2_refs"] = overrides.get("refs", "References")
             section[f"{i18n_prefix}.join_title_html"] = f'Contribute to<br>a <i>resilient Europe</i>.'
@@ -738,7 +902,8 @@ def distribute_i18n(i18n_prefix: str, nl_keys: dict, en_keys: dict, meta: dict):
         with open(filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
-        print(f"  ✓ {lang} — {len(flat)} keys")
+        src = "DeepL" if (deepl_translations and lang in (deepl_translations or {})) else "meta"
+        print(f"  \u2713 {lang} \u2014 {len(flat)} keys ({src})")
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -890,26 +1055,55 @@ def main():
     out_path = os.path.join(ROOT, filename)
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(html_content)
-    print(f"\n✓ HTML: {filename} ({len(html_content):,} bytes)")
+    print(f"\n\u2713 HTML: {filename} ({len(html_content):,} bytes)")
 
-    # 6. Distribute i18n to all 27 languages
-    print(f"\n── i18n distribution ({len(LANGS)} languages) ──")
-    distribute_i18n(i18n_prefix, i18n_keys, en_keys, meta)
+    # 6. DeepL translation (if API key available)
+    deepl_key = os.environ.get("DEEPL_API_KEY", "").strip()
+    deepl_translations = None
 
-    # 7. Update sitemap
-    print(f"\n── Sitemap ──")
+    # Determine which keys are "meta" (already localised by LANG_OVERRIDES)
+    meta_key_suffixes = {
+        "title_tag", "meta_desc", "kicker", "hero_title_1", "hero_title_2",
+        "hero_subtitle", "hero_deck", "tag_stewardship", "byline", "h2_refs",
+        "join_title_html", "join_sub", "join_cta",
+    }
+    # Also include tag_N keys
+    for k in i18n_keys:
+        short = k.replace(f"{i18n_prefix}.", "")
+        if short.startswith("tag_"):
+            meta_key_suffixes.add(short)
+    meta_keys_full = {f"{i18n_prefix}.{s}" for s in meta_key_suffixes}
+
+    if deepl_key:
+        deepl_translations = translate_body_keys(
+            nl_keys=i18n_keys,
+            i18n_prefix=i18n_prefix,
+            meta_keys=meta_keys_full,
+            api_key=deepl_key,
+        )
+    else:
+        print("\n\u26a0 DEEPL_API_KEY not set \u2014 using EN fallback for non-NL languages")
+        print("  Set the environment variable to enable automatic translation.")
+
+    # 7. Distribute i18n to all 27 languages
+    print(f"\n\u2500\u2500 i18n distribution ({len(LANGS)} languages) \u2500\u2500")
+    distribute_i18n(i18n_prefix, i18n_keys, en_keys, meta, deepl_translations)
+
+    # 8. Update sitemap
+    print(f"\n\u2500\u2500 Sitemap \u2500\u2500")
     update_sitemap(filename, meta.get("date", datetime.now().strftime("%Y-%m-%d")))
 
-    # 8. Update Dispatch feed
-    print(f"\n── Dispatch ──")
+    # 9. Update Dispatch feed
+    print(f"\n\u2500\u2500 Dispatch \u2500\u2500")
     update_dispatch(meta, filename)
 
-    print(f"\n{'═' * 60}")
-    print(f"✅ Published: {filename}")
+    translated = "with DeepL translations" if deepl_translations else "EN fallback only"
+    print(f"\n{'\u2550' * 60}")
+    print(f"\u2705 Published: {filename} ({translated})")
     print(f"   URL: https://www.esrf.net/editorial-{slug}")
     print(f"   i18n prefix: {i18n_prefix}")
     print(f"   Languages: {len(LANGS)}")
-    print(f"{'═' * 60}")
+    print(f"{'\u2550' * 60}")
     print(f"\nNext: git add . && git commit -m 'editorial: {slug}' && git push")
 
 
