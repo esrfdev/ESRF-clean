@@ -125,7 +125,10 @@
     "analytics_title": "Kuviot verkostossa.",
     "dispatch_title": "Mantereelta.",
     "join_title": "Edistääkö organisaatiosi Eurooppaa joka kestää?",
-    "join_sub": "Pyydä listausta ja ota paikkasi atlaksella. ESRF.net-yhteisön jäsenyys on ilmainen organisaatioille, joiden työ vahvistaa eurooppalaista turvallisuutta ja resilienssiä."
+    "join_sub": "Pyydä listausta ja ota paikkasi atlaksella. ESRF.net-yhteisön jäsenyys on ilmainen organisaatioille, joiden työ vahvistaa eurooppalaista turvallisuutta ja resilienssiä.",
+    "fig03_title_1": "Toimialat",
+    "fig03_title_2": "maittain",
+    "fig03_desc": "Miten kymmenen toimialaa jakautuvat viidentoista eniten edustetun maan kesken — erikoistuminen vastaan monipuolistuminen yhdellä silmäyksellä."
   },
   "directory": {
     "title": "Hakemisto — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_3": "kuvioiden takaa.",
     "cta_sub": "Dispatch arkistoi jokaisen päivän eurooppalaiset resilienssisignaalit sille sektorille, jota ne koskevat.",
     "kicker": "§ 05 · Analytiikka",
-    "description": "Dataanalytiikka ESRF.net-yhteisölle — sektorijakauma, maakohtainen analyysi ja yhteisön kasvu."
+    "description": "Dataanalytiikka ESRF.net-yhteisölle — sektorijakauma, maakohtainen analyysi ja yhteisön kasvu.",
+    "fig03_label": "Kuv. 03",
+    "fig03_title_1": "Toimialat",
+    "fig03_title_2": "maittain",
+    "fig03_desc": "Miten kymmenen elintärkeää toimialaa jakautuvat viidentoista eniten edustetun maan kesken. Jokainen palkki on maa; jokainen väri on toimiala. Missä yksi väri hallitsee, paikallinen ekosysteemi on erikoistunut; missä jakauma on tasainen, se on monipuolinen.",
+    "fig03_caption": "Kuv. 03 — Viidentoista eniten organisaatioita listanneen maan toimialakoostumus. Palkin väri noudattaa toimialapalettia."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

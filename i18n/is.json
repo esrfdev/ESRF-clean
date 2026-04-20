@@ -125,7 +125,10 @@
     "analytics_title": "Mynstur í netinu.",
     "dispatch_title": "Frá heimsálfunni.",
     "join_title": "Stuðlar stofnun þín að Evrópu sem heldur?",
-    "join_sub": "Biðdu um skráningu og taktu sæti þitt á atlasinum. Aðild að ESRF.net-samfélaginu er ókeypis fyrir stofnanir þar sem vinna styrkir evrópska öryggi og seiglu."
+    "join_sub": "Biðdu um skráningu og taktu sæti þitt á atlasinum. Aðild að ESRF.net-samfélaginu er ókeypis fyrir stofnanir þar sem vinna styrkir evrópska öryggi og seiglu.",
+    "fig03_title_1": "Geirar",
+    "fig03_title_2": "milli landa",
+    "fig03_desc": "Hvernig tíu geirarnir dreifast á fimmtán mest fulltrúnna lönd — sérhæfing á móti fjölbreytni í einu augnabliki."
   },
   "directory": {
     "title": "Skrá — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_3": "á bak við myndirnar.",
     "cta_sub": "Dispatch skráir evrópsk seiglumarki hvers dags undir þann geira sem þau snerta.",
     "kicker": "§ 05 · Greiningar",
-    "description": "Gagnagreinar fyrir ESRF.net-samfélagið — geiraskipting, landsyfirlit og vöxtur samfélagsins."
+    "description": "Gagnagreinar fyrir ESRF.net-samfélagið — geiraskipting, landsyfirlit og vöxtur samfélagsins.",
+    "fig03_label": "Mynd 03",
+    "fig03_title_1": "Geirar",
+    "fig03_title_2": "milli landa",
+    "fig03_desc": "Hvernig tíu lífsnauðsynlegu geirarnir dreifast á fimmtán mest fulltrúnna lönd. Hver stöng er land; hver litur er geiri. Þar sem einn litur ríkir er staðbundna vistkerfið sérhæft; þar sem dreifingin er jöfn er það fjölbreytt.",
+    "fig03_caption": "Mynd 03 — Geirasamsetning fimmtán landa með flestar skráðar stofnanir. Litur stöngarinnar fylgir geirapaletinu."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

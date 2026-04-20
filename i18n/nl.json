@@ -126,7 +126,10 @@
     "dispatch_lede": "Een zorgvuldig samengestelde stroom Europese veiligheids-, weerbaarheids- en crisissignalen — gesorteerd op de sector waar elk verhaal aan raakt. Het volledige bulletin wordt voortdurend bijgewerkt.",
     "join_title_1": "Draagt uw organisatie",
     "join_title_2": "bij aan een",
-    "join_title_3": "Europa dat standhoudt?"
+    "join_title_3": "Europa dat standhoudt?",
+    "fig03_title_1": "Sectoren",
+    "fig03_title_2": "over landen",
+    "fig03_desc": "Hoe de tien sectoren zich verdelen over de vijftien meest vertegenwoordigde landen — specialisatie tegenover spreiding, in één oogopslag."
   },
   "directory": {
     "title": "Directory — ESRF.net",
@@ -173,7 +176,12 @@
     "cta_title_1": "Lees de",
     "cta_title_2": "verhalen",
     "cta_title_3": "achter de cijfers.",
-    "cta_sub": "Het bulletin rangschikt elke dag Europese weerbaarheidssignalen naar de sector waar ze aan raken."
+    "cta_sub": "Het bulletin rangschikt elke dag Europese weerbaarheidssignalen naar de sector waar ze aan raken.",
+    "fig03_label": "Fig. 03",
+    "fig03_title_1": "Sectoren",
+    "fig03_title_2": "over landen",
+    "fig03_desc": "Hoe de tien vitale sectoren zich verdelen over de vijftien meest vertegenwoordigde landen. Elke staaf is een land; elke kleur een sector. Waar één kleur domineert, is het lokale ecosysteem gespecialiseerd; waar de verdeling gelijkmatig is, is het gevarieerd.",
+    "fig03_caption": "Fig. 03 — Sectorsamenstelling van de vijftien landen met het grootste aantal vermelde organisaties. De kleur van de staaf volgt het sectorpalet."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

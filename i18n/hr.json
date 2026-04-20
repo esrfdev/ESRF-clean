@@ -125,7 +125,10 @@
     "dispatch_lede": "Kurirani feed europskih signala o sigurnosti, otpornosti i krizama — razvrstani prema sektoru koji svaka priča dotiče. Cijeli bilten ažurira se kontinuirano.",
     "join_title_1": "Doprinosi li vaša organizacija",
     "join_title_2": "za",
-    "join_title_3": "Europu koja traje?"
+    "join_title_3": "Europu koja traje?",
+    "fig03_title_1": "Sektori",
+    "fig03_title_2": "po zemljama",
+    "fig03_desc": "Kako se deset sektora raspoređuje među petnaest najzastupljenijih zemalja — specijalizacija nasuprot diversifikaciji u jednom pogledu."
   },
   "directory": {
     "title": "Imenik — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Čitajte",
     "cta_title_2": "priče",
     "cta_title_3": "iza grafikona.",
-    "cta_sub": "Bilten svaki dan arhivira europske signale otpornosti prema sektoru koji dotičnu priču tiče."
+    "cta_sub": "Bilten svaki dan arhivira europske signale otpornosti prema sektoru koji dotičnu priču tiče.",
+    "fig03_label": "Sl. 03",
+    "fig03_title_1": "Sektori",
+    "fig03_title_2": "po zemljama",
+    "fig03_desc": "Kako se deset vitalnih sektora raspoređuje među petnaest najzastupljenijih zemalja. Svaki stupac je zemlja; svaka boja je sektor. Gdje jedna boja dominira, lokalni je ekosustav specijaliziran; gdje je raspodjela ravnomjerna, diversificiran je.",
+    "fig03_caption": "Sl. 03 — Sektorski sastav petnaest zemalja s najvećim brojem evidentiranih organizacija. Boja stupca slijedi paletu sektora."
   },
   "news": {
     "title": "Bilten — ESRF.net",

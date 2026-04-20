@@ -125,7 +125,10 @@
     "analytics_title": "Wzorce w sieci.",
     "dispatch_title": "Z kontynentu.",
     "join_title": "Czy Twoja organizacja przyczynia się do Europy, która wytrzymuje?",
-    "join_sub": "Złóż wniosek o wpis i zajmij swoje miejsce na atlasie. Członkostwo w społeczności ESRF.net jest bezpłatne dla organizacji, których praca wzmacnia europejskie bezpieczeństwo i odporność."
+    "join_sub": "Złóż wniosek o wpis i zajmij swoje miejsce na atlasie. Członkostwo w społeczności ESRF.net jest bezpłatne dla organizacji, których praca wzmacnia europejskie bezpieczeństwo i odporność.",
+    "fig03_title_1": "Sektory",
+    "fig03_title_2": "pomiędzy krajami",
+    "fig03_desc": "Jak dziesięć sektorów rozkłada się pomiędzy piętnaście najlepiej reprezentowanych krajów — specjalizacja kontra dywersyfikacja jednym spojrzeniem."
   },
   "directory": {
     "title": "Katalog — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_3": "za wykresami.",
     "cta_sub": "Biuletyn przypisuje każdego dnia europejskie sygnały odporności do sektora, którego dotyczą.",
     "description": "Analityka danych dla społeczności ESRF.net — rozkład sektorowy, podział według krajów i wzrost społeczności.",
-    "kicker": "§ 05 · Analityka"
+    "kicker": "§ 05 · Analityka",
+    "fig03_label": "Rys. 03",
+    "fig03_title_1": "Sektory",
+    "fig03_title_2": "pomiędzy krajami",
+    "fig03_desc": "Jak dziesięć kluczowych sektorów rozkłada się pomiędzy piętnaście najlepiej reprezentowanych krajów. Każdy słupek to kraj; każdy kolor to sektor. Gdzie dominuje jeden kolor, lokalny ekosystem jest wyspecjalizowany; gdzie rozkład jest równomierny — jest zdywersyfikowany.",
+    "fig03_caption": "Rys. 03 — Skład sektorowy piętnastu krajów z największą liczbą zarejestrowanych organizacji. Kolor słupka odpowiada palecie sektora."
   },
   "news": {
     "title": "Biuletyn — ESRF.net",

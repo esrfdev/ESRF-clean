@@ -125,7 +125,10 @@
     "dispatch_lede": "Un flux curatif de signaux européens de sécurité, de résilience et de crise — classé sous le secteur que chaque article touche. Le dispatch complet est mis à jour en continu.",
     "join_title_1": "Votre organisation",
     "join_title_2": "contribue-t-elle à",
-    "join_title_3": "une Europe qui tient ?"
+    "join_title_3": "une Europe qui tient ?",
+    "fig03_title_1": "Secteurs",
+    "fig03_title_2": "entre pays",
+    "fig03_desc": "Comment les dix secteurs se répartissent entre les quinze pays les plus représentés — spécialisation contre diversification en un coup d'œil."
   },
   "directory": {
     "title": "Annuaire — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Lire les",
     "cta_title_2": "récits",
     "cta_title_3": "derrière les chiffres.",
-    "cta_sub": "Le dispatch classe chaque jour les signaux de résilience européenne sous le secteur qu’ils touchent."
+    "cta_sub": "Le dispatch classe chaque jour les signaux de résilience européenne sous le secteur qu’ils touchent.",
+    "fig03_label": "Fig. 03",
+    "fig03_title_1": "Secteurs",
+    "fig03_title_2": "entre pays",
+    "fig03_desc": "Comment les dix secteurs vitaux se répartissent entre les quinze pays les plus représentés. Chaque barre est un pays ; chaque couleur, un secteur. Là où une couleur domine, l'écosystème local est spécialisé ; là où la répartition est équilibrée, il est diversifié.",
+    "fig03_caption": "Fig. 03 — Composition sectorielle des quinze pays comptant le plus d'organisations référencées. La couleur des barres suit la palette des secteurs."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

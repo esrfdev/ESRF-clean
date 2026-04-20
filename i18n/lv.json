@@ -125,7 +125,10 @@
     "dispatch_lede": "Kurēts Eiropas drošības, noturības un krīzes signālu plūsma — iesniegta nozarē, kuru katra stāsts skar. Pilnā izlaiduma versija tiek pastāvīgi atjaunināta.",
     "join_title_1": "Vai jūsu organizācija",
     "join_title_2": "veicina",
-    "join_title_3": "Eiropai, kas iztur?"
+    "join_title_3": "Eiropai, kas iztur?",
+    "fig03_title_1": "Nozares",
+    "fig03_title_2": "pa valstīm",
+    "fig03_desc": "Kā desmit nozares sadalās starp piecpadsmit visvairāk pārstāvētajām valstīm — specializācija pret daudzveidību vienā skatienā."
   },
   "directory": {
     "title": "Katalogs — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Lasīt",
     "cta_title_2": "stāstus",
     "cta_title_3": "aiz diagrammām.",
-    "cta_sub": "Dispatch katru dienu iesniedz Eiropas noturības signālus nozarei, kuru tie skar."
+    "cta_sub": "Dispatch katru dienu iesniedz Eiropas noturības signālus nozarei, kuru tie skar.",
+    "fig03_label": "3. att.",
+    "fig03_title_1": "Nozares",
+    "fig03_title_2": "pa valstīm",
+    "fig03_desc": "Kā desmit vitāli svarīgās nozares sadalās starp piecpadsmit visvairāk pārstāvētajām valstīm. Katra josla ir valsts; katra krāsa — nozare. Kur viena krāsa dominē, vietējā ekosistēma ir specializēta; kur sadalījums ir vienmērīgs — tā ir daudzveidīga.",
+    "fig03_caption": "3. att. — Piecpadsmit valstu ar lielāko reģistrēto organizāciju skaitu nozaru sastāvs. Joslas krāsa atbilst nozares paletei."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

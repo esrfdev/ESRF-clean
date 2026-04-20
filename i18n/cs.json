@@ -125,7 +125,10 @@
     "analytics_title": "Vzory v síti.",
     "dispatch_title": "Z kontinentu.",
     "join_title": "Přispívá vaše organizace k Evropě, která vydrží?",
-    "join_sub": "Požádejte o zápis a zaujměte své místo v atlase. Členství v komunitě ESRF.net je zdarma pro organizace, jejichž práce posiluje evropskou bezpečnost a odolnost."
+    "join_sub": "Požádejte o zápis a zaujměte své místo v atlase. Členství v komunitě ESRF.net je zdarma pro organizace, jejichž práce posiluje evropskou bezpečnost a odolnost.",
+    "fig03_title_1": "Sektory",
+    "fig03_title_2": "napříč zeměmi",
+    "fig03_desc": "Jak se deset sektorů rozděluje mezi patnáct nejvíce zastoupených zemí — specializace versus diverzifikace na první pohled."
   },
   "directory": {
     "title": "Adresář — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_3": "za grafy.",
     "cta_sub": "Zpravodaj každý den přiřazuje evropské signály odolnosti k sektoru, jehož se týkají.",
     "description": "Datová analytika pro komunitu ESRF.net — rozložení sektorů, přehled zemí a růst komunity.",
-    "kicker": "§ 05 · Analytika"
+    "kicker": "§ 05 · Analytika",
+    "fig03_label": "Obr. 03",
+    "fig03_title_1": "Sektory",
+    "fig03_title_2": "napříč zeměmi",
+    "fig03_desc": "Jak se deset životně důležitých sektorů rozděluje mezi patnáct nejvíce zastoupených zemí. Každý sloupec je země; každá barva je sektor. Kde dominuje jedna barva, místní ekosystém je specializovaný; kde je rozložení rovnoměrné, je diverzifikovaný.",
+    "fig03_caption": "Obr. 03 — Sektorová skladba patnácti zemí s nejvyšším počtem zapsaných organizací. Barva sloupce odpovídá paletě sektoru."
   },
   "news": {
     "title": "Zpravodaj — ESRF.net",

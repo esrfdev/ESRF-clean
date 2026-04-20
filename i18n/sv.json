@@ -125,7 +125,10 @@
     "analytics_title": "Mönster i nätverket.",
     "dispatch_title": "Från kontinenten.",
     "join_title": "Bidrar din organisation till ett Europa som håller?",
-    "join_sub": "Begär en listning och ta din plats på atlasen. Medlemskap i ESRF.net-gemenskapen är gratis för organisationer vars arbete stärker europeisk säkerhet och motståndskraft."
+    "join_sub": "Begär en listning och ta din plats på atlasen. Medlemskap i ESRF.net-gemenskapen är gratis för organisationer vars arbete stärker europeisk säkerhet och motståndskraft.",
+    "fig03_title_1": "Sektorer",
+    "fig03_title_2": "över länder",
+    "fig03_desc": "Hur de tio sektorerna fördelar sig över de femton mest representerade länderna — specialisering kontra diversifiering med ett ögonkast."
   },
   "directory": {
     "title": "Katalog — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_3": "bakom figurerna.",
     "cta_sub": "Dispatchen arkiverar varje dags europeiska motståndskraftssignaler till den sektor de berör.",
     "kicker": "§ 05 · Analyser",
-    "description": "Dataanalys för ESRF.net-gemenskapen — sektorsfördelning, landsöversikt och gemenskapstillväxt."
+    "description": "Dataanalys för ESRF.net-gemenskapen — sektorsfördelning, landsöversikt och gemenskapstillväxt.",
+    "fig03_label": "Fig. 03",
+    "fig03_title_1": "Sektorer",
+    "fig03_title_2": "över länder",
+    "fig03_desc": "Hur de tio vitala sektorerna fördelar sig över de femton mest representerade länderna. Varje stapel är ett land; varje färg en sektor. Där en färg dominerar är det lokala ekosystemet specialiserat; där spridningen är jämn är det diversifierat.",
+    "fig03_caption": "Fig. 03 — Sektorsammansättning för de femton länder som har flest listade organisationer. Stapelfärgen följer sektorpaletten."
   },
   "news": {
     "title": "Dispatch — ESRF.net",
