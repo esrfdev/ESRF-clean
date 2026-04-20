@@ -255,6 +255,8 @@ def translate_body_keys(
             continue
 
         translated_texts = deepl_translate_batch(nl_texts, deepl_code, api_key)
+        # DeepL sometimes HTML-encodes characters (&#x27; etc.) — decode them
+        translated_texts = [html.unescape(t) for t in translated_texts]
         translations[lang] = {k: v for k, v in zip(key_names, translated_texts)}
         print(f"  ✓ {lang} — {len(translated_texts)} keys translated")
 
