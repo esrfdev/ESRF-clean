@@ -1064,11 +1064,16 @@ def main():
     deepl_translations = None
 
     # Determine which keys are "meta" (already localised by LANG_OVERRIDES)
+    # Keys that are already localised per language via LANG_OVERRIDES or
+    # en_keys (and should NOT be sent to DeepL for translation)
     meta_key_suffixes = {
-        "title_tag", "meta_desc", "kicker", "hero_title_1", "hero_title_2",
-        "hero_subtitle", "hero_deck", "tag_stewardship", "byline", "h2_refs",
+        "title_tag", "meta_desc", "kicker",
+        "tag_stewardship", "byline", "h2_refs",
         "join_title_html", "join_sub", "join_cta",
     }
+    # NOTE: hero_title_1, hero_title_2, hero_subtitle, hero_deck are
+    # intentionally NOT in meta_keys — DeepL translates them so that
+    # the hero section matches the article body language.
     # Also include tag_N keys
     for k in i18n_keys:
         short = k.replace(f"{i18n_prefix}.", "")
