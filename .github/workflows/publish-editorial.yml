@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       draft_file:
-        description: 'Path to markdown draft (e.g. editorials/drafts/oil-shortage-2026.md)'
+        description: 'Path to markdown draft (e.g. editorials/drafts/voorbeeld-editorial.md)'
         required: true
         type: string
 
