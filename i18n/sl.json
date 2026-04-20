@@ -125,7 +125,10 @@
     "dispatch_lede": "Uredniško izbrana zbirka evropskih signalov varnosti, odpornosti in kriz — razvrščena po sektorju, ki ga vsaka zgodba zadeva. Celoten bilten se sproti posodablja.",
     "join_title_1": "Ali vaša organizacija prispeva",
     "join_title_2": "k",
-    "join_title_3": "Evropo, ki zdrži?"
+    "join_title_3": "Evropo, ki zdrži?",
+    "fig03_title_1": "Sektorji",
+    "fig03_title_2": "med državami",
+    "fig03_desc": "Kako se deset sektorjev porazdeli med petnajst najbolj zastopanih držav — specializacija v primerjavi z raznolikostjo na prvi pogled."
   },
   "directory": {
     "title": "Imenik — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Preberite",
     "cta_title_2": "zgodbe",
     "cta_title_3": "za grafikoni.",
-    "cta_sub": "Bilten vsak dan arhivira evropske signale odpornosti v sektorju, ki ga zadeva."
+    "cta_sub": "Bilten vsak dan arhivira evropske signale odpornosti v sektorju, ki ga zadeva.",
+    "fig03_label": "Sl. 03",
+    "fig03_title_1": "Sektorji",
+    "fig03_title_2": "med državami",
+    "fig03_desc": "Kako se deset vitalnih sektorjev porazdeli med petnajst najbolj zastopanih držav. Vsak stolpec je država; vsaka barva je sektor. Kjer prevladuje ena barva, je lokalni ekosistem specializiran; kjer je porazdelitev enakomerna, je raznolik.",
+    "fig03_caption": "Sl. 03 — Sektorska sestava petnajstih držav z največ vpisanimi organizacijami. Barva stolpca sledi paleti sektorja."
   },
   "news": {
     "title": "Bilten — ESRF.net",

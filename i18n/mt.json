@@ -125,7 +125,10 @@
     "dispatch_lede": "Fluss kurat ta' sinjali Ewropej tas-sigurtà, reżiljenza u kriżi — imressaq taħt is-settur li kull storja tmiss. Il-verżjoni sħiħa tiġi aġġornata kontinwament.",
     "join_title_1": "L-organizzazzjoni tiegħek",
     "join_title_2": "tikkontribwixxi lejn",
-    "join_title_3": "Ewropa li tżomm?"
+    "join_title_3": "Ewropa li tżomm?",
+    "fig03_title_1": "Setturi",
+    "fig03_title_2": "bejn il-pajjiżi",
+    "fig03_desc": "Kif l-għaxar setturi jitqassmu fost il-ħmistax-il pajjiż l-aktar rappreżentati — speċjalizzazzjoni kontra diversifikazzjoni f'daqqa t'għajn."
   },
   "directory": {
     "title": "Direttorju — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Aqra l-",
     "cta_title_2": "stejjer",
     "cta_title_3": "wara l-figuri.",
-    "cta_sub": "Id-dispatch jippreżenta s-sinjali ta' reżiljenza Ewropea kuljum lis-settur li jmissh."
+    "cta_sub": "Id-dispatch jippreżenta s-sinjali ta' reżiljenza Ewropea kuljum lis-settur li jmissh.",
+    "fig03_label": "Fig. 03",
+    "fig03_title_1": "Setturi",
+    "fig03_title_2": "bejn il-pajjiżi",
+    "fig03_desc": "Kif l-għaxar setturi vitali jitqassmu fost il-ħmistax-il pajjiż l-aktar rappreżentati. Kull bar huwa pajjiż; kull kulur, settur. Fejn kulur wieħed jiddomina, l-ekosistema lokali hija speċjalizzata; fejn it-tixrid huwa ekwilibrat, hija diversifikata.",
+    "fig03_caption": "Fig. 03 — Kompożizzjoni settorjali tal-ħmistax-il pajjiż bl-akbar numru ta' organizzazzjonijiet elenkati. Il-kulur tal-bar isegwi l-palett tas-settur."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

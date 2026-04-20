@@ -125,7 +125,10 @@
     "dispatch_lede": "Kuruotas Europos saugumo, atsparumo ir krizių signalų srautas — suskirstytas pagal sektorių, kurio kiekviena istorija liečia. Išsami versija nuolat atnaujinama.",
     "join_title_1": "Ar jūsų organizacija",
     "join_title_2": "prisideda prie",
-    "join_title_3": "Europos, kuri išlaiko?"
+    "join_title_3": "Europos, kuri išlaiko?",
+    "fig03_title_1": "Sektoriai",
+    "fig03_title_2": "tarp šalių",
+    "fig03_desc": "Kaip dešimt sektorių pasiskirsto tarp penkiolikos labiausiai atstovaujamų šalių — specializacija prieš diversifikaciją vienu žvilgsniu."
   },
   "directory": {
     "title": "Katalogas — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Skaityti",
     "cta_title_2": "istorijas",
     "cta_title_3": "už grafikų.",
-    "cta_sub": "Dispatch kiekvieną dieną pateikia Europos atsparumo signalus sektoriui, kurio jie liečia."
+    "cta_sub": "Dispatch kiekvieną dieną pateikia Europos atsparumo signalus sektoriui, kurio jie liečia.",
+    "fig03_label": "Pav. 03",
+    "fig03_title_1": "Sektoriai",
+    "fig03_title_2": "tarp šalių",
+    "fig03_desc": "Kaip dešimt gyvybiškai svarbių sektorių pasiskirsto tarp penkiolikos labiausiai atstovaujamų šalių. Kiekvienas stulpelis yra šalis; kiekviena spalva – sektorius. Kur viena spalva dominuoja, vietinė ekosistema yra specializuota; kur pasiskirstymas tolygus – ji yra diversifikuota.",
+    "fig03_caption": "Pav. 03 — Penkiolikos šalių, turinčių daugiausia įtrauktų organizacijų, sektorių sudėtis. Stulpelio spalva atitinka sektoriaus paletę."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

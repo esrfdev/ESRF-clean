@@ -125,7 +125,10 @@
     "analytics_title": "Tipare în rețea.",
     "dispatch_title": "De pe continent.",
     "join_title": "Contribuie organizația dumneavoastră la o Europă care rezistă?",
-    "join_sub": "Solicitați o înregistrare și ocupați-vă locul pe atlas. Apartenența la comunitatea ESRF.net este gratuită pentru organizațiile a căror muncă consolidează securitatea și reziliența europeană."
+    "join_sub": "Solicitați o înregistrare și ocupați-vă locul pe atlas. Apartenența la comunitatea ESRF.net este gratuită pentru organizațiile a căror muncă consolidează securitatea și reziliența europeană.",
+    "fig03_title_1": "Sectoare",
+    "fig03_title_2": "între țări",
+    "fig03_desc": "Cum se distribuie cele zece sectoare între cele cincisprezece țări cele mai reprezentate — specializare versus diversificare dintr-o privire."
   },
   "directory": {
     "title": "Director — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_3": "din spatele figurilor.",
     "cta_sub": "Buletinul clasifică zilnic semnalele europene de reziliență în sectorul pe care îl ating.",
     "description": "Analiză de date pentru comunitatea ESRF.net — distribuția sectorială, defalcarea pe țări și creșterea comunității.",
-    "kicker": "§ 05 · Analiză"
+    "kicker": "§ 05 · Analiză",
+    "fig03_label": "Fig. 03",
+    "fig03_title_1": "Sectoare",
+    "fig03_title_2": "între țări",
+    "fig03_desc": "Cum se distribuie cele zece sectoare vitale între cele cincisprezece țări cele mai reprezentate. Fiecare bară este o țară; fiecare culoare, un sector. Acolo unde o singură culoare domină, ecosistemul local este specializat; acolo unde distribuția este uniformă, este diversificat.",
+    "fig03_caption": "Fig. 03 — Compoziția sectorială a celor cincisprezece țări cu cel mai mare număr de organizații înregistrate. Culoarea barei urmează paleta sectorului."
   },
   "news": {
     "title": "Buletin — ESRF.net",

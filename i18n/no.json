@@ -125,7 +125,10 @@
     "analytics_title": "Mønstre i nettverket.",
     "dispatch_title": "Fra kontinentet.",
     "join_title": "Bidrar din organisasjon til et Europa som holder?",
-    "join_sub": "Be om en oppføring og ta din plass på atlaset. Medlemskap i ESRF.net-fellesskapet er gratis for organisasjoner hvis arbeid styrker europeisk sikkerhet og motstandsdyktighet."
+    "join_sub": "Be om en oppføring og ta din plass på atlaset. Medlemskap i ESRF.net-fellesskapet er gratis for organisasjoner hvis arbeid styrker europeisk sikkerhet og motstandsdyktighet.",
+    "fig03_title_1": "Sektorer",
+    "fig03_title_2": "på tvers av land",
+    "fig03_desc": "Hvordan de ti sektorene fordeler seg på tvers av de femten mest representerte landene — spesialisering versus diversifisering med ett blikk."
   },
   "directory": {
     "title": "Katalog — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_3": "bak figurene.",
     "cta_sub": "Dispatchen arkiverer hver dags europeiske motstandsdyktighetssignaler til sektoren de berører.",
     "kicker": "§ 05 · Analyser",
-    "description": "Dataanalyse for ESRF.net-fellesskapet — sektorfordeling, landsanalyse og fellesskapsvekst."
+    "description": "Dataanalyse for ESRF.net-fellesskapet — sektorfordeling, landsanalyse og fellesskapsvekst.",
+    "fig03_label": "Fig. 03",
+    "fig03_title_1": "Sektorer",
+    "fig03_title_2": "på tvers av land",
+    "fig03_desc": "Hvordan de ti vitale sektorene fordeler seg på tvers av de femten mest representerte landene. Hver søyle er et land; hver farge er en sektor. Der én farge dominerer, er det lokale økosystemet spesialisert; der spredningen er jevn, er det diversifisert.",
+    "fig03_caption": "Fig. 03 — Sektorsammensetning av de femten landene med flest registrerte organisasjoner. Søylefargen følger sektorpaletten."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

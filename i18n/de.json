@@ -125,7 +125,10 @@
     "dispatch_lede": "Ein kuratierter Feed europäischer Sicherheits-, Resilienz- und Krisensignale — abgelegt unter dem Sektor, den jede Geschichte berührt. Der vollständige Dispatch wird kontinuierlich aktualisiert.",
     "join_title_1": "Trägt Ihre Organisation",
     "join_title_2": "zu einem",
-    "join_title_3": "Europa bei, das standhält?"
+    "join_title_3": "Europa bei, das standhält?",
+    "fig03_title_1": "Sektoren",
+    "fig03_title_2": "über Länder hinweg",
+    "fig03_desc": "Wie sich die zehn Sektoren auf die fünfzehn am stärksten vertretenen Länder verteilen — Spezialisierung versus Diversifizierung auf einen Blick."
   },
   "directory": {
     "title": "Verzeichnis — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Lesen Sie die",
     "cta_title_2": "Geschichten",
     "cta_title_3": "hinter den Zahlen.",
-    "cta_sub": "Der Dispatch ordnet täglich europäische Resilienzsignale dem Sektor zu, den sie berühren."
+    "cta_sub": "Der Dispatch ordnet täglich europäische Resilienzsignale dem Sektor zu, den sie berühren.",
+    "fig03_label": "Abb. 03",
+    "fig03_title_1": "Sektoren",
+    "fig03_title_2": "über Länder hinweg",
+    "fig03_desc": "Wie sich die zehn vitalen Sektoren auf die fünfzehn am stärksten vertretenen Länder verteilen. Jeder Balken steht für ein Land; jede Farbe für einen Sektor. Wo eine Farbe dominiert, ist das lokale Ökosystem spezialisiert; wo die Verteilung gleichmäßig ist, ist es diversifiziert.",
+    "fig03_caption": "Abb. 03 — Sektorenzusammensetzung der fünfzehn Länder mit den meisten gelisteten Organisationen. Die Balkenfarbe folgt der Sektorpalette."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

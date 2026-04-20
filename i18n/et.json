@@ -125,7 +125,10 @@
     "dispatch_lede": "Kureeritud voog Euroopa julgeoleku-, vastupidavus- ja kriisisignaalidest — jaotatud sektori järgi, millele iga lugu puudutab. Täisversioon uuendatakse pidevalt.",
     "join_title_1": "Kas teie organisatsioon",
     "join_title_2": "aitab kaasa",
-    "join_title_3": "Euroopale, mis püsib?"
+    "join_title_3": "Euroopale, mis püsib?",
+    "fig03_title_1": "Sektorid",
+    "fig03_title_2": "riikide lõikes",
+    "fig03_desc": "Kuidas kümme sektorit jaotuvad viieteistkümne enim esindatud riigi vahel — spetsialiseerumine versus mitmekesistamine ühe pilguga."
   },
   "directory": {
     "title": "Kataloog — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Loe",
     "cta_title_2": "lugusid",
     "cta_title_3": "jooniste taga.",
-    "cta_sub": "Dispatch esitab iga päev Euroopa vastupanuvõime signaalid sektorile, mida need puudutavad."
+    "cta_sub": "Dispatch esitab iga päev Euroopa vastupanuvõime signaalid sektorile, mida need puudutavad.",
+    "fig03_label": "Joon. 03",
+    "fig03_title_1": "Sektorid",
+    "fig03_title_2": "riikide lõikes",
+    "fig03_desc": "Kuidas kümme elutähtsat sektorit jaotuvad viieteistkümne enim esindatud riigi vahel. Iga tulp on riik; iga värv on sektor. Kus üks värv domineerib, on kohalik ökosüsteem spetsialiseerunud; kus jaotus on ühtlane, on see mitmekesistatud.",
+    "fig03_caption": "Joon. 03 — Sektorite koosseis viieteistkümne riigis, kus on kõige rohkem loetletud organisatsioone. Tulba värv järgib sektori paletti."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

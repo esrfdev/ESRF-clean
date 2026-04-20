@@ -125,7 +125,10 @@
     "dispatch_lede": "Sruth cuaróirithe de chomharthaí slándála, athléimneachta agus géarchéime na hEorpa — comhdaithe faoin earnáil a bhaineann le gach scéal. Déantar an t-eisiúint iomlán a nuashonrú go leanúnach.",
     "join_title_1": "An gcuireann d'eagraíocht",
     "join_title_2": "le",
-    "join_title_3": "Eoraip a sheasann?"
+    "join_title_3": "Eoraip a sheasann?",
+    "fig03_title_1": "Earnálacha",
+    "fig03_title_2": "trasna tíortha",
+    "fig03_desc": "Conas a dháileann na deich n-earnáil ar fud na gcúig thír déag is mó ionadaíocht — sainiúlacht i gcomparáid le héagsúlacht ar an toirt."
   },
   "directory": {
     "title": "Eolaire — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Léigh na",
     "cta_title_2": "scéalta",
     "cta_title_3": "taobh thiar de na figiúir.",
-    "cta_sub": "Comhdaíonn an dispatch comharthaí athléimneachta Eorpacha gach lá chuig an earnáil a bhaineann leo."
+    "cta_sub": "Comhdaíonn an dispatch comharthaí athléimneachta Eorpacha gach lá chuig an earnáil a bhaineann leo.",
+    "fig03_label": "Fig. 03",
+    "fig03_title_1": "Earnálacha",
+    "fig03_title_2": "trasna tíortha",
+    "fig03_desc": "Conas a dháileann na deich n-earnáil ríthábhachtacha ar fud na gcúig thír déag is mó ionadaíocht. Tír is ea gach barra; earnáil is ea gach dath. Áit a bhfuil aon dath amháin ceannasach, tá an t-éiceachóras áitiúil sainithe; áit a bhfuil an scaipeadh cothrom, tá sé éagsúil.",
+    "fig03_caption": "Fig. 03 — Comhdhéanamh earnála na gcúig thír déag a bhfuil an líon is mó eagraíochtaí liostaithe acu. Leanann dath na mbarraí pailéad na hearnála."
   },
   "news": {
     "title": "Dispatch — ESRF.net",

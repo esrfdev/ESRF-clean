@@ -125,7 +125,10 @@
     "analytics_title": "Minták a hálózatban.",
     "dispatch_title": "A kontinensről.",
     "join_title": "Hozzájárul szervezete egy olyan Európához, amely kitart?",
-    "join_sub": "Kérjen felvételt és foglalja el helyét az atlaszon. Az ESRF.net közösségi tagság ingyenes azoknak a szervezeteknek, amelyek munkája erősíti az európai biztonságot és rezilienciát."
+    "join_sub": "Kérjen felvételt és foglalja el helyét az atlaszon. Az ESRF.net közösségi tagság ingyenes azoknak a szervezeteknek, amelyek munkája erősíti az európai biztonságot és rezilienciát.",
+    "fig03_title_1": "Ágazatok",
+    "fig03_title_2": "országok között",
+    "fig03_desc": "Hogyan oszlik meg a tíz ágazat a tizenöt leginkább képviselt ország között — specializáció kontra diverzifikáció egy pillantásra."
   },
   "directory": {
     "title": "Tárjegyzék — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_3": "történeteket.",
     "cta_sub": "A hírlap naponta rendeli az európai rezilienciajelzéseket az általuk érintett szektorhoz.",
     "description": "Adatelemzés az ESRF.net közösség számára — szektormegoszlás, országonkénti bontás és közösségi növekedés.",
-    "kicker": "§ 05 · Elemzés"
+    "kicker": "§ 05 · Elemzés",
+    "fig03_label": "3. ábra",
+    "fig03_title_1": "Ágazatok",
+    "fig03_title_2": "országok között",
+    "fig03_desc": "Hogyan oszlik meg a tíz létfontosságú ágazat a tizenöt leginkább képviselt ország között. Minden oszlop egy ország; minden szín egy ágazat. Ahol egy szín dominál, a helyi ökoszisztéma specializált; ahol az eloszlás egyenletes, ott diverzifikált.",
+    "fig03_caption": "3. ábra — A bejegyzett szervezetek száma szerinti első tizenöt ország ágazati összetétele. Az oszlopszín követi az ágazat palettáját."
   },
   "news": {
     "title": "Hírlap — ESRF.net",

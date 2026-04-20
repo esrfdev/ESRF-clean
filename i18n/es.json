@@ -125,7 +125,10 @@
     "dispatch_lede": "Un feed curado de señales europeas de seguridad, resiliencia y crisis — clasificado bajo el sector que cada historia toca. El dispatch completo se actualiza continuamente.",
     "join_title_1": "¿Su organización",
     "join_title_2": "contribuye a",
-    "join_title_3": "una Europa que se mantiene?"
+    "join_title_3": "una Europa que se mantiene?",
+    "fig03_title_1": "Sectores",
+    "fig03_title_2": "entre países",
+    "fig03_desc": "Cómo se distribuyen los diez sectores entre los quince países más representados — especialización frente a diversificación de un vistazo."
   },
   "directory": {
     "title": "Directorio — ESRF.net",
@@ -172,7 +175,12 @@
     "cta_title_1": "Lea los",
     "cta_title_2": "relatos",
     "cta_title_3": "detrás de las cifras.",
-    "cta_sub": "El dispatch clasifica cada día las señales de resiliencia europea bajo el sector que toca."
+    "cta_sub": "El dispatch clasifica cada día las señales de resiliencia europea bajo el sector que toca.",
+    "fig03_label": "Fig. 03",
+    "fig03_title_1": "Sectores",
+    "fig03_title_2": "entre países",
+    "fig03_desc": "Cómo se distribuyen los diez sectores vitales entre los quince países más representados. Cada barra es un país; cada color, un sector. Donde un color domina, el ecosistema local es especializado; donde la distribución es uniforme, es diversificado.",
+    "fig03_caption": "Fig. 03 — Composición sectorial de los quince países con mayor número de organizaciones inscritas. El color de la barra sigue la paleta del sector."
   },
   "news": {
     "title": "Dispatch — ESRF.net",
