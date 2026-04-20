@@ -213,6 +213,17 @@ def parse_references(body: str) -> tuple[str, list[dict]]:
     return body_clean, refs
 
 
+def md_inline(text: str) -> str:
+    """Convert inline Markdown: **bold** → <strong>, *italic* → <em>, `code` → <code>."""
+    text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+    text = re.sub(r'(?<!\*)\*([^*]+?)\*(?!\*)', r'<em>\1</em>', text)
+    text = re.sub(r'_([^_]+?)_', r'<em>\1</em>', text)
+    text = re.sub(r'`([^`]+?)`', r'<code>\1</code>', text)
+    # Convert markdown links [text](url)
+    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', text)
+    return text
+
+
 def inline_refs(text: str) -> str:
     """Convert [1] to <sup><a href="#ref-1">[1]</a></sup>"""
     return re.sub(
@@ -252,11 +263,11 @@ def md_to_html_blocks(body: str, i18n_prefix: str) -> tuple[list[str], dict[str,
         if not text:
             return
         has_refs = bool(re.search(r'\[\d+\]', text))
-        has_html = bool(re.search(r'<[a-z]', text)) or has_refs
+        # Apply inline markdown (bold, italic, code, links)
+        html_text = md_inline(text)
         if has_refs:
-            html_text = inline_refs(text)
-        else:
-            html_text = text
+            html_text = inline_refs(html_text)
+        has_html = bool(re.search(r'<[a-z]', html_text)) or has_refs
         if has_html:
             key = next_key("p_html")
             html_out.append(f'  <p data-i18n-html="{key}">')
@@ -342,9 +353,14 @@ def md_to_html_blocks(body: str, i18n_prefix: str) -> tuple[list[str], dict[str,
             flush_para()
             close_list()
             text = line[2:].strip()
+            bq_html = md_inline(text)
             key = next_key("bq")
-            html_out.append(f'  <blockquote data-i18n="{key}">{html.escape(text)}</blockquote>')
-            i18n[key] = text
+            has_html = bool(re.search(r'<[a-z]', bq_html))
+            if has_html:
+                html_out.append(f'  <blockquote data-i18n-html="{key}">{bq_html}</blockquote>')
+            else:
+                html_out.append(f'  <blockquote data-i18n="{key}">{bq_html}</blockquote>')
+            i18n[key] = bq_html
             continue
 
         # Unordered list
@@ -356,14 +372,17 @@ def md_to_html_blocks(body: str, i18n_prefix: str) -> tuple[list[str], dict[str,
                 in_list = "ul"
                 html_out.append("  <ul>")
             has_refs = bool(re.search(r'\[\d+\]', item))
+            item_html = md_inline(item)
             if has_refs:
-                item_html = inline_refs(item)
+                item_html = inline_refs(item_html)
+            has_html = bool(re.search(r'<[a-z]', item_html)) or has_refs
+            if has_html:
                 key = next_key("li_html")
                 html_out.append(f'    <li data-i18n-html="{key}">{item_html}</li>')
             else:
                 key = next_key("li")
-                html_out.append(f'    <li data-i18n="{key}">{html.escape(item)}</li>')
-            i18n[key] = item_html if has_refs else item
+                html_out.append(f'    <li data-i18n="{key}">{item_html}</li>')
+            i18n[key] = item_html
             continue
 
         # Ordered list
@@ -375,14 +394,17 @@ def md_to_html_blocks(body: str, i18n_prefix: str) -> tuple[list[str], dict[str,
                 in_list = "ol"
                 html_out.append("  <ol>")
             has_refs = bool(re.search(r'\[\d+\]', item))
+            item_html = md_inline(item)
             if has_refs:
-                item_html = inline_refs(item)
+                item_html = inline_refs(item_html)
+            has_html = bool(re.search(r'<[a-z]', item_html)) or has_refs
+            if has_html:
                 key = next_key("li_html")
                 html_out.append(f'    <li data-i18n-html="{key}">{item_html}</li>')
             else:
                 key = next_key("li")
-                html_out.append(f'    <li data-i18n="{key}">{html.escape(item)}</li>')
-            i18n[key] = item_html if has_refs else item
+                html_out.append(f'    <li data-i18n="{key}">{item_html}</li>')
+            i18n[key] = item_html
             continue
 
         # Close list if we're continuing with paragraph text
