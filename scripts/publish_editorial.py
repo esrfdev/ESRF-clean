@@ -523,8 +523,11 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
 .ed-article .ed-tip{{counter-increment:tip;margin:2.4em 0 0.4em;color:var(--ink)}}
 .ed-article .ed-tip::before{{content:counter(tip) ". ";font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:0.92rem;color:var(--accent)}}
 .ed-article .ed-tip-body{{margin-bottom:1.8em}}
-.ed-article .ed-example{{background:var(--ink);color:var(--bg);padding:1.6em 2em;border-radius:8px;margin:2em 0;font-size:1.02rem;line-height:1.72}}
-.ed-article .ed-example strong{{color:#fff}}
+.ed-article .ed-example{{background:var(--ink);color:rgba(255,255,255,0.88);padding:2em 2.4em;border-radius:8px;margin:2.4em 0;font-size:1.02rem;line-height:1.78}}
+.ed-article .ed-example strong{{color:#fff;font-weight:700}}
+.ed-article .ed-example p{{color:rgba(255,255,255,0.88);margin-bottom:1em}}
+.ed-article .ed-example ul,.ed-article .ed-example ol{{color:rgba(255,255,255,0.88)}}
+.ed-article .ed-example li{{color:rgba(255,255,255,0.82)}}
 .ed-article .ed-callout{{background:var(--cream);border:1px solid rgba(15,20,25,0.08);padding:1.4em 1.8em;border-radius:8px;margin:2.4em 0}}
 .ed-article .ed-callout h3{{margin-top:0}}
 .ed-article sup{{font-size:0.72em;line-height:0;vertical-align:super}}
@@ -540,10 +543,15 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
 .ed-refs ol li a:hover{{text-decoration:underline}}
 .ed-tags{{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2em}}
 .ed-tag{{font-family:'IBM Plex Mono',monospace;font-size:0.75rem;background:var(--ink);color:var(--bg);padding:3px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.04em}}
+/* ── Editorial hero: refined ── */
+.phero--editorial .phero-title{{font-size:clamp(42px,7vw,96px);line-height:0.92;letter-spacing:-0.035em;font-weight:700}}
+.phero-subtitle{{font-family:'Archivo',system-ui,sans-serif;font-size:clamp(18px,2.4vw,28px);font-weight:500;color:var(--ink-soft);letter-spacing:-0.01em;line-height:1.35;margin-top:-16px;margin-bottom:24px;max-width:680px}}
 @media(max-width:600px){{
   .ed-article{{padding:0 20px 60px}}
   .ed-article h2{{font-size:1.3rem}}
-  .ed-article .ed-example{{padding:1.2em 1.4em}}
+  .ed-article .ed-example{{padding:1.4em 1.6em}}
+  .phero--editorial .phero-title{{font-size:clamp(36px,10vw,52px);line-height:0.95}}
+  .phero-subtitle{{font-size:18px;margin-top:-8px}}
 }}
 </style>
 </head>
@@ -572,10 +580,11 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
   </div>
 </nav>
 
-<section class="phero">
+<section class="phero phero--editorial">
   <div class="phero-inner">
     <div class="kicker" data-i18n="{i18n_prefix}.kicker">§ Editorial · {pillar.title()}</div>
     <h1 class="phero-title"><span data-i18n="{i18n_prefix}.hero_title_1">{html.escape(hero_1)}</span><br><i data-i18n="{i18n_prefix}.hero_title_2">{html.escape(hero_2)}</i>.</h1>
+    <p class="phero-subtitle" data-i18n="{i18n_prefix}.hero_subtitle">{html.escape(meta.get('description', ''))}</p>
     <p class="phero-deck" data-i18n="{i18n_prefix}.hero_deck">{html.escape(desc_nl)}</p>
   </div>
 </section>
@@ -845,6 +854,7 @@ def main():
     words = title_nl.split()
     i18n_keys[f"{i18n_prefix}.hero_title_1"] = " ".join(words[:-1]) if len(words) > 1 else title_nl
     i18n_keys[f"{i18n_prefix}.hero_title_2"] = words[-1] if len(words) > 1 else ""
+    i18n_keys[f"{i18n_prefix}.hero_subtitle"] = meta.get("description", "")
     i18n_keys[f"{i18n_prefix}.hero_deck"] = meta.get("description", "")
     i18n_keys[f"{i18n_prefix}.tag_stewardship"] = "Stewardship"
     i18n_keys[f"{i18n_prefix}.byline"] = format_byline("nl", datetime.strptime(meta.get("date", "2026-01-01"), "%Y-%m-%d"), int(meta.get("read_time", 8)))
@@ -859,6 +869,7 @@ def main():
     en_keys = dict(i18n_keys)  # Start from NL as base
     en_keys[f"{i18n_prefix}.title_tag"] = f"{meta.get('title_en', title_nl)} — ESRF.net"
     en_keys[f"{i18n_prefix}.meta_desc"] = meta.get("description_en", meta.get("description", ""))
+    en_keys[f"{i18n_prefix}.hero_subtitle"] = meta.get("description_en", meta.get("description", ""))
     en_keys[f"{i18n_prefix}.hero_deck"] = meta.get("description_en", meta.get("description", ""))
     en_title = meta.get("title_en", title_nl)
     en_words = en_title.split()
