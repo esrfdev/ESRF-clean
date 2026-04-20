@@ -1001,7 +1001,21 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
     display:inline-block;margin-top:24px;
     font-size:14px;letter-spacing:0.14em;
   }
-  .lang-switch{margin-left:0;margin-top:24px}
+  .lang-switch{
+    position:fixed;top:14px;right:calc(var(--pad-x) + 52px);
+    z-index:120;margin:0;
+  }
+  .lang-current{
+    font-size:12px;padding:8px 10px;border-radius:8px;
+    background:var(--cream);border:1px solid var(--ink);
+  }
+  .mast.overlay .lang-current{
+    background:transparent;border-color:var(--cream);color:var(--cream);
+  }
+  .mast.nav-open .lang-switch{position:fixed}
+  .lang-menu{
+    right:0;max-height:min(360px,70vh);
+  }
 
   .section,.section.tight{padding:72px var(--pad-x)}
   .phero{padding:80px var(--pad-x) 48px}
