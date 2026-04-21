@@ -112,7 +112,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .lang-switch{position:relative;margin-left:16px}
 .lang-current{
   font-size:11px;padding:6px 10px;
-  border:1px solid var(--ink);background:var(--cream);
+  border:1px solid var(--ink);background:var(--ink);color:var(--cream);
   display:flex;align-items:center;gap:6px;
 }
 .lang-menu{
@@ -132,7 +132,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .lang-menu button[aria-current="true"]{background:var(--ink);color:var(--cream)}
 .lang-code{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:0.15em}
 .lang-menu button[aria-current="true"] .lang-code{color:rgba(248,242,230,0.6)}
-.mast.overlay .lang-current{border-color:var(--cream);background:transparent;color:var(--cream)}
+.mast.overlay .lang-current{border-color:var(--cream);background:var(--ink);color:var(--cream)}
 
 /* On dark hero page we overlay a different version */
 .mast.overlay{
@@ -992,10 +992,16 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   .mast.overlay .mast-nav.open a{border-bottom-color:rgba(255,255,255,0.1)}
   .mast-burger{
     display:inline-flex;align-items:center;justify-content:center;
-    width:40px;height:40px;border:1px solid currentColor;border-radius:8px;
-    font-family:'IBM Plex Mono',monospace;font-size:18px;
-    position:relative;z-index:110;
+    width:40px;height:40px;border:1px solid var(--ink);border-radius:8px;
+    font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;
+    background:var(--ink);color:var(--cream);
+    position:fixed;top:14px;right:var(--pad-x);z-index:121;
+    box-shadow:0 2px 8px rgba(15,20,25,0.25);
   }
+  .mast.overlay .mast-burger{
+    background:var(--ink);color:var(--cream);border-color:var(--cream);
+  }
+  .mast.nav-open .mast-burger{background:var(--ink);color:var(--cream);border-color:var(--cream)}
   .mast-cta{display:none}
   .mast-contribute{
     display:inline-block;margin-top:24px;
@@ -1007,10 +1013,11 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   }
   .lang-current{
     font-size:12px;padding:8px 10px;border-radius:8px;
-    background:var(--cream);border:1px solid var(--ink);
+    background:var(--ink);border:1px solid var(--ink);color:var(--cream);
+    box-shadow:0 2px 8px rgba(15,20,25,0.25);
   }
   .mast.overlay .lang-current{
-    background:transparent;border-color:var(--cream);color:var(--cream);
+    background:var(--ink);border-color:var(--cream);color:var(--cream);
   }
   .mast.nav-open .lang-switch{position:fixed}
   .lang-menu{
