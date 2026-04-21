@@ -9,6 +9,27 @@
     "support": "Support",
     "fund": "Contribute"
   },
+  "search": {
+    "title": "Search",
+    "open": "Open search",
+    "placeholder": "Search pages, organisations, countries…",
+    "hint": "Start typing to search pages, organisations, countries, dispatch and events.",
+    "loading": "Loading index…",
+    "no_results": "No matches found.",
+    "results_count": "{n} results",
+    "group": {
+      "pages": "Pages",
+      "countries": "Countries",
+      "sectors": "Sectors",
+      "organisations": "Organisations",
+      "dispatch": "Dispatch",
+      "events": "Events"
+    },
+    "kbd": {
+      "open": "open",
+      "close": "close"
+    }
+  },
   "common": {
     "visit": "Visit →",
     "visit_arrow": "↗",
