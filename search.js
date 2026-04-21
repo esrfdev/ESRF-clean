@@ -67,7 +67,20 @@
   let _inputEl = null;
   let _resultsEl = null;
   let _statusEl = null;
+  let _filtersEl = null;
   let _lastFocused = null;
+  let _activeFilter = 'all';   // 'all' | kind string
+
+  // Filter chip definitions — order matters for display
+  const FILTERS = [
+    { id: 'all',      fallback: 'All',            i18n: 'search.filter.all' },
+    { id: 'page',     fallback: 'Pages',          i18n: 'search.group.pages' },
+    { id: 'country',  fallback: 'Countries',      i18n: 'search.group.countries' },
+    { id: 'sector',   fallback: 'Sectors',        i18n: 'search.group.sectors' },
+    { id: 'org',      fallback: 'Organisations',  i18n: 'search.group.organisations' },
+    { id: 'dispatch', fallback: 'Dispatch',       i18n: 'search.group.dispatch' },
+    { id: 'event',    fallback: 'Events',         i18n: 'search.group.events' },
+  ];
 
   // ── Utilities
   function esc(s) {
@@ -215,11 +228,11 @@
   // ── Search
   function runSearch(query) {
     const q = normalize(query).trim();
-    if (!q || !_index) return { groups: [], total: 0 };
+    if (!q || !_index) return { groups: [], total: 0, counts: {} };
 
     const tokens = q.split(/\s+/).filter(Boolean);
     const scored = [];
-    const limitPerGroup = 12;
+    const limitPerGroup = _activeFilter === 'all' ? 12 : 200;
 
     for (let i = 0; i < _index.length; i++) {
       const e = _index[i];
@@ -239,16 +252,30 @@
 
     scored.sort((a, b) => b.score - a.score);
 
-    // Group by kind
+    // Counts across ALL matches (before filtering) for chip badges
     const ORDER = ['page', 'country', 'sector', 'org', 'dispatch', 'event'];
-    const buckets = Object.fromEntries(ORDER.map(k => [k, []]));
+    const counts = Object.fromEntries(ORDER.map(k => [k, 0]));
+    let totalAll = 0;
     for (const { e } of scored) {
+      if (counts[e.kind] != null) counts[e.kind] += 1;
+      totalAll += 1;
+    }
+    counts.all = totalAll;
+
+    // Apply active filter
+    const kept = _activeFilter === 'all'
+      ? scored
+      : scored.filter(s => s.e.kind === _activeFilter);
+
+    // Group by kind
+    const buckets = Object.fromEntries(ORDER.map(k => [k, []]));
+    for (const { e } of kept) {
       const arr = buckets[e.kind];
       if (arr && arr.length < limitPerGroup) arr.push(e);
     }
     const groups = ORDER.map(k => ({ kind: k, items: buckets[k] })).filter(g => g.items.length);
     const total = groups.reduce((a, g) => a + g.items.length, 0);
-    return { groups, total };
+    return { groups, total, counts };
   }
 
   // ── Rendering
@@ -261,8 +288,25 @@
     event:    ['Events',        'search.group.events'],
   };
 
+  function updateFilterCounts(counts) {
+    if (!_filtersEl) return;
+    _filtersEl.querySelectorAll('.search-filter').forEach(btn => {
+      const id = btn.getAttribute('data-filter');
+      const c = counts && counts[id] != null ? counts[id] : 0;
+      const badge = btn.querySelector('.search-filter-count');
+      if (badge) badge.textContent = c > 0 ? String(c) : '';
+      // Disable (visually) filters with zero results, but keep 'all' always enabled
+      if (id !== 'all') {
+        btn.classList.toggle('is-empty', c === 0);
+      }
+      btn.setAttribute('aria-pressed', _activeFilter === id ? 'true' : 'false');
+      btn.classList.toggle('is-active', _activeFilter === id);
+    });
+  }
+
   function renderResults(query) {
-    const { groups, total } = runSearch(query);
+    const { groups, total, counts } = runSearch(query);
+    updateFilterCounts(counts);
     if (!query.trim()) {
       _resultsEl.innerHTML = '';
       _statusEl.textContent = tSafe('search.hint', 'Start typing to search pages, organisations, countries, dispatch and events.');
@@ -270,7 +314,12 @@
     }
     if (total === 0) {
       _resultsEl.innerHTML = '';
-      _statusEl.textContent = tSafe('search.no_results', 'No matches found.');
+      const none = tSafe('search.no_results', 'No matches found.');
+      if (_activeFilter !== 'all' && counts && counts.all > 0) {
+        _statusEl.textContent = none + ' (' + tSafe('search.try_all', 'Try “All”') + ')';
+      } else {
+        _statusEl.textContent = none;
+      }
       return;
     }
     _statusEl.textContent = (tSafe('search.results_count', '{n} results').replace('{n}', String(total)));
@@ -303,6 +352,15 @@
     wrap.setAttribute('aria-modal', 'true');
     wrap.setAttribute('aria-labelledby', 'search-title');
     wrap.hidden = true;
+    const filterChips = FILTERS.map(f => (
+      `<button type="button" class="search-filter${f.id === 'all' ? ' is-active' : ''}"`
+      + ` data-filter="${f.id}" role="tab"`
+      + ` aria-pressed="${f.id === 'all' ? 'true' : 'false'}">`
+      + `<span class="search-filter-label" data-i18n="${f.i18n}">${esc(f.fallback)}</span>`
+      + `<span class="search-filter-count" aria-hidden="true"></span>`
+      + `</button>`
+    )).join('');
+
     wrap.innerHTML = `
       <div class="search-backdrop" data-search-close></div>
       <div class="search-panel" role="document">
@@ -310,7 +368,7 @@
           <label for="search-input" id="search-title" class="search-title">
             <span data-i18n="search.title">Search</span>
           </label>
-          <button class="search-close" type="button" aria-label="Close search" data-search-close>✕</button>
+          <button class="search-close" type="button" aria-label="Close search" data-i18n-label="search.close" data-search-close>✕</button>
         </div>
         <div class="search-input-row">
           <span class="search-icon" aria-hidden="true">⌕</span>
@@ -328,11 +386,17 @@
             placeholder="Search pages, organisations, countries…"
           />
         </div>
+        <div class="search-filters" id="search-filters" role="tablist" aria-label="${esc(tSafe('search.filters', 'Filter results'))}">
+          ${filterChips}
+        </div>
         <p class="search-status" id="search-status" aria-live="polite"></p>
         <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
         <div class="search-footer">
-          <span><kbd>↵</kbd> <span data-i18n="search.kbd.open">open</span></span>
-          <span><kbd>Esc</kbd> <span data-i18n="search.kbd.close">close</span></span>
+          <div class="search-footer-kbd" aria-hidden="true">
+            <span><kbd>↵</kbd> <span data-i18n="search.kbd.open">open</span></span>
+            <span><kbd>Esc</kbd> <span data-i18n="search.kbd.close">close</span></span>
+          </div>
+          <button class="search-close-mobile" type="button" data-search-close data-i18n="search.close">Close</button>
         </div>
       </div>
     `;
@@ -341,11 +405,27 @@
     _inputEl = wrap.querySelector('#search-input');
     _resultsEl = wrap.querySelector('#search-results');
     _statusEl = wrap.querySelector('#search-status');
+    _filtersEl = wrap.querySelector('#search-filters');
 
-    // Wire close
+    // Wire close (click + pointer/touch for safety on iOS)
     wrap.querySelectorAll('[data-search-close]').forEach(el => {
-      el.addEventListener('click', closeSearch);
+      el.addEventListener('click', (e) => { e.preventDefault(); closeSearch(); });
     });
+
+    // Wire filter chips
+    if (_filtersEl) {
+      _filtersEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('.search-filter');
+        if (!btn) return;
+        e.preventDefault();
+        const id = btn.getAttribute('data-filter') || 'all';
+        if (id === _activeFilter) return;
+        _activeFilter = id;
+        renderResults(_inputEl ? _inputEl.value : '');
+        // Keep focus on the chip for keyboard users
+        try { btn.focus(); } catch (err) {}
+      });
+    }
 
     // Input
     let debounce;
@@ -401,8 +481,20 @@
     // Translate any newly added data-i18n attrs
     applyI18n();
     _inputEl.value = '';
+    _activeFilter = 'all';
     _statusEl.textContent = tSafe('search.loading', 'Loading index…');
     _resultsEl.innerHTML = '';
+    // Reset chip visual state
+    if (_filtersEl) {
+      _filtersEl.querySelectorAll('.search-filter').forEach(b => {
+        const id = b.getAttribute('data-filter');
+        b.classList.toggle('is-active', id === 'all');
+        b.classList.remove('is-empty');
+        b.setAttribute('aria-pressed', id === 'all' ? 'true' : 'false');
+        const badge = b.querySelector('.search-filter-count');
+        if (badge) badge.textContent = '';
+      });
+    }
     setTimeout(() => { try { _inputEl.focus(); } catch(e) {} }, 10);
     await buildIndex();
     renderResults(_inputEl.value);
