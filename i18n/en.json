@@ -12,11 +12,17 @@
   "search": {
     "title": "Search",
     "open": "Open search",
+    "close": "Close",
     "placeholder": "Search pages, organisations, countries…",
     "hint": "Start typing to search pages, organisations, countries, dispatch and events.",
     "loading": "Loading index…",
     "no_results": "No matches found.",
     "results_count": "{n} results",
+    "filters": "Filter results",
+    "try_all": "Try \u201CAll\u201D",
+    "filter": {
+      "all": "All"
+    },
     "group": {
       "pages": "Pages",
       "countries": "Countries",
