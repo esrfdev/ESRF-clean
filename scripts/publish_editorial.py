@@ -643,8 +643,6 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 <script src="consent.js" defer></script>
-<script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
 <!-- Google Analytics (GA4) with Consent Mode v2 -->
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -738,17 +736,6 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
   </div>
 </section>
 
-<!-- Ad placement -->
-<div class="esrf-ad-wrap">
-  <span class="esrf-ad-label" data-i18n="ads.label">Advertisement</span>
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-9792236154813874"
-       data-ad-slot="7939911836"
-       data-ad-format="horizontal"
-       data-full-width-responsive="true"></ins>
-</div>
-
 <article class="ed-article" style="counter-reset:tip">
 
   <div class="ed-meta">
@@ -764,17 +751,6 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
 {refs_content}
 
 </article>
-
-<!-- Ad placement -->
-<div class="esrf-ad-wrap">
-  <span class="esrf-ad-label" data-i18n="ads.label">Advertisement</span>
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-9792236154813874"
-       data-ad-slot="7631743893"
-       data-ad-format="horizontal"
-       data-full-width-responsive="true"></ins>
-</div>
 
 <section class="join">
   <h2 class="join-h" data-i18n-html="{i18n_prefix}.join_title_html">Draag bij aan<br>een <i>weerbaar Europa</i>.</h2>

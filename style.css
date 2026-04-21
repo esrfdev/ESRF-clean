@@ -1223,24 +1223,6 @@ body.modal-open{overflow:hidden}
 .consent-decline{background:transparent;color:rgba(239,232,220,0.7)}
 .consent-decline:hover{background:rgba(239,232,220,0.08);color:var(--cream)}
 
-/* ═══ Ad placements ═══ */
-.esrf-ad-wrap{
-  max-width:var(--max);margin:0 auto;padding:24px var(--pad-x);
-  text-align:center;
-}
-.esrf-ad-wrap .esrf-ad-label{
-  display:block;text-align:center;
-  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;
-  letter-spacing:0.18em;text-transform:uppercase;
-  color:var(--ink-dim);margin-bottom:6px;
-}
-.esrf-ad-wrap ins.adsbygoogle{
-  display:block;
-  border:1px solid rgba(15,20,25,0.06);
-  border-radius:2px;
-  background:rgba(15,20,25,0.015);
-  min-height:90px;
-}
 @media(max-width:600px){
   .consent-inner{flex-direction:column;text-align:center}
   .consent-actions{justify-content:center;width:100%}
