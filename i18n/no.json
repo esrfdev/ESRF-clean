@@ -575,5 +575,9 @@
     "join_cta": "Send inn et signal →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Utvalgt leder · Forvaltning",
+    "cta": "Les lederen →"
   }
 }

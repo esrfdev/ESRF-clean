@@ -575,5 +575,9 @@
     "join_cta": "Cuir comhartha isteach →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Featured Editorial · Stewardship",
+    "cta": "Read editorial →"
   }
 }

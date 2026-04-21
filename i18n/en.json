@@ -19,7 +19,7 @@
     "no_results": "No matches found.",
     "results_count": "{n} results",
     "filters": "Filter results",
-    "try_all": "Try \u201CAll\u201D",
+    "try_all": "Try “All”",
     "filter": {
       "all": "All"
     },
@@ -710,5 +710,9 @@
     "join_cta": "Submit a signal →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Featured Editorial · Stewardship",
+    "cta": "Read editorial →"
   }
 }

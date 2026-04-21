@@ -575,5 +575,9 @@
     "join_cta": "Trimiteți un semnal →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Editorial recomandat · Administrare",
+    "cta": "Citește editorialul →"
   }
 }

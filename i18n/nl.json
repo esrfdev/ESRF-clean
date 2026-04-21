@@ -668,5 +668,9 @@
     "join_cta": "Dien een signaal in →",
     "tag_1": "Energie",
     "tag_2": "Crisiscommunicatie"
+  },
+  "featured": {
+    "kicker": "§ Uitgelichte editorial · Stewardship",
+    "cta": "Lees de editorial →"
   }
 }

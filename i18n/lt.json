@@ -575,5 +575,9 @@
     "join_cta": "Pateikti signalą →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Rekomenduojamas vedamasis · Valdymas",
+    "cta": "Skaityti vedamąjį →"
   }
 }

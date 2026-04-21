@@ -575,5 +575,9 @@
     "join_cta": "Oddajte signal →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Izpostavljeni uvodnik · Upravljanje",
+    "cta": "Preberi uvodnik →"
   }
 }

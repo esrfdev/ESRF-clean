@@ -575,5 +575,9 @@
     "join_cta": "Jelzés beküldése →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Kiemelt vezércikk · Gondnokság",
+    "cta": "Vezércikk olvasása →"
   }
 }

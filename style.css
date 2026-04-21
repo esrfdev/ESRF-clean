@@ -1492,3 +1492,82 @@ body.search-open{overflow:hidden}
   .search-footer-kbd{display:none}
   .search-close-mobile{display:inline-flex;align-items:center;justify-content:center;margin-left:auto}
 }
+
+/* ========== Featured editorial banner (Dispatch) ========== */
+.featured-editorial{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 var(--pad-x) 32px;
+}
+.featured-editorial[hidden]{display:none}
+.featured-editorial-card{
+  display:block;
+  background:var(--ink);
+  color:var(--cream);
+  padding:40px 44px;
+  border-radius:4px;
+  text-decoration:none;
+  position:relative;
+  transition:transform .18s ease, box-shadow .18s ease;
+  border-left:4px solid var(--accent);
+}
+.featured-editorial-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(15,20,25,0.18);
+}
+.featured-editorial-kicker{
+  font-family:var(--mono, ui-monospace, monospace);
+  font-size:12px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:14px;
+}
+.featured-editorial-title{
+  font-family:var(--serif, Georgia, serif);
+  font-size:clamp(28px, 3.4vw, 44px);
+  line-height:1.08;
+  font-weight:700;
+  margin:0 0 16px;
+  color:var(--cream);
+  letter-spacing:-0.01em;
+}
+.featured-editorial-title i{
+  color:var(--accent);
+  font-style:italic;
+  font-weight:400;
+}
+.featured-editorial-deck{
+  font-size:17px;
+  line-height:1.5;
+  color:rgba(248,242,230,0.8);
+  margin:0 0 24px;
+  max-width:760px;
+}
+.featured-editorial-meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  font-family:var(--mono, ui-monospace, monospace);
+  font-size:12px;
+  letter-spacing:0.04em;
+  color:rgba(248,242,230,0.65);
+  padding-top:18px;
+  border-top:1px solid rgba(248,242,230,0.12);
+}
+.featured-editorial-cta{
+  color:var(--accent);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  transition:color .18s ease;
+}
+.featured-editorial-card:hover .featured-editorial-cta{color:var(--cream)}
+
+@media (max-width:768px){
+  .featured-editorial{padding:0 var(--pad-x) 24px}
+  .featured-editorial-card{padding:28px 24px}
+  .featured-editorial-deck{font-size:15px}
+}

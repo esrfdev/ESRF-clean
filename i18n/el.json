@@ -575,5 +575,9 @@
     "join_cta": "Υποβάλετε σήμα →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Επιλεγμένο άρθρο · Διαχείριση",
+    "cta": "Διαβάστε το άρθρο →"
   }
 }

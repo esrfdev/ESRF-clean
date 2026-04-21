@@ -575,5 +575,9 @@
     "join_cta": "Soumettre un signal →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Éditorial à la une · Gouvernance",
+    "cta": "Lire l'éditorial →"
   }
 }

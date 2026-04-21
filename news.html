@@ -67,6 +67,22 @@
   </div>
 </section>
 
+<!-- Featured editorial — auto-hides after 2026-05-20 via JS below -->
+<section class="featured-editorial" id="featured-editorial" data-expires="2026-05-20" hidden>
+  <a class="featured-editorial-card" href="editorial-oil-shortage-2026.html">
+    <div class="featured-editorial-kicker" data-i18n="featured.kicker">§ Featured Editorial · Stewardship</div>
+    <h2 class="featured-editorial-title">
+      <span data-i18n="editorial_oil_shortage_2026.hero_title_1">Oil shortage in Europe — what to do and how should your company communicate this to</span>
+      <i data-i18n="editorial_oil_shortage_2026.hero_title_2">customers</i>.
+    </h2>
+    <p class="featured-editorial-deck" data-i18n="editorial_oil_shortage_2026.hero_subtitle">Europe faces potential shortages of oil, diesel, kerosene and petrol. An editorial on operational measures and effective customer communication for businesses.</p>
+    <div class="featured-editorial-meta">
+      <span data-i18n="editorial_oil_shortage_2026.byline">20 Apr 2026 · ESRF.net Editorial · Reading time ±8 min</span>
+      <span class="featured-editorial-cta" data-i18n="featured.cta">Read editorial →</span>
+    </div>
+  </a>
+</section>
+
 <!-- Filter bar -->
 <div class="dispatch-filters" id="dispatch-filters">
   <div class="dispatch-filters-inner">
@@ -173,6 +189,18 @@
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script src="search.js" defer></script>
+<script>
+// Featured editorial — show if current date is before data-expires
+(() => {
+  const el = document.getElementById('featured-editorial');
+  if (!el) return;
+  const expires = el.getAttribute('data-expires');
+  if (!expires) return;
+  const now = new Date();
+  const exp = new Date(expires + 'T23:59:59');
+  if (now <= exp) el.hidden = false;
+})();
+</script>
 <script>
 (async () => {
   const data = await loadNews();

@@ -575,5 +575,9 @@
     "join_cta": "Podat signál →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Doporučený editorial · Správa",
+    "cta": "Přečíst editorial →"
   }
 }

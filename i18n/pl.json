@@ -575,5 +575,9 @@
     "join_cta": "Zgłoś sygnał →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Wyróżniony artykuł redakcyjny · Zarządzanie",
+    "cta": "Przeczytaj artykuł →"
   }
 }

@@ -575,5 +575,9 @@
     "join_cta": "Lähetä signaali →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Esillä oleva pääkirjoitus · Hallinta",
+    "cta": "Lue pääkirjoitus →"
   }
 }

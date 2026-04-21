@@ -575,5 +575,9 @@
     "join_cta": "Esitage signaal →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Esiletõstetud juhtkiri · Haldamine",
+    "cta": "Loe juhtkirja →"
   }
 }

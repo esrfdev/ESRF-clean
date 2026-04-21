@@ -575,5 +575,9 @@
     "join_cta": "Skicka in en signal →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Utvald ledare · Förvaltning",
+    "cta": "Läs ledaren →"
   }
 }

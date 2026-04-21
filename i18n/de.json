@@ -575,5 +575,9 @@
     "join_cta": "Signal einreichen →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Ausgewählter Leitartikel · Stewardship",
+    "cta": "Leitartikel lesen →"
   }
 }

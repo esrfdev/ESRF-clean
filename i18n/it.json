@@ -575,5 +575,9 @@
     "join_cta": "Invia un segnale →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Editoriale in evidenza · Gestione",
+    "cta": "Leggi l'editoriale →"
   }
 }

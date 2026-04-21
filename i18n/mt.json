@@ -575,5 +575,9 @@
     "join_cta": "Ibgħat sinjal →",
     "tag_1": "Energy",
     "tag_2": "Crisis Communication"
+  },
+  "featured": {
+    "kicker": "§ Featured Editorial · Stewardship",
+    "cta": "Read editorial →"
   }
 }
