@@ -1,0 +1,49 @@
+name: Refresh events (events.json)
+
+# Weekly on Monday 04:00 UTC (06:00 CEST). Manual trigger available via "Run workflow".
+# Merges data/curated_events.json (manual) with data/event_sources.json (automated).
+on:
+  schedule:
+    - cron: '0 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: events-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install --no-cache-dir feedparser==6.0.11 requests==2.32.3 beautifulsoup4==4.12.3 icalendar==5.0.13
+
+      - name: Fetch & merge events
+        run: python3 scripts/fetch_events.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "events-bot"
+          git config user.email "events-bot@esrf.net"
+          if git diff --quiet -- events.json; then
+            echo "No changes in events.json — skipping commit."
+            exit 0
+          fi
+          git add events.json
+          COUNT=$(python3 -c "import json; print(len(json.load(open('events.json'))))")
+          AUTO=$(python3 -c "import json; print(sum(1 for e in json.load(open('events.json')) if e.get('auto')))")
+          git commit -m "chore(events): weekly refresh — ${COUNT} events (${AUTO} automated)"
+          git push

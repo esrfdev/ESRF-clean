@@ -1,238 +1,39 @@
 [
   {
-    "event_name": "ENISA Telecom and Digital Infrastructure Security Forum 2026",
-    "organiser": "ENISA (EU Agency for Cybersecurity)",
-    "dates": "7 May 2026",
-    "city": "Nicosia",
-    "country": "Cyprus",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Critical Infrastructure"
-    ],
-    "url": "https://www.enisa.europa.eu/events/enisa-telecom-and-digital-infrastructure-security-forum-2026",
-    "description": "ENISA's annual forum on telecoms and digital infrastructure security, co-organised with the Cyprus Presidency of the EU Council. Brings together regulators, operators and policymakers to discuss security of Europe's communications networks.",
-    "lat": 35.17,
-    "lon": 33.37
-  },
-  {
-    "event_name": "CyCon 2026 \u2013 18th International Conference on Cyber Conflict: Securing Tomorrow",
-    "organiser": "NATO CCDCOE (Cooperative Cyber Defence Centre of Excellence)",
-    "dates": "26\u201329 May 2026",
-    "city": "Tallinn",
-    "country": "Estonia",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Security & Protection",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://ccdcoe.org/cycon/",
-    "description": "The flagship annual academic-military cyber conference bringing together 600+ decision-makers, legal experts, technologists and military representatives from nearly 50 countries to address cyber conflict, cyber defence, and international law in cyberspace.",
-    "lat": 59.44,
-    "lon": 24.75
-  },
-  {
-    "event_name": "Infosecurity Europe 2026",
-    "organiser": "Reed Exhibitions (RX)",
-    "dates": "2\u20134 June 2026",
+    "event_name": "European Resilience Summit London 2026",
+    "organiser": "European Resilience Summit",
+    "dates": "March 2026",
     "city": "London",
     "country": "United Kingdom",
-    "type": "expo",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Security & Protection",
-      "Risk & Continuity Management"
-    ],
-    "url": "https://www.infosecurityeurope.com",
-    "description": "Europe's leading information security event, held at ExCeL London, gathering thousands of cybersecurity professionals, vendors, and thought leaders to explore the latest threats, technologies, and strategies in information security.",
-    "lat": 51.51,
-    "lon": -0.13
-  },
-  {
-    "event_name": "9th European Civil Protection Forum 2026",
-    "organiser": "European Commission \u2013 DG ECHO (Directorate-General for European Civil Protection and Humanitarian Aid Operations)",
-    "dates": "3\u20134 November 2026",
-    "city": "Brussels",
-    "country": "Belgium",
-    "type": "conference",
-    "sector_relevance": [
-      "Emergency & Crisis Response",
-      "Risk & Continuity Management",
-      "Critical Infrastructure"
-    ],
-    "url": "https://civil-protection-knowledge-network.europa.eu/events/save-date-9th-european-civil-protection-forum",
-    "description": "The 9th edition of the flagship EU Civil Protection Forum, held at Tour & Taxis Brussels, focusing on strengthening preparedness in a complex risk landscape aligned with the EU Preparedness Union Strategy, covering partnerships, evolving risks, and research and innovation.",
-    "lat": 50.85,
-    "lon": 4.35
-  },
-  {
-    "event_name": "it-sa Expo&Congress 2026",
-    "organiser": "N\u00fcrnbergMesse",
-    "dates": "27\u201329 October 2026",
-    "city": "Nuremberg",
-    "country": "Germany",
-    "type": "expo",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Security & Protection"
-    ],
-    "url": "https://www.itsa365.de/en/it-sa-expo-congress",
-    "description": "Europe's largest dedicated IT security trade fair, drawing over 20,000 security professionals and 700 exhibitors, covering cloud and cyber security, data and network security, mobile security and compliance solutions.",
-    "lat": 49.45,
-    "lon": 11.08
-  },
-  {
-    "event_name": "Milipol Paris 2027",
-    "organiser": "Comexposium / French Ministry of the Interior",
-    "dates": "16\u201319 November 2027",
-    "city": "Paris",
-    "country": "France",
-    "type": "expo",
-    "sector_relevance": [
-      "Security & Protection",
-      "Emergency & Crisis Response",
-      "Dual-use Technology"
-    ],
-    "url": "https://www.milipol.com",
-    "description": "The world's leading biennial homeland security and public safety trade show, organised under the aegis of the French Ministry of the Interior, featuring 1,000+ exhibitors from 40+ countries across civil protection, major risk management, and security technology sectors.",
-    "lat": 48.86,
-    "lon": 2.35
-  },
-  {
-    "event_name": "Critical Infrastructure Protection & Resilience Europe (CIPRE) 2026",
-    "organiser": "IACIPP (International Association of CIP Professionals)",
-    "dates": "20\u201322 October 2026",
-    "city": "Brussels",
-    "country": "Belgium",
     "type": "conference",
     "sector_relevance": [
       "Critical Infrastructure",
-      "Risk & Continuity Management",
       "Security & Protection",
-      "Digital Infrastructure & Cybersecurity"
-    ],
-    "url": "https://www.cipre-expo.com",
-    "description": "The 11th edition of Europe's premier critical infrastructure protection conference, bringing together infrastructure operators, government agencies, industry, and researchers to collaborate on risk management, CER and NIS2 Directive implementation, and resilient operations.",
-    "lat": 50.85,
-    "lon": 4.35
-  },
-  {
-    "event_name": "International Security Expo 2026",
-    "organiser": "Nineteen Group",
-    "dates": "29\u201330 September 2026",
-    "city": "London",
-    "country": "United Kingdom",
-    "type": "expo",
-    "sector_relevance": [
-      "Security & Protection",
-      "Critical Infrastructure",
-      "Emergency & Crisis Response"
-    ],
-    "url": "https://www.internationalsecurityexpo.com",
-    "description": "The go-to international security event held at Olympia London, connecting 10,000+ professionals in government, industry and academia working on critical national infrastructure protection, counter-terrorism, homeland security, and physical and cyber security.",
-    "lat": 51.51,
-    "lon": -0.13
-  },
-  {
-    "event_name": "Enlit Europe 2026",
-    "organiser": "Enlit / Clarion Events",
-    "dates": "10\u201312 November 2026",
-    "city": "Vienna",
-    "country": "Austria",
-    "type": "expo",
-    "sector_relevance": [
-      "Energy",
-      "Critical Infrastructure",
-      "Digital Infrastructure & Cybersecurity"
-    ],
-    "url": "https://www.enlit-europe.com",
-    "description": "Europe's leading energy transition conference and exhibition, featuring 15,000+ attendees and 700+ exhibitors from 140 countries, covering power generation, smart energy systems, cybersecurity, digitalisation, and energy market developments.",
-    "lat": 48.21,
-    "lon": 16.37
-  },
-  {
-    "event_name": "Forum InCyber Europe 2026",
-    "organiser": "Forward Global",
-    "dates": "31 March \u2013 2 April 2026",
-    "city": "Lille",
-    "country": "France",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Risk & Continuity Management",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://europe.forum-incyber.com/en/home-en/",
-    "description": "Europe's leading annual event on digital security and trust, organised by Forward Global under the High Patronage of the President of the French Republic, bringing together 700+ exhibitors and 20,000+ visitors for 200+ conferences on cybersecurity strategy, innovation, and policy.",
-    "lat": 50.63,
-    "lon": 3.06
-  },
-  {
-    "event_name": "Forum InCyber Europe 2027",
-    "organiser": "Forward Global",
-    "dates": "9\u201311 March 2027",
-    "city": "Lille",
-    "country": "France",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Risk & Continuity Management",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://europe.forum-incyber.com/en/home-en/",
-    "description": "The 19th edition of Europe's flagship annual cybersecurity and digital trust event at Lille Grand Palais, covering cybersecurity strategy, regulatory compliance, emerging threats, and digital sovereignty with exhibitors and conferences from across the European ecosystem.",
-    "lat": 50.63,
-    "lon": 3.06
-  },
-  {
-    "event_name": "CYBERUK 2026",
-    "organiser": "NCSC (National Cyber Security Centre, UK)",
-    "dates": "21\u201323 April 2026",
-    "city": "Glasgow",
-    "country": "United Kingdom",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Security & Protection",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.cyberuk.uk",
-    "description": "The UK government's flagship annual cybersecurity event, marking NCSC's 10th anniversary, bringing together 2,500+ cyber security leaders and technical professionals across tracks covering resilience, technology, threat intelligence, and the cyber ecosystem.",
-    "lat": 55.86,
-    "lon": -4.25
-  },
-  {
-    "event_name": "Cybersec Europe 2026",
-    "organiser": "Cybersec Europe / Rossel Group",
-    "dates": "20\u201321 May 2026",
-    "city": "Brussels",
-    "country": "Belgium",
-    "type": "conference",
-    "sector_relevance": [
       "Digital Infrastructure & Cybersecurity",
       "Risk & Continuity Management"
     ],
-    "url": "https://www.cyberseceurope.com",
-    "description": "The Benelux's largest cybersecurity event at Brussels Expo, focusing on NIS2 and EU AI Act compliance, digital sovereignty, cyber warfare, supply chain security, and resilience, with keynotes, technical sessions, and awards.",
-    "lat": 50.85,
-    "lon": 4.35
+    "url": "https://www.europeanresiliencesummit.com/london/",
+    "description": "A two-day summit at County Hall uniting government, industry and civil society leaders to advance digital sovereignty, cyber resilience, and critical infrastructure protection, with a focus on public-private coordination and strategic response to emerging threats.",
+    "lat": 51.51,
+    "lon": -0.13,
+    "auto": false
   },
   {
-    "event_name": "European Cybersecurity Certification Conference 2026",
-    "organiser": "ENISA (EU Agency for Cybersecurity) / Cyprus Presidency",
-    "dates": "15 April 2026",
-    "city": "Ayia Napa",
+    "event_name": "European Cybersecurity Skills Conference 2026",
+    "organiser": "ENISA / Digital Security Authority of Cyprus",
+    "dates": "4–5 March 2026 (postponed – new date TBC)",
+    "city": "Larnaca",
     "country": "Cyprus",
     "type": "conference",
     "sector_relevance": [
       "Digital Infrastructure & Cybersecurity",
       "Knowledge Training & Research"
     ],
-    "url": "https://certification.enisa.europa.eu/events/2026-european-cybersecurity-certification-conference-2026-04-15_en",
-    "description": "ENISA's annual conference on the EU Cybersecurity Certification Framework, covering progress on certification schemes including the EUDI Wallet and CRA, harmonised ICT supply chain risk management, and the proposed Cybersecurity Act 2.",
-    "lat": 34.98,
-    "lon": 34.0
+    "url": "https://www.enisa.europa.eu/events/european-cybersecurity-skills-conference-2026",
+    "description": "The 4th annual European Cybersecurity Skills Conference, bringing together policymakers, training providers, and cybersecurity professionals to exchange experiences and share best practices in building EU cybersecurity workforce skills and competencies.",
+    "lat": 34.92,
+    "lon": 33.63,
+    "auto": false
   },
   {
     "event_name": "10th Cybersecurity Standardisation Conference 2026",
@@ -248,39 +49,44 @@
     "url": "https://www.enisa.europa.eu/cybersecurity_standardisation_2026",
     "description": "The 10th anniversary cybersecurity standardisation conference co-organised by ENISA and European Standardisation Organisations CEN, CENELEC and ETSI, examining EU standardisation for the Cyber Resilience Act, legislative landscape, and the future of European cybersecurity standards.",
     "lat": 50.85,
-    "lon": 4.35
+    "lon": 4.35,
+    "auto": false
   },
   {
-    "event_name": "European Cybersecurity Skills Conference 2026",
-    "organiser": "ENISA / Digital Security Authority of Cyprus",
-    "dates": "4\u20135 March 2026 (postponed \u2013 new date TBC)",
-    "city": "Larnaca",
-    "country": "Cyprus",
+    "event_name": "EU Defence & Security Conference 2026",
+    "organiser": "College of Europe",
+    "dates": "18–20 March 2026",
+    "city": "Bruges",
+    "country": "Belgium",
+    "type": "conference",
+    "sector_relevance": [
+      "Security & Protection",
+      "Dual-use Technology",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.eurobrussels.com/conferences/2274/eu_defence_security_2026",
+    "description": "A three-day College of Europe conference in Bruges examining EU defence and security policy, covering European Defence Fund, NATO-EU coordination, and Europe's evolving defence industrial capabilities.",
+    "lat": 51.21,
+    "lon": 3.23,
+    "auto": false
+  },
+  {
+    "event_name": "7th International Conference on EU Cyber Security and Resilience Acts",
+    "organiser": "EU Cyber Acts Conference",
+    "dates": "24–26 March 2026",
+    "city": "Brussels",
+    "country": "Belgium",
     "type": "conference",
     "sector_relevance": [
       "Digital Infrastructure & Cybersecurity",
+      "Risk & Continuity Management",
       "Knowledge Training & Research"
     ],
-    "url": "https://www.enisa.europa.eu/events/european-cybersecurity-skills-conference-2026",
-    "description": "The 4th annual European Cybersecurity Skills Conference, bringing together policymakers, training providers, and cybersecurity professionals to exchange experiences and share best practices in building EU cybersecurity workforce skills and competencies.",
-    "lat": 34.92,
-    "lon": 33.63
-  },
-  {
-    "event_name": "European Cybersecurity Challenge (ECSC) 2026",
-    "organiser": "ENISA / NFITS e.V. / ECCC",
-    "dates": "12\u201316 October 2026",
-    "city": "Bochum",
-    "country": "Germany",
-    "type": "training",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://ecsc.eu",
-    "description": "Europe's flagship cybersecurity competition for young talent hosted in Bochum, with ~500 participants from 35+ national teams competing across web security, reverse engineering, cryptography, binary exploitation and other cybersecurity disciplines.",
-    "lat": 51.48,
-    "lon": 7.22
+    "url": "https://eucyberact.org",
+    "description": "The only global forum entirely focused on EU cyber compliance, bringing together ICT product developers, compliance leaders, and regulators from 27+ countries to address the Cyber Resilience Act, NIS2, and related EU cybersecurity legislation.",
+    "lat": 50.85,
+    "lon": 4.35,
+    "auto": false
   },
   {
     "event_name": "Locked Shields 2026",
@@ -298,735 +104,8 @@
     "url": "https://ccdcoe.org/locked-shields/",
     "description": "The world's largest and most complex annual live-fire cyber defence exercise, expected to involve ~4,000 participants from 40 nations defending national systems and critical infrastructure against realistic cyber attack scenarios.",
     "lat": 59.44,
-    "lon": 24.75
-  },
-  {
-    "event_name": "Cyber Europe 2026",
-    "organiser": "ENISA (EU Agency for Cybersecurity)",
-    "dates": "June 2026",
-    "city": "Pan-European (distributed)",
-    "country": "EU Member States",
-    "type": "exercise",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Critical Infrastructure",
-      "Emergency & Crisis Response"
-    ],
-    "url": "https://www.enisa.europa.eu/topics/skills-and-competences-for-companies/cyber-europe",
-    "description": "The 8th edition of ENISA's pan-European cybersecurity exercise series, designed to strengthen the cyber preparedness of EU critical infrastructure operators and national authorities through realistic large-scale incident simulations.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "EU Military Crisis Management Exercise MILEX 26",
-    "organiser": "European External Action Service (EEAS) / EU Military Staff",
-    "dates": "March\u2013May 2026",
-    "city": "Brussels / multinational",
-    "country": "Belgium (HQ)",
-    "type": "exercise",
-    "sector_relevance": [
-      "Emergency & Crisis Response",
-      "Security & Protection"
-    ],
-    "url": "https://www.eeas.europa.eu/eeas/milex-26_en",
-    "description": "The EU's annual crisis management military exercise testing readiness and deployment capabilities of the EU Rapid Deployment Capacity (RDC), involving crisis response planning, alert system exercises, and live force deployments by EU member states.",
-    "lat": 50.85,
-    "lon": 4.35
-  },
-  {
-    "event_name": "SANS DFIR Europe Summit and Training 2026",
-    "organiser": "SANS Institute",
-    "dates": "4\u201310 October 2026",
-    "city": "Prague",
-    "country": "Czech Republic",
-    "type": "training",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.sans.org/cyber-security-training-events/dfir-europe-2026",
-    "description": "SANS Institute's annual European Digital Forensics and Incident Response (DFIR) summit and training event in Prague, offering 8 hands-on courses and a NetWars tournament for cybersecurity practitioners.",
-    "lat": 50.08,
-    "lon": 14.44
-  },
-  {
-    "event_name": "SANS Live Online Europe July 2026",
-    "organiser": "SANS Institute",
-    "dates": "27 July \u2013 1 August 2026",
-    "city": "Online (Europe/BST)",
-    "country": "Virtual",
-    "type": "training",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.sans.org/cyber-security-training-events/live-online-europe-july-2026",
-    "description": "SANS Institute's live online cybersecurity training event for European participants, featuring 4 courses and a NetWars tournament delivered by real-world security practitioners with hands-on virtual labs.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "Cybersecurity Summer BootCamp 2026 (CSBC2026)",
-    "organiser": "INCIBE (National Cybersecurity Institute of Spain)",
-    "dates": "13\u201324 July 2026",
-    "city": "Le\u00f3n",
-    "country": "Spain",
-    "type": "training",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research",
-      "Emergency & Crisis Response"
-    ],
-    "url": "https://www.incibe.es/en/events/summer-bootcamp",
-    "description": "International specialised cybersecurity training programme delivering 200+ hours of instruction for law enforcement, CSIRT teams, judiciary and public sector decision-makers, covering cyber incident management and cybercrime response.",
-    "lat": 42.6,
-    "lon": -5.57
-  },
-  {
-    "event_name": "BSI 21st German IT Security Congress 2026",
-    "organiser": "BSI \u2013 Federal Office for Information Security (Germany)",
-    "dates": "15\u201316 April 2026",
-    "city": "Online",
-    "country": "Germany (virtual)",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.bsi.bund.de",
-    "description": "The BSI's 21st annual IT Security Congress held virtually under the motto 'Cybernation Germany: together, secure, digital', bringing together IT security professionals from government, industry and academia to discuss Germany's cybersecurity posture.",
-    "lat": 51.16,
-    "lon": 10.45
-  },
-  {
-    "event_name": "Cyber Intelligence Europe Conference 2026",
-    "organiser": "Cyber Intelligence Europe",
-    "dates": "22\u201323 April 2026",
-    "city": "Brussels",
-    "country": "Belgium",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Security & Protection",
-      "Emergency & Crisis Response"
-    ],
-    "url": "https://cybersecurity-centre.europa.eu/events/cyber-intelligence-europe-22-23-april-2026-brussels-belgium-2026-04-22_en",
-    "description": "The 12th Cyber Intelligence Europe conference bringing together government, military, and security stakeholders from across Europe to discuss national cybersecurity strategies, cybercrime trends, threat monitoring, critical infrastructure protection, and coordinated EU cyber response.",
-    "lat": 50.85,
-    "lon": 4.35
-  },
-  {
-    "event_name": "IEEE European Symposium on Security and Privacy 2026 (EuroS&P)",
-    "organiser": "IEEE Computer Society / Instituto Superior T\u00e9cnico, Universidade de Lisboa",
-    "dates": "6\u201310 July 2026",
-    "city": "Lisbon",
-    "country": "Portugal",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://eurosp2026.ieee-security.org",
-    "description": "The 11th annual IEEE European Symposium on Security and Privacy, the premier academic European forum for presenting developments in computer security and electronic privacy research, bringing together leading researchers and practitioners.",
-    "lat": 38.72,
-    "lon": -9.14
-  },
-  {
-    "event_name": "ENCORS 2026 \u2013 European Research Security Conference",
-    "organiser": "ENCORS / TU Delft / Research Institutions Consortium",
-    "dates": "26\u201327 May 2026",
-    "city": "Delft",
-    "country": "Netherlands",
-    "type": "conference",
-    "sector_relevance": [
-      "Knowledge Training & Research",
-      "Security & Protection",
-      "Digital Infrastructure & Cybersecurity"
-    ],
-    "url": "https://encors.eu",
-    "description": "The inaugural annual European Research Security Conference, bringing together practitioners, policymakers, and institutional leaders from research organisations to address unwanted knowledge transfer, covert influence, and misuse of research results in open research environments.",
-    "lat": 52.01,
-    "lon": 4.36
-  },
-  {
-    "event_name": "BCI World Hybrid 2026",
-    "organiser": "Business Continuity Institute (BCI)",
-    "dates": "10\u201311 November 2026",
-    "city": "London",
-    "country": "United Kingdom",
-    "type": "conference",
-    "sector_relevance": [
-      "Risk & Continuity Management",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.thebci.org",
-    "description": "The Business Continuity Institute's flagship annual hybrid conference at Convene Sancroft, London, covering business continuity, operational resilience, crisis management, and emerging regulatory requirements for resilience professionals worldwide.",
-    "lat": 51.51,
-    "lon": -0.13
-  },
-  {
-    "event_name": "BCI Operational Resilience Report 2026 \u2013 EMEA Launch Webinar",
-    "organiser": "Business Continuity Institute (BCI)",
-    "dates": "13 May 2026",
-    "city": "Online",
-    "country": "Virtual (EMEA)",
-    "type": "webinar",
-    "sector_relevance": [
-      "Risk & Continuity Management",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.thebci.org/event-detail/event-calendar/bci-operational-resilience-report-2026---emea-launch.html",
-    "description": "The BCI's EMEA launch webinar for the Operational Resilience Report 2026, presenting findings on how organisations define operational resilience, governance structures, third-party dependencies, and evolving global resilience regulations.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "ExpoProtection 2026",
-    "organiser": "Reed Exhibitions France (RX France)",
-    "dates": "3\u20135 November 2026",
-    "city": "Paris",
-    "country": "France",
-    "type": "expo",
-    "sector_relevance": [
-      "Risk & Continuity Management",
-      "Security & Protection",
-      "Emergency & Crisis Response"
-    ],
-    "url": "https://www.expoprotection.com",
-    "description": "France's biennial trade fair for risk prevention and management at Paris Expo Porte de Versailles, featuring 800+ exhibitors covering occupational safety, fire protection, crisis planning, climate risk adaptation, physical security, and business continuity solutions.",
-    "lat": 48.86,
-    "lon": 2.35
-  },
-  {
-    "event_name": "European Resilience Summit London 2026",
-    "organiser": "European Resilience Summit",
-    "dates": "March 2026",
-    "city": "London",
-    "country": "United Kingdom",
-    "type": "conference",
-    "sector_relevance": [
-      "Critical Infrastructure",
-      "Security & Protection",
-      "Digital Infrastructure & Cybersecurity",
-      "Risk & Continuity Management"
-    ],
-    "url": "https://www.europeanresiliencesummit.com/london/",
-    "description": "A two-day summit at County Hall uniting government, industry and civil society leaders to advance digital sovereignty, cyber resilience, and critical infrastructure protection, with a focus on public-private coordination and strategic response to emerging threats.",
-    "lat": 51.51,
-    "lon": -0.13
-  },
-  {
-    "event_name": "7th International Conference on EU Cyber Security and Resilience Acts",
-    "organiser": "EU Cyber Acts Conference",
-    "dates": "24\u201326 March 2026",
-    "city": "Brussels",
-    "country": "Belgium",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Risk & Continuity Management",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://eucyberact.org",
-    "description": "The only global forum entirely focused on EU cyber compliance, bringing together ICT product developers, compliance leaders, and regulators from 27+ countries to address the Cyber Resilience Act, NIS2, and related EU cybersecurity legislation.",
-    "lat": 50.85,
-    "lon": 4.35
-  },
-  {
-    "event_name": "EENA Conference & Exhibition 2026",
-    "organiser": "EENA (European Emergency Number Association)",
-    "dates": "15\u201317 April 2026",
-    "city": "Riga",
-    "country": "Latvia",
-    "type": "conference",
-    "sector_relevance": [
-      "Emergency & Crisis Response",
-      "Digital Infrastructure & Cybersecurity",
-      "Health & Medical"
-    ],
-    "url": "https://eena.org/eena-events/eena-conference-exhibition-2026/",
-    "description": "The annual EENA conference and exhibition gathering 700+ emergency services professionals and 25+ exhibitors from 50+ countries to address emergency response optimisation, next-generation 112/emergency communication technologies, and crisis management strategies.",
-    "lat": 56.95,
-    "lon": 24.11
-  },
-  {
-    "event_name": "Health-ISAC European Summit 2026",
-    "organiser": "Health-ISAC (Health Information Sharing and Analysis Center)",
-    "dates": "12\u201316 October 2026",
-    "city": "Crete",
-    "country": "Greece",
-    "type": "conference",
-    "sector_relevance": [
-      "Health & Medical",
-      "Digital Infrastructure & Cybersecurity",
-      "Critical Infrastructure"
-    ],
-    "url": "https://health-isac.org/summits/",
-    "description": "The annual Health-ISAC European Summit bringing together health sector security professionals to share threat intelligence, cyber and physical security best practices, and coordinated response strategies for the healthcare critical infrastructure sector.",
-    "lat": 35.24,
-    "lon": 24.9
-  },
-  {
-    "event_name": "DSEI 2027 \u2013 Defence & Security Equipment International",
-    "organiser": "Clarion Events",
-    "dates": "7\u201310 September 2027",
-    "city": "London",
-    "country": "United Kingdom",
-    "type": "expo",
-    "sector_relevance": [
-      "Security & Protection",
-      "Dual-use Technology",
-      "Transport Maritime & Aerospace"
-    ],
-    "url": "https://www.dsei.co.uk",
-    "description": "The world's largest biennial defence and security exhibition at ExCeL London, connecting global defence and security supply chains across land, sea, air and cyber domains with government, military, and industry leaders.",
-    "lat": 51.51,
-    "lon": -0.13
-  },
-  {
-    "event_name": "Cybersecurity Summit Hamburg 2026",
-    "organiser": "Cybersecurity Summit GmbH",
-    "dates": "28\u201329 April 2026",
-    "city": "Hamburg",
-    "country": "Germany",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Risk & Continuity Management"
-    ],
-    "url": "https://en.cybersecuritysumm.it",
-    "description": "Germany's growing annual cybersecurity conference and trade fair for IT security, bringing together 1,000+ CISOs, security leaders, SOC teams, and compliance professionals to explore current threats, best practices, and strategies for SMEs to large enterprises.",
-    "lat": 53.55,
-    "lon": 10.0
-  },
-  {
-    "event_name": "Cybersecurity Summit Hamburg 2027",
-    "organiser": "Cybersecurity Summit GmbH",
-    "dates": "21\u201322 April 2027",
-    "city": "Hamburg",
-    "country": "Germany",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Risk & Continuity Management"
-    ],
-    "url": "https://en.cybersecuritysumm.it",
-    "description": "The 2027 edition of Germany's annual cybersecurity summit and expo, targeting IT security decision-makers from SMEs to large corporations with sessions on cyber threats, compliance, and emerging security technologies.",
-    "lat": 53.55,
-    "lon": 10.0
-  },
-  {
-    "event_name": "European Cybersecurity Month (ECSM) 2026",
-    "organiser": "ENISA / European Commission / EU Member States",
-    "dates": "October 2026",
-    "city": "Pan-European",
-    "country": "EU Member States",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://cybersecuritymonth.eu",
-    "description": "The annual EU-wide cybersecurity awareness campaign coordinated by ENISA and the European Commission throughout October, featuring hundreds of events including conferences, workshops, training sessions, and webinars across Europe promoting cyber hygiene and digital security awareness.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "European Cybersecurity Month (ECSM) 2027",
-    "organiser": "ENISA / European Commission / EU Member States",
-    "dates": "October 2027",
-    "city": "Pan-European",
-    "country": "EU Member States",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://cybersecuritymonth.eu",
-    "description": "The 2027 edition of the annual EU-wide cybersecurity awareness campaign featuring hundreds of events across member states, covering digital security, cyber hygiene, and public and professional cybersecurity awareness.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "Third Party & Supply Chain Cyber Security Summit Europe 2026",
-    "organiser": "CyberRisk Alliance / Conference series",
-    "dates": "22 April 2026",
-    "city": "Frankfurt am Main",
-    "country": "Germany",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Risk & Continuity Management",
-      "Critical Infrastructure"
-    ],
-    "url": "https://infosec-conferences.com/country/germany",
-    "description": "A focused European cybersecurity summit addressing third-party and supply chain risks, covering NIS2/DORA/EU AI Act regulatory readiness, continuous monitoring, OT/ICS supply chain security, and end-to-end risk management frameworks.",
-    "lat": 50.11,
-    "lon": 8.68
-  },
-  {
-    "event_name": "Cyber Threat Intelligence Conference 2026",
-    "organiser": "CTI Conference",
-    "dates": "21 April 2026",
-    "city": "Munich",
-    "country": "Germany",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Security & Protection",
-      "Critical Infrastructure"
-    ],
-    "url": "https://infosec-conferences.com/country/germany",
-    "description": "Annual conference bringing together CTI specialists from government, critical infrastructure, and private sector organisations to address threat intelligence, nation-state threats, and intelligence-driven defence strategies.",
-    "lat": 48.14,
-    "lon": 11.58
-  },
-  {
-    "event_name": "EU Defence & Security Conference 2026",
-    "organiser": "College of Europe",
-    "dates": "18\u201320 March 2026",
-    "city": "Bruges",
-    "country": "Belgium",
-    "type": "conference",
-    "sector_relevance": [
-      "Security & Protection",
-      "Dual-use Technology",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.eurobrussels.com/conferences/2274/eu_defence_security_2026",
-    "description": "A three-day College of Europe conference in Bruges examining EU defence and security policy, covering European Defence Fund, NATO-EU coordination, and Europe's evolving defence industrial capabilities.",
-    "lat": 51.21,
-    "lon": 3.23
-  },
-  {
-    "event_name": "Automotive Cyber Security Europe Conference 2027",
-    "organiser": "ARC Advisory Group / Conference organisers",
-    "dates": "11\u201314 November 2027",
-    "city": "Frankfurt am Main",
-    "country": "Germany",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Transport Maritime & Aerospace",
-      "Dual-use Technology"
-    ],
-    "url": "https://webmobi.com/discovery/events/automotive-cyber-security-europe-conference-2027-1769617930347",
-    "description": "The 2027 Automotive Cyber Security Europe conference in Frankfurt examining emerging threat actors, cybersecurity standards for connected and software-defined vehicles, and supply chain security in the automotive sector.",
-    "lat": 50.11,
-    "lon": 8.68
-  },
-  {
-    "event_name": "Cloud & Cyber Security Expo Europe \u2013 Paris 2026",
-    "organiser": "Closerstill Media / Tech Show Paris",
-    "dates": "18\u201319 November 2026",
-    "city": "Paris",
-    "country": "France",
-    "type": "expo",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Critical Infrastructure"
-    ],
-    "url": "https://www.cybersecuritycloudexpo.com",
-    "description": "Annual European cloud and cybersecurity expo co-located within Tech Show Paris at Paris Expo Porte de Versailles, covering data centre security, cloud security, threat intelligence, application security, and zero trust strategies.",
-    "lat": 48.86,
-    "lon": 2.35
-  },
-  {
-    "event_name": "European Cybersecurity Certification Conference 2027",
-    "organiser": "ENISA (EU Agency for Cybersecurity)",
-    "dates": "2027 (date TBC)",
-    "city": "TBC",
-    "country": "TBC",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.enisa.europa.eu/events",
-    "description": "The annual ENISA European Cybersecurity Certification Conference, expected in 2027, covering updates to EU certification schemes, Cybersecurity Act 2 implementation, and harmonised cybersecurity standards for ICT products and services.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "CyCon 2027 \u2013 19th International Conference on Cyber Conflict",
-    "organiser": "NATO CCDCOE",
-    "dates": "May 2027 (date TBC)",
-    "city": "Tallinn",
-    "country": "Estonia",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Security & Protection",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://ccdcoe.org/cycon/",
-    "description": "The 19th annual CyCon multidisciplinary conference on cyber conflict, expected to follow its established format of bringing together 600+ international experts on the technical, legal, policy, strategic, and military dimensions of cyber security and defence.",
-    "lat": 59.44,
-    "lon": 24.75
-  },
-  {
-    "event_name": "Locked Shields 2027",
-    "organiser": "NATO CCDCOE",
-    "dates": "April 2027 (date TBC)",
-    "city": "Tallinn / multinational",
-    "country": "Estonia (lead)",
-    "type": "exercise",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Critical Infrastructure",
-      "Security & Protection"
-    ],
-    "url": "https://ccdcoe.org/locked-shields/",
-    "description": "The 2027 edition of the world's largest and most complex live-fire cyber defence exercise, expected to involve thousands of participants from 40+ nations defending critical infrastructure against realistic attack scenarios.",
-    "lat": 59.44,
-    "lon": 24.75
-  },
-  {
-    "event_name": "it-sa Expo&Congress 2027",
-    "organiser": "N\u00fcrnbergMesse",
-    "dates": "October 2027",
-    "city": "Nuremberg",
-    "country": "Germany",
-    "type": "expo",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Security & Protection"
-    ],
-    "url": "https://www.itsa365.de/en/it-sa-expo-congress",
-    "description": "The 2027 edition of Europe's largest dedicated IT security trade fair, expected in October in Nuremberg, covering cloud security, cyber security, data and network security for 20,000+ security professionals.",
-    "lat": 49.45,
-    "lon": 11.08
-  },
-  {
-    "event_name": "CIPRE 2027 \u2013 Critical Infrastructure Protection & Resilience Europe",
-    "organiser": "IACIPP (International Association of CIP Professionals)",
-    "dates": "October 2027 (date TBC)",
-    "city": "TBC",
-    "country": "TBC",
-    "type": "conference",
-    "sector_relevance": [
-      "Critical Infrastructure",
-      "Risk & Continuity Management",
-      "Security & Protection"
-    ],
-    "url": "https://www.cipre-expo.com",
-    "description": "The 2027 edition of Europe's premier annual critical infrastructure protection conference, continuing the focus on CER Directive and NIS2 implementation, cyber-physical risk management, and resilience across European infrastructure sectors.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "ENISA Telecom and Digital Infrastructure Security Forum 2027",
-    "organiser": "ENISA (EU Agency for Cybersecurity)",
-    "dates": "May 2027 (date TBC)",
-    "city": "TBC",
-    "country": "TBC",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Critical Infrastructure"
-    ],
-    "url": "https://www.enisa.europa.eu/events",
-    "description": "The expected 2027 edition of ENISA's annual forum on telecom and digital infrastructure security, covering regulatory updates, incident reporting, and best practices for securing European communications infrastructure.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "BCI World Hybrid 2027",
-    "organiser": "Business Continuity Institute (BCI)",
-    "dates": "November 2027 (date TBC)",
-    "city": "London",
-    "country": "United Kingdom",
-    "type": "conference",
-    "sector_relevance": [
-      "Risk & Continuity Management",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.thebci.org",
-    "description": "The 2027 edition of BCI's annual flagship hybrid conference on business continuity, operational resilience, and crisis management, expected to continue the established format at a London venue.",
-    "lat": 51.51,
-    "lon": -0.13
-  },
-  {
-    "event_name": "Enlit Europe 2027",
-    "organiser": "Enlit / Clarion Events",
-    "dates": "2027 (date TBC)",
-    "city": "TBC",
-    "country": "TBC",
-    "type": "expo",
-    "sector_relevance": [
-      "Energy",
-      "Critical Infrastructure",
-      "Digital Infrastructure & Cybersecurity"
-    ],
-    "url": "https://www.enlit-europe.com",
-    "description": "The 2027 edition of Europe's leading energy transition conference and exhibition, expected to continue its coverage of smart energy systems, grid cybersecurity, energy market digitalisation, and decarbonisation technologies.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "International Security Expo 2027",
-    "organiser": "Nineteen Group",
-    "dates": "September/October 2027 (date TBC)",
-    "city": "London",
-    "country": "United Kingdom",
-    "type": "expo",
-    "sector_relevance": [
-      "Security & Protection",
-      "Critical Infrastructure",
-      "Emergency & Crisis Response"
-    ],
-    "url": "https://www.internationalsecurityexpo.com",
-    "description": "The 2027 edition of the International Security Expo at Olympia London, expected to continue its focus on physical and cyber security, counter-terrorism, critical national infrastructure protection, and homeland security solutions.",
-    "lat": 51.51,
-    "lon": -0.13
-  },
-  {
-    "event_name": "European Cybersecurity Challenge (ECSC) 2027",
-    "organiser": "ENISA / ECCC / Host Nation",
-    "dates": "October 2027 (date TBC)",
-    "city": "TBC",
-    "country": "TBC",
-    "type": "training",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://ecsc.eu",
-    "description": "The 2027 edition of Europe's flagship young talent cybersecurity competition, expected to involve 35+ national teams from across Europe competing across multiple cybersecurity disciplines over five days.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "Health-ISAC European Summit 2027",
-    "organiser": "Health-ISAC",
-    "dates": "2027 (date TBC)",
-    "city": "TBC",
-    "country": "TBC",
-    "type": "conference",
-    "sector_relevance": [
-      "Health & Medical",
-      "Digital Infrastructure & Cybersecurity",
-      "Critical Infrastructure"
-    ],
-    "url": "https://health-isac.org/summits/",
-    "description": "The 2027 edition of the Health-ISAC European Summit, expected to continue bringing together health sector cyber and physical security professionals to share intelligence and best practices for healthcare critical infrastructure.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "Cyber Europe 2028 Preparation / 2027 exercises",
-    "organiser": "ENISA",
-    "dates": "2027 (preparatory exercises TBC)",
-    "city": "Pan-European",
-    "country": "EU Member States",
-    "type": "exercise",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Critical Infrastructure",
-      "Emergency & Crisis Response"
-    ],
-    "url": "https://www.enisa.europa.eu/topics/skills-and-competences-for-companies/cyber-europe",
-    "description": "ENISA runs pan-European cyber exercises on a biennial cycle; preparatory exercises and tabletop elements for the next Cyber Europe cycle are expected in 2027, maintaining EU critical infrastructure cyber preparedness.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "SANS Live Online Europe April 2026",
-    "organiser": "SANS Institute",
-    "dates": "27 April \u2013 2 May 2026",
-    "city": "Online (Europe/BST)",
-    "country": "Virtual",
-    "type": "training",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.sans.org/cyber-security-training-events/live-online-europe-april-2026",
-    "description": "SANS Institute's live online cybersecurity training event for European professionals, featuring 4 hands-on courses and a NetWars tournament covering incident response, forensics, penetration testing, and security operations.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "Business Continuity & Resilience Awareness Week (BCAW+R) 2026",
-    "organiser": "Business Continuity Institute (BCI)",
-    "dates": "18\u201322 May 2026",
-    "city": "Pan-European / Online",
-    "country": "Virtual / Europe",
-    "type": "conference",
-    "sector_relevance": [
-      "Risk & Continuity Management",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://www.thebci.org/events/event-calendar.html",
-    "description": "BCI's annual awareness week featuring webinars, chapter meetings, and knowledge-sharing sessions for business continuity and resilience professionals across Europe and beyond, promoting best practices and the value of organisational resilience.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "EU Cybersecurity Skills Academy \u2013 Industry-Academia Network Events 2026",
-    "organiser": "European Commission / ENISA / ECCC",
-    "dates": "Throughout 2026",
-    "city": "Pan-European",
-    "country": "EU Member States",
-    "type": "training",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
-    ],
-    "url": "https://digital-skills-jobs.europa.eu/en/cybersecurity-skills-academy",
-    "description": "The EU Cybersecurity Skills Academy's ongoing programme of training, workshops, masterclasses, and academic-industry collaboration events across Europe, aiming to bridge the cybersecurity skills gap through coordinated upskilling and reskilling initiatives.",
-    "lat": 50.5,
-    "lon": 10.0
-  },
-  {
-    "event_name": "Cybersec Europe \u2013 Brussels Expo 2027",
-    "organiser": "Cybersec Europe / Rossel Group",
-    "dates": "May 2027 (date TBC)",
-    "city": "Brussels",
-    "country": "Belgium",
-    "type": "conference",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Risk & Continuity Management"
-    ],
-    "url": "https://www.cyberseceurope.com",
-    "description": "The 2027 edition of the Benelux's largest cybersecurity event at Brussels Expo, expected to continue covering NIS2 compliance, digital sovereignty, EU AI Act, cyber resilience, and the evolving European cybersecurity regulatory landscape.",
-    "lat": 50.85,
-    "lon": 4.35
-  },
-  {
-    "event_name": "ExpoProtection 2028 / Cloud & Cyber Security Expo Europe 2027",
-    "organiser": "Reed Exhibitions France / Closerstill Media",
-    "dates": "November 2027 (TBC)",
-    "city": "Paris",
-    "country": "France",
-    "type": "expo",
-    "sector_relevance": [
-      "Risk & Continuity Management",
-      "Security & Protection",
-      "Digital Infrastructure & Cybersecurity"
-    ],
-    "url": "https://www.cybersecuritycloudexpo.com",
-    "description": "Annual Cloud & Cyber Security Expo Europe in Paris covering cloud security, data protection, threat intelligence, and zero trust strategies, co-located with Big Data & AI World within the Tech Show Paris umbrella event.",
-    "lat": 48.86,
-    "lon": 2.35
-  },
-  {
-    "event_name": "European Research Security Conference (ENCORS) 2027",
-    "organiser": "ENCORS Consortium",
-    "dates": "May/June 2027 (date TBC)",
-    "city": "TBC",
-    "country": "TBC",
-    "type": "conference",
-    "sector_relevance": [
-      "Knowledge Training & Research",
-      "Security & Protection",
-      "Digital Infrastructure & Cybersecurity"
-    ],
-    "url": "https://encors.eu",
-    "description": "The 2nd edition of ENCORS, the annual European Research Security Conference for practitioners, policymakers and institutional leaders exploring how to protect open research from unwanted knowledge transfer, covert influence and misuse.",
-    "lat": 50.5,
-    "lon": 10.0
+    "lon": 24.75,
+    "auto": false
   },
   {
     "event_name": "NIS-2 Congress 2026",
@@ -1043,12 +122,172 @@
     "url": "https://nis-2-congress.com/agenda-2026/",
     "description": "The annual NIS-2 Congress examining practical NIS2 Directive implementation, covering incident management, cyber threat intelligence as a management tool, business continuity, zero trust architecture, and AI-enhanced threat detection for NIS2 compliance.",
     "lat": 51.16,
-    "lon": 10.45
+    "lon": 10.45,
+    "auto": false
   },
   {
-    "event_name": "MILEX 27 \u2013 EU Crisis Management Military Exercise",
+    "event_name": "Forum InCyber Europe 2026",
+    "organiser": "Forward Global",
+    "dates": "31 March – 2 April 2026",
+    "city": "Lille",
+    "country": "France",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Risk & Continuity Management",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://europe.forum-incyber.com/en/home-en/",
+    "description": "Europe's leading annual event on digital security and trust, organised by Forward Global under the High Patronage of the President of the French Republic, bringing together 700+ exhibitors and 20,000+ visitors for 200+ conferences on cybersecurity strategy, innovation, and policy.",
+    "lat": 50.63,
+    "lon": 3.06,
+    "auto": false
+  },
+  {
+    "event_name": "European Cybersecurity Certification Conference 2026",
+    "organiser": "ENISA (EU Agency for Cybersecurity) / Cyprus Presidency",
+    "dates": "15 April 2026",
+    "city": "Ayia Napa",
+    "country": "Cyprus",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://certification.enisa.europa.eu/events/2026-european-cybersecurity-certification-conference-2026-04-15_en",
+    "description": "ENISA's annual conference on the EU Cybersecurity Certification Framework, covering progress on certification schemes including the EUDI Wallet and CRA, harmonised ICT supply chain risk management, and the proposed Cybersecurity Act 2.",
+    "lat": 34.98,
+    "lon": 34.0,
+    "auto": false
+  },
+  {
+    "event_name": "BSI 21st German IT Security Congress 2026",
+    "organiser": "BSI – Federal Office for Information Security (Germany)",
+    "dates": "15–16 April 2026",
+    "city": "Online",
+    "country": "Germany (virtual)",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.bsi.bund.de",
+    "description": "The BSI's 21st annual IT Security Congress held virtually under the motto 'Cybernation Germany: together, secure, digital', bringing together IT security professionals from government, industry and academia to discuss Germany's cybersecurity posture.",
+    "lat": 51.16,
+    "lon": 10.45,
+    "auto": false
+  },
+  {
+    "event_name": "EENA Conference & Exhibition 2026",
+    "organiser": "EENA (European Emergency Number Association)",
+    "dates": "15–17 April 2026",
+    "city": "Riga",
+    "country": "Latvia",
+    "type": "conference",
+    "sector_relevance": [
+      "Emergency & Crisis Response",
+      "Digital Infrastructure & Cybersecurity",
+      "Health & Medical"
+    ],
+    "url": "https://eena.org/eena-events/eena-conference-exhibition-2026/",
+    "description": "The annual EENA conference and exhibition gathering 700+ emergency services professionals and 25+ exhibitors from 50+ countries to address emergency response optimisation, next-generation 112/emergency communication technologies, and crisis management strategies.",
+    "lat": 56.95,
+    "lon": 24.11,
+    "auto": false
+  },
+  {
+    "event_name": "CYBERUK 2026",
+    "organiser": "NCSC (National Cyber Security Centre, UK)",
+    "dates": "21–23 April 2026",
+    "city": "Glasgow",
+    "country": "United Kingdom",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Security & Protection",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.cyberuk.uk",
+    "description": "The UK government's flagship annual cybersecurity event, marking NCSC's 10th anniversary, bringing together 2,500+ cyber security leaders and technical professionals across tracks covering resilience, technology, threat intelligence, and the cyber ecosystem.",
+    "lat": 55.86,
+    "lon": -4.25,
+    "auto": false
+  },
+  {
+    "event_name": "Cyber Threat Intelligence Conference 2026",
+    "organiser": "CTI Conference",
+    "dates": "21 April 2026",
+    "city": "Munich",
+    "country": "Germany",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Security & Protection",
+      "Critical Infrastructure"
+    ],
+    "url": "https://infosec-conferences.com/country/germany",
+    "description": "Annual conference bringing together CTI specialists from government, critical infrastructure, and private sector organisations to address threat intelligence, nation-state threats, and intelligence-driven defence strategies.",
+    "lat": 48.14,
+    "lon": 11.58,
+    "auto": false
+  },
+  {
+    "event_name": "Cyber Intelligence Europe Conference 2026",
+    "organiser": "Cyber Intelligence Europe",
+    "dates": "22–23 April 2026",
+    "city": "Brussels",
+    "country": "Belgium",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Security & Protection",
+      "Emergency & Crisis Response"
+    ],
+    "url": "https://cybersecurity-centre.europa.eu/events/cyber-intelligence-europe-22-23-april-2026-brussels-belgium-2026-04-22_en",
+    "description": "The 12th Cyber Intelligence Europe conference bringing together government, military, and security stakeholders from across Europe to discuss national cybersecurity strategies, cybercrime trends, threat monitoring, critical infrastructure protection, and coordinated EU cyber response.",
+    "lat": 50.85,
+    "lon": 4.35,
+    "auto": false
+  },
+  {
+    "event_name": "Third Party & Supply Chain Cyber Security Summit Europe 2026",
+    "organiser": "CyberRisk Alliance / Conference series",
+    "dates": "22 April 2026",
+    "city": "Frankfurt am Main",
+    "country": "Germany",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Risk & Continuity Management",
+      "Critical Infrastructure"
+    ],
+    "url": "https://infosec-conferences.com/country/germany",
+    "description": "A focused European cybersecurity summit addressing third-party and supply chain risks, covering NIS2/DORA/EU AI Act regulatory readiness, continuous monitoring, OT/ICS supply chain security, and end-to-end risk management frameworks.",
+    "lat": 50.11,
+    "lon": 8.68,
+    "auto": false
+  },
+  {
+    "event_name": "Cybersecurity Summit Hamburg 2026",
+    "organiser": "Cybersecurity Summit GmbH",
+    "dates": "28–29 April 2026",
+    "city": "Hamburg",
+    "country": "Germany",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Risk & Continuity Management"
+    ],
+    "url": "https://en.cybersecuritysumm.it",
+    "description": "Germany's growing annual cybersecurity conference and trade fair for IT security, bringing together 1,000+ CISOs, security leaders, SOC teams, and compliance professionals to explore current threats, best practices, and strategies for SMEs to large enterprises.",
+    "lat": 53.55,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "EU Military Crisis Management Exercise MILEX 26",
     "organiser": "European External Action Service (EEAS) / EU Military Staff",
-    "dates": "2027 (date TBC)",
+    "dates": "March–May 2026",
     "city": "Brussels / multinational",
     "country": "Belgium (HQ)",
     "type": "exercise",
@@ -1056,10 +295,467 @@
       "Emergency & Crisis Response",
       "Security & Protection"
     ],
-    "url": "https://www.eeas.europa.eu",
-    "description": "The 2027 edition of the EU's annual crisis management military exercise, expected to continue testing readiness and deployment capabilities of the EU Rapid Deployment Capacity with participation from EU member states.",
+    "url": "https://www.eeas.europa.eu/eeas/milex-26_en",
+    "description": "The EU's annual crisis management military exercise testing readiness and deployment capabilities of the EU Rapid Deployment Capacity (RDC), involving crisis response planning, alert system exercises, and live force deployments by EU member states.",
     "lat": 50.85,
-    "lon": 4.35
+    "lon": 4.35,
+    "auto": false
+  },
+  {
+    "event_name": "SANS Live Online Europe April 2026",
+    "organiser": "SANS Institute",
+    "dates": "27 April – 2 May 2026",
+    "city": "Online (Europe/BST)",
+    "country": "Virtual",
+    "type": "training",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.sans.org/cyber-security-training-events/live-online-europe-april-2026",
+    "description": "SANS Institute's live online cybersecurity training event for European professionals, featuring 4 hands-on courses and a NetWars tournament covering incident response, forensics, penetration testing, and security operations.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "ENISA Telecom and Digital Infrastructure Security Forum 2026",
+    "organiser": "ENISA (EU Agency for Cybersecurity)",
+    "dates": "7 May 2026",
+    "city": "Nicosia",
+    "country": "Cyprus",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Critical Infrastructure"
+    ],
+    "url": "https://www.enisa.europa.eu/events/enisa-telecom-and-digital-infrastructure-security-forum-2026",
+    "description": "ENISA's annual forum on telecoms and digital infrastructure security, co-organised with the Cyprus Presidency of the EU Council. Brings together regulators, operators and policymakers to discuss security of Europe's communications networks.",
+    "lat": 35.17,
+    "lon": 33.37,
+    "auto": false
+  },
+  {
+    "event_name": "BCI Operational Resilience Report 2026 – EMEA Launch Webinar",
+    "organiser": "Business Continuity Institute (BCI)",
+    "dates": "13 May 2026",
+    "city": "Online",
+    "country": "Virtual (EMEA)",
+    "type": "webinar",
+    "sector_relevance": [
+      "Risk & Continuity Management",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.thebci.org/event-detail/event-calendar/bci-operational-resilience-report-2026---emea-launch.html",
+    "description": "The BCI's EMEA launch webinar for the Operational Resilience Report 2026, presenting findings on how organisations define operational resilience, governance structures, third-party dependencies, and evolving global resilience regulations.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "Business Continuity & Resilience Awareness Week (BCAW+R) 2026",
+    "organiser": "Business Continuity Institute (BCI)",
+    "dates": "18–22 May 2026",
+    "city": "Pan-European / Online",
+    "country": "Virtual / Europe",
+    "type": "conference",
+    "sector_relevance": [
+      "Risk & Continuity Management",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.thebci.org/events/event-calendar.html",
+    "description": "BCI's annual awareness week featuring webinars, chapter meetings, and knowledge-sharing sessions for business continuity and resilience professionals across Europe and beyond, promoting best practices and the value of organisational resilience.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "Cybersec Europe 2026",
+    "organiser": "Cybersec Europe / Rossel Group",
+    "dates": "20–21 May 2026",
+    "city": "Brussels",
+    "country": "Belgium",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Risk & Continuity Management"
+    ],
+    "url": "https://www.cyberseceurope.com",
+    "description": "The Benelux's largest cybersecurity event at Brussels Expo, focusing on NIS2 and EU AI Act compliance, digital sovereignty, cyber warfare, supply chain security, and resilience, with keynotes, technical sessions, and awards.",
+    "lat": 50.85,
+    "lon": 4.35,
+    "auto": false
+  },
+  {
+    "event_name": "CyCon 2026 – 18th International Conference on Cyber Conflict: Securing Tomorrow",
+    "organiser": "NATO CCDCOE (Cooperative Cyber Defence Centre of Excellence)",
+    "dates": "26–29 May 2026",
+    "city": "Tallinn",
+    "country": "Estonia",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Security & Protection",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://ccdcoe.org/cycon/",
+    "description": "The flagship annual academic-military cyber conference bringing together 600+ decision-makers, legal experts, technologists and military representatives from nearly 50 countries to address cyber conflict, cyber defence, and international law in cyberspace.",
+    "lat": 59.44,
+    "lon": 24.75,
+    "auto": false
+  },
+  {
+    "event_name": "ENCORS 2026 – European Research Security Conference",
+    "organiser": "ENCORS / TU Delft / Research Institutions Consortium",
+    "dates": "26–27 May 2026",
+    "city": "Delft",
+    "country": "Netherlands",
+    "type": "conference",
+    "sector_relevance": [
+      "Knowledge Training & Research",
+      "Security & Protection",
+      "Digital Infrastructure & Cybersecurity"
+    ],
+    "url": "https://encors.eu",
+    "description": "The inaugural annual European Research Security Conference, bringing together practitioners, policymakers, and institutional leaders from research organisations to address unwanted knowledge transfer, covert influence, and misuse of research results in open research environments.",
+    "lat": 52.01,
+    "lon": 4.36,
+    "auto": false
+  },
+  {
+    "event_name": "Cyber Europe 2026",
+    "organiser": "ENISA (EU Agency for Cybersecurity)",
+    "dates": "June 2026",
+    "city": "Pan-European (distributed)",
+    "country": "EU Member States",
+    "type": "exercise",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Critical Infrastructure",
+      "Emergency & Crisis Response"
+    ],
+    "url": "https://www.enisa.europa.eu/topics/skills-and-competences-for-companies/cyber-europe",
+    "description": "The 8th edition of ENISA's pan-European cybersecurity exercise series, designed to strengthen the cyber preparedness of EU critical infrastructure operators and national authorities through realistic large-scale incident simulations.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "Infosecurity Europe 2026",
+    "organiser": "Reed Exhibitions (RX)",
+    "dates": "2–4 June 2026",
+    "city": "London",
+    "country": "United Kingdom",
+    "type": "expo",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Security & Protection",
+      "Risk & Continuity Management"
+    ],
+    "url": "https://www.infosecurityeurope.com",
+    "description": "Europe's leading information security event, held at ExCeL London, gathering thousands of cybersecurity professionals, vendors, and thought leaders to explore the latest threats, technologies, and strategies in information security.",
+    "lat": 51.51,
+    "lon": -0.13,
+    "auto": false
+  },
+  {
+    "event_name": "IEEE European Symposium on Security and Privacy 2026 (EuroS&P)",
+    "organiser": "IEEE Computer Society / Instituto Superior Técnico, Universidade de Lisboa",
+    "dates": "6–10 July 2026",
+    "city": "Lisbon",
+    "country": "Portugal",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://eurosp2026.ieee-security.org",
+    "description": "The 11th annual IEEE European Symposium on Security and Privacy, the premier academic European forum for presenting developments in computer security and electronic privacy research, bringing together leading researchers and practitioners.",
+    "lat": 38.72,
+    "lon": -9.14,
+    "auto": false
+  },
+  {
+    "event_name": "Cybersecurity Summer BootCamp 2026 (CSBC2026)",
+    "organiser": "INCIBE (National Cybersecurity Institute of Spain)",
+    "dates": "13–24 July 2026",
+    "city": "León",
+    "country": "Spain",
+    "type": "training",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research",
+      "Emergency & Crisis Response"
+    ],
+    "url": "https://www.incibe.es/en/events/summer-bootcamp",
+    "description": "International specialised cybersecurity training programme delivering 200+ hours of instruction for law enforcement, CSIRT teams, judiciary and public sector decision-makers, covering cyber incident management and cybercrime response.",
+    "lat": 42.6,
+    "lon": -5.57,
+    "auto": false
+  },
+  {
+    "event_name": "SANS Live Online Europe July 2026",
+    "organiser": "SANS Institute",
+    "dates": "27 July – 1 August 2026",
+    "city": "Online (Europe/BST)",
+    "country": "Virtual",
+    "type": "training",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.sans.org/cyber-security-training-events/live-online-europe-july-2026",
+    "description": "SANS Institute's live online cybersecurity training event for European participants, featuring 4 courses and a NetWars tournament delivered by real-world security practitioners with hands-on virtual labs.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "International Security Expo 2026",
+    "organiser": "Nineteen Group",
+    "dates": "29–30 September 2026",
+    "city": "London",
+    "country": "United Kingdom",
+    "type": "expo",
+    "sector_relevance": [
+      "Security & Protection",
+      "Critical Infrastructure",
+      "Emergency & Crisis Response"
+    ],
+    "url": "https://www.internationalsecurityexpo.com",
+    "description": "The go-to international security event held at Olympia London, connecting 10,000+ professionals in government, industry and academia working on critical national infrastructure protection, counter-terrorism, homeland security, and physical and cyber security.",
+    "lat": 51.51,
+    "lon": -0.13,
+    "auto": false
+  },
+  {
+    "event_name": "European Cybersecurity Month (ECSM) 2026",
+    "organiser": "ENISA / European Commission / EU Member States",
+    "dates": "October 2026",
+    "city": "Pan-European",
+    "country": "EU Member States",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://cybersecuritymonth.eu",
+    "description": "The annual EU-wide cybersecurity awareness campaign coordinated by ENISA and the European Commission throughout October, featuring hundreds of events including conferences, workshops, training sessions, and webinars across Europe promoting cyber hygiene and digital security awareness.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "SANS DFIR Europe Summit and Training 2026",
+    "organiser": "SANS Institute",
+    "dates": "4–10 October 2026",
+    "city": "Prague",
+    "country": "Czech Republic",
+    "type": "training",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.sans.org/cyber-security-training-events/dfir-europe-2026",
+    "description": "SANS Institute's annual European Digital Forensics and Incident Response (DFIR) summit and training event in Prague, offering 8 hands-on courses and a NetWars tournament for cybersecurity practitioners.",
+    "lat": 50.08,
+    "lon": 14.44,
+    "auto": false
+  },
+  {
+    "event_name": "European Cybersecurity Challenge (ECSC) 2026",
+    "organiser": "ENISA / NFITS e.V. / ECCC",
+    "dates": "12–16 October 2026",
+    "city": "Bochum",
+    "country": "Germany",
+    "type": "training",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://ecsc.eu",
+    "description": "Europe's flagship cybersecurity competition for young talent hosted in Bochum, with ~500 participants from 35+ national teams competing across web security, reverse engineering, cryptography, binary exploitation and other cybersecurity disciplines.",
+    "lat": 51.48,
+    "lon": 7.22,
+    "auto": false
+  },
+  {
+    "event_name": "Health-ISAC European Summit 2026",
+    "organiser": "Health-ISAC (Health Information Sharing and Analysis Center)",
+    "dates": "12–16 October 2026",
+    "city": "Crete",
+    "country": "Greece",
+    "type": "conference",
+    "sector_relevance": [
+      "Health & Medical",
+      "Digital Infrastructure & Cybersecurity",
+      "Critical Infrastructure"
+    ],
+    "url": "https://health-isac.org/summits/",
+    "description": "The annual Health-ISAC European Summit bringing together health sector security professionals to share threat intelligence, cyber and physical security best practices, and coordinated response strategies for the healthcare critical infrastructure sector.",
+    "lat": 35.24,
+    "lon": 24.9,
+    "auto": false
+  },
+  {
+    "event_name": "Critical Infrastructure Protection & Resilience Europe (CIPRE) 2026",
+    "organiser": "IACIPP (International Association of CIP Professionals)",
+    "dates": "20–22 October 2026",
+    "city": "Brussels",
+    "country": "Belgium",
+    "type": "conference",
+    "sector_relevance": [
+      "Critical Infrastructure",
+      "Risk & Continuity Management",
+      "Security & Protection",
+      "Digital Infrastructure & Cybersecurity"
+    ],
+    "url": "https://www.cipre-expo.com",
+    "description": "The 11th edition of Europe's premier critical infrastructure protection conference, bringing together infrastructure operators, government agencies, industry, and researchers to collaborate on risk management, CER and NIS2 Directive implementation, and resilient operations.",
+    "lat": 50.85,
+    "lon": 4.35,
+    "auto": false
+  },
+  {
+    "event_name": "it-sa Expo&Congress 2026",
+    "organiser": "NürnbergMesse",
+    "dates": "27–29 October 2026",
+    "city": "Nuremberg",
+    "country": "Germany",
+    "type": "expo",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Security & Protection"
+    ],
+    "url": "https://www.itsa365.de/en/it-sa-expo-congress",
+    "description": "Europe's largest dedicated IT security trade fair, drawing over 20,000 security professionals and 700 exhibitors, covering cloud and cyber security, data and network security, mobile security and compliance solutions.",
+    "lat": 49.45,
+    "lon": 11.08,
+    "auto": false
+  },
+  {
+    "event_name": "9th European Civil Protection Forum 2026",
+    "organiser": "European Commission – DG ECHO (Directorate-General for European Civil Protection and Humanitarian Aid Operations)",
+    "dates": "3–4 November 2026",
+    "city": "Brussels",
+    "country": "Belgium",
+    "type": "conference",
+    "sector_relevance": [
+      "Emergency & Crisis Response",
+      "Risk & Continuity Management",
+      "Critical Infrastructure"
+    ],
+    "url": "https://civil-protection-knowledge-network.europa.eu/events/save-date-9th-european-civil-protection-forum",
+    "description": "The 9th edition of the flagship EU Civil Protection Forum, held at Tour & Taxis Brussels, focusing on strengthening preparedness in a complex risk landscape aligned with the EU Preparedness Union Strategy, covering partnerships, evolving risks, and research and innovation.",
+    "lat": 50.85,
+    "lon": 4.35,
+    "auto": false
+  },
+  {
+    "event_name": "ExpoProtection 2026",
+    "organiser": "Reed Exhibitions France (RX France)",
+    "dates": "3–5 November 2026",
+    "city": "Paris",
+    "country": "France",
+    "type": "expo",
+    "sector_relevance": [
+      "Risk & Continuity Management",
+      "Security & Protection",
+      "Emergency & Crisis Response"
+    ],
+    "url": "https://www.expoprotection.com",
+    "description": "France's biennial trade fair for risk prevention and management at Paris Expo Porte de Versailles, featuring 800+ exhibitors covering occupational safety, fire protection, crisis planning, climate risk adaptation, physical security, and business continuity solutions.",
+    "lat": 48.86,
+    "lon": 2.35,
+    "auto": false
+  },
+  {
+    "event_name": "Enlit Europe 2026",
+    "organiser": "Enlit / Clarion Events",
+    "dates": "10–12 November 2026",
+    "city": "Vienna",
+    "country": "Austria",
+    "type": "expo",
+    "sector_relevance": [
+      "Energy",
+      "Critical Infrastructure",
+      "Digital Infrastructure & Cybersecurity"
+    ],
+    "url": "https://www.enlit-europe.com",
+    "description": "Europe's leading energy transition conference and exhibition, featuring 15,000+ attendees and 700+ exhibitors from 140 countries, covering power generation, smart energy systems, cybersecurity, digitalisation, and energy market developments.",
+    "lat": 48.21,
+    "lon": 16.37,
+    "auto": false
+  },
+  {
+    "event_name": "BCI World Hybrid 2026",
+    "organiser": "Business Continuity Institute (BCI)",
+    "dates": "10–11 November 2026",
+    "city": "London",
+    "country": "United Kingdom",
+    "type": "conference",
+    "sector_relevance": [
+      "Risk & Continuity Management",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.thebci.org",
+    "description": "The Business Continuity Institute's flagship annual hybrid conference at Convene Sancroft, London, covering business continuity, operational resilience, crisis management, and emerging regulatory requirements for resilience professionals worldwide.",
+    "lat": 51.51,
+    "lon": -0.13,
+    "auto": false
+  },
+  {
+    "event_name": "Cloud & Cyber Security Expo Europe – Paris 2026",
+    "organiser": "Closerstill Media / Tech Show Paris",
+    "dates": "18–19 November 2026",
+    "city": "Paris",
+    "country": "France",
+    "type": "expo",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Critical Infrastructure"
+    ],
+    "url": "https://www.cybersecuritycloudexpo.com",
+    "description": "Annual European cloud and cybersecurity expo co-located within Tech Show Paris at Paris Expo Porte de Versailles, covering data centre security, cloud security, threat intelligence, application security, and zero trust strategies.",
+    "lat": 48.86,
+    "lon": 2.35,
+    "auto": false
+  },
+  {
+    "event_name": "Forum InCyber Europe 2027",
+    "organiser": "Forward Global",
+    "dates": "9–11 March 2027",
+    "city": "Lille",
+    "country": "France",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Risk & Continuity Management",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://europe.forum-incyber.com/en/home-en/",
+    "description": "The 19th edition of Europe's flagship annual cybersecurity and digital trust event at Lille Grand Palais, covering cybersecurity strategy, regulatory compliance, emerging threats, and digital sovereignty with exhibitors and conferences from across the European ecosystem.",
+    "lat": 50.63,
+    "lon": 3.06,
+    "auto": false
+  },
+  {
+    "event_name": "Locked Shields 2027",
+    "organiser": "NATO CCDCOE",
+    "dates": "April 2027 (date TBC)",
+    "city": "Tallinn / multinational",
+    "country": "Estonia (lead)",
+    "type": "exercise",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Critical Infrastructure",
+      "Security & Protection"
+    ],
+    "url": "https://ccdcoe.org/locked-shields/",
+    "description": "The 2027 edition of the world's largest and most complex live-fire cyber defence exercise, expected to involve thousands of participants from 40+ nations defending critical infrastructure against realistic attack scenarios.",
+    "lat": 59.44,
+    "lon": 24.75,
+    "auto": false
   },
   {
     "event_name": "EENA Conference & Exhibition 2027",
@@ -1076,57 +772,77 @@
     "url": "https://eena.org/events/eena-conference/",
     "description": "The 2027 edition of the EENA annual conference gathering emergency services professionals to address next-generation emergency communication technologies, crisis management strategies, and public safety technology innovation.",
     "lat": 50.5,
-    "lon": 10.0
+    "lon": 10.0,
+    "auto": false
   },
   {
-    "event_name": "Cybersecurity Summer BootCamp 2027 (CSBC2027)",
-    "organiser": "INCIBE (National Cybersecurity Institute of Spain)",
-    "dates": "July 2027 (date TBC)",
-    "city": "Le\u00f3n",
-    "country": "Spain",
-    "type": "training",
-    "sector_relevance": [
-      "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research",
-      "Emergency & Crisis Response"
-    ],
-    "url": "https://www.incibe.es/en/events/summer-bootcamp",
-    "description": "The 2027 edition of INCIBE's annual intensive international cybersecurity training programme in Le\u00f3n, targeting law enforcement, CSIRT teams, judiciary, and public sector decision-makers with 200+ hours of specialised instruction.",
-    "lat": 42.6,
-    "lon": -5.57
-  },
-  {
-    "event_name": "9th European Civil Protection Forum \u2013 Follow-up / ECPP 2027 Cycle",
-    "organiser": "European Commission \u2013 DG ECHO",
-    "dates": "2027 (date TBC)",
-    "city": "Brussels or TBC",
-    "country": "Belgium",
+    "event_name": "Cybersecurity Summit Hamburg 2027",
+    "organiser": "Cybersecurity Summit GmbH",
+    "dates": "21–22 April 2027",
+    "city": "Hamburg",
+    "country": "Germany",
     "type": "conference",
     "sector_relevance": [
-      "Emergency & Crisis Response",
-      "Risk & Continuity Management",
-      "Critical Infrastructure"
+      "Digital Infrastructure & Cybersecurity",
+      "Risk & Continuity Management"
     ],
-    "url": "https://civil-protection-humanitarian-aid.ec.europa.eu",
-    "description": "Expected follow-on activities and potential 10th Civil Protection Forum in 2027, continuing EU civil protection capacity building, preparedness policy development, and community knowledge exchange under the EU Civil Protection Mechanism.",
-    "lat": 50.85,
-    "lon": 4.35
+    "url": "https://en.cybersecuritysumm.it",
+    "description": "The 2027 edition of Germany's annual cybersecurity summit and expo, targeting IT security decision-makers from SMEs to large corporations with sessions on cyber threats, compliance, and emerging security technologies.",
+    "lat": 53.55,
+    "lon": 10.0,
+    "auto": false
   },
   {
-    "event_name": "IEEE EuroS&P 2027 \u2013 European Symposium on Security and Privacy",
-    "organiser": "IEEE Computer Society",
-    "dates": "2027 (date/location TBC)",
+    "event_name": "CyCon 2027 – 19th International Conference on Cyber Conflict",
+    "organiser": "NATO CCDCOE",
+    "dates": "May 2027 (date TBC)",
+    "city": "Tallinn",
+    "country": "Estonia",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Security & Protection",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://ccdcoe.org/cycon/",
+    "description": "The 19th annual CyCon multidisciplinary conference on cyber conflict, expected to follow its established format of bringing together 600+ international experts on the technical, legal, policy, strategic, and military dimensions of cyber security and defence.",
+    "lat": 59.44,
+    "lon": 24.75,
+    "auto": false
+  },
+  {
+    "event_name": "ENISA Telecom and Digital Infrastructure Security Forum 2027",
+    "organiser": "ENISA (EU Agency for Cybersecurity)",
+    "dates": "May 2027 (date TBC)",
     "city": "TBC",
     "country": "TBC",
     "type": "conference",
     "sector_relevance": [
       "Digital Infrastructure & Cybersecurity",
-      "Knowledge Training & Research"
+      "Critical Infrastructure"
     ],
-    "url": "https://www.ieee-security.org",
-    "description": "The 2027 edition of the annual IEEE European Symposium on Security and Privacy, presenting cutting-edge research in computer security and electronic privacy, expected to continue in a European city following the established rotation.",
+    "url": "https://www.enisa.europa.eu/events",
+    "description": "The expected 2027 edition of ENISA's annual forum on telecom and digital infrastructure security, covering regulatory updates, incident reporting, and best practices for securing European communications infrastructure.",
     "lat": 50.5,
-    "lon": 10.0
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "Cybersec Europe – Brussels Expo 2027",
+    "organiser": "Cybersec Europe / Rossel Group",
+    "dates": "May 2027 (date TBC)",
+    "city": "Brussels",
+    "country": "Belgium",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Risk & Continuity Management"
+    ],
+    "url": "https://www.cyberseceurope.com",
+    "description": "The 2027 edition of the Benelux's largest cybersecurity event at Brussels Expo, expected to continue covering NIS2 compliance, digital sovereignty, EU AI Act, cyber resilience, and the evolving European cybersecurity regulatory landscape.",
+    "lat": 50.85,
+    "lon": 4.35,
+    "auto": false
   },
   {
     "event_name": "CYBERUK 2027",
@@ -1143,6 +859,359 @@
     "url": "https://www.ncsc.gov.uk/section/keep-up-to-date/cyberuk",
     "description": "The 2027 edition of the NCSC's flagship annual UK government cybersecurity conference, expected to continue bringing together 2,500+ cyber security leaders and technical professionals for the next iteration of its annual agenda.",
     "lat": 51.51,
-    "lon": -0.13
+    "lon": -0.13,
+    "auto": false
+  },
+  {
+    "event_name": "European Research Security Conference (ENCORS) 2027",
+    "organiser": "ENCORS Consortium",
+    "dates": "May/June 2027 (date TBC)",
+    "city": "TBC",
+    "country": "TBC",
+    "type": "conference",
+    "sector_relevance": [
+      "Knowledge Training & Research",
+      "Security & Protection",
+      "Digital Infrastructure & Cybersecurity"
+    ],
+    "url": "https://encors.eu",
+    "description": "The 2nd edition of ENCORS, the annual European Research Security Conference for practitioners, policymakers and institutional leaders exploring how to protect open research from unwanted knowledge transfer, covert influence and misuse.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "Cybersecurity Summer BootCamp 2027 (CSBC2027)",
+    "organiser": "INCIBE (National Cybersecurity Institute of Spain)",
+    "dates": "July 2027 (date TBC)",
+    "city": "León",
+    "country": "Spain",
+    "type": "training",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research",
+      "Emergency & Crisis Response"
+    ],
+    "url": "https://www.incibe.es/en/events/summer-bootcamp",
+    "description": "The 2027 edition of INCIBE's annual intensive international cybersecurity training programme in León, targeting law enforcement, CSIRT teams, judiciary, and public sector decision-makers with 200+ hours of specialised instruction.",
+    "lat": 42.6,
+    "lon": -5.57,
+    "auto": false
+  },
+  {
+    "event_name": "DSEI 2027 – Defence & Security Equipment International",
+    "organiser": "Clarion Events",
+    "dates": "7–10 September 2027",
+    "city": "London",
+    "country": "United Kingdom",
+    "type": "expo",
+    "sector_relevance": [
+      "Security & Protection",
+      "Dual-use Technology",
+      "Transport Maritime & Aerospace"
+    ],
+    "url": "https://www.dsei.co.uk",
+    "description": "The world's largest biennial defence and security exhibition at ExCeL London, connecting global defence and security supply chains across land, sea, air and cyber domains with government, military, and industry leaders.",
+    "lat": 51.51,
+    "lon": -0.13,
+    "auto": false
+  },
+  {
+    "event_name": "European Cybersecurity Month (ECSM) 2027",
+    "organiser": "ENISA / European Commission / EU Member States",
+    "dates": "October 2027",
+    "city": "Pan-European",
+    "country": "EU Member States",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://cybersecuritymonth.eu",
+    "description": "The 2027 edition of the annual EU-wide cybersecurity awareness campaign featuring hundreds of events across member states, covering digital security, cyber hygiene, and public and professional cybersecurity awareness.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "it-sa Expo&Congress 2027",
+    "organiser": "NürnbergMesse",
+    "dates": "October 2027",
+    "city": "Nuremberg",
+    "country": "Germany",
+    "type": "expo",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Security & Protection"
+    ],
+    "url": "https://www.itsa365.de/en/it-sa-expo-congress",
+    "description": "The 2027 edition of Europe's largest dedicated IT security trade fair, expected in October in Nuremberg, covering cloud security, cyber security, data and network security for 20,000+ security professionals.",
+    "lat": 49.45,
+    "lon": 11.08,
+    "auto": false
+  },
+  {
+    "event_name": "CIPRE 2027 – Critical Infrastructure Protection & Resilience Europe",
+    "organiser": "IACIPP (International Association of CIP Professionals)",
+    "dates": "October 2027 (date TBC)",
+    "city": "TBC",
+    "country": "TBC",
+    "type": "conference",
+    "sector_relevance": [
+      "Critical Infrastructure",
+      "Risk & Continuity Management",
+      "Security & Protection"
+    ],
+    "url": "https://www.cipre-expo.com",
+    "description": "The 2027 edition of Europe's premier annual critical infrastructure protection conference, continuing the focus on CER Directive and NIS2 implementation, cyber-physical risk management, and resilience across European infrastructure sectors.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "International Security Expo 2027",
+    "organiser": "Nineteen Group",
+    "dates": "September/October 2027 (date TBC)",
+    "city": "London",
+    "country": "United Kingdom",
+    "type": "expo",
+    "sector_relevance": [
+      "Security & Protection",
+      "Critical Infrastructure",
+      "Emergency & Crisis Response"
+    ],
+    "url": "https://www.internationalsecurityexpo.com",
+    "description": "The 2027 edition of the International Security Expo at Olympia London, expected to continue its focus on physical and cyber security, counter-terrorism, critical national infrastructure protection, and homeland security solutions.",
+    "lat": 51.51,
+    "lon": -0.13,
+    "auto": false
+  },
+  {
+    "event_name": "European Cybersecurity Challenge (ECSC) 2027",
+    "organiser": "ENISA / ECCC / Host Nation",
+    "dates": "October 2027 (date TBC)",
+    "city": "TBC",
+    "country": "TBC",
+    "type": "training",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://ecsc.eu",
+    "description": "The 2027 edition of Europe's flagship young talent cybersecurity competition, expected to involve 35+ national teams from across Europe competing across multiple cybersecurity disciplines over five days.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "BCI World Hybrid 2027",
+    "organiser": "Business Continuity Institute (BCI)",
+    "dates": "November 2027 (date TBC)",
+    "city": "London",
+    "country": "United Kingdom",
+    "type": "conference",
+    "sector_relevance": [
+      "Risk & Continuity Management",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.thebci.org",
+    "description": "The 2027 edition of BCI's annual flagship hybrid conference on business continuity, operational resilience, and crisis management, expected to continue the established format at a London venue.",
+    "lat": 51.51,
+    "lon": -0.13,
+    "auto": false
+  },
+  {
+    "event_name": "ExpoProtection 2028 / Cloud & Cyber Security Expo Europe 2027",
+    "organiser": "Reed Exhibitions France / Closerstill Media",
+    "dates": "November 2027 (TBC)",
+    "city": "Paris",
+    "country": "France",
+    "type": "expo",
+    "sector_relevance": [
+      "Risk & Continuity Management",
+      "Security & Protection",
+      "Digital Infrastructure & Cybersecurity"
+    ],
+    "url": "https://www.cybersecuritycloudexpo.com",
+    "description": "Annual Cloud & Cyber Security Expo Europe in Paris covering cloud security, data protection, threat intelligence, and zero trust strategies, co-located with Big Data & AI World within the Tech Show Paris umbrella event.",
+    "lat": 48.86,
+    "lon": 2.35,
+    "auto": false
+  },
+  {
+    "event_name": "Automotive Cyber Security Europe Conference 2027",
+    "organiser": "ARC Advisory Group / Conference organisers",
+    "dates": "11–14 November 2027",
+    "city": "Frankfurt am Main",
+    "country": "Germany",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Transport Maritime & Aerospace",
+      "Dual-use Technology"
+    ],
+    "url": "https://webmobi.com/discovery/events/automotive-cyber-security-europe-conference-2027-1769617930347",
+    "description": "The 2027 Automotive Cyber Security Europe conference in Frankfurt examining emerging threat actors, cybersecurity standards for connected and software-defined vehicles, and supply chain security in the automotive sector.",
+    "lat": 50.11,
+    "lon": 8.68,
+    "auto": false
+  },
+  {
+    "event_name": "Milipol Paris 2027",
+    "organiser": "Comexposium / French Ministry of the Interior",
+    "dates": "16–19 November 2027",
+    "city": "Paris",
+    "country": "France",
+    "type": "expo",
+    "sector_relevance": [
+      "Security & Protection",
+      "Emergency & Crisis Response",
+      "Dual-use Technology"
+    ],
+    "url": "https://www.milipol.com",
+    "description": "The world's leading biennial homeland security and public safety trade show, organised under the aegis of the French Ministry of the Interior, featuring 1,000+ exhibitors from 40+ countries across civil protection, major risk management, and security technology sectors.",
+    "lat": 48.86,
+    "lon": 2.35,
+    "auto": false
+  },
+  {
+    "event_name": "9th European Civil Protection Forum – Follow-up / ECPP 2027 Cycle",
+    "organiser": "European Commission – DG ECHO",
+    "dates": "2027 (date TBC)",
+    "city": "Brussels or TBC",
+    "country": "Belgium",
+    "type": "conference",
+    "sector_relevance": [
+      "Emergency & Crisis Response",
+      "Risk & Continuity Management",
+      "Critical Infrastructure"
+    ],
+    "url": "https://civil-protection-humanitarian-aid.ec.europa.eu",
+    "description": "Expected follow-on activities and potential 10th Civil Protection Forum in 2027, continuing EU civil protection capacity building, preparedness policy development, and community knowledge exchange under the EU Civil Protection Mechanism.",
+    "lat": 50.85,
+    "lon": 4.35,
+    "auto": false
+  },
+  {
+    "event_name": "Cyber Europe 2028 Preparation / 2027 exercises",
+    "organiser": "ENISA",
+    "dates": "2027 (preparatory exercises TBC)",
+    "city": "Pan-European",
+    "country": "EU Member States",
+    "type": "exercise",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Critical Infrastructure",
+      "Emergency & Crisis Response"
+    ],
+    "url": "https://www.enisa.europa.eu/topics/skills-and-competences-for-companies/cyber-europe",
+    "description": "ENISA runs pan-European cyber exercises on a biennial cycle; preparatory exercises and tabletop elements for the next Cyber Europe cycle are expected in 2027, maintaining EU critical infrastructure cyber preparedness.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "EU Cybersecurity Skills Academy – Industry-Academia Network Events 2026",
+    "organiser": "European Commission / ENISA / ECCC",
+    "dates": "Throughout 2026",
+    "city": "Pan-European",
+    "country": "EU Member States",
+    "type": "training",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://digital-skills-jobs.europa.eu/en/cybersecurity-skills-academy",
+    "description": "The EU Cybersecurity Skills Academy's ongoing programme of training, workshops, masterclasses, and academic-industry collaboration events across Europe, aiming to bridge the cybersecurity skills gap through coordinated upskilling and reskilling initiatives.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "Enlit Europe 2027",
+    "organiser": "Enlit / Clarion Events",
+    "dates": "2027 (date TBC)",
+    "city": "TBC",
+    "country": "TBC",
+    "type": "expo",
+    "sector_relevance": [
+      "Energy",
+      "Critical Infrastructure",
+      "Digital Infrastructure & Cybersecurity"
+    ],
+    "url": "https://www.enlit-europe.com",
+    "description": "The 2027 edition of Europe's leading energy transition conference and exhibition, expected to continue its coverage of smart energy systems, grid cybersecurity, energy market digitalisation, and decarbonisation technologies.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "European Cybersecurity Certification Conference 2027",
+    "organiser": "ENISA (EU Agency for Cybersecurity)",
+    "dates": "2027 (date TBC)",
+    "city": "TBC",
+    "country": "TBC",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.enisa.europa.eu/events",
+    "description": "The annual ENISA European Cybersecurity Certification Conference, expected in 2027, covering updates to EU certification schemes, Cybersecurity Act 2 implementation, and harmonised cybersecurity standards for ICT products and services.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "Health-ISAC European Summit 2027",
+    "organiser": "Health-ISAC",
+    "dates": "2027 (date TBC)",
+    "city": "TBC",
+    "country": "TBC",
+    "type": "conference",
+    "sector_relevance": [
+      "Health & Medical",
+      "Digital Infrastructure & Cybersecurity",
+      "Critical Infrastructure"
+    ],
+    "url": "https://health-isac.org/summits/",
+    "description": "The 2027 edition of the Health-ISAC European Summit, expected to continue bringing together health sector cyber and physical security professionals to share intelligence and best practices for healthcare critical infrastructure.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "IEEE EuroS&P 2027 – European Symposium on Security and Privacy",
+    "organiser": "IEEE Computer Society",
+    "dates": "2027 (date/location TBC)",
+    "city": "TBC",
+    "country": "TBC",
+    "type": "conference",
+    "sector_relevance": [
+      "Digital Infrastructure & Cybersecurity",
+      "Knowledge Training & Research"
+    ],
+    "url": "https://www.ieee-security.org",
+    "description": "The 2027 edition of the annual IEEE European Symposium on Security and Privacy, presenting cutting-edge research in computer security and electronic privacy, expected to continue in a European city following the established rotation.",
+    "lat": 50.5,
+    "lon": 10.0,
+    "auto": false
+  },
+  {
+    "event_name": "MILEX 27 – EU Crisis Management Military Exercise",
+    "organiser": "European External Action Service (EEAS) / EU Military Staff",
+    "dates": "2027 (date TBC)",
+    "city": "Brussels / multinational",
+    "country": "Belgium (HQ)",
+    "type": "exercise",
+    "sector_relevance": [
+      "Emergency & Crisis Response",
+      "Security & Protection"
+    ],
+    "url": "https://www.eeas.europa.eu",
+    "description": "The 2027 edition of the EU's annual crisis management military exercise, expected to continue testing readiness and deployment capabilities of the EU Rapid Deployment Capacity with participation from EU member states.",
+    "lat": 50.85,
+    "lon": 4.35,
+    "auto": false
   }
 ]

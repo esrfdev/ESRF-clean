@@ -1,0 +1,87 @@
+{
+  "_comment": "Automated event sources for scripts/fetch_events.py. The script is defensive: if any source is unreachable or returns an unexpected format, it is silently skipped and the run continues. Manual events live in data/curated_events.json and always win over automated duplicates. To add a source: choose a 'type' ('rss','atom','ical','html'), fill in 'url', and give sensible defaults for 'country'/'city'/'organiser' that will be used when the upstream item doesn't provide them.",
+  "sources": [
+    {
+      "name": "ENISA Events",
+      "type": "rss",
+      "url": "https://www.enisa.europa.eu/events/RSS",
+      "site": "https://www.enisa.europa.eu/events",
+      "organiser": "ENISA (EU Agency for Cybersecurity)",
+      "country": "EU",
+      "default_type": "conference",
+      "default_sectors": ["Digital Infrastructure & Cybersecurity"]
+    },
+    {
+      "name": "European Commission — Events",
+      "type": "rss",
+      "url": "https://commission.europa.eu/news-and-media/events_en/rss.xml",
+      "site": "https://commission.europa.eu/news-and-media/events_en",
+      "organiser": "European Commission",
+      "country": "EU",
+      "default_type": "conference",
+      "default_sectors": ["European Policy"]
+    },
+    {
+      "name": "European Parliament — Events",
+      "type": "rss",
+      "url": "https://www.europarl.europa.eu/rss/en/press-events.xml",
+      "site": "https://www.europarl.europa.eu/news/en/agenda",
+      "organiser": "European Parliament",
+      "country": "EU",
+      "default_type": "conference",
+      "default_sectors": ["European Policy"]
+    },
+    {
+      "name": "CEPOL — Training",
+      "type": "rss",
+      "url": "https://www.cepol.europa.eu/feed/training.xml",
+      "site": "https://www.cepol.europa.eu/education-training",
+      "organiser": "CEPOL (EU Agency for Law Enforcement Training)",
+      "country": "EU",
+      "default_type": "training",
+      "default_sectors": ["Security & Protection", "Knowledge Training & Research"]
+    },
+    {
+      "name": "NATO CCDCOE",
+      "type": "rss",
+      "url": "https://ccdcoe.org/feed/",
+      "site": "https://ccdcoe.org",
+      "organiser": "NATO CCDCOE (Cooperative Cyber Defence Centre of Excellence)",
+      "country": "EE",
+      "city": "Tallinn",
+      "default_type": "conference",
+      "default_sectors": ["Digital Infrastructure & Cybersecurity", "Security & Protection"]
+    },
+    {
+      "name": "EDA — European Defence Agency",
+      "type": "rss",
+      "url": "https://eda.europa.eu/rss",
+      "site": "https://eda.europa.eu",
+      "organiser": "European Defence Agency",
+      "country": "EU",
+      "default_type": "conference",
+      "default_sectors": ["Security & Protection"]
+    },
+    {
+      "name": "EU Civil Protection Knowledge Network",
+      "type": "rss",
+      "url": "https://civil-protection-knowledge-network.europa.eu/events/rss.xml",
+      "site": "https://civil-protection-knowledge-network.europa.eu/events",
+      "organiser": "European Commission — DG ECHO",
+      "country": "EU",
+      "default_type": "conference",
+      "default_sectors": ["Emergency & Crisis Response", "Risk & Continuity Management"]
+    },
+    {
+      "name": "ECDC — Events",
+      "type": "rss",
+      "url": "https://www.ecdc.europa.eu/en/events/rss.xml",
+      "site": "https://www.ecdc.europa.eu/en/events",
+      "organiser": "European Centre for Disease Prevention and Control",
+      "country": "SE",
+      "city": "Stockholm",
+      "default_type": "conference",
+      "default_sectors": ["Emergency & Crisis Response"]
+    }
+  ]
+}
