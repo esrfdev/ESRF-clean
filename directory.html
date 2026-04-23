@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="assets/share.css" />
 <script src="consent.js" defer></script>
     <script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
@@ -263,6 +264,7 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
       <a href="map.html" data-i18n="nav.atlas">Atlas</a>
       <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
       <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <a href="editorials.html" data-i18n="nav.editorials">Editorials</a>
       <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
       <a href="fund.html" class="mast-contribute" data-i18n="nav.fund">Contribute</a>
     </div>
@@ -275,6 +277,11 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
     </div>
   </div>
 </nav>
+
+<!-- Page-level share row (ESRF page only, never individual listings) -->
+<div class="dir-share-wrap" style="max-width:var(--max);margin:0 auto;padding:14px var(--pad-x) 0">
+  <div data-esrf-share data-kind="page" data-label="Share page"></div>
+</div>
 
 <!-- ── Compact filter toolbar ── -->
 <div class="dir-toolbar" id="dir-toolbar">
@@ -393,6 +400,7 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script src="search.js" defer></script>
+<script src="assets/share.js" defer></script>
 <script>
 (async () => {
   const grid     = document.getElementById('dir-list');

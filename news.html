@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="assets/share.css" />
 <script src="consent.js" defer></script>
     <script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
@@ -42,6 +43,7 @@
       <a href="map.html" data-i18n="nav.atlas">Atlas</a>
       <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
       <a href="news.html" aria-current="page" data-i18n="nav.dispatch">Dispatch</a>
+      <a href="editorials.html" data-i18n="nav.editorials">Editorials</a>
       <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
       <a href="fund.html" class="mast-contribute" data-i18n="nav.fund">Contribute</a>
     </div>
@@ -64,6 +66,7 @@
       <span id="dispatch-count"><strong>41</strong> <span data-i18n="common.articles">articles</span></span>
       <span id="dispatch-gen"></span>
     </div>
+    <div data-esrf-share data-kind="page" data-label="Share page" style="margin-top:18px"></div>
   </div>
 </section>
 
@@ -75,20 +78,27 @@
   current date is on or before that value. The full collection of editorials
   remains available at editorials.html regardless of banner expiry.
 -->
-<section class="featured-editorial" id="featured-editorial" data-expires="2026-05-20" hidden>
-  <a class="featured-editorial-card" href="editorial-oil-shortage-2026.html">
+<section class="featured-editorial" id="featured-editorial" data-expires="2026-05-23" hidden>
+  <a class="featured-editorial-card" href="editorial-rotterdam-weerbaarheid-2026.html">
     <div class="featured-editorial-kicker" data-i18n="featured.kicker">§ Featured Editorial · Stewardship</div>
     <h2 class="featured-editorial-title">
-      <span data-i18n="editorial_oil_shortage_2026.hero_title_1">Oil shortage in Europe — what to do and how should your company communicate this to</span>
-      <i data-i18n="editorial_oil_shortage_2026.hero_title_2">customers</i>.
+      <span>Als het misgaat, sta je er</span>
+      <i>niet alleen</i>
+      <span>voor</span>.
     </h2>
-    <p class="featured-editorial-deck" data-i18n="editorial_oil_shortage_2026.hero_subtitle">Europe faces potential shortages of oil, diesel, kerosene and petrol. An editorial on operational measures and effective customer communication for businesses.</p>
+    <p class="featured-editorial-deck">Wat Rotterdam Europese steden, inwoners en regionale bedrijven leert over crisisvoorbereiding, samenwerking en de rol van stad, haven, bedrijven en bewoners.</p>
     <div class="featured-editorial-meta">
-      <span data-i18n="editorial_oil_shortage_2026.byline">20 Apr 2026 · ESRF.net Editorial · Reading time ±8 min</span>
+      <span>23 Apr 2026 · ESRF.net Editorial · Reading time ±9 min</span>
       <span class="featured-editorial-cta" data-i18n="featured.cta">Read editorial →</span>
     </div>
   </a>
 </section>
+
+<!-- Category chips: dispatch vs ESRF editorials -->
+<div class="dispatch-categories" role="tablist" aria-label="Content categories">
+  <a class="dispatch-chip is-active" href="news.html" role="tab" aria-selected="true" aria-current="page" data-i18n="news.cat_dispatch">Dispatch</a>
+  <a class="dispatch-chip" href="editorials.html" role="tab" aria-selected="false" data-i18n="news.cat_editorials">Editorials</a>
+</div>
 
 <!-- Filter bar -->
 <div class="dispatch-filters" id="dispatch-filters">
@@ -197,6 +207,7 @@
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script src="search.js" defer></script>
+<script src="assets/share.js" defer></script>
 <script>
 // Featured editorial — show if current date is before data-expires
 (() => {

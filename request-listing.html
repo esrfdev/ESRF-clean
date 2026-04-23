@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="assets/share.css" />
 <script src="consent.js" defer></script>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
@@ -43,6 +44,7 @@
       <a href="map.html" data-i18n="nav.atlas">Atlas</a>
       <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
       <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <a href="editorials.html" data-i18n="nav.editorials">Editorials</a>
       <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
       <a href="fund.html" class="mast-contribute" data-i18n="nav.fund">Contribute</a>
     </div>
@@ -61,6 +63,7 @@
     <div class="kicker" data-i18n="form.kicker">§ Community · Listing request</div>
     <h1 class="phero-title"><span data-i18n="form.hero_title">Claim your<br><i>listing</i>.</span></h1>
     <p class="phero-deck" data-i18n="form.hero_deck">Any organisation whose work strengthens European security and resilience is welcome in the ESRF.net community. Submissions are reviewed by the editorial team within three working days. Listing is free — we ask only that your work genuinely contributes to one of our ten vital sectors.</p>
+    <div data-esrf-share data-kind="page" data-label="Share page" style="margin-top:18px"></div>
   </div>
 </section>
 
@@ -259,6 +262,7 @@
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script src="search.js" defer></script>
+<script src="assets/share.js" defer></script>
 <script>
 (function(){
   // Timer: record page load time for bot detection

@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href="assets/share.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
     <script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
@@ -453,6 +454,7 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
       <a href="map.html" data-i18n="nav.atlas">Atlas</a>
       <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
       <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <a href="editorials.html" data-i18n="nav.editorials">Editorials</a>
       <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
       <a href="fund.html" class="mast-contribute" data-i18n="nav.fund">Contribute</a>
     </div>
@@ -470,6 +472,7 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
 <div class="ev-hero">
   <h1 class="ev-hero-title">Events & Training</h1>
   <p class="ev-hero-sub">Conferences, expos, trainings and exercises across the European security and resilience community.</p>
+  <div data-esrf-share data-kind="page" data-label="Share page" style="margin:12px 0 4px"></div>
   <div class="ev-kpis" id="ev-kpis">
     <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-upcoming">—</div><div class="ev-kpi-label">Upcoming</div></div>
     <div class="ev-kpi"><div class="ev-kpi-val" id="kpi-countries">—</div><div class="ev-kpi-label">Countries</div></div>
@@ -625,6 +628,7 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script src="search.js" defer></script>
+<script src="assets/share.js" defer></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
 <script>
 (async()=>{
