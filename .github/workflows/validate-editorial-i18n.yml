@@ -14,14 +14,20 @@ on:
     branches: [main]
     paths:
       - 'editorial-*.html'
+      - 'news.html'
+      - 'index.html'
       - 'i18n/*.json'
       - 'scripts/validate_editorial_i18n.py'
+      - 'scripts/validate_featured_card.py'
       - '.github/workflows/validate-editorial-i18n.yml'
   pull_request:
     paths:
       - 'editorial-*.html'
+      - 'news.html'
+      - 'index.html'
       - 'i18n/*.json'
       - 'scripts/validate_editorial_i18n.py'
+      - 'scripts/validate_featured_card.py'
       - '.github/workflows/validate-editorial-i18n.yml'
   workflow_dispatch:
 
@@ -58,3 +64,9 @@ jobs:
         run: |
           python3 scripts/validate_editorial_i18n.py \
             --fail-on KEY_MISSING,KEY_EMPTY,DUTCH_LEAKAGE,SOURCE_MISSING,MARKUP_MISMATCH
+
+      # Featured-editorial card (news.html + index.html): blocks any
+      # re-introduction of hardcoded Dutch title/deck/meta, and ensures
+      # the featured.* keys exist and are translated in every locale.
+      - name: Featured-card i18n — gating
+        run: python3 scripts/validate_featured_card.py

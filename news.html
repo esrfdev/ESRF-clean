@@ -105,16 +105,12 @@
   remains available at editorials.html regardless of banner expiry.
 -->
 <section class="featured-editorial" id="featured-editorial" data-expires="2026-05-23" hidden>
-  <a class="featured-editorial-card" href="editorial-rotterdam-weerbaarheid-2026.html">
+  <a class="featured-editorial-card" href="editorial-rotterdam-weerbaarheid-2026.html" data-lang-link>
     <div class="featured-editorial-kicker" data-i18n="featured.kicker">§ Featured Editorial · Stewardship</div>
-    <h2 class="featured-editorial-title">
-      <span>Als het misgaat, sta je er</span>
-      <i>niet alleen</i>
-      <span>voor</span>.
-    </h2>
-    <p class="featured-editorial-deck">Wat Rotterdam Europese steden, inwoners en regionale bedrijven leert over crisisvoorbereiding, samenwerking en de rol van stad, haven, bedrijven en bewoners.</p>
+    <h2 class="featured-editorial-title" data-i18n-html="featured.title_html">When things go wrong, you don't face it <i>alone</i>.</h2>
+    <p class="featured-editorial-deck" data-i18n="featured.deck">What Rotterdam teaches European cities, residents, and businesses about crisis preparedness</p>
     <div class="featured-editorial-meta">
-      <span>23 Apr 2026 · ESRF.net Editorial · Reading time ±9 min</span>
+      <span data-i18n="featured.meta">23 Apr 2026 · ESRF.net Editorial · Reading time ±9 min</span>
       <span class="featured-editorial-cta" data-i18n="featured.cta">Read editorial →</span>
     </div>
   </a>
@@ -244,6 +240,25 @@
   const now = new Date();
   const exp = new Date(expires + 'T23:59:59');
   if (now <= exp) el.hidden = false;
+})();
+
+// Preserve active ?lang= on any [data-lang-link] anchor (e.g. featured-editorial card)
+(() => {
+  function applyLangToLinks() {
+    const lang = (window.esrfI18n && typeof window.esrfI18n.getCurrentLang === 'function')
+      ? window.esrfI18n.getCurrentLang()
+      : (new URLSearchParams(window.location.search).get('lang') || null);
+    if (!lang) return;
+    document.querySelectorAll('a[data-lang-link]').forEach(a => {
+      try {
+        const u = new URL(a.getAttribute('href'), window.location.href);
+        u.searchParams.set('lang', lang);
+        a.setAttribute('href', u.pathname + u.search + u.hash);
+      } catch(e) {}
+    });
+  }
+  applyLangToLinks();
+  window.addEventListener('esrf:langchange', applyLangToLinks);
 })();
 </script>
 <script>
