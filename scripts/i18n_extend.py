@@ -145,7 +145,6 @@ NEW_KEYS = {
             'en':"Where governments set policy and international bodies coordinate, <strong>ESRF.net</strong> unites the businesses, institutions and citizens whose daily work quietly sustains our shared life — a decentralised framework powered by the organisations that drive the economy.",
             'nl':"Waar overheden beleid maken en internationale organen coördineren, verbindt <strong>ESRF.net</strong> de bedrijven, instellingen en burgers wier dagelijkse werk ons gezamenlijke leven stilletjes in stand houdt — een gedecentraliseerd raamwerk, gedragen door de organisaties die de economie aandrijven."
         },
-        'hero_fig_label': {'en':'Fig. 01','nl':'Fig. 01'},
         'hero_fig_caption': {
             'en':'A community of practitioners, spanning thirty nations, bound by five moral principles.',
             'nl':'Een gemeenschap van professionals, verspreid over dertig landen, verbonden door vijf morele principes.'

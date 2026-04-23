@@ -262,15 +262,11 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 }
 .hero-meta span strong{color:var(--accent);font-weight:500}
 .hero-caption{
-  position:absolute;right:48px;bottom:72px;z-index:3;
+  position:absolute;left:50%;top:120px;transform:translateX(-50%);z-index:3;
   font-family:'PT Serif',serif;font-style:italic;
-  font-size:13px;color:var(--cream);
-  max-width:260px;text-align:right;
-  border-right:2px solid var(--accent);padding-right:14px;
-}
-.hero-caption-num{
-  display:block;font-family:'IBM Plex Mono',monospace;font-style:normal;
-  font-size:10px;letter-spacing:0.2em;color:var(--accent);margin-bottom:6px;
+  font-size:14px;line-height:1.5;color:var(--cream);opacity:0.9;
+  max-width:520px;width:calc(100% - 80px);text-align:center;
+  padding-top:12px;border-top:2px solid var(--accent);
 }
 .scroll-hint{
   position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:3;
