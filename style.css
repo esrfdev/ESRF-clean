@@ -974,8 +974,13 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .legal ul{padding-left:22px;margin-bottom:16px}
 
 /* ═══ Countries overview ═══ */
+/* Container wraps grouped subgrids. Use block layout so group labels and
+   subgrids stretch full-width; legacy 3-column grid still available via
+   .countries-grid.is-flat when no subgrids are used. */
 .countries-grid{
   max-width:var(--max);margin:0 auto;padding:40px var(--pad-x) 120px;
+}
+.countries-grid.is-flat{
   display:grid;grid-template-columns:repeat(3,1fr);gap:0;
   border-top:1px solid var(--ink);border-left:1px solid var(--ink);
 }
@@ -1209,9 +1214,7 @@ body.modal-open{overflow:hidden}
 .listing-banner .btn{display:inline-block}
 
 /* ═══ Country group labels ═══ */
-.country-group-label{
-  max-width:var(--max);margin:0 auto;padding:0 var(--pad-x);
-}
+.country-group-label{margin:0 0 4px}
 .country-group-label .kicker{
   font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;
   letter-spacing:0.18em;text-transform:uppercase;
@@ -1219,8 +1222,10 @@ body.modal-open{overflow:hidden}
 }
 .countries-subgrid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:1px;max-width:var(--max);margin:12px auto 0;padding:0 var(--pad-x);
+  gap:0;margin:12px 0 0;min-width:0;
+  border-top:1px solid var(--ink);border-left:1px solid var(--ink);
 }
+.country-name{overflow-wrap:anywhere}
 
 /* ═══ GDPR Cookie Consent Banner ═══ */
 #esrf-consent{

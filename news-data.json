@@ -1,6 +1,6 @@
 {
   "generated": "2026-04-23T10:10:13.913860+00:00",
-  "article_count": 86,
+  "article_count": 88,
   "org_count": 22,
   "focus": "European resilience & regional strengthening",
   "articles": [
@@ -1206,6 +1206,34 @@
       "date": "2026-03-31",
       "lang": "fi",
       "scope": "national",
+      "mentions": []
+    },
+    {
+      "title": "Editorial — Als het misgaat, sta je er niet alleen voor",
+      "url": "editorial-rotterdam-weerbaarheid-2026.html",
+      "organisation": "ESRF.net",
+      "orgUrl": "https://www.esrf.net",
+      "pillar": "stewardship",
+      "country": "EU",
+      "source": "ESRF.net Editorial",
+      "snippet": "Wat Rotterdam Europese steden, inwoners en regionale bedrijven leert over crisisvoorbereiding, samenwerking en de rol van stad, haven, bedrijven en bewoners.",
+      "date": "2026-04-23T12:00:00Z",
+      "lang": "nl",
+      "scope": "european",
+      "mentions": []
+    },
+    {
+      "title": "Editorial — Olietekort in Europa: wat te doen en hoe communiceer je als bedrijf naar klanten",
+      "url": "editorial-oil-shortage-2026.html",
+      "organisation": "ESRF.net",
+      "orgUrl": "https://www.esrf.net",
+      "pillar": "stewardship",
+      "country": "EU",
+      "source": "ESRF.net Editorial",
+      "snippet": "Europa staat voor mogelijke tekorten aan olie, diesel, kerosine en benzine. Een editorial over operationele maatregelen en effectieve klantcommunicatie voor bedrijven.",
+      "date": "2026-04-20T09:00:00Z",
+      "lang": "nl",
+      "scope": "european",
       "mentions": []
     }
   ]
