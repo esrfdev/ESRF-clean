@@ -128,6 +128,23 @@ function applyTranslations() {
       if (val !== key) el.setAttribute(attrName, val);
     }
   });
+
+  // After every translation pass, ask counters.js (if loaded) to
+  // resolve any {total}/{countries}/{sectors} tokens the translations
+  // just injected and to refill any [data-count] elements. This
+  // eliminates the race where i18n finishes before counters' langchange
+  // handler runs and tokens would otherwise remain visible as literal
+  // "{total}" / "{countries}" strings on the rendered page.
+  try {
+    if (window.esrfCounters) {
+      if (typeof window.esrfCounters.reinterpolateDom === 'function') {
+        window.esrfCounters.reinterpolateDom();
+      }
+      if (typeof window.esrfCounters.applyDataCounts === 'function') {
+        window.esrfCounters.applyDataCounts();
+      }
+    }
+  } catch (e) { /* swallow — counters are non-critical */ }
 }
 
 /* ── Update lang current display ── */

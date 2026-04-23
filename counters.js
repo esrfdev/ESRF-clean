@@ -160,6 +160,10 @@
   }
   state.interpolate = interpolate;
   state.fmt = fmt;
+  // applyDataCounts + reinterpolateDom are attached further down once
+  // defined. i18n.js pokes these after every applyTranslations pass
+  // so {total}/{countries}/{sectors} tokens resolve immediately instead
+  // of waiting for the esrf:langchange event loop hop.
 
   // ── Populate [data-count="..."] elements ──────────────────────
   function applyDataCounts(root) {
@@ -277,6 +281,7 @@
     });
   }
   state.reinterpolateDom = reinterpolateDom;
+  state.applyDataCounts = applyDataCounts;
 
   // ── Bootstrap ─────────────────────────────────────────────────
   // Always patch i18n + apply counts + reinterpolate — whether the
