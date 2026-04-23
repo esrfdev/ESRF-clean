@@ -34,17 +34,19 @@ const LANGS = [
 
 let _strings = {};
 let _currentLang = 'en';
+// In-memory language preference (session-scoped). Persistence across sessions
+// is intentionally dropped so the site runs in sandboxed preview iframes where
+// browser storage APIs are unavailable. The URL ?lang= param still carries
+// language across reloads and shared links.
+let _sessionLang = null;
 
-/* ── Detect language from URL → localStorage → browser → fallback ── */
+/* ── Detect language from URL → in-memory session → browser → fallback ── */
 function detectLang() {
   const params = new URLSearchParams(window.location.search);
   const fromUrl = params.get('lang');
   if (fromUrl && LANGS.find(l => l.code === fromUrl)) return fromUrl;
 
-  try {
-    const stored = localStorage.getItem('esrfnetLang');
-    if (stored && LANGS.find(l => l.code === stored)) return stored;
-  } catch(e) {}
+  if (_sessionLang && LANGS.find(l => l.code === _sessionLang)) return _sessionLang;
 
   const browser = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
   if (LANGS.find(l => l.code === browser)) return browser;
@@ -193,7 +195,7 @@ function renderLangMenu() {
 /* ── Switch language ── */
 async function switchLang(lang) {
   _currentLang = lang;
-  try { localStorage.setItem('esrfnetLang', lang); } catch(e) {}
+  _sessionLang = lang;
 
   // Update URL without reload
   const url = new URL(window.location.href);
