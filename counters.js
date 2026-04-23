@@ -188,6 +188,12 @@
         val = state.sectorsByCountry[key.slice(16)] || 0;
       }
       else return;
+      // Hard guard: never overwrite a headline aggregate with 0 — these
+      // appear inside marketing copy. If we would write 0, substitute
+      // the last-known static fallback instead.
+      if ((key === 'total' || key === 'countries' || key === 'sectors') && (!val || val <= 0)) {
+        val = FALLBACK[key];
+      }
       el.textContent = fmt(val);
     });
 
@@ -273,17 +279,39 @@
   state.reinterpolateDom = reinterpolateDom;
 
   // ── Bootstrap ─────────────────────────────────────────────────
+  // Always patch i18n + apply counts + reinterpolate — whether the
+  // live JSON loaded or not. This guarantees that any translated
+  // string containing {total}/{countries}/{sectors} is resolved
+  // against the safe FALLBACK values even when the fetch never
+  // succeeds (404, CORS, offline, slow mobile). Without this, a
+  // failed fetch left the DOM with literal "{total}" tokens or,
+  // worse, stale zeros from an older build still in the browser
+  // cache.
+  function applyAll() {
+    try { patchI18n(); } catch (e) { console.warn('[counters] patchI18n', e); }
+    try { applyDataCounts(); } catch (e) { console.warn('[counters] applyDataCounts', e); }
+    try { reinterpolateDom(); } catch (e) { console.warn('[counters] reinterpolateDom', e); }
+  }
+
   function boot() {
+    // First pass with fallback values — runs immediately so the
+    // page is never left with "{total}" tokens or 0 on flaky
+    // connections. Subsequent fetch resolves and refreshes counts.
+    applyAll();
     fetchOrgs()
       .then(orgs => {
-        compute(orgs);
-        patchI18n();
-        applyDataCounts();
-        reinterpolateDom();
+        if (Array.isArray(orgs) && orgs.length > 0) {
+          compute(orgs);
+        }
+        applyAll();
         _resolveReady(state);
       })
       .catch(err => {
         console.warn('[counters] failed to load orgs:', err);
+        // Keep FALLBACK values already seeded in state; ensure
+        // tokens get resolved at least once even if patchI18n ran
+        // before i18n was ready.
+        applyAll();
         _resolveReady(state);
       });
   }
