@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 <link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="assets/share.css" />
 <script src="consent.js" defer></script>
     <script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
@@ -70,6 +71,8 @@
     <h2 data-i18n="map.heading">Community Atlas</h2>
     <p style="font-family:'PT Serif',serif;font-style:italic;font-size:14px;color:var(--ink-soft);margin:6px 0 14px" data-i18n="map.instructions">Click any marker for organisation detail. Filter by sector or search by name.</p>
 
+    <div data-esrf-share data-kind="page" data-label="Share page" style="margin:0 0 14px"></div>
+
     <input id="q" type="search" placeholder="Search organisations…" data-i18n-placeholder="filter.search_organisations" aria-label="Search organisations" />
 
     <span class="filter-group-label" data-i18n="filter.sector">Sector</span>
@@ -90,6 +93,7 @@
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
 <script src="search.js" defer></script>
+<script src="assets/share.js" defer></script>
 <script>
 (async () => {
   const orgs = await loadOrgs();
