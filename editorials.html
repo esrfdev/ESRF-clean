@@ -41,6 +41,16 @@
 .editorials-snippet{font-size:1rem;line-height:1.65;color:var(--ink-soft);margin:0 0 0.7em}
 .editorials-cta{font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--accent);font-weight:500}
 .editorials-empty{padding:4em 0;text-align:center;color:var(--ink-dim);font-family:'IBM Plex Mono',monospace;font-size:0.95rem}
+/* Landing-page featured block for the newest editorial */
+.editorials-featured{max-width:1200px;margin:0 auto;padding:0 var(--pad-x) 8px}
+.editorials-featured-card{display:block;background:var(--ink);color:var(--cream);padding:40px 44px;border-radius:4px;text-decoration:none;border-left:4px solid var(--accent);transition:transform .18s ease, box-shadow .18s ease}
+.editorials-featured-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(15,20,25,0.18)}
+.editorials-featured-kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.editorials-featured-title{font-family:'PT Serif',serif;font-size:clamp(26px,3.2vw,40px);line-height:1.1;font-weight:700;margin:0 0 14px;color:var(--cream);letter-spacing:-0.01em}
+.editorials-featured-deck{font-size:16px;line-height:1.55;color:rgba(248,242,230,0.82);margin:0 0 20px;max-width:760px}
+.editorials-featured-meta{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.04em;color:rgba(248,242,230,0.6);padding-top:16px;border-top:1px solid rgba(248,242,230,0.12)}
+.editorials-featured-cta{color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:0.08em}
+@media (max-width:768px){.editorials-featured-card{padding:28px 24px}.editorials-featured-deck{font-size:15px}}
 </style>
 </head>
 <body>
@@ -56,6 +66,7 @@
       <a href="map.html" data-i18n="nav.atlas">Atlas</a>
       <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
       <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <a href="editorials.html" data-i18n="nav.editorials">Editorials</a>
       <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
       <a href="fund.html" class="mast-contribute" data-i18n="nav.fund">Contribute</a>
     </div>
@@ -76,6 +87,24 @@
     <p class="phero-deck" data-i18n="editorials.hero_deck">Essays and analysis from ESRF.net on European security, resilience and crisis response — newest first.</p>
   </div>
 </section>
+
+<!-- Category chips: dispatch vs ESRF editorials -->
+<div class="dispatch-categories" role="tablist" aria-label="Content categories">
+  <a class="dispatch-chip" href="news.html" role="tab" aria-selected="false" data-i18n="news.cat_dispatch">Dispatch</a>
+  <a class="dispatch-chip is-active" href="editorials.html" role="tab" aria-selected="true" aria-current="page" data-i18n="news.cat_editorials">Editorials</a>
+</div>
+
+<div class="editorials-featured" id="editorials-featured" hidden aria-label="Featured editorial">
+  <a class="editorials-featured-card" id="editorials-featured-link" href="#">
+    <div class="editorials-featured-kicker" data-i18n="editorials.featured_kicker">§ Featured Editorial · Latest</div>
+    <h2 class="editorials-featured-title" id="editorials-featured-title"></h2>
+    <p class="editorials-featured-deck" id="editorials-featured-deck"></p>
+    <div class="editorials-featured-meta">
+      <span id="editorials-featured-date"></span>
+      <span class="editorials-featured-cta" data-i18n="featured.cta">Read editorial →</span>
+    </div>
+  </a>
+</div>
 
 <div class="editorials-list" id="editorials-list" aria-live="polite">
   <div class="editorials-empty" data-i18n="editorials.loading">Loading editorials…</div>
@@ -162,6 +191,28 @@
 
     const locale = (document.documentElement.lang || 'en');
     const readMore = t('editorials.read_more', 'Read editorial →');
+
+    // Promote the newest editorial into the featured block.
+    const featured = items[0];
+    const featuredEl = document.getElementById('editorials-featured');
+    if (featured && featuredEl) {
+      const fLink = document.getElementById('editorials-featured-link');
+      const fTitle = document.getElementById('editorials-featured-title');
+      const fDeck = document.getElementById('editorials-featured-deck');
+      const fDate = document.getElementById('editorials-featured-date');
+      if (fLink) fLink.href = featured.url || '#';
+      if (fTitle) fTitle.textContent = featured.title || '';
+      if (fDeck) fDeck.textContent = featured.snippet || '';
+      if (fDate) {
+        let d = '';
+        try {
+          const dd = new Date(featured.date);
+          if (!isNaN(dd)) d = dd.toLocaleDateString(locale, { year:'numeric', month:'short', day:'numeric' });
+        } catch(e) {}
+        fDate.textContent = (d ? d + ' · ' : '') + 'ESRF.net Editorial';
+      }
+      featuredEl.hidden = false;
+    }
 
     listEl.innerHTML = items.map(a => {
       const url = esc(a.url || '#');

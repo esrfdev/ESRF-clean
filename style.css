@@ -719,6 +719,31 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .news-lang{background:rgba(15,20,25,0.08);color:var(--ink-dim)}
 .news-pillar-tag{background:rgba(210,75,31,0.1);color:var(--accent-deep)}
 
+/* ── Dispatch / Editorials category chips ── */
+.dispatch-categories{
+  max-width:1200px;margin:0 auto;padding:20px var(--pad-x) 0;
+  display:flex;flex-wrap:wrap;gap:10px;
+}
+.dispatch-chip{
+  display:inline-flex;align-items:center;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;
+  letter-spacing:0.14em;text-transform:uppercase;
+  padding:8px 16px;border-radius:999px;
+  background:transparent;border:1px solid rgba(15,20,25,0.22);
+  color:var(--ink);text-decoration:none;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.dispatch-chip:hover,
+.dispatch-chip:focus-visible{
+  border-color:var(--accent);color:var(--accent);outline:none;
+}
+.dispatch-chip.is-active{
+  background:var(--ink);color:var(--cream);border-color:var(--ink);
+}
+.dispatch-chip.is-active:hover{
+  background:var(--accent);border-color:var(--accent);color:var(--cream);
+}
+
 /* ── Dispatch filters ── */
 .dispatch-filters{max-width:1200px;margin:0 auto;padding:0 var(--pad-x)}
 .dispatch-filters-inner{
@@ -1566,8 +1591,32 @@ body.search-open{overflow:hidden}
 }
 .featured-editorial-card:hover .featured-editorial-cta{color:var(--cream)}
 
+.featured-editorial-more{
+  max-width:1200px;
+  margin:14px auto 0;
+  padding:0 var(--pad-x);
+  text-align:right;
+}
+.featured-editorial-more-link{
+  font-family:var(--mono, ui-monospace, monospace);
+  font-size:12px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--ink-dim, #6b6b6b);
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:color .15s ease, border-color .15s ease;
+}
+.featured-editorial-more-link:hover,
+.featured-editorial-more-link:focus-visible{
+  color:var(--accent, #C14A2E);
+  border-bottom-color:currentColor;
+  outline:none;
+}
+
 @media (max-width:768px){
   .featured-editorial{padding:0 var(--pad-x) 24px}
   .featured-editorial-card{padding:28px 24px}
   .featured-editorial-deck{font-size:15px}
+  .featured-editorial-more{text-align:left}
 }
