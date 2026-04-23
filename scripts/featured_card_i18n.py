@@ -9,7 +9,7 @@ Strategy:
   - title_html = "{hero_title_1} <i>{hero_title_2}</i>."
     (taken from editorial_rotterdam_weerbaarheid_2026.hero_title_1/2 —
      guaranteed present by a previous translation pass across 27 locales)
-  - deck       = editorial_rotterdam_weerbaarheid_2026.hero_subtitle
+  - deck       = editorial_rotterdam_weerbaarheid_2026.hero_deck
   - meta       = localized "23 Apr 2026 · ESRF.net Editorial · Reading time ±9 min"
     with per-locale "Reading time ±9 min" snippet (see META_READ below).
 
@@ -62,15 +62,15 @@ def build_featured(locale: str, data: dict) -> dict:
     ed = data.get("editorial_rotterdam_weerbaarheid_2026", {}) or {}
     t1 = ed.get("hero_title_1", "").strip()
     t2 = ed.get("hero_title_2", "").strip()
-    subtitle = ed.get("hero_subtitle", "").strip()
+    deck = ed.get("hero_deck", "").strip()
 
     if not t1 or not t2:
         raise SystemExit(
             f"{locale}: missing editorial_rotterdam_weerbaarheid_2026.hero_title_1/2"
         )
-    if not subtitle:
+    if not deck:
         raise SystemExit(
-            f"{locale}: missing editorial_rotterdam_weerbaarheid_2026.hero_subtitle"
+            f"{locale}: missing editorial_rotterdam_weerbaarheid_2026.hero_deck"
         )
 
     # Mirror the editorial page's italic styling: italicize the tail phrase.
@@ -81,7 +81,7 @@ def build_featured(locale: str, data: dict) -> dict:
     merged = {
         "kicker": existing.get("kicker"),
         "title_html": title_html,
-        "deck": subtitle,
+        "deck": deck,
         "meta": meta,
         "cta": existing.get("cta"),
     }

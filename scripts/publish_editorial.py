@@ -694,13 +694,11 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
 .ed-tag{{font-family:'IBM Plex Mono',monospace;font-size:0.75rem;background:var(--ink);color:var(--bg);padding:3px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.04em}}
 /* ── Editorial hero: refined ── */
 .phero--editorial .phero-title{{font-size:clamp(42px,7vw,96px);line-height:0.92;letter-spacing:-0.035em;font-weight:700}}
-.phero-subtitle{{font-family:'Archivo',system-ui,sans-serif;font-size:clamp(18px,2.4vw,28px);font-weight:500;color:var(--ink-soft);letter-spacing:-0.01em;line-height:1.35;margin-top:-16px;margin-bottom:24px;max-width:680px}}
 @media(max-width:600px){{
   .ed-article{{padding:0 20px 60px}}
   .ed-article h2{{font-size:1.3rem}}
   .ed-article .ed-example{{padding:1.4em 1.6em}}
   .phero--editorial .phero-title{{font-size:clamp(36px,10vw,52px);line-height:0.95}}
-  .phero-subtitle{{font-size:18px;margin-top:-8px}}
 }}
 </style>
 </head>
