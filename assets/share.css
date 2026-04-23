@@ -1,0 +1,70 @@
+/* ═══ Compact one-line share row ═══
+   Quiet, single-line social share: small glyphs in restrained hit-targets.
+   Replaces the earlier heavy sharebar/CTA block. */
+
+.esrf-share{
+  display:flex;align-items:center;gap:10px;
+  margin:16px 0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--ink-dim, #6b6b6b);
+  flex-wrap:wrap;
+  line-height:1;
+}
+
+.esrf-share__label{
+  opacity:0.7;user-select:none;
+}
+
+.esrf-share__list{
+  display:inline-flex;align-items:center;gap:2px;
+  list-style:none;margin:0;padding:0;
+}
+
+.esrf-share__btn{
+  appearance:none;background:transparent;border:0;padding:0;
+  width:28px;height:28px;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:inherit;cursor:pointer;border-radius:4px;
+  text-decoration:none;
+  transition:color .15s ease, background-color .15s ease, transform .15s ease;
+}
+
+.esrf-share__btn svg{
+  width:14px;height:14px;display:block;fill:currentColor;
+}
+
+.esrf-share__btn:hover,
+.esrf-share__btn:focus-visible{
+  color:var(--accent, #C14A2E);
+  background:rgba(193,74,46,0.08);
+  outline:none;
+}
+
+.esrf-share__btn:focus-visible{
+  box-shadow:0 0 0 2px var(--accent, #C14A2E);
+}
+
+/* copy confirmation flash */
+.esrf-share__btn.is-copied{
+  color:var(--accent, #C14A2E);
+  background:rgba(193,74,46,0.12);
+}
+
+/* When placed on a dark background (e.g. footer or ink sections) */
+.esrf-share.is-on-dark{color:rgba(248,242,230,0.6)}
+.esrf-share.is-on-dark .esrf-share__btn:hover,
+.esrf-share.is-on-dark .esrf-share__btn:focus-visible{
+  color:var(--accent, #C14A2E);
+  background:rgba(248,242,230,0.08);
+}
+
+/* Variant: centered (for bottom-of-article placement) */
+.esrf-share--center{justify-content:center;text-align:center}
+
+/* Narrow screens: allow wrap but keep row compact */
+@media (max-width:480px){
+  .esrf-share{gap:8px;font-size:10px;letter-spacing:0.15em}
+  .esrf-share__btn{width:30px;height:30px}
+  .esrf-share__btn svg{width:15px;height:15px}
+}
