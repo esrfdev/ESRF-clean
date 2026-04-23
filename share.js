@@ -3,11 +3,16 @@
    ───────────────────────────────────────────────────────────────────────────
    Responsibilities
    1. Render a social share bar wherever a <div data-esrf-share> is placed,
-      and auto-insert one on article-style pages that have none.
+      and auto-insert one on every public page (hero, article, and a
+      prominent end-of-page CTA block above the footer).
    2. Render a row of social-follow icons inside every footer (<footer.foot>).
    3. Apply light copy-friction on public content areas (not inputs/forms/links).
       This is deterrence, not security — we keep text selectable on interactive
       elements and never break accessibility.
+
+   Share URLs use the canonical URL + UTM parameters so referral traffic is
+   attributable in analytics. The canonical and og:url meta tags themselves
+   are never modified — UTMs only live on the outgoing share URL.
 
    Networks: LinkedIn, X/Twitter, Facebook, WhatsApp, Email, Copy-link, Native.
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -40,9 +45,17 @@
   };
 
   // ── Helpers ───────────────────────────────────────────────────────────────
-  const absoluteUrl = (() => {
-    try { return window.location.href.split('#')[0]; }
-    catch(e){ return ''; }
+
+  // Prefer canonical URL so shares point to the production origin even when
+  // the page is being viewed on preview domains. Fall back to current URL.
+  const canonicalUrl = (() => {
+    try {
+      const link = document.querySelector('link[rel="canonical"]');
+      if (link && link.href) return link.href.split('#')[0];
+      const og = document.querySelector('meta[property="og:url"]');
+      if (og && og.content) return og.content.split('#')[0];
+      return window.location.href.split('#')[0];
+    } catch(e){ return ''; }
   })();
 
   const pageTitle = (() => {
@@ -60,14 +73,48 @@
 
   function enc(s){ return encodeURIComponent(s || ''); }
 
-  function buildShareUrls(url, title, text){
-    const u = enc(url), t = enc(title), x = enc(text || title);
+  // Add UTM parameters to a URL without disturbing an existing query string
+  // or the canonical fragment. `source` is the share network.
+  function addUtm(url, source, placement){
+    try {
+      const u = new URL(url, window.location.origin);
+      u.searchParams.set('utm_source', source);
+      u.searchParams.set('utm_medium', 'social');
+      u.searchParams.set('utm_campaign', 'esrf_share');
+      if (placement) u.searchParams.set('utm_content', placement);
+      return u.toString();
+    } catch(e){
+      // Very defensive fallback (should not be reached in any modern browser)
+      const sep = url.indexOf('?') === -1 ? '?' : '&';
+      return url + sep + 'utm_source=' + enc(source) + '&utm_medium=social&utm_campaign=esrf_share' + (placement ? '&utm_content=' + enc(placement) : '');
+    }
+  }
+
+  function buildShareUrls(url, title, text, placement){
+    // Per-network tagged URL lets analytics attribute the referral correctly.
+    const linkedinUrl = addUtm(url, 'linkedin', placement);
+    const xUrl        = addUtm(url, 'x',        placement);
+    const fbUrl       = addUtm(url, 'facebook', placement);
+    const waUrl       = addUtm(url, 'whatsapp', placement);
+    const mailUrl     = addUtm(url, 'email',    placement);
+
+    const lu = enc(linkedinUrl);
+    const xu = enc(xUrl);
+    const fu = enc(fbUrl);
+    const wu = enc(waUrl);
+    const mu = enc(mailUrl);
+    const t  = enc(title);
+    const x  = enc(text || title);
+
     return {
-      linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + u,
-      x:        'https://twitter.com/intent/tweet?url=' + u + '&text=' + t,
-      facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + u,
-      whatsapp: 'https://wa.me/?text=' + t + '%20' + u,
-      email:    'mailto:?subject=' + t + '&body=' + x + '%0A%0A' + u
+      linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + lu,
+      x:        'https://twitter.com/intent/tweet?url=' + xu + '&text=' + t,
+      facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + fu,
+      whatsapp: 'https://wa.me/?text=' + t + '%20' + wu,
+      email:    'mailto:?subject=' + t + '&body=' + x + '%0A%0A' + mu,
+      // Native-share payload gets an untagged 'direct' URL so referrers keep
+      // their own analytics source (iOS/Android messengers).
+      native:   addUtm(url, 'direct', placement)
     };
   }
 
@@ -91,31 +138,54 @@
     if (!host || host.dataset.esrfShareMounted === '1') return;
     host.dataset.esrfShareMounted = '1';
 
-    const url   = host.getAttribute('data-url')   || absoluteUrl;
-    const title = host.getAttribute('data-title') || pageTitle;
-    const text  = host.getAttribute('data-text')  || pageDescription;
-    const label = host.getAttribute('data-label') || tr('share.label', 'Share');
+    const placement = host.getAttribute('data-placement') || 'inline';
+    const url    = host.getAttribute('data-url')   || canonicalUrl;
+    const title  = host.getAttribute('data-title') || pageTitle;
+    const text   = host.getAttribute('data-text')  || pageDescription;
 
-    const urls = buildShareUrls(url, title, text);
+    // Copy varies by placement: CTA blocks get a recruiting headline, in-article
+    // bars get a simple label. These are all overridable via data-attributes.
+    const label =
+      host.getAttribute('data-label') ||
+      (placement === 'cta'
+        ? tr('share.cta_title', 'Help a peer find ESRF.net')
+        : tr('share.label', 'Share'));
+    const sub =
+      host.getAttribute('data-sub') ||
+      (placement === 'cta'
+        ? tr('share.cta_sub', 'If this page is useful, forward it to a colleague who secures critical operations in Europe. One share meaningfully grows the network.')
+        : '');
+
+    const urls = buildShareUrls(url, title, text, placement);
     const hasNative = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
 
-    const btn = (network, href, name) =>
-      `<a class="esrf-share-btn esrf-share-${network}" href="${esc(href)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(tr('share.on_' + network, 'Share on ' + name))}" data-network="${network}">
+    const btn = (network, href, name, extraClass) =>
+      `<a class="esrf-share-btn esrf-share-${network}${extraClass ? ' ' + extraClass : ''}" href="${esc(href)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(tr('share.on_' + network, 'Share on ' + name))}" data-network="${network}">
          <span class="esrf-share-icon" aria-hidden="true">${ICONS[network]}</span>
          <span class="esrf-share-name">${esc(name)}</span>
        </a>`;
 
     host.classList.add('esrf-share');
     host.setAttribute('role', 'group');
-    host.setAttribute('aria-label', label);
+    host.setAttribute('aria-label', placement === 'cta'
+      ? tr('share.cta_aria', 'Share ESRF.net with colleagues')
+      : label);
+
+    const heading = placement === 'cta'
+      ? `<div class="esrf-share-heading">
+           <span class="esrf-share-kicker" aria-hidden="true">${esc(tr('share.kicker', '§ Share'))}</span>
+           <h3 class="esrf-share-title">${esc(label)}</h3>
+           ${sub ? `<p class="esrf-share-sub">${esc(sub)}</p>` : ''}
+         </div>`
+      : `<span class="esrf-share-label" aria-hidden="true">${esc(label)}</span>`;
 
     host.innerHTML =
-      `<span class="esrf-share-label" aria-hidden="true">${esc(label)}</span>
-       <div class="esrf-share-buttons">` +
+      heading +
+      `<div class="esrf-share-buttons">` +
          btn('linkedin', urls.linkedin, 'LinkedIn') +
          btn('x',        urls.x,        'X') +
          btn('facebook', urls.facebook, 'Facebook') +
-         btn('whatsapp', urls.whatsapp, 'WhatsApp') +
+         btn('whatsapp', urls.whatsapp, 'WhatsApp', 'esrf-share-prominent-mobile') +
          btn('email',    urls.email,    'Email') +
          `<button type="button" class="esrf-share-btn esrf-share-copy" data-network="copy" aria-label="${esc(tr('share.copy_link', 'Copy link'))}">
             <span class="esrf-share-icon" aria-hidden="true">${ICONS.link}</span>
@@ -135,12 +205,12 @@
       if (copyBtn){
         e.preventDefault();
         try {
-          await navigator.clipboard.writeText(url);
+          await navigator.clipboard.writeText(urls.native || url);
           flashCopied(copyBtn);
         } catch(err){
           // Fallback for older browsers
           const ta = document.createElement('textarea');
-          ta.value = url; ta.setAttribute('readonly', '');
+          ta.value = urls.native || url; ta.setAttribute('readonly', '');
           ta.style.position = 'absolute'; ta.style.left = '-9999px';
           document.body.appendChild(ta); ta.select();
           try { document.execCommand('copy'); flashCopied(copyBtn); }
@@ -150,7 +220,7 @@
       } else if (nativeBtn && navigator.share){
         e.preventDefault();
         try {
-          await navigator.share({ title, text, url });
+          await navigator.share({ title, text, url: urls.native || url });
         } catch(err){ /* user cancelled */ }
       }
     });
@@ -168,28 +238,64 @@
     }, 1800);
   }
 
-  // Auto-insert a share bar on article/editorial pages if none exists
+  // Decide whether a page is "shareable" in general. We exclude legal/admin
+  // pages where a share CTA would feel out of place.
+  function isShareablePage(){
+    const path = (window.location.pathname || '').toLowerCase();
+    const denylist = ['privacy', 'terms', 'responsible-disclosure', 'request-listing', 'submit-news', 'submit-event'];
+    return !denylist.some(seg => path.indexOf(seg) !== -1);
+  }
+
+  // Auto-insert share bars on article pages, hero pages, and a prominent
+  // end-of-page CTA. Each placement uses a distinct data-placement so CSS
+  // and analytics can differentiate them.
   function autoInsertShareBar(){
-    if (document.querySelector('[data-esrf-share]')) return;
-    // Editorial / article-style pages
+    if (!isShareablePage()) return;
+
+    // 1) Article / editorial pages — inline share bar under the article body.
     const article = document.querySelector('article.ed-article, article.news-article, .phero--editorial + article, .phero + article');
-    if (article){
-      // Append a share bar after the intro (before the references if present)
+    if (article && !article.querySelector('[data-esrf-share]')) {
       const refs = article.querySelector('.ed-refs');
       const bar = document.createElement('div');
       bar.setAttribute('data-esrf-share', '');
       bar.setAttribute('data-placement', 'article');
       if (refs) article.insertBefore(bar, refs);
       else article.appendChild(bar);
-      return;
     }
-    // Hero-based pages (home, dispatch, etc.) — tuck under the hero/phero
-    const hero = document.querySelector('.phero .phero-inner');
-    if (hero){
+
+    // 2) Hero-based pages — a slim inline bar below the hero content.
+    //    Support both `.phero .phero-inner` (dispatch, editorial, content
+    //    pages) and `.hero .hero-content` (home page).
+    const pheroInner = document.querySelector('.phero .phero-inner');
+    const heroContent = document.querySelector('.hero .hero-content');
+    if (pheroInner && !document.querySelector('.phero [data-esrf-share]')){
       const bar = document.createElement('div');
       bar.setAttribute('data-esrf-share', '');
       bar.setAttribute('data-placement', 'hero');
-      hero.appendChild(bar);
+      pheroInner.appendChild(bar);
+    } else if (heroContent && !document.querySelector('.hero [data-esrf-share]')){
+      const bar = document.createElement('div');
+      bar.setAttribute('data-esrf-share', '');
+      bar.setAttribute('data-placement', 'hero');
+      heroContent.appendChild(bar);
+    }
+
+    // 3) End-of-page CTA — a prominent, professional "invite a colleague"
+    //    block inserted directly above the footer on every shareable page.
+    //    This is the main growth driver: visible, warm, and on every page,
+    //    without being an intrusive floating widget.
+    if (!document.querySelector('[data-esrf-share][data-placement="cta"]')){
+      const foot = document.querySelector('footer.foot');
+      if (foot && foot.parentNode){
+        const cta = document.createElement('section');
+        cta.className = 'esrf-share-cta-section';
+        cta.setAttribute('aria-labelledby', 'esrf-share-cta-heading');
+        const bar = document.createElement('div');
+        bar.setAttribute('data-esrf-share', '');
+        bar.setAttribute('data-placement', 'cta');
+        cta.appendChild(bar);
+        foot.parentNode.insertBefore(cta, foot);
+      }
     }
   }
 
@@ -231,7 +337,7 @@
   // .esrf-selectable. Keyboard users and screen readers are NOT blocked.
   function isInteractive(el){
     if (!el) return false;
-    if (el.closest('input, textarea, select, button, a, [contenteditable="true"], .esrf-selectable, .esrf-share, .mast, .foot, [data-esrf-share], .search-input, .search-result')) return true;
+    if (el.closest('input, textarea, select, button, a, [contenteditable="true"], .esrf-selectable, .esrf-share, .esrf-share-cta-section, .mast, .foot, [data-esrf-share], .search-input, .search-result')) return true;
     return false;
   }
 
@@ -267,7 +373,7 @@
         if (isInteractive(anchor)) return;
         const text = sel.toString();
         if (!text || text.length < 40) return; // allow short snippets untouched
-        const attribution = '\n\n— ' + tr('share.attribution', 'Source: ESRF.net — ') + (window.location.href);
+        const attribution = '\n\n— ' + tr('share.attribution', 'Source: ESRF.net — ') + canonicalUrl;
         const html = '<p>' + (text.replace(/</g,'&lt;').replace(/>/g,'&gt;')) + '</p><p><em>' + attribution + '</em></p>';
         if (e.clipboardData && e.clipboardData.setData){
           e.clipboardData.setData('text/plain', text + attribution);
