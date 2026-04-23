@@ -114,3 +114,49 @@ editorials/
 ├── published/       ← Verplaats hierheen na publicatie (optioneel)
 └── README.md        ← Dit bestand
 ```
+
+## Pre-publish checklist — i18n guardrail
+
+Before merging an editorial PR to `main`, run the i18n validator locally to
+make sure the page is not shipped half-translated:
+
+```bash
+# Validate every editorial page currently in the repo:
+python3 scripts/validate_editorial_i18n.py
+
+# Validate a single editorial page:
+python3 scripts/validate_editorial_i18n.py --page editorial-mijn-artikel-2026.html
+
+# CI-style run (block only structural failures, allow legacy markup drift
+# to surface as warnings — see scripts/validate_editorial_i18n.py --help):
+python3 scripts/validate_editorial_i18n.py \
+    --fail-on KEY_MISSING,KEY_EMPTY,DUTCH_LEAKAGE,SOURCE_MISSING
+```
+
+What the validator catches:
+
+| Code             | Meaning |
+|------------------|---------|
+| `KEY_MISSING`    | An HTML page references a `data-i18n` key that doesn't exist in a locale JSON. |
+| `KEY_EMPTY`      | The key exists but is blank or non-string. |
+| `SOURCE_MISSING` | The NL source is missing for a referenced key — translations cannot be verified without it. |
+| `DUTCH_LEAKAGE`  | A non-NL locale value is identical to the Dutch source *and* is not an allow-listed proper noun / shared label. This catches pages where DeepL translation was skipped for a key. |
+| `EN_FALLBACK`    | A non-EN locale value equals the EN value. Warning by default (documented convention for `ga`, `hr`, `is`, `mt`). Upgrade to error with `--strict`. |
+| `MARKUP_MISMATCH`| HTML tags or `{placeholders}` in a translated value don't match the NL source. Flags translations where DeepL or a human editor dropped `<em>`, `<sup>`, `<br>`, anchors, etc. |
+
+**Publishing a new editorial — checklist:**
+
+1. Write the draft in `editorials/drafts/`, push to `main`.
+2. Run the `Publish editorial` GitHub Action with `DEEPL_API_KEY` configured
+   so non-NL locales get real translations (not EN fallback).
+3. Pull the automated commit locally and run
+   `python3 scripts/validate_editorial_i18n.py --page editorial-<slug>.html`.
+4. Fix any `MARKUP_MISMATCH` by hand-editing the affected locale(s) in
+   `i18n/*.json` — DeepL occasionally drops inline markup.
+5. For the 4 DeepL-unsupported locales (`ga`, `hr`, `is`, `mt`), EN-fallback
+   is expected and is recorded as a warning only.
+6. Add new proper nouns (brand names, acronyms that are identical in every
+   language) to `PROPER_NOUN_ALLOWLIST` in `scripts/validate_editorial_i18n.py`
+   if they trigger false `DUTCH_LEAKAGE` findings.
+7. The validator also runs in CI on every push/PR — see
+   `.github/workflows/validate-editorial-i18n.yml`.

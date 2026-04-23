@@ -1,0 +1,59 @@
+name: Validate editorial i18n
+
+# Structural guardrail for editorial translations:
+# blocks PRs that ship editorial pages with missing keys, empty strings,
+# raw Dutch leaking into non-NL locales, or inconsistent HTML markup
+# between the NL source and a translated value.
+#
+# This workflow is intentionally read-only and does not modify the repo,
+# so it cannot disrupt the existing publish-editorial / dispatch / events /
+# daily-backup workflows.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'editorial-*.html'
+      - 'i18n/*.json'
+      - 'scripts/validate_editorial_i18n.py'
+      - '.github/workflows/validate-editorial-i18n.yml'
+  pull_request:
+    paths:
+      - 'editorial-*.html'
+      - 'i18n/*.json'
+      - 'scripts/validate_editorial_i18n.py'
+      - '.github/workflows/validate-editorial-i18n.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-editorial-i18n-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Full run — surfaces every finding in the log, including legacy
+      # MARKUP_MISMATCH warnings that should be fixed over time.
+      - name: Editorial i18n — full report
+        run: python3 scripts/validate_editorial_i18n.py || true
+
+      # Gating run — blocks the PR on new regressions of the most
+      # important structural codes. MARKUP_MISMATCH is intentionally NOT
+      # in the gating set so the repo's current legacy findings do not
+      # turn CI red; it is still visible in the full-report step above.
+      - name: Editorial i18n — gating checks
+        run: |
+          python3 scripts/validate_editorial_i18n.py \
+            --fail-on KEY_MISSING,KEY_EMPTY,DUTCH_LEAKAGE,SOURCE_MISSING
