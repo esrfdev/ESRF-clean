@@ -58,7 +58,23 @@
   function render(el){
     var url = el.getAttribute('data-url') || canonicalUrl();
     var title = el.getAttribute('data-title') || pageTitle();
-    var labelText = el.getAttribute('data-label') || tr('share.label', 'Share');
+    var kind = (el.getAttribute('data-kind') || 'page').toLowerCase();
+    var labelText = el.getAttribute('data-label') || (kind === 'editorial'
+      ? tr('share.label_editorial', 'Share editorial')
+      : tr('share.label_page', 'Share page'));
+
+    // Explicit aria labels: clarify this is an ESRF-owned page/editorial,
+    // never a third-party reference or card.
+    var subject = kind === 'editorial'
+      ? tr('share.subject_editorial', 'this ESRF editorial')
+      : tr('share.subject_page', 'this ESRF page');
+
+    function aria(prefix, network){
+      return prefix + ' ' + subject + ' ' + network;
+    }
+    var copyAria = kind === 'editorial'
+      ? tr('share.copy_editorial', 'Copy ESRF editorial link')
+      : tr('share.copy_page', 'Copy ESRF page link');
 
     var li  = withUtm(url, 'linkedin');
     var tw  = withUtm(url, 'x');
@@ -75,16 +91,17 @@
     el.classList.add('esrf-share');
     el.setAttribute('role', 'group');
     el.setAttribute('aria-label', labelText);
+    el.setAttribute('data-share-kind', kind);
 
     el.innerHTML =
       '<span class="esrf-share__label" aria-hidden="true">'+labelText+'</span>' +
       '<ul class="esrf-share__list">' +
-        '<li>'+btn('esrf-share__btn--linkedin', tr('share.linkedin', 'Share on LinkedIn'), liHref, ICONS.linkedin)+'</li>' +
-        '<li>'+btn('esrf-share__btn--x',        tr('share.x',        'Share on X'),        twHref, ICONS.x)+'</li>' +
-        '<li>'+btn('esrf-share__btn--facebook', tr('share.facebook', 'Share on Facebook'), fbHref, ICONS.facebook)+'</li>' +
-        '<li>'+btn('esrf-share__btn--whatsapp', tr('share.whatsapp', 'Share on WhatsApp'), waHref, ICONS.whatsapp)+'</li>' +
-        '<li>'+btn('esrf-share__btn--email',    tr('share.email',    'Share by email'),    mailHref, ICONS.email)+'</li>' +
-        '<li>'+btn('esrf-share__btn--copy js-esrf-copy', tr('share.copy', 'Copy link'), null, ICONS.copy)+'</li>' +
+        '<li>'+btn('esrf-share__btn--linkedin', aria('Share', 'on LinkedIn'), liHref, ICONS.linkedin)+'</li>' +
+        '<li>'+btn('esrf-share__btn--x',        aria('Share', 'on X'),        twHref, ICONS.x)+'</li>' +
+        '<li>'+btn('esrf-share__btn--facebook', aria('Share', 'on Facebook'), fbHref, ICONS.facebook)+'</li>' +
+        '<li>'+btn('esrf-share__btn--whatsapp', aria('Share', 'on WhatsApp'), waHref, ICONS.whatsapp)+'</li>' +
+        '<li>'+btn('esrf-share__btn--email',    aria('Share', 'by email'),    mailHref, ICONS.email)+'</li>' +
+        '<li>'+btn('esrf-share__btn--copy js-esrf-copy', copyAria, null, ICONS.copy)+'</li>' +
       '</ul>';
 
     var copyBtn = el.querySelector('.js-esrf-copy');
@@ -98,7 +115,7 @@
           setTimeout(function(){
             copyBtn.classList.remove('is-copied');
             copyBtn.innerHTML = ICONS.copy;
-            copyBtn.setAttribute('aria-label', tr('share.copy', 'Copy link'));
+            copyBtn.setAttribute('aria-label', copyAria);
           }, 1800);
         };
         if(navigator.clipboard && navigator.clipboard.writeText){
