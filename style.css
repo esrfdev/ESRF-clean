@@ -1571,3 +1571,194 @@ body.search-open{overflow:hidden}
   .featured-editorial-card{padding:28px 24px}
   .featured-editorial-deck{font-size:15px}
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Share bar + footer social icons + copy-friction
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Share bar (default / inline / article) ──────────────────────────────── */
+.esrf-share{
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  margin:36px 0 28px;padding:18px 20px;
+  border-top:1px solid rgba(15,20,25,0.10);
+  border-bottom:1px solid rgba(15,20,25,0.10);
+  background:linear-gradient(180deg, transparent, rgba(15,20,25,0.015));
+}
+
+/* Hero placement — slim, inline, no heavy borders, sits under hero copy */
+.esrf-share[data-placement="hero"]{
+  margin:22px 0 0;padding:12px 0 0;
+  border-top:1px solid rgba(15,20,25,0.10);border-bottom:0;
+  background:transparent;
+}
+.hero .esrf-share[data-placement="hero"]{
+  border-top-color:rgba(248,242,230,0.18);
+}
+.hero .esrf-share[data-placement="hero"] .esrf-share-label{
+  color:var(--accent);
+}
+.hero .esrf-share[data-placement="hero"] .esrf-share-btn{
+  background:rgba(248,242,230,0.06);color:var(--cream);
+  border-color:rgba(248,242,230,0.18);
+}
+.hero .esrf-share[data-placement="hero"] .esrf-share-btn:hover{
+  background:var(--cream);color:var(--ink);border-color:var(--cream);
+}
+.hero .esrf-share[data-placement="hero"] .esrf-share-linkedin:hover{background:#0A66C2;color:#fff;border-color:#0A66C2}
+.hero .esrf-share[data-placement="hero"] .esrf-share-x:hover{background:#000;color:#fff;border-color:#000}
+.hero .esrf-share[data-placement="hero"] .esrf-share-facebook:hover{background:#1877F2;color:#fff;border-color:#1877F2}
+.hero .esrf-share[data-placement="hero"] .esrf-share-whatsapp:hover{background:#25D366;color:#fff;border-color:#25D366}
+
+.esrf-share-label{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:10px;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--accent);
+}
+.esrf-share-buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.esrf-share-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:999px;
+  border:1px solid rgba(15,20,25,0.14);
+  background:var(--cream);color:var(--ink);
+  font-family:'Archivo',system-ui,sans-serif;font-size:13px;font-weight:500;
+  text-decoration:none;cursor:pointer;
+  transition:transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+}
+.esrf-share-btn:hover{transform:translateY(-1px);background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.esrf-share-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.esrf-share-icon{display:inline-flex;width:16px;height:16px}
+.esrf-share-icon svg{width:100%;height:100%;display:block}
+.esrf-share-name{line-height:1}
+/* Network-specific hover tints */
+.esrf-share-linkedin:hover{background:#0A66C2;color:#fff;border-color:#0A66C2}
+.esrf-share-x:hover{background:#000;color:#fff;border-color:#000}
+.esrf-share-facebook:hover{background:#1877F2;color:#fff;border-color:#1877F2}
+.esrf-share-whatsapp:hover{background:#25D366;color:#fff;border-color:#25D366}
+.esrf-share-email:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.esrf-share-copy.esrf-share-copied{
+  background:var(--accent);color:#fff;border-color:var(--accent);
+}
+
+/* ── End-of-page share CTA block (growth driver) ─────────────────────────── */
+.esrf-share-cta-section{
+  max-width:var(--max);margin:0 auto;padding:48px var(--pad-x) 16px;
+}
+.esrf-share[data-placement="cta"]{
+  display:block;padding:28px 28px 24px;margin:0;
+  border:1px solid rgba(15,20,25,0.10);border-radius:6px;
+  background:linear-gradient(180deg,#fff,rgba(15,20,25,0.02));
+  box-shadow:0 1px 0 rgba(15,20,25,0.03);
+}
+.esrf-share[data-placement="cta"] .esrf-share-heading{
+  margin-bottom:18px;
+}
+.esrf-share[data-placement="cta"] .esrf-share-kicker{
+  display:block;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:10px;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:8px;
+}
+.esrf-share[data-placement="cta"] .esrf-share-title{
+  font-family:'Instrument Serif','Playfair Display',Georgia,serif;
+  font-size:clamp(22px,3vw,30px);line-height:1.15;letter-spacing:-0.01em;
+  color:var(--ink);margin:0 0 6px;font-weight:400;
+}
+.esrf-share[data-placement="cta"] .esrf-share-sub{
+  font-family:'Archivo',system-ui,sans-serif;
+  font-size:15px;line-height:1.5;color:var(--ink-soft);
+  margin:0;max-width:62ch;
+}
+.esrf-share[data-placement="cta"] .esrf-share-buttons{
+  gap:10px;margin-top:6px;
+}
+
+/* Article-scoped bar: slightly wider padding so it aligns with body copy */
+.ed-article .esrf-share{margin:48px 0 32px}
+
+/* Hero bar on home sits inside a dark-on-dark hero */
+.hero .esrf-share{width:100%;margin-top:28px}
+
+@media(max-width:600px){
+  .esrf-share{gap:12px;padding:14px 14px}
+  .esrf-share-name{display:none}
+  .esrf-share-btn{padding:10px;border-radius:999px}
+  .esrf-share-icon{width:18px;height:18px}
+
+  /* WhatsApp is the highest-converting mobile-share network. Make it
+     visibly prominent on phones where native share may not be available. */
+  .esrf-share-whatsapp.esrf-share-prominent-mobile,
+  .hero .esrf-share .esrf-share-whatsapp.esrf-share-prominent-mobile{
+    background:#25D366;color:#fff;border-color:#25D366;
+  }
+  .esrf-share-whatsapp.esrf-share-prominent-mobile:hover,
+  .hero .esrf-share .esrf-share-whatsapp.esrf-share-prominent-mobile:hover{
+    background:#1ebe5b;color:#fff;border-color:#1ebe5b;
+  }
+
+  .esrf-share-cta-section{padding:40px var(--pad-x) 8px}
+  .esrf-share[data-placement="cta"]{padding:22px 18px 18px}
+  .esrf-share[data-placement="cta"] .esrf-share-buttons{gap:8px}
+}
+
+/* ── Footer social icons ─────────────────────────────────────────────────── */
+.foot-socials{
+  position:relative;z-index:1;
+  max-width:var(--max);margin:40px auto 0;padding-top:28px;
+  border-top:1px solid rgba(248,242,230,0.12);
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.foot-socials-label{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:10px;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--accent);
+}
+.foot-socials-row{display:flex;gap:10px;flex-wrap:wrap}
+.foot-social{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:40px;height:40px;border-radius:999px;
+  background:rgba(248,242,230,0.06);color:var(--cream);
+  text-decoration:none;
+  transition:background .2s ease, color .2s ease, transform .2s ease;
+}
+.foot-social svg{width:18px;height:18px;display:block}
+.foot-social:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
+.foot-social:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ── Light copy-friction (deterrence only) ──────────────────────────────────
+   Disables text-selection on public content areas. Inputs, form fields,
+   links, buttons and anything marked .esrf-selectable remain fully
+   selectable so keyboard & assistive-tech users are not impeded.        */
+body.esrf-copy-protected{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+body.esrf-copy-protected input,
+body.esrf-copy-protected textarea,
+body.esrf-copy-protected select,
+body.esrf-copy-protected button,
+body.esrf-copy-protected a,
+body.esrf-copy-protected [contenteditable="true"],
+body.esrf-copy-protected .esrf-selectable,
+body.esrf-copy-protected .ed-refs,
+body.esrf-copy-protected code,
+body.esrf-copy-protected pre,
+body.esrf-copy-protected .biz-addr,
+body.esrf-copy-protected .mono{
+  -webkit-user-select:text;
+  -moz-user-select:text;
+  -ms-user-select:text;
+  user-select:text;
+}
+body.esrf-copy-protected img{
+  -webkit-user-drag:none;
+  -khtml-user-drag:none;
+  -moz-user-select:none;
+  user-select:none;
+  pointer-events:auto;
+}
+@media print{
+  body.esrf-copy-protected{ -webkit-user-select:text; user-select:text; }
+  .esrf-share, .esrf-share-cta-section, .foot-socials{ display:none !important; }
+}
