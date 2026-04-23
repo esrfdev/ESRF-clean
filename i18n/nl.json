@@ -285,7 +285,8 @@
     "privacy": "Privacy",
     "terms": "Voorwaarden",
     "tagline": "Atlas van Organisaties",
-    "countries": "Landen"
+    "countries": "Landen",
+    "editorials": "Editorials"
   },
   "pillar": {
     "prevent_verb": "Preventie",
@@ -814,5 +815,21 @@
     "tag_2": "Crisisvoorbereiding",
     "tag_3": "ESRM",
     "tag_4": "Publieke veiligheid"
+  },
+  "editorials": {
+    "title_tag": "Editorials — ESRF.net",
+    "meta_desc": "ESRF.net editorials — essays over Europese veiligheid, weerbaarheid en crisisrespons. Nieuwste eerst.",
+    "hero_kicker": "§ Editorials",
+    "hero_title_1": "Uitgebreide",
+    "hero_title_2": "editorials",
+    "hero_deck": "Essays en analyses van ESRF.net over Europese veiligheid, weerbaarheid en crisisrespons — nieuwste eerst.",
+    "loading": "Editorials laden…",
+    "empty": "Nog geen editorials.",
+    "error": "Kon de editorials niet laden.",
+    "read_more": "Lees editorial →",
+    "submit_title_1": "Deel een",
+    "submit_title_2": "editorial",
+    "submit_title_3": "met het netwerk.",
+    "submit_sub": "Organisaties op de atlas kunnen editorials en uitgebreide analyses bijdragen aan ESRF.net."
   }
 }

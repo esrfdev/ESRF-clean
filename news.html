@@ -67,7 +67,14 @@
   </div>
 </section>
 
-<!-- Featured editorial — auto-hides after 2026-05-20 via JS below -->
+<!--
+  Featured editorial banner.
+  Convention: the featured banner runs for ~1 month after publication, then
+  auto-hides. Set `data-expires="YYYY-MM-DD"` (publication date + 1 month);
+  client JS at the bottom of this file unhides the section only while the
+  current date is on or before that value. The full collection of editorials
+  remains available at editorials.html regardless of banner expiry.
+-->
 <section class="featured-editorial" id="featured-editorial" data-expires="2026-05-20" hidden>
   <a class="featured-editorial-card" href="editorial-oil-shortage-2026.html">
     <div class="featured-editorial-kicker" data-i18n="featured.kicker">§ Featured Editorial · Stewardship</div>
@@ -157,6 +164,7 @@
         <li><a href="countries/index.html" data-i18n="common.countries">Countries</a></li>
         <li><a href="events.html">Events</a></li>
         <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+        <li><a href="editorials.html" data-i18n="footer.editorials">Editorials</a></li>
         <li><a href="submit-news.html">Submit signal</a></li>
         <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
       </ul>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title data-i18n="editorials.title_tag">Editorials — ESRF.net</title>
+<meta name="description" data-i18n-attr="content" data-i18n-attr-key="editorials.meta_desc" content="ESRF.net editorials — long-form essays on European security, resilience and crisis response. Newest first." />
+<meta property="og:title" content="ESRF.net Editorials" />
+<meta property="og:description" content="Long-form editorials on European security and resilience." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<script src="consent.js" defer></script>
+<script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
+<!-- Google Analytics (GA4) with Consent Mode v2 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'wait_for_update': 500
+  });
+  gtag('js', new Date());
+  gtag('config', 'G-HPFTT1GMZN');
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HPFTT1GMZN"></script>
+<style>
+.editorials-list{max-width:900px;margin:0 auto;padding:0 var(--pad-x) 80px}
+.editorials-item{display:block;padding:2.2em 0;border-bottom:1px solid rgba(15,20,25,0.1);text-decoration:none;color:inherit;transition:background 0.15s}
+.editorials-item:hover{background:var(--cream)}
+.editorials-item:last-child{border-bottom:none}
+.editorials-meta{font-family:'IBM Plex Mono',monospace;font-size:0.82rem;color:var(--ink-dim);letter-spacing:0.01em;margin-bottom:0.6em;text-transform:uppercase}
+.editorials-title{font-family:'PT Serif',serif;font-size:1.55rem;font-weight:700;line-height:1.25;margin:0 0 0.5em;color:var(--ink);letter-spacing:-0.01em}
+.editorials-snippet{font-size:1rem;line-height:1.65;color:var(--ink-soft);margin:0 0 0.7em}
+.editorials-cta{font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--accent);font-weight:500}
+.editorials-empty{padding:4em 0;text-align:center;color:var(--ink-dim);font-family:'IBM Plex Mono',monospace;font-size:0.95rem}
+</style>
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html" data-i18n="nav.foundation">Foundation</a>
+      <a href="events.html">Events</a>
+      <a href="directory.html" data-i18n="nav.directory">Directory</a>
+      <a href="map.html" data-i18n="nav.atlas">Atlas</a>
+      <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
+      <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
+      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
+      <a href="fund.html" class="mast-contribute" data-i18n="nav.fund">Contribute</a>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-current mono" aria-expanded="false" aria-controls="lang-menu">
+        <span data-lang-current>EN</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-menu" id="lang-menu" hidden></ul>
+    </div>
+  </div>
+</nav>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker" data-i18n="editorials.hero_kicker">§ Editorials</div>
+    <h1 class="phero-title"><span data-i18n="editorials.hero_title_1">Long-form</span><br><i data-i18n="editorials.hero_title_2">editorials</i>.</h1>
+    <p class="phero-deck" data-i18n="editorials.hero_deck">Essays and analysis from ESRF.net on European security, resilience and crisis response — newest first.</p>
+  </div>
+</section>
+
+<div class="editorials-list" id="editorials-list" aria-live="polite">
+  <div class="editorials-empty" data-i18n="editorials.loading">Loading editorials…</div>
+</div>
+
+<section class="join">
+  <h2 class="join-h"><span data-i18n="editorials.submit_title_1">Share an</span> <i data-i18n="editorials.submit_title_2">editorial</i><br><span data-i18n="editorials.submit_title_3">with the network.</span></h2>
+  <p class="join-sub" data-i18n="editorials.submit_sub">Organisations listed on the atlas can contribute editorials and long-form analysis to ESRF.net.</p>
+  <a href="submit-news.html" class="btn on-accent" data-i18n="common.submit_signal">Submit a signal →</a>
+</section>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p data-i18n="footer.brand_desc">ESRF.net — European security and resilience, powered by 1,931 organisations across 30 countries.</p>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.community">Community</h4>
+      <ul>
+        <li><a href="directory.html" data-i18n="nav.directory">Directory</a></li>
+        <li><a href="map.html" data-i18n="nav.atlas">Atlas</a></li>
+        <li><a href="countries/index.html" data-i18n="common.countries">Countries</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="news.html" data-i18n="nav.dispatch">Dispatch</a></li>
+        <li><a href="editorials.html" data-i18n="footer.editorials">Editorials</a></li>
+        <li><a href="submit-news.html">Submit signal</a></li>
+        <li><a href="analytics.html" data-i18n="nav.analytics">Analytics</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.foundation">Foundation</h4>
+      <ul>
+        <li><a href="about.html" data-i18n="common.about">About</a></li>
+        <li><a href="fund.html" class="foot-contribute" data-i18n="nav.fund">Contribute</a></li>
+        <li><a href="sponsor.html" data-i18n="nav.support">Support</a></li>
+        <li><a href="mailto:hello@esrf.net" data-i18n="common.contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <ul>
+        <li><a href="privacy.html" data-i18n="footer.privacy">Privacy</a></li>
+        <li><a href="terms.html" data-i18n="footer.terms">Terms</a></li>
+        <li><a href="responsible-disclosure.html">Responsible Disclosure</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div data-i18n="common.foot_copyright">&copy; 2026 Stichting ESRF European Security and Resilience Fund</div>
+    <div><span data-i18n="footer.tagline">Atlas of Organisations</span></div>
+  </div>
+</footer>
+
+<script src="assets/flags.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="app.js"></script>
+<script src="search.js" defer></script>
+<script>
+/*
+ * Editorials collection page.
+ *
+ * Source of truth: news-data.json — entries where source === "ESRF.net Editorial".
+ * Rendered newest-first by the `date` field.
+ *
+ * Featured-banner convention (elsewhere on the site, e.g. news.html):
+ *   A featured editorial banner carries `data-expires="YYYY-MM-DD"` and is
+ *   auto-hidden by client JS once the current date passes that value.
+ *   Convention: one-month expiry from publication. This is intentionally
+ *   independent from this collection page, which always lists all editorials.
+ */
+(async () => {
+  const listEl = document.getElementById('editorials-list');
+  try {
+    const data = await loadNews();
+    const items = (data.articles || [])
+      .filter(a => a && a.source === 'ESRF.net Editorial')
+      .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+
+    if (!items.length) {
+      listEl.innerHTML = `<div class="editorials-empty">${t('editorials.empty', 'No editorials yet.')}</div>`;
+      return;
+    }
+
+    const locale = (document.documentElement.lang || 'en');
+    const readMore = t('editorials.read_more', 'Read editorial →');
+
+    listEl.innerHTML = items.map(a => {
+      const url = esc(a.url || '#');
+      const title = esc(a.title || '');
+      const snippet = esc(a.snippet || '');
+      const pillar = esc(a.pillar || '');
+      let dateStr = '';
+      try {
+        const d = new Date(a.date);
+        if (!isNaN(d)) {
+          dateStr = d.toLocaleDateString(locale, { year:'numeric', month:'short', day:'numeric' });
+        }
+      } catch(e) {}
+      return `
+        <a class="editorials-item" href="${url}">
+          <div class="editorials-meta">${dateStr ? dateStr + ' · ' : ''}ESRF.net Editorial${pillar ? ' · ' + pillar : ''}</div>
+          <h2 class="editorials-title">${title}</h2>
+          ${snippet ? `<p class="editorials-snippet">${snippet}</p>` : ''}
+          <span class="editorials-cta">${esc(readMore)}</span>
+        </a>`;
+    }).join('');
+  } catch (err) {
+    listEl.innerHTML = `<div class="editorials-empty">${t('editorials.error', 'Could not load editorials.')}</div>`;
+  }
+})();
+</script>
+</body>
+</html>

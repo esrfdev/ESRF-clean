@@ -327,7 +327,8 @@
     "privacy": "Privacy",
     "terms": "Terms",
     "tagline": "Atlas of Organisations",
-    "countries": "Countries"
+    "countries": "Countries",
+    "editorials": "Editorials"
   },
   "pillar": {
     "prevent_verb": "Prevent",
@@ -856,5 +857,21 @@
     "tag_2": "Crisis preparedness",
     "tag_3": "ESRM",
     "tag_4": "Public safety"
+  },
+  "editorials": {
+    "title_tag": "Editorials — ESRF.net",
+    "meta_desc": "ESRF.net editorials — long-form essays on European security, resilience and crisis response. Newest first.",
+    "hero_kicker": "§ Editorials",
+    "hero_title_1": "Long-form",
+    "hero_title_2": "editorials",
+    "hero_deck": "Essays and analysis from ESRF.net on European security, resilience and crisis response — newest first.",
+    "loading": "Loading editorials…",
+    "empty": "No editorials yet.",
+    "error": "Could not load editorials.",
+    "read_more": "Read editorial →",
+    "submit_title_1": "Share an",
+    "submit_title_2": "editorial",
+    "submit_title_3": "with the network.",
+    "submit_sub": "Organisations listed on the atlas can contribute editorials and long-form analysis to ESRF.net."
   }
 }
