@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title data-i18n="map.title_tag">Atlas — ESRF.net</title>
-<meta name="description" content="The full-screen community atlas — 2,277 organisations mapped across 30 European countries, colour-coded and filterable by sector." />
+<meta name="description" content="The full-screen community atlas — 2,277 organisations mapped across 30 European countries, colour-coded and filterable by sector." data-count-template="The full-screen community atlas — {total} organisations mapped across {countries} European countries, colour-coded and filterable by sector.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,26 +99,34 @@
 (async () => {
   const orgs = await loadOrgs();
 
-  // ── Sector chips rendered via i18n ──
+  // ── Sector chips rendered via i18n ── counts are computed live from orgs ──
   const SECTOR_CHIPS = [
-    {key:'', shortKey:'common.all_sectors', fullKey:null, count:null},
-    {key:'Emergency & Crisis Response', shortKey:'sector.short_emergency', count:469},
-    {key:'Security & Protection', shortKey:'sector.short_security', count:382},
-    {key:'Risk & Continuity Management', shortKey:'sector.short_risk', count:366},
-    {key:'Digital Infrastructure & Cybersecurity', shortKey:'sector.short_digital', count:187},
-    {key:'Knowledge, Training & Research', shortKey:'sector.short_knowledge', count:159},
-    {key:'Health & Medical Manufacturing', shortKey:'sector.short_health', count:135},
-    {key:'Critical Infrastructure', shortKey:'sector.short_critical', count:121},
-    {key:'Dual-use Technology & Manufacturing', shortKey:'sector.short_dual_use', count:53},
-    {key:'Transport, Maritime & Aerospace', shortKey:'sector.short_transport', count:11},
-    {key:'Energy & Grid Resilience', shortKey:'sector.short_energy', count:7},
+    {key:'', shortKey:'common.all_sectors', fullKey:null},
+    {key:'Emergency & Crisis Response', shortKey:'sector.short_emergency'},
+    {key:'Security & Protection', shortKey:'sector.short_security'},
+    {key:'Risk & Continuity Management', shortKey:'sector.short_risk'},
+    {key:'Digital Infrastructure & Cybersecurity', shortKey:'sector.short_digital'},
+    {key:'Knowledge, Training & Research', shortKey:'sector.short_knowledge'},
+    {key:'Health & Medical Manufacturing', shortKey:'sector.short_health'},
+    {key:'Critical Infrastructure', shortKey:'sector.short_critical'},
+    {key:'Dual-use Technology & Manufacturing', shortKey:'sector.short_dual_use'},
+    {key:'Transport, Maritime & Aerospace', shortKey:'sector.short_transport'},
+    {key:'Energy & Grid Resilience', shortKey:'sector.short_energy'},
   ];
+  function sectorCountLive(name){
+    // Fallback: count on the fly from the loaded orgs array
+    if (!orgs || !name) return 0;
+    let n = 0;
+    for (const o of orgs) if (o.sector_normalized === name) n++;
+    return n;
+  }
   function renderChips(){
     const wrap = document.getElementById('sector-chips');
     wrap.innerHTML = SECTOR_CHIPS.map(c=>{
       const isAll = c.key==='';
+      const count = isAll ? null : sectorCountLive(c.key);
       const label = isAll ? t('filter.all_sectors','All sectors')
-                          : `${t(c.shortKey, c.shortKey.split('.').pop())} · ${c.count}`;
+                          : `${t(c.shortKey, c.shortKey.split('.').pop())} · ${count}`;
       const active = c.key === (state?.sector || '');
       return `<button class="chip${active?' active':''}" data-sector="${esc(c.key)}">${label}</button>`;
     }).join('');
