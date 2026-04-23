@@ -20,13 +20,41 @@
 (function () {
   'use strict';
 
+  // ── Safe static fallbacks ─────────────────────────────────────
+  // These values must never drop to zero — they are the last-known
+  // totals derived from companies_extracted.json, used when the
+  // live fetch is still pending or has failed. They guarantee that
+  // i18n strings like "{total} organisaties in {countries} landen"
+  // never render as "0 organisaties in 0 landen" on slow or flaky
+  // mobile connections. Update alongside the source data.
+  const FALLBACK = {
+    total: 2277,
+    countries: 30,
+    sectors: 10,
+    bySector: {
+      'Emergency & Crisis Response': 469,
+      'Security & Protection': 382,
+      'Risk & Continuity Management': 366,
+      'Knowledge, Training & Research': 262,
+      'Digital Infrastructure & Cybersecurity': 239,
+      'Health & Medical Manufacturing': 202,
+      'Critical Infrastructure': 121,
+      'Dual-use Technology & Manufacturing': 104,
+      'Transport, Maritime & Aerospace': 71,
+      'Energy & Grid Resilience': 61,
+    },
+  };
+
   // ── State ─────────────────────────────────────────────────────
   const state = {
-    total: 0,
-    countries: 0,
-    sectors: 0,
-    bySector: {},   // { 'Emergency & Crisis Response': 469, ... }
+    total: FALLBACK.total,
+    countries: FALLBACK.countries,
+    sectors: FALLBACK.sectors,
+    bySector: Object.assign({}, FALLBACK.bySector),
     byCountry: {},  // { 'Germany': 144, ... }
+    byCountryCode: {},
+    byCountrySector: {},
+    sectorsByCountry: {},
     ready: false,
   };
 
@@ -102,12 +130,16 @@
     if (str.indexOf('{') === -1) return str;
     return str.replace(/\{([^}]+)\}/g, (match, token) => {
       const t = token.trim();
-      if (t === 'total') return fmt(state.total);
-      if (t === 'countries') return fmt(state.countries);
-      if (t === 'sectors') return fmt(state.sectors);
+      // Headline aggregate counts must never render as 0 — they
+      // appear inside marketing copy ("{total} organisaties in
+      // {countries} landen"). If the live value is somehow 0 we
+      // fall back to the last-known static totals.
+      if (t === 'total') return fmt(state.total || FALLBACK.total);
+      if (t === 'countries') return fmt(state.countries || FALLBACK.countries);
+      if (t === 'sectors') return fmt(state.sectors || FALLBACK.sectors);
       if (t.startsWith('sector:')) {
         const name = t.slice(7).trim();
-        return fmt(state.bySector[name] || 0);
+        return fmt(state.bySector[name] || FALLBACK.bySector[name] || 0);
       }
       if (t.startsWith('country:')) {
         const name = t.slice(8).trim();
@@ -135,10 +167,13 @@
     scope.querySelectorAll('[data-count]').forEach(el => {
       const key = el.getAttribute('data-count');
       let val;
-      if (key === 'total') val = state.total;
-      else if (key === 'countries') val = state.countries;
-      else if (key === 'sectors') val = state.sectors;
-      else if (key.startsWith('sector:')) val = state.bySector[key.slice(7)] || 0;
+      if (key === 'total') val = state.total || FALLBACK.total;
+      else if (key === 'countries') val = state.countries || FALLBACK.countries;
+      else if (key === 'sectors') val = state.sectors || FALLBACK.sectors;
+      else if (key.startsWith('sector:')) {
+        const name = key.slice(7);
+        val = state.bySector[name] || FALLBACK.bySector[name] || 0;
+      }
       else if (key.startsWith('country:')) {
         const nm = key.slice(8);
         val = (state.byCountry[nm] !== undefined)
