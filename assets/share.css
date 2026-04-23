@@ -51,12 +51,27 @@
   background:rgba(193,74,46,0.12);
 }
 
-/* When placed on a dark background (e.g. footer or ink sections) */
-.esrf-share.is-on-dark{color:rgba(248,242,230,0.6)}
+/* When placed on a dark background (e.g. hero, footer, ink sections).
+   Slightly lighter cream tone + faint translucent backing so the row is
+   findable against the hero gradient without shouting. */
+.esrf-share.is-on-dark{color:rgba(248,242,230,0.82)}
+.esrf-share.is-on-dark .esrf-share__label{opacity:0.9}
+.esrf-share.is-on-dark .esrf-share__btn{
+  background:rgba(248,242,230,0.06);
+  box-shadow:inset 0 0 0 1px rgba(248,242,230,0.10);
+}
 .esrf-share.is-on-dark .esrf-share__btn:hover,
 .esrf-share.is-on-dark .esrf-share__btn:focus-visible{
-  color:var(--accent, #C14A2E);
-  background:rgba(248,242,230,0.08);
+  color:var(--cream, #F8F2E6);
+  background:rgba(248,242,230,0.18);
+  box-shadow:inset 0 0 0 1px rgba(248,242,230,0.28);
+}
+.esrf-share.is-on-dark .esrf-share__btn:focus-visible{
+  box-shadow:0 0 0 2px var(--cream, #F8F2E6), inset 0 0 0 1px rgba(248,242,230,0.28);
+}
+.esrf-share.is-on-dark .esrf-share__btn.is-copied{
+  color:var(--cream, #F8F2E6);
+  background:rgba(248,242,230,0.22);
 }
 
 /* Variant: centered (for bottom-of-article placement) */
