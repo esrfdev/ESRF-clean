@@ -882,6 +882,16 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   font-family:'IBM Plex Mono',monospace !important;font-weight:500 !important;
 }
 
+/* Cap Leaflet's internal panes/controls so the site header, burger,
+   language switcher and its dropdown always paint above the map on every
+   viewport — including Android mobile where position:fixed children of
+   the header paint in a separate stacking context from the sticky mast. */
+.map-page .leaflet-pane,
+.map-page .leaflet-top,
+.map-page .leaflet-bottom{z-index:400}
+.map-page .leaflet-popup-pane{z-index:700}
+.map-page .lang-menu{z-index:1130}
+
 /* ═══ Analytics charts ═══ */
 .charts{max-width:1200px;margin:0 auto;padding:40px var(--pad-x) 120px}
 .chart-block{
