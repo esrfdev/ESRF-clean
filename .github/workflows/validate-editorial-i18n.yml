@@ -50,10 +50,11 @@ jobs:
         run: python3 scripts/validate_editorial_i18n.py || true
 
       # Gating run — blocks the PR on new regressions of the most
-      # important structural codes. MARKUP_MISMATCH is intentionally NOT
-      # in the gating set so the repo's current legacy findings do not
-      # turn CI red; it is still visible in the full-report step above.
+      # important structural codes. MARKUP_MISMATCH is now included:
+      # the repo's legacy mismatches in editorial_oil_shortage_2026
+      # (DeepL-dropped <br>/<i>/<em> tags) have been repaired, so any
+      # new mismatch is a regression and must fail CI.
       - name: Editorial i18n — gating checks
         run: |
           python3 scripts/validate_editorial_i18n.py \
-            --fail-on KEY_MISSING,KEY_EMPTY,DUTCH_LEAKAGE,SOURCE_MISSING
+            --fail-on KEY_MISSING,KEY_EMPTY,DUTCH_LEAKAGE,SOURCE_MISSING,MARKUP_MISMATCH
