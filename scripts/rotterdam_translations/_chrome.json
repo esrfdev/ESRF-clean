@@ -15,7 +15,6 @@
     "join_cta": "Подайте сигнал →",
     "tag_1": "Устойчивост",
     "tag_2": "Подготовка при кризи",
-    "tag_3": "ESRM",
     "tag_4": "Обществена сигурност"
   },
   "cs": {
@@ -34,7 +33,6 @@
     "join_cta": "Podat signál →",
     "tag_1": "Odolnost",
     "tag_2": "Příprava na krize",
-    "tag_3": "ESRM",
     "tag_4": "Veřejná bezpečnost"
   },
   "da": {
@@ -53,7 +51,6 @@
     "join_cta": "Indsend et signal →",
     "tag_1": "Modstandsdygtighed",
     "tag_2": "Kriseberedskab",
-    "tag_3": "ESRM",
     "tag_4": "Offentlig sikkerhed"
   },
   "el": {
@@ -72,7 +69,6 @@
     "join_cta": "Υποβάλετε σήμα →",
     "tag_1": "Ανθεκτικότητα",
     "tag_2": "Ετοιμότητα σε κρίσεις",
-    "tag_3": "ESRM",
     "tag_4": "Δημόσια ασφάλεια"
   },
   "et": {
@@ -91,7 +87,6 @@
     "join_cta": "Esita signaal →",
     "tag_1": "Vastupidavus",
     "tag_2": "Kriisivalmidus",
-    "tag_3": "ESRM",
     "tag_4": "Avalik turvalisus"
   },
   "fi": {
@@ -110,7 +105,6 @@
     "join_cta": "Lähetä signaali →",
     "tag_1": "Kestävyys",
     "tag_2": "Kriisivalmius",
-    "tag_3": "ESRM",
     "tag_4": "Yleinen turvallisuus"
   },
   "ga": {
@@ -129,7 +123,6 @@
     "join_cta": "Cuir comhartha isteach →",
     "tag_1": "Athléimneacht",
     "tag_2": "Ullmhacht géarchéime",
-    "tag_3": "ESRM",
     "tag_4": "Slándáil phoiblí"
   },
   "hr": {
@@ -148,7 +141,6 @@
     "join_cta": "Pošaljite signal →",
     "tag_1": "Otpornost",
     "tag_2": "Priprema za krize",
-    "tag_3": "ESRM",
     "tag_4": "Javna sigurnost"
   },
   "hu": {
@@ -167,7 +159,6 @@
     "join_cta": "Jelzés küldése →",
     "tag_1": "Reziliencia",
     "tag_2": "Válságfelkészültség",
-    "tag_3": "ESRM",
     "tag_4": "Közbiztonság"
   },
   "is": {
@@ -186,7 +177,6 @@
     "join_cta": "Senda merki →",
     "tag_1": "Seigla",
     "tag_2": "Viðbúnaður við kreppum",
-    "tag_3": "ESRM",
     "tag_4": "Almannaöryggi"
   },
   "lt": {
@@ -205,7 +195,6 @@
     "join_cta": "Pateikti signalą →",
     "tag_1": "Atsparumas",
     "tag_2": "Pasirengimas krizėms",
-    "tag_3": "ESRM",
     "tag_4": "Viešasis saugumas"
   },
   "lv": {
@@ -224,7 +213,6 @@
     "join_cta": "Iesniegt signālu →",
     "tag_1": "Noturība",
     "tag_2": "Krīžu gatavība",
-    "tag_3": "ESRM",
     "tag_4": "Sabiedriskā drošība"
   },
   "mt": {
@@ -243,7 +231,6 @@
     "join_cta": "Ibgħat sinjal →",
     "tag_1": "Reżiljenza",
     "tag_2": "Tħejjija għall-kriżijiet",
-    "tag_3": "ESRM",
     "tag_4": "Sigurtà pubblika"
   },
   "no": {
@@ -262,7 +249,6 @@
     "join_cta": "Send inn et signal →",
     "tag_1": "Robusthet",
     "tag_2": "Kriseforberedelse",
-    "tag_3": "ESRM",
     "tag_4": "Offentlig sikkerhet"
   },
   "pl": {
@@ -281,7 +267,6 @@
     "join_cta": "Wyślij sygnał →",
     "tag_1": "Odporność",
     "tag_2": "Gotowość kryzysowa",
-    "tag_3": "ESRM",
     "tag_4": "Bezpieczeństwo publiczne"
   },
   "ro": {
@@ -300,7 +285,6 @@
     "join_cta": "Trimiteți un semnal →",
     "tag_1": "Reziliență",
     "tag_2": "Pregătire pentru crize",
-    "tag_3": "ESRM",
     "tag_4": "Siguranță publică"
   },
   "sk": {
@@ -319,7 +303,6 @@
     "join_cta": "Podať signál →",
     "tag_1": "Odolnosť",
     "tag_2": "Pripravenosť na krízy",
-    "tag_3": "ESRM",
     "tag_4": "Verejná bezpečnosť"
   },
   "sl": {
@@ -338,7 +321,6 @@
     "join_cta": "Pošlji signal →",
     "tag_1": "Odpornost",
     "tag_2": "Pripravljenost na krize",
-    "tag_3": "ESRM",
     "tag_4": "Javna varnost"
   },
   "sv": {
@@ -357,7 +339,6 @@
     "join_cta": "Skicka in en signal →",
     "tag_1": "Motståndskraft",
     "tag_2": "Krisberedskap",
-    "tag_3": "ESRM",
     "tag_4": "Offentlig säkerhet"
   },
   "uk": {
@@ -376,7 +357,6 @@
     "join_cta": "Надіслати сигнал →",
     "tag_1": "Стійкість",
     "tag_2": "Готовність до криз",
-    "tag_3": "ESRM",
     "tag_4": "Громадська безпека"
   }
 }

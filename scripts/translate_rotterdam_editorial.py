@@ -50,7 +50,7 @@ CHROME_KEYS = {
     "hero_title_1", "hero_title_2", "hero_subtitle", "hero_deck",
     "tag_stewardship", "byline", "h2_refs",
     "join_title_html", "join_sub", "join_cta",
-    "tag_1", "tag_2", "tag_3", "tag_4",
+    "tag_1", "tag_2", "tag_4",
 }
 
 
