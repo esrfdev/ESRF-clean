@@ -47,7 +47,7 @@ FULLY_TRANSLATED = {"en", "de", "fr", "es", "it", "pt"}
 # carry chrome translations.
 CHROME_KEYS = {
     "title_tag", "meta_desc", "kicker",
-    "hero_title_1", "hero_title_2", "hero_subtitle", "hero_deck",
+    "hero_title_1", "hero_title_2", "hero_deck",
     "tag_stewardship", "byline", "h2_refs",
     "join_title_html", "join_sub", "join_cta",
     "tag_1", "tag_2", "tag_4",

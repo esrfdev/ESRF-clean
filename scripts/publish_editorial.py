@@ -733,7 +733,6 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
   <div class="phero-inner">
     <div class="kicker" data-i18n="{i18n_prefix}.kicker">§ Editorial · {pillar.title()}</div>
     <h1 class="phero-title"><span data-i18n="{i18n_prefix}.hero_title_1">{html.escape(hero_1)}</span><br><i data-i18n="{i18n_prefix}.hero_title_2">{html.escape(hero_2)}</i>.</h1>
-    <p class="phero-subtitle" data-i18n="{i18n_prefix}.hero_subtitle">{html.escape(meta.get('description', ''))}</p>
     <p class="phero-deck" data-i18n="{i18n_prefix}.hero_deck">{html.escape(desc_nl)}</p>
   </div>
 </section>
@@ -1021,7 +1020,6 @@ def main():
     words = title_nl.split()
     i18n_keys[f"{i18n_prefix}.hero_title_1"] = " ".join(words[:-1]) if len(words) > 1 else title_nl
     i18n_keys[f"{i18n_prefix}.hero_title_2"] = words[-1] if len(words) > 1 else ""
-    i18n_keys[f"{i18n_prefix}.hero_subtitle"] = meta.get("description", "")
     i18n_keys[f"{i18n_prefix}.hero_deck"] = meta.get("description", "")
     i18n_keys[f"{i18n_prefix}.tag_stewardship"] = "Stewardship"
     i18n_keys[f"{i18n_prefix}.byline"] = format_byline("nl", datetime.strptime(meta.get("date", "2026-01-01"), "%Y-%m-%d"), int(meta.get("read_time", 8)))
@@ -1036,7 +1034,6 @@ def main():
     en_keys = dict(i18n_keys)  # Start from NL as base
     en_keys[f"{i18n_prefix}.title_tag"] = f"{meta.get('title_en', title_nl)} — ESRF.net"
     en_keys[f"{i18n_prefix}.meta_desc"] = meta.get("description_en", meta.get("description", ""))
-    en_keys[f"{i18n_prefix}.hero_subtitle"] = meta.get("description_en", meta.get("description", ""))
     en_keys[f"{i18n_prefix}.hero_deck"] = meta.get("description_en", meta.get("description", ""))
     en_title = meta.get("title_en", title_nl)
     en_words = en_title.split()
@@ -1071,7 +1068,7 @@ def main():
         "tag_stewardship", "byline", "h2_refs",
         "join_title_html", "join_sub", "join_cta",
     }
-    # NOTE: hero_title_1, hero_title_2, hero_subtitle, hero_deck are
+    # NOTE: hero_title_1, hero_title_2, hero_deck are
     # intentionally NOT in meta_keys — DeepL translates them so that
     # the hero section matches the article body language.
     # Also include tag_N keys
