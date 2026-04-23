@@ -35,6 +35,46 @@ const LANGS = [
 let _strings = {};
 let _currentLang = 'en';
 
+/* ── Safe static fallbacks for counter tokens ──────────────────────
+   i18n strings contain {total}/{countries}/{sectors} placeholders
+   that counters.js fills with live data from companies_extracted.json.
+   counters.js is loaded deferred, so on slow mobile webviews (e.g.
+   WhatsApp in-app browser) i18n may write translated strings to the
+   DOM before counters.js has had a chance to interpolate, leaving raw
+   "{total}" / "{countries}" visible to the user.
+
+   We embed the same static FALLBACK values here so applyTranslations
+   can pre-interpolate every string before writing to the DOM. Counters
+   still refines these values once live JSON loads — but the user never
+   sees a raw token, blank, NaN or undefined. */
+const TOKEN_FALLBACK = { total: 2277, countries: 30, sectors: 10 };
+
+function _fmtTokenNumber(n) {
+  try { return new Intl.NumberFormat(_currentLang || 'en').format(n); }
+  catch (e) { return String(n); }
+}
+
+function _interpolateTokens(str) {
+  if (typeof str !== 'string' || str.indexOf('{') === -1) return str;
+  const live = (window.esrfCounters && window.esrfCounters.ready) ? window.esrfCounters : null;
+  return str.replace(/\{([^}]+)\}/g, (match, token) => {
+    const t = token.trim();
+    // Prefer live counters interpolate if counters.js has loaded AND
+    // computed real data — it handles the full token vocabulary
+    // (sector:, country:, country-sector:).
+    if (live && typeof live.interpolate === 'function') {
+      const resolved = live.interpolate(match);
+      if (resolved !== match) return resolved;
+    }
+    if (t === 'total') return _fmtTokenNumber(TOKEN_FALLBACK.total);
+    if (t === 'countries') return _fmtTokenNumber(TOKEN_FALLBACK.countries);
+    if (t === 'sectors') return _fmtTokenNumber(TOKEN_FALLBACK.sectors);
+    // Unknown tokens (sector:, country:, etc.) without counters loaded:
+    // fall back to empty string rather than leave a visible placeholder.
+    return '';
+  });
+}
+
 /* ── Detect language from URL → localStorage → browser → fallback ── */
 function detectLang() {
   const params = new URLSearchParams(window.location.search);
@@ -81,11 +121,14 @@ function getNestedKey(obj, path) {
   return path.split('.').reduce((o, k) => (o && o[k] !== undefined ? o[k] : null), obj);
 }
 
-/* ── Public t() function ── */
+/* ── Public t() function ──
+   Returns the raw translation string with any {total}/{countries}/
+   {sectors} tokens already resolved. This guarantees that no caller
+   ever receives a raw token, even when counters.js has not loaded. */
 function t(key, fallback) {
   const val = getNestedKey(_strings, key);
-  if (val !== null && val !== undefined) return val;
-  if (fallback !== undefined) return fallback;
+  if (val !== null && val !== undefined) return _interpolateTokens(val);
+  if (fallback !== undefined) return _interpolateTokens(fallback);
   return key;
 }
 
@@ -129,12 +172,25 @@ function applyTranslations() {
     }
   });
 
+  // Defensive sweep: after all translations are written, scan every
+  // translated node for any residual {token} (should never happen
+  // because t() pre-interpolates, but a belt-and-braces guarantee
+  // against any future translation that bypasses t()).
+  document.querySelectorAll('[data-i18n], [data-i18n-html], [data-i18n-placeholder]').forEach(el => {
+    if (el.hasAttribute('data-i18n-html')) {
+      if (el.innerHTML.indexOf('{') !== -1) el.innerHTML = _interpolateTokens(el.innerHTML);
+    } else if (el.hasAttribute('data-i18n')) {
+      if (el.textContent.indexOf('{') !== -1) el.textContent = _interpolateTokens(el.textContent);
+    }
+    if (el.hasAttribute('data-i18n-placeholder')) {
+      const p = el.getAttribute('placeholder') || '';
+      if (p.indexOf('{') !== -1) el.setAttribute('placeholder', _interpolateTokens(p));
+    }
+  });
+
   // After every translation pass, ask counters.js (if loaded) to
-  // resolve any {total}/{countries}/{sectors} tokens the translations
-  // just injected and to refill any [data-count] elements. This
-  // eliminates the race where i18n finishes before counters' langchange
-  // handler runs and tokens would otherwise remain visible as literal
-  // "{total}" / "{countries}" strings on the rendered page.
+  // refill [data-count] elements with the latest live values. Counters
+  // may overwrite the static fallback with live totals once JSON loads.
   try {
     if (window.esrfCounters) {
       if (typeof window.esrfCounters.reinterpolateDom === 'function') {
