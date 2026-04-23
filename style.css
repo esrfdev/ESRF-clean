@@ -64,7 +64,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .mast{
   border-bottom:1px solid var(--ink);
   background:var(--bg);
-  position:sticky;top:0;z-index:50;
+  position:sticky;top:0;z-index:1100;
 }
 .mast-inner{
   max-width:var(--max);margin:0 auto;padding:18px var(--pad-x);
@@ -998,7 +998,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   .mast.overlay.nav-open .mast-logo{color:var(--cream)}
   .mast-nav{
     display:none;position:fixed;top:0;left:0;right:0;bottom:0;
-    background:var(--bg);z-index:100;
+    background:var(--bg);z-index:1100;
     flex-direction:column;align-items:flex-start;
     padding:80px var(--pad-x) 40px;gap:0;
     overflow-y:auto;
@@ -1016,7 +1016,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
     width:40px;height:40px;border:1px solid var(--ink);border-radius:8px;
     font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;
     background:var(--ink);color:var(--cream);
-    position:fixed;top:14px;right:var(--pad-x);z-index:121;
+    position:fixed;top:14px;right:var(--pad-x);z-index:1121;
     box-shadow:0 2px 8px rgba(15,20,25,0.25);
   }
   .mast.overlay .mast-burger{
@@ -1030,7 +1030,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   }
   .lang-switch{
     position:fixed;top:14px;right:calc(var(--pad-x) + 52px);
-    z-index:120;margin:0;
+    z-index:1120;margin:0;
   }
   .lang-current{
     font-size:12px;padding:8px 10px;border-radius:8px;
@@ -1130,7 +1130,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 @media(max-width:600px){.form-row-pair{grid-template-columns:1fr}}
 
 /* ── Modal ── */
-.modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px}
+.modal{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:24px}
 .modal[hidden]{display:none}
 .modal-backdrop{position:absolute;inset:0;background:rgba(15,20,25,0.72);backdrop-filter:blur(4px)}
 .modal-panel{position:relative;background:var(--bg);border:1px solid var(--ink);max-width:620px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 40px 80px rgba(15,20,25,0.3)}
@@ -1352,7 +1352,7 @@ body.modal-open{overflow:hidden}
 
 /* Overlay */
 .search-overlay{
-  position:fixed;inset:0;z-index:1100;
+  position:fixed;inset:0;z-index:1200;
   display:flex;align-items:flex-start;justify-content:center;
   padding:max(8vh,48px) 20px 20px;
 }
