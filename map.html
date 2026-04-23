@@ -79,7 +79,7 @@
     <span class="filter-group-label" data-i18n="filter.sector">Sector</span>
     <div class="filter-chips" style="margin:0;gap:6px" id="sector-chips"></div>
 
-    <div class="map-count"><strong id="count">—</strong> <span data-i18n="common.plotted">· plotted</span> <span style="opacity:.7" data-i18n="common.of_total">of 2,277</span></div>
+    <div class="map-count"><strong id="count">—</strong> <span data-i18n="common.plotted">· plotted</span> <span style="opacity:.7" data-i18n="common.of_total">of <span data-count="total">2,277</span></span></div>
   </aside>
 
   <aside class="map-panel" id="panel" aria-label="Organisation detail" aria-hidden="true">
@@ -212,5 +212,6 @@
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "52897243139b402dacc6d5d564320f8b"}'></script><!-- End Cloudflare Web Analytics -->
+  <script src="counters.js" defer></script>
 </body>
 </html>
