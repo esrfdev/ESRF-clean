@@ -46,19 +46,26 @@
     ['switzerland','Switzerland'],['united-kingdom','United Kingdom'],
   ];
 
-  // Sector keywords (derived from companies.sector_normalized values, used for quick chips)
-  const SECTOR_FALLBACKS = [
-    'Digital Infrastructure & Cybersecurity',
-    'Critical Infrastructure',
-    'Public Safety & Emergency Services',
-    'Defence & Security Industry',
-    'Energy & Climate Resilience',
-    'Transport & Logistics',
-    'Water & Food Systems',
-    'Health & Biomedical Resilience',
-    'Finance & Economic Resilience',
-    'Governance & Civil Society',
-  ];
+  // Sector names (must mirror SECTOR_ORDER in app.js / the
+  // sector_normalized values in companies_extracted.json). If search ever
+  // shows a sector that doesn't exist in the data, clicking its result
+  // lands on directory.html with a filter that matches zero orgs — which
+  // is how a stale taxonomy turned the Emergency sector link into a
+  // "broken button" regression. Keep this in sync with app.js.
+  const SECTOR_FALLBACKS = (typeof SECTOR_ORDER !== 'undefined' && Array.isArray(SECTOR_ORDER))
+    ? SECTOR_ORDER
+    : [
+      'Emergency & Crisis Response',
+      'Security & Protection',
+      'Risk & Continuity Management',
+      'Digital Infrastructure & Cybersecurity',
+      'Knowledge, Training & Research',
+      'Health & Medical Manufacturing',
+      'Critical Infrastructure',
+      'Dual-use Technology & Manufacturing',
+      'Transport, Maritime & Aerospace',
+      'Energy & Grid Resilience',
+    ];
 
   // ── State
   let _index = null;      // Array<Entry>  once built
@@ -155,7 +162,7 @@
           kind: 'sector',
           title: sec,
           subtitle: 'Directory · sector',
-          url: base + 'directory.html#sector=' + encodeURIComponent(sec),
+          url: base + 'directory.html?sector=' + encodeURIComponent(sec),
           haystack: normalize(sec),
         });
       });

@@ -267,6 +267,7 @@
 
   let currentMarkers = [];
   function rebuild(filterFn){
+    syncUrl();
     cluster.clearLayers();
     currentMarkers = [];
     orgs.forEach(o => {
@@ -285,7 +286,33 @@
     document.getElementById('count').textContent = currentMarkers.length.toLocaleString('en-GB');
   }
 
-  const state = { sector:'', q:'', tag:'' };
+  // Read initial filters from ?sector=, ?tag=, ?q= so deep links from the
+  // directory, editorials, or shared URLs land on the right view (e.g.
+  // /map.html?sector=Emergency+%26+Crisis+Response). Values are validated
+  // against the known sector/tag taxonomy — unknown values are ignored.
+  const urlParams = new URLSearchParams(location.search);
+  const _urlSector = urlParams.get('sector') || '';
+  const _urlTag    = urlParams.get('tag') || '';
+  const _urlQ      = urlParams.get('q') || '';
+  const state = {
+    sector: SECTOR_ORDER.includes(_urlSector) ? _urlSector : '',
+    q:      _urlQ.trim().toLowerCase(),
+    tag:    (_urlSector === 'Emergency & Crisis Response' && SECONDARY_TAGS.includes(_urlTag)) ? _urlTag : '',
+  };
+  if (_urlQ) document.getElementById('q').value = _urlQ;
+
+  // Keep URL in sync with filter state.
+  function syncUrl(){
+    try {
+      const u = new URL(window.location.href);
+      const p = u.searchParams;
+      state.sector ? p.set('sector', state.sector) : p.delete('sector');
+      state.tag    ? p.set('tag',    state.tag)    : p.delete('tag');
+      state.q      ? p.set('q',      state.q)      : p.delete('q');
+      window.history.replaceState({}, '', u.toString());
+    } catch(e) { /* non-critical */ }
+  }
+
   renderChips();
   renderTagChips();
   function apply(){

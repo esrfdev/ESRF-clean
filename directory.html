@@ -755,9 +755,25 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
     return fb;
   }
 
+  /* ── Keep URL in sync with filter state so refresh/back keep the
+       filter, and sector links shared from the directory land on the
+       right view (Emergency, etc.) ── */
+  function syncUrl() {
+    try {
+      const u = new URL(window.location.href);
+      const p = u.searchParams;
+      state.sector  ? p.set('sector',  state.sector)  : p.delete('sector');
+      state.country ? p.set('country', state.country) : p.delete('country');
+      state.tag     ? p.set('tag',     state.tag)     : p.delete('tag');
+      state.q       ? p.set('q',       state.q)       : p.delete('q');
+      window.history.replaceState({}, '', u.toString());
+    } catch (e) { /* non-critical */ }
+  }
+
   /* ── Render ── */
   function render() {
     const rows = filtered();
+    syncUrl();
     countEl.textContent = rows.length.toLocaleString('en-GB');
     renderFilterTags();
     // Tag counts reflect the sector filter (but not the tag filter itself or q),
@@ -827,9 +843,17 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
   }, { passive: true });
 
   /* ── Re-render on language change ── */
-  window.addEventListener('esrf:langchange', () => render());
+  window.addEventListener('esrf:langchange', () => {
+    // i18n's applyTranslations resets data-i18n elements (including the
+    // .dd-label inside the Sector/Country buttons) back to their translated
+    // defaults, which wipes the active-filter label written by
+    // updateDropdownLabels. Re-apply after translations so an active sector
+    // (e.g. "Emergency") stays visible on the dropdown button.
+    if (state.sector || state.country) updateDropdownLabels();
+    render();
+  });
 
-  /* ── URL sync ── */
+  /* ── Read URL params → apply filters on initial load ── */
   if (state.sector || state.country) updateDropdownLabels();
   render();
 })();
