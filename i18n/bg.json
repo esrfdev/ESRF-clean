@@ -50,7 +50,8 @@
     "all_sectors": "Всички сектори",
     "all_countries": "Всички държави",
     "search_placeholder": "Търсете по име, град, описание…",
-    "search_organisations": "Търсете организации…"
+    "search_organisations": "Търсете организации…",
+    "all_tags": "Всички"
   },
   "cta": {
     "request_listing": "Заявете своята регистрация →",

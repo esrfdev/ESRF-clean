@@ -50,7 +50,8 @@
     "all_sectors": "Všetky sektory",
     "all_countries": "Všetky krajiny",
     "search_placeholder": "Hľadať podľa názvu, mesta, opisu…",
-    "search_organisations": "Hľadať organizácie…"
+    "search_organisations": "Hľadať organizácie…",
+    "all_tags": "Všetko"
   },
   "cta": {
     "request_listing": "Požiadať o zápis →",

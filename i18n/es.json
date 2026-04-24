@@ -50,7 +50,8 @@
     "all_sectors": "Todos los sectores",
     "all_countries": "Todos los países",
     "search_placeholder": "Buscar por nombre, ciudad, descripción…",
-    "search_organisations": "Buscar organizaciones…"
+    "search_organisations": "Buscar organizaciones…",
+    "all_tags": "Todos"
   },
   "cta": {
     "request_listing": "Solicitar su inclusión →",

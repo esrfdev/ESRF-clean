@@ -50,7 +50,8 @@
     "all_sectors": "Todos os setores",
     "all_countries": "Todos os países",
     "search_placeholder": "Pesquisar por nome, cidade, descrição…",
-    "search_organisations": "Pesquisar organizações…"
+    "search_organisations": "Pesquisar organizações…",
+    "all_tags": "Todos"
   },
   "cta": {
     "request_listing": "Solicitar o seu registo →",

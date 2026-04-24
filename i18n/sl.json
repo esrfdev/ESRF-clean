@@ -50,7 +50,8 @@
     "all_sectors": "Vsi sektorji",
     "all_countries": "Vse države",
     "search_placeholder": "Išči po imenu, mestu, opisu…",
-    "search_organisations": "Išči organizacije…"
+    "search_organisations": "Išči organizacije…",
+    "all_tags": "Vsi"
   },
   "cta": {
     "request_listing": "Zahtevaj svojo objavo →",

@@ -50,7 +50,8 @@
     "all_sectors": "Visas nozares",
     "all_countries": "Visas valstis",
     "search_placeholder": "Meklēt pēc nosaukuma, pilsētas, apraksta…",
-    "search_organisations": "Meklēt organizācijas…"
+    "search_organisations": "Meklēt organizācijas…",
+    "all_tags": "Visi"
   },
   "cta": {
     "request_listing": "Pieprasīt savu ierakstu →",

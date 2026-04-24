@@ -50,7 +50,8 @@
     "all_sectors": "Kõik sektorid",
     "all_countries": "Kõik riigid",
     "search_placeholder": "Otsi nime, linna, kirjelduse järgi…",
-    "search_organisations": "Otsi organisatsioone…"
+    "search_organisations": "Otsi organisatsioone…",
+    "all_tags": "Kõik"
   },
   "cta": {
     "request_listing": "Küsi oma kirjet →",

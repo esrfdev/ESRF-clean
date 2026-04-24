@@ -510,10 +510,20 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
     countryCounts[key] = (countryCounts[key]||0) + 1;
   });
 
+  // Wait for i18n strings so ?sector=<localised label> resolves against
+  // the active locale's aliases before state is parsed.
+  if (window.esrfI18n && typeof window.esrfI18n.ready === 'object') {
+    try { await window.esrfI18n.ready; } catch(e) {}
+  }
   /* ── State ── */
   const urlParams = new URLSearchParams(location.search);
+  // Accept localised sector labels in ?sector= so links shared between
+  // languages keep working. canonicalizeSector() returns '' for unknown
+  // input, which simply clears the filter rather than silently matching
+  // zero orgs.
+  const _rawSector = urlParams.get('sector') || '';
   const state = {
-    sector:  urlParams.get('sector') || '',
+    sector:  _rawSector ? (canonicalizeSector(_rawSector) || '') : '',
     country: urlParams.get('country') || '',
     q:       urlParams.get('q') || '',
     tag:     urlParams.get('tag') || '',
@@ -522,14 +532,30 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
   const BATCH = 80;
   if (state.q) qInput.value = state.q;
 
-  /* ── Build dropdowns ── */
+  /* ── i18n helper (safe before switchLang() runs) ── */
+  function tr(key, fallback) {
+    if (window.esrfI18n && typeof window.esrfI18n.t === 'function') {
+      const v = window.esrfI18n.t(key, fallback);
+      return (v && v !== key) ? v : fallback;
+    }
+    return fallback;
+  }
+
+  /* ── Build dropdowns ──
+     Option text is localised via sectorLabel() / tr(); data-value stores the
+     canonical English key so filter state, URL sync, and click handlers
+     stay in one taxonomy across all 27 languages. The in-dropdown search
+     matches against both the localised label *and* the canonical English
+     key, so typing "Emergency" in a Dutch UI still finds Noodhulp.  */
   function buildSectorOptions(filter = '') {
     const container = document.getElementById('dd-sector-options');
     const fl = filter.toLowerCase();
-    let html = `<div class="dd-option ${!state.sector ? 'active' : ''}" data-value="" role="option">All sectors <span class="dd-count">${orgs.length}</span></div>`;
+    const allLabel = tr('filter.all_sectors', 'All sectors');
+    let html = `<div class="dd-option ${!state.sector ? 'active' : ''}" data-value="" role="option">${esc(allLabel)} <span class="dd-count">${orgs.length}</span></div>`;
     SECTOR_ORDER.forEach(s => {
-      const label = SECTOR_SHORT[s] || s;
-      if (fl && !label.toLowerCase().includes(fl)) return;
+      const label = sectorLabel(s, {short:true});
+      const canonShort = SECTOR_SHORT[s] || s;
+      if (fl && !label.toLowerCase().includes(fl) && !canonShort.toLowerCase().includes(fl) && !s.toLowerCase().includes(fl)) return;
       html += `<div class="dd-option ${state.sector===s?'active':''}" data-value="${esc(s)}" role="option">${esc(label)} <span class="dd-count">${sectorCounts[s]||0}</span></div>`;
     });
     container.innerHTML = html;
@@ -538,7 +564,8 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
   function buildCountryOptions(filter = '') {
     const container = document.getElementById('dd-country-options');
     const fl = filter.toLowerCase();
-    let html = `<div class="dd-option ${!state.country ? 'active' : ''}" data-value="" role="option">All countries <span class="dd-count">${orgs.length}</span></div>`;
+    const allLabel = tr('filter.all_countries', 'All countries');
+    let html = `<div class="dd-option ${!state.country ? 'active' : ''}" data-value="" role="option">${esc(allLabel)} <span class="dd-count">${orgs.length}</span></div>`;
     Object.keys(countryCounts).sort().forEach(c => {
       if (fl && !c.toLowerCase().includes(fl)) return;
       const flagImg = (window.esrfFlags ? window.esrfFlags.flagForCountry(c, {size:'inline'}) : '');
@@ -604,17 +631,17 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
     const cBtnEl = document.querySelector('#dd-country .dir-dropdown-btn');
 
     if (state.sector) {
-      sBtn.textContent = SECTOR_SHORT[state.sector] || state.sector;
+      sBtn.textContent = sectorLabel(state.sector, {short:true});
       sBtnEl.classList.add('has-filter');
     } else {
-      sBtn.textContent = 'Sector';
+      sBtn.textContent = tr('filter.sector', 'Sector');
       sBtnEl.classList.remove('has-filter');
     }
     if (state.country) {
       cBtn.textContent = state.country;
       cBtnEl.classList.add('has-filter');
     } else {
-      cBtn.textContent = 'Country';
+      cBtn.textContent = tr('filter.country', 'Country');
       cBtnEl.classList.remove('has-filter');
     }
     // Rebuild options to show active state
@@ -663,7 +690,7 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
   function renderFilterTags() {
     let html = '';
     if (state.sector) {
-      html += `<span class="dir-filter-tag" data-clear="sector">${esc(SECTOR_SHORT[state.sector]||state.sector)} <span class="tag-x">✕</span></span>`;
+      html += `<span class="dir-filter-tag" data-clear="sector">${esc(sectorLabel(state.sector, {short:true}))} <span class="tag-x">✕</span></span>`;
     }
     if (state.country) {
       html += `<span class="dir-filter-tag" data-clear="country">${esc(state.country)} <span class="tag-x">✕</span></span>`;
@@ -790,7 +817,7 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
     const noResultsMsg = t('common.no_results') || 'No organisations match these filters.';
 
     grid.innerHTML = slice.map((o, i) => {
-      const sectorShort = SECTOR_SHORT[o.sector_normalized] || o.sector_normalized;
+      const sectorShort = sectorLabel(o.sector_normalized, {short:true});
       const countryCode = (o.country || '').toUpperCase().slice(0,2);
       const cityStr = [o.city, o.country_name_en || o.country].filter(Boolean).join(', ');
       const borderColor = sectorColorHex(o.sector_normalized);
@@ -848,7 +875,7 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
     // .dd-label inside the Sector/Country buttons) back to their translated
     // defaults, which wipes the active-filter label written by
     // updateDropdownLabels. Re-apply after translations so an active sector
-    // (e.g. "Emergency") stays visible on the dropdown button.
+    // (e.g. "Noodhulp") stays visible on the dropdown button.
     if (state.sector || state.country) updateDropdownLabels();
     render();
   });

@@ -50,7 +50,8 @@
     "all_sectors": "Gach earnáil",
     "all_countries": "Gach tír",
     "search_placeholder": "Cuardaigh de réir ainm, cathrach, cur síos…",
-    "search_organisations": "Cuardaigh eagraíochtaí…"
+    "search_organisations": "Cuardaigh eagraíochtaí…",
+    "all_tags": "Gach"
   },
   "cta": {
     "request_listing": "Iarr do liostú →",

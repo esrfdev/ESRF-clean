@@ -311,7 +311,14 @@ function wireLangToggle() {
   });
 }
 
-/* ── Main init ── */
+/* ── Main init ──
+   `ready` is a single promise that resolves once initial strings are loaded
+   and the first esrf:langchange has fired. Page scripts that need i18n
+   before rendering (e.g. to canonicalise ?sector=<localised label>) can
+   `await window.esrfI18n.ready` regardless of whether they loaded before
+   or after initI18n resolved. */
+let _readyResolve;
+const _readyPromise = new Promise(res => { _readyResolve = res; });
 async function initI18n() {
   _currentLang = detectLang();
   _strings = await fetchStrings(_currentLang);
@@ -323,6 +330,7 @@ async function initI18n() {
   wireLangToggle();
   // Notify pages that depend on t() for dynamic rendering (e.g. directory cards)
   window.dispatchEvent(new CustomEvent('esrf:langchange', { detail: { lang: _currentLang, initial: true } }));
+  if (_readyResolve) { _readyResolve(_currentLang); _readyResolve = null; }
 }
 
 // Auto-init on DOMContentLoaded
@@ -333,4 +341,9 @@ if (document.readyState === 'loading') {
 }
 
 // Export for use in other scripts
-window.esrfI18n = { t, switchLang, initI18n, LANGS, getCurrentLang: () => _currentLang, applyTranslations };
+window.esrfI18n = {
+  t, switchLang, initI18n, LANGS,
+  getCurrentLang: () => _currentLang,
+  applyTranslations,
+  ready: _readyPromise,
+};

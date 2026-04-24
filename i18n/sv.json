@@ -50,7 +50,8 @@
     "all_sectors": "Alla sektorer",
     "all_countries": "Alla länder",
     "search_placeholder": "Sök efter namn, stad, beskrivning…",
-    "search_organisations": "Sök organisationer…"
+    "search_organisations": "Sök organisationer…",
+    "all_tags": "Alla"
   },
   "cta": {
     "request_listing": "Begär listning →",

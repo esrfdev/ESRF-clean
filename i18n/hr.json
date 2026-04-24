@@ -50,7 +50,8 @@
     "all_sectors": "Svi sektori",
     "all_countries": "Sve zemlje",
     "search_placeholder": "Pretraži po nazivu, gradu, opisu…",
-    "search_organisations": "Pretraži organizacije…"
+    "search_organisations": "Pretraži organizacije…",
+    "all_tags": "Svi"
   },
   "cta": {
     "request_listing": "Zatraži svoju objavu →",

@@ -50,7 +50,8 @@
     "all_sectors": "Όλοι οι τομείς",
     "all_countries": "Όλες οι χώρες",
     "search_placeholder": "Αναζήτηση με όνομα, πόλη, περιγραφή…",
-    "search_organisations": "Αναζήτηση οργανισμών…"
+    "search_organisations": "Αναζήτηση οργανισμών…",
+    "all_tags": "Όλες"
   },
   "cta": {
     "request_listing": "Ζητήστε την καταχώρισή σας →",

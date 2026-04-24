@@ -50,7 +50,8 @@
     "all_sectors": "Tous les secteurs",
     "all_countries": "Tous les pays",
     "search_placeholder": "Rechercher par nom, ville, description…",
-    "search_organisations": "Rechercher des organisations…"
+    "search_organisations": "Rechercher des organisations…",
+    "all_tags": "Tous"
   },
   "cta": {
     "request_listing": "Demander votre référencement →",

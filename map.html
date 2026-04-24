@@ -215,8 +215,9 @@
       return `<button class="chip${active?' active':''}" data-tag="${esc(c.key)}">${esc(c.label)}</button>`;
     }).join('');
   }
-  window.addEventListener('esrf:langchange', renderChips);
-  window.addEventListener('esrf:langchange', renderTagChips);
+  // Listener registration happens after `state` is initialised further down —
+  // keeps renderChips/renderTagChips closure refs safe during the initial
+  // esrf:langchange that may fire while we await i18n.ready.
   const map = L.map('map', {
     zoomControl:true, attributionControl:true, minZoom:3, maxZoom:18,
   }).setView([52.0, 13.0], 4);
@@ -294,10 +295,21 @@
   const _urlSector = urlParams.get('sector') || '';
   const _urlTag    = urlParams.get('tag') || '';
   const _urlQ      = urlParams.get('q') || '';
+  // Accept canonical English values OR any localised label ("Noodhulp",
+  // "Notfall & Krisenreaktion", …) via canonicalizeSector(). Wait for
+  // esrfI18n to be ready before canonicalising so every locale's labels
+  // are valid URL input — without this, an early arrival of the page
+  // script can race ahead of i18n fetchStrings and drop a localised
+  // ?sector=Noodhulp on the floor. Unknown values silently clear the
+  // filter instead of matching zero orgs.
+  if (window.esrfI18n && typeof window.esrfI18n.ready === 'object') {
+    try { await window.esrfI18n.ready; } catch(e) {}
+  }
+  const _canonSector = SECTOR_ORDER.includes(_urlSector) ? _urlSector : canonicalizeSector(_urlSector);
   const state = {
-    sector: SECTOR_ORDER.includes(_urlSector) ? _urlSector : '',
+    sector: _canonSector || '',
     q:      _urlQ.trim().toLowerCase(),
-    tag:    (_urlSector === 'Emergency & Crisis Response' && SECONDARY_TAGS.includes(_urlTag)) ? _urlTag : '',
+    tag:    (_canonSector === 'Emergency & Crisis Response' && SECONDARY_TAGS.includes(_urlTag)) ? _urlTag : '',
   };
   if (_urlQ) document.getElementById('q').value = _urlQ;
 
@@ -312,6 +324,9 @@
       window.history.replaceState({}, '', u.toString());
     } catch(e) { /* non-critical */ }
   }
+
+  window.addEventListener('esrf:langchange', renderChips);
+  window.addEventListener('esrf:langchange', renderTagChips);
 
   renderChips();
   renderTagChips();

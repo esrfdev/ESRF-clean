@@ -43,7 +43,7 @@ const SECTOR_ORDER = [
   'Energy & Grid Resilience',
 ];
 
-// Short labels
+// Short labels (English — used as fallback when i18n has not loaded yet)
 const SECTOR_SHORT = {
   'Emergency & Crisis Response'         : 'Emergency',
   'Security & Protection'               : 'Security',
@@ -56,6 +56,114 @@ const SECTOR_SHORT = {
   'Transport, Maritime & Aerospace'     : 'Transport',
   'Energy & Grid Resilience'            : 'Energy',
 };
+
+// Canonical sector key  ←→  i18n key. Canonical (English) values are what
+// every part of the app stores in data attributes, state, and URLs — visible
+// labels are looked up through i18n via sectorLabel(). Keeping the mapping
+// here means map.html, directory.html, the site search and any future sector
+// UI all pull from a single source of truth and stay in lockstep with the
+// sector.* keys in i18n/*.json.
+const SECTOR_I18N_KEYS = {
+  'Emergency & Crisis Response'          : { full: 'sector.emergency',   short: 'sector.short_emergency'   },
+  'Security & Protection'                : { full: 'sector.security',    short: 'sector.short_security'    },
+  'Risk & Continuity Management'         : { full: 'sector.risk',        short: 'sector.short_risk'        },
+  'Digital Infrastructure & Cybersecurity': { full: 'sector.digital',    short: 'sector.short_digital'     },
+  'Knowledge, Training & Research'       : { full: 'sector.knowledge',   short: 'sector.short_knowledge'   },
+  'Health & Medical Manufacturing'       : { full: 'sector.health',      short: 'sector.short_health'      },
+  'Critical Infrastructure'              : { full: 'sector.critical',    short: 'sector.short_critical'    },
+  'Dual-use Technology & Manufacturing'  : { full: 'sector.dual_use',    short: 'sector.short_dual_use'    },
+  'Transport, Maritime & Aerospace'      : { full: 'sector.transport',   short: 'sector.short_transport'   },
+  'Energy & Grid Resilience'             : { full: 'sector.energy',      short: 'sector.short_energy'      },
+};
+
+// Returns the user-visible label for a canonical sector key in the active
+// language. Falls back to the English SECTOR_SHORT / canonical key when the
+// i18n layer has not loaded yet (first paint on slow connections) so the UI
+// is never blank.
+function sectorLabel(canonicalKey, opts){
+  if (!canonicalKey) return '';
+  const keys = SECTOR_I18N_KEYS[canonicalKey];
+  const isShort = !!(opts && opts.short);
+  const fallback = isShort ? (SECTOR_SHORT[canonicalKey] || canonicalKey) : canonicalKey;
+  if (!keys) return fallback;
+  const i18nKey = isShort ? keys.short : keys.full;
+  if (window.esrfI18n && typeof window.esrfI18n.t === 'function') {
+    const v = window.esrfI18n.t(i18nKey, fallback);
+    return (v && v !== i18nKey) ? v : fallback;
+  }
+  return fallback;
+}
+
+// Normalise any sector-label-ish string back to its canonical SECTOR_ORDER
+// value. Accepts:
+//   • the canonical English key itself (case-insensitive)
+//   • the English short label ("Emergency")
+//   • any localised full or short label from i18n/*.json ("Noodhulp",
+//     "Notfall & Krisenreaktion", …)
+//   • a slug of any of the above (e.g. "emergency-crisis-response")
+// Returns '' when no match. This is the single chokepoint for translating
+// user-supplied input (URL params, search results, editorial deep links)
+// back to the canonical taxonomy the data is stored under.
+let _sectorAliasIndex = null;
+let _sectorAliasIndexHasI18n = false;
+function _normaliseSectorLabel(s){
+  return String(s || '').trim().toLowerCase()
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .replace(/[\s&/,.'’·\-]+/g, ' ').trim();
+}
+function _buildSectorAliasIndex(){
+  const idx = {};
+  const add = (alias, canon) => {
+    const n = _normaliseSectorLabel(alias);
+    if (n) idx[n] = canon;
+  };
+  SECTOR_ORDER.forEach(canon => {
+    add(canon, canon);
+    add(SECTOR_SHORT[canon] || '', canon);
+  });
+  // Walk the loaded i18n strings if available, so every language's
+  // translations become valid aliases. If i18n hasn't finished loading yet
+  // we still return an English-only index — the next call will detect the
+  // i18n layer is now ready and rebuild.
+  let i18nSeen = false;
+  try {
+    if (window.esrfI18n && typeof window.esrfI18n.t === 'function') {
+      Object.entries(SECTOR_I18N_KEYS).forEach(([canon, keys]) => {
+        const full = window.esrfI18n.t(keys.full, '');
+        const shrt = window.esrfI18n.t(keys.short, '');
+        if (full && full !== keys.full && full !== '') { add(full, canon); i18nSeen = true; }
+        if (shrt && shrt !== keys.short && shrt !== '') { add(shrt, canon); i18nSeen = true; }
+      });
+    }
+  } catch (e) { /* non-critical */ }
+  _sectorAliasIndexHasI18n = i18nSeen;
+  return idx;
+}
+function canonicalizeSector(input){
+  if (!input) return '';
+  // Direct canonical hit first (no normalisation loss).
+  if (SECTOR_ORDER.indexOf(input) !== -1) return input;
+  // Rebuild index if empty or if we built it before i18n was ready and
+  // i18n has since loaded — this lets ?sector=<localised label> deep
+  // links work regardless of whether the page script ran before or after
+  // i18n fetchStrings resolved.
+  const i18nReadyNow = !!(window.esrfI18n
+    && typeof window.esrfI18n.t === 'function'
+    && window.esrfI18n.t('sector.short_emergency','') !== ''
+    && window.esrfI18n.t('sector.short_emergency','') !== 'sector.short_emergency');
+  if (!_sectorAliasIndex || (i18nReadyNow && !_sectorAliasIndexHasI18n)) {
+    _sectorAliasIndex = _buildSectorAliasIndex();
+  }
+  return _sectorAliasIndex[_normaliseSectorLabel(input)] || '';
+}
+// Alias index must be rebuilt after a language change so the new locale's
+// labels become valid URL inputs.
+if (typeof window !== 'undefined') {
+  window.addEventListener('esrf:langchange', () => {
+    _sectorAliasIndex = null;
+    _sectorAliasIndexHasI18n = false;
+  });
+}
 
 // Secondary tags — applied today to Emergency & Crisis Response organisations to
 // surface humanitarian/aid/help work inside the Atlas. Canonical English keys are

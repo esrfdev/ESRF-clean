@@ -50,7 +50,8 @@
     "all_sectors": "Усі сектори",
     "all_countries": "Усі країни",
     "search_placeholder": "Пошук за назвою, містом, описом…",
-    "search_organisations": "Пошук організацій…"
+    "search_organisations": "Пошук організацій…",
+    "all_tags": "Усі"
   },
   "cta": {
     "request_listing": "Запросити розміщення →",

@@ -50,7 +50,8 @@
     "all_sectors": "Il-setturi kollha",
     "all_countries": "Il-pajjiżi kollha",
     "search_placeholder": "Fittex bl-isem, belt, deskrizzjoni…",
-    "search_organisations": "Fittex organizzazzjonijiet…"
+    "search_organisations": "Fittex organizzazzjonijiet…",
+    "all_tags": "Kollha"
   },
   "cta": {
     "request_listing": "Itlob id-dħul tiegħek fil-lista →",

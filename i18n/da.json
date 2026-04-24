@@ -50,7 +50,8 @@
     "all_sectors": "Alle sektorer",
     "all_countries": "Alle lande",
     "search_placeholder": "Søg efter navn, by, beskrivelse…",
-    "search_organisations": "Søg organisationer…"
+    "search_organisations": "Søg organisationer…",
+    "all_tags": "Alle"
   },
   "cta": {
     "request_listing": "Anmod om opslag →",

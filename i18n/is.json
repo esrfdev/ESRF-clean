@@ -50,7 +50,8 @@
     "all_sectors": "Allir geirar",
     "all_countries": "Öll lönd",
     "search_placeholder": "Leita að nafni, borg, lýsingu…",
-    "search_organisations": "Leita að stofnunum…"
+    "search_organisations": "Leita að stofnunum…",
+    "all_tags": "Allt"
   },
   "cta": {
     "request_listing": "Biðja um skráningu →",

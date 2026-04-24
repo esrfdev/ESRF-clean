@@ -50,7 +50,8 @@
     "all_sectors": "Kaikki sektorit",
     "all_countries": "Kaikki maat",
     "search_placeholder": "Hae nimellä, kaupungilla, kuvauksella…",
-    "search_organisations": "Hae organisaatioita…"
+    "search_organisations": "Hae organisaatioita…",
+    "all_tags": "Kaikki"
   },
   "cta": {
     "request_listing": "Pyydä listausta →",

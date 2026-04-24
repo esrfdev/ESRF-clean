@@ -50,7 +50,8 @@
     "all_sectors": "Toate sectoarele",
     "all_countries": "Toate țările",
     "search_placeholder": "Căutare după nume, oraș, descriere…",
-    "search_organisations": "Căutați organizații…"
+    "search_organisations": "Căutați organizații…",
+    "all_tags": "Toate"
   },
   "cta": {
     "request_listing": "Solicitați înregistrarea →",

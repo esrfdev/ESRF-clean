@@ -50,7 +50,8 @@
     "all_sectors": "Összes szektor",
     "all_countries": "Összes ország",
     "search_placeholder": "Keresés név, város, leírás szerint…",
-    "search_organisations": "Szervezetek keresése…"
+    "search_organisations": "Szervezetek keresése…",
+    "all_tags": "Mind"
   },
   "cta": {
     "request_listing": "Felvételi kérelem →",

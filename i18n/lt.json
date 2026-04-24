@@ -50,7 +50,8 @@
     "all_sectors": "Visi sektoriai",
     "all_countries": "Visos šalys",
     "search_placeholder": "Ieškoti pagal pavadinimą, miestą, aprašymą…",
-    "search_organisations": "Ieškoti organizacijų…"
+    "search_organisations": "Ieškoti organizacijų…",
+    "all_tags": "Visi"
   },
   "cta": {
     "request_listing": "Prašyti savo įrašo →",
