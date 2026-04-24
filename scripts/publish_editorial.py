@@ -662,6 +662,9 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
   gtag('config', 'G-HPFTT1GMZN');
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HPFTT1GMZN"></script>
+<!-- GoatCounter — privacy-friendly page analytics (no cookies) -->
+<script data-goatcounter="https://esrf.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </head>
 <body class="body--editorial">
 
