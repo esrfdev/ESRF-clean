@@ -1,0 +1,281 @@
+/* ═══ ESRF.net — Editorial layout (shared) ═══
+   Professional, standardised reading layout for all editorial articles.
+   Tightened vertical rhythm, consistent margins, comfortable but not loose. */
+
+/* ── Article container ── */
+.ed-article{
+  max-width:720px;
+  margin:0 auto;
+  padding:56px var(--pad-x,28px) 64px;
+}
+
+/* ── Body copy ── */
+.ed-article p{
+  font-family:'PT Serif',Georgia,serif;
+  font-size:1.06rem;
+  line-height:1.72;
+  margin:0 0 1.1em;
+  color:var(--ink-soft);
+}
+
+.ed-article p strong{color:var(--ink);font-weight:700}
+.ed-article p em{font-style:italic}
+
+/* Lead paragraph (first paragraph after meta/share) */
+.ed-article > p:first-of-type,
+.ed-article .ed-lead{
+  font-size:1.18rem;
+  line-height:1.65;
+  color:var(--ink);
+  font-style:italic;
+  margin-bottom:1.4em;
+}
+
+/* ── Headings ── */
+.ed-article h2{
+  font-family:'Archivo',system-ui,sans-serif;
+  font-weight:700;
+  font-size:1.48rem;
+  letter-spacing:-0.02em;
+  line-height:1.22;
+  color:var(--ink);
+  margin:2.2em 0 0.55em;
+}
+
+.ed-article h3{
+  font-family:'Archivo',system-ui,sans-serif;
+  font-weight:700;
+  font-size:1.12rem;
+  letter-spacing:-0.01em;
+  line-height:1.32;
+  color:var(--ink);
+  margin:1.7em 0 0.45em;
+}
+
+/* ── Lists ── */
+.ed-article ul,
+.ed-article ol{
+  font-family:'PT Serif',Georgia,serif;
+  font-size:1.04rem;
+  line-height:1.7;
+  color:var(--ink-soft);
+  margin:0 0 1.3em 1.4em;
+  padding:0;
+}
+.ed-article li{margin-bottom:0.42em}
+.ed-article li:last-child{margin-bottom:0}
+
+/* ── Blockquote ── */
+.ed-article blockquote{
+  margin:1.6em 0;
+  padding:1em 1.4em;
+  border-left:3px solid var(--accent);
+  background:var(--cream);
+  border-radius:0 4px 4px 0;
+  font-family:'PT Serif',Georgia,serif;
+  font-style:italic;
+  font-size:1.05rem;
+  line-height:1.65;
+  color:var(--ink-soft);
+}
+
+/* ── Footnote references (superscript) ── */
+.ed-article sup{font-size:0.72em;line-height:0;vertical-align:super}
+.ed-article sup a{
+  color:var(--accent);
+  text-decoration:none;
+  font-family:'IBM Plex Mono',monospace;
+  font-weight:500;
+}
+.ed-article sup a:hover{text-decoration:underline}
+
+/* ── Tip block (numbered) ── */
+.ed-article .ed-tip{
+  counter-increment:tip;
+  margin:1.9em 0 0.4em;
+  color:var(--ink);
+}
+.ed-article .ed-tip::before{
+  content:counter(tip) ". ";
+  font-family:'IBM Plex Mono',monospace;
+  font-weight:500;
+  font-size:0.9rem;
+  color:var(--accent);
+}
+.ed-article .ed-tip-body{margin-bottom:1.5em}
+
+/* ── Example (dark inverted) block ── */
+.ed-article .ed-example{
+  background:var(--ink);
+  color:rgba(255,255,255,0.88);
+  padding:1.7em 1.9em;
+  border-radius:6px;
+  margin:2em 0;
+  font-size:1rem;
+  line-height:1.72;
+}
+.ed-article .ed-example strong{color:#fff;font-weight:700}
+.ed-article .ed-example p{color:rgba(255,255,255,0.88);margin-bottom:0.9em}
+.ed-article .ed-example p:last-child{margin-bottom:0}
+.ed-article .ed-example ul,
+.ed-article .ed-example ol{color:rgba(255,255,255,0.88)}
+.ed-article .ed-example li{color:rgba(255,255,255,0.82)}
+
+/* ── Callout (cream background) ── */
+.ed-article .ed-callout{
+  background:var(--cream);
+  border:1px solid rgba(15,20,25,0.08);
+  padding:1.3em 1.6em;
+  border-radius:6px;
+  margin:2em 0;
+}
+.ed-article .ed-callout h3{margin-top:0}
+
+/* ── Kader (framed callout) — legacy-compatible ── */
+.ed-article .ed-kader{
+  background:var(--cream);
+  border:1px solid rgba(15,20,25,0.10);
+  border-left:3px solid var(--accent);
+  padding:1.6em 1.8em 1.3em;
+  border-radius:4px;
+  margin:2.4em 0;
+}
+.ed-article .ed-kader-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.7rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--accent-deep,var(--accent));
+  margin-bottom:0.5em;
+}
+.ed-article .ed-kader-title{
+  font-family:'Archivo',system-ui,sans-serif;
+  font-weight:700;
+  font-size:1.14rem;
+  line-height:1.3;
+  letter-spacing:-0.01em;
+  margin:0 0 0.7em;
+  color:var(--ink);
+}
+.ed-article .ed-kader-body p{
+  font-size:1rem;
+  line-height:1.68;
+  margin-bottom:0.8em;
+  color:var(--ink-soft);
+}
+.ed-article .ed-kader-body p:last-child{margin-bottom:0}
+
+/* ── Meta row (tags + byline) ── */
+.ed-meta{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.8rem;
+  color:var(--ink-dim);
+  letter-spacing:0.01em;
+  margin-bottom:1.4em;
+}
+.ed-meta time{font-weight:500}
+
+.ed-tags{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-bottom:1em;
+}
+.ed-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.72rem;
+  background:var(--ink);
+  color:var(--bg);
+  padding:3px 9px;
+  border-radius:3px;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  line-height:1.4;
+}
+
+/* ── Share rows (top + bottom) ── */
+.ed-share-top{
+  margin:0 0 2em;
+  padding:12px 0 14px;
+  border-top:1px solid rgba(15,20,25,0.08);
+  border-bottom:1px solid rgba(15,20,25,0.08);
+}
+.ed-share-bottom{
+  margin:2.8em 0 0;
+  padding:20px 0 4px;
+  border-top:1px solid rgba(15,20,25,0.10);
+}
+
+/* ── References ── */
+.ed-refs{
+  margin-top:3em;
+  padding-top:1.6em;
+  border-top:1px solid rgba(15,20,25,0.12);
+}
+.ed-refs h2{
+  font-size:1rem;
+  margin:0 0 0.8em;
+}
+.ed-refs ol{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.82rem;
+  line-height:1.6;
+  color:var(--ink-dim);
+  padding-left:1.4em;
+  margin:0;
+}
+.ed-refs ol li{margin-bottom:0.5em;word-break:break-word}
+.ed-refs ol li a{color:var(--accent-deep);text-decoration:none}
+.ed-refs ol li a:hover{text-decoration:underline}
+
+/* ── Editorial hero — tighter than default phero ── */
+.phero--editorial{padding:72px 40px 56px}
+.phero--editorial .kicker{margin-bottom:22px}
+.phero--editorial .phero-title{
+  font-size:clamp(40px,6.8vw,88px);
+  line-height:0.94;
+  letter-spacing:-0.032em;
+  font-weight:700;
+  margin-bottom:22px;
+}
+.phero--editorial .phero-deck{
+  font-size:19px;
+  line-height:1.5;
+  max-width:640px;
+}
+
+/* ── Join CTA tightened on editorial pages ── */
+body.body--editorial .join{padding:88px 40px}
+body.body--editorial .join-h{
+  font-size:clamp(40px,5.8vw,84px);
+  margin-bottom:28px;
+}
+body.body--editorial .join-sub{margin-bottom:28px}
+
+/* ── Ad spacing ── */
+.ed-article + .esrf-ad-wrap,
+.phero + .esrf-ad-wrap{margin-top:0}
+
+/* ── Mobile ── */
+@media (max-width:640px){
+  .ed-article{padding:40px 20px 56px}
+  .ed-article h2{font-size:1.24rem;margin:1.9em 0 0.5em}
+  .ed-article h3{font-size:1.06rem}
+  .ed-article p{font-size:1.02rem;line-height:1.7}
+  .ed-article > p:first-of-type,
+  .ed-article .ed-lead{font-size:1.08rem}
+  .ed-article .ed-example{padding:1.3em 1.3em}
+  .ed-article .ed-callout,
+  .ed-article .ed-kader{padding:1.2em 1.2em}
+  .phero--editorial{padding:56px 22px 40px}
+  .phero--editorial .phero-title{font-size:clamp(34px,9.4vw,48px);line-height:0.98}
+  .phero--editorial .phero-deck{font-size:17px}
+  body.body--editorial .join{padding:64px 22px}
+  .ed-share-top{margin-bottom:1.6em}
+  .ed-share-bottom{margin-top:2em}
+}
+
+@media (max-width:420px){
+  .ed-tags{gap:5px}
+  .ed-tag{font-size:0.68rem;padding:2px 7px}
+}

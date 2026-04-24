@@ -642,6 +642,8 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="assets/share.css" />
+<link rel="stylesheet" href="assets/editorial.css" />
 <script src="consent.js" defer></script>
 <script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
@@ -660,49 +662,8 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
   gtag('config', 'G-HPFTT1GMZN');
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HPFTT1GMZN"></script>
-<style>
-/* ── Editorial page styles ── */
-.ed-article{{max-width:740px;margin:0 auto;padding:0 var(--pad-x) 80px}}
-.ed-article p{{font-size:1.08rem;line-height:1.78;margin-bottom:1.25em;color:var(--ink-soft)}}
-.ed-article h2{{font-family:'Archivo',system-ui,sans-serif;font-weight:700;font-size:1.55rem;letter-spacing:-0.02em;margin:2.8em 0 0.6em;color:var(--ink);line-height:1.18}}
-.ed-article h3{{font-family:'Archivo',system-ui,sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.01em;margin:2em 0 0.4em;color:var(--ink);line-height:1.3}}
-.ed-article ul,.ed-article ol{{margin:0 0 1.5em 1.4em;color:var(--ink-soft);line-height:1.78;font-size:1.08rem}}
-.ed-article li{{margin-bottom:0.55em}}
-.ed-article blockquote{{border-left:3px solid var(--accent);margin:2em 0;padding:1.2em 1.6em;background:var(--cream);font-style:italic;font-size:1.05rem;line-height:1.7;color:var(--ink-soft);border-radius:0 6px 6px 0}}
-.ed-article .ed-tip{{counter-increment:tip;margin:2.4em 0 0.4em;color:var(--ink)}}
-.ed-article .ed-tip::before{{content:counter(tip) ". ";font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:0.92rem;color:var(--accent)}}
-.ed-article .ed-tip-body{{margin-bottom:1.8em}}
-.ed-article .ed-example{{background:var(--ink);color:rgba(255,255,255,0.88);padding:2em 2.4em;border-radius:8px;margin:2.4em 0;font-size:1.02rem;line-height:1.78}}
-.ed-article .ed-example strong{{color:#fff;font-weight:700}}
-.ed-article .ed-example p{{color:rgba(255,255,255,0.88);margin-bottom:1em}}
-.ed-article .ed-example ul,.ed-article .ed-example ol{{color:rgba(255,255,255,0.88)}}
-.ed-article .ed-example li{{color:rgba(255,255,255,0.82)}}
-.ed-article .ed-callout{{background:var(--cream);border:1px solid rgba(15,20,25,0.08);padding:1.4em 1.8em;border-radius:8px;margin:2.4em 0}}
-.ed-article .ed-callout h3{{margin-top:0}}
-.ed-article sup{{font-size:0.72em;line-height:0;vertical-align:super}}
-.ed-article sup a{{color:var(--accent);text-decoration:none;font-family:'IBM Plex Mono',monospace;font-weight:500}}
-.ed-article sup a:hover{{text-decoration:underline}}
-.ed-meta{{font-family:'IBM Plex Mono',monospace;font-size:0.82rem;color:var(--ink-dim);margin-bottom:2.4em;letter-spacing:0.01em}}
-.ed-meta time{{font-weight:500}}
-.ed-refs{{margin-top:3.5em;padding-top:2em;border-top:1px solid rgba(15,20,25,0.12)}}
-.ed-refs h2{{font-size:1.1rem;margin-bottom:1em}}
-.ed-refs ol{{font-size:0.88rem;line-height:1.65;color:var(--ink-dim);padding-left:1.6em}}
-.ed-refs ol li{{margin-bottom:0.6em;word-break:break-word}}
-.ed-refs ol li a{{color:var(--accent-deep);text-decoration:none}}
-.ed-refs ol li a:hover{{text-decoration:underline}}
-.ed-tags{{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2em}}
-.ed-tag{{font-family:'IBM Plex Mono',monospace;font-size:0.75rem;background:var(--ink);color:var(--bg);padding:3px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:0.04em}}
-/* ── Editorial hero: refined ── */
-.phero--editorial .phero-title{{font-size:clamp(42px,7vw,96px);line-height:0.92;letter-spacing:-0.035em;font-weight:700}}
-@media(max-width:600px){{
-  .ed-article{{padding:0 20px 60px}}
-  .ed-article h2{{font-size:1.3rem}}
-  .ed-article .ed-example{{padding:1.4em 1.6em}}
-  .phero--editorial .phero-title{{font-size:clamp(36px,10vw,52px);line-height:0.95}}
-}}
-</style>
 </head>
-<body>
+<body class="body--editorial">
 
 <nav class="mast" aria-label="Primary">
   <div class="mast-inner">
@@ -755,10 +716,14 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
     <span data-i18n="{i18n_prefix}.byline">{format_byline("nl", datetime.strptime(date_str, "%Y-%m-%d"), int(meta.get("read_time", 8)))}</span>
   </div>
 
+  <div class="ed-share-top" data-esrf-share data-kind="editorial" data-label="Share editorial"></div>
+
 {body_content}
 
   <!-- References -->
 {refs_content}
+
+  <div class="ed-share-bottom" data-esrf-share data-kind="editorial" data-label="Share editorial"></div>
 
 </article>
 
@@ -824,6 +789,7 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
 <script src="assets/flags.js"></script>
 <script src="i18n/i18n.js"></script>
 <script src="app.js"></script>
+<script src="assets/share.js" defer></script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{{"token": "52897243139b402dacc6d5d564320f8b"}}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>'''
