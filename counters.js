@@ -28,19 +28,19 @@
   // never render as "0 organisaties in 0 landen" on slow or flaky
   // mobile connections. Update alongside the source data.
   const FALLBACK = {
-    total: 2383,
+    total: 2083,
     countries: 30,
     sectors: 10,
     bySector: {
-      "Emergency & Crisis Response": 575,
-      "Security & Protection": 382,
-      "Risk & Continuity Management": 366,
-      "Knowledge, Training & Research": 262,
-      "Digital Infrastructure & Cybersecurity": 239,
-      "Health & Medical Manufacturing": 202,
-      "Critical Infrastructure": 121,
-      "Dual-use Technology & Manufacturing": 104,
-      "Transport, Maritime & Aerospace": 71,
+      "Emergency & Crisis Response": 456,
+      "Security & Protection": 343,
+      "Risk & Continuity Management": 310,
+      "Knowledge, Training & Research": 247,
+      "Digital Infrastructure & Cybersecurity": 214,
+      "Health & Medical Manufacturing": 185,
+      "Critical Infrastructure": 114,
+      "Dual-use Technology & Manufacturing": 89,
+      "Transport, Maritime & Aerospace": 64,
       "Energy & Grid Resilience": 61,
     },
   };
@@ -298,6 +298,30 @@
     try { reinterpolateDom(); } catch (e) { console.warn('[counters] reinterpolateDom', e); }
   }
 
+  // Surface a console warning when the baked-in FALLBACK disagrees
+  // with what we just computed from the live dataset. This is the
+  // tripwire for the "footer said 2,383 but the dataset has 2,083"
+  // class of bug — visible to anyone running the site in dev/preview,
+  // and easy to grep for in log aggregation. Build-time drift is
+  // separately blocked by scripts/validate_counts.py in CI; this is
+  // the runtime belt-and-braces check.
+  function warnOnFallbackDrift() {
+    const pairs = [
+      ['total', state.total, FALLBACK.total],
+      ['countries', state.countries, FALLBACK.countries],
+      ['sectors', state.sectors, FALLBACK.sectors],
+    ];
+    const drift = pairs.filter(([, live, fb]) => live && fb && live !== fb);
+    if (drift.length) {
+      console.warn(
+        '[counters] FALLBACK drift — baked-in HTML/counters.js fallbacks ' +
+        'do not match companies_extracted.json. Run ' +
+        '`python3 scripts/generate_counts.py` and commit the refresh. Drift:',
+        Object.fromEntries(drift.map(([k, live, fb]) => [k, { live, fallback: fb }]))
+      );
+    }
+  }
+
   function boot() {
     // First pass with fallback values — runs immediately so the
     // page is never left with "{total}" tokens or 0 on flaky
@@ -307,6 +331,7 @@
       .then(orgs => {
         if (Array.isArray(orgs) && orgs.length > 0) {
           compute(orgs);
+          warnOnFallbackDrift();
         }
         applyAll();
         _resolveReady(state);

@@ -1,0 +1,62 @@
+name: Validate counts
+
+# Structural guardrail for the organisation/country/sector totals.
+# Blocks any PR that touches companies_extracted.json or the baked-in
+# fallback copies without running scripts/generate_counts.py. This is
+# the mechanism that keeps the footer "X organisations across Y
+# countries" strap line honest: the footer fallback lives in HTML
+# (for scrapers) and counters.js (for flaky-mobile fallback), and both
+# must match companies_extracted.json at publish time.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'companies_extracted.json'
+      - 'data/counts.json'
+      - 'counters.js'
+      - 'i18n/i18n.js'
+      - '*.html'
+      - 'countries/**/*.html'
+      - 'editorials/**/*.html'
+      - 'scripts/generate_counts.py'
+      - 'scripts/validate_counts.py'
+      - '.github/workflows/validate-counts.yml'
+  pull_request:
+    paths:
+      - 'companies_extracted.json'
+      - 'data/counts.json'
+      - 'counters.js'
+      - 'i18n/i18n.js'
+      - '*.html'
+      - 'countries/**/*.html'
+      - 'editorials/**/*.html'
+      - 'scripts/generate_counts.py'
+      - 'scripts/validate_counts.py'
+      - '.github/workflows/validate-counts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-counts-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Fails with exit 1 and a per-file drift report if any hardcoded
+      # fallback has diverged from companies_extracted.json. Fix locally
+      # with `python3 scripts/generate_counts.py` then commit.
+      - name: Counts drift — gating
+        run: python3 scripts/validate_counts.py
