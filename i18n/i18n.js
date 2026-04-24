@@ -47,7 +47,7 @@ let _currentLang = 'en';
    can pre-interpolate every string before writing to the DOM. Counters
    still refines these values once live JSON loads — but the user never
    sees a raw token, blank, NaN or undefined. */
-const TOKEN_FALLBACK = { total: 2277, countries: 30, sectors: 10 };
+const TOKEN_FALLBACK = { total: 2383, countries: 30, sectors: 10 };
 
 function _fmtTokenNumber(n) {
   try { return new Intl.NumberFormat(_currentLang || 'en').format(n); }

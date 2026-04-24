@@ -28,20 +28,20 @@
   // never render as "0 organisaties in 0 landen" on slow or flaky
   // mobile connections. Update alongside the source data.
   const FALLBACK = {
-    total: 2277,
+    total: 2383,
     countries: 30,
     sectors: 10,
     bySector: {
-      'Emergency & Crisis Response': 469,
-      'Security & Protection': 382,
-      'Risk & Continuity Management': 366,
-      'Knowledge, Training & Research': 262,
-      'Digital Infrastructure & Cybersecurity': 239,
-      'Health & Medical Manufacturing': 202,
-      'Critical Infrastructure': 121,
-      'Dual-use Technology & Manufacturing': 104,
-      'Transport, Maritime & Aerospace': 71,
-      'Energy & Grid Resilience': 61,
+      "Emergency & Crisis Response": 575,
+      "Security & Protection": 382,
+      "Risk & Continuity Management": 366,
+      "Knowledge, Training & Research": 262,
+      "Digital Infrastructure & Cybersecurity": 239,
+      "Health & Medical Manufacturing": 202,
+      "Critical Infrastructure": 121,
+      "Dual-use Technology & Manufacturing": 104,
+      "Transport, Maritime & Aerospace": 71,
+      "Energy & Grid Resilience": 61,
     },
   };
 
