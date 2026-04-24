@@ -20,6 +20,25 @@
 <style>
   html,body{height:100%;overflow:hidden}
   .leaflet-container{font-family:'PT Serif',serif}
+  .map-tag-safety{margin:10px 0 4px}
+  .map-tag-safety details{display:block}
+  .map-tag-safety summary{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim,#5a6068);
+    cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;
+    padding:2px 0;
+  }
+  .map-tag-safety summary::-webkit-details-marker{display:none}
+  .map-tag-safety summary::before{content:"ⓘ";font-size:12px}
+  .map-tag-safety details[open] summary::before{content:"▾"}
+  .map-tag-safety-body{
+    margin-top:8px;padding:10px 12px;
+    background:rgba(15,20,25,0.05);border-left:3px solid var(--ink-dim,#5a6068);
+    font-family:'PT Serif',serif;font-size:13px;line-height:1.5;color:var(--ink-soft,#2c2f33);
+  }
+  .map-tag-safety-body p{margin:0 0 6px}
+  .map-tag-safety-body p:last-child{margin-bottom:0}
+  .map-tag-safety-body .safety-urgent{font-weight:700}
 </style>
 <!-- Google Analytics (GA4) with Consent Mode v2 -->
 <script>
@@ -111,6 +130,16 @@
     <span class="filter-group-label" data-i18n="filter.secondary_tags" id="tag-group-label" hidden>Emergency focus</span>
     <div class="filter-chips" style="margin:0;gap:6px" id="tag-chips" hidden></div>
 
+    <div class="map-tag-safety" id="map-tag-safety" hidden>
+      <details>
+        <summary data-i18n="atlas_safety.toggle_open">About these tags</summary>
+        <div class="map-tag-safety-body">
+          <p data-i18n="atlas_safety.body">Tags describe the broad public function of an organisation — not its operational readiness, capacity, inventories, rosters, or deployment status. Use them to discover public-facing organisations and themes, not to infer emergency capability.</p>
+          <p class="safety-urgent" data-i18n="atlas_safety.emergency_note">For urgent help, always contact official emergency channels (112 in the EU, or your national service) — not this atlas.</p>
+        </div>
+      </details>
+    </div>
+
     <div class="map-count"><strong id="count">—</strong> <span data-i18n="common.plotted">· plotted</span> <span style="opacity:.7" data-i18n="common.of_total">of <span data-count="total">2,277</span></span></div>
   </aside>
 
@@ -172,9 +201,11 @@
   function renderTagChips(){
     const wrap = document.getElementById('tag-chips');
     const label = document.getElementById('tag-group-label');
+    const safety = document.getElementById('map-tag-safety');
     const visible = state.sector === 'Emergency & Crisis Response';
     wrap.hidden = !visible;
     label.hidden = !visible;
+    if (safety) safety.hidden = !visible;
     if (!visible) { wrap.innerHTML = ''; return; }
     const items = [{key:'', label:t('filter.all_tags','All')}].concat(
       SECONDARY_TAGS.map(k => ({key:k, label:`${tagLabel(k)} · ${tagCountLive(k)}`}))

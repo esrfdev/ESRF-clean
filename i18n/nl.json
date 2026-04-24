@@ -56,6 +56,13 @@
     "secondary_tags": "Noodhulp focus",
     "all_tags": "Alle"
   },
+  "atlas_safety": {
+    "title": "Over deze labels",
+    "body": "Labels beschrijven de brede publieke functie van een organisatie — niet de operationele paraatheid, capaciteit, voorraden, roosters of inzetstatus. Gebruik ze om publieke organisaties en thema's te vinden, niet om noodcapaciteit af te leiden.",
+    "emergency_note": "Bij acute nood: bel altijd de officiële hulpdiensten (112 in de EU, of je nationale alarmnummer) — niet deze directory.",
+    "toggle_open": "Over deze labels",
+    "toggle_close": "Sluiten"
+  },
   "tag": {
     "group_label": "Secundaire labels",
     "humanitarian_aid": "Humanitaire hulp",

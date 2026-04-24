@@ -117,6 +117,33 @@
   padding:8px var(--pad-x) 0;
   display:flex;align-items:center;gap:10px;flex-wrap:wrap;
 }
+/* ── Tag safety note ── */
+.dir-tag-safety{
+  max-width:var(--max);margin:0 auto;
+  padding:10px var(--pad-x) 0;
+  font-family:'PT Serif',serif;font-size:13px;line-height:1.55;
+  color:var(--ink-soft);
+}
+.dir-tag-safety details{display:block}
+.dir-tag-safety summary{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
+  cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;
+  padding:2px 0;
+}
+.dir-tag-safety summary::-webkit-details-marker{display:none}
+.dir-tag-safety summary::before{content:"ⓘ";font-size:12px}
+.dir-tag-safety details[open] summary::before{content:"▾"}
+.dir-tag-safety-body{
+  margin-top:8px;padding:12px 14px;
+  background:rgba(15,20,25,0.04);border-left:3px solid var(--ink-dim);
+  max-width:72ch;
+}
+.dir-tag-safety-body p{margin:0 0 8px}
+.dir-tag-safety-body p:last-child{margin-bottom:0}
+.dir-tag-safety-body .safety-urgent{
+  font-weight:600;color:var(--ink);
+}
 .dir-tag-bar-label{
   font-family:'IBM Plex Mono',monospace;font-size:10px;
   letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
@@ -367,6 +394,15 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
   <div class="dir-tag-bar" id="dir-tag-bar" hidden>
     <span class="dir-tag-bar-label" data-i18n="filter.secondary_tags">Emergency focus</span>
     <div class="dir-tag-chips" id="dir-tag-chips"></div>
+  </div>
+  <div class="dir-tag-safety" id="dir-tag-safety" hidden>
+    <details>
+      <summary data-i18n="atlas_safety.toggle_open">About these tags</summary>
+      <div class="dir-tag-safety-body">
+        <p data-i18n="atlas_safety.body">Tags describe the broad public function of an organisation — not its operational readiness, capacity, inventories, rosters, or deployment status. Use them to discover public-facing organisations and themes, not to infer emergency capability.</p>
+        <p class="safety-urgent" data-i18n="atlas_safety.emergency_note">For urgent help, always contact official emergency channels (112 in the EU, or your national service) — not this directory.</p>
+      </div>
+    </details>
   </div>
   <div class="dir-active-filters" id="active-filters"></div>
 </div>
@@ -644,9 +680,11 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
   /* ── Secondary tag chip bar (Emergency sector only) ── */
   const tagBarEl = document.getElementById('dir-tag-bar');
   const tagChipsEl = document.getElementById('dir-tag-chips');
+  const tagSafetyEl = document.getElementById('dir-tag-safety');
   function renderTagBar(rows) {
     const visible = state.sector === 'Emergency & Crisis Response';
     tagBarEl.hidden = !visible;
+    if (tagSafetyEl) tagSafetyEl.hidden = !visible;
     if (!visible) { tagChipsEl.innerHTML = ''; return; }
     // Count each tag within the current (sector-filtered) rows for live counts.
     const counts = {};

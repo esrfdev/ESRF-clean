@@ -83,6 +83,13 @@
     "secondary_tags": "Emergency focus",
     "all_tags": "All"
   },
+  "atlas_safety": {
+    "title": "About these tags",
+    "body": "Tags describe the broad public function of an organisation — not its operational readiness, capacity, inventories, rosters, or deployment status. Use them to discover public-facing organisations and themes, not to infer emergency capability.",
+    "emergency_note": "For urgent help, always contact official emergency channels (112 in the EU, or your national service) — not this directory.",
+    "toggle_open": "About these tags",
+    "toggle_close": "Close"
+  },
   "tag": {
     "group_label": "Secondary tags",
     "humanitarian_aid": "Humanitarian aid",
