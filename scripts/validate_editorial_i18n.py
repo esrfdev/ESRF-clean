@@ -66,7 +66,14 @@ PROPER_NOUN_ALLOWLIST = {
     "OPEC", "NATO", "EU", "UN", "NAVO",
     # Labels / section markers that the design keeps as-is in every locale
     "Editorial", "Stewardship", "Solidarity", "Response", "Renewal",
-    "Foundation", "§", "·", "—", "-", "|", ":",
+    "Foundation", "Emergency",
+    "§", "·", "—", "-", "|", ":",
+    # ESRF Atlas taxonomy tags (kept identical across every locale —
+    # the Atlas sector tags are a canonical English taxonomy)
+    "Humanitarian", "aid", "Disaster", "relief", "Civil", "protection",
+    "Search", "rescue", "Shelter", "evacuation", "Food", "basic", "needs",
+    "Volunteer", "response", "Psychosocial", "support",
+    "Community", "resilience", "Crisis",
 }
 
 # Keys whose values are intentionally shared across locales (kickers,

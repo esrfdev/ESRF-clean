@@ -785,4 +785,9 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/united-kingdom/?lang=pl"/>
     <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/united-kingdom/?lang=sv"/>
   </url>
+    <url>
+    <loc>https://www.esrf.net/editorial-emergency-capaciteit-europa-2026.html</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    </url>
 </urlset>

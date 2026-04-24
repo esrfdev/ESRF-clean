@@ -1,9 +1,22 @@
 {
   "generated": "2026-04-23T10:10:13.913860+00:00",
-  "article_count": 88,
+  "article_count": 89,
   "org_count": 22,
   "focus": "European resilience & regional strengthening",
   "articles": [
+    {
+      "title": "Editorial — Als het erop aankomt, moet hulp elkaar kunnen vinden",
+      "url": "editorial-emergency-capaciteit-europa-2026.html",
+      "organisation": "ESRF.net",
+      "orgUrl": "https://www.esrf.net",
+      "pillar": "response",
+      "country": "EU",
+      "source": "ESRF.net Editorial",
+      "snippet": "Waarom noodhulporganisaties, vrijwilligersnetwerken en lokale ondernemers zichtbaarder moeten worden in Europa's weerbaarheidslandschap.",
+      "date": "2026-04-24T12:00:00Z",
+      "lang": "nl",
+      "scope": "european"
+    },
     {
       "title": "Plato aces space-like tests",
       "url": "https://www.esa.int/Science_Exploration/Space_Science/Plato/Plato_aces_space-like_tests",
