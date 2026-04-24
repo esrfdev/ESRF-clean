@@ -52,7 +52,22 @@
     "all_sectors": "Alle sectoren",
     "all_countries": "Alle landen",
     "search_placeholder": "Zoek op naam, stad, beschrijving…",
-    "search_organisations": "Zoek organisaties…"
+    "search_organisations": "Zoek organisaties…",
+    "secondary_tags": "Noodhulp focus",
+    "all_tags": "Alle"
+  },
+  "tag": {
+    "group_label": "Secundaire labels",
+    "humanitarian_aid": "Humanitaire hulp",
+    "disaster_relief": "Rampenhulp",
+    "civil_protection": "Civiele bescherming",
+    "search_rescue": "Zoek- & reddingswerk",
+    "shelter_evacuation": "Opvang & evacuatie",
+    "food_basic_needs": "Voedsel & basisbehoeften",
+    "volunteer_response": "Vrijwillige inzet",
+    "psychosocial_support": "Psychosociale steun",
+    "community_resilience": "Gemeenschapsweerbaarheid",
+    "crisis_response": "Crisisrespons"
   },
   "cta": {
     "request_listing": "Claim je vermelding →",

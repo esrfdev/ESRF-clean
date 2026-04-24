@@ -108,6 +108,9 @@
     <span class="filter-group-label" data-i18n="filter.sector">Sector</span>
     <div class="filter-chips" style="margin:0;gap:6px" id="sector-chips"></div>
 
+    <span class="filter-group-label" data-i18n="filter.secondary_tags" id="tag-group-label" hidden>Emergency focus</span>
+    <div class="filter-chips" style="margin:0;gap:6px" id="tag-chips" hidden></div>
+
     <div class="map-count"><strong id="count">—</strong> <span data-i18n="common.plotted">· plotted</span> <span style="opacity:.7" data-i18n="common.of_total">of <span data-count="total">2,277</span></span></div>
   </aside>
 
@@ -160,7 +163,29 @@
       return `<button class="chip${active?' active':''}" data-sector="${esc(c.key)}">${label}</button>`;
     }).join('');
   }
+  function tagCountLive(name){
+    if (!orgs || !name) return 0;
+    let n = 0;
+    for (const o of orgs) if (Array.isArray(o.secondary_tags) && o.secondary_tags.includes(name)) n++;
+    return n;
+  }
+  function renderTagChips(){
+    const wrap = document.getElementById('tag-chips');
+    const label = document.getElementById('tag-group-label');
+    const visible = state.sector === 'Emergency & Crisis Response';
+    wrap.hidden = !visible;
+    label.hidden = !visible;
+    if (!visible) { wrap.innerHTML = ''; return; }
+    const items = [{key:'', label:t('filter.all_tags','All')}].concat(
+      SECONDARY_TAGS.map(k => ({key:k, label:`${tagLabel(k)} · ${tagCountLive(k)}`}))
+    );
+    wrap.innerHTML = items.map(c => {
+      const active = c.key === (state.tag || '');
+      return `<button class="chip${active?' active':''}" data-tag="${esc(c.key)}">${esc(c.label)}</button>`;
+    }).join('');
+  }
   window.addEventListener('esrf:langchange', renderChips);
+  window.addEventListener('esrf:langchange', renderTagChips);
   const map = L.map('map', {
     zoomControl:true, attributionControl:true, minZoom:3, maxZoom:18,
   }).setView([52.0, 13.0], 4);
@@ -192,10 +217,17 @@
   });
 
   function openPanel(o){
+    const tags = Array.isArray(o.secondary_tags) ? o.secondary_tags : [];
+    const tagsHtml = tags.length
+      ? `<div class="sec-tags" aria-label="${esc(t('tag.group_label','Secondary tags'))}">${
+          tags.map(tg => `<span class="sec-tag">${esc(tagLabel(tg))}</span>`).join('')
+        }</div>`
+      : '';
     panelBody.innerHTML = `
       <div class="sector-tag" style="color:${sectorColorHex(o.sector_normalized)}">${esc(o.sector_normalized)}</div>
       <h2>${esc(o.name)}</h2>
       <div class="loc">${esc(o.city||'')}${o.city?' · ':''}${esc(o.country_name_en || o.country || '')}</div>
+      ${tagsHtml}
       <p class="desc">${esc(o.description_en || '')}</p>
       ${o.website ? `<a class="visit" href="${esc(o.website)}" target="_blank" rel="noopener">${t('common.visit_website','Visit website ↗')}</a>` : ''}
     `;
@@ -222,13 +254,20 @@
     document.getElementById('count').textContent = currentMarkers.length.toLocaleString('en-GB');
   }
 
-  const state = { sector:'', q:'' };
+  const state = { sector:'', q:'', tag:'' };
   renderChips();
+  renderTagChips();
   function apply(){
     rebuild(o => {
       if(state.sector && o.sector_normalized !== state.sector) return false;
+      if(state.tag){
+        const tags = Array.isArray(o.secondary_tags) ? o.secondary_tags : [];
+        if(!tags.includes(state.tag)) return false;
+      }
       if(state.q){
-        const hay = [o.name, o.city, o.country_name_en, o.sector_normalized].join(' ').toLowerCase();
+        const tags = Array.isArray(o.secondary_tags) ? o.secondary_tags.join(' ') : '';
+        const tagLabels = Array.isArray(o.secondary_tags) ? o.secondary_tags.map(tagLabel).join(' ') : '';
+        const hay = [o.name, o.city, o.country_name_en, o.sector_normalized, tags, tagLabels].join(' ').toLowerCase();
         if(!hay.includes(state.q)) return false;
       }
       return true;
@@ -238,7 +277,16 @@
   document.getElementById('sector-chips').addEventListener('click', (e)=>{
     const chip = e.target.closest('.chip'); if(!chip) return;
     state.sector = chip.dataset.sector;
+    // Changing sector resets the secondary-tag filter (tags are sector-specific).
+    state.tag = '';
     document.querySelectorAll('#sector-chips .chip').forEach(c=>c.classList.toggle('active', c.dataset.sector===state.sector));
+    renderTagChips();
+    apply();
+  });
+  document.getElementById('tag-chips').addEventListener('click', (e)=>{
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    state.tag = chip.dataset.tag || '';
+    document.querySelectorAll('#tag-chips .chip').forEach(c=>c.classList.toggle('active', c.dataset.tag===state.tag));
     apply();
   });
   document.getElementById('q').addEventListener('input', (e)=>{

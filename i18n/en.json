@@ -79,7 +79,22 @@
     "all_sectors": "All sectors",
     "all_countries": "All countries",
     "search_placeholder": "Search by name, city, description…",
-    "search_organisations": "Search organisations…"
+    "search_organisations": "Search organisations…",
+    "secondary_tags": "Emergency focus",
+    "all_tags": "All"
+  },
+  "tag": {
+    "group_label": "Secondary tags",
+    "humanitarian_aid": "Humanitarian aid",
+    "disaster_relief": "Disaster relief",
+    "civil_protection": "Civil protection",
+    "search_rescue": "Search & rescue",
+    "shelter_evacuation": "Shelter & evacuation",
+    "food_basic_needs": "Food & basic needs",
+    "volunteer_response": "Volunteer response",
+    "psychosocial_support": "Psychosocial support",
+    "community_resilience": "Community resilience",
+    "crisis_response": "Crisis response"
   },
   "cta": {
     "request_listing": "Claim your listing →",

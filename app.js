@@ -57,6 +57,43 @@ const SECTOR_SHORT = {
   'Energy & Grid Resilience'            : 'Energy',
 };
 
+// Secondary tags — applied today to Emergency & Crisis Response organisations to
+// surface humanitarian/aid/help work inside the Atlas. Canonical English keys are
+// stored in data; i18n keys map to localised labels under tag.* in i18n JSON.
+const SECONDARY_TAGS = [
+  'Humanitarian aid',
+  'Disaster relief',
+  'Civil protection',
+  'Search & rescue',
+  'Shelter & evacuation',
+  'Food & basic needs',
+  'Volunteer response',
+  'Psychosocial support',
+  'Community resilience',
+  'Crisis response',
+];
+const SECONDARY_TAG_I18N = {
+  'Humanitarian aid'    : 'tag.humanitarian_aid',
+  'Disaster relief'     : 'tag.disaster_relief',
+  'Civil protection'    : 'tag.civil_protection',
+  'Search & rescue'     : 'tag.search_rescue',
+  'Shelter & evacuation': 'tag.shelter_evacuation',
+  'Food & basic needs'  : 'tag.food_basic_needs',
+  'Volunteer response'  : 'tag.volunteer_response',
+  'Psychosocial support': 'tag.psychosocial_support',
+  'Community resilience': 'tag.community_resilience',
+  'Crisis response'     : 'tag.crisis_response',
+};
+function tagLabel(tag){
+  const key = SECONDARY_TAG_I18N[tag];
+  if (!key) return tag;
+  if (window.esrfI18n && window.esrfI18n.t) {
+    const v = window.esrfI18n.t(key, tag);
+    return (v === key) ? tag : v;
+  }
+  return tag;
+}
+
 // Data loaders (cached)
 let _orgs = null, _news = null;
 async function loadOrgs(){

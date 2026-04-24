@@ -866,6 +866,17 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 }
 .map-panel a.visit:hover{background:var(--ink);color:var(--cream)}
 
+/* Secondary tag chips (organisation detail + directory cards) */
+.sec-tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+.sec-tag{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:10px;letter-spacing:0.12em;text-transform:uppercase;
+  padding:3px 8px;background:rgba(193,74,46,0.10);color:var(--sec-emergency,#C14A2E);
+  border:1px solid rgba(193,74,46,0.30);border-radius:2px;line-height:1.4;
+}
+.dir-card .sec-tags{margin:2px 0 4px}
+.dir-card .sec-tag{font-size:9px;padding:2px 6px;letter-spacing:0.1em}
+
 /* Leaflet overrides */
 .leaflet-popup-content-wrapper{
   border-radius:0;background:var(--bg);border:1px solid var(--ink);box-shadow:none;

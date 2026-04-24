@@ -173,13 +173,14 @@
           const country = c.country_name_en || c.country || '';
           const city = c.city || '';
           const sector = c.sector_normalized || '';
+          const tags = Array.isArray(c.secondary_tags) ? c.secondary_tags : [];
           entries.push({
             kind: 'org',
             title: name,
             subtitle: [sector, city, country].filter(Boolean).join(' · '),
             url: c.website || (base + 'directory.html'),
             external: !!c.website,
-            haystack: normalize([name, sector, city, country, c.description_en].join(' ')),
+            haystack: normalize([name, sector, city, country, c.description_en, tags.join(' ')].join(' ')),
           });
         });
       }

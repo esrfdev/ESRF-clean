@@ -111,6 +111,26 @@
 }
 .dir-count strong{color:var(--accent);font-weight:500;font-size:13px}
 
+/* ── Emergency secondary-tag filter bar ── */
+.dir-tag-bar{
+  max-width:var(--max);margin:0 auto;
+  padding:8px var(--pad-x) 0;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.dir-tag-bar-label{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-dim);
+}
+.dir-tag-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.dir-tag-chips .chip{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:4px 10px;background:transparent;border:1px solid rgba(15,20,25,0.18);
+  color:var(--ink-soft);cursor:pointer;transition:all .15s;
+}
+.dir-tag-chips .chip:hover{border-color:var(--ink);color:var(--ink)}
+.dir-tag-chips .chip.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+
 /* ── Active filter tags ── */
 .dir-active-filters{
   max-width:var(--max);margin:0 auto;
@@ -344,6 +364,10 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
 
     <span class="dir-count"><strong id="count"><span data-count="total">2,277</span></strong> · <span data-i18n="common.shown">shown</span></span>
   </div>
+  <div class="dir-tag-bar" id="dir-tag-bar" hidden>
+    <span class="dir-tag-bar-label" data-i18n="filter.secondary_tags">Emergency focus</span>
+    <div class="dir-tag-chips" id="dir-tag-chips"></div>
+  </div>
   <div class="dir-active-filters" id="active-filters"></div>
 </div>
 
@@ -456,6 +480,7 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
     sector:  urlParams.get('sector') || '',
     country: urlParams.get('country') || '',
     q:       urlParams.get('q') || '',
+    tag:     urlParams.get('tag') || '',
     shown:   80,
   };
   const BATCH = 80;
@@ -518,7 +543,11 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
       if (!opt) return;
       e.stopPropagation();
       const val = opt.dataset.value;
-      if (isSector) { state.sector = val; }
+      if (isSector) {
+        state.sector = val;
+        // Clear secondary-tag filter if leaving Emergency — tags only apply there.
+        if (val !== 'Emergency & Crisis Response') state.tag = '';
+      }
       else { state.country = val; }
       dd.classList.remove('open');
       state.shown = BATCH;
@@ -573,8 +602,14 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
     return orgs.filter(o => {
       if (state.sector && o.sector_normalized !== state.sector) return false;
       if (state.country && (o.country_name_en || o.country) !== state.country) return false;
+      if (state.tag) {
+        const tags = Array.isArray(o.secondary_tags) ? o.secondary_tags : [];
+        if (!tags.includes(state.tag)) return false;
+      }
       if (state.q) {
-        const hay = [o.name, o.city, o.country_name_en, o.country_name_local, o.description_en, o.sector_normalized].join(' ').toLowerCase();
+        const tags = Array.isArray(o.secondary_tags) ? o.secondary_tags.join(' ') : '';
+        const tagLabels = Array.isArray(o.secondary_tags) ? o.secondary_tags.map(tagLabel).join(' ') : '';
+        const hay = [o.name, o.city, o.country_name_en, o.country_name_local, o.description_en, o.sector_normalized, tags, tagLabels].join(' ').toLowerCase();
         if (!hay.includes(state.q)) return false;
       }
       return true;
@@ -597,22 +632,70 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
     if (state.country) {
       html += `<span class="dir-filter-tag" data-clear="country">${esc(state.country)} <span class="tag-x">✕</span></span>`;
     }
+    if (state.tag) {
+      html += `<span class="dir-filter-tag" data-clear="tag">${esc(tagLabel(state.tag))} <span class="tag-x">✕</span></span>`;
+    }
     if (state.q) {
       html += `<span class="dir-filter-tag" data-clear="q">"${esc(state.q)}" <span class="tag-x">✕</span></span>`;
     }
     filtersEl.innerHTML = html;
   }
 
+  /* ── Secondary tag chip bar (Emergency sector only) ── */
+  const tagBarEl = document.getElementById('dir-tag-bar');
+  const tagChipsEl = document.getElementById('dir-tag-chips');
+  function renderTagBar(rows) {
+    const visible = state.sector === 'Emergency & Crisis Response';
+    tagBarEl.hidden = !visible;
+    if (!visible) { tagChipsEl.innerHTML = ''; return; }
+    // Count each tag within the current (sector-filtered) rows for live counts.
+    const counts = {};
+    SECONDARY_TAGS.forEach(t => counts[t] = 0);
+    rows.forEach(o => {
+      if (!Array.isArray(o.secondary_tags)) return;
+      o.secondary_tags.forEach(t => { if (counts[t] != null) counts[t] += 1; });
+    });
+    const items = [{key:'', label: (window.esrfI18n && window.esrfI18n.t ? window.esrfI18n.t('filter.all_tags','All') : 'All')}]
+      .concat(SECONDARY_TAGS.map(t => ({key:t, label:`${tagLabel(t)} · ${counts[t]}`})));
+    tagChipsEl.innerHTML = items.map(c => {
+      const active = c.key === (state.tag || '');
+      return `<button type="button" class="chip${active?' active':''}" data-tag="${esc(c.key)}">${esc(c.label)}</button>`;
+    }).join('');
+  }
+  tagChipsEl.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip'); if (!chip) return;
+    state.tag = chip.dataset.tag || '';
+    state.shown = BATCH;
+    render();
+  });
+
   filtersEl.addEventListener('click', (e) => {
     const tag = e.target.closest('.dir-filter-tag');
     if (!tag) return;
     const key = tag.dataset.clear;
-    if (key === 'sector') state.sector = '';
+    if (key === 'sector') { state.sector = ''; state.tag = ''; }
     if (key === 'country') state.country = '';
+    if (key === 'tag') state.tag = '';
     if (key === 'q') { state.q = ''; qInput.value = ''; }
     state.shown = BATCH;
     updateDropdownLabels();
     render();
+  });
+
+  // Click on a tag pill inside a card -> filter by that tag
+  document.getElementById('dir-list').addEventListener('click', (e) => {
+    const t = e.target.closest('.sec-tag[data-tag]');
+    if (!t) return;
+    e.preventDefault();
+    state.tag = t.dataset.tag;
+    // If sector isn't Emergency, switch to it so tag filter is visible & meaningful.
+    if (state.sector !== 'Emergency & Crisis Response') {
+      state.sector = 'Emergency & Crisis Response';
+      updateDropdownLabels();
+    }
+    state.shown = BATCH;
+    render();
+    window.scrollTo({top:0, behavior:'smooth'});
   });
 
   /* ── Summary stats ── */
@@ -639,6 +722,13 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
     const rows = filtered();
     countEl.textContent = rows.length.toLocaleString('en-GB');
     renderFilterTags();
+    // Tag counts reflect the sector filter (but not the tag filter itself or q),
+    // so compute them from the sector-scoped subset for stable numbers while
+    // users compare tags.
+    const sectorRows = state.sector
+      ? orgs.filter(o => o.sector_normalized === state.sector)
+      : rows;
+    renderTagBar(sectorRows);
     renderSummary(rows);
 
     const slice = rows.slice(0, state.shown);
@@ -656,6 +746,10 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
         ? `<a class="dir-link" href="${esc(o.website)}" target="_blank" rel="noopener">${esc(visitLabel)}</a>`
         : `<span class="dir-link" style="color:var(--ink-dim)">—</span>`;
 
+      const tags = Array.isArray(o.secondary_tags) ? o.secondary_tags : [];
+      const tagsHtml = tags.length
+        ? `<div class="sec-tags">${tags.map(tg => `<span class="sec-tag" data-tag="${esc(tg)}" role="button" tabindex="0">${esc(tagLabel(tg))}</span>`).join('')}</div>`
+        : '';
       return `
       <article class="dir-card" style="border-left-color:${borderColor};transition-delay:${delay}ms">
         <div class="dir-card-head">
@@ -665,6 +759,7 @@ mark.dir-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-
         <h3 class="dir-name">${highlight(o.name, state.q)}</h3>
         ${cityStr ? `<p class="dir-city">${highlight(cityStr, state.q)}</p>` : ''}
         ${o.description_en ? `<p class="dir-desc">${highlight(o.description_en, state.q)}</p>` : ''}
+        ${tagsHtml}
         <div class="dir-foot">${linkHtml}</div>
       </article>`;
     }).join('') || `<div class="dir-empty">${esc(noResultsMsg)}</div>`;
