@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.esrf.net/sitemap.xml
+Sitemap: https://esrf.net/sitemap.xml
