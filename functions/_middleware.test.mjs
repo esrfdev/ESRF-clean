@@ -20,7 +20,7 @@ await import('./_middleware.js');
 const api = globalThis.__esrfBotProtection;
 assert.ok(api, 'middleware did not expose test hooks on globalThis');
 
-const { shouldBlock, isAdSenseUA, isBadBotUA, isEuropeanCountry } = api;
+const { shouldBlock, isAdSenseUA, isBadBotUA, isEuropeanCountry, canonicalHostRedirect } = api;
 
 let failures = 0;
 function check(name, fn) {
@@ -218,6 +218,133 @@ check('case-insensitive: GPTBOT (uppercase) from US blocked', () => {
 check('case-insensitive: mediapartners-google (lowercase) allowed', () => {
   const d = shouldBlock({ country: 'US' }, 'mediapartners-google');
   assert.equal(d.block, false);
+});
+
+console.log('\ncanonicalHostRedirect — host canonicalisation:');
+check('www.esrf.net root → 301 to esrf.net root', () => {
+  const r = canonicalHostRedirect(new URL('https://www.esrf.net/'));
+  assert.ok(r, 'expected a redirect');
+  assert.equal(r.status, 301);
+  assert.equal(r.headers.get('location'), 'https://esrf.net/');
+});
+check('www.esrf.net path preserved', () => {
+  const r = canonicalHostRedirect(new URL('https://www.esrf.net/about.html'));
+  assert.equal(r.status, 301);
+  assert.equal(r.headers.get('location'), 'https://esrf.net/about.html');
+});
+check('www.esrf.net query string preserved', () => {
+  const r = canonicalHostRedirect(new URL('https://www.esrf.net/search?q=energy&page=2'));
+  assert.equal(r.status, 301);
+  assert.equal(r.headers.get('location'), 'https://esrf.net/search?q=energy&page=2');
+});
+check('http://www.esrf.net upgraded to https://esrf.net', () => {
+  const r = canonicalHostRedirect(new URL('http://www.esrf.net/foo'));
+  assert.equal(r.status, 301);
+  assert.equal(r.headers.get('location'), 'https://esrf.net/foo');
+});
+check('apex esrf.net is NOT redirected (would loop)', () => {
+  assert.equal(canonicalHostRedirect(new URL('https://esrf.net/')), null);
+  assert.equal(canonicalHostRedirect(new URL('https://esrf.net/about.html')), null);
+});
+check('case-insensitive host match (WWW.ESRF.NET)', () => {
+  // URL normalises hostname to lowercase, but be defensive.
+  const r = canonicalHostRedirect(new URL('https://WWW.ESRF.NET/x'));
+  assert.equal(r.status, 301);
+  assert.equal(r.headers.get('location'), 'https://esrf.net/x');
+});
+check('other subdomains are not redirected', () => {
+  assert.equal(canonicalHostRedirect(new URL('https://api.esrf.net/v1')), null);
+});
+
+// Integration: verify the middleware's onRequest performs the host
+// redirect BEFORE the bot/geo block. We import onRequest directly and
+// pass a fake request whose UA + cf would otherwise be blocked.
+console.log('\nonRequest — www redirect runs before bot blocking:');
+const { onRequest } = await import('./_middleware.js');
+
+async function run(url, { ua = 'Mozilla/5.0', cf = null } = {}) {
+  const req = new Request(url, { headers: { 'user-agent': ua } });
+  // Workers' Request doesn't expose `.cf` from the constructor in Node, so
+  // attach it manually for the middleware to read.
+  if (cf) Object.defineProperty(req, 'cf', { value: cf });
+  let nextCalled = false;
+  const next = async () => { nextCalled = true; return new Response('ok'); };
+  const res = await onRequest({ request: req, next });
+  return { res, nextCalled };
+}
+
+async function checkAsync(name, fn) {
+  try {
+    await fn();
+    console.log(`  ok  — ${name}`);
+  } catch (e) {
+    failures++;
+    console.log(`  FAIL — ${name}`);
+    console.log(`         ${e.message}`);
+  }
+}
+
+await checkAsync('www + outside-Europe bad-bot UA → 301 (redirect wins, not 403)', async () => {
+  const { res, nextCalled } = await run('https://www.esrf.net/foo?bar=1', {
+    ua: 'AhrefsBot/7.0',
+    cf: { country: 'US' },
+  });
+  assert.equal(res.status, 301, 'expected 301, got ' + res.status);
+  assert.equal(res.headers.get('location'), 'https://esrf.net/foo?bar=1');
+  assert.equal(nextCalled, false);
+});
+await checkAsync('www + non-European human → 301', async () => {
+  const { res } = await run('https://www.esrf.net/article', {
+    ua: 'Mozilla/5.0 (Windows NT 10.0) Chrome/122',
+    cf: { country: 'US' },
+  });
+  assert.equal(res.status, 301);
+  assert.equal(res.headers.get('location'), 'https://esrf.net/article');
+});
+await checkAsync('www + python-requests + unknown country → 301', async () => {
+  const { res } = await run('https://www.esrf.net/data', {
+    ua: 'python-requests/2.31',
+    cf: {},
+  });
+  assert.equal(res.status, 301);
+});
+await checkAsync('www + GPTBot + outside Europe → 301 (would have been 403 without fix)', async () => {
+  const { res } = await run('https://www.esrf.net/', {
+    ua: 'GPTBot/1.0',
+    cf: { country: 'US' },
+  });
+  assert.equal(res.status, 301);
+});
+await checkAsync('apex + GPTBot + US → still blocked (403, x-block-reason intact)', async () => {
+  const { res } = await run('https://esrf.net/x', {
+    ua: 'GPTBot/1.0',
+    cf: { country: 'US' },
+  });
+  assert.equal(res.status, 403);
+  assert.equal(res.headers.get('x-block-reason'), 'bad-bot-outside-europe');
+});
+await checkAsync('apex + European human → passes to next()', async () => {
+  const { res, nextCalled } = await run('https://esrf.net/', {
+    ua: 'Mozilla/5.0 Firefox/121',
+    cf: { country: 'NL' },
+  });
+  assert.equal(nextCalled, true);
+  assert.equal(res.status, 200);
+});
+await checkAsync('apex + Googlebot (verified) → passes to next()', async () => {
+  const { nextCalled } = await run('https://esrf.net/sitemap.xml', {
+    ua: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+    cf: { country: 'US', verifiedBotCategory: 'Search Engine Crawler' },
+  });
+  assert.equal(nextCalled, true);
+});
+await checkAsync('www + AdSense crawler → 301 (canonical host wins; AdSense follows redirect)', async () => {
+  const { res } = await run('https://www.esrf.net/', {
+    ua: 'Mediapartners-Google',
+    cf: { country: 'US' },
+  });
+  assert.equal(res.status, 301);
+  assert.equal(res.headers.get('location'), 'https://esrf.net/');
 });
 
 console.log(`\n${failures === 0 ? 'All tests passed.' : failures + ' test(s) FAILED.'}`);
