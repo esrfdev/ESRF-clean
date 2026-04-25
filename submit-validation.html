@@ -485,8 +485,18 @@
       <button type="button" id="sv-copy-btn" class="primary">Kopieer naar klembord</button>
       <button type="button" id="sv-json-btn">Download JSON</button>
       <button type="button" id="sv-txt-btn">Download tekst</button>
+      <button type="button" id="sv-backend-btn">Stuur naar validatie-backend (testmodus)</button>
       <button type="button" id="sv-back-btn">← terug naar formulier</button>
     </div>
+
+    <p id="sv-backend-help" style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
+      <span class="new-pill new-pill-soft">Validation backend</span>
+      <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
+        Roept <code>POST /api/intake</code> aan op de Cloudflare Pages preview. Standaard staat deze in <strong>dry-run</strong>: er wordt niets opgeslagen tot productie-secrets zijn ingesteld.
+      </span>
+    </p>
+
+    <div id="sv-backend-result" class="preview-box" hidden aria-live="polite" style="margin-top:10px"></div>
 
     <pre id="sv-preview" class="preview-box" aria-label="Preview van je inzending"></pre>
   </div>
@@ -494,8 +504,17 @@
   <details class="tech-disclosure">
     <summary>Technische details voor de redactie / Validation Lab</summary>
     <div class="tech-disclosure-body">
-      <p>Dit prototype verzendt niets — het toont alleen een lokale preview ter validatie van de UX en velden. Voor productie verloopt de inzending via een Cloudflare Pages Function met Turnstile, honeypot, schema-validatie en een private intake (GitHub issue) zodat redactie een doorzoekbare workflow met labels en historie houdt. Notificaties bevatten alleen samenvatting + link, geen volledige PII.</p>
+      <p>Dit prototype kent twee paden naast elkaar: (1) <strong>lokale preview</strong> — niets verlaat de browser; (2) <strong>validatie-backend</strong> — een knop in de previewstap roept <code>POST /api/intake</code> aan op de Cloudflare Pages branch-preview. De endpoint valideert, sanitiseert, controleert honeypot/timer en (als ingesteld) Turnstile, en geeft een gestructureerd JSON-antwoord terug. Zonder productie-secrets blijft de endpoint in <em>dry-run</em>: er wordt geen issue aangemaakt en geen notificatie verstuurd.</p>
       <p><strong>Onbekende plaatsnamen — werkwijze.</strong> Geeft een bezoeker een plaats op die niet in de validatielijst staat, dan blokkeert het formulier dat niet. De plaats blijft als vrije invoer staan, wordt zichtbaar gemarkeerd als nieuw, en gaat als kandidaat (<code>place_addition_candidate</code>) mee in de payload. De bezoeker kiest zelf land en regio. De redactie controleert de kandidaat handmatig; pas daarna kan de statische lookup-lijst worden uitgebreid via een GitHub-PR. Geen externe geocoding — dit is redactionele verrijking, geen automatische geodata.</p>
+      <p><strong>Productie-readiness — benodigde Cloudflare environment variables.</strong> De backend werkt in dry-run zonder configuratie. Voor echte productie-opslag stellen we in via Cloudflare Pages → Settings → Environment variables (Production):</p>
+      <ul>
+        <li><code>TURNSTILE_SECRET_KEY</code> — verplicht in productie. Zonder deze sleutel wordt Turnstile <em>overgeslagen</em> en geeft de backend dit terug als waarschuwing.</li>
+        <li><code>GITHUB_TOKEN</code> — fine-grained PAT met <em>issues: write</em> op de private intake-repo (alleen die ene repo).</li>
+        <li><code>INTAKE_REPO</code> — bijv. <code>esrfdev/esrf-intake-private</code>. Issues krijgen labels <code>intake</code>, <code>needs-review</code>, <code>regional</code>, <code>mode:&lt;org|editorial|both&gt;</code>.</li>
+        <li><code>INTAKE_NOTIFY_WEBHOOK</code> — optioneel. Webhook (Slack-stijl) die alleen een minimale samenvatting krijgt: modus, organisatie, land, regio. <strong>Geen e-mailadres, geen telefoon, geen editorial-tekst.</strong></li>
+      </ul>
+      <p><strong>Wat er níét gebeurt.</strong> Geen secrets in de frontend. Geen e-mail rechtstreeks vanuit de browser. Geen Google Sheets aan de website-kant. Een eventuele Google-Sheet-export blijft een latere, separate redactie-flow.</p>
+      <p><strong>Meertaligheid.</strong> Het formulier komt straks in alle 27 ESRF-talen beschikbaar. De backend zelf is taalonafhankelijk — alle labels (knoppen, foutmeldingen, statusteksten) verhuizen in een vervolgstap naar de bestaande i18n-JSON-bestanden onder <code>i18n/</code>. Voor nu blijft de UI Nederlands; backend-flow eerst valideren, dan vertaalslag.</p>
       <p>Volledige architectuurnotitie en exit-criteria staan in het <a href="validation-lab.html">Validation Lab</a> en in <code>validation-lab.json</code>.</p>
     </div>
   </details>
@@ -1348,6 +1367,80 @@
     successBox.hidden = true;
     form.hidden = false;
     form.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  /* ─── Validation backend test (POST /api/intake) ─────────────────────
+     Dry-run by default; only creates a real intake issue if the Cloudflare
+     env vars (GITHUB_TOKEN + INTAKE_REPO) are set. The backend echoes
+     warnings about missing config so the redactie can verify state. */
+  const backendBtn = document.getElementById('sv-backend-btn');
+  const backendResult = document.getElementById('sv-backend-result');
+
+  function escapeHtml(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function showBackend(html){ backendResult.hidden = false; backendResult.innerHTML = html; }
+
+  backendBtn.addEventListener('click', async function(){
+    if (!lastPayload) {
+      showBackend('<strong>Geen payload.</strong> Genereer eerst de testpreview.');
+      return;
+    }
+    backendBtn.disabled = true;
+    const original = backendBtn.textContent;
+    backendBtn.textContent = 'Bezig…';
+    showBackend('<em>Verzoek naar /api/intake…</em>');
+
+    const body = Object.assign({}, lastPayload, {
+      form_duration_ms: Date.now() - (window.__svFormLoadedAt || 0),
+      company_website_hp: ''
+    });
+
+    let res, data;
+    try {
+      res = await fetch('/api/intake', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } catch(err) {
+      showBackend('<strong>Backend niet bereikbaar.</strong> Mogelijk is dit een statische preview zonder Pages Functions. Controleer de Cloudflare Pages branch-deploy. (' + escapeHtml(err.message) + ')');
+      backendBtn.disabled = false; backendBtn.textContent = original;
+      return;
+    }
+    try { data = await res.json(); } catch { data = null; }
+
+    if (!res.ok || !data || !data.ok) {
+      const msg = (data && data.error) ? data.error : ('HTTP ' + res.status);
+      showBackend('<strong>Backend gaf een fout terug:</strong> ' + escapeHtml(msg));
+      backendBtn.disabled = false; backendBtn.textContent = original;
+      return;
+    }
+
+    const lines = [];
+    lines.push('<strong>' + (data.dry_run ? 'DRY-RUN — geen issue aangemaakt' : 'Issue aangemaakt') + '</strong>');
+    lines.push('Modus: ' + escapeHtml(data.mode));
+    lines.push('Ontvangen: ' + escapeHtml(data.received_at));
+    if (data.issue && data.issue.url) {
+      lines.push('Issue: <a href="' + escapeHtml(data.issue.url) + '" target="_blank" rel="noopener">#' + escapeHtml(String(data.issue.number)) + '</a>');
+    }
+    if (data.notification_sent) lines.push('Notificatie: verstuurd (minimale payload)');
+    if (data.warnings && data.warnings.length) {
+      lines.push('');
+      lines.push('Waarschuwingen:');
+      data.warnings.forEach(function(w){ lines.push(' • ' + escapeHtml(w)); });
+    }
+    if (data.dry_run && data.issue_preview) {
+      lines.push('');
+      lines.push('Issue-preview (zou worden aangemaakt):');
+      lines.push('Titel: ' + escapeHtml(data.issue_preview.title));
+      lines.push('Labels: ' + escapeHtml((data.issue_preview.labels || []).join(', ')));
+    }
+    showBackend(lines.join('\n'));
+    backendBtn.disabled = false;
+    backendBtn.textContent = 'Opnieuw versturen naar validatie-backend';
   });
 })();
 </script>
