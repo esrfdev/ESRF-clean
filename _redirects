@@ -1,0 +1,13 @@
+# Cloudflare Pages redirects
+# Syntax: <source> <destination> <status>
+# Docs: https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# Canonicalise www.esrf.net -> esrf.net (permanent, path + query preserved).
+# Cloudflare's "Always Use HTTPS" rule still upgrades http://esrf.net/* to
+# https://esrf.net/* before this file is consulted, so we only need to
+# redirect the www host. We list http:// explicitly as a defence in depth in
+# case Always-HTTPS is ever disabled; both rules send traffic to the canonical
+# https://esrf.net origin. Query strings are preserved automatically by
+# Cloudflare for 301 responses; :splat preserves the path.
+https://www.esrf.net/* https://esrf.net/:splat 301
+http://www.esrf.net/*  https://esrf.net/:splat 301
