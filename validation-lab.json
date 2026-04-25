@@ -1,0 +1,35 @@
+{
+  "$schema": "https://esrf.net/schema/validation-lab.v1.json",
+  "name": "ESRF.net Validation Lab",
+  "description": "Hidden, non-indexed environment for validating future ESRF.net pages, forms and features against the Cloudflare Pages branch preview. Not for public traffic.",
+  "rules": [
+    "Every module page MUST include <meta name=\"robots\" content=\"noindex,nofollow\"> and <meta name=\"googlebot\" content=\"noindex,nofollow\">.",
+    "Modules MUST NOT be linked from public navigation, footer, sitemap.xml, robots.txt, news-data.json, editorials list, index.html or any submit page.",
+    "Modules MUST display a TEST/VALIDATIE banner. No real sensitive or operational data may be entered.",
+    "Every module MUST have an owner and exit criteria before being promoted to main.",
+    "Promotion to main requires explicit approval on the draft PR; the test branch alone is never auto-merged."
+  ],
+  "preview": {
+    "branch": "test/regional-editorial-contributor-intake",
+    "url": "https://test-regional-editorial-cont.esrf-clean.pages.dev",
+    "draftPullRequest": "https://github.com/esrfdev/ESRF-clean/pull/35"
+  },
+  "modules": [
+    {
+      "id": "regional-editorial-contributor-intake",
+      "title": "Regional Editorial Contributor Intake",
+      "status": "in-validation",
+      "path": "/contribute-editorial-test.html",
+      "thankYouPath": "/contribution-test-thank-you.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Validate the hidden contributor intake form for regional editorial submissions (Leadership Lessons, In het zonnetje, Regional Field Notes).",
+      "lastUpdated": "2026-04-25",
+      "visibility": "hidden",
+      "exitCriteria": [
+        "Form validates required fields and honeypot blocks bots.",
+        "Local preview JSON renders correctly without backend submission.",
+        "Editorial reviewers approve content of banner, workflow note and field labels."
+      ]
+    }
+  ]
+}
