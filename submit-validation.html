@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow" />
 <meta name="googlebot" content="noindex,nofollow" />
 <meta name="referrer" content="no-referrer" />
-<title>[TEST/VALIDATIE] Geïntegreerde opgave + editorial bijdrage — ESRF.net</title>
+<title>Meld je organisatie aan — ESRF.net (validatie)</title>
 <meta name="description" content="Verborgen validatieprototype: bestaand opgaveformulier uitgebreid met optionele editorial bijdrage. Niet voor publiek gebruik. noindex/nofollow." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,128 +14,140 @@
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 <style>
-  .test-banner {
-    background:#fff3cd; border:2px solid #ffc107; color:#664d03;
-    padding:16px 20px; margin:16px auto; max-width:820px; border-radius:6px;
-    font-family:'IBM Plex Mono', monospace; font-size:13px; line-height:1.55;
+  .stage-bar{
+    background:var(--ink);color:var(--cream);
+    padding:8px 20px;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    text-align:center;border-bottom:2px solid var(--accent);
   }
-  .test-banner strong { display:block; font-size:14px; margin-bottom:6px; letter-spacing:0.05em; }
-  .vl-back { max-width:820px; margin:8px auto 0; padding:0 16px; font-family:'IBM Plex Mono', monospace; font-size:12px; }
-  .vl-back a { color:#1d4ed8; text-decoration:none; }
-  .vl-back a:hover { text-decoration:underline; }
+  .stage-bar strong{color:var(--accent);font-weight:500;letter-spacing:0.18em}
+  .stage-bar a{color:var(--cream);text-decoration:underline;text-underline-offset:2px}
+  .stage-bar a:hover{color:var(--accent)}
 
-  .intro-box {
-    background:#f0f4f8; border-left:4px solid #2563eb; padding:14px 18px;
-    margin:18px 0; font-size:14px; line-height:1.6; border-radius:0 4px 4px 0;
+  .new-pill{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--accent);border:1px solid var(--accent);
+    padding:3px 8px;border-radius:2px;
+    margin-left:8px;vertical-align:middle;
+    background:rgba(210,75,31,0.06);
   }
-  .intro-box h3 { margin:0 0 8px; font-size:14px; letter-spacing:0.04em; text-transform:uppercase; }
-  .intro-box ol { margin:8px 0 0; padding-left:20px; }
-  .intro-box li { margin:4px 0; }
-
-  .arch-box {
-    background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px;
-    padding:16px 20px; margin:24px 0; font-size:13.5px; line-height:1.6;
-  }
-  .arch-box h3 { margin:0 0 8px; font-family:'PT Serif', serif; font-size:18px; }
-  .arch-box h4 { margin:14px 0 4px; font-size:13px; letter-spacing:0.04em; text-transform:uppercase; color:#475569; }
-  .arch-box ul { margin:6px 0; padding-left:20px; }
-  .arch-box code { background:#0f172a; color:#e2e8f0; padding:1px 6px; border-radius:3px; font-size:12px; }
-  .arch-flow {
-    font-family:'IBM Plex Mono', monospace; font-size:12.5px;
-    background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:4px;
-    margin:8px 0; overflow-x:auto; white-space:pre; line-height:1.55;
+  .new-pill-soft{
+    color:var(--ink-soft);border-color:var(--ink-soft);background:transparent;
   }
 
-  .mode-switch {
-    display:grid; grid-template-columns:1fr; gap:10px; margin:14px 0 6px;
+  /* Mode picker — keep functionality but render in production tone */
+  .mode-switch{display:grid;grid-template-columns:1fr;gap:10px;margin:0 0 8px}
+  @media(min-width:720px){.mode-switch{grid-template-columns:repeat(3,1fr)}}
+  .mode-option{
+    border:1px solid var(--ink);background:var(--bg);
+    padding:16px 18px;cursor:pointer;display:block;
+    transition:background .15s,border-color .15s;
   }
-  @media (min-width:720px) { .mode-switch { grid-template-columns:repeat(3, 1fr); } }
-  .mode-option {
-    border:2px solid #e2e8f0; border-radius:6px; padding:14px 16px; cursor:pointer;
-    background:#fff; transition:border-color .15s, background .15s; display:block;
+  .mode-option:hover{background:var(--bg-warm)}
+  .mode-option input{margin-right:8px}
+  .mode-option strong{
+    font-family:'Archivo',sans-serif;font-weight:700;font-size:15px;
+    display:block;margin-bottom:4px;color:var(--ink);
   }
-  .mode-option:hover { border-color:#94a3b8; }
-  .mode-option input { margin-right:8px; }
-  .mode-option strong { font-size:14px; display:block; margin-bottom:4px; }
-  .mode-option span { font-size:12.5px; color:#475569; line-height:1.5; }
-  .mode-option.is-selected { border-color:#0f172a; background:#f1f5f9; }
-
-  .section-block { display:none; }
-  .section-block.is-active { display:block; }
-
-  .form-fieldset { border:1px solid #e2e8f0; border-radius:6px; padding:18px 20px; margin:18px 0; }
-  .form-legend { font-family:'PT Serif', serif; font-size:18px; padding:0 8px; color:#0f172a; }
-  .fieldset-intro { margin:4px 0 14px; font-size:13.5px; color:#475569; line-height:1.55; }
-
-  .preview-box {
-    background:#0f172a; color:#e2e8f0; padding:24px; border-radius:6px;
-    font-family:'IBM Plex Mono', monospace; font-size:12px; line-height:1.6;
-    white-space:pre-wrap; word-break:break-word; max-height:560px; overflow-y:auto; margin-top:16px;
+  .mode-option span{
+    font-family:'PT Serif',serif;font-size:14px;color:var(--ink-soft);line-height:1.5;
   }
-  .preview-actions { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
-  .preview-actions button {
-    padding:9px 16px; border-radius:4px; border:1px solid #cbd5e1; background:#fff; cursor:pointer;
-    font-family:inherit; font-size:13px;
-  }
-  .preview-actions button.primary { background:#0f172a; color:#fff; border-color:#0f172a; }
-
-  .not-sent {
-    display:inline-block; background:#fee2e2; color:#991b1b; padding:4px 10px;
-    border-radius:3px; font-family:'IBM Plex Mono', monospace; font-size:12px;
-    letter-spacing:0.05em; margin-bottom:8px;
+  .mode-option.is-selected{
+    background:var(--cream);
+    box-shadow:inset 0 0 0 2px var(--accent);
   }
 
-  .why-email {
-    background:#fef9c3; border:1px solid #fde047; border-radius:4px;
-    padding:10px 14px; font-size:13px; margin-top:10px; line-height:1.55;
+  .section-block{display:none}
+  .section-block.is-active{display:block}
+
+  /* Subtle "Nieuw" callout sits above editorial fieldset */
+  .callout-new{
+    border-left:3px solid var(--accent);
+    padding:10px 16px;margin:0 0 18px;background:rgba(210,75,31,0.05);
+    font-family:'IBM Plex Mono',monospace;font-size:12px;
+    letter-spacing:0.04em;color:var(--ink-soft);line-height:1.55;
   }
+  .callout-new strong{color:var(--accent);letter-spacing:0.1em}
+
+  .preview-box{
+    background:var(--ink);color:var(--cream);padding:24px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;
+    white-space:pre-wrap;word-break:break-word;
+    max-height:560px;overflow-y:auto;margin-top:16px;border:1px solid var(--ink);
+  }
+  .preview-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .preview-actions button{
+    padding:10px 18px;border:1px solid var(--ink);background:var(--bg);
+    color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;
+    letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;
+  }
+  .preview-actions button:hover{background:var(--ink);color:var(--cream)}
+  .preview-actions button.primary{background:var(--ink);color:var(--cream)}
+  .preview-actions button.primary:hover{background:var(--accent);border-color:var(--accent)}
+
+  .not-sent-tag{
+    display:inline-block;background:var(--accent);color:var(--cream);
+    padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px;
+  }
+
+  /* Compact tech disclosure — replaces the heavy ASCII architecture block */
+  .tech-disclosure{
+    margin:32px 0 8px;border-top:1px solid var(--ink);padding-top:22px;
+  }
+  .tech-disclosure summary{
+    cursor:pointer;list-style:none;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .tech-disclosure summary::-webkit-details-marker{display:none}
+  .tech-disclosure summary::before{content:"+ ";color:var(--accent)}
+  .tech-disclosure[open] summary::before{content:"− "}
+  .tech-disclosure-body{
+    margin-top:14px;font-family:'PT Serif',serif;font-size:15px;
+    line-height:1.6;color:var(--ink-soft);
+  }
+  .tech-disclosure-body a{color:var(--accent)}
 </style>
 </head>
 <body>
 
+<div class="stage-bar" role="status">
+  <strong>VALIDATIEOMGEVING</strong> &nbsp;·&nbsp; NIET PUBLIEK &nbsp;·&nbsp;
+  inzendingen worden niet verzonden &nbsp;·&nbsp;
+  <a href="validation-lab.html">Validation Lab</a>
+</div>
+
 <nav class="mast" aria-label="Primary">
   <div class="mast-inner">
-    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <a href="esrf-simulated-site.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
     <div class="mast-nav" id="primary-nav">
-      <span style="color:#b91c1c;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em">[VALIDATION LAB — NOT PUBLIC]</span>
+      <a href="about.html">Foundation</a>
+      <a href="events.html">Events</a>
+      <a href="directory.html">Directory</a>
+      <a href="map.html">Atlas</a>
+      <a href="analytics.html">Analytics</a>
+      <a href="news.html">Dispatch</a>
+      <a href="editorials.html">Editorials</a>
+      <a href="fund.html" class="mast-contribute">Bijdragen</a>
     </div>
   </div>
 </nav>
 
-<div class="vl-back"><a href="validation-lab.html">← terug naar Validation Lab</a></div>
-
-<div class="test-banner" role="alert">
-  <strong>⚠ TEST &amp; VALIDATIE OMGEVING — NIET PUBLIEK</strong>
-  Dit is een verborgen validatiekopie van het bestaande opgaveformulier (<code>request-listing.html</code>),
-  uitgebreid met een optionele editorial bijdrage. Productie blijft onaangetast. Deel deze URL niet publiekelijk.
-  Voer <em>geen</em> echte gevoelige of operationele gegevens in. Inzendingen worden <strong>niet</strong> verzonden —
-  het formulier maakt alleen een lokale preview.
-</div>
-
 <section class="phero">
   <div class="phero-inner">
-    <div class="kicker">§ Validation · Geïntegreerde opgave · TEST</div>
+    <div class="kicker">§ Gemeenschap · Opgave <span class="new-pill">Nieuw in validatie</span></div>
     <h1 class="phero-title">Opgave <i>én</i><br>praktijkverhaal.</h1>
     <p class="phero-deck">
-      Eén formulier voor twee dingen die nu nog los staan: je organisatie aanmelden of bijwerken in de ESRF-atlas,
-      én — als je dat wil — een korte editorial bijdrage insturen over leiderschap in samenwerking, geleerde lessen,
-      of mensen en teams die waardering verdienen. Je kiest hieronder wat van toepassing is.
+      Eén formulier voor twee dingen die nu nog los staan: je organisatie aanmelden of bijwerken in de ESRF-atlas, én — als je dat wil — een korte editorial bijdrage insturen over leiderschap in samenwerking, geleerde lessen, of mensen en teams die waardering verdienen. Je kiest hieronder wat van toepassing is.
     </p>
   </div>
 </section>
 
 <div class="form-wrap">
-
-  <div class="intro-box">
-    <h3>Veilig proces — wat gebeurt er met je inzending?</h3>
-    <ol>
-      <li>Je vult dit formulier in. Niets wordt automatisch gepubliceerd.</li>
-      <li>De ESRF-redactie krijgt een melding en bekijkt je inzending op relevantie en regio.</li>
-      <li>Voor een organisatie-opgave: redactie controleert en plaatst in de atlas binnen drie werkdagen.</li>
-      <li>Voor een editorial bijdrage: redactie neemt contact op om scope, framing en feiten af te stemmen.</li>
-      <li>Eindredactie maakt het stuk publicatieklaar en jij ziet de definitieve versie vóór publicatie.</li>
-    </ol>
-  </div>
 
   <div id="form-error" class="form-error" hidden role="alert" aria-live="assertive"></div>
 
@@ -146,22 +158,25 @@
 
     <fieldset class="form-fieldset">
       <legend class="form-legend">1. Wat wil je doen?</legend>
-      <p class="fieldset-intro">Kies wat van toepassing is. Beide kan ook — bijvoorbeeld als je organisatie nog niet in de atlas staat én je een praktijkverhaal hebt.</p>
+      <p class="fieldset-intro">
+        Kies wat van toepassing is. Beide kan ook — bijvoorbeeld als je organisatie nog niet in de atlas staat én je een praktijkverhaal hebt.
+        <span class="new-pill new-pill-soft">Nieuwe optie: editorial bijdrage</span>
+      </p>
 
-      <div class="mode-switch" role="radiogroup" aria-label="Type opgave">
+      <div class="mode-switch" role="radiogroup" aria-label="Type opgave" id="mode-org">
         <label class="mode-option" data-mode="org">
           <input type="radio" name="intake_mode" value="org" checked>
           <strong>Organisatie aanmelden / bijwerken</strong>
           <span>Plaats je organisatie in de ESRF-atlas, of werk bestaande gegevens bij. Geen verhaal nodig.</span>
         </label>
-        <label class="mode-option" data-mode="editorial">
+        <label class="mode-option" data-mode="editorial" id="mode-editorial">
           <input type="radio" name="intake_mode" value="editorial">
-          <strong>Editorial bijdrage / praktijkverhaal</strong>
+          <strong>Editorial bijdrage / praktijkverhaal <span class="new-pill">Nieuw</span></strong>
           <span>Stuur een kort artikel of praktijkverhaal in over samenwerking, een geleerde les of waardering voor mensen die erkenning verdienen.</span>
         </label>
-        <label class="mode-option" data-mode="both">
+        <label class="mode-option" data-mode="both" id="mode-both">
           <input type="radio" name="intake_mode" value="both">
-          <strong>Beide</strong>
+          <strong>Beide <span class="new-pill">Nieuw</span></strong>
           <span>Aanmelden van je organisatie én een editorial bijdrage in één keer.</span>
         </label>
       </div>
@@ -299,8 +314,12 @@
     </fieldset>
 
     <fieldset class="form-fieldset section-block" data-section="editorial">
-      <legend class="form-legend">3. Editorial bijdrage</legend>
+      <legend class="form-legend">3. Editorial bijdrage <span class="new-pill">Nieuw</span></legend>
       <p class="fieldset-intro">Voor een kort artikel of praktijkverhaal. Schrijf zoals je het zou vertellen — de redactie helpt met framing en eindredactie.</p>
+
+      <div class="callout-new">
+        <strong>Editorial bijdrage</strong> · nieuw onderdeel in de validatieomgeving. Drie soorten verhalen passen: een geleerde les, iemand in het zonnetje, of een regionale praktijknotitie.
+      </div>
 
       <div class="form-row">
         <label for="sv-ed-topic">Onderwerp / werktitel <span class="req" aria-hidden="true">*</span></label>
@@ -352,23 +371,23 @@
         <span class="hint">ESRF publiceert geen verhalen die niet te controleren zijn.</span>
       </div>
 
-      <div class="form-check">
-        <input type="checkbox" id="sv-consent-edit" name="consent_edit">
-        <label for="sv-consent-edit">
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-consent-edit" name="consent_edit" style="margin-top:4px">
+        <label for="sv-consent-edit" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
           Ik ga akkoord dat de ESRF-redactie mijn tekst mag <strong>redigeren en publiceren</strong>, met behoud van de kern.
         </label>
       </div>
 
-      <div class="form-check">
-        <input type="checkbox" id="sv-consent-contact-ed" name="consent_contact_editorial">
-        <label for="sv-consent-contact-ed">
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-consent-contact-ed" name="consent_contact_editorial" style="margin-top:4px">
+        <label for="sv-consent-contact-ed" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
           De eindredactie mag <strong>contact</strong> met me opnemen voor afstemming, feiten en eindcheck vóór publicatie.
         </label>
       </div>
 
-      <div class="form-check">
-        <input type="checkbox" id="sv-consent-no-confid" name="consent_no_confidential">
-        <label for="sv-consent-no-confid">
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-consent-no-confid" name="consent_no_confidential" style="margin-top:4px">
+        <label for="sv-consent-no-confid" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
           Mijn inzending bevat <strong>geen vertrouwelijke of operationeel gevoelige informatie</strong>.
         </label>
       </div>
@@ -377,27 +396,31 @@
     <fieldset class="form-fieldset">
       <legend class="form-legend">4. Privacy &amp; verzending</legend>
 
-      <div class="form-check">
-        <input type="checkbox" id="sv-gdpr" name="gdpr_consent" required>
-        <label for="sv-gdpr">
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-gdpr" name="gdpr_consent" required style="margin-top:4px">
+        <label for="sv-gdpr" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
           Ik ga akkoord met het <a href="privacy.html">privacybeleid</a> en met opslag van deze gegevens voor redactionele beoordeling.
         </label>
       </div>
 
       <div>
         <button type="submit" class="form-submit" id="sv-submit-btn">
-          Genereer testpreview (niet verzonden)
+          Genereer testpreview
         </button>
+        <p style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;color:var(--ink-dim);text-transform:uppercase">
+          <span class="new-pill new-pill-soft">Alleen testpreview</span>
+          niets wordt verzonden in deze validatieomgeving
+        </p>
       </div>
     </fieldset>
 
   </form>
 
-  <div id="form-success" class="form-success" hidden>
-    <span class="not-sent">TEST — NIET VERZONDEN</span>
+  <div id="form-success" class="form-success" hidden style="text-align:left;padding:40px 0">
+    <span class="not-sent-tag">TEST — niet verzonden</span>
     <div class="kicker">§ Lokale preview</div>
-    <h2 style="margin:6px 0 8px">Samenvatting van je inzending</h2>
-    <p style="font-size:14px;line-height:1.6;color:#475569;margin:0 0 8px">
+    <h2 style="margin:6px 0 8px;font-family:'Archivo',sans-serif">Samenvatting van je inzending</h2>
+    <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.6;color:var(--ink-soft);margin:0 0 12px">
       Dit is wat de redactie zou ontvangen. Niets is verzonden. Je kunt het kopiëren of als JSON / tekstbestand downloaden.
     </p>
 
@@ -411,64 +434,53 @@
     <pre id="sv-preview" class="preview-box" aria-label="Preview van je inzending"></pre>
   </div>
 
-  <section class="arch-box" aria-labelledby="sv-arch-h">
-    <h3 id="sv-arch-h">Veilige verwerking: aanbevolen route voor productie</h3>
-    <p style="margin:0 0 8px">Dit prototype verzendt niets — het is een UI-validatie. Voor de echte productie-uitrol is dit de aanbevolen architectuur:</p>
-
-    <div class="arch-flow">[ Browser ]
-   │  POST JSON
-   ▼
-[ Cloudflare Pages Function / Worker ]
-   • Turnstile validatie (anti-bot)
-   • Honeypot + tijds-/rate-limiting
-   • Schema-validatie + sanitisatie
-   │
-   ├──▶  [ Private GitHub issue / private intake repo ]
-   │        (volledig dossier, doorzoekbaar, history, labels)
-   │
-   ├──▶  [ Notificatie-mail naar redactie ]
-   │        (alleen samenvatting + link, GEEN volledige PII)
-   │
-   └──▶  [ Optioneel: Google Sheet als redactioneel overzicht ]
-            (status, eigenaar, volgende stap)</div>
-
-    <h4>Waarom deze route?</h4>
-    <ul>
-      <li><strong>Turnstile + honeypot + rate limiting</strong> houdt bots en spam buiten zonder cookies of CAPTCHA-frictie.</li>
-      <li><strong>Private GitHub issue</strong> geeft de redactie een doorzoekbare workflow met labels (regio, status, sector), reviewers en historie. Per issue kunnen redacteuren reageren, taggen en sluiten.</li>
-      <li><strong>Notificatie-mail met alléén samenvatting + link</strong> voorkomt dat persoonsgegevens in mailboxen rondzwerven en blijft GDPR-vriendelijk.</li>
-      <li><strong>Google Sheet</strong> is optioneel: handig als kanban-overzicht voor de redactie zonder GitHub-toegang.</li>
-    </ul>
-
-    <h4>Waarom alléén e-mail minder ideaal is</h4>
-    <div class="why-email">
-      Een mailto-formulier of pure e-mail-relay lijkt simpel, maar:
-      <ul style="margin:6px 0 0">
-        <li>Slechter doorzoekbaar — verhalen verdwijnen in inboxen.</li>
-        <li>PII in mailboxen blijft vaak <em>jaren</em> staan, soms gesynchroniseerd naar meerdere apparaten.</li>
-        <li>Geen workflow-controle — geen status, geen toewijzing, geen audit trail.</li>
-        <li>Geen anti-bot-laag tussen het web en de inbox — spam komt direct binnen.</li>
-        <li>Lastiger te overdragen aan een opvolger of nieuwe redacteur.</li>
-      </ul>
+  <details class="tech-disclosure">
+    <summary>Technische details voor de redactie / Validation Lab</summary>
+    <div class="tech-disclosure-body">
+      <p>Dit prototype verzendt niets — het toont alleen een lokale preview ter validatie van de UX en velden. Voor productie verloopt de inzending via een Cloudflare Pages Function met Turnstile, honeypot, schema-validatie en een private intake (GitHub issue) zodat redactie een doorzoekbare workflow met labels en historie houdt. Notificaties bevatten alleen samenvatting + link, geen volledige PII.</p>
+      <p>Volledige architectuurnotitie en exit-criteria staan in het <a href="validation-lab.html">Validation Lab</a> en in <code>validation-lab.json</code>.</p>
     </div>
-
-    <h4>Velden in de notificatie-mail (voorbeeld)</h4>
-    <ul>
-      <li>Type inzending (organisatie / editorial / beide)</li>
-      <li>Regio + sector</li>
-      <li>Eerste 200 tekens van de samenvatting</li>
-      <li>Link naar de private issue (volledig dossier achter inlog)</li>
-    </ul>
-    <p style="margin:8px 0 0;font-size:12.5px;color:#475569"><em>Geen e-mail, naam, telefoonnummer of organisatie in de notificatie zelf.</em></p>
-  </section>
+  </details>
 
 </div>
 
-<footer class="foot" style="margin-top:48px">
-  <div class="foot-inner" style="text-align:center;padding:24px 16px">
-    <p style="font-family:'IBM Plex Mono', monospace; font-size:12px; color:#6b7280; margin:0">
-      Verborgen validatieomgeving · branch preview only · noindex,nofollow · niet voor publiek verkeer
-    </p>
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p>ESRF.net — Europese veiligheid en weerbaarheid, gedragen door 2.083 organisaties in 30 landen.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Gemeenschap</h4>
+      <ul>
+        <li><a href="directory.html">Directory</a></li>
+        <li><a href="map.html">Atlas</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="news.html">Dispatch</a></li>
+        <li><a href="editorials.html">Editorials</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Stichting</h4>
+      <ul>
+        <li><a href="about.html">Over</a></li>
+        <li><a href="fund.html" class="foot-contribute">Bijdragen</a></li>
+        <li><a href="sponsor.html">Steun</a></li>
+        <li><a href="mailto:hello@esrf.net">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Validatie</h4>
+      <ul>
+        <li><a href="esrf-simulated-site.html">Simulatie-home</a></li>
+        <li><a href="request-listing-validation.html">Opgavepad (validatie)</a></li>
+        <li><a href="validation-lab.html">Validation Lab</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div>&copy; 2026 Stichting ESRF European Security and Resilience Fund</div>
+    <div>Atlas of Organisations · validatieomgeving</div>
   </div>
 </footer>
 
@@ -502,12 +514,26 @@
       opt.classList.toggle('is-selected', opt.dataset.mode === m);
     });
     submitBtn.textContent = m === 'editorial'
-      ? 'Genereer testpreview van editorial inzending (niet verzonden)'
+      ? 'Genereer testpreview van editorial inzending'
       : (m === 'both'
-          ? 'Genereer testpreview van opgave + editorial (niet verzonden)'
-          : 'Genereer testpreview van organisatie-opgave (niet verzonden)');
+          ? 'Genereer testpreview van opgave + editorial'
+          : 'Genereer testpreview van organisatie-opgave');
   }
   modeRadios.forEach(r => r.addEventListener('change', applyMode));
+
+  /* Honour deep-link hash to pre-select a mode (e.g. #mode-editorial / #mode-both) */
+  (function preselectFromHash(){
+    const h = (window.location.hash || '').toLowerCase();
+    let target = null;
+    if (h === '#mode-editorial') target = 'editorial';
+    else if (h === '#mode-both') target = 'both';
+    else if (h === '#mode-org') target = 'org';
+    if (target) {
+      const r = form.querySelector('input[name="intake_mode"][value="' + target + '"]');
+      if (r) r.checked = true;
+    }
+  })();
+
   applyMode();
 
   const summaryEl = document.getElementById('sv-ed-summary');

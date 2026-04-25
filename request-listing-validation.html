@@ -6,72 +6,132 @@
 <meta name="robots" content="noindex,nofollow" />
 <meta name="googlebot" content="noindex,nofollow" />
 <meta name="referrer" content="no-referrer" />
-<meta http-equiv="refresh" content="6;url=submit-validation.html" />
-<title>[TEST/VALIDATIE] Opgavepad → geïntegreerd opgaveformulier</title>
-<meta name="description" content="Validatievariant van het opgavepad. Leidt naar het geïntegreerde opgaveformulier (submit-validation.html). Niet publiek. noindex/nofollow." />
+<title>Opgavepad — ESRF.net (validatie)</title>
+<meta name="description" content="Validatievariant van het opgavepad. Leidt naar het geïntegreerde opgaveformulier. Niet publiek. noindex/nofollow." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 <style>
-  .test-banner {
-    background:#fff3cd; border:2px solid #ffc107; color:#664d03;
-    padding:14px 20px; margin:0; border-bottom:2px solid #ffc107;
-    font-family:'IBM Plex Mono', monospace; font-size:13px; line-height:1.5;
-    text-align:center;
+  .stage-bar{
+    background:var(--ink);color:var(--cream);
+    padding:8px 20px;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    text-align:center;border-bottom:2px solid var(--accent);
   }
-  .test-banner strong { letter-spacing:0.06em; }
-  .rl-wrap { max-width:720px; margin:48px auto; padding:0 24px; }
-  .rl-kicker { font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.1em; color:#b91c1c; text-transform:uppercase; margin:0 0 12px; }
-  .rl-h1 { font-family:'PT Serif', serif; font-size:34px; line-height:1.2; margin:0 0 14px; }
-  .rl-deck { font-family:'Archivo', system-ui, sans-serif; font-size:16px; line-height:1.6; color:#334155; margin:0 0 22px; }
-  .rl-card { background:#f0f4f8; border-left:4px solid #2563eb; padding:18px 22px; border-radius:0 4px 4px 0; margin:0 0 22px; }
-  .rl-card p { margin:0; font-size:14px; line-height:1.6; color:#1f2937; }
-  .rl-cta-row { display:flex; flex-wrap:wrap; gap:12px; }
-  .rl-cta { display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:6px; text-decoration:none; font-family:'Archivo', system-ui, sans-serif; font-weight:600; font-size:14px; border:1px solid #0f172a; }
-  .rl-cta-primary { background:#0f172a; color:#fff; }
-  .rl-cta-secondary { background:#fff; color:#0f172a; border-color:#cbd5e1; }
-  .rl-meta { margin-top:30px; font-family:'IBM Plex Mono', monospace; font-size:12px; color:#6b7280; }
-  .rl-meta a { color:#475569; }
+  .stage-bar strong{color:var(--accent);font-weight:500;letter-spacing:0.18em}
+  .stage-bar a{color:var(--cream);text-decoration:underline;text-underline-offset:2px}
+  .stage-bar a:hover{color:var(--accent)}
+
+  .new-pill{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--accent);border:1px solid var(--accent);
+    padding:3px 8px;border-radius:2px;
+    margin-left:8px;vertical-align:middle;
+    background:rgba(210,75,31,0.06);
+  }
+  .change-note{
+    margin:24px auto 0;max-width:680px;padding:0 var(--pad-x);
+    font-family:'IBM Plex Mono',monospace;font-size:12px;
+    letter-spacing:0.04em;color:var(--ink-dim);line-height:1.6;
+    border-left:2px solid var(--accent);padding-left:14px;
+  }
+  .change-note code{background:var(--bg-warm);padding:1px 5px;border-radius:2px}
 </style>
 </head>
 <body>
 
-<div class="test-banner" role="alert">
-  <strong>⚠ TEST &amp; VALIDATIE OMGEVING — NIET PUBLIEK</strong><br />
-  Validatievariant van het opgavepad. Productie <code>request-listing.html</code> is niet gewijzigd.
-  Terug naar <a href="validation-lab.html">Validation Lab</a> of <a href="esrf-simulated-site.html">simulatie-home</a>.
+<div class="stage-bar" role="status">
+  <strong>VALIDATIEOMGEVING</strong> &nbsp;·&nbsp; NIET PUBLIEK &nbsp;·&nbsp; geen echte verzending &nbsp;·&nbsp;
+  <a href="validation-lab.html">Validation Lab</a>
 </div>
 
-<main class="rl-wrap">
-  <p class="rl-kicker">§ Opgavepad · validatie · noindex,nofollow</p>
-  <h1 class="rl-h1">Opgavepad — geïntegreerde versie</h1>
-  <p class="rl-deck">
-    In de validatieomgeving is het klassieke opgavepad samengevoegd met de editorial-bijdrage.
-    Eén formulier, drie modi: organisatie, editorial, of beide.
-    Je wordt automatisch doorgestuurd naar het geïntegreerde opgaveformulier.
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="esrf-simulated-site.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html">Foundation</a>
+      <a href="events.html">Events</a>
+      <a href="directory.html">Directory</a>
+      <a href="map.html">Atlas</a>
+      <a href="analytics.html">Analytics</a>
+      <a href="news.html">Dispatch</a>
+      <a href="editorials.html">Editorials</a>
+      <a href="submit-validation.html" class="mast-cta" style="display:inline-block;text-decoration:none">Meld organisatie aan</a>
+      <a href="fund.html" class="mast-contribute">Bijdragen</a>
+    </div>
+  </div>
+</nav>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ Gemeenschap · Opgavepad <span class="new-pill">Nieuw in validatie</span></div>
+    <h1 class="phero-title">Meld je<br><i>organisatie</i> aan.</h1>
+    <p class="phero-deck">Elke organisatie wier werk de Europese veiligheid en weerbaarheid versterkt is welkom in de ESRF.net-gemeenschap. Inzendingen worden binnen drie werkdagen door de redactie beoordeeld. Aanmelden is gratis — we vragen alleen dat je werk daadwerkelijk bijdraagt aan een van de tien vitale sectoren.</p>
+  </div>
+</section>
+
+<div class="form-wrap" style="text-align:left">
+
+  <p style="font-family:'PT Serif',serif;font-size:18px;line-height:1.6;color:var(--ink-soft);margin:0 0 28px">
+    In de validatieomgeving is het opgavepad samengevoegd met de redactionele bijdrage tot één formulier met drie modi: organisatie, editorial, of beide. Kies hieronder hoe je verder wilt.
   </p>
 
-  <div class="rl-card">
-    <p>
-      <strong>Wat is anders dan productie?</strong><br />
-      Op de echte site staat <code>request-listing.html</code> voor alleen organisatie-opgaves.
-      In deze validatie verwijst <code>request-listing-validation.html</code> naar het prototype
-      <code>submit-validation.html</code> dat beide flows bundelt. De productiepagina blijft ongewijzigd.
-    </p>
+  <div style="display:flex;flex-wrap:wrap;gap:14px;margin:8px 0 24px">
+    <a class="btn primary" href="submit-validation.html" style="text-decoration:none">Naar geïntegreerd opgaveformulier →</a>
+    <a class="btn outline" href="esrf-simulated-site.html" style="text-decoration:none">Terug naar home</a>
   </div>
 
-  <div class="rl-cta-row">
-    <a class="rl-cta rl-cta-primary" href="submit-validation.html">Naar geïntegreerd opgaveformulier →</a>
-    <a class="rl-cta rl-cta-secondary" href="esrf-simulated-site.html">Terug naar simulatie-home</a>
-    <a class="rl-cta rl-cta-secondary" href="validation-lab.html">Validation Lab</a>
-  </div>
-
-  <p class="rl-meta">
-    Automatisch doorsturen na ~6 seconden. Geen redirect via productie. Geen publieke link naar deze pagina.
+  <p class="change-note">
+    <strong>Wat is anders dan productie?</strong><br>
+    Op de live site stuurt <code>request-listing.html</code> alleen organisatie-opgaves. In deze validatie verwijst <code>request-listing-validation.html</code> naar het geïntegreerde prototype <code>submit-validation.html</code> dat organisatie- en editorial-flow bundelt. Productie blijft ongewijzigd.
   </p>
-</main>
+
+</div>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p>ESRF.net — Europese veiligheid en weerbaarheid, gedragen door 2.083 organisaties in 30 landen.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Gemeenschap</h4>
+      <ul>
+        <li><a href="directory.html">Directory</a></li>
+        <li><a href="map.html">Atlas</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="news.html">Dispatch</a></li>
+        <li><a href="editorials.html">Editorials</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Stichting</h4>
+      <ul>
+        <li><a href="about.html">Over</a></li>
+        <li><a href="fund.html" class="foot-contribute">Bijdragen</a></li>
+        <li><a href="sponsor.html">Steun</a></li>
+        <li><a href="mailto:hello@esrf.net">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Validatie</h4>
+      <ul>
+        <li><a href="submit-validation.html">Geïntegreerd opgaveformulier</a></li>
+        <li><a href="esrf-simulated-site.html">Simulatie-home</a></li>
+        <li><a href="validation-lab.html">Validation Lab</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div>&copy; 2026 Stichting ESRF European Security and Resilience Fund</div>
+    <div>Atlas of Organisations · validatieomgeving</div>
+  </div>
+</footer>
 
 </body>
 </html>

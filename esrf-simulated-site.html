@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow" />
 <meta name="googlebot" content="noindex,nofollow" />
 <meta name="referrer" content="no-referrer" />
-<title>[TEST/VALIDATIE] ESRF.net — gesimuleerde home (validatie)</title>
+<title>ESRF.net — gesimuleerde home (validatie)</title>
 <meta name="description" content="Verborgen validatie-simulatie van een ESRF.net-bezoekersreis. Niet publiek. noindex/nofollow." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,231 +14,237 @@
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 <style>
-  .test-banner {
-    background:#fff3cd; border:2px solid #ffc107; color:#664d03;
-    padding:14px 20px; margin:0; border-bottom:2px solid #ffc107;
-    font-family:'IBM Plex Mono', monospace; font-size:13px; line-height:1.5;
-    text-align:center;
+  /* Subtle staging bar — narrow, monochrome with accent rule */
+  .stage-bar{
+    background:var(--ink);color:var(--cream);
+    padding:8px 20px;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    text-align:center;border-bottom:2px solid var(--accent);
   }
-  .test-banner strong { letter-spacing:0.06em; }
-  .test-banner a { color:#664d03; text-decoration:underline; }
-  .sim-wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
-  .sim-hero {
-    padding:64px 0 48px; border-bottom:1px solid #e2e8f0;
-  }
-  .sim-kicker {
-    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.1em;
-    color:#b91c1c; text-transform:uppercase; margin:0 0 14px;
-  }
-  .sim-h1 {
-    font-family:'PT Serif', serif; font-size:52px; line-height:1.1; margin:0 0 18px;
-    color:#0f172a; max-width:840px;
-  }
-  .sim-deck {
-    font-family:'Archivo', system-ui, sans-serif; font-size:18px; line-height:1.55;
-    color:#334155; max-width:680px; margin:0 0 28px;
-  }
-  .sim-cta-row {
-    display:flex; flex-wrap:wrap; gap:12px; margin-top:18px;
-  }
-  .sim-cta {
-    display:inline-flex; align-items:center; gap:8px;
-    padding:14px 22px; border-radius:6px; text-decoration:none;
-    font-family:'Archivo', system-ui, sans-serif; font-weight:600; font-size:15px;
-    border:1px solid #0f172a; transition:transform 0.15s ease;
-  }
-  .sim-cta:hover { transform:translateY(-1px); }
-  .sim-cta-primary { background:#0f172a; color:#fff; }
-  .sim-cta-secondary { background:#fff; color:#0f172a; }
-  .sim-cta-tertiary { background:#fff; color:#0f172a; border-color:#cbd5e1; }
-  .sim-cta-arrow { font-size:18px; }
+  .stage-bar strong{color:var(--accent);font-weight:500;letter-spacing:0.18em}
+  .stage-bar a{color:var(--cream);text-decoration:underline;text-underline-offset:2px}
+  .stage-bar a:hover{color:var(--accent)}
 
-  .sim-section { padding:48px 0; border-bottom:1px solid #e2e8f0; }
-  .sim-section h2 {
-    font-family:'PT Serif', serif; font-size:30px; margin:0 0 22px;
+  /* "Nieuw in validatie" pill — subtle outline, doesn't redesign */
+  .new-pill{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--accent);border:1px solid var(--accent);
+    padding:3px 8px;border-radius:2px;
+    margin-left:8px;vertical-align:middle;
+    background:rgba(210,75,31,0.06);
   }
-  .sim-cards {
-    display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;
-  }
-  @media (max-width:760px){ .sim-cards { grid-template-columns:1fr; } }
-  .sim-card {
-    background:#fff; border:1px solid #e2e8f0; border-radius:8px;
-    padding:22px 22px 20px; display:flex; flex-direction:column;
-  }
-  .sim-card h3 {
-    font-family:'PT Serif', serif; font-size:20px; margin:0 0 8px;
-  }
-  .sim-card p {
-    font-family:'Archivo', system-ui, sans-serif; font-size:14px; line-height:1.55;
-    color:#475569; margin:0 0 14px; flex:1;
-  }
-  .sim-card-link {
-    font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:0.03em;
-    color:#1d4ed8; text-decoration:none; align-self:flex-start;
-  }
-  .sim-card-link:hover { text-decoration:underline; }
-
-  .sim-contribute {
-    background:#f8fafc;
-    border:1px solid #e2e8f0; border-radius:8px;
-    padding:32px 32px; margin:8px 0 0;
-  }
-  .sim-contribute h2 { margin:0 0 10px; font-family:'PT Serif', serif; font-size:28px; }
-  .sim-contribute p { margin:0 0 18px; font-family:'Archivo', system-ui, sans-serif; font-size:15px; line-height:1.6; color:#334155; max-width:700px; }
-  .sim-contribute-list {
-    margin:0 0 22px; padding:0; list-style:none;
-    display:grid; grid-template-columns:repeat(2,1fr); gap:10px 24px;
-  }
-  @media (max-width:680px){ .sim-contribute-list { grid-template-columns:1fr; } }
-  .sim-contribute-list li {
-    font-family:'Archivo', system-ui, sans-serif; font-size:14px; color:#0f172a;
-    padding-left:22px; position:relative;
-  }
-  .sim-contribute-list li::before {
-    content:"→"; position:absolute; left:0; color:#1d4ed8; font-weight:700;
+  .new-pill-soft{
+    color:var(--ink-soft);border-color:var(--ink-soft);background:transparent;
   }
 
-  .sim-footer {
-    padding:30px 0 60px; font-family:'IBM Plex Mono', monospace;
-    font-size:12px; color:#6b7280;
+  /* Subtle outline on the routes that are new in validation */
+  .marked-route{
+    position:relative;
+    box-shadow:inset 0 0 0 2px var(--accent);
   }
-  .sim-footer a { color:#475569; text-decoration:none; }
-  .sim-footer a:hover { text-decoration:underline; }
-
-  .sim-mast {
-    background:#0f172a; color:#fff; padding:18px 0;
-  }
-  .sim-mast-inner {
-    display:flex; align-items:center; justify-content:space-between;
-    max-width:1080px; margin:0 auto; padding:0 24px;
-  }
-  .sim-logo {
-    font-family:'PT Serif', serif; font-size:22px; color:#fff; text-decoration:none;
-    font-weight:700;
-  }
-  .sim-mast-nav {
-    display:flex; gap:22px; font-family:'Archivo', system-ui, sans-serif;
-    font-size:14px;
-  }
-  .sim-mast-nav a { color:#cbd5e1; text-decoration:none; }
-  .sim-mast-nav a:hover { color:#fff; }
-  .sim-mast-flag {
-    font-family:'IBM Plex Mono', monospace; font-size:11px;
-    color:#fbbf24; letter-spacing:0.08em; padding:4px 8px;
-    border:1px solid #fbbf24; border-radius:3px;
+  .marked-route::after{
+    content:"NIEUW IN VALIDATIE";
+    position:absolute;top:8px;right:10px;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:0.16em;color:var(--accent);
+    background:var(--bg);padding:2px 6px;border:1px solid var(--accent);
+    border-radius:2px;
   }
 </style>
 </head>
 <body>
 
-<div class="test-banner" role="alert">
-  <strong>⚠ TEST &amp; VALIDATIE OMGEVING — NIET PUBLIEK</strong><br />
-  Dit is een gesimuleerde ESRF.net-bezoekersreis op de Cloudflare Pages branch preview.
-  Niet de echte site. Geen echte data invoeren. Niet publiek delen.
-  Terug naar <a href="validation-lab.html">Validation Lab</a>.
+<!-- Subtle staging bar — top of page only -->
+<div class="stage-bar" role="status">
+  <strong>VALIDATIEOMGEVING</strong> &nbsp;·&nbsp; NIET PUBLIEK &nbsp;·&nbsp; geen echte verzending &nbsp;·&nbsp;
+  <a href="validation-lab.html">Validation Lab</a>
 </div>
 
-<header class="sim-mast" aria-label="Gesimuleerde ESRF.net masthead">
-  <div class="sim-mast-inner">
-    <a href="esrf-simulated-site.html" class="sim-logo">ESRF.net <span style="font-size:12px;font-weight:400;color:#fbbf24;letter-spacing:0.08em">[SIM]</span></a>
-    <nav class="sim-mast-nav" aria-label="Gesimuleerde primaire navigatie">
-      <a href="esrf-simulated-site.html#sectoren">Sectoren</a>
-      <a href="esrf-simulated-site.html#redactie">Redactie</a>
-      <a href="esrf-simulated-site.html#bijdragen">Bijdragen</a>
-      <a href="submit-validation.html">Naar opgaveformulier</a>
-    </nav>
-    <span class="sim-mast-flag">VALIDATION</span>
+<!-- ═══ MASTHEAD (production look) ═══ -->
+<nav class="mast overlay" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="esrf-simulated-site.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html">Foundation</a>
+      <a href="events.html">Events</a>
+      <a href="directory.html">Directory</a>
+      <a href="map.html">Atlas</a>
+      <a href="analytics.html">Analytics</a>
+      <a href="news.html">Dispatch</a>
+      <a href="editorials.html">Editorials</a>
+      <a href="submit-validation.html" class="mast-cta" style="display:inline-block;text-decoration:none">Meld organisatie aan</a>
+      <a href="fund.html" class="mast-contribute">Bijdragen</a>
+    </div>
   </div>
-</header>
+</nav>
 
-<main class="sim-wrap">
-
-  <section class="sim-hero" aria-labelledby="sim-hero-h">
-    <p class="sim-kicker">§ Gesimuleerde home · validatie · noindex,nofollow</p>
-    <h1 id="sim-hero-h" class="sim-h1">Europese veiligheid en weerbaarheid, samen zichtbaar gemaakt.</h1>
-    <p class="sim-deck">
-      Een gesimuleerde startpagina om de bezoekersreis naar het opgaveformulier te valideren.
-      Organisaties kunnen zich opgeven voor het atlas, redactionele bijdragers kunnen praktijkverhalen
-      en regionale notities insturen — beide via één geïntegreerd opgaveformulier.
-    </p>
-    <div class="sim-cta-row" role="group" aria-label="Primaire acties">
-      <a class="sim-cta sim-cta-primary" href="submit-validation.html">
-        Organisatie aanmelden <span class="sim-cta-arrow" aria-hidden="true">→</span>
-      </a>
-      <a class="sim-cta sim-cta-secondary" href="submit-validation.html#mode-editorial">
-        Bijdrage of praktijkverhaal insturen <span class="sim-cta-arrow" aria-hidden="true">→</span>
-      </a>
-      <a class="sim-cta sim-cta-tertiary" href="submit-validation.html">
-        Naar opgaveformulier
-      </a>
+<!-- ═══ HERO (production layout) ═══ -->
+<section class="hero" id="top">
+  <div class="hero-frame"></div>
+  <div class="hero-content">
+    <div>
+      <h1 class="hero-title">
+        <span>De mensen</span>
+        <span class="italic">die</span>
+        <span class="accent">Europa</span>
+        <span>samenhouden.</span>
+      </h1>
     </div>
-  </section>
-
-  <section class="sim-section" id="sectoren" aria-labelledby="sim-sectoren-h">
-    <h2 id="sim-sectoren-h">Drie startpunten voor bezoekers</h2>
-    <div class="sim-cards">
-      <article class="sim-card">
-        <h3>Organisatie zonder vermelding</h3>
-        <p>Werk je bij een organisatie die past in de Europese veiligheid- en weerbaarheidsatlas, maar nog niet vermeld is? Geef je organisatie op via het geïntegreerde formulier.</p>
-        <a class="sim-card-link" href="submit-validation.html">→ Organisatie aanmelden</a>
-      </article>
-      <article class="sim-card">
-        <h3>Redactionele bijdrager</h3>
-        <p>Schrijf een Leadership Lesson, In het zonnetje of een Regional Field Note. Je bijdrage gaat via dezelfde intake, met een editorial-modus.</p>
-        <a class="sim-card-link" href="submit-validation.html#mode-editorial">→ Bijdrage insturen</a>
-      </article>
-      <article class="sim-card">
-        <h3>Beide tegelijk</h3>
-        <p>Organisaties die zich opgeven én een redactionele bijdrage willen leveren, kunnen dit in één formulier doen via de modus "beide".</p>
-        <a class="sim-card-link" href="submit-validation.html#mode-both">→ Naar opgaveformulier</a>
-      </article>
-    </div>
-  </section>
-
-  <section class="sim-section" id="redactie" aria-labelledby="sim-redactie-h">
-    <h2 id="sim-redactie-h">Validatie van de bezoekersreis</h2>
-    <p style="font-family:'Archivo', system-ui, sans-serif; font-size:15px; line-height:1.65; color:#334155; max-width:720px;">
-      Deze gesimuleerde home dient om te toetsen of bezoekers het opgaveformulier kunnen vinden via een
-      logische reis: vanaf een herkenbare ESRF.net-stijl startpagina, via duidelijke CTA's,
-      naar het geïntegreerde validatieformulier op <code>submit-validation.html</code>.
-      Geen echte productiepagina is gewijzigd. Geen publieke navigatie of footer linkt hierheen.
-    </p>
-  </section>
-
-  <section class="sim-section" aria-labelledby="sim-contribute-h">
-    <div class="sim-contribute" id="bijdragen">
-      <h2 id="sim-contribute-h">Bijdragen aan ESRF.net</h2>
-      <p>Eén opgaveformulier, drie modi. Kies wat past bij jouw situatie:</p>
-      <ul class="sim-contribute-list">
-        <li>Organisatie aanmelden voor het atlas</li>
-        <li>Editorial bijdrage insturen (Leadership Lesson, In het zonnetje, Regional Field Note)</li>
-        <li>Beide tegelijk in één doorloop</li>
-        <li>Lichte editorial-only intake voor regionale bijdragers</li>
-      </ul>
-      <div class="sim-cta-row">
-        <a class="sim-cta sim-cta-primary" href="submit-validation.html">
-          Naar geïntegreerd opgaveformulier <span class="sim-cta-arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="sim-cta sim-cta-tertiary" href="contribute-editorial-test.html">
-          Alleen editorial intake (lichte variant)
-        </a>
-        <a class="sim-cta sim-cta-tertiary" href="request-listing-validation.html">
-          Klassiek opgavepad (validatie)
-        </a>
+    <div>
+      <p class="hero-deck">
+        Waar overheden beleid maken en internationale instanties coördineren, verbindt <strong>ESRF.net</strong> de bedrijven, instellingen en burgers wier dagelijkse werk ons gedeelde leven in stilte draagt — een gedecentraliseerd kader, gedragen door de organisaties die de economie laten draaien.
+      </p>
+      <div class="hero-meta">
+        <span><strong>2.083</strong> organisaties</span>
+        <span><strong>30</strong> landen</span>
+        <span><strong>10</strong> vitale sectoren</span>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="hero-caption">
+    Een gemeenschap van praktijkmensen, in dertig naties, gebonden door vijf morele principes.
+  </div>
+  <div class="scroll-hint" aria-hidden="true">Scroll · de atlas opent ↓</div>
+</section>
 
-  <footer class="sim-footer" aria-label="Gesimuleerde voettekst">
-    <p>
-      Gesimuleerde ESRF.net-omgeving · branch preview · niet publiek ·
-      <a href="validation-lab.html">terug naar Validation Lab</a> ·
-      <a href="submit-validation.html">opgaveformulier</a>
+<!-- ═══ §01 FOUNDATION FEATURE ═══ -->
+<section class="feature" id="foundation">
+  <div>
+    <div class="kicker">§ 01 · The Foundation</div>
+    <h2 class="h-display"><span>Leiderschap</span><br><span>door</span> <i>voorbeeld</i>.</h2>
+    <p class="feature-sub">
+      Voor lokale impact. Voor gedeelde weerbaarheid. Voor een Europa dat standhoudt.
     </p>
-    <p>noindex,nofollow op alle validatiepagina's. Geen sitemap-, robots- of navigatielekken naar de publieke site.</p>
-  </footer>
+  </div>
+  <div class="feature-body">
+    <p>
+      <strong>ESRF.net</strong> is een gedecentraliseerd netwerk, gebouwd voor en door ondernemers met lokale impact. Gefinancierd door <strong>Stichting ESRF European Security and Resilience Fund</strong>, geloven we dat veiligheid niet alleen een mandaat voor overheden is — het is het gedeelde werk van praktijkmensen, vernieuwers en gemeenschappen die Europa elke dag versterken door samenwerking.
+    </p>
+    <div class="pull">
+      Veiligheid is geen mandaat. <em>Het is een verantwoordelijkheid die we samen dragen.</em>
+    </div>
+    <p>
+      Door weerbaarheid van onderaf te bouwen, verbinden we organisaties in dertig landen tot zelfdragende ecosystemen met regionale impact. De stichting kanaliseert donaties, bijdragen en aansluitend kapitaal naar initiatieven die het netwerk versterken en de reikwijdte vergroten. Wanneer velen een beetje bijdragen, is het resultaat groter dan welke afzonderlijke investering ook.
+    </p>
+    <p>
+      <a href="about.html" class="btn outline" style="margin-top:12px">Lees het charter →</a>
+    </p>
+  </div>
+</section>
 
-</main>
+<!-- ═══ §03 VITAL SECTORS (production-style sector grid, condensed) ═══ -->
+<section class="section cream" id="sectors">
+  <div class="wrap">
+    <div class="sectors-head">
+      <div>
+        <div class="kicker">§ 03 · Vitale sectoren</div>
+        <h2 class="h-display"><span>Tien velden</span><br><span>van</span> <i>praktijk</i>.</h2>
+      </div>
+      <p class="lede">
+        Elke organisatie in de ESRF.net-gemeenschap is geclassificeerd in tien vitale sectoren — de domeinen waar innovatie en samenwerking versterken wat het belangrijkst is.
+      </p>
+    </div>
+
+    <div style="margin-top:32px;display:flex;gap:16px;flex-wrap:wrap">
+      <a class="btn outline" href="directory.html">Bekijk de directory →</a>
+      <a class="btn outline" href="analytics.html">Zie analytics →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURED EDITORIAL (production card, links to live editorial) ═══ -->
+<section class="featured-editorial" id="home-featured-editorial">
+  <a class="featured-editorial-card" href="editorial-emergency-capaciteit-europa-2026.html">
+    <div class="featured-editorial-kicker">§ Featured Editorial · Emergency</div>
+    <h2 class="featured-editorial-title">Als het erop aankomt, moet hulp elkaar kunnen <i>vinden</i>.</h2>
+    <p class="featured-editorial-deck">Waarom hulpdiensten, vrijwilligersnetwerken en lokale ondernemers zichtbaarder moeten worden in het Europese weerbaarheidslandschap.</p>
+    <div class="featured-editorial-meta">
+      <span>24 apr 2026 · ESRF.net Redactie · Leestijd ±8 min</span>
+      <span class="featured-editorial-cta">Lees editorial →</span>
+    </div>
+  </a>
+  <div class="featured-editorial-more">
+    <a href="editorials.html" class="featured-editorial-more-link">Bekijk alle editorials →</a>
+  </div>
+</section>
+
+<!-- ═══ §07 JOIN CTA — primary route (production look) with subtle marker ═══ -->
+<section class="join marked-route" id="join">
+  <h2 class="join-h"><span>Draagt jouw organisatie</span><br><span>bij aan een</span> <i>Europa dat standhoudt?</i></h2>
+  <p class="join-sub">Meld je aan voor de atlas en neem je plaats in. Aansluiten bij de ESRF.net-gemeenschap is gratis voor organisaties wier werk de Europese veiligheid en weerbaarheid versterkt.</p>
+  <a href="submit-validation.html" class="btn on-accent" style="display:inline-block;text-decoration:none">
+    Meld je organisatie aan →
+  </a>
+  <p style="margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;color:var(--cream);opacity:0.85">
+    <span class="new-pill">Nieuw in validatie</span>
+    Eén formulier voor organisatie-opgave én optionele redactionele bijdrage.
+  </p>
+</section>
+
+<!-- ═══ Editorial contributor route — only the route is new; framing matches production ═══ -->
+<section class="section" id="bijdragen" style="padding:80px 40px;background:var(--bg-warm);border-top:1px solid var(--ink)">
+  <div class="wrap">
+    <div class="sectors-head">
+      <div>
+        <div class="kicker">§ Bijdragen · Redactioneel</div>
+        <h2 class="h-display"><span>Praktijkverhalen</span><br><span>uit de</span> <i>regio</i>.</h2>
+      </div>
+      <p class="lede">
+        Schrijf een Leadership Lesson, In het zonnetje of een Regional Field Note. Vanuit de validatieomgeving gaat dit via dezelfde intake als de organisatie-opgave, met een editorial-modus.
+        <span class="new-pill new-pill-soft">Nieuw in validatie</span>
+      </p>
+    </div>
+    <div style="margin-top:32px;display:flex;gap:16px;flex-wrap:wrap">
+      <a class="btn primary" href="submit-validation.html#mode-editorial" style="text-decoration:none">Stuur een bijdrage in →</a>
+      <a class="btn outline" href="editorials.html" style="text-decoration:none">Bekijk eerdere editorials</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER (production look) ═══ -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p>ESRF.net — Europese veiligheid en weerbaarheid, gedragen door 2.083 organisaties in 30 landen.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Gemeenschap</h4>
+      <ul>
+        <li><a href="directory.html">Directory</a></li>
+        <li><a href="map.html">Atlas</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="news.html">Dispatch</a></li>
+        <li><a href="editorials.html">Editorials</a></li>
+        <li><a href="analytics.html">Analytics</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Stichting</h4>
+      <ul>
+        <li><a href="about.html">Over</a></li>
+        <li><a href="fund.html" class="foot-contribute">Bijdragen</a></li>
+        <li><a href="sponsor.html">Steun</a></li>
+        <li><a href="mailto:hello@esrf.net">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Validatie</h4>
+      <ul>
+        <li><a href="submit-validation.html">Geïntegreerd opgaveformulier <span class="new-pill new-pill-soft">Nieuw</span></a></li>
+        <li><a href="request-listing-validation.html">Opgavepad (validatie)</a></li>
+        <li><a href="validation-lab.html">Validation Lab</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div>&copy; 2026 Stichting ESRF European Security and Resilience Fund</div>
+    <div>Atlas of Organisations · validatieomgeving</div>
+  </div>
+</footer>
 
 </body>
 </html>

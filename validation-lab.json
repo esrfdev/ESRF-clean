@@ -21,13 +21,13 @@
       "status": "in-validation",
       "path": "/esrf-simulated-site.html",
       "owner": "ESRF Editorial",
-      "purpose": "Gesimuleerde ESRF.net-startpagina om de bezoekersreis naar het geïntegreerde opgaveformulier te valideren. Bevat duidelijke CTA's (Organisatie aanmelden, Bijdrage of praktijkverhaal insturen, Naar opgaveformulier) die naar submit-validation.html leiden. Productie index.html is niet gewijzigd.",
+      "purpose": "Gesimuleerde ESRF.net-startpagina die qua header, hero, footer en typografie aansluit op productie (index.html, style.css). Een subtiele staging-bar bovenaan en kleine 'Nieuw in validatie'-pillen markeren alleen de vernieuwde routes (geïntegreerd opgaveformulier, editorial bijdrage). Productie index.html is niet gewijzigd.",
       "lastUpdated": "2026-04-25",
       "visibility": "hidden",
       "primaryCallToAction": "/submit-validation.html",
       "exitCriteria": [
-        "TEST/VALIDATIE banner zichtbaar bovenaan en in masthead.",
-        "Drie CTA's leiden naar submit-validation.html (organisatie / editorial / beide).",
+        "Look & feel volgt productie (mast, hero, foundation, sectors, featured editorial, join, foot); alleen subtiele staging-bar en 'Nieuw in validatie'-pillen.",
+        "CTA's leiden naar submit-validation.html (organisatie / editorial / beide).",
         "Geen publieke navigatie, footer, sitemap of robots verwijst hierheen.",
         "Redactie keurt copy en NL-teksten goed."
       ]
