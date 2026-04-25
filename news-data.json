@@ -1,9 +1,51 @@
 {
   "generated": "2026-04-25T08:13:12.113380+00:00",
-  "article_count": 84,
+  "article_count": 87,
   "org_count": 20,
   "focus": "European resilience & regional strengthening",
   "articles": [
+    {
+      "title": "Als het erop aankomt, moet hulp elkaar kunnen vinden",
+      "url": "editorial-emergency-capaciteit-europa-2026.html",
+      "organisation": "ESRF.net",
+      "orgUrl": "https://esrf.net",
+      "pillar": "emergency",
+      "country": "EU",
+      "source": "ESRF.net Editorial",
+      "snippet": "Waarom noodhulporganisaties, vrijwilligersnetwerken en lokale ondernemers zichtbaarder moeten worden in Europa's weerbaarheidslandschap.",
+      "date": "2026-04-24",
+      "lang": "nl",
+      "scope": "european",
+      "mentions": []
+    },
+    {
+      "title": "Als het misgaat, sta je er niet alleen voor",
+      "url": "editorial-rotterdam-weerbaarheid-2026.html",
+      "organisation": "ESRF.net",
+      "orgUrl": "https://esrf.net",
+      "pillar": "stewardship",
+      "country": "NL",
+      "source": "ESRF.net Editorial",
+      "snippet": "Wat Rotterdam Europese steden, inwoners en regionale bedrijven leert over crisisvoorbereiding, samenwerking en de rol van stad, haven, bedrijven en bewoners.",
+      "date": "2026-04-23",
+      "lang": "nl",
+      "scope": "european",
+      "mentions": []
+    },
+    {
+      "title": "Olietekort in Europa — wat te doen en hoe communiceer je als bedrijf naar klanten",
+      "url": "editorial-oil-shortage-2026.html",
+      "organisation": "ESRF.net",
+      "orgUrl": "https://esrf.net",
+      "pillar": "stewardship",
+      "country": "EU",
+      "source": "ESRF.net Editorial",
+      "snippet": "Europa staat voor mogelijke tekorten aan olie, diesel, kerosine en benzine. Een editorial over operationele maatregelen en effectieve klantcommunicatie voor bedrijven.",
+      "date": "2026-04-20",
+      "lang": "nl",
+      "scope": "european",
+      "mentions": []
+    },
     {
       "title": "EN DIRECT, guerre en Ukraine : deux morts et 21 blessés dans une attaque de drones et de missiles russes à Dnipro",
       "url": "https://www.lemonde.fr/international/live/2026/04/25/en-direct-guerre-en-ukraine-quinze-blesses-dans-une-attaque-de-drones-et-de-missiles-russes-a-dnipro_6681322_3210.html",

@@ -210,16 +210,87 @@
  */
 (async () => {
   const listEl = document.getElementById('editorials-list');
+  // Hardcoded fallback ensures the collection page is never empty if
+  // news-data.json is stale, missing entries, or fails to load (e.g. CDN
+  // cache lag). Editorial files are stable, slug-named HTML files at the
+  // site root — listing them here is robust and explicit.
+  const FALLBACK_EDITORIALS = [
+    {
+      url: 'editorial-emergency-capaciteit-europa-2026.html',
+      title: 'Als het erop aankomt, moet hulp elkaar kunnen vinden',
+      snippet: "Waarom noodhulporganisaties, vrijwilligersnetwerken en lokale ondernemers zichtbaarder moeten worden in Europa's weerbaarheidslandschap.",
+      date: '2026-04-24',
+      source: 'ESRF.net Editorial',
+      pillar: 'emergency'
+    },
+    {
+      url: 'editorial-rotterdam-weerbaarheid-2026.html',
+      title: 'Als het misgaat, sta je er niet alleen voor',
+      snippet: 'Wat Rotterdam Europese steden, inwoners en regionale bedrijven leert over crisisvoorbereiding, samenwerking en de rol van stad, haven, bedrijven en bewoners.',
+      date: '2026-04-23',
+      source: 'ESRF.net Editorial',
+      pillar: 'stewardship'
+    },
+    {
+      url: 'editorial-oil-shortage-2026.html',
+      title: 'Olietekort in Europa — wat te doen en hoe communiceer je als bedrijf naar klanten',
+      snippet: 'Europa staat voor mogelijke tekorten aan olie, diesel, kerosine en benzine. Een editorial over operationele maatregelen en effectieve klantcommunicatie voor bedrijven.',
+      date: '2026-04-20',
+      source: 'ESRF.net Editorial',
+      pillar: 'stewardship'
+    }
+  ];
+
+  // Detect editorial entries in news-data.json. Primary signal is
+  // source === "ESRF.net Editorial"; we also accept any article whose URL
+  // points to an editorial-*.html file at the site root, so a content
+  // pipeline omission can't blank the page.
+  const isEditorial = (a) => {
+    if (!a) return false;
+    if (a.source === 'ESRF.net Editorial') return true;
+    const u = String(a.url || '');
+    return /(^|\/)editorial-[a-z0-9-]+\.html(\?|#|$)/i.test(u);
+  };
+
+  // Merge two lists by URL (case-insensitive), keeping first occurrence.
+  const mergeByUrl = (primary, secondary) => {
+    const seen = new Set();
+    const out = [];
+    for (const a of primary.concat(secondary)) {
+      const key = String(a.url || '').toLowerCase().split(/[?#]/)[0];
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      out.push(a);
+    }
+    return out;
+  };
+
+  let items = [];
+  let loadError = null;
   try {
     const data = await loadNews();
-    const items = (data.articles || [])
-      .filter(a => a && a.source === 'ESRF.net Editorial')
-      .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
-
-    if (!items.length) {
-      listEl.innerHTML = `<div class="editorials-empty">${t('editorials.empty', 'No editorials yet.')}</div>`;
-      return;
+    items = (data.articles || []).filter(isEditorial);
+  } catch (err) {
+    loadError = err;
+    if (typeof console !== 'undefined' && console.warn) {
+      console.warn('editorials: news-data.json failed to load, using fallback', err);
     }
+  }
+
+  // Always merge the fallback list so a stale or partial news-data.json
+  // can't hide a known-published editorial. This is intentional: editorial
+  // HTML files are the source of truth for "is this editorial live".
+  items = mergeByUrl(items, FALLBACK_EDITORIALS);
+  items.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+
+  if (!items.length) {
+    const msg = loadError
+      ? t('editorials.error', 'Could not load editorials.')
+      : t('editorials.empty', 'No editorials yet.');
+    listEl.innerHTML = `<div class="editorials-empty">${msg}</div>`;
+    return;
+  }
+  try {
 
     const locale = (document.documentElement.lang || 'en');
     const readMore = t('editorials.read_more', 'Read editorial →');

@@ -785,9 +785,20 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/united-kingdom/?lang=pl"/>
     <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/united-kingdom/?lang=sv"/>
   </url>
-    <url>
+  <url>
     <loc>https://esrf.net/editorial-emergency-capaciteit-europa-2026.html</loc>
     <lastmod>2026-04-24</lastmod>
-    <changefreq>monthly</changefreq>
-    </url>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/editorial-emergency-capaciteit-europa-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/editorial-emergency-capaciteit-europa-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/editorial-emergency-capaciteit-europa-2026.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/editorial-emergency-capaciteit-europa-2026.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/editorial-emergency-capaciteit-europa-2026.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/editorial-emergency-capaciteit-europa-2026.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/editorial-emergency-capaciteit-europa-2026.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/editorial-emergency-capaciteit-europa-2026.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/editorial-emergency-capaciteit-europa-2026.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/editorial-emergency-capaciteit-europa-2026.html?lang=sv"/>
+  </url>
 </urlset>
