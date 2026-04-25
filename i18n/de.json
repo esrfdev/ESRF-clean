@@ -574,7 +574,9 @@
     "join_sub": "Organisations on the ESRF.net atlas can contribute stories, reports and analyses to the Dispatch.",
     "join_cta": "Signal einreichen →",
     "tag_1": "Energy",
-    "tag_2": "Crisis Communication"
+    "tag_2": "Crisis Communication",
+    "figure_caption": "Knappheit verlangt klare Kommunikation — mit Kunden und untereinander.",
+    "figure_byline": "Illustration von Simon — KI-Agent von ESRF.net"
   },
   "featured": {
     "kicker": "§ Leitartikel · Emergency",
@@ -709,7 +711,9 @@
     "join_cta": "Signal einreichen →",
     "tag_1": "Resilienz",
     "tag_2": "Krisenvorsorge",
-    "tag_4": "Öffentliche Sicherheit"
+    "tag_4": "Öffentliche Sicherheit",
+    "figure_caption": "Rotterdam, Hafen und Stadt — Widerstandsfähigkeit beginnt mit Menschen, die einander kennen.",
+    "figure_byline": "Illustration von Simon — KI-Agent von ESRF.net"
   },
   "editorial_emergency_capaciteit_europa_2026": {
     "p": "A crisis rarely begins with an official announcement.",
@@ -814,7 +818,9 @@
     "tag_4": "Civil protection",
     "tag_5": "Community resilience",
     "tag_6": "Entrepreneurship",
-    "kader_label": "§ Kasten"
+    "kader_label": "§ Kasten",
+    "figure_caption": "Wenn es darauf ankommt, muss Hilfe einander finden können — Rettungsdienste, Freiwillige, Unternehmer und Nachbarn gemeinsam.",
+    "figure_byline": "Illustration von Simon — KI-Agent von ESRF.net"
   },
   "editorial_koningsdag_2026": {
     "h2": "Een dag die het land oranje kleurt",
@@ -895,6 +901,7 @@
     "tag_3": "Security",
     "tag_4": "Society",
     "tag_5": "Europe",
-    "figure_caption": "Königstag an der Gracht: Flohmarkt, Boot und Nachbarn — ein gewöhnlicher, kostbarer Tag."
+    "figure_caption": "Königstag an der Gracht: Flohmarkt, Boot und Nachbarn — ein gewöhnlicher, kostbarer Tag.",
+    "figure_byline": "Illustration von Simon — KI-Agent von ESRF.net"
   }
 }

@@ -689,7 +689,9 @@
     "join_sub": "Organisaties op de ESRF.net-atlas kunnen verhalen, rapporten en analyses bijdragen aan de Dispatch.",
     "join_cta": "Dien een signaal in →",
     "tag_1": "Energie",
-    "tag_2": "Crisiscommunicatie"
+    "tag_2": "Crisiscommunicatie",
+    "figure_caption": "Schaarste vraagt om duidelijke communicatie — naar klanten en naar elkaar.",
+    "figure_byline": "Illustratie door Simon — AI agent of ESRF.net"
   },
   "featured": {
     "kicker": "§ Uitgelichte editorial · Emergency",
@@ -824,7 +826,9 @@
     "join_cta": "Dien een signaal in →",
     "tag_1": "Weerbaarheid",
     "tag_2": "Crisisvoorbereiding",
-    "tag_4": "Publieke veiligheid"
+    "tag_4": "Publieke veiligheid",
+    "figure_caption": "Rotterdam, haven en stad — weerbaarheid begint met mensen die elkaar kennen.",
+    "figure_byline": "Illustratie door Simon — AI agent of ESRF.net"
   },
   "editorials": {
     "title_tag": "Editorials — ESRF.net",
@@ -945,7 +949,9 @@
     "tag_4": "Civil protection",
     "tag_5": "Community resilience",
     "tag_6": "Entrepreneurship",
-    "kader_label": "§ Kader"
+    "kader_label": "§ Kader",
+    "figure_caption": "Als het erop aankomt, moet hulp elkaar kunnen vinden — hulpdiensten, vrijwilligers, ondernemers en buurt samen.",
+    "figure_byline": "Illustratie door Simon — AI agent of ESRF.net"
   },
   "editorial_koningsdag_2026": {
     "h2": "Een dag die het land oranje kleurt",
@@ -1026,6 +1032,7 @@
     "tag_3": "Veiligheid",
     "tag_4": "Samenleving",
     "tag_5": "Europa",
-    "figure_caption": "Koningsdag aan de gracht: vrijmarkt, sloep en buren — een gewone, kostbare dag."
+    "figure_caption": "Koningsdag aan de gracht: vrijmarkt, sloep en buren — een gewone, kostbare dag.",
+    "figure_byline": "Illustratie door Simon — AI agent of ESRF.net"
   }
 }

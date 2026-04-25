@@ -574,7 +574,9 @@
     "join_sub": "Organisations on the ESRF.net atlas can contribute stories, reports and analyses to the Dispatch.",
     "join_cta": "Skicka in en signal →",
     "tag_1": "Energy",
-    "tag_2": "Crisis Communication"
+    "tag_2": "Crisis Communication",
+    "figure_caption": "Brist kräver tydlig kommunikation — med kunder och med varandra.",
+    "figure_byline": "Illustration av Simon — AI-agent på ESRF.net"
   },
   "featured": {
     "kicker": "§ Ledare · Emergency",
@@ -709,7 +711,9 @@
     "join_cta": "Skicka in en signal →",
     "tag_1": "Motståndskraft",
     "tag_2": "Krisberedskap",
-    "tag_4": "Offentlig säkerhet"
+    "tag_4": "Offentlig säkerhet",
+    "figure_caption": "Rotterdam, hamn och stad — motståndskraft börjar med människor som känner varandra.",
+    "figure_byline": "Illustration av Simon — AI-agent på ESRF.net"
   },
   "editorial_emergency_capaciteit_europa_2026": {
     "p": "A crisis rarely begins with an official announcement.",
@@ -814,7 +818,9 @@
     "tag_4": "Civil protection",
     "tag_5": "Community resilience",
     "tag_6": "Entrepreneurship",
-    "kader_label": "§ Ruta"
+    "kader_label": "§ Ruta",
+    "figure_caption": "När det gäller måste hjälp kunna hitta varandra — räddningstjänst, volontärer, företagare och grannar tillsammans.",
+    "figure_byline": "Illustration av Simon — AI-agent på ESRF.net"
   },
   "editorial_koningsdag_2026": {
     "h2": "Een dag die het land oranje kleurt",
@@ -895,6 +901,7 @@
     "tag_3": "Security",
     "tag_4": "Society",
     "tag_5": "Europe",
-    "figure_caption": "Kungens dag vid kanalen: loppmarknad, båt och grannar — en vanlig, dyrbar dag."
+    "figure_caption": "Kungens dag vid kanalen: loppmarknad, båt och grannar — en vanlig, dyrbar dag.",
+    "figure_byline": "Illustration av Simon — AI-agent på ESRF.net"
   }
 }

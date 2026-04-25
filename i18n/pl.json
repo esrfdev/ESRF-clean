@@ -574,7 +574,9 @@
     "join_sub": "Organisations on the ESRF.net atlas can contribute stories, reports and analyses to the Dispatch.",
     "join_cta": "Zgłoś sygnał →",
     "tag_1": "Energy",
-    "tag_2": "Crisis Communication"
+    "tag_2": "Crisis Communication",
+    "figure_caption": "Niedobór wymaga jasnej komunikacji — z klientami i między sobą.",
+    "figure_byline": "Ilustracja: Simon — agent AI ESRF.net"
   },
   "featured": {
     "kicker": "§ Artykuł redakcyjny · Emergency",
@@ -709,7 +711,9 @@
     "join_cta": "Wyślij sygnał →",
     "tag_1": "Odporność",
     "tag_2": "Gotowość kryzysowa",
-    "tag_4": "Bezpieczeństwo publiczne"
+    "tag_4": "Bezpieczeństwo publiczne",
+    "figure_caption": "Rotterdam, port i miasto — odporność zaczyna się od ludzi, którzy się znają.",
+    "figure_byline": "Ilustracja: Simon — agent AI ESRF.net"
   },
   "editorial_emergency_capaciteit_europa_2026": {
     "p": "A crisis rarely begins with an official announcement.",
@@ -814,7 +818,9 @@
     "tag_4": "Civil protection",
     "tag_5": "Community resilience",
     "tag_6": "Entrepreneurship",
-    "kader_label": "§ Ramka"
+    "kader_label": "§ Ramka",
+    "figure_caption": "Gdy najbardziej trzeba, pomoc musi się odnaleźć — służby ratunkowe, wolontariusze, przedsiębiorcy i sąsiedzi razem.",
+    "figure_byline": "Ilustracja: Simon — agent AI ESRF.net"
   },
   "editorial_koningsdag_2026": {
     "h2": "Een dag die het land oranje kleurt",
@@ -895,6 +901,7 @@
     "tag_3": "Security",
     "tag_4": "Society",
     "tag_5": "Europe",
-    "figure_caption": "Dzień Króla nad kanałem: pchli targ, łódka i sąsiedzi — zwyczajny, cenny dzień."
+    "figure_caption": "Dzień Króla nad kanałem: pchli targ, łódka i sąsiedzi — zwyczajny, cenny dzień.",
+    "figure_byline": "Ilustracja: Simon — agent AI ESRF.net"
   }
 }

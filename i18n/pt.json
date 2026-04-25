@@ -574,7 +574,9 @@
     "join_sub": "Organisations on the ESRF.net atlas can contribute stories, reports and analyses to the Dispatch.",
     "join_cta": "Submeter um sinal →",
     "tag_1": "Energy",
-    "tag_2": "Crisis Communication"
+    "tag_2": "Crisis Communication",
+    "figure_caption": "A escassez exige comunicação clara — com clientes e entre nós.",
+    "figure_byline": "Ilustração por Simon — agente de IA da ESRF.net"
   },
   "featured": {
     "kicker": "§ Editorial · Emergency",
@@ -709,7 +711,9 @@
     "join_cta": "Submeter um sinal →",
     "tag_1": "Resiliência",
     "tag_2": "Preparação para crises",
-    "tag_4": "Segurança pública"
+    "tag_4": "Segurança pública",
+    "figure_caption": "Roterdão, porto e cidade — a resiliência começa com pessoas que se conhecem.",
+    "figure_byline": "Ilustração por Simon — agente de IA da ESRF.net"
   },
   "editorial_emergency_capaciteit_europa_2026": {
     "p": "A crisis rarely begins with an official announcement.",
@@ -814,7 +818,9 @@
     "tag_4": "Civil protection",
     "tag_5": "Community resilience",
     "tag_6": "Entrepreneurship",
-    "kader_label": "§ Caixa"
+    "kader_label": "§ Caixa",
+    "figure_caption": "Quando mais importa, a ajuda tem de encontrar-se — serviços de emergência, voluntários, empresários e vizinhos juntos.",
+    "figure_byline": "Ilustração por Simon — agente de IA da ESRF.net"
   },
   "editorial_koningsdag_2026": {
     "h2": "Een dag die het land oranje kleurt",
@@ -895,6 +901,7 @@
     "tag_3": "Security",
     "tag_4": "Society",
     "tag_5": "Europe",
-    "figure_caption": "Dia do Rei no canal: feira da ladra, barco e vizinhos — um dia comum e precioso."
+    "figure_caption": "Dia do Rei no canal: feira da ladra, barco e vizinhos — um dia comum e precioso.",
+    "figure_byline": "Ilustração por Simon — agente de IA da ESRF.net"
   }
 }

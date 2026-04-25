@@ -731,7 +731,9 @@
     "join_sub": "Organisations on the ESRF.net atlas can contribute stories, reports and analyses to the Dispatch.",
     "join_cta": "Submit a signal →",
     "tag_1": "Energy",
-    "tag_2": "Crisis Communication"
+    "tag_2": "Crisis Communication",
+    "figure_caption": "Scarcity demands clear communication — with customers and with each other.",
+    "figure_byline": "Illustration by Simon — AI agent of ESRF.net"
   },
   "featured": {
     "kicker": "§ Featured Editorial · Emergency",
@@ -866,7 +868,9 @@
     "join_cta": "Submit a signal →",
     "tag_1": "Resilience",
     "tag_2": "Crisis preparedness",
-    "tag_4": "Public safety"
+    "tag_4": "Public safety",
+    "figure_caption": "Rotterdam, port and city — resilience begins with people who know each other.",
+    "figure_byline": "Illustration by Simon — AI agent of ESRF.net"
   },
   "editorials": {
     "title_tag": "Editorials — ESRF.net",
@@ -987,7 +991,9 @@
     "tag_4": "Civil protection",
     "tag_5": "Community resilience",
     "tag_6": "Entrepreneurship",
-    "kader_label": "§ Sidebar"
+    "kader_label": "§ Sidebar",
+    "figure_caption": "When it matters most, help must find each other — emergency services, volunteers, entrepreneurs and neighbours together.",
+    "figure_byline": "Illustration by Simon — AI agent of ESRF.net"
   },
   "editorial_koningsdag_2026": {
     "h2": "Een dag die het land oranje kleurt",
@@ -1068,6 +1074,7 @@
     "tag_3": "Security",
     "tag_4": "Society",
     "tag_5": "Europe",
-    "figure_caption": "King's Day on the canal: flea market, boat and neighbours — an ordinary, precious day."
+    "figure_caption": "King's Day on the canal: flea market, boat and neighbours — an ordinary, precious day.",
+    "figure_byline": "Illustration by Simon — AI agent of ESRF.net"
   }
 }
