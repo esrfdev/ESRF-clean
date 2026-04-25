@@ -519,7 +519,8 @@
 
       <p><strong>Productie-readiness — benodigde Cloudflare environment variables.</strong> De backend werkt in dry-run zonder configuratie. Voor echte productie-opslag stellen we in via Cloudflare Pages → Settings → Environment variables (Production):</p>
       <ul>
-        <li><code>INTAKE_SHEET_WEBHOOK_URL</code> (alias <code>GOOGLE_SHEET_WEBHOOK_URL</code>) — <strong>primair</strong>. URL van de Google Apps Script die als webhook is gepubliceerd op de bestaande intake-spreadsheet. Backend stuurt hier de gestructureerde rij heen. Zonder deze sleutel staat de spreadsheet-flow in dry-run en geeft de backend de exacte rij-preview terug.</li>
+        <li><code>INTAKE_SHEET_WEBHOOK_URL</code> (alias: <code>SHEETS_WEBHOOK_URL</code>, legacy <code>GOOGLE_SHEET_WEBHOOK_URL</code>) — <strong>primair</strong>. URL van de Google Apps Script die als webhook is gepubliceerd op de bestaande intake-spreadsheet. In lab/preview schrijft de backend uitsluitend naar de <code>LAB_*</code>-tabs (<code>LAB_Intake_Submissions</code>, <code>LAB_Editorial_Intake</code>, <code>LAB_Place_Candidates</code>, <code>LAB_Backend_Log</code>, <code>LAB_Workflow_Events</code>). Zonder deze sleutel staat de spreadsheet-flow in dry-run en geeft de backend de exacte payload-preview terug. <strong>Directory_Master wordt nooit automatisch gewijzigd.</strong></li>
+        <li><code>SHEETS_WEBHOOK_SECRET</code> (alias <code>INTAKE_SHEET_WEBHOOK_SECRET</code>) — optionele shared secret. Wanneer ingesteld stuurt de backend een <code>x-esrf-intake-secret</code>-header mee zodat het Apps Script-script ongeautoriseerde aanroepen kan weigeren.</li>
         <li><code>TURNSTILE_SECRET_KEY</code> — verplicht in productie. Zonder deze sleutel wordt Turnstile <em>overgeslagen</em> en geeft de backend dit terug als waarschuwing.</li>
         <li><code>GITHUB_TOKEN</code> — fine-grained PAT met <em>issues: write</em> op de private intake-repo (alleen die ene repo). Optioneel; bewijsspoor.</li>
         <li><code>INTAKE_REPO</code> — bijv. <code>esrfdev/esrf-intake-private</code>. Issues krijgen labels <code>intake</code>, <code>needs-review</code>, <code>regional</code>, <code>mode:&lt;org|editorial|both&gt;</code>.</li>
@@ -1434,33 +1435,86 @@
     }
 
     const lines = [];
+    const wf = data.workflow || {};
+    const arch = data.storage_architecture || {};
+    const labTabs = arch.lab_tabs || {};
+    const sw = data.sheet_webhook_payload_preview || {};
+    const swRows = (sw && sw.rows) ? sw.rows : {};
     // Top-level dry_run reflects the spreadsheet (single source of truth).
-    lines.push('<strong>' + (data.sheet_dry_run ? 'DRY-RUN — geen rij in de spreadsheet geschreven' : 'Rij toegevoegd aan de spreadsheet (single source of truth)') + '</strong>');
-    lines.push('Modus: ' + escapeHtml(data.mode));
-    lines.push('Ontvangen: ' + escapeHtml(data.received_at));
+    lines.push('<strong>' + (data.sheet_dry_run ? 'DRY-RUN — geen rij in de lab-spreadsheet geschreven' : 'Rijen toegevoegd aan de lab-spreadsheet (LAB_*)') + '</strong>');
+    lines.push('Submission id: ' + escapeHtml(String(data.submission_id || '')));
+    lines.push('Request id: ' + escapeHtml(String(data.request_id || '')));
+    lines.push('Modus: ' + escapeHtml(String(data.mode || '')));
+    lines.push('Ontvangen: ' + escapeHtml(String(data.received_at || '')));
+    lines.push('Omgeving: ' + escapeHtml(String(data.environment || '')));
     lines.push('');
-    lines.push('Opslag-architectuur:');
-    lines.push(' • Spreadsheet (Drive) — single source of truth: ' + (data.sheet_dry_run ? 'DRY-RUN' : 'rij geschreven'));
-    if (data.sheet && data.sheet.row_id) lines.push('   sheet row id: ' + escapeHtml(String(data.sheet.row_id)));
-    if (data.sheet && data.sheet.sheet_url) lines.push('   sheet: <a href="' + escapeHtml(data.sheet.sheet_url) + '" target="_blank" rel="noopener">openen</a>');
-    lines.push(' • GitHub issue (privé) — bewijs/werkstroom: ' + (data.issue_dry_run ? 'DRY-RUN' : (data.issue && data.issue.url ? 'aangemaakt' : 'overgeslagen')));
-    if (data.issue && data.issue.url) {
-      lines.push('   issue: <a href="' + escapeHtml(data.issue.url) + '" target="_blank" rel="noopener">#' + escapeHtml(String(data.issue.number)) + '</a>');
+    lines.push('<strong>Workflow:</strong>');
+    lines.push(' • status: ' + escapeHtml(String(wf.status || '')));
+    lines.push(' • next_required_action: ' + escapeHtml(String(wf.next_required_action || '')));
+    if (Array.isArray(wf.steps)) {
+      lines.push(' • stappen:');
+      wf.steps.forEach(function(s){
+        lines.push('     - ' + escapeHtml(String(s.step)) + ' [' + escapeHtml(String(s.status)) + ']'
+          + (s.detail ? ' — ' + escapeHtml(String(s.detail)) : ''));
+      });
     }
-    lines.push(' • Notificatie-webhook — alleen ping (geen PII): ' + (data.notification_sent ? 'verstuurd' : 'overgeslagen'));
+    lines.push('');
+    lines.push('<strong>Sheet-doel (lab):</strong>');
+    lines.push(' • spreadsheet: ' + escapeHtml(String(arch.spreadsheet_label || '')) + ' (id ' + escapeHtml(String(arch.spreadsheet_id || '')) + ')');
+    lines.push(' • target_prefix: ' + escapeHtml(String(arch.target_prefix || 'LAB_')));
+    if (labTabs && Object.keys(labTabs).length) {
+      lines.push(' • lab tabs: ' + escapeHtml(Object.values(labTabs).join(', ')));
+    }
+    lines.push(' • verboden tabs: ' + escapeHtml((arch.forbidden_targets || []).join(', ') || 'Directory_Master'));
+    lines.push('');
+    lines.push('<strong>Notificatie:</strong>');
+    lines.push(' • status: ' + escapeHtml(String(data.notification_status || '')));
+    if (data.notification_message) {
+      lines.push(' • bericht (preview, zonder PII):');
+      Object.keys(data.notification_message).forEach(function(k){
+        lines.push('     - ' + k + ': ' + escapeHtml(String(data.notification_message[k])));
+      });
+    }
+    lines.push('');
+    lines.push('<strong>Wat moet de redactie doen?</strong>');
+    lines.push(' • ' + escapeHtml(String(wf.next_required_action || '–')));
+    lines.push(' • Open: ' + escapeHtml(String(arch.spreadsheet_label || ''))
+      + ' → tab <code>' + escapeHtml(String(labTabs.intake_submissions || 'LAB_Intake_Submissions')) + '</code>');
 
     if (data.warnings && data.warnings.length) {
       lines.push('');
-      lines.push('Waarschuwingen:');
+      lines.push('<strong>Waarschuwingen:</strong>');
       data.warnings.forEach(function(w){ lines.push(' • ' + escapeHtml(w)); });
     }
 
-    if (data.sheet_dry_run && data.sheet_row_preview) {
+    if (data.sheet_dry_run && swRows) {
       lines.push('');
-      lines.push('Spreadsheet-rij (preview, zou worden toegevoegd):');
-      Object.keys(data.sheet_row_preview).forEach(function(k){
-        lines.push('   ' + k + ': ' + escapeHtml(String(data.sheet_row_preview[k])));
+      lines.push('<strong>LAB-rijen (preview, zouden worden toegevoegd):</strong>');
+      Object.keys(swRows).forEach(function(tab){
+        lines.push('  [' + escapeHtml(tab) + ']');
+        var row = swRows[tab] || {};
+        Object.keys(row).forEach(function(k){
+          var v = row[k];
+          if (v == null || v === '') return;
+          lines.push('     ' + k + ': ' + escapeHtml(String(v)));
+        });
       });
+      if (sw.workflow_event) {
+        lines.push('  [' + escapeHtml(String(labTabs.workflow_events || 'LAB_Workflow_Events')) + ']');
+        Object.keys(sw.workflow_event).forEach(function(k){
+          var v = sw.workflow_event[k];
+          if (v == null || v === '') return;
+          lines.push('     ' + k + ': ' + escapeHtml(String(v)));
+        });
+      }
+      if (sw.log) {
+        lines.push('  [' + escapeHtml(String(labTabs.backend_log || 'LAB_Backend_Log')) + ']');
+        Object.keys(sw.log).forEach(function(k){
+          var v = sw.log[k];
+          if (v == null || v === '') return;
+          lines.push('     ' + k + ': ' + escapeHtml(String(v)));
+        });
+      }
     }
     if (data.issue_dry_run && data.issue_preview) {
       lines.push('');

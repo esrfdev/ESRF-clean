@@ -81,6 +81,43 @@
         "Architectuurblok (Pages Function + Turnstile + private GitHub issue) is duidelijk en beoordeeld door redactie.",
         "Wouter / redactie keurt de geïntegreerde UX en NL-teksten goed."
       ]
+    },
+    {
+      "id": "intake-lab-automation",
+      "title": "Lab-automation voor /api/intake — workflow + LAB_* tabs + minimale notificatie",
+      "status": "in-validation",
+      "path": "/submit-validation.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Lab-versie van de automatische intakeflow: backend POST /api/intake geeft een expliciete workflow (received → validated → stored_or_dry_run → notification_prepared_or_sent → next_required_action) terug, schrijft uitsluitend naar LAB_Intake_Submissions, LAB_Editorial_Intake, LAB_Place_Candidates, LAB_Backend_Log en LAB_Workflow_Events in de bestaande Drive-spreadsheet (id 1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g), en stuurt een PII-vrije notificatie. Directory_Master wordt nooit automatisch aangepast.",
+      "lastUpdated": "2026-04-25",
+      "visibility": "hidden",
+      "basedOn": "/submit-validation.html",
+      "documentation": [
+        "/docs/intake-lab-automation.md",
+        "/docs/apps-script-intake-webhook.gs",
+        "/docs/intake-backend.md"
+      ],
+      "labTabs": [
+        "LAB_Intake_Submissions",
+        "LAB_Editorial_Intake",
+        "LAB_Place_Candidates",
+        "LAB_Backend_Log",
+        "LAB_Workflow_Events"
+      ],
+      "envVars": [
+        "INTAKE_SHEET_WEBHOOK_URL (alias: SHEETS_WEBHOOK_URL, legacy: GOOGLE_SHEET_WEBHOOK_URL)",
+        "SHEETS_WEBHOOK_SECRET (alias: INTAKE_SHEET_WEBHOOK_SECRET)",
+        "INTAKE_NOTIFY_WEBHOOK",
+        "TURNSTILE_SECRET_KEY",
+        "GITHUB_TOKEN + INTAKE_REPO"
+      ],
+      "exitCriteria": [
+        "Backend response bevat een complete workflow met steps + next_required_action.",
+        "Sheet payload draagt target_prefix=LAB_ en noemt Directory_Master als verboden target.",
+        "Notification message bevat geen PII en geen editorial body — verifieerbaar via tests.",
+        "Apps Script reference (docs/apps-script-intake-webhook.gs) weigert niet-LAB-targets en Directory_Master.",
+        "node functions/api/intake.test.mjs slaagt voor dry-run, editorial-only, combined en place-candidate routes."
+      ]
     }
   ]
 }

@@ -1,44 +1,43 @@
 // Cloudflare Pages Function — POST /api/intake
 //
-// Validation-environment backend for the integrated organisation + editorial
-// intake form (submit-validation.html). Lives on the
-// `test/regional-editorial-contributor-intake` branch — NOT production.
+// Validation/lab backend for the integrated organisation + editorial intake
+// form (submit-validation.html). Lives on the
+// `test/regional-editorial-contributor-intake` branch — NEVER production.
 //
 // ─── Storage architecture ────────────────────────────────────────────────
-// The Google Drive intake-spreadsheet is and remains the OPERATIONAL SINGLE
-// SOURCE OF TRUTH for status, metadata, redactie-besluit and reporting.
-// The backend does NOT replace it; it writes into it.
+// The Google Drive spreadsheet "ESRF Directory CRM - actuele brondata
+// 2026-04-24" (id 1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g) is and
+// remains the OPERATIONAL SINGLE SOURCE OF TRUTH. The backend NEVER writes
+// to `Directory_Master`. In lab/preview mode it only addresses the LAB_*
+// tabs:
+//   - LAB_Intake_Submissions  (one row per submission)
+//   - LAB_Editorial_Intake    (one row per editorial-bearing submission)
+//   - LAB_Place_Candidates    (one row per unknown place candidate)
+//   - LAB_Backend_Log         (one row per request, success or error)
+//   - LAB_Workflow_Events     (one row per state-change event)
 //
-// Two complementary records per submission:
-//   1. PRIMARY  — Google Sheet row (single source of truth for redactie):
-//                 minimal, structured, status-tracked. The sheet is the
-//                 authoritative register; backend appends a row via a
-//                 server-side Apps Script webhook (no client-side Google
-//                 credentials).
-//   2. EVIDENCE — Private GitHub issue (optional): full structured intake,
-//                 used as immutable evidence/workflow record. The sheet
-//                 references the issue by URL when present.
-//   3. NOTIFY   — Optional webhook for "new intake" pings, minimal payload
-//                 only (no PII/editorial body). Includes sheet row id /
-//                 issue url so redactie can jump to the SSoT.
+// Each POST /api/intake returns an explicit `workflow` object with steps:
+//   received → validated → stored_or_dry_run → notification_prepared_or_sent
+//   → next_required_action
 //
 // Behaviour:
-//   - Defaults to "dry-run" mode for every storage path independently:
-//     validates, sanitizes, returns a structured preview of the row that
-//     *would* be written + issue that *would* be created. No data leaves
-//     Cloudflare unless env vars are explicitly configured.
-//   - If `INTAKE_SHEET_WEBHOOK_URL` (alias `GOOGLE_SHEET_WEBHOOK_URL`) is
-//     set, POSTs a minimised structured row to that Apps Script / webhook.
-//     The Sheet is the SSoT — this is the primary write path in production.
-//   - If `GITHUB_TOKEN` + `INTAKE_REPO` are set, opens a GitHub issue.
-//   - If `INTAKE_NOTIFY_WEBHOOK` is set, posts a minimal notification
-//     (no PII beyond org/country/region/mode + pointers to sheet/issue).
-//   - If `TURNSTILE_SECRET_KEY` is set, verifies the Turnstile token.
+//   - Defaults to dry-run when secrets are missing. The exact sheet
+//     payload + notification message that *would* be sent is returned
+//     in the response so the redactie can audit.
+//   - Webhook env vars (priority order):
+//       1. INTAKE_SHEET_WEBHOOK_URL  (existing canonical name)
+//       2. SHEETS_WEBHOOK_URL        (alias — accepted as documented name)
+//       3. GOOGLE_SHEET_WEBHOOK_URL  (legacy alias, kept for back-compat)
+//   - In lab/preview, payloads carry `target_prefix: "LAB_"` and the
+//     explicit lab tab names so the Apps Script never accidentally
+//     touches Directory_Master.
+//   - Notification (INTAKE_NOTIFY_WEBHOOK) is minimal — no PII, no
+//     editorial body. If unset, response includes
+//     `notification_status: "dry_run_not_configured"` plus the exact
+//     would-be message.
 //
-// No secrets are ever returned to the client. Personal data is minimised in
-// notifications. This endpoint refuses anything that is not a JSON POST.
-// E-mail is never used as a substitute for the sheet — it is, at most,
-// a notification ping pointing back to the sheet/issue.
+// No secrets are returned to the client. The endpoint refuses anything
+// that is not a JSON POST.
 
 const ALLOWED_ORIGINS = [
   'https://www.esrf.net',
@@ -47,31 +46,46 @@ const ALLOWED_ORIGINS = [
   'https://test-regional-editorial-cont.esrf-clean.pages.dev',
 ];
 // Pages spawns a unique preview hostname per deploy on the same project.
-// We additionally allow any *.esrf-clean.pages.dev origin during validation.
+// Allow any *.esrf-clean.pages.dev origin during validation.
 const ALLOWED_ORIGIN_SUFFIX = '.esrf-clean.pages.dev';
 
 const MAX_BODY_BYTES = 64 * 1024;       // 64 KiB hard cap on the JSON body
-const MAX_FIELD_LENGTH = 600;           // enough for the longest editorial textarea
-const MAX_LONG_FIELD_LENGTH = 2000;     // small headroom for combined preview text
-const MIN_FORM_DURATION_MS = 2500;      // matches the client-side guard
+const MAX_FIELD_LENGTH = 600;
+const MAX_LONG_FIELD_LENGTH = 2000;
+const MIN_FORM_DURATION_MS = 2500;
 
 const VALID_MODES = new Set(['org', 'editorial', 'both']);
+
+// Lab spreadsheet — single source of truth in lab/preview environments.
+// The backend never writes to Directory_Master; only LAB_* tabs.
+const LAB_SPREADSHEET = {
+  spreadsheet_id: '1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g',
+  spreadsheet_label: 'ESRF Directory CRM - actuele brondata 2026-04-24',
+  target_prefix: 'LAB_',
+  tabs: {
+    intake_submissions: 'LAB_Intake_Submissions',
+    editorial_intake: 'LAB_Editorial_Intake',
+    place_candidates: 'LAB_Place_Candidates',
+    backend_log: 'LAB_Backend_Log',
+    workflow_events: 'LAB_Workflow_Events',
+  },
+  forbidden_targets: ['Directory_Master'],
+};
 
 export async function onRequestPost(context) {
   const { request, env } = context;
   const origin = request.headers.get('origin') || '';
+  const requestId = generateId('req');
 
   if (!isAllowedOrigin(origin)) {
     return cors(jsonErr('Forbidden origin', 403), origin);
   }
 
-  // Reject obvious non-JSON content
   const contentType = (request.headers.get('content-type') || '').toLowerCase();
   if (!contentType.includes('application/json')) {
     return cors(jsonErr('Content-Type must be application/json', 415), origin);
   }
 
-  // Hard size cap (the body is read once)
   const raw = await request.text();
   if (raw.length > MAX_BODY_BYTES) {
     return cors(jsonErr('Payload too large', 413), origin);
@@ -107,83 +121,200 @@ export async function onRequestPost(context) {
     return cors(jsonErr(sanitized.error, 400), origin);
   }
   const payload = sanitized.payload;
+  const submissionId = generateId('sub');
+  payload.meta.submission_id = submissionId;
+  payload.meta.request_id = requestId;
 
-  // Decide storage path (real vs dry-run) — note: the Google Sheet is the
-  // operational single source of truth; the GitHub issue is evidence-only
-  // and optional. Each path runs (or is dry-run) independently.
-  const sheetWebhookUrl = String(env.INTAKE_SHEET_WEBHOOK_URL || env.GOOGLE_SHEET_WEBHOOK_URL || '').trim();
+  // Resolve sheet webhook by documented priority order.
+  const sheetWebhookUrl = String(
+    env.INTAKE_SHEET_WEBHOOK_URL ||
+    env.SHEETS_WEBHOOK_URL ||
+    env.GOOGLE_SHEET_WEBHOOK_URL ||
+    ''
+  ).trim();
   const hasSheetConfig = !!sheetWebhookUrl;
   const hasIssueConfig = !!(env.GITHUB_TOKEN && env.INTAKE_REPO);
   const hasNotifyConfig = !!env.INTAKE_NOTIFY_WEBHOOK;
 
-  // The "dry_run" flag at top level reflects the *primary* (sheet) write —
-  // because the sheet is the SSoT. Issue/notify state is reported separately.
   const sheetDryRun = !hasSheetConfig;
   const issueDryRun = !hasIssueConfig;
 
-  const sheetRowPreview = buildSheetRow(payload, /* placeholders for live links */ {});
   const issuePreview = buildIssuePreview(payload);
+  const sharedSecret = String(env.SHEETS_WEBHOOK_SECRET || env.INTAKE_SHEET_WEBHOOK_SECRET || '').trim();
 
-  let issueResult = null;
-  let sheetResult = null;
-  let notifyResult = null;
+  // Workflow steps (running record). We append to this as we progress.
+  const workflowSteps = [];
+  const stepNow = () => new Date().toISOString();
+  const recordStep = (name, status, detail) => {
+    workflowSteps.push({ step: name, status, at: stepNow(), detail: detail || '' });
+  };
+  recordStep('received', 'ok', 'request_id=' + requestId);
+  recordStep('validated', 'ok', 'mode=' + payload.intake_mode);
+
   const warnings = [];
-
   if (!turnstile.checked) warnings.push('TURNSTILE_SECRET_KEY not set — Turnstile skipped (validation mode).');
-  if (sheetDryRun) warnings.push('INTAKE_SHEET_WEBHOOK_URL not set — sheet dry-run, no row written. Sheet remains single source of truth: configure the Apps Script webhook for production.');
+  if (sheetDryRun) warnings.push('Sheet webhook env not set (INTAKE_SHEET_WEBHOOK_URL / SHEETS_WEBHOOK_URL) — sheet flow in dry-run; no rows written.');
   if (issueDryRun) warnings.push('GITHUB_TOKEN/INTAKE_REPO not set — issue dry-run, no GitHub issue created.');
-  if (!hasNotifyConfig) warnings.push('INTAKE_NOTIFY_WEBHOOK not set — no notification dispatched.');
+  if (!hasNotifyConfig) warnings.push('INTAKE_NOTIFY_WEBHOOK not set — notification in dry-run; nothing dispatched.');
 
-  // 1) GitHub issue first (so we can include its URL in the sheet row).
+  // 1) Optional GitHub issue (so the row payload can carry its url).
+  let issueResult = null;
   if (!issueDryRun) {
     issueResult = await createGithubIssue(env, issuePreview);
     if (issueResult && issueResult.error) warnings.push('GitHub issue creation failed: ' + issueResult.error);
   }
 
-  // 2) Sheet row (PRIMARY). Includes the issue URL when available so the
-  //    redactie can jump from the SSoT register to the evidence record.
-  const finalSheetRow = buildSheetRow(payload, {
+  // 2) Build lab webhook payload. Includes intake row + optional editorial
+  //    row + optional place candidate row + workflow events. The Apps
+  //    Script writes each present row to its named LAB_* tab.
+  const refs = {
     issue_url: (issueResult && issueResult.url) || '',
     issue_number: (issueResult && issueResult.number) || '',
-  });
+  };
+  const intakeRow = buildIntakeSubmissionRow(payload, refs);
+  const editorialRow = (payload.editorial_contribution) ? buildEditorialIntakeRow(payload, refs) : null;
+  const placeCandidateRow = needsPlaceCandidateRow(payload) ? buildPlaceCandidateRow(payload) : null;
+
+  const sheetWebhookPayload = {
+    schema_version: 2,
+    environment: payload.meta.environment,
+    target_prefix: LAB_SPREADSHEET.target_prefix,
+    spreadsheet_id: LAB_SPREADSHEET.spreadsheet_id,
+    spreadsheet_label: LAB_SPREADSHEET.spreadsheet_label,
+    forbidden_targets: LAB_SPREADSHEET.forbidden_targets,
+    submission_id: submissionId,
+    request_id: requestId,
+    intake_mode: payload.intake_mode,
+    rows: {
+      [LAB_SPREADSHEET.tabs.intake_submissions]: intakeRow,
+      ...(editorialRow ? { [LAB_SPREADSHEET.tabs.editorial_intake]: editorialRow } : {}),
+      ...(placeCandidateRow ? { [LAB_SPREADSHEET.tabs.place_candidates]: placeCandidateRow } : {}),
+    },
+    // Backend log + workflow event are appended after dispatch (see below);
+    // the Apps Script receives them in a single payload so it can write
+    // all five tabs atomically per request.
+    log: null,
+    workflow_event: null,
+    shared_secret_present: !!sharedSecret,
+  };
+
+  // 3) Send to sheet webhook (or stay in dry-run).
+  let sheetResult = null;
   if (!sheetDryRun) {
-    sheetResult = await postSheetRow(sheetWebhookUrl, finalSheetRow).catch(e => ({ error: String(e && e.message || e) }));
-    if (sheetResult && sheetResult.error) warnings.push('Sheet row append failed: ' + sheetResult.error);
+    // Add log + workflow event for the live path.
+    sheetWebhookPayload.log = buildBackendLogRow(payload, {
+      request_id: requestId,
+      status_code: 200,
+      dry_run: false,
+      validation_result: 'ok',
+      workflow_step: 'stored',
+    });
+    sheetWebhookPayload.workflow_event = buildWorkflowEventRow(payload, {
+      event_type: 'intake_received',
+      workflow_step: 'stored',
+      status_from: '',
+      status_to: 'new',
+      next_required_action: nextRequiredAction(payload, 'stored'),
+      related_sheet: LAB_SPREADSHEET.tabs.intake_submissions,
+    });
+    sheetResult = await postSheetWebhook(sheetWebhookUrl, sheetWebhookPayload, sharedSecret)
+      .catch(e => ({ error: String(e && e.message || e) }));
+    if (sheetResult && sheetResult.error) {
+      warnings.push('Sheet webhook failed: ' + sheetResult.error);
+      recordStep('stored_or_dry_run', 'error', sheetResult.error);
+    } else {
+      recordStep('stored_or_dry_run', 'stored', 'rows_written=' + Object.keys(sheetWebhookPayload.rows).length);
+    }
+  } else {
+    // Dry-run: still attach a preview log + workflow event so the
+    // response shows exactly what the Apps Script would receive.
+    sheetWebhookPayload.log = buildBackendLogRow(payload, {
+      request_id: requestId,
+      status_code: 200,
+      dry_run: true,
+      validation_result: 'ok',
+      workflow_step: 'dry_run',
+    });
+    sheetWebhookPayload.workflow_event = buildWorkflowEventRow(payload, {
+      event_type: 'intake_received_dry_run',
+      workflow_step: 'dry_run',
+      status_from: '',
+      status_to: 'preview',
+      next_required_action: nextRequiredAction(payload, 'dry_run'),
+      related_sheet: LAB_SPREADSHEET.tabs.intake_submissions,
+    });
+    recordStep('stored_or_dry_run', 'dry_run', 'sheet webhook not configured');
   }
 
-  // 3) Notification (minimal — points back to sheet / issue).
-  if (hasNotifyConfig) {
-    notifyResult = await postNotification(env, payload, {
-      issue_url: (issueResult && issueResult.url) || '',
-      sheet_row_id: (sheetResult && sheetResult.row_id) || '',
-    }).catch(e => ({ error: String(e && e.message || e) }));
-    if (notifyResult && notifyResult.error) warnings.push('Notification dispatch failed: ' + notifyResult.error);
+  // 4) Notification — minimal, no PII / no editorial body.
+  const notificationMessage = buildNotificationMessage(payload, {
+    request_id: requestId,
+    submission_id: submissionId,
+    workflow_status: sheetDryRun ? 'dry_run' : (sheetResult && sheetResult.error ? 'error' : 'stored'),
+    next_required_action: nextRequiredAction(payload, sheetDryRun ? 'dry_run' : 'stored'),
+    related_sheet: LAB_SPREADSHEET.tabs.intake_submissions,
+    related_row: (sheetResult && sheetResult.row_id) || '',
+    issue_url: refs.issue_url,
+  });
+
+  let notificationStatus;
+  let notifyResult = null;
+  if (!hasNotifyConfig) {
+    notificationStatus = 'dry_run_not_configured';
+    recordStep('notification_prepared_or_sent', 'dry_run_not_configured', 'INTAKE_NOTIFY_WEBHOOK absent');
+  } else {
+    notifyResult = await postNotification(env.INTAKE_NOTIFY_WEBHOOK, notificationMessage)
+      .catch(e => ({ error: String(e && e.message || e) }));
+    if (notifyResult && notifyResult.error) {
+      notificationStatus = 'error';
+      warnings.push('Notification dispatch failed: ' + notifyResult.error);
+      recordStep('notification_prepared_or_sent', 'error', notifyResult.error);
+    } else {
+      notificationStatus = 'sent';
+      recordStep('notification_prepared_or_sent', 'sent', '');
+    }
   }
+
+  const overallStatus = sheetDryRun ? 'dry_run' : (sheetResult && sheetResult.error ? 'error' : 'stored');
+  const nextAction = nextRequiredAction(payload, overallStatus);
+  recordStep('next_required_action', overallStatus, nextAction);
 
   const response = {
     ok: true,
+    submission_id: submissionId,
+    request_id: requestId,
     mode: payload.intake_mode,
-    // Top-level dry_run reflects the SSoT (sheet) write status.
+    received_at: payload.meta.received_at,
+    environment: payload.meta.environment,
     dry_run: sheetDryRun,
     sheet_dry_run: sheetDryRun,
     issue_dry_run: issueDryRun,
-    received_at: new Date().toISOString(),
-    // Operational SSoT pointer — present (live or preview) for every response.
+    workflow: {
+      status: overallStatus,
+      next_required_action: nextAction,
+      steps: workflowSteps,
+    },
     sheet: sheetDryRun
       ? null
-      : (sheetResult && sheetResult.ok ? { row_id: sheetResult.row_id || null, sheet_url: sheetResult.sheet_url || null } : null),
-    sheet_row_preview: finalSheetRow,
-    // Evidence pointer.
+      : (sheetResult && sheetResult.ok
+          ? { row_id: sheetResult.row_id || null, sheet_url: sheetResult.sheet_url || null, rows_written: sheetResult.rows_written || null }
+          : null),
+    sheet_webhook_payload_preview: sheetWebhookPayload,
     issue: issueDryRun ? null : (issueResult && issueResult.url ? { url: issueResult.url, number: issueResult.number } : null),
     issue_preview: issueDryRun ? issuePreview : null,
-    notification_sent: !!(notifyResult && notifyResult.ok),
-    // Make the storage architecture explicit in the response, so the redactie
-    // (and the validation UI) can confirm the sheet remains SSoT.
+    notification_status: notificationStatus,
+    notification_message: notificationMessage,
+    notification_sent: notificationStatus === 'sent',
     storage_architecture: {
       single_source_of_truth: 'google_sheet',
+      spreadsheet_id: LAB_SPREADSHEET.spreadsheet_id,
+      spreadsheet_label: LAB_SPREADSHEET.spreadsheet_label,
+      target_prefix: LAB_SPREADSHEET.target_prefix,
+      lab_tabs: LAB_SPREADSHEET.tabs,
+      forbidden_targets: LAB_SPREADSHEET.forbidden_targets,
       evidence_record: 'github_issue',
       notification: 'webhook_minimal_no_pii',
-      note: 'The Google Drive intake spreadsheet is the operational register and is not replaced by this backend.',
+      note: 'Lab/preview writes only to LAB_* tabs. Directory_Master is never modified by this backend.',
     },
     warnings,
   };
@@ -399,7 +530,7 @@ function buildIssuePreview(p) {
 function kv(k, v) { return '- **' + k + ':** ' + (mdEscapeInline(String(v == null ? '' : v))); }
 function quote(s) { return String(s || '').split('\n').map(l => '> ' + l).join('\n'); }
 
-// ─── External calls (issue + notification) ───────────────────────────────
+// ─── External calls (issue + sheet webhook + notification) ───────────────
 
 async function createGithubIssue(env, preview) {
   const repo = String(env.INTAKE_REPO || '').trim();
@@ -428,88 +559,14 @@ async function createGithubIssue(env, preview) {
   }
 }
 
-async function postNotification(env, payload, refs) {
-  // Minimal payload: NEVER includes editorial body, contact email, or phone.
-  // Includes pointers (sheet row id / issue url) so the redactie can jump
-  // directly to the SSoT register or the evidence record.
-  const c = payload.contact;
-  const minimal = {
-    environment: payload.meta.environment,
-    received_at: payload.meta.received_at,
-    intake_mode: payload.intake_mode,
-    organisation: c.organisation,
-    country: c.country_code,
-    region: c.region || '',
-    has_editorial: !!payload.editorial_contribution,
-    has_listing: !!payload.organisation_listing,
-    sheet_row_id: (refs && refs.sheet_row_id) || '',
-    issue_url: (refs && refs.issue_url) || '',
-  };
-  const res = await fetch(String(env.INTAKE_NOTIFY_WEBHOOK), {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', 'user-agent': 'esrf-intake-bot' },
-    body: JSON.stringify(minimal),
-  });
-  if (!res.ok) {
-    const t = await res.text().catch(() => '');
-    return { error: 'Notify ' + res.status + ': ' + t.slice(0, 120) };
-  }
-  return { ok: true };
-}
-
-// ─── Google Sheet single-source-of-truth row ─────────────────────────────
-//
-// `buildSheetRow` produces a flat, minimal row suitable for appending to
-// the existing Drive spreadsheet via a server-side Apps Script webhook.
-// We deliberately keep the columns small and stable so the redactie can
-// rely on the sheet for status/decision tracking. Editorial body is NOT
-// inlined (it lives in the GitHub issue / Drive evidence file).
-//
-// `postSheetRow` POSTs that row as JSON to the configured webhook. The
-// webhook is expected to return JSON `{ ok: true, row_id, sheet_url? }`.
-
-function buildSheetRow(payload, refs) {
-  const c = payload.contact || {};
-  const o = payload.organisation_listing || null;
-  const e = payload.editorial_contribution || null;
-  return {
-    schema_version: 1,
-    received_at: payload.meta.received_at,
-    environment: payload.meta.environment,
-    intake_mode: payload.intake_mode,
-    // Organisation / contact (minimal, non-sensitive fields go into the row;
-    // contact email is included so the redactie can reach the submitter
-    // from the SSoT — the sheet is access-controlled at Drive level).
-    organisation: c.organisation || '',
-    contact_name: c.name || '',
-    contact_role: c.role || '',
-    contact_email: c.email || '',
-    country_code: c.country_code || '',
-    country_label: c.country_label || '',
-    region: c.region || '',
-    place: c.place || '',
-    place_known: c.place_known === false ? 'no' : (c.place_known === true ? 'yes' : ''),
-    place_addition_requested: c.place_addition_requested ? 'yes' : '',
-    website: c.website || '',
-    has_listing: o ? 'yes' : '',
-    listing_sector: o ? (o.sector_label || o.sector || '') : '',
-    has_editorial: e ? 'yes' : '',
-    editorial_topic: e ? (e.topic || '') : '',
-    // Pointers — let the redactie jump from the SSoT to the evidence record.
-    issue_url: (refs && refs.issue_url) || '',
-    issue_number: (refs && refs.issue_number) || '',
-    // Status starts as "new" — the sheet itself is the workflow tracker
-    // (the redactie updates this column manually or via a redactie-script).
-    status: 'new',
-  };
-}
-
-async function postSheetRow(webhookUrl, row) {
+async function postSheetWebhook(webhookUrl, payload, sharedSecret) {
   try {
+    const headers = { 'content-type': 'application/json', 'user-agent': 'esrf-intake-bot' };
+    if (sharedSecret) headers['x-esrf-intake-secret'] = sharedSecret;
     const res = await fetch(webhookUrl, {
       method: 'POST',
-      headers: { 'content-type': 'application/json', 'user-agent': 'esrf-intake-bot' },
-      body: JSON.stringify(row),
+      headers,
+      body: JSON.stringify(payload),
     });
     if (!res.ok) {
       const t = await res.text().catch(() => '');
@@ -521,11 +578,220 @@ async function postSheetRow(webhookUrl, row) {
       ok: true,
       row_id: (j && (j.row_id || j.id)) || '',
       sheet_url: (j && j.sheet_url) || '',
+      rows_written: (j && j.rows_written) || null,
     };
   } catch (e) {
     return { error: String(e && e.message || e) };
   }
 }
+
+async function postNotification(webhookUrl, message) {
+  const res = await fetch(String(webhookUrl), {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'user-agent': 'esrf-intake-bot' },
+    body: JSON.stringify(message),
+  });
+  if (!res.ok) {
+    const t = await res.text().catch(() => '');
+    return { error: 'Notify ' + res.status + ': ' + t.slice(0, 120) };
+  }
+  return { ok: true };
+}
+
+// ─── LAB_* row builders ──────────────────────────────────────────────────
+//
+// These match the documented LAB_* tab headers exactly. The backend never
+// emits Directory_Master rows.
+
+function buildIntakeSubmissionRow(payload, refs) {
+  const c = payload.contact || {};
+  const o = payload.organisation_listing || null;
+  const e = payload.editorial_contribution || null;
+  const m = payload.meta || {};
+  const submissionType = e && o ? 'org+editorial' : (e ? 'editorial' : 'org');
+  return {
+    submission_id: m.submission_id || '',
+    received_at: m.received_at || '',
+    environment: m.environment || '',
+    submission_type: submissionType,
+    mode: payload.intake_mode || '',
+    org_id_match: '',
+    name: c.organisation || '',
+    website: c.website || '',
+    country_code: c.country_code || '',
+    country_name_local: c.country_label || '',
+    region: c.region || '',
+    city_raw: c.place || (o ? (o.city || '') : ''),
+    city_match_status: c.place_known === false ? 'unknown' : (c.place_known === true ? 'known' : ''),
+    sector_raw: o ? (o.sector_label || o.sector || '') : '',
+    description_en: o ? (o.description || '') : '',
+    contact_name: c.name || '',
+    contact_email: c.email || '',
+    contact_role: c.role || '',
+    consent_publish: e ? 'yes' : (o ? 'listing' : ''),
+    source_url: m.source || '',
+    notes_submitter: '',
+    review_status: 'new',
+    next_required_action: nextRequiredAction(payload, 'received'),
+    assigned_to: '',
+    due_date: '',
+    linked_editorial_id: '',
+    notification_status: 'pending',
+    notification_last_sent_at: '',
+    created_by_flow: 'submit-validation.html',
+    raw_payload_json: '', // intentionally empty — the editorial body lives on LAB_Editorial_Intake
+    review_notes_internal: '',
+    issue_url: (refs && refs.issue_url) || '',
+    issue_number: (refs && refs.issue_number) || '',
+  };
+}
+
+function buildEditorialIntakeRow(payload, refs) {
+  const c = payload.contact || {};
+  const e = payload.editorial_contribution || {};
+  const m = payload.meta || {};
+  const editorialId = generateId('ed');
+  return {
+    editorial_id: editorialId,
+    received_at: m.received_at || '',
+    environment: m.environment || '',
+    submission_id: m.submission_id || '',
+    org_id_match: '',
+    organization_name: c.organisation || '',
+    title: e.topic || '',
+    type: 'regional_editorial',
+    language: 'nl',
+    summary: e.summary || '',
+    body_md_or_url: e.regional_angle || '',
+    topic_tags: '',
+    region: c.region || '',
+    country_code: c.country_code || '',
+    contact_name: c.name || '',
+    contact_email: c.email || '',
+    consent_publish: 'yes',
+    editorial_status: 'received',
+    next_required_action: 'Editorial review by redactie',
+    assigned_to: '',
+    due_date: '',
+    publication_url: '',
+    notification_status: 'pending',
+    review_notes_internal: '',
+    issue_url: (refs && refs.issue_url) || '',
+  };
+}
+
+function needsPlaceCandidateRow(payload) {
+  const c = payload.contact || {};
+  if (c.place_addition_requested) return true;
+  if (c.place_known === false && c.place) return true;
+  return false;
+}
+
+function buildPlaceCandidateRow(payload) {
+  const c = payload.contact || {};
+  const m = payload.meta || {};
+  const candidateId = generateId('place');
+  return {
+    candidate_id: candidateId,
+    first_seen_at: m.received_at || '',
+    last_seen_at: m.received_at || '',
+    environment: m.environment || '',
+    city_raw: c.place_addition_candidate || c.place || '',
+    country_code: c.place_addition_country || c.country_code || '',
+    region: c.place_addition_region || c.region || '',
+    submission_count: 1,
+    suggested_match: '',
+    review_status: 'new',
+    next_required_action: 'Verify candidate place; if accepted, add to lookup list via PR',
+    merged_to_option: '',
+    notification_status: 'pending',
+    review_notes_internal: '',
+    submission_id: m.submission_id || '',
+  };
+}
+
+function buildBackendLogRow(payload, opts) {
+  const m = payload.meta || {};
+  return {
+    log_id: generateId('log'),
+    timestamp: new Date().toISOString(),
+    environment: m.environment || '',
+    request_id: opts.request_id || '',
+    endpoint: '/api/intake',
+    submission_id: m.submission_id || '',
+    status_code: opts.status_code || 0,
+    dry_run: !!opts.dry_run,
+    validation_result: opts.validation_result || '',
+    workflow_step: opts.workflow_step || '',
+    notification_event: opts.notification_event || '',
+    notification_status: opts.notification_status || '',
+    error_message: opts.error_message || '',
+    ip_country: '',
+    user_agent_hash: '',
+  };
+}
+
+function buildWorkflowEventRow(payload, opts) {
+  const m = payload.meta || {};
+  return {
+    event_id: generateId('evt'),
+    timestamp: new Date().toISOString(),
+    environment: m.environment || '',
+    submission_id: m.submission_id || '',
+    event_type: opts.event_type || '',
+    workflow_step: opts.workflow_step || '',
+    status_from: opts.status_from || '',
+    status_to: opts.status_to || '',
+    next_required_action: opts.next_required_action || '',
+    actor: 'backend',
+    notification_channel: 'webhook',
+    notification_status: opts.notification_status || 'pending',
+    message_summary: opts.message_summary || '',
+    related_sheet: opts.related_sheet || '',
+    related_row: opts.related_row || '',
+    related_url: opts.related_url || '',
+  };
+}
+
+// ─── Minimal notification (no PII / no editorial body) ───────────────────
+
+function buildNotificationMessage(payload, ctx) {
+  const c = payload.contact || {};
+  return {
+    schema_version: 1,
+    submission_id: ctx.submission_id || '',
+    request_id: ctx.request_id || '',
+    environment: payload.meta.environment,
+    mode: payload.intake_mode,
+    type: payload.editorial_contribution
+      ? (payload.organisation_listing ? 'org+editorial' : 'editorial')
+      : 'org',
+    org_name: c.organisation || '',
+    country: c.country_code || '',
+    region: c.region || '',
+    workflow_status: ctx.workflow_status || '',
+    next_required_action: ctx.next_required_action || '',
+    related_sheet: ctx.related_sheet || '',
+    related_row: ctx.related_row || '',
+    issue_url: ctx.issue_url || '',
+    note: 'Minimal lab notification. Contains no PII (no email/phone) and no editorial body.',
+  };
+}
+
+function nextRequiredAction(payload, stage) {
+  if (stage === 'dry_run') {
+    return 'Configure SHEETS_WEBHOOK_URL (or INTAKE_SHEET_WEBHOOK_URL) to enable lab sheet writes; review preview in submit-validation.html.';
+  }
+  if (payload.editorial_contribution) {
+    return 'Editorial review in LAB_Editorial_Intake; redactie decides accept/reject and assigns an editor.';
+  }
+  if (payload.contact && payload.contact.place_addition_requested) {
+    return 'Verify place candidate in LAB_Place_Candidates before merging into the lookup list.';
+  }
+  return 'Triage organisation listing in LAB_Intake_Submissions; verify org match against Directory_Master (read-only).';
+}
+
+// ─── Anti-bot helpers ────────────────────────────────────────────────────
 
 async function verifyTurnstile(env, body, request) {
   if (!env.TURNSTILE_SECRET_KEY) return { checked: false, ok: false };
@@ -570,6 +836,14 @@ function json(obj, status) {
 
 function jsonErr(msg, status) { return json({ ok: false, error: msg }, status); }
 
+function generateId(prefix) {
+  // Short timestamp + random suffix. No randomness assumptions beyond
+  // uniqueness within a single deploy/preview environment.
+  const t = Date.now().toString(36);
+  const r = Math.floor(Math.random() * 0x100000).toString(36).padStart(4, '0');
+  return prefix + '_' + t + '_' + r;
+}
+
 /** Strip HTML, control chars, dangerous quotes; trim and cap. */
 function sanitize(str) {
   if (str == null) return '';
@@ -580,7 +854,6 @@ function sanitize(str) {
     .trim()
     .slice(0, MAX_FIELD_LENGTH);
 }
-/** Same as sanitize, but allows newlines and a longer cap (for textareas). */
 function sanitizeLong(str) {
   if (str == null) return '';
   return String(str)
@@ -598,9 +871,15 @@ function sanitizeUrl(url) {
   if (!/^https?:\/\//i.test(s)) return '';
   return s.replace(/[<>"'`\s]/g, '');
 }
-/** Escape characters that would break out of an inline Markdown context. */
 function mdEscapeInline(s) {
   return String(s == null ? '' : s).replace(/[\\`*_{}\[\]<>]/g, c => '\\' + c);
+}
+
+// Backward-compat alias kept for the existing test harness.
+function buildSheetRow(payload, refs) {
+  payload.meta = payload.meta || {};
+  if (!payload.meta.submission_id) payload.meta.submission_id = generateId('sub');
+  return buildIntakeSubmissionRow(payload, refs);
 }
 
 // Test hooks (Node/CI only — Workers ignores `globalThis` writes per request)
@@ -609,6 +888,15 @@ if (typeof globalThis !== 'undefined') {
     validateAndSanitize,
     buildIssuePreview,
     buildSheetRow,
+    buildIntakeSubmissionRow,
+    buildEditorialIntakeRow,
+    buildPlaceCandidateRow,
+    buildBackendLogRow,
+    buildWorkflowEventRow,
+    buildNotificationMessage,
+    needsPlaceCandidateRow,
+    nextRequiredAction,
+    LAB_SPREADSHEET,
     sanitize,
     sanitizeLong,
     sanitizeUrl,
