@@ -110,6 +110,16 @@
     line-height:1.6;color:var(--ink-soft);
   }
   .tech-disclosure-body a{color:var(--accent)}
+
+  .region-feedback{
+    margin-top:8px;padding:8px 12px;
+    border-left:3px solid var(--accent);background:rgba(210,75,31,0.06);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;
+    color:var(--ink-soft);line-height:1.5;
+  }
+  .region-feedback strong{color:var(--accent);letter-spacing:0.08em}
+  .region-feedback.is-warn{border-color:var(--ink);background:rgba(0,0,0,0.04)}
+  .region-feedback.is-warn strong{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -266,10 +276,29 @@
       </div>
 
       <div class="form-row">
-        <label for="sv-region">Regio</label>
-        <input type="text" id="sv-region" name="region" maxlength="120"
-          placeholder="Bijv. Rotterdam-Rijnmond, Limburg-Zuid, Île-de-France">
-        <span class="hint">Geef de regio of veiligheidsregio waar je verhaal of organisatie speelt.</span>
+        <label for="sv-place">Plaats / gemeente</label>
+        <input type="text" id="sv-place" name="place" maxlength="120"
+          placeholder="Bijv. Rotterdam, Brussels, Berlin" autocomplete="address-level2"
+          list="sv-place-suggestions">
+        <datalist id="sv-place-suggestions"></datalist>
+        <span class="hint">Optioneel. Op basis van bekende plaatsnamen kan ESRF een regio voorstellen — controleer het altijd.</span>
+        <div id="sv-place-feedback" class="region-feedback" hidden aria-live="polite"></div>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-region">Regio / provincie</label>
+        <select id="sv-region-select" name="region">
+          <option value="">— eerst een land kiezen —</option>
+        </select>
+        <input type="text" id="sv-region-free" name="region_free" maxlength="120"
+          placeholder="Vul hier zelf een regio of provincie in" hidden>
+        <span class="hint">Regio helpt ESRF om bijdragen regionaal te ordenen; controleer automatische voorstellen altijd.</span>
+        <div style="margin-top:6px">
+          <label style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+            <input type="checkbox" id="sv-region-manual" name="region_manual_override" style="margin:0">
+            Handmatig invullen (override)
+          </label>
+        </div>
       </div>
 
       <div class="form-row">
@@ -299,11 +328,6 @@
           <option value="Transport, Maritime &amp; Aerospace">Transport, maritiem &amp; lucht- en ruimtevaart</option>
           <option value="Energy &amp; Grid Resilience">Energie &amp; netweerbaarheid</option>
         </select>
-      </div>
-
-      <div class="form-row">
-        <label for="sv-city">Plaats</label>
-        <input type="text" id="sv-city" name="city" maxlength="80" placeholder="Bijv. Rotterdam">
       </div>
 
       <div class="form-row">
@@ -488,6 +512,244 @@
 (function(){
   window.__svFormLoadedAt = Date.now();
 
+  /* ─── Regional dataset ──────────────────────────────────────────────
+     Compact, extensible. Provinces/Bundesländer/regions per country.
+     For very large countries we pick NUTS-1 / top-level regions plus a
+     fallback "Other / nader te specificeren". This is a UX helper for
+     ESRF intake — not authoritative geocoding.
+  */
+  const REGIONS_BY_COUNTRY = {
+    NL: ['Drenthe','Flevoland','Friesland','Gelderland','Groningen','Limburg','Noord-Brabant','Noord-Holland','Overijssel','Utrecht','Zeeland','Zuid-Holland'],
+    BE: ['Brussels Hoofdstedelijk Gewest','Antwerpen','Limburg (BE)','Oost-Vlaanderen','West-Vlaanderen','Vlaams-Brabant','Henegouwen','Luik','Luxemburg (BE)','Namen','Waals-Brabant'],
+    DE: ['Baden-Württemberg','Bayern','Berlin','Brandenburg','Bremen','Hamburg','Hessen','Mecklenburg-Vorpommern','Niedersachsen','Nordrhein-Westfalen','Rheinland-Pfalz','Saarland','Sachsen','Sachsen-Anhalt','Schleswig-Holstein','Thüringen'],
+    FR: ['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d\u2019Azur'],
+    ES: ['Andalucía','Aragón','Asturias','Illes Balears','Canarias','Cantabria','Castilla-La Mancha','Castilla y León','Catalunya','Comunitat Valenciana','Extremadura','Galicia','La Rioja','Madrid','Murcia','Navarra','País Vasco','Ceuta','Melilla'],
+    IT: ['Abruzzo','Basilicata','Calabria','Campania','Emilia-Romagna','Friuli-Venezia Giulia','Lazio','Liguria','Lombardia','Marche','Molise','Piemonte','Puglia','Sardegna','Sicilia','Toscana','Trentino-Alto Adige','Umbria','Valle d\u2019Aosta','Veneto'],
+    PL: ['Dolnośląskie','Kujawsko-Pomorskie','Lubelskie','Lubuskie','Łódzkie','Małopolskie','Mazowieckie','Opolskie','Podkarpackie','Podlaskie','Pomorskie','Śląskie','Świętokrzyskie','Warmińsko-Mazurskie','Wielkopolskie','Zachodniopomorskie'],
+    DK: ['Hovedstaden','Sjælland','Syddanmark','Midtjylland','Nordjylland'],
+    SE: ['Stockholm','Uppsala','Södermanland','Östergötland','Jönköping','Kronoberg','Kalmar','Gotland','Blekinge','Skåne','Halland','Västra Götaland','Värmland','Örebro','Västmanland','Dalarna','Gävleborg','Västernorrland','Jämtland','Västerbotten','Norrbotten'],
+    NO: ['Agder','Innlandet','Møre og Romsdal','Nordland','Oslo','Rogaland','Troms og Finnmark','Trøndelag','Vestfold og Telemark','Vestland','Viken'],
+    FI: ['Uusimaa','Varsinais-Suomi','Satakunta','Kanta-Häme','Pirkanmaa','Päijät-Häme','Kymenlaakso','Etelä-Karjala','Etelä-Savo','Pohjois-Savo','Pohjois-Karjala','Keski-Suomi','Etelä-Pohjanmaa','Pohjanmaa','Keski-Pohjanmaa','Pohjois-Pohjanmaa','Kainuu','Lappi','Ahvenanmaa'],
+    EE: ['Harju','Hiiu','Ida-Viru','Jõgeva','Järva','Lääne','Lääne-Viru','Põlva','Pärnu','Rapla','Saare','Tartu','Valga','Viljandi','Võru'],
+    LV: ['Rīga','Pierīga','Vidzeme','Kurzeme','Zemgale','Latgale'],
+    LT: ['Alytus','Kaunas','Klaipėda','Marijampolė','Panevėžys','Šiauliai','Tauragė','Telšiai','Utena','Vilnius'],
+    IE: ['Connacht','Leinster','Munster','Ulster (IE)'],
+    PT: ['Norte','Centro','Lisboa','Alentejo','Algarve','Açores','Madeira'],
+    AT: ['Burgenland','Kärnten','Niederösterreich','Oberösterreich','Salzburg','Steiermark','Tirol','Vorarlberg','Wien'],
+    CZ: ['Praha','Středočeský','Jihočeský','Plzeňský','Karlovarský','Ústecký','Liberecký','Královéhradecký','Pardubický','Vysočina','Jihomoravský','Olomoucký','Zlínský','Moravskoslezský'],
+    SK: ['Bratislavský','Trnavský','Trenčiansky','Nitriansky','Žilinský','Banskobystrický','Prešovský','Košický'],
+    SI: ['Pomurska','Podravska','Koroška','Savinjska','Zasavska','Posavska','Jugovzhodna Slovenija','Osrednjeslovenska','Gorenjska','Primorsko-notranjska','Goriška','Obalno-kraška'],
+    HR: ['Grad Zagreb','Zagrebačka','Krapinsko-zagorska','Sisačko-moslavačka','Karlovačka','Varaždinska','Koprivničko-križevačka','Bjelovarsko-bilogorska','Primorsko-goranska','Ličko-senjska','Virovitičko-podravska','Požeško-slavonska','Brodsko-posavska','Zadarska','Osječko-baranjska','Šibensko-kninska','Vukovarsko-srijemska','Splitsko-dalmatinska','Istarska','Dubrovačko-neretvanska','Međimurska'],
+    HU: ['Budapest','Pest','Bács-Kiskun','Baranya','Békés','Borsod-Abaúj-Zemplén','Csongrád-Csanád','Fejér','Győr-Moson-Sopron','Hajdú-Bihar','Heves','Jász-Nagykun-Szolnok','Komárom-Esztergom','Nógrád','Somogy','Szabolcs-Szatmár-Bereg','Tolna','Vas','Veszprém','Zala'],
+    RO: ['Nord-Vest','Centru','Nord-Est','Sud-Est','Sud-Muntenia','București-Ilfov','Sud-Vest Oltenia','Vest'],
+    BG: ['Severozapaden','Severen tsentralen','Severoiztochen','Yugoiztochen','Yugozapaden','Yuzhen tsentralen'],
+    GR: ['Attica','Central Greece','Central Macedonia','Crete','East Macedonia & Thrace','Epirus','Ionian Islands','North Aegean','Peloponnese','South Aegean','Thessaly','Western Greece','Western Macedonia'],
+    MT: ['Malta','Gozo'],
+    IS: ['Höfuðborgarsvæðið','Suðurnes','Vesturland','Vestfirðir','Norðurland vestra','Norðurland eystra','Austurland','Suðurland'],
+    UA: ['Kyiv (city)','Kyiv oblast','Lviv','Odesa','Kharkiv','Dnipropetrovsk','Donetsk','Zaporizhzhia','Vinnytsia','Volyn','Zhytomyr','Ivano-Frankivsk','Kirovohrad','Luhansk','Mykolaiv','Poltava','Rivne','Sumy','Ternopil','Khmelnytskyi','Cherkasy','Chernivtsi','Chernihiv','Zakarpattia','Kherson']
+  };
+  /* Append a generic fallback for every list */
+  Object.keys(REGIONS_BY_COUNTRY).forEach(function(cc){
+    REGIONS_BY_COUNTRY[cc] = REGIONS_BY_COUNTRY[cc].slice();
+    REGIONS_BY_COUNTRY[cc].push('Anders / nader te specificeren');
+  });
+
+  /* City → { country, region } map. Lower-case keys; aliases included. */
+  const CITY_TO_REGION = {
+    /* Netherlands — major + regional ESRF-relevant */
+    'amsterdam':{country:'NL',region:'Noord-Holland'},
+    'haarlem':{country:'NL',region:'Noord-Holland'},
+    'almere':{country:'NL',region:'Flevoland'},
+    'lelystad':{country:'NL',region:'Flevoland'},
+    'rotterdam':{country:'NL',region:'Zuid-Holland'},
+    'den haag':{country:'NL',region:'Zuid-Holland'},
+    'the hague':{country:'NL',region:'Zuid-Holland'},
+    's-gravenhage':{country:'NL',region:'Zuid-Holland'},
+    'leiden':{country:'NL',region:'Zuid-Holland'},
+    'delft':{country:'NL',region:'Zuid-Holland'},
+    'dordrecht':{country:'NL',region:'Zuid-Holland'},
+    'hoek van holland':{country:'NL',region:'Zuid-Holland'},
+    'schiphol':{country:'NL',region:'Noord-Holland'},
+    'utrecht':{country:'NL',region:'Utrecht'},
+    'amersfoort':{country:'NL',region:'Utrecht'},
+    'eindhoven':{country:'NL',region:'Noord-Brabant'},
+    'tilburg':{country:'NL',region:'Noord-Brabant'},
+    'breda':{country:'NL',region:'Noord-Brabant'},
+    's-hertogenbosch':{country:'NL',region:'Noord-Brabant'},
+    'den bosch':{country:'NL',region:'Noord-Brabant'},
+    'maastricht':{country:'NL',region:'Limburg'},
+    'venlo':{country:'NL',region:'Limburg'},
+    'roermond':{country:'NL',region:'Limburg'},
+    'arnhem':{country:'NL',region:'Gelderland'},
+    'nijmegen':{country:'NL',region:'Gelderland'},
+    'apeldoorn':{country:'NL',region:'Gelderland'},
+    'zwolle':{country:'NL',region:'Overijssel'},
+    'enschede':{country:'NL',region:'Overijssel'},
+    'hengelo':{country:'NL',region:'Overijssel'},
+    'groningen':{country:'NL',region:'Groningen'},
+    'leeuwarden':{country:'NL',region:'Friesland'},
+    'assen':{country:'NL',region:'Drenthe'},
+    'emmen':{country:'NL',region:'Drenthe'},
+    'middelburg':{country:'NL',region:'Zeeland'},
+    'vlissingen':{country:'NL',region:'Zeeland'},
+
+    /* Belgium */
+    'brussels':{country:'BE',region:'Brussels Hoofdstedelijk Gewest'},
+    'brussel':{country:'BE',region:'Brussels Hoofdstedelijk Gewest'},
+    'bruxelles':{country:'BE',region:'Brussels Hoofdstedelijk Gewest'},
+    'antwerp':{country:'BE',region:'Antwerpen'},
+    'antwerpen':{country:'BE',region:'Antwerpen'},
+    'gent':{country:'BE',region:'Oost-Vlaanderen'},
+    'ghent':{country:'BE',region:'Oost-Vlaanderen'},
+    'brugge':{country:'BE',region:'West-Vlaanderen'},
+    'bruges':{country:'BE',region:'West-Vlaanderen'},
+    'leuven':{country:'BE',region:'Vlaams-Brabant'},
+    'hasselt':{country:'BE',region:'Limburg (BE)'},
+    'liège':{country:'BE',region:'Luik'},
+    'luik':{country:'BE',region:'Luik'},
+    'namur':{country:'BE',region:'Namen'},
+    'mons':{country:'BE',region:'Henegouwen'},
+    'charleroi':{country:'BE',region:'Henegouwen'},
+
+    /* Germany */
+    'berlin':{country:'DE',region:'Berlin'},
+    'hamburg':{country:'DE',region:'Hamburg'},
+    'munich':{country:'DE',region:'Bayern'},
+    'münchen':{country:'DE',region:'Bayern'},
+    'munchen':{country:'DE',region:'Bayern'},
+    'nuremberg':{country:'DE',region:'Bayern'},
+    'nürnberg':{country:'DE',region:'Bayern'},
+    'cologne':{country:'DE',region:'Nordrhein-Westfalen'},
+    'köln':{country:'DE',region:'Nordrhein-Westfalen'},
+    'düsseldorf':{country:'DE',region:'Nordrhein-Westfalen'},
+    'duesseldorf':{country:'DE',region:'Nordrhein-Westfalen'},
+    'essen':{country:'DE',region:'Nordrhein-Westfalen'},
+    'dortmund':{country:'DE',region:'Nordrhein-Westfalen'},
+    'frankfurt':{country:'DE',region:'Hessen'},
+    'wiesbaden':{country:'DE',region:'Hessen'},
+    'stuttgart':{country:'DE',region:'Baden-Württemberg'},
+    'karlsruhe':{country:'DE',region:'Baden-Württemberg'},
+    'bremen':{country:'DE',region:'Bremen'},
+    'leipzig':{country:'DE',region:'Sachsen'},
+    'dresden':{country:'DE',region:'Sachsen'},
+    'hannover':{country:'DE',region:'Niedersachsen'},
+    'hanover':{country:'DE',region:'Niedersachsen'},
+
+    /* France */
+    'paris':{country:'FR',region:'Île-de-France'},
+    'versailles':{country:'FR',region:'Île-de-France'},
+    'marseille':{country:'FR',region:'Provence-Alpes-Côte d\u2019Azur'},
+    'nice':{country:'FR',region:'Provence-Alpes-Côte d\u2019Azur'},
+    'lyon':{country:'FR',region:'Auvergne-Rhône-Alpes'},
+    'grenoble':{country:'FR',region:'Auvergne-Rhône-Alpes'},
+    'toulouse':{country:'FR',region:'Occitanie'},
+    'montpellier':{country:'FR',region:'Occitanie'},
+    'bordeaux':{country:'FR',region:'Nouvelle-Aquitaine'},
+    'nantes':{country:'FR',region:'Pays de la Loire'},
+    'rennes':{country:'FR',region:'Bretagne'},
+    'lille':{country:'FR',region:'Hauts-de-France'},
+    'strasbourg':{country:'FR',region:'Grand Est'},
+
+    /* Spain */
+    'madrid':{country:'ES',region:'Madrid'},
+    'barcelona':{country:'ES',region:'Catalunya'},
+    'valencia':{country:'ES',region:'Comunitat Valenciana'},
+    'sevilla':{country:'ES',region:'Andalucía'},
+    'seville':{country:'ES',region:'Andalucía'},
+    'bilbao':{country:'ES',region:'País Vasco'},
+    'zaragoza':{country:'ES',region:'Aragón'},
+
+    /* Italy */
+    'rome':{country:'IT',region:'Lazio'},
+    'roma':{country:'IT',region:'Lazio'},
+    'milan':{country:'IT',region:'Lombardia'},
+    'milano':{country:'IT',region:'Lombardia'},
+    'turin':{country:'IT',region:'Piemonte'},
+    'torino':{country:'IT',region:'Piemonte'},
+    'naples':{country:'IT',region:'Campania'},
+    'napoli':{country:'IT',region:'Campania'},
+    'florence':{country:'IT',region:'Toscana'},
+    'firenze':{country:'IT',region:'Toscana'},
+    'venice':{country:'IT',region:'Veneto'},
+    'venezia':{country:'IT',region:'Veneto'},
+    'bologna':{country:'IT',region:'Emilia-Romagna'},
+
+    /* Poland */
+    'warsaw':{country:'PL',region:'Mazowieckie'},
+    'warszawa':{country:'PL',region:'Mazowieckie'},
+    'gdansk':{country:'PL',region:'Pomorskie'},
+    'gdańsk':{country:'PL',region:'Pomorskie'},
+    'krakow':{country:'PL',region:'Małopolskie'},
+    'kraków':{country:'PL',region:'Małopolskie'},
+    'poznan':{country:'PL',region:'Wielkopolskie'},
+    'poznań':{country:'PL',region:'Wielkopolskie'},
+    'wroclaw':{country:'PL',region:'Dolnośląskie'},
+    'wrocław':{country:'PL',region:'Dolnośląskie'},
+
+    /* Nordics */
+    'copenhagen':{country:'DK',region:'Hovedstaden'},
+    'københavn':{country:'DK',region:'Hovedstaden'},
+    'aarhus':{country:'DK',region:'Midtjylland'},
+    'stockholm':{country:'SE',region:'Stockholm'},
+    'gothenburg':{country:'SE',region:'Västra Götaland'},
+    'göteborg':{country:'SE',region:'Västra Götaland'},
+    'malmö':{country:'SE',region:'Skåne'},
+    'malmo':{country:'SE',region:'Skåne'},
+    'oslo':{country:'NO',region:'Oslo'},
+    'bergen':{country:'NO',region:'Vestland'},
+    'helsinki':{country:'FI',region:'Uusimaa'},
+    'tampere':{country:'FI',region:'Pirkanmaa'},
+    'turku':{country:'FI',region:'Varsinais-Suomi'},
+
+    /* Baltics */
+    'tallinn':{country:'EE',region:'Harju'},
+    'tartu':{country:'EE',region:'Tartu'},
+    'riga':{country:'LV',region:'Rīga'},
+    'rīga':{country:'LV',region:'Rīga'},
+    'vilnius':{country:'LT',region:'Vilnius'},
+    'kaunas':{country:'LT',region:'Kaunas'},
+
+    /* Other Europe */
+    'dublin':{country:'IE',region:'Leinster'},
+    'cork':{country:'IE',region:'Munster'},
+    'lisbon':{country:'PT',region:'Lisboa'},
+    'lisboa':{country:'PT',region:'Lisboa'},
+    'porto':{country:'PT',region:'Norte'},
+    'vienna':{country:'AT',region:'Wien'},
+    'wien':{country:'AT',region:'Wien'},
+    'salzburg':{country:'AT',region:'Salzburg'},
+    'graz':{country:'AT',region:'Steiermark'},
+    'prague':{country:'CZ',region:'Praha'},
+    'praha':{country:'CZ',region:'Praha'},
+    'brno':{country:'CZ',region:'Jihomoravský'},
+    'bratislava':{country:'SK',region:'Bratislavský'},
+    'ljubljana':{country:'SI',region:'Osrednjeslovenska'},
+    'zagreb':{country:'HR',region:'Grad Zagreb'},
+    'split':{country:'HR',region:'Splitsko-dalmatinska'},
+    'budapest':{country:'HU',region:'Budapest'},
+    'bucharest':{country:'RO',region:'București-Ilfov'},
+    'bucurești':{country:'RO',region:'București-Ilfov'},
+    'sofia':{country:'BG',region:'Yugozapaden'},
+    'athens':{country:'GR',region:'Attica'},
+    'thessaloniki':{country:'GR',region:'Central Macedonia'},
+    'valletta':{country:'MT',region:'Malta'},
+    'reykjavik':{country:'IS',region:'Höfuðborgarsvæðið'},
+    'reykjavík':{country:'IS',region:'Höfuðborgarsvæðið'},
+    'kyiv':{country:'UA',region:'Kyiv (city)'},
+    'kiev':{country:'UA',region:'Kyiv (city)'},
+    'odesa':{country:'UA',region:'Odesa'},
+    'odessa':{country:'UA',region:'Odesa'},
+    'lviv':{country:'UA',region:'Lviv'},
+    'kharkiv':{country:'UA',region:'Kharkiv'}
+  };
+
+  function normalisePlace(s){
+    return (s || '').toString().trim().toLowerCase()
+      .replace(/^the\s+/, '')
+      .replace(/[.,]/g, '')
+      .replace(/\s+/g, ' ');
+  }
+
   const form = document.getElementById('sv-form');
   const errorBox = document.getElementById('form-error');
   const successBox = document.getElementById('form-success');
@@ -535,6 +797,208 @@
   })();
 
   applyMode();
+
+  /* ─── Country / Region / Place helper ─────────────────────────────── */
+  const countryEl = document.getElementById('sv-country');
+  const regionSelect = document.getElementById('sv-region-select');
+  const regionFree = document.getElementById('sv-region-free');
+  const regionManual = document.getElementById('sv-region-manual');
+  const placeEl = document.getElementById('sv-place');
+  const placeFeedback = document.getElementById('sv-place-feedback');
+  const placeDatalist = document.getElementById('sv-place-suggestions');
+
+  /* Track the last reason a region was set, for the payload */
+  let regionSuggestionSource = null;   /* 'autoselect-from-place' | 'manual-select' | 'manual-free' | null */
+  let autoSuggestedRegion = null;
+
+  function populateRegionOptions(cc, preserveValue){
+    const list = REGIONS_BY_COUNTRY[cc];
+    const prev = preserveValue ? regionSelect.value : '';
+    regionSelect.innerHTML = '';
+    if (!list) {
+      const opt = document.createElement('option');
+      opt.value = '';
+      opt.textContent = '— geen voorgedefinieerde regio\'s, gebruik handmatige invoer —';
+      regionSelect.appendChild(opt);
+      regionSelect.disabled = true;
+      return;
+    }
+    regionSelect.disabled = false;
+    const ph = document.createElement('option');
+    ph.value = '';
+    ph.textContent = 'Kies een regio…';
+    regionSelect.appendChild(ph);
+    list.forEach(function(name){
+      const o = document.createElement('option');
+      o.value = name;
+      o.textContent = name;
+      regionSelect.appendChild(o);
+    });
+    if (prev && list.indexOf(prev) !== -1) regionSelect.value = prev;
+  }
+
+  function setManualOverride(on){
+    if (on) {
+      regionSelect.hidden = true;
+      regionSelect.disabled = true;
+      regionFree.hidden = false;
+      regionFree.required = false;
+    } else {
+      regionSelect.hidden = false;
+      regionFree.hidden = true;
+      regionFree.value = '';
+      const cc = countryEl.value;
+      regionSelect.disabled = !REGIONS_BY_COUNTRY[cc];
+    }
+  }
+
+  function showPlaceFeedback(html, warn){
+    if (!html) {
+      placeFeedback.hidden = true;
+      placeFeedback.innerHTML = '';
+      placeFeedback.classList.remove('is-warn');
+      return;
+    }
+    placeFeedback.innerHTML = html;
+    placeFeedback.hidden = false;
+    placeFeedback.classList.toggle('is-warn', !!warn);
+  }
+
+  function rebuildPlaceSuggestions(cc){
+    placeDatalist.innerHTML = '';
+    Object.keys(CITY_TO_REGION).forEach(function(key){
+      const e = CITY_TO_REGION[key];
+      if (cc && e.country !== cc) return;
+      const o = document.createElement('option');
+      o.value = key.replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+      placeDatalist.appendChild(o);
+    });
+  }
+
+  countryEl.addEventListener('change', function(){
+    const cc = countryEl.value;
+    populateRegionOptions(cc, false);
+    rebuildPlaceSuggestions(cc);
+    /* Clear previous suggestion state on country change */
+    regionSuggestionSource = null;
+    autoSuggestedRegion = null;
+    showPlaceFeedback('', false);
+    /* Re-evaluate place if user already typed one */
+    if (placeEl.value) handlePlaceInput(true);
+  });
+
+  regionSelect.addEventListener('change', function(){
+    if (regionSelect.value) {
+      regionSuggestionSource = 'manual-select';
+      autoSuggestedRegion = null;
+    }
+  });
+
+  regionManual.addEventListener('change', function(){
+    setManualOverride(this.checked);
+    if (this.checked) {
+      regionSuggestionSource = 'manual-free';
+      autoSuggestedRegion = null;
+    } else {
+      regionSuggestionSource = regionSelect.value ? 'manual-select' : null;
+    }
+  });
+
+  function handlePlaceInput(silentForCountryChange){
+    const raw = placeEl.value;
+    const key = normalisePlace(raw);
+    if (!key) {
+      showPlaceFeedback('', false);
+      return;
+    }
+    const match = CITY_TO_REGION[key];
+    if (!match) {
+      showPlaceFeedback('', false);
+      return;
+    }
+    const currentCountry = countryEl.value;
+    if (currentCountry && currentCountry !== match.country) {
+      /* Conflict: don't aggressively change the country.
+         Show a soft suggestion and let the user accept or ignore. */
+      const countryOpt = countryEl.querySelector('option[value="' + match.country + '"]');
+      const countryName = countryOpt ? countryOpt.textContent : match.country;
+      showPlaceFeedback(
+        '<strong>Suggestie:</strong> "' + escapeHtml(raw) + '" lijkt te liggen in ' +
+        escapeHtml(countryName) + ' (regio: ' + escapeHtml(match.region) + '). ' +
+        'Het gekozen land is anders — controleer of dat klopt. ' +
+        '<a href="#" id="sv-accept-country-suggest">Land aanpassen naar ' + escapeHtml(countryName) + '</a>',
+        true
+      );
+      const link = document.getElementById('sv-accept-country-suggest');
+      if (link) {
+        link.addEventListener('click', function(ev){
+          ev.preventDefault();
+          countryEl.value = match.country;
+          populateRegionOptions(match.country, false);
+          rebuildPlaceSuggestions(match.country);
+          applyAutoselectRegion(match.region, raw);
+        });
+      }
+      return;
+    }
+    if (!currentCountry) {
+      /* Auto-pick country if user hasn't chosen one — clearly a strong match */
+      countryEl.value = match.country;
+      populateRegionOptions(match.country, false);
+      rebuildPlaceSuggestions(match.country);
+    }
+    if (regionManual.checked) {
+      /* User is in manual mode — only show a soft hint */
+      showPlaceFeedback(
+        '<strong>Suggestie:</strong> regio voor ' + escapeHtml(raw) + ' is meestal <em>' +
+        escapeHtml(match.region) + '</em>. Handmatige invoer staat aan; pas zo nodig zelf aan.',
+        false
+      );
+      return;
+    }
+    applyAutoselectRegion(match.region, raw);
+  }
+
+  function applyAutoselectRegion(regionName, placeLabel){
+    const cc = countryEl.value;
+    const list = REGIONS_BY_COUNTRY[cc] || [];
+    if (list.indexOf(regionName) === -1) {
+      /* Region not in our dataset for this country — soft hint only */
+      showPlaceFeedback(
+        '<strong>Suggestie:</strong> regio voor ' + escapeHtml(placeLabel) +
+        ' is meestal <em>' + escapeHtml(regionName) + '</em>. Niet in de lijst — ' +
+        'gebruik eventueel "Handmatig invullen".',
+        false
+      );
+      return;
+    }
+    regionSelect.value = regionName;
+    regionSuggestionSource = 'autoselect-from-place';
+    autoSuggestedRegion = regionName;
+    showPlaceFeedback(
+      'Regio voorgesteld op basis van plaatsnaam — controleer dit. ' +
+      '<strong>' + escapeHtml(regionName) + '</strong> ingevuld voor "' +
+      escapeHtml(placeLabel) + '".',
+      false
+    );
+  }
+
+  function escapeHtml(s){
+    return (s == null ? '' : String(s))
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  let placeDebounce;
+  placeEl.addEventListener('input', function(){
+    clearTimeout(placeDebounce);
+    placeDebounce = setTimeout(function(){ handlePlaceInput(false); }, 150);
+  });
+  placeEl.addEventListener('change', function(){ handlePlaceInput(false); });
+
+  /* Initial population — country defaults to NL */
+  populateRegionOptions(countryEl.value, false);
+  rebuildPlaceSuggestions(countryEl.value);
 
   const summaryEl = document.getElementById('sv-ed-summary');
   const summaryCounter = document.getElementById('sv-ed-summary-counter');
@@ -596,6 +1060,10 @@
   function buildPayload(data, mode){
     const countryLabel = (form.querySelector('#sv-country option:checked') || {}).textContent || '';
     const sectorLabel = (form.querySelector('#sv-sector option:checked') || {}).textContent || '';
+    const manualOverride = !!data.get('region_manual_override');
+    const regionValue = manualOverride
+      ? get(data, 'region_free')
+      : get(data, 'region');
     const payload = {
       meta: {
         environment: 'TEST/VALIDATIE',
@@ -612,7 +1080,11 @@
         phone: get(data, 'phone'),
         country_code: get(data, 'country'),
         country_label: countryLabel,
-        region: get(data, 'region'),
+        place: get(data, 'place'),
+        region: regionValue,
+        region_manual_override: manualOverride,
+        region_suggestion_source: regionSuggestionSource,
+        auto_suggested_region: autoSuggestedRegion,
         website: get(data, 'website')
       }
     };
@@ -620,7 +1092,7 @@
       payload.organisation_listing = {
         sector: get(data, 'sector'),
         sector_label: sectorLabel,
-        city: get(data, 'city'),
+        city: get(data, 'place'),
         description: get(data, 'org_description')
       };
     }
@@ -664,14 +1136,23 @@
     lines.push('  E-mail:         ' + p.contact.email);
     if (p.contact.phone) lines.push('  Telefoon:       ' + p.contact.phone);
     lines.push('  Land:           ' + p.contact.country_label + ' (' + p.contact.country_code + ')');
-    if (p.contact.region) lines.push('  Regio:          ' + p.contact.region);
+    if (p.contact.place) lines.push('  Plaats:         ' + p.contact.place);
+    if (p.contact.region) {
+      let regionLine = '  Regio:          ' + p.contact.region;
+      if (p.contact.region_suggestion_source) {
+        regionLine += '   [bron: ' + p.contact.region_suggestion_source + ']';
+      }
+      lines.push(regionLine);
+      if (p.contact.auto_suggested_region) {
+        lines.push('                  (auto-voorstel op basis van plaatsnaam — controleer)');
+      }
+    }
     if (p.contact.website) lines.push('  Website:        ' + p.contact.website);
     lines.push('');
 
     if (p.organisation_listing) {
       lines.push('▸ ORGANISATIE-OPGAVE');
       lines.push('  Sector:         ' + p.organisation_listing.sector_label);
-      if (p.organisation_listing.city) lines.push('  Plaats:         ' + p.organisation_listing.city);
       if (p.organisation_listing.description) {
         lines.push('  Beschrijving:');
         lines.push(indent(p.organisation_listing.description));
