@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="googlebot" content="noindex,nofollow" />
+<meta name="referrer" content="no-referrer" />
+<title>[TEST/VALIDATIE] Geïntegreerde opgave + editorial bijdrage — ESRF.net</title>
+<meta name="description" content="Verborgen validatieprototype: bestaand opgaveformulier uitgebreid met optionele editorial bijdrage. Niet voor publiek gebruik. noindex/nofollow." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<style>
+  .test-banner {
+    background:#fff3cd; border:2px solid #ffc107; color:#664d03;
+    padding:16px 20px; margin:16px auto; max-width:820px; border-radius:6px;
+    font-family:'IBM Plex Mono', monospace; font-size:13px; line-height:1.55;
+  }
+  .test-banner strong { display:block; font-size:14px; margin-bottom:6px; letter-spacing:0.05em; }
+  .vl-back { max-width:820px; margin:8px auto 0; padding:0 16px; font-family:'IBM Plex Mono', monospace; font-size:12px; }
+  .vl-back a { color:#1d4ed8; text-decoration:none; }
+  .vl-back a:hover { text-decoration:underline; }
+
+  .intro-box {
+    background:#f0f4f8; border-left:4px solid #2563eb; padding:14px 18px;
+    margin:18px 0; font-size:14px; line-height:1.6; border-radius:0 4px 4px 0;
+  }
+  .intro-box h3 { margin:0 0 8px; font-size:14px; letter-spacing:0.04em; text-transform:uppercase; }
+  .intro-box ol { margin:8px 0 0; padding-left:20px; }
+  .intro-box li { margin:4px 0; }
+
+  .arch-box {
+    background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px;
+    padding:16px 20px; margin:24px 0; font-size:13.5px; line-height:1.6;
+  }
+  .arch-box h3 { margin:0 0 8px; font-family:'PT Serif', serif; font-size:18px; }
+  .arch-box h4 { margin:14px 0 4px; font-size:13px; letter-spacing:0.04em; text-transform:uppercase; color:#475569; }
+  .arch-box ul { margin:6px 0; padding-left:20px; }
+  .arch-box code { background:#0f172a; color:#e2e8f0; padding:1px 6px; border-radius:3px; font-size:12px; }
+  .arch-flow {
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px;
+    background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:4px;
+    margin:8px 0; overflow-x:auto; white-space:pre; line-height:1.55;
+  }
+
+  .mode-switch {
+    display:grid; grid-template-columns:1fr; gap:10px; margin:14px 0 6px;
+  }
+  @media (min-width:720px) { .mode-switch { grid-template-columns:repeat(3, 1fr); } }
+  .mode-option {
+    border:2px solid #e2e8f0; border-radius:6px; padding:14px 16px; cursor:pointer;
+    background:#fff; transition:border-color .15s, background .15s; display:block;
+  }
+  .mode-option:hover { border-color:#94a3b8; }
+  .mode-option input { margin-right:8px; }
+  .mode-option strong { font-size:14px; display:block; margin-bottom:4px; }
+  .mode-option span { font-size:12.5px; color:#475569; line-height:1.5; }
+  .mode-option.is-selected { border-color:#0f172a; background:#f1f5f9; }
+
+  .section-block { display:none; }
+  .section-block.is-active { display:block; }
+
+  .form-fieldset { border:1px solid #e2e8f0; border-radius:6px; padding:18px 20px; margin:18px 0; }
+  .form-legend { font-family:'PT Serif', serif; font-size:18px; padding:0 8px; color:#0f172a; }
+  .fieldset-intro { margin:4px 0 14px; font-size:13.5px; color:#475569; line-height:1.55; }
+
+  .preview-box {
+    background:#0f172a; color:#e2e8f0; padding:24px; border-radius:6px;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; line-height:1.6;
+    white-space:pre-wrap; word-break:break-word; max-height:560px; overflow-y:auto; margin-top:16px;
+  }
+  .preview-actions { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+  .preview-actions button {
+    padding:9px 16px; border-radius:4px; border:1px solid #cbd5e1; background:#fff; cursor:pointer;
+    font-family:inherit; font-size:13px;
+  }
+  .preview-actions button.primary { background:#0f172a; color:#fff; border-color:#0f172a; }
+
+  .not-sent {
+    display:inline-block; background:#fee2e2; color:#991b1b; padding:4px 10px;
+    border-radius:3px; font-family:'IBM Plex Mono', monospace; font-size:12px;
+    letter-spacing:0.05em; margin-bottom:8px;
+  }
+
+  .why-email {
+    background:#fef9c3; border:1px solid #fde047; border-radius:4px;
+    padding:10px 14px; font-size:13px; margin-top:10px; line-height:1.55;
+  }
+</style>
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <div class="mast-nav" id="primary-nav">
+      <span style="color:#b91c1c;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em">[VALIDATION LAB — NOT PUBLIC]</span>
+    </div>
+  </div>
+</nav>
+
+<div class="vl-back"><a href="validation-lab.html">← terug naar Validation Lab</a></div>
+
+<div class="test-banner" role="alert">
+  <strong>⚠ TEST &amp; VALIDATIE OMGEVING — NIET PUBLIEK</strong>
+  Dit is een verborgen validatiekopie van het bestaande opgaveformulier (<code>request-listing.html</code>),
+  uitgebreid met een optionele editorial bijdrage. Productie blijft onaangetast. Deel deze URL niet publiekelijk.
+  Voer <em>geen</em> echte gevoelige of operationele gegevens in. Inzendingen worden <strong>niet</strong> verzonden —
+  het formulier maakt alleen een lokale preview.
+</div>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ Validation · Geïntegreerde opgave · TEST</div>
+    <h1 class="phero-title">Opgave <i>én</i><br>praktijkverhaal.</h1>
+    <p class="phero-deck">
+      Eén formulier voor twee dingen die nu nog los staan: je organisatie aanmelden of bijwerken in de ESRF-atlas,
+      én — als je dat wil — een korte editorial bijdrage insturen over leiderschap in samenwerking, geleerde lessen,
+      of mensen en teams die waardering verdienen. Je kiest hieronder wat van toepassing is.
+    </p>
+  </div>
+</section>
+
+<div class="form-wrap">
+
+  <div class="intro-box">
+    <h3>Veilig proces — wat gebeurt er met je inzending?</h3>
+    <ol>
+      <li>Je vult dit formulier in. Niets wordt automatisch gepubliceerd.</li>
+      <li>De ESRF-redactie krijgt een melding en bekijkt je inzending op relevantie en regio.</li>
+      <li>Voor een organisatie-opgave: redactie controleert en plaatst in de atlas binnen drie werkdagen.</li>
+      <li>Voor een editorial bijdrage: redactie neemt contact op om scope, framing en feiten af te stemmen.</li>
+      <li>Eindredactie maakt het stuk publicatieklaar en jij ziet de definitieve versie vóór publicatie.</li>
+    </ol>
+  </div>
+
+  <div id="form-error" class="form-error" hidden role="alert" aria-live="assertive"></div>
+
+  <form id="sv-form" class="form-grid" novalidate autocomplete="on">
+
+    <input type="text" name="company_website_hp" tabindex="-1" autocomplete="off"
+      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">1. Wat wil je doen?</legend>
+      <p class="fieldset-intro">Kies wat van toepassing is. Beide kan ook — bijvoorbeeld als je organisatie nog niet in de atlas staat én je een praktijkverhaal hebt.</p>
+
+      <div class="mode-switch" role="radiogroup" aria-label="Type opgave">
+        <label class="mode-option" data-mode="org">
+          <input type="radio" name="intake_mode" value="org" checked>
+          <strong>Organisatie aanmelden / bijwerken</strong>
+          <span>Plaats je organisatie in de ESRF-atlas, of werk bestaande gegevens bij. Geen verhaal nodig.</span>
+        </label>
+        <label class="mode-option" data-mode="editorial">
+          <input type="radio" name="intake_mode" value="editorial">
+          <strong>Editorial bijdrage / praktijkverhaal</strong>
+          <span>Stuur een kort artikel of praktijkverhaal in over samenwerking, een geleerde les of waardering voor mensen die erkenning verdienen.</span>
+        </label>
+        <label class="mode-option" data-mode="both">
+          <input type="radio" name="intake_mode" value="both">
+          <strong>Beide</strong>
+          <span>Aanmelden van je organisatie én een editorial bijdrage in één keer.</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">2. Contact &amp; organisatie</legend>
+      <p class="fieldset-intro">Deze gegevens hergebruiken we voor zowel de atlas-opgave als de editorial bijdrage.</p>
+
+      <div class="form-row">
+        <label for="sv-contact-name">Naam <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-contact-name" name="contact_name" required maxlength="80"
+          placeholder="Bijv. Sanne de Vries" autocomplete="name">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-org">Organisatie <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-org" name="organisation" required maxlength="120"
+          placeholder="Bijv. Veiligheidsregio Rotterdam-Rijnmond" autocomplete="organization">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-role">Functie <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-role" name="role" required maxlength="120"
+          placeholder="Bijv. teamleider crisisbeheersing" autocomplete="organization-title">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-email">E-mail <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="sv-email" name="email" required
+          placeholder="naam@organisatie.nl" autocomplete="email">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-phone">Telefoon (optioneel)</label>
+        <input type="tel" id="sv-phone" name="phone" maxlength="40"
+          placeholder="Alleen als je liever gebeld wordt" autocomplete="tel">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-country">Land <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-country" name="country" required>
+          <option value="">Kies een land…</option>
+          <optgroup label="EU lidstaten">
+            <option value="AT">Oostenrijk</option>
+            <option value="BE">België</option>
+            <option value="BG">Bulgarije</option>
+            <option value="HR">Kroatië</option>
+            <option value="CY">Cyprus</option>
+            <option value="CZ">Tsjechië</option>
+            <option value="DK">Denemarken</option>
+            <option value="EE">Estland</option>
+            <option value="FI">Finland</option>
+            <option value="FR">Frankrijk</option>
+            <option value="DE">Duitsland</option>
+            <option value="GR">Griekenland</option>
+            <option value="HU">Hongarije</option>
+            <option value="IE">Ierland</option>
+            <option value="IT">Italië</option>
+            <option value="LV">Letland</option>
+            <option value="LT">Litouwen</option>
+            <option value="LU">Luxemburg</option>
+            <option value="MT">Malta</option>
+            <option value="NL" selected>Nederland</option>
+            <option value="PL">Polen</option>
+            <option value="PT">Portugal</option>
+            <option value="RO">Roemenië</option>
+            <option value="SK">Slowakije</option>
+            <option value="SI">Slovenië</option>
+            <option value="ES">Spanje</option>
+            <option value="SE">Zweden</option>
+          </optgroup>
+          <optgroup label="Overig Europa">
+            <option value="IS">IJsland</option>
+            <option value="NO">Noorwegen</option>
+            <option value="UA">Oekraïne</option>
+            <option value="GB">Verenigd Koninkrijk</option>
+            <option value="CH">Zwitserland</option>
+            <option value="AL">Albanië</option>
+            <option value="BA">Bosnië en Herzegovina</option>
+            <option value="ME">Montenegro</option>
+            <option value="MK">Noord-Macedonië</option>
+            <option value="RS">Servië</option>
+            <option value="TR">Turkije</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-region">Regio</label>
+        <input type="text" id="sv-region" name="region" maxlength="120"
+          placeholder="Bijv. Rotterdam-Rijnmond, Limburg-Zuid, Île-de-France">
+        <span class="hint">Geef de regio of veiligheidsregio waar je verhaal of organisatie speelt.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-website">Website</label>
+        <input type="url" id="sv-website" name="website"
+          placeholder="https://voorbeeld.nl" autocomplete="url" pattern="https?://.+">
+        <span class="hint">Verplicht bij organisatie-opgave. Begint met https:// of http://</span>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset section-block" data-section="org">
+      <legend class="form-legend">3. Organisatie-gegevens</legend>
+      <p class="fieldset-intro">Deze velden vullen we voor de directory/atlas. Alleen invullen als je organisatie aanmeldt of bijwerkt.</p>
+
+      <div class="form-row">
+        <label for="sv-sector">Sector <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-sector" name="sector">
+          <option value="">Kies een sector…</option>
+          <option value="Emergency &amp; Crisis Response">Crisisbeheersing &amp; rampenbestrijding</option>
+          <option value="Security &amp; Protection">Beveiliging &amp; bescherming</option>
+          <option value="Risk &amp; Continuity Management">Risico- &amp; continuïteitsmanagement</option>
+          <option value="Digital Infrastructure &amp; Cybersecurity">Digitale infrastructuur &amp; cybersecurity</option>
+          <option value="Knowledge, Training &amp; Research">Kennis, training &amp; onderzoek</option>
+          <option value="Health &amp; Medical Manufacturing">Zorg &amp; medische productie</option>
+          <option value="Critical Infrastructure">Kritieke infrastructuur</option>
+          <option value="Dual-use Technology &amp; Manufacturing">Dual-use technologie &amp; productie</option>
+          <option value="Transport, Maritime &amp; Aerospace">Transport, maritiem &amp; lucht- en ruimtevaart</option>
+          <option value="Energy &amp; Grid Resilience">Energie &amp; netweerbaarheid</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-city">Plaats</label>
+        <input type="text" id="sv-city" name="city" maxlength="80" placeholder="Bijv. Rotterdam">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-org-description">Korte beschrijving van de organisatie</label>
+        <textarea id="sv-org-description" name="org_description" maxlength="280"
+          placeholder="Eén of twee zinnen: wat doet de organisatie en welke regio bedient ze?"></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset section-block" data-section="editorial">
+      <legend class="form-legend">3. Editorial bijdrage</legend>
+      <p class="fieldset-intro">Voor een kort artikel of praktijkverhaal. Schrijf zoals je het zou vertellen — de redactie helpt met framing en eindredactie.</p>
+
+      <div class="form-row">
+        <label for="sv-ed-topic">Onderwerp / werktitel <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-ed-topic" name="ed_topic" maxlength="160"
+          placeholder="Bijv. Hoe Rotterdam en de havenpartners samen een havenoefening hebben opgezet">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-summary">Korte samenvatting <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-ed-summary" name="ed_summary" rows="4" maxlength="600"
+          placeholder="3–5 zinnen: wat is er gebeurd, waarom is het relevant, wat is de kern?"></textarea>
+        <div class="counter" id="sv-ed-summary-counter" aria-live="polite">0 / 600</div>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-audience">Voor wie is dit verhaal interessant?</label>
+        <input type="text" id="sv-ed-audience" name="ed_audience" maxlength="160"
+          placeholder="Bijv. veiligheidsregio's, havenautoriteiten, beleidsmakers">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-partners">Betrokken organisaties / sector</label>
+        <textarea id="sv-ed-partners" name="ed_partners" rows="2" maxlength="400"
+          placeholder="Welke partijen werkten samen? Welke sectoren raakte het?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-regional-angle">Regionale invalshoek <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-ed-regional-angle" name="ed_regional_angle" rows="3" maxlength="500"
+          placeholder="Wat maakt dit een regionaal verhaal? Welke regio, welke specifieke context?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-lesson">Geleerde les <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-ed-lesson" name="ed_lesson" rows="3" maxlength="500"
+          placeholder="Wat heb je geleerd? Wat zou je een collega in een andere regio meegeven?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-spotlight">In het zonnetje — wie verdient waardering?</label>
+        <textarea id="sv-ed-spotlight" name="ed_spotlight" rows="3" maxlength="400"
+          placeholder="Een persoon of team wiens werk vaak onzichtbaar is, maar verschil maakt. Naam, rol, organisatie — alleen als je toestemming hebt."></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-sources">Bron / controleerbare feiten</label>
+        <textarea id="sv-ed-sources" name="ed_sources" rows="3" maxlength="500"
+          placeholder="Links, datums, rapporten of contactpersonen die de redactie kan gebruiken om feiten na te trekken."></textarea>
+        <span class="hint">ESRF publiceert geen verhalen die niet te controleren zijn.</span>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" id="sv-consent-edit" name="consent_edit">
+        <label for="sv-consent-edit">
+          Ik ga akkoord dat de ESRF-redactie mijn tekst mag <strong>redigeren en publiceren</strong>, met behoud van de kern.
+        </label>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" id="sv-consent-contact-ed" name="consent_contact_editorial">
+        <label for="sv-consent-contact-ed">
+          De eindredactie mag <strong>contact</strong> met me opnemen voor afstemming, feiten en eindcheck vóór publicatie.
+        </label>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" id="sv-consent-no-confid" name="consent_no_confidential">
+        <label for="sv-consent-no-confid">
+          Mijn inzending bevat <strong>geen vertrouwelijke of operationeel gevoelige informatie</strong>.
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">4. Privacy &amp; verzending</legend>
+
+      <div class="form-check">
+        <input type="checkbox" id="sv-gdpr" name="gdpr_consent" required>
+        <label for="sv-gdpr">
+          Ik ga akkoord met het <a href="privacy.html">privacybeleid</a> en met opslag van deze gegevens voor redactionele beoordeling.
+        </label>
+      </div>
+
+      <div>
+        <button type="submit" class="form-submit" id="sv-submit-btn">
+          Genereer testpreview (niet verzonden)
+        </button>
+      </div>
+    </fieldset>
+
+  </form>
+
+  <div id="form-success" class="form-success" hidden>
+    <span class="not-sent">TEST — NIET VERZONDEN</span>
+    <div class="kicker">§ Lokale preview</div>
+    <h2 style="margin:6px 0 8px">Samenvatting van je inzending</h2>
+    <p style="font-size:14px;line-height:1.6;color:#475569;margin:0 0 8px">
+      Dit is wat de redactie zou ontvangen. Niets is verzonden. Je kunt het kopiëren of als JSON / tekstbestand downloaden.
+    </p>
+
+    <div class="preview-actions">
+      <button type="button" id="sv-copy-btn" class="primary">Kopieer naar klembord</button>
+      <button type="button" id="sv-json-btn">Download JSON</button>
+      <button type="button" id="sv-txt-btn">Download tekst</button>
+      <button type="button" id="sv-back-btn">← terug naar formulier</button>
+    </div>
+
+    <pre id="sv-preview" class="preview-box" aria-label="Preview van je inzending"></pre>
+  </div>
+
+  <section class="arch-box" aria-labelledby="sv-arch-h">
+    <h3 id="sv-arch-h">Veilige verwerking: aanbevolen route voor productie</h3>
+    <p style="margin:0 0 8px">Dit prototype verzendt niets — het is een UI-validatie. Voor de echte productie-uitrol is dit de aanbevolen architectuur:</p>
+
+    <div class="arch-flow">[ Browser ]
+   │  POST JSON
+   ▼
+[ Cloudflare Pages Function / Worker ]
+   • Turnstile validatie (anti-bot)
+   • Honeypot + tijds-/rate-limiting
+   • Schema-validatie + sanitisatie
+   │
+   ├──▶  [ Private GitHub issue / private intake repo ]
+   │        (volledig dossier, doorzoekbaar, history, labels)
+   │
+   ├──▶  [ Notificatie-mail naar redactie ]
+   │        (alleen samenvatting + link, GEEN volledige PII)
+   │
+   └──▶  [ Optioneel: Google Sheet als redactioneel overzicht ]
+            (status, eigenaar, volgende stap)</div>
+
+    <h4>Waarom deze route?</h4>
+    <ul>
+      <li><strong>Turnstile + honeypot + rate limiting</strong> houdt bots en spam buiten zonder cookies of CAPTCHA-frictie.</li>
+      <li><strong>Private GitHub issue</strong> geeft de redactie een doorzoekbare workflow met labels (regio, status, sector), reviewers en historie. Per issue kunnen redacteuren reageren, taggen en sluiten.</li>
+      <li><strong>Notificatie-mail met alléén samenvatting + link</strong> voorkomt dat persoonsgegevens in mailboxen rondzwerven en blijft GDPR-vriendelijk.</li>
+      <li><strong>Google Sheet</strong> is optioneel: handig als kanban-overzicht voor de redactie zonder GitHub-toegang.</li>
+    </ul>
+
+    <h4>Waarom alléén e-mail minder ideaal is</h4>
+    <div class="why-email">
+      Een mailto-formulier of pure e-mail-relay lijkt simpel, maar:
+      <ul style="margin:6px 0 0">
+        <li>Slechter doorzoekbaar — verhalen verdwijnen in inboxen.</li>
+        <li>PII in mailboxen blijft vaak <em>jaren</em> staan, soms gesynchroniseerd naar meerdere apparaten.</li>
+        <li>Geen workflow-controle — geen status, geen toewijzing, geen audit trail.</li>
+        <li>Geen anti-bot-laag tussen het web en de inbox — spam komt direct binnen.</li>
+        <li>Lastiger te overdragen aan een opvolger of nieuwe redacteur.</li>
+      </ul>
+    </div>
+
+    <h4>Velden in de notificatie-mail (voorbeeld)</h4>
+    <ul>
+      <li>Type inzending (organisatie / editorial / beide)</li>
+      <li>Regio + sector</li>
+      <li>Eerste 200 tekens van de samenvatting</li>
+      <li>Link naar de private issue (volledig dossier achter inlog)</li>
+    </ul>
+    <p style="margin:8px 0 0;font-size:12.5px;color:#475569"><em>Geen e-mail, naam, telefoonnummer of organisatie in de notificatie zelf.</em></p>
+  </section>
+
+</div>
+
+<footer class="foot" style="margin-top:48px">
+  <div class="foot-inner" style="text-align:center;padding:24px 16px">
+    <p style="font-family:'IBM Plex Mono', monospace; font-size:12px; color:#6b7280; margin:0">
+      Verborgen validatieomgeving · branch preview only · noindex,nofollow · niet voor publiek verkeer
+    </p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  window.__svFormLoadedAt = Date.now();
+
+  const form = document.getElementById('sv-form');
+  const errorBox = document.getElementById('form-error');
+  const successBox = document.getElementById('form-success');
+  const previewBox = document.getElementById('sv-preview');
+  const submitBtn = document.getElementById('sv-submit-btn');
+
+  const modeRadios = form.querySelectorAll('input[name="intake_mode"]');
+  const sectionOrg = form.querySelector('[data-section="org"]');
+  const sectionEd = form.querySelector('[data-section="editorial"]');
+  const modeOptions = form.querySelectorAll('.mode-option');
+
+  function currentMode(){
+    const r = form.querySelector('input[name="intake_mode"]:checked');
+    return r ? r.value : 'org';
+  }
+
+  function applyMode(){
+    const m = currentMode();
+    const showOrg = (m === 'org' || m === 'both');
+    const showEd = (m === 'editorial' || m === 'both');
+    sectionOrg.classList.toggle('is-active', showOrg);
+    sectionEd.classList.toggle('is-active', showEd);
+    modeOptions.forEach(opt => {
+      opt.classList.toggle('is-selected', opt.dataset.mode === m);
+    });
+    submitBtn.textContent = m === 'editorial'
+      ? 'Genereer testpreview van editorial inzending (niet verzonden)'
+      : (m === 'both'
+          ? 'Genereer testpreview van opgave + editorial (niet verzonden)'
+          : 'Genereer testpreview van organisatie-opgave (niet verzonden)');
+  }
+  modeRadios.forEach(r => r.addEventListener('change', applyMode));
+  applyMode();
+
+  const summaryEl = document.getElementById('sv-ed-summary');
+  const summaryCounter = document.getElementById('sv-ed-summary-counter');
+  if (summaryEl && summaryCounter) {
+    summaryEl.addEventListener('input', function(){
+      summaryCounter.textContent = this.value.length + ' / 600';
+    });
+  }
+
+  function showError(msg){
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
+    errorBox.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  function hideError(){
+    errorBox.hidden = true;
+    errorBox.textContent = '';
+  }
+
+  function get(data, k){ return (data.get(k) || '').toString().trim(); }
+
+  function validate(data, mode){
+    const sharedRequired = [
+      ['contact_name', 'naam'],
+      ['organisation', 'organisatie'],
+      ['role', 'functie'],
+      ['email', 'e-mail'],
+      ['country', 'land']
+    ];
+    for (const [k, label] of sharedRequired) {
+      if (!get(data, k)) return 'Vul a.u.b. in: ' + label + '.';
+    }
+    const email = get(data, 'email');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return 'Vul a.u.b. een geldig e-mailadres in.';
+
+    if (mode === 'org' || mode === 'both') {
+      if (!get(data, 'website')) return 'Voor organisatie-opgave: vul a.u.b. een website in.';
+      if (!/^https?:\/\/.+/.test(get(data, 'website'))) return 'De website moet beginnen met https:// of http://';
+      if (!get(data, 'sector')) return 'Voor organisatie-opgave: kies a.u.b. een sector.';
+    }
+    if (mode === 'editorial' || mode === 'both') {
+      const edRequired = [
+        ['ed_topic', 'onderwerp/werktitel'],
+        ['ed_summary', 'korte samenvatting'],
+        ['ed_regional_angle', 'regionale invalshoek'],
+        ['ed_lesson', 'geleerde les']
+      ];
+      for (const [k, label] of edRequired) {
+        if (!get(data, k)) return 'Voor editorial bijdrage: vul a.u.b. in: ' + label + '.';
+      }
+      if (!data.get('consent_edit')) return 'Bevestig a.u.b. de toestemming voor redactie en publicatie.';
+      if (!data.get('consent_contact_editorial')) return 'Bevestig a.u.b. dat de eindredactie contact mag opnemen.';
+      if (!data.get('consent_no_confidential')) return 'Bevestig a.u.b. dat de inzending geen vertrouwelijke informatie bevat.';
+    }
+    if (!data.get('gdpr_consent')) return 'Accepteer a.u.b. het privacybeleid om door te gaan.';
+    return null;
+  }
+
+  function buildPayload(data, mode){
+    const countryLabel = (form.querySelector('#sv-country option:checked') || {}).textContent || '';
+    const sectorLabel = (form.querySelector('#sv-sector option:checked') || {}).textContent || '';
+    const payload = {
+      meta: {
+        environment: 'TEST/VALIDATIE',
+        prototype: 'submit-validation.html (integrated org + editorial)',
+        generated_at: new Date().toISOString(),
+        not_sent: true
+      },
+      intake_mode: mode,
+      contact: {
+        name: get(data, 'contact_name'),
+        organisation: get(data, 'organisation'),
+        role: get(data, 'role'),
+        email: get(data, 'email'),
+        phone: get(data, 'phone'),
+        country_code: get(data, 'country'),
+        country_label: countryLabel,
+        region: get(data, 'region'),
+        website: get(data, 'website')
+      }
+    };
+    if (mode === 'org' || mode === 'both') {
+      payload.organisation_listing = {
+        sector: get(data, 'sector'),
+        sector_label: sectorLabel,
+        city: get(data, 'city'),
+        description: get(data, 'org_description')
+      };
+    }
+    if (mode === 'editorial' || mode === 'both') {
+      payload.editorial_contribution = {
+        topic: get(data, 'ed_topic'),
+        summary: get(data, 'ed_summary'),
+        audience: get(data, 'ed_audience'),
+        partners_sector: get(data, 'ed_partners'),
+        regional_angle: get(data, 'ed_regional_angle'),
+        lesson: get(data, 'ed_lesson'),
+        spotlight: get(data, 'ed_spotlight'),
+        sources: get(data, 'ed_sources'),
+        consent: {
+          edit_and_publish: !!data.get('consent_edit'),
+          editorial_may_contact: !!data.get('consent_contact_editorial'),
+          no_confidential_information: !!data.get('consent_no_confidential')
+        }
+      };
+    }
+    payload.privacy = {
+      gdpr_privacy_policy: !!data.get('gdpr_consent')
+    };
+    return payload;
+  }
+
+  function indent(s){ if (!s) return ''; return s.split('\n').map(l => '    ' + l).join('\n'); }
+
+  function renderText(p){
+    const lines = [];
+    lines.push('═══════════════════════════════════════════');
+    lines.push('ESRF.net — GEÏNTEGREERDE OPGAVE (TEST)');
+    lines.push('Modus: ' + p.intake_mode.toUpperCase());
+    lines.push('Gegenereerd: ' + p.meta.generated_at);
+    lines.push('═══════════════════════════════════════════');
+    lines.push('');
+    lines.push('▸ CONTACT & ORGANISATIE');
+    lines.push('  Naam:           ' + p.contact.name);
+    lines.push('  Organisatie:    ' + p.contact.organisation);
+    lines.push('  Functie:        ' + p.contact.role);
+    lines.push('  E-mail:         ' + p.contact.email);
+    if (p.contact.phone) lines.push('  Telefoon:       ' + p.contact.phone);
+    lines.push('  Land:           ' + p.contact.country_label + ' (' + p.contact.country_code + ')');
+    if (p.contact.region) lines.push('  Regio:          ' + p.contact.region);
+    if (p.contact.website) lines.push('  Website:        ' + p.contact.website);
+    lines.push('');
+
+    if (p.organisation_listing) {
+      lines.push('▸ ORGANISATIE-OPGAVE');
+      lines.push('  Sector:         ' + p.organisation_listing.sector_label);
+      if (p.organisation_listing.city) lines.push('  Plaats:         ' + p.organisation_listing.city);
+      if (p.organisation_listing.description) {
+        lines.push('  Beschrijving:');
+        lines.push(indent(p.organisation_listing.description));
+      }
+      lines.push('');
+    }
+
+    if (p.editorial_contribution) {
+      const e = p.editorial_contribution;
+      lines.push('▸ EDITORIAL BIJDRAGE');
+      lines.push('  Onderwerp:      ' + e.topic);
+      lines.push('  Samenvatting:');
+      lines.push(indent(e.summary));
+      if (e.audience) lines.push('  Doelgroep:      ' + e.audience);
+      if (e.partners_sector) {
+        lines.push('  Partners/sector:');
+        lines.push(indent(e.partners_sector));
+      }
+      lines.push('  Regionale invalshoek:');
+      lines.push(indent(e.regional_angle));
+      lines.push('  Geleerde les:');
+      lines.push(indent(e.lesson));
+      if (e.spotlight) {
+        lines.push('  In het zonnetje:');
+        lines.push(indent(e.spotlight));
+      }
+      if (e.sources) {
+        lines.push('  Bron / feiten:');
+        lines.push(indent(e.sources));
+      }
+      lines.push('');
+      lines.push('  Toestemmingen:');
+      lines.push('    Redactie + publicatie:        ' + (e.consent.edit_and_publish ? 'JA' : 'nee'));
+      lines.push('    Eindredactie mag contact:     ' + (e.consent.editorial_may_contact ? 'JA' : 'nee'));
+      lines.push('    Geen vertrouwelijke info:     ' + (e.consent.no_confidential_information ? 'JA' : 'nee'));
+      lines.push('');
+    }
+
+    lines.push('▸ PRIVACY');
+    lines.push('  GDPR / privacybeleid: ' + (p.privacy.gdpr_privacy_policy ? 'JA' : 'nee'));
+    lines.push('');
+    lines.push('═══════════════════════════════════════════');
+    lines.push('TEST — NIET VERZONDEN. Alleen lokale preview.');
+    lines.push('═══════════════════════════════════════════');
+    return lines.join('\n');
+  }
+
+  let lastPayload = null;
+  let lastText = '';
+
+  function download(filename, content, mime){
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    hideError();
+    const data = new FormData(form);
+
+    if (data.get('company_website_hp')) return;
+
+    const elapsed = Date.now() - (window.__svFormLoadedAt || 0);
+    if (elapsed < 2500) {
+      showError('Neem even de tijd om het formulier te bekijken voordat je het indient.');
+      return;
+    }
+
+    const mode = currentMode();
+    const err = validate(data, mode);
+    if (err) { showError(err); return; }
+
+    lastPayload = buildPayload(data, mode);
+    lastText = renderText(lastPayload);
+    previewBox.textContent = lastText;
+
+    form.hidden = true;
+    successBox.hidden = false;
+    successBox.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  document.getElementById('sv-copy-btn').addEventListener('click', async function(){
+    if (!lastText) return;
+    try {
+      await navigator.clipboard.writeText(lastText);
+      this.textContent = 'Gekopieerd ✓';
+      setTimeout(() => { this.textContent = 'Kopieer naar klembord'; }, 1800);
+    } catch(err) {
+      this.textContent = 'Kopiëren mislukt — selecteer tekst handmatig';
+    }
+  });
+
+  document.getElementById('sv-json-btn').addEventListener('click', function(){
+    if (!lastPayload) return;
+    download('esrf-submit-validation-test.json', JSON.stringify(lastPayload, null, 2), 'application/json');
+  });
+
+  document.getElementById('sv-txt-btn').addEventListener('click', function(){
+    if (!lastText) return;
+    download('esrf-submit-validation-test.txt', lastText, 'text/plain');
+  });
+
+  document.getElementById('sv-back-btn').addEventListener('click', function(){
+    successBox.hidden = true;
+    form.hidden = false;
+    form.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+})();
+</script>
+</body>
+</html>

@@ -30,6 +30,23 @@
         "Local preview JSON renders correctly without backend submission.",
         "Editorial reviewers approve content of banner, workflow note and field labels."
       ]
+    },
+    {
+      "id": "integrated-submit-with-editorial",
+      "title": "Geïntegreerde opgave + editorial bijdrage (uitbreiding bestaand opgaveformulier)",
+      "status": "in-validation",
+      "path": "/submit-validation.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Prototype: bestaand atlas-opgaveformulier (request-listing.html) uitgebreid met optionele editorial bijdrage in één geïntegreerd formulier (organisatie / editorial / beide). Toont ook een aanbevolen architectuur voor veilige verwerking via Cloudflare Pages Function + private GitHub issue.",
+      "lastUpdated": "2026-04-25",
+      "visibility": "hidden",
+      "basedOn": "/request-listing.html",
+      "exitCriteria": [
+        "Modus-keuze (organisatie / editorial / beide) toont en valideert de juiste velden.",
+        "Lokale preview rendert correct als JSON, tekst, en kopieerbare samenvatting; niets wordt verzonden.",
+        "Architectuurblok (Pages Function + Turnstile + private GitHub issue) is duidelijk en beoordeeld door redactie.",
+        "Wouter / redactie keurt de geïntegreerde UX en NL-teksten goed."
+      ]
     }
   ]
 }
