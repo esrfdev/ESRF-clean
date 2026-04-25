@@ -56,7 +56,7 @@ SOURCES_PATH = os.path.join(ROOT, "data", "event_sources.json")
 OUT_PATH = os.path.join(ROOT, "events.json")
 
 HTTP_TIMEOUT = 20
-USER_AGENT = "Mozilla/5.0 (compatible; ESRF.net events-bot/1.0; +https://www.esrf.net)"
+USER_AGENT = "Mozilla/5.0 (compatible; ESRF.net events-bot/1.0; +https://esrf.net)"
 MAX_PER_SOURCE = 25
 # Drop events whose parsed start date is older than this many days.
 MAX_PAST_DAYS = 30

@@ -4,8 +4,8 @@
 Contact: mailto:security@esrf.net
 Expires: 2027-04-18T00:00:00.000Z
 Preferred-Languages: en, nl, de, fr
-Canonical: https://www.esrf.net/.well-known/security.txt
-Policy: https://www.esrf.net/terms.html
+Canonical: https://esrf.net/.well-known/security.txt
+Policy: https://esrf.net/terms.html
 
 # Stichting ESRF European Security and Resilience Fund
 # If you discover a security vulnerability, please report it responsibly

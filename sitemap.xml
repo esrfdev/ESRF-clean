@@ -2,791 +2,791 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.esrf.net/</loc>
+    <loc>https://esrf.net/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/about.html</loc>
+    <loc>https://esrf.net/about.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/about.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/about.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/about.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/about.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/about.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/about.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/about.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/about.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/about.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/about.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/about.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/about.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/about.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/about.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/about.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/about.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/about.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/about.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/about.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/directory.html</loc>
+    <loc>https://esrf.net/directory.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/directory.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/directory.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/directory.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/directory.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/directory.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/directory.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/directory.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/directory.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/directory.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/directory.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/directory.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/directory.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/directory.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/directory.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/directory.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/directory.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/directory.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/directory.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/directory.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/directory.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/map.html</loc>
+    <loc>https://esrf.net/map.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/map.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/map.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/map.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/map.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/map.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/map.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/map.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/map.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/map.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/map.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/map.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/map.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/map.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/map.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/map.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/map.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/map.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/map.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/map.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/map.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/analytics.html</loc>
+    <loc>https://esrf.net/analytics.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/analytics.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/analytics.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/analytics.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/analytics.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/analytics.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/analytics.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/analytics.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/analytics.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/analytics.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/analytics.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/analytics.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/analytics.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/analytics.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/analytics.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/analytics.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/analytics.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/analytics.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/analytics.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/analytics.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/analytics.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/fund.html</loc>
+    <loc>https://esrf.net/fund.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/fund.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/fund.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/fund.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/fund.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/fund.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/fund.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/fund.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/fund.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/fund.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/fund.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/fund.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/fund.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/fund.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/fund.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/fund.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/fund.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/fund.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/fund.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/fund.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/fund.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/sponsor.html</loc>
+    <loc>https://esrf.net/sponsor.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/sponsor.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/sponsor.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/sponsor.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/sponsor.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/sponsor.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/sponsor.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/sponsor.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/sponsor.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/sponsor.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/sponsor.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/sponsor.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/sponsor.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/sponsor.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/sponsor.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/sponsor.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/sponsor.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/sponsor.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/sponsor.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/sponsor.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/sponsor.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/events.html</loc>
+    <loc>https://esrf.net/events.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/events.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/events.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/events.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/events.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/events.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/events.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/events.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/events.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/events.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/events.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/events.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/events.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/events.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/events.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/events.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/events.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/events.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/events.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/events.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/events.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/news.html</loc>
+    <loc>https://esrf.net/news.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/news.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/news.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/news.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/news.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/news.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/news.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/news.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/news.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/news.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/news.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/news.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/news.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/news.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/news.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/news.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/news.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/news.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/news.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/news.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/news.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/editorials.html</loc>
+    <loc>https://esrf.net/editorials.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/editorials.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/editorials.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/editorials.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/editorials.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/editorials.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/editorials.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/editorials.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/editorials.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/editorials.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/editorials.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/editorials.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/editorials.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/editorials.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/editorials.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/editorials.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/editorials.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/editorials.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/editorials.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/editorials.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/editorials.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/editorial-oil-shortage-2026.html</loc>
+    <loc>https://esrf.net/editorial-oil-shortage-2026.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/editorial-oil-shortage-2026.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/editorial-oil-shortage-2026.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/editorial-oil-shortage-2026.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/editorial-oil-shortage-2026.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/editorial-oil-shortage-2026.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/editorial-oil-shortage-2026.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/editorial-oil-shortage-2026.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/editorial-oil-shortage-2026.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/editorial-oil-shortage-2026.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/editorial-oil-shortage-2026.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/editorial-oil-shortage-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/editorial-oil-shortage-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/editorial-oil-shortage-2026.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/editorial-oil-shortage-2026.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/editorial-oil-shortage-2026.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/editorial-oil-shortage-2026.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/editorial-oil-shortage-2026.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/editorial-oil-shortage-2026.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/editorial-oil-shortage-2026.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/editorial-oil-shortage-2026.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html</loc>
+    <loc>https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/editorial-rotterdam-weerbaarheid-2026.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/request-listing.html</loc>
+    <loc>https://esrf.net/request-listing.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/request-listing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/request-listing.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/request-listing.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/request-listing.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/request-listing.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/request-listing.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/request-listing.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/request-listing.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/request-listing.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/request-listing.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/request-listing.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/request-listing.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/request-listing.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/request-listing.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/request-listing.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/request-listing.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/request-listing.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/request-listing.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/request-listing.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/request-listing.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/submit-event.html</loc>
+    <loc>https://esrf.net/submit-event.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/submit-event.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/submit-event.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/submit-event.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/submit-event.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/submit-event.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/submit-event.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/submit-event.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/submit-event.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/submit-event.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/submit-event.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/submit-event.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/submit-event.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/submit-event.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/submit-event.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/submit-event.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/submit-event.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/submit-event.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/submit-event.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/submit-event.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/submit-event.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/submit-news.html</loc>
+    <loc>https://esrf.net/submit-news.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/submit-news.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/submit-news.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/submit-news.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/submit-news.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/submit-news.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/submit-news.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/submit-news.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/submit-news.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/submit-news.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/submit-news.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/submit-news.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/submit-news.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/submit-news.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/submit-news.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/submit-news.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/submit-news.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/submit-news.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/submit-news.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/submit-news.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/submit-news.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/responsible-disclosure.html</loc>
+    <loc>https://esrf.net/responsible-disclosure.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/responsible-disclosure.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/responsible-disclosure.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/responsible-disclosure.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/responsible-disclosure.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/responsible-disclosure.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/responsible-disclosure.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/responsible-disclosure.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/responsible-disclosure.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/responsible-disclosure.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/responsible-disclosure.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/responsible-disclosure.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/responsible-disclosure.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/responsible-disclosure.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/responsible-disclosure.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/responsible-disclosure.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/responsible-disclosure.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/responsible-disclosure.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/responsible-disclosure.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/responsible-disclosure.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/responsible-disclosure.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/privacy.html</loc>
+    <loc>https://esrf.net/privacy.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/privacy.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/privacy.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/privacy.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/privacy.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/privacy.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/privacy.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/privacy.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/privacy.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/privacy.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/privacy.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/privacy.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/privacy.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/privacy.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/privacy.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/privacy.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/privacy.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/terms.html</loc>
+    <loc>https://esrf.net/terms.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/terms.html?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/terms.html?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/terms.html?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/terms.html?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/terms.html?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/terms.html?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/terms.html?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/terms.html?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/terms.html?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/terms.html?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/terms.html?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/terms.html?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/terms.html?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/terms.html?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/terms.html?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/terms.html?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/</loc>
+    <loc>https://esrf.net/countries/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/austria/</loc>
+    <loc>https://esrf.net/countries/austria/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/austria/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/austria/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/austria/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/austria/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/austria/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/austria/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/austria/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/austria/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/austria/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/austria/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/austria/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/austria/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/austria/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/austria/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/austria/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/austria/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/austria/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/austria/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/austria/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/austria/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/belgium/</loc>
+    <loc>https://esrf.net/countries/belgium/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/belgium/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/belgium/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/belgium/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/belgium/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/belgium/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/belgium/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/belgium/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/belgium/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/belgium/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/belgium/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/belgium/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/belgium/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/belgium/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/belgium/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/belgium/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/belgium/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/belgium/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/belgium/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/belgium/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/belgium/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/bulgaria/</loc>
+    <loc>https://esrf.net/countries/bulgaria/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/bulgaria/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/bulgaria/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/bulgaria/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/bulgaria/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/bulgaria/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/bulgaria/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/bulgaria/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/bulgaria/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/bulgaria/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/bulgaria/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/bulgaria/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/bulgaria/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/bulgaria/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/bulgaria/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/bulgaria/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/bulgaria/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/bulgaria/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/bulgaria/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/bulgaria/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/bulgaria/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/croatia/</loc>
+    <loc>https://esrf.net/countries/croatia/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/croatia/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/croatia/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/croatia/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/croatia/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/croatia/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/croatia/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/croatia/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/croatia/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/croatia/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/croatia/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/croatia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/croatia/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/croatia/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/croatia/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/croatia/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/croatia/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/croatia/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/croatia/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/croatia/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/croatia/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/cyprus/</loc>
+    <loc>https://esrf.net/countries/cyprus/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/cyprus/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/cyprus/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/cyprus/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/cyprus/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/cyprus/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/cyprus/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/cyprus/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/cyprus/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/cyprus/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/cyprus/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/cyprus/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/cyprus/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/cyprus/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/cyprus/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/cyprus/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/cyprus/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/cyprus/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/cyprus/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/cyprus/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/cyprus/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/czech-republic/</loc>
+    <loc>https://esrf.net/countries/czech-republic/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/czech-republic/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/czech-republic/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/czech-republic/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/czech-republic/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/czech-republic/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/czech-republic/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/czech-republic/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/czech-republic/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/czech-republic/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/czech-republic/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/czech-republic/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/czech-republic/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/czech-republic/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/czech-republic/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/czech-republic/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/czech-republic/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/czech-republic/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/czech-republic/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/czech-republic/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/czech-republic/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/denmark/</loc>
+    <loc>https://esrf.net/countries/denmark/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/denmark/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/denmark/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/denmark/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/denmark/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/denmark/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/denmark/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/denmark/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/denmark/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/denmark/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/denmark/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/denmark/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/denmark/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/denmark/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/denmark/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/denmark/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/denmark/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/denmark/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/denmark/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/denmark/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/denmark/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/estonia/</loc>
+    <loc>https://esrf.net/countries/estonia/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/estonia/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/estonia/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/estonia/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/estonia/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/estonia/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/estonia/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/estonia/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/estonia/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/estonia/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/estonia/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/estonia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/estonia/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/estonia/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/estonia/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/estonia/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/estonia/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/estonia/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/estonia/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/estonia/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/estonia/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/finland/</loc>
+    <loc>https://esrf.net/countries/finland/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/finland/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/finland/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/finland/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/finland/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/finland/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/finland/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/finland/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/finland/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/finland/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/finland/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/finland/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/finland/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/finland/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/finland/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/finland/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/finland/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/finland/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/finland/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/finland/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/finland/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/france/</loc>
+    <loc>https://esrf.net/countries/france/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/france/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/france/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/france/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/france/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/france/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/france/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/france/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/france/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/france/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/france/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/france/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/france/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/france/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/france/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/france/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/france/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/france/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/france/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/france/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/france/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/germany/</loc>
+    <loc>https://esrf.net/countries/germany/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/germany/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/germany/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/germany/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/germany/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/germany/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/germany/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/germany/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/germany/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/germany/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/germany/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/germany/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/germany/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/germany/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/germany/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/germany/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/germany/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/germany/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/germany/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/germany/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/germany/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/greece/</loc>
+    <loc>https://esrf.net/countries/greece/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/greece/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/greece/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/greece/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/greece/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/greece/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/greece/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/greece/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/greece/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/greece/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/greece/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/greece/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/greece/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/greece/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/greece/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/greece/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/greece/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/greece/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/greece/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/greece/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/greece/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/hungary/</loc>
+    <loc>https://esrf.net/countries/hungary/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/hungary/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/hungary/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/hungary/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/hungary/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/hungary/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/hungary/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/hungary/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/hungary/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/hungary/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/hungary/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/hungary/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/hungary/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/hungary/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/hungary/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/hungary/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/hungary/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/hungary/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/hungary/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/hungary/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/hungary/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/ireland/</loc>
+    <loc>https://esrf.net/countries/ireland/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/ireland/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/ireland/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/ireland/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/ireland/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/ireland/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/ireland/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/ireland/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/ireland/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/ireland/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/ireland/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/ireland/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/ireland/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/ireland/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/ireland/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/ireland/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/ireland/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/ireland/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/ireland/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/ireland/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/ireland/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/italy/</loc>
+    <loc>https://esrf.net/countries/italy/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/italy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/italy/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/italy/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/italy/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/italy/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/italy/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/italy/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/italy/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/italy/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/italy/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/italy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/italy/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/italy/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/italy/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/italy/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/italy/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/italy/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/italy/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/italy/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/italy/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/latvia/</loc>
+    <loc>https://esrf.net/countries/latvia/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/latvia/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/latvia/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/latvia/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/latvia/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/latvia/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/latvia/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/latvia/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/latvia/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/latvia/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/latvia/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/latvia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/latvia/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/latvia/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/latvia/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/latvia/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/latvia/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/latvia/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/latvia/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/latvia/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/latvia/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/lithuania/</loc>
+    <loc>https://esrf.net/countries/lithuania/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/lithuania/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/lithuania/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/lithuania/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/lithuania/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/lithuania/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/lithuania/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/lithuania/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/lithuania/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/lithuania/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/lithuania/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/lithuania/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/lithuania/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/lithuania/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/lithuania/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/lithuania/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/lithuania/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/lithuania/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/lithuania/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/lithuania/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/lithuania/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/luxembourg/</loc>
+    <loc>https://esrf.net/countries/luxembourg/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/luxembourg/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/luxembourg/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/luxembourg/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/luxembourg/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/luxembourg/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/luxembourg/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/luxembourg/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/luxembourg/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/luxembourg/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/luxembourg/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/luxembourg/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/luxembourg/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/luxembourg/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/luxembourg/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/luxembourg/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/luxembourg/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/luxembourg/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/luxembourg/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/luxembourg/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/luxembourg/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/malta/</loc>
+    <loc>https://esrf.net/countries/malta/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/malta/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/malta/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/malta/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/malta/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/malta/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/malta/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/malta/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/malta/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/malta/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/malta/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/malta/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/malta/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/malta/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/malta/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/malta/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/malta/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/malta/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/malta/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/malta/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/malta/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/netherlands/</loc>
+    <loc>https://esrf.net/countries/netherlands/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/netherlands/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/netherlands/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/netherlands/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/netherlands/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/netherlands/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/netherlands/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/netherlands/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/netherlands/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/netherlands/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/netherlands/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/netherlands/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/netherlands/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/netherlands/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/netherlands/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/netherlands/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/netherlands/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/netherlands/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/netherlands/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/netherlands/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/netherlands/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/norway/</loc>
+    <loc>https://esrf.net/countries/norway/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/norway/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/norway/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/norway/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/norway/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/norway/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/norway/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/norway/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/norway/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/norway/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/norway/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/norway/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/norway/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/norway/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/norway/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/norway/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/norway/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/norway/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/norway/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/norway/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/norway/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/poland/</loc>
+    <loc>https://esrf.net/countries/poland/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/poland/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/poland/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/poland/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/poland/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/poland/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/poland/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/poland/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/poland/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/poland/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/poland/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/poland/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/poland/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/poland/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/poland/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/poland/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/poland/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/poland/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/poland/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/poland/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/poland/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/portugal/</loc>
+    <loc>https://esrf.net/countries/portugal/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/portugal/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/portugal/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/portugal/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/portugal/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/portugal/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/portugal/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/portugal/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/portugal/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/portugal/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/portugal/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/portugal/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/portugal/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/portugal/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/portugal/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/portugal/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/portugal/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/portugal/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/portugal/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/portugal/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/portugal/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/romania/</loc>
+    <loc>https://esrf.net/countries/romania/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/romania/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/romania/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/romania/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/romania/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/romania/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/romania/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/romania/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/romania/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/romania/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/romania/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/romania/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/romania/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/romania/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/romania/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/romania/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/romania/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/romania/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/romania/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/romania/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/romania/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/slovakia/</loc>
+    <loc>https://esrf.net/countries/slovakia/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/slovakia/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/slovakia/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/slovakia/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/slovakia/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/slovakia/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/slovakia/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/slovakia/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/slovakia/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/slovakia/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/slovakia/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/slovakia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/slovakia/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/slovakia/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/slovakia/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/slovakia/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/slovakia/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/slovakia/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/slovakia/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/slovakia/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/slovakia/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/slovenia/</loc>
+    <loc>https://esrf.net/countries/slovenia/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/slovenia/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/slovenia/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/slovenia/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/slovenia/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/slovenia/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/slovenia/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/slovenia/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/slovenia/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/slovenia/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/slovenia/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/slovenia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/slovenia/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/slovenia/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/slovenia/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/slovenia/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/slovenia/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/slovenia/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/slovenia/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/slovenia/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/slovenia/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/spain/</loc>
+    <loc>https://esrf.net/countries/spain/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/spain/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/spain/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/spain/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/spain/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/spain/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/spain/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/spain/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/spain/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/spain/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/spain/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/spain/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/spain/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/spain/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/spain/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/spain/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/spain/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/spain/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/spain/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/spain/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/spain/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/sweden/</loc>
+    <loc>https://esrf.net/countries/sweden/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/sweden/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/sweden/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/sweden/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/sweden/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/sweden/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/sweden/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/sweden/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/sweden/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/sweden/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/sweden/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/sweden/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/sweden/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/sweden/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/sweden/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/sweden/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/sweden/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/sweden/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/sweden/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/sweden/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/sweden/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/switzerland/</loc>
+    <loc>https://esrf.net/countries/switzerland/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/switzerland/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/switzerland/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/switzerland/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/switzerland/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/switzerland/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/switzerland/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/switzerland/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/switzerland/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/switzerland/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/switzerland/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/switzerland/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/switzerland/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/switzerland/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/switzerland/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/switzerland/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/switzerland/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/switzerland/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/switzerland/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/switzerland/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/switzerland/?lang=sv"/>
   </url>
   <url>
-    <loc>https://www.esrf.net/countries/united-kingdom/</loc>
+    <loc>https://esrf.net/countries/united-kingdom/</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.esrf.net/countries/united-kingdom/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.esrf.net/countries/united-kingdom/"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.esrf.net/countries/united-kingdom/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.esrf.net/countries/united-kingdom/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.esrf.net/countries/united-kingdom/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.esrf.net/countries/united-kingdom/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.esrf.net/countries/united-kingdom/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://www.esrf.net/countries/united-kingdom/?lang=pt"/>
-    <xhtml:link rel="alternate" hreflang="pl" href="https://www.esrf.net/countries/united-kingdom/?lang=pl"/>
-    <xhtml:link rel="alternate" hreflang="sv" href="https://www.esrf.net/countries/united-kingdom/?lang=sv"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://esrf.net/countries/united-kingdom/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://esrf.net/countries/united-kingdom/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://esrf.net/countries/united-kingdom/?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://esrf.net/countries/united-kingdom/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://esrf.net/countries/united-kingdom/?lang=fr"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://esrf.net/countries/united-kingdom/?lang=es"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://esrf.net/countries/united-kingdom/?lang=it"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://esrf.net/countries/united-kingdom/?lang=pt"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://esrf.net/countries/united-kingdom/?lang=pl"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://esrf.net/countries/united-kingdom/?lang=sv"/>
   </url>
     <url>
-    <loc>https://www.esrf.net/editorial-emergency-capaciteit-europa-2026.html</loc>
+    <loc>https://esrf.net/editorial-emergency-capaciteit-europa-2026.html</loc>
     <lastmod>2026-04-24</lastmod>
     <changefreq>monthly</changefreq>
     </url>

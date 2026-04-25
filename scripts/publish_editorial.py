@@ -888,7 +888,7 @@ def update_sitemap(filename: str, date_str: str):
         return
 
     entry = f"""    <url>
-    <loc>https://www.esrf.net/{filename}</loc>
+    <loc>https://esrf.net/{filename}</loc>
     <lastmod>{date_str}</lastmod>
     <changefreq>monthly</changefreq>
     </url>"""
@@ -917,7 +917,7 @@ def update_dispatch(meta: dict, filename: str):
         "title": f"Editorial — {meta.get('title', 'Untitled')}",
         "url": filename,
         "organisation": "ESRF.net",
-        "orgUrl": "https://www.esrf.net",
+        "orgUrl": "https://esrf.net",
         "pillar": meta.get("pillar", "stewardship"),
         "country": "EU",
         "source": "ESRF.net Editorial",
@@ -1071,7 +1071,7 @@ def main():
     translated = "with DeepL translations" if deepl_translations else "EN fallback only"
     print(f"\n{'\u2550' * 60}")
     print(f"\u2705 Published: {filename} ({translated})")
-    print(f"   URL: https://www.esrf.net/editorial-{slug}")
+    print(f"   URL: https://esrf.net/editorial-{slug}")
     print(f"   i18n prefix: {i18n_prefix}")
     print(f"   Languages: {len(LANGS)}")
     print(f"{'\u2550' * 60}")

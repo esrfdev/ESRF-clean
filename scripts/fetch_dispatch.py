@@ -42,7 +42,7 @@ SNIPPET_CHARS = 300
 HTTP_TIMEOUT = 15
 # Some public broadcaster RSS endpoints (SVT, DR) block bot-UA strings; use a
 # browser-style UA to be treated as a normal client.
-USER_AGENT = "Mozilla/5.0 (compatible; ESRF.net dispatch-bot/1.0; +https://www.esrf.net)"
+USER_AGENT = "Mozilla/5.0 (compatible; ESRF.net dispatch-bot/1.0; +https://esrf.net)"
 
 TAG_RE = re.compile(r"<[^>]+>")
 WS_RE = re.compile(r"\s+")
