@@ -218,6 +218,27 @@ function shouldBlock(cf, ua) {
   return { block: false, reason: 'default-allow' };
 }
 
+// -------------------------------------------------------------------------
+// Host canonicalisation. We want www.esrf.net -> esrf.net (path + query
+// preserved) BEFORE any bot/geo blocking runs, otherwise outside-Europe
+// crawlers hitting www.* get a 403 from the bot rule and never see the
+// 301 to the canonical host. Returning the redirect from the middleware
+// (instead of relying on the static `_redirects` file) guarantees the
+// redirect wins because Pages Functions intercept the request first.
+//
+// Returns a Response when a redirect should be issued, otherwise null.
+function canonicalHostRedirect(url) {
+  // Defensive: only act on the exact www host. Never redirect the apex
+  // (`esrf.net`) — that would loop. Subdomains other than www are left
+  // alone; if any are added later they'll need explicit handling.
+  if (url.hostname.toLowerCase() !== 'www.esrf.net') return null;
+  const target = new URL(url.toString());
+  target.hostname = 'esrf.net';
+  target.protocol = 'https:';
+  target.port = '';
+  return Response.redirect(target.toString(), 301);
+}
+
 // Expose internals for the test harness only. This is a no-op at runtime
 // (globalThis always exists) and adds no observable behaviour for visitors.
 globalThis.__esrfBotProtection = {
@@ -225,6 +246,7 @@ globalThis.__esrfBotProtection = {
   isAdSenseUA,
   isBadBotUA,
   isEuropeanCountry,
+  canonicalHostRedirect,
   EUROPEAN_COUNTRIES,
   ADSENSE_UA_ALLOWLIST,
   BAD_BOT_UA_PATTERNS,
@@ -236,6 +258,14 @@ globalThis.__esrfBotProtection = {
 // majority of traffic; the block path returns 403 directly.
 export async function onRequest(context) {
   const { request, next } = context;
+
+  // Step 0: canonical host redirect (www.esrf.net -> esrf.net). Must run
+  // before bot/geo blocking so that requests from outside Europe (which
+  // would otherwise be 403'd by the bot rule for www.*) are sent to the
+  // canonical host first.
+  const redirect = canonicalHostRedirect(new URL(request.url));
+  if (redirect) return redirect;
+
   const ua = request.headers.get('user-agent') || '';
   const cf = request.cf || null;
 
