@@ -4,18 +4,41 @@
 // intake form (submit-validation.html). Lives on the
 // `test/regional-editorial-contributor-intake` branch — NOT production.
 //
+// ─── Storage architecture ────────────────────────────────────────────────
+// The Google Drive intake-spreadsheet is and remains the OPERATIONAL SINGLE
+// SOURCE OF TRUTH for status, metadata, redactie-besluit and reporting.
+// The backend does NOT replace it; it writes into it.
+//
+// Two complementary records per submission:
+//   1. PRIMARY  — Google Sheet row (single source of truth for redactie):
+//                 minimal, structured, status-tracked. The sheet is the
+//                 authoritative register; backend appends a row via a
+//                 server-side Apps Script webhook (no client-side Google
+//                 credentials).
+//   2. EVIDENCE — Private GitHub issue (optional): full structured intake,
+//                 used as immutable evidence/workflow record. The sheet
+//                 references the issue by URL when present.
+//   3. NOTIFY   — Optional webhook for "new intake" pings, minimal payload
+//                 only (no PII/editorial body). Includes sheet row id /
+//                 issue url so redactie can jump to the SSoT.
+//
 // Behaviour:
-//   - Defaults to "dry-run" mode: validates, sanitizes, returns a structured
-//     preview of what *would* be sent to the private intake repo. No data
-//     leaves Cloudflare unless env vars are explicitly configured.
-//   - If `GITHUB_TOKEN` + `INTAKE_REPO` are set, opens a GitHub issue against
-//     that private repo (used for the eventual production workflow).
-//   - If `INTAKE_NOTIFY_WEBHOOK` is set, posts a minimal notification (no
-//     PII beyond org/country/region/mode).
+//   - Defaults to "dry-run" mode for every storage path independently:
+//     validates, sanitizes, returns a structured preview of the row that
+//     *would* be written + issue that *would* be created. No data leaves
+//     Cloudflare unless env vars are explicitly configured.
+//   - If `INTAKE_SHEET_WEBHOOK_URL` (alias `GOOGLE_SHEET_WEBHOOK_URL`) is
+//     set, POSTs a minimised structured row to that Apps Script / webhook.
+//     The Sheet is the SSoT — this is the primary write path in production.
+//   - If `GITHUB_TOKEN` + `INTAKE_REPO` are set, opens a GitHub issue.
+//   - If `INTAKE_NOTIFY_WEBHOOK` is set, posts a minimal notification
+//     (no PII beyond org/country/region/mode + pointers to sheet/issue).
 //   - If `TURNSTILE_SECRET_KEY` is set, verifies the Turnstile token.
 //
 // No secrets are ever returned to the client. Personal data is minimised in
 // notifications. This endpoint refuses anything that is not a JSON POST.
+// E-mail is never used as a substitute for the sheet — it is, at most,
+// a notification ping pointing back to the sheet/issue.
 
 const ALLOWED_ORIGINS = [
   'https://www.esrf.net',
@@ -85,37 +108,83 @@ export async function onRequestPost(context) {
   }
   const payload = sanitized.payload;
 
-  // Decide storage path (real vs dry-run)
+  // Decide storage path (real vs dry-run) — note: the Google Sheet is the
+  // operational single source of truth; the GitHub issue is evidence-only
+  // and optional. Each path runs (or is dry-run) independently.
+  const sheetWebhookUrl = String(env.INTAKE_SHEET_WEBHOOK_URL || env.GOOGLE_SHEET_WEBHOOK_URL || '').trim();
+  const hasSheetConfig = !!sheetWebhookUrl;
   const hasIssueConfig = !!(env.GITHUB_TOKEN && env.INTAKE_REPO);
   const hasNotifyConfig = !!env.INTAKE_NOTIFY_WEBHOOK;
-  const dryRun = !hasIssueConfig;
 
+  // The "dry_run" flag at top level reflects the *primary* (sheet) write —
+  // because the sheet is the SSoT. Issue/notify state is reported separately.
+  const sheetDryRun = !hasSheetConfig;
+  const issueDryRun = !hasIssueConfig;
+
+  const sheetRowPreview = buildSheetRow(payload, /* placeholders for live links */ {});
   const issuePreview = buildIssuePreview(payload);
+
   let issueResult = null;
+  let sheetResult = null;
   let notifyResult = null;
   const warnings = [];
 
   if (!turnstile.checked) warnings.push('TURNSTILE_SECRET_KEY not set — Turnstile skipped (validation mode).');
-  if (dryRun) warnings.push('GITHUB_TOKEN/INTAKE_REPO not set — dry-run only, no issue created.');
+  if (sheetDryRun) warnings.push('INTAKE_SHEET_WEBHOOK_URL not set — sheet dry-run, no row written. Sheet remains single source of truth: configure the Apps Script webhook for production.');
+  if (issueDryRun) warnings.push('GITHUB_TOKEN/INTAKE_REPO not set — issue dry-run, no GitHub issue created.');
   if (!hasNotifyConfig) warnings.push('INTAKE_NOTIFY_WEBHOOK not set — no notification dispatched.');
 
-  if (!dryRun) {
+  // 1) GitHub issue first (so we can include its URL in the sheet row).
+  if (!issueDryRun) {
     issueResult = await createGithubIssue(env, issuePreview);
     if (issueResult && issueResult.error) warnings.push('GitHub issue creation failed: ' + issueResult.error);
   }
+
+  // 2) Sheet row (PRIMARY). Includes the issue URL when available so the
+  //    redactie can jump from the SSoT register to the evidence record.
+  const finalSheetRow = buildSheetRow(payload, {
+    issue_url: (issueResult && issueResult.url) || '',
+    issue_number: (issueResult && issueResult.number) || '',
+  });
+  if (!sheetDryRun) {
+    sheetResult = await postSheetRow(sheetWebhookUrl, finalSheetRow).catch(e => ({ error: String(e && e.message || e) }));
+    if (sheetResult && sheetResult.error) warnings.push('Sheet row append failed: ' + sheetResult.error);
+  }
+
+  // 3) Notification (minimal — points back to sheet / issue).
   if (hasNotifyConfig) {
-    notifyResult = await postNotification(env, payload).catch(e => ({ error: String(e && e.message || e) }));
+    notifyResult = await postNotification(env, payload, {
+      issue_url: (issueResult && issueResult.url) || '',
+      sheet_row_id: (sheetResult && sheetResult.row_id) || '',
+    }).catch(e => ({ error: String(e && e.message || e) }));
     if (notifyResult && notifyResult.error) warnings.push('Notification dispatch failed: ' + notifyResult.error);
   }
 
   const response = {
     ok: true,
     mode: payload.intake_mode,
-    dry_run: dryRun,
+    // Top-level dry_run reflects the SSoT (sheet) write status.
+    dry_run: sheetDryRun,
+    sheet_dry_run: sheetDryRun,
+    issue_dry_run: issueDryRun,
     received_at: new Date().toISOString(),
-    issue: dryRun ? null : (issueResult && issueResult.url ? { url: issueResult.url, number: issueResult.number } : null),
-    issue_preview: dryRun ? issuePreview : null,
+    // Operational SSoT pointer — present (live or preview) for every response.
+    sheet: sheetDryRun
+      ? null
+      : (sheetResult && sheetResult.ok ? { row_id: sheetResult.row_id || null, sheet_url: sheetResult.sheet_url || null } : null),
+    sheet_row_preview: finalSheetRow,
+    // Evidence pointer.
+    issue: issueDryRun ? null : (issueResult && issueResult.url ? { url: issueResult.url, number: issueResult.number } : null),
+    issue_preview: issueDryRun ? issuePreview : null,
     notification_sent: !!(notifyResult && notifyResult.ok),
+    // Make the storage architecture explicit in the response, so the redactie
+    // (and the validation UI) can confirm the sheet remains SSoT.
+    storage_architecture: {
+      single_source_of_truth: 'google_sheet',
+      evidence_record: 'github_issue',
+      notification: 'webhook_minimal_no_pii',
+      note: 'The Google Drive intake spreadsheet is the operational register and is not replaced by this backend.',
+    },
     warnings,
   };
 
@@ -359,8 +428,10 @@ async function createGithubIssue(env, preview) {
   }
 }
 
-async function postNotification(env, payload) {
+async function postNotification(env, payload, refs) {
   // Minimal payload: NEVER includes editorial body, contact email, or phone.
+  // Includes pointers (sheet row id / issue url) so the redactie can jump
+  // directly to the SSoT register or the evidence record.
   const c = payload.contact;
   const minimal = {
     environment: payload.meta.environment,
@@ -371,6 +442,8 @@ async function postNotification(env, payload) {
     region: c.region || '',
     has_editorial: !!payload.editorial_contribution,
     has_listing: !!payload.organisation_listing,
+    sheet_row_id: (refs && refs.sheet_row_id) || '',
+    issue_url: (refs && refs.issue_url) || '',
   };
   const res = await fetch(String(env.INTAKE_NOTIFY_WEBHOOK), {
     method: 'POST',
@@ -382,6 +455,76 @@ async function postNotification(env, payload) {
     return { error: 'Notify ' + res.status + ': ' + t.slice(0, 120) };
   }
   return { ok: true };
+}
+
+// ─── Google Sheet single-source-of-truth row ─────────────────────────────
+//
+// `buildSheetRow` produces a flat, minimal row suitable for appending to
+// the existing Drive spreadsheet via a server-side Apps Script webhook.
+// We deliberately keep the columns small and stable so the redactie can
+// rely on the sheet for status/decision tracking. Editorial body is NOT
+// inlined (it lives in the GitHub issue / Drive evidence file).
+//
+// `postSheetRow` POSTs that row as JSON to the configured webhook. The
+// webhook is expected to return JSON `{ ok: true, row_id, sheet_url? }`.
+
+function buildSheetRow(payload, refs) {
+  const c = payload.contact || {};
+  const o = payload.organisation_listing || null;
+  const e = payload.editorial_contribution || null;
+  return {
+    schema_version: 1,
+    received_at: payload.meta.received_at,
+    environment: payload.meta.environment,
+    intake_mode: payload.intake_mode,
+    // Organisation / contact (minimal, non-sensitive fields go into the row;
+    // contact email is included so the redactie can reach the submitter
+    // from the SSoT — the sheet is access-controlled at Drive level).
+    organisation: c.organisation || '',
+    contact_name: c.name || '',
+    contact_role: c.role || '',
+    contact_email: c.email || '',
+    country_code: c.country_code || '',
+    country_label: c.country_label || '',
+    region: c.region || '',
+    place: c.place || '',
+    place_known: c.place_known === false ? 'no' : (c.place_known === true ? 'yes' : ''),
+    place_addition_requested: c.place_addition_requested ? 'yes' : '',
+    website: c.website || '',
+    has_listing: o ? 'yes' : '',
+    listing_sector: o ? (o.sector_label || o.sector || '') : '',
+    has_editorial: e ? 'yes' : '',
+    editorial_topic: e ? (e.topic || '') : '',
+    // Pointers — let the redactie jump from the SSoT to the evidence record.
+    issue_url: (refs && refs.issue_url) || '',
+    issue_number: (refs && refs.issue_number) || '',
+    // Status starts as "new" — the sheet itself is the workflow tracker
+    // (the redactie updates this column manually or via a redactie-script).
+    status: 'new',
+  };
+}
+
+async function postSheetRow(webhookUrl, row) {
+  try {
+    const res = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'user-agent': 'esrf-intake-bot' },
+      body: JSON.stringify(row),
+    });
+    if (!res.ok) {
+      const t = await res.text().catch(() => '');
+      return { error: 'Sheet ' + res.status + ': ' + t.slice(0, 200) };
+    }
+    let j = null;
+    try { j = await res.json(); } catch { j = null; }
+    return {
+      ok: true,
+      row_id: (j && (j.row_id || j.id)) || '',
+      sheet_url: (j && j.sheet_url) || '',
+    };
+  } catch (e) {
+    return { error: String(e && e.message || e) };
+  }
 }
 
 async function verifyTurnstile(env, body, request) {
@@ -465,6 +608,7 @@ if (typeof globalThis !== 'undefined') {
   globalThis.__esrfIntake = {
     validateAndSanitize,
     buildIssuePreview,
+    buildSheetRow,
     sanitize,
     sanitizeLong,
     sanitizeUrl,

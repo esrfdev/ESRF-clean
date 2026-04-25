@@ -485,14 +485,14 @@
       <button type="button" id="sv-copy-btn" class="primary">Kopieer naar klembord</button>
       <button type="button" id="sv-json-btn">Download JSON</button>
       <button type="button" id="sv-txt-btn">Download tekst</button>
-      <button type="button" id="sv-backend-btn">Stuur naar validatie-backend (testmodus)</button>
+      <button type="button" id="sv-backend-btn">Backend test — geen productieopslag tenzij validatiesecrets actief zijn</button>
       <button type="button" id="sv-back-btn">← terug naar formulier</button>
     </div>
 
     <p id="sv-backend-help" style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
       <span class="new-pill new-pill-soft">Validation backend</span>
       <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
-        Roept <code>POST /api/intake</code> aan op de Cloudflare Pages preview. Standaard staat deze in <strong>dry-run</strong>: er wordt niets opgeslagen tot productie-secrets zijn ingesteld.
+        Roept <code>POST /api/intake</code> aan op de Cloudflare Pages preview. Standaard staat deze in <strong>dry-run</strong>: er wordt niets weggeschreven tot productie-secrets actief zijn. <strong>De Google Drive intake-spreadsheet blijft single source of truth</strong> — de backend voegt daar in productie een rij aan toe, en vervangt de spreadsheet niet.
       </span>
     </p>
 
@@ -504,17 +504,31 @@
   <details class="tech-disclosure">
     <summary>Technische details voor de redactie / Validation Lab</summary>
     <div class="tech-disclosure-body">
-      <p>Dit prototype kent twee paden naast elkaar: (1) <strong>lokale preview</strong> — niets verlaat de browser; (2) <strong>validatie-backend</strong> — een knop in de previewstap roept <code>POST /api/intake</code> aan op de Cloudflare Pages branch-preview. De endpoint valideert, sanitiseert, controleert honeypot/timer en (als ingesteld) Turnstile, en geeft een gestructureerd JSON-antwoord terug. Zonder productie-secrets blijft de endpoint in <em>dry-run</em>: er wordt geen issue aangemaakt en geen notificatie verstuurd.</p>
-      <p><strong>Onbekende plaatsnamen — werkwijze.</strong> Geeft een bezoeker een plaats op die niet in de validatielijst staat, dan blokkeert het formulier dat niet. De plaats blijft als vrije invoer staan, wordt zichtbaar gemarkeerd als nieuw, en gaat als kandidaat (<code>place_addition_candidate</code>) mee in de payload. De bezoeker kiest zelf land en regio. De redactie controleert de kandidaat handmatig; pas daarna kan de statische lookup-lijst worden uitgebreid via een GitHub-PR. Geen externe geocoding — dit is redactionele verrijking, geen automatische geodata.</p>
+      <p>Dit prototype kent twee paden naast elkaar: (1) <strong>lokale preview</strong> — niets verlaat de browser; (2) <strong>validatie-backend</strong> — een knop in de previewstap roept <code>POST /api/intake</code> aan op de Cloudflare Pages branch-preview. De endpoint valideert, sanitiseert, controleert honeypot/timer en (als ingesteld) Turnstile, en geeft een gestructureerd JSON-antwoord terug. Zonder productie-secrets blijft de endpoint in <em>dry-run</em>: er wordt niets weggeschreven en geen notificatie verstuurd.</p>
+
+      <p><strong>Single source of truth — de Google Drive intake-spreadsheet blijft leidend.</strong> De eerder op Drive geplaatste intake-spreadsheet is en blijft het operationele register: één regel per inzending, kolom voor status, redactiebesluit, en metadata. De backend <em>vervangt</em> deze spreadsheet niet — hij schríjft erin. In productie roept <code>/api/intake</code> een server-side Google Apps Script-webhook aan die een rij toevoegt aan precies dezelfde spreadsheet. De redactie blijft daar werken; de website is alleen het invoerkanaal.</p>
+
+      <p><strong>Hoe de drie opslagrollen zich verhouden:</strong></p>
+      <ol>
+        <li><strong>Spreadsheet (Google Drive) — single source of truth.</strong> Minimale gestructureerde rij met status, organisatie, contact, land/regio, modus en pointers naar het eventuele issue. Redactie beheert hier het besluit en de rapportage.</li>
+        <li><strong>Private GitHub issue — bewijs/werkstroom-record.</strong> Optioneel; bevat de volledige ruwe inzending (inclusief editorial-tekst). Voorkomt dat de spreadsheet vol komt te staan met lange teksten en biedt een onveranderlijk auditspoor. De spreadsheetrij linkt ernaar.</li>
+        <li><strong>Notificatie-webhook — alleen ping.</strong> Stuurt geen PII, geen editorial-tekst, alleen modus/organisatie/land/regio + verwijzingen (sheet row id, issue url) zodat de redactie naar de spreadsheet kan springen. <strong>E-mail vervangt nooit de spreadsheet</strong> — het is hooguit een notificatie.</li>
+      </ol>
+
+      <p><strong>Onbekende plaatsnamen — werkwijze.</strong> Geeft een bezoeker een plaats op die niet in de validatielijst staat, dan blokkeert het formulier dat niet. De plaats blijft als vrije invoer staan, wordt zichtbaar gemarkeerd als nieuw, en gaat als kandidaat (<code>place_addition_candidate</code>) mee in de payload. De bezoeker kiest zelf land en regio. De redactie controleert de kandidaat handmatig in de spreadsheet; pas daarna kan de statische lookup-lijst worden uitgebreid via een GitHub-PR. Geen externe geocoding — dit is redactionele verrijking, geen automatische geodata.</p>
+
       <p><strong>Productie-readiness — benodigde Cloudflare environment variables.</strong> De backend werkt in dry-run zonder configuratie. Voor echte productie-opslag stellen we in via Cloudflare Pages → Settings → Environment variables (Production):</p>
       <ul>
+        <li><code>INTAKE_SHEET_WEBHOOK_URL</code> (alias <code>GOOGLE_SHEET_WEBHOOK_URL</code>) — <strong>primair</strong>. URL van de Google Apps Script die als webhook is gepubliceerd op de bestaande intake-spreadsheet. Backend stuurt hier de gestructureerde rij heen. Zonder deze sleutel staat de spreadsheet-flow in dry-run en geeft de backend de exacte rij-preview terug.</li>
         <li><code>TURNSTILE_SECRET_KEY</code> — verplicht in productie. Zonder deze sleutel wordt Turnstile <em>overgeslagen</em> en geeft de backend dit terug als waarschuwing.</li>
-        <li><code>GITHUB_TOKEN</code> — fine-grained PAT met <em>issues: write</em> op de private intake-repo (alleen die ene repo).</li>
+        <li><code>GITHUB_TOKEN</code> — fine-grained PAT met <em>issues: write</em> op de private intake-repo (alleen die ene repo). Optioneel; bewijsspoor.</li>
         <li><code>INTAKE_REPO</code> — bijv. <code>esrfdev/esrf-intake-private</code>. Issues krijgen labels <code>intake</code>, <code>needs-review</code>, <code>regional</code>, <code>mode:&lt;org|editorial|both&gt;</code>.</li>
-        <li><code>INTAKE_NOTIFY_WEBHOOK</code> — optioneel. Webhook (Slack-stijl) die alleen een minimale samenvatting krijgt: modus, organisatie, land, regio. <strong>Geen e-mailadres, geen telefoon, geen editorial-tekst.</strong></li>
+        <li><code>INTAKE_NOTIFY_WEBHOOK</code> — optioneel. Webhook (Slack-stijl) die alleen een minimale samenvatting krijgt: modus, organisatie, land, regio en verwijzing (sheet row id / issue url). <strong>Geen e-mailadres, geen telefoon, geen editorial-tekst.</strong></li>
       </ul>
-      <p><strong>Wat er níét gebeurt.</strong> Geen secrets in de frontend. Geen e-mail rechtstreeks vanuit de browser. Geen Google Sheets aan de website-kant. Een eventuele Google-Sheet-export blijft een latere, separate redactie-flow.</p>
-      <p><strong>Meertaligheid.</strong> Het formulier komt straks in alle 27 ESRF-talen beschikbaar. De backend zelf is taalonafhankelijk — alle labels (knoppen, foutmeldingen, statusteksten) verhuizen in een vervolgstap naar de bestaande i18n-JSON-bestanden onder <code>i18n/</code>. Voor nu blijft de UI Nederlands; backend-flow eerst valideren, dan vertaalslag.</p>
+
+      <p><strong>Wat er níét gebeurt.</strong> Geen secrets in de frontend. Geen e-mail rechtstreeks vanuit de browser. Geen vervanging van de spreadsheet door alleen e-mail of alleen GitHub.</p>
+
+      <p><strong>Meertaligheid.</strong> Het formulier komt straks in alle 27 ESRF-talen beschikbaar. De backend zelf is taalonafhankelijk — alle labels (knoppen, foutmeldingen, statusteksten) verhuizen in een vervolgstap naar de bestaande i18n-JSON-bestanden onder <code>i18n/</code>. De voorbereide i18n-sleutels staan in <code>docs/intake-backend.md</code>. Voor nu blijft de UI Nederlands; backend-flow eerst valideren, dan vertaalslag (nl + en eerst, daarna de overige 25 EU/EER-talen).</p>
       <p>Volledige architectuurnotitie en exit-criteria staan in het <a href="validation-lab.html">Validation Lab</a> en in <code>validation-lab.json</code>.</p>
     </div>
   </details>
@@ -1420,19 +1434,35 @@
     }
 
     const lines = [];
-    lines.push('<strong>' + (data.dry_run ? 'DRY-RUN — geen issue aangemaakt' : 'Issue aangemaakt') + '</strong>');
+    // Top-level dry_run reflects the spreadsheet (single source of truth).
+    lines.push('<strong>' + (data.sheet_dry_run ? 'DRY-RUN — geen rij in de spreadsheet geschreven' : 'Rij toegevoegd aan de spreadsheet (single source of truth)') + '</strong>');
     lines.push('Modus: ' + escapeHtml(data.mode));
     lines.push('Ontvangen: ' + escapeHtml(data.received_at));
+    lines.push('');
+    lines.push('Opslag-architectuur:');
+    lines.push(' • Spreadsheet (Drive) — single source of truth: ' + (data.sheet_dry_run ? 'DRY-RUN' : 'rij geschreven'));
+    if (data.sheet && data.sheet.row_id) lines.push('   sheet row id: ' + escapeHtml(String(data.sheet.row_id)));
+    if (data.sheet && data.sheet.sheet_url) lines.push('   sheet: <a href="' + escapeHtml(data.sheet.sheet_url) + '" target="_blank" rel="noopener">openen</a>');
+    lines.push(' • GitHub issue (privé) — bewijs/werkstroom: ' + (data.issue_dry_run ? 'DRY-RUN' : (data.issue && data.issue.url ? 'aangemaakt' : 'overgeslagen')));
     if (data.issue && data.issue.url) {
-      lines.push('Issue: <a href="' + escapeHtml(data.issue.url) + '" target="_blank" rel="noopener">#' + escapeHtml(String(data.issue.number)) + '</a>');
+      lines.push('   issue: <a href="' + escapeHtml(data.issue.url) + '" target="_blank" rel="noopener">#' + escapeHtml(String(data.issue.number)) + '</a>');
     }
-    if (data.notification_sent) lines.push('Notificatie: verstuurd (minimale payload)');
+    lines.push(' • Notificatie-webhook — alleen ping (geen PII): ' + (data.notification_sent ? 'verstuurd' : 'overgeslagen'));
+
     if (data.warnings && data.warnings.length) {
       lines.push('');
       lines.push('Waarschuwingen:');
       data.warnings.forEach(function(w){ lines.push(' • ' + escapeHtml(w)); });
     }
-    if (data.dry_run && data.issue_preview) {
+
+    if (data.sheet_dry_run && data.sheet_row_preview) {
+      lines.push('');
+      lines.push('Spreadsheet-rij (preview, zou worden toegevoegd):');
+      Object.keys(data.sheet_row_preview).forEach(function(k){
+        lines.push('   ' + k + ': ' + escapeHtml(String(data.sheet_row_preview[k])));
+      });
+    }
+    if (data.issue_dry_run && data.issue_preview) {
       lines.push('');
       lines.push('Issue-preview (zou worden aangemaakt):');
       lines.push('Titel: ' + escapeHtml(data.issue_preview.title));

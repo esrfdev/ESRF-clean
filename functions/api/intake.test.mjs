@@ -12,7 +12,7 @@ await import('./intake.js');
 const api = globalThis.__esrfIntake;
 assert.ok(api, 'intake.js did not expose test hooks on globalThis');
 
-const { validateAndSanitize, buildIssuePreview, sanitize, sanitizeLong, sanitizeUrl, isAllowedOrigin, mdEscapeInline } = api;
+const { validateAndSanitize, buildIssuePreview, buildSheetRow, sanitize, sanitizeLong, sanitizeUrl, isAllowedOrigin, mdEscapeInline } = api;
 
 let failures = 0;
 function check(name, fn) {
@@ -177,6 +177,45 @@ check('buildIssuePreview produces title + body + labels and escapes markdown', (
   assert.ok(p.labels.includes('organisation'));
   assert.ok(p.body.includes('Lessons in regional cooperation'));
   assert.ok(!p.body.includes('<script>'));
+});
+
+// ─── sheet row (single source of truth) ─────────────────────────────────
+check('buildSheetRow produces a stable, flat, minimal row with refs', () => {
+  const payload = validateAndSanitize({
+    intake_mode: 'both',
+    contact: goodContact,
+    organisation_listing: goodOrg,
+    editorial_contribution: goodEd,
+    privacy: goodPrivacy,
+  }).payload;
+  const row = buildSheetRow(payload, { issue_url: 'https://github.com/x/y/issues/12', issue_number: 12 });
+  assert.equal(row.schema_version, 1);
+  assert.equal(row.intake_mode, 'both');
+  assert.equal(row.organisation, 'Acme Veiligheid');
+  assert.equal(row.country_code, 'NL');
+  assert.equal(row.contact_email, 'anna@example.org');
+  assert.equal(row.has_listing, 'yes');
+  assert.equal(row.has_editorial, 'yes');
+  assert.equal(row.editorial_topic, 'Lessons in regional cooperation');
+  assert.equal(row.issue_url, 'https://github.com/x/y/issues/12');
+  assert.equal(row.issue_number, 12);
+  assert.equal(row.status, 'new');
+  // Sheet row is the SSoT register; it must NOT inline editorial body.
+  assert.ok(!('editorial_summary' in row));
+  assert.ok(!JSON.stringify(row).includes('Joint dispatch beats parallel dispatch'));
+});
+
+check('buildSheetRow with no refs leaves issue pointers empty', () => {
+  const payload = validateAndSanitize({
+    intake_mode: 'org',
+    contact: goodContact,
+    organisation_listing: goodOrg,
+    privacy: goodPrivacy,
+  }).payload;
+  const row = buildSheetRow(payload, {});
+  assert.equal(row.issue_url, '');
+  assert.equal(row.issue_number, '');
+  assert.equal(row.has_editorial, '');
 });
 
 // ─── summary ─────────────────────────────────────────────────────────────
