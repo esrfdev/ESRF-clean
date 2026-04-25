@@ -216,10 +216,21 @@ operational, not code:
    (`1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g`). Confirm the five
    `LAB_*` tabs already exist (they do — verified 2026-04-25). Publish
    as a **Web App** ("Deploy → New deployment → Web app", execute as
-   the script owner, access "Anyone with the link").
-2. **Generate a shared secret** (e.g. `openssl rand -hex 32`). The
-   Apps Script must compare the inbound header `x-esrf-intake-secret`
-   against this value and reject mismatches.
+   the script owner, access "Anyone with the link"). On the Apps
+   Script project, *Project Settings → Script Properties*, set the
+   canonical names (see `docs/intake-lab-automation.md` §2a):
+   - `SHEETS_WEBHOOK_SECRET` (required)
+   - `SHEET_ID` (optional)
+   Legacy aliases `SHARED_SECRET` / `SPREADSHEET_ID` are still
+   accepted as a fallback for already-configured deployments, but new
+   deployments should use the canonical names and leave the legacy
+   ones unset.
+2. **Generate a shared secret** (e.g. `openssl rand -hex 32`). Set it
+   as the Apps Script Script Property `SHEETS_WEBHOOK_SECRET` and as
+   the Cloudflare Pages `SHEETS_WEBHOOK_SECRET` env var. The Apps
+   Script compares the inbound `x-esrf-intake-secret` header (or
+   `shared_secret` body field) against this value and rejects
+   mismatches.
 3. **Set Cloudflare Pages → Settings → Environment variables (Preview
    only, `test/regional-editorial-contributor-intake`):**
    - `INTAKE_SHEET_WEBHOOK_URL` = the deployed Web App URL

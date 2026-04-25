@@ -77,6 +77,30 @@ until the redactie signs off.
 
 Secrets are never returned to the client and never logged.
 
+### 2a. Apps Script — Script Properties (canonical names)
+
+The Apps Script that backs `INTAKE_SHEET_WEBHOOK_URL`
+(reference: `docs/apps-script-intake-webhook.gs`) is configured via
+*Apps Script → Project Settings → Script Properties*. New deployments
+must set the canonical property names below. Legacy aliases are
+accepted as a fallback so deployments that already use the old names
+keep working without manual reconfiguration; new deployments should
+leave the legacy names unset.
+
+| Property | Status | Purpose |
+|---|---|---|
+| `SHEETS_WEBHOOK_SECRET` | **canonical, required** | Must match the Cloudflare backend's `SHEETS_WEBHOOK_SECRET` (sent on inbound requests as the `x-esrf-intake-secret` header, or in the JSON body as `shared_secret`). |
+| `SHEET_ID` | **canonical, optional** | Spreadsheet id to write to. Optional: the script also resolves it from the inbound payload's `spreadsheet_id` and from the constant in the source. |
+| `SHARED_SECRET` | legacy alias (fallback) | Legacy alias for `SHEETS_WEBHOOK_SECRET`. Read only if the canonical name is unset. Do not set on new deployments. |
+| `SPREADSHEET_ID` | legacy alias (fallback) | Legacy alias for `SHEET_ID`. Read only if the canonical name is unset. Do not set on new deployments. |
+| `NOTIFY_TO` | optional, **unset by default** | Operational ESRF inbox (e.g. `office@esrf.net`). Leave unset to disable mail notifications. When set, the Apps Script sends a minimal, PII-free `MailApp.sendEmail()` after each successful sheet write. This is **not** a Gmail-as-ESRF route — MailApp delivers from the script-owner Workspace identity. |
+| `NOTIFY_FROM_NAME` | optional | Display name on the `From:` line (default `ESRF intake bot`). |
+| `NOTIFY_SUBJECT_PREFIX` | optional | Subject prefix (default `[ESRF intake]`). |
+
+`Directory_Master` is **never** auto-written. The Apps Script refuses
+any payload whose `target_prefix` is not `LAB_` or whose row map
+includes `Directory_Master`.
+
 ---
 
 ## 3. Backend response — workflow + notification contract
@@ -170,13 +194,22 @@ Two activation paths, depending on where you want the actual
 
 1. **Apps Script (recommended for the lab — single deploy unit).**
    On the Apps Script project that backs `INTAKE_SHEET_WEBHOOK_URL`,
-   open *Project Settings → Script Properties* and set
-   `NOTIFY_TO = office@esrf.net`. After the next successful intake
-   write, the Apps Script sends a minimal MailApp notification to
-   that inbox. Clear the property to disable. The Apps Script
-   reference (`docs/apps-script-intake-webhook.gs`) implements this
-   with the same allow-list / forbidden-fields guarantees as the
-   backend payload, so PII cannot leak into the email body.
+   open *Project Settings → Script Properties* and set the canonical
+   properties (see §2a):
+   - `SHEETS_WEBHOOK_SECRET` — required; must match the Cloudflare
+     `SHEETS_WEBHOOK_SECRET` env var.
+   - `SHEET_ID` — optional; the lab spreadsheet id.
+   Then, to enable mail notifications, **opt in** by adding
+   `NOTIFY_TO` (e.g. an ESRF inbox such as `office@esrf.net`). It is
+   unset by default — no email is sent until an operator sets it.
+   After the next successful intake write, the Apps Script sends a
+   minimal MailApp notification to that inbox. Clear the property to
+   disable. The Apps Script reference
+   (`docs/apps-script-intake-webhook.gs`) implements this with the
+   same allow-list / forbidden-fields guarantees as the backend
+   payload, so PII cannot leak into the email body. MailApp delivers
+   from the script-owner Workspace identity to the configured ESRF
+   inbox — this is **not** a Gmail-as-ESRF route.
 
 2. **External mailrelay / webhook (e.g. Pipedream, n8n,
    internal SMTP relay).** Set `INTAKE_NOTIFY_WEBHOOK` on Cloudflare

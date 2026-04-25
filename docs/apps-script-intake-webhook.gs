@@ -16,26 +16,40 @@
  *     access-controlled at Drive level).
  *
  * Configuration (Apps Script → Project Settings → Script Properties):
- *   - SHARED_SECRET   — must match the Cloudflare backend's
- *                       SHEETS_WEBHOOK_SECRET (or
- *                       INTAKE_SHEET_WEBHOOK_SECRET). Required.
- *   - SPREADSHEET_ID  — fallback spreadsheet id. Optional; this script
+ *   Canonical names — set these on a fresh deployment:
+ *   - SHEETS_WEBHOOK_SECRET — must match the Cloudflare backend's
+ *                       SHEETS_WEBHOOK_SECRET env var (alias
+ *                       INTAKE_SHEET_WEBHOOK_SECRET on the Cloudflare
+ *                       side). Required. Sent on inbound requests as
+ *                       the `x-esrf-intake-secret` header (or, as a
+ *                       fallback, in the JSON body as `shared_secret`).
+ *   - SHEET_ID        — fallback spreadsheet id. Optional; this script
  *                       can also rely on the active spreadsheet (when
  *                       deployed as a container-bound script).
- *   - NOTIFY_TO       — Optional. If set to a non-empty mail address
- *                       (recommended: office@esrf.net), the script
- *                       sends a MINIMAL ESRF mailnotificatie via
- *                       MailApp after a successful sheet write. The
+ *   Legacy aliases — accepted as a fallback so existing deployments
+ *   that already set them keep working without manual reconfiguration.
+ *   New deployments should use the canonical names above and leave
+ *   these unset:
+ *   - SHARED_SECRET    — legacy alias for SHEETS_WEBHOOK_SECRET.
+ *   - SPREADSHEET_ID   — legacy alias for SHEET_ID.
+ *   - NOTIFY_TO       — Optional, unset by default. If set to a non-empty mail address
+ *                       (operational ESRF inbox, e.g. office@esrf.net),
+ *                       the script sends a MINIMAL ESRF mailnotificatie
+ *                       via MailApp after a successful sheet write.
+ *                       Leave unset to disable; no real email is sent
+ *                       until an operator opts in. This is NOT a
+ *                       Gmail-as-ESRF route — MailApp delivers from
+ *                       the script-owner Workspace identity to the
+ *                       configured ESRF inbox, never via Gmail. The
  *                       email contains NO PII (no email/phone/name)
  *                       and NO editorial body — only submission_id,
  *                       mode/type, org_name, country/region,
  *                       workflow_status, next_required_action and the
- *                       relevant sheet/row pointer. Leave empty (or
- *                       unset) to disable. This is the lab/operational
- *                       toggle for the "ESRF mailnotificatie /
- *                       mailrelay" channel — it is NOT a Gmail webhook
- *                       integration; it is a generic MailApp-based
- *                       notification routed to the ESRF inbox.
+ *                       relevant sheet/row pointer. This is the
+ *                       lab/operational toggle for the "ESRF
+ *                       mailnotificatie / mailrelay" channel; it is
+ *                       a generic MailApp-based notification routed to
+ *                       the ESRF inbox, not a Gmail integration.
  *   - NOTIFY_FROM_NAME — Optional. Display name on the From line of
  *                       the mailnotificatie (default:
  *                       "ESRF intake bot"). MailApp always sends from
@@ -51,8 +65,10 @@
  *     INTAKE_SHEET_WEBHOOK_URL (or SHEETS_WEBHOOK_URL).
  *
  * Activating the ESRF mailnotificatie (operationele notificatie):
+ *   NOTIFY_TO is unset by default — no email is sent until an operator
+ *   explicitly opts in.
  *   1. Open Apps Script → Project Settings → Script Properties.
- *   2. Add NOTIFY_TO = office@esrf.net (or another ESRF inbox).
+ *   2. Add NOTIFY_TO = an ESRF inbox (e.g. office@esrf.net).
  *   3. Save. The next successful intake write will trigger a
  *      MailApp.sendEmail() to that address with the minimal,
  *      PII-free payload described above.
@@ -109,9 +125,15 @@ var HEADERS = {
 function doPost(e) {
   try {
     var props = PropertiesService.getScriptProperties();
-    var expectedSecret = props.getProperty('SHARED_SECRET') || '';
+    // Canonical name first; fall back to the legacy alias so existing
+    // deployments that still use SHARED_SECRET keep working.
+    var expectedSecret = String(
+      props.getProperty('SHEETS_WEBHOOK_SECRET')
+      || props.getProperty('SHARED_SECRET')
+      || ''
+    );
     if (!expectedSecret) {
-      return jsonOut(500, { ok: false, error: 'SHARED_SECRET not configured' });
+      return jsonOut(500, { ok: false, error: 'SHEETS_WEBHOOK_SECRET not configured' });
     }
     // The Cloudflare backend sends the shared secret as an HTTP header,
     // but Apps Script web apps surface only the request body. The
@@ -150,7 +172,18 @@ function doPost(e) {
       }
     }
 
-    var ss = openSpreadsheet(body.spreadsheet_id || EXPECTED_SPREADSHEET_ID);
+    // Resolve the spreadsheet id. Priority:
+    //   1) body.spreadsheet_id (sent by the Cloudflare backend)
+    //   2) SHEET_ID Script Property (canonical)
+    //   3) SPREADSHEET_ID Script Property (legacy alias)
+    //   4) EXPECTED_SPREADSHEET_ID constant (compile-time default)
+    var resolvedSheetId = String(
+      body.spreadsheet_id
+      || props.getProperty('SHEET_ID')
+      || props.getProperty('SPREADSHEET_ID')
+      || EXPECTED_SPREADSHEET_ID
+    );
+    var ss = openSpreadsheet(resolvedSheetId);
     var written = {};
     var primaryRowId = '';
     var primarySheetUrl = '';
@@ -181,9 +214,10 @@ function doPost(e) {
     }
 
     // Optional ESRF mailnotificatie (operationele notificatie).
-    // Only sends if NOTIFY_TO Script Property is set to a non-empty
-    // address (recommended: office@esrf.net). Payload is the minimal,
-    // PII-free notification_message provided by the Cloudflare backend
+    // NOTIFY_TO is unset by default; only sends if an operator has
+    // explicitly set the Script Property to a non-empty ESRF inbox
+    // (e.g. office@esrf.net). Payload is the minimal, PII-free
+    // notification_message provided by the Cloudflare backend
     // (see functions/api/intake.js → buildNotificationMessage). If the
     // backend did not include a notification_message, we synthesise a
     // minimal one from the rows we just wrote.
