@@ -257,6 +257,148 @@ described in §1–§4 of this report.
 
 ---
 
+## 6a. Setting Cloudflare Pages preview secrets — safe CLI route
+
+Setting the preview env vars can be done either via the Cloudflare
+dashboard (Pages → project → Settings → Environment variables → Preview)
+or via `wrangler` from a workstation that already has a Cloudflare
+API token with **Pages: Edit** scope. The CLI route is safe because
+the secret value is read from stdin and never echoed to the terminal
+or written to git. **Do not** paste secret values into a shell
+history (`history -c` afterwards if you must).
+
+Pre-requisites (one-time, not per secret):
+
+```sh
+# A Cloudflare API token with `Account → Cloudflare Pages → Edit`
+# scope, restricted to the esrf-clean Pages project. Generate via
+# the Cloudflare dashboard, never commit.
+export CLOUDFLARE_API_TOKEN=…           # never commit; not echoed below
+export CLOUDFLARE_ACCOUNT_ID=…          # account id (not a secret)
+PROJECT=esrf-clean                       # Pages project name
+```
+
+Set the four lab secrets on the **Preview** environment only:
+
+```sh
+# Each command prompts for the value on stdin. Paste the value once,
+# press Enter, then Ctrl-D. The value is sent to Cloudflare over TLS
+# and stored encrypted; `wrangler` does not echo it.
+npx wrangler pages secret put INTAKE_SHEET_WEBHOOK_URL  --project-name "$PROJECT" --env preview
+npx wrangler pages secret put SHEETS_WEBHOOK_SECRET     --project-name "$PROJECT" --env preview
+# Optional — only if a separate notification relay is wired:
+npx wrangler pages secret put INTAKE_NOTIFY_WEBHOOK     --project-name "$PROJECT" --env preview
+npx wrangler pages secret put INTAKE_NOTIFY_TO          --project-name "$PROJECT" --env preview
+# Optional — Turnstile:
+npx wrangler pages secret put TURNSTILE_SECRET_KEY      --project-name "$PROJECT" --env preview
+```
+
+Verify (lists names only — values are never returned by the API):
+
+```sh
+npx wrangler pages secret list --project-name "$PROJECT" --env preview
+```
+
+Hard rules:
+
+- Use `--env preview` exclusively while the branch is in lab posture.
+  **Never** run any of these against `--env production` until the
+  redactie has signed off (see §6 step 6 and the production-overgang
+  checklist in `docs/intake-lab-automation.md` §5).
+- Never include the secret value on the command line itself
+  (`wrangler … <value>`); always use the stdin prompt so the value
+  does not enter shell history or process listings.
+- Never write the secret to a file in this repo, not even
+  `.env*`. The repo `.gitignore` already excludes `.env*`, but the
+  safest posture is to keep secrets out of disk altogether.
+- If the API token is leaked or rotated, revoke it from the
+  Cloudflare dashboard immediately.
+
+The dashboard route is equivalent for all four variables and is the
+fall-back if `wrangler` is unavailable.
+
+---
+
+## 6b. Decision gate — before any real email is sent
+
+The lab automation deliberately keeps two independent activation
+toggles for real email delivery to `office@esrf.net`:
+
+1. The `INTAKE_NOTIFY_WEBHOOK` Cloudflare env var (external relay
+   path).
+2. The Apps Script `NOTIFY_TO` Script Property (in-Apps-Script
+   `MailApp` path).
+
+Both default to "off". A real email is sent only when **at least
+one** of them is set to a non-empty value, **and** the operator has
+explicitly confirmed each of the gate items below.
+
+Operator must confirm — write the answer in the activation PR /
+sign-off note before flipping either toggle:
+
+- [ ] Redactie has reviewed the most recent dry-run notification
+  body (see §2 *Observed* and §4 *Notification body — what it MUST
+  contain*) and accepts the wording, especially the
+  `notification_channel: esrf_mail_relay_or_webhook` label and the
+  Dutch boilerplate "Deze mail bevat geen e-mailadres,
+  telefoonnummer, naam of editorial-tekst."
+- [ ] The recipient address is the **operational** ESRF inbox
+  (`office@esrf.net` is the documented default) and is **not** an
+  editorial submitter address.
+- [ ] The lab has been re-run after step 3 of §6 with
+  `workflow.status: stored` and a row visibly written to
+  `LAB_Intake_Submissions` — i.e. the storage path is verified
+  before the notification path is enabled.
+- [ ] `Directory_Master` was inspected manually and contains **no**
+  automation-written row.
+- [ ] If the Apps Script path is chosen, the script owner is an
+  ESRF-controlled account (so `MailApp` sends from an ESRF-owned
+  identity, not a personal Gmail account). The `NOTIFY_FROM_NAME`
+  Script Property is set to `ESRF intake bot` (or another ESRF-
+  approved display name).
+- [ ] Quota: MailApp Workspace quota is ~1 500 / day; expected
+  intake volume is ≪ that. No action needed unless the relay path is
+  used to re-fan-out to multiple inboxes.
+
+Only after every box is ticked does the operator set the chosen
+toggle. The opposite toggle remains unset to avoid double-delivery.
+
+---
+
+## 6c. Rollback — disabling the lab automation
+
+The lab automation is fully reversible at every step. There is no
+data migration to undo: nothing has been written to
+`Directory_Master`, and the `LAB_*` tabs are sandbox tabs.
+
+| To undo | Action | Effect |
+|---|---|---|
+| Stop sending real email (Apps Script path) | Apps Script → Project Settings → Script Properties → clear `NOTIFY_TO`. Save. | Next intake write skips `MailApp.sendEmail`; sheet writes continue. |
+| Stop sending real email (relay path) | `npx wrangler pages secret delete INTAKE_NOTIFY_WEBHOOK --project-name "$PROJECT" --env preview` | Notification reverts to `dry_run_not_configured`. |
+| Stop sheet writes | `npx wrangler pages secret delete INTAKE_SHEET_WEBHOOK_URL --project-name "$PROJECT" --env preview` (and the `SHEETS_WEBHOOK_SECRET` if rotating) | Backend reverts to `sheet_dry_run: true`; nothing is written to the spreadsheet. |
+| Pause the Apps Script entirely | Apps Script → Deploy → Manage deployments → archive the active web-app deployment. | Webhook URL stops accepting requests; Cloudflare backend records the failure in `LAB_Backend_Log` (when reachable) and falls back to the warning path. |
+| Roll back code | `git revert <commit>` on `test/regional-editorial-contributor-intake`. The branch is never merged to `main`, so reverting affects only the preview build. | Preview redeploys without the change. |
+| Hard-stop the lab | Disable the Cloudflare Pages preview deployment for the branch (Pages → Deployments → "Pause"). | Preview URL returns 404; `submit-validation.html` is no longer reachable. |
+
+Sanity checks after any rollback:
+
+```sh
+# Confirm only the secrets you intended remain.
+npx wrangler pages secret list --project-name "$PROJECT" --env preview
+
+# Re-run the dry-run from the browser preview and confirm
+# workflow.status returns to "dry_run" or "error" as expected,
+# never silently "stored".
+```
+
+If a rogue row was somehow written to a `LAB_*` tab during testing,
+delete the row by hand from the spreadsheet — `LAB_*` rows are by
+design disposable. **Do not** edit `Directory_Master`; if a row
+appears there, that is a defect and must be reported before any
+further activation.
+
+---
+
 ## 7. Files changed in this report's commit
 
 - `submit-validation.html` — fix duplicate step-3 numbering

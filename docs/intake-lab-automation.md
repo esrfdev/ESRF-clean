@@ -8,7 +8,10 @@ form (`submit-validation.html`). Lives on the
 > [`intake-lab-test-report-2026-04-25.md`](./intake-lab-test-report-2026-04-25.md)
 > for the end-to-end browser dry-run (submission `sub_moelllvt_i21b`),
 > the notification-contract verification, and the operational
-> readiness checklist for activating the Apps Script webhook.
+> readiness checklist for activating the Apps Script webhook —
+> including the **safe `wrangler pages secret` CLI route** (§6a),
+> the **decision gate before any real email is sent** (§6b), and
+> the **rollback procedure** (§6c).
 
 This document covers:
 
