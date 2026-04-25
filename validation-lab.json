@@ -16,6 +16,40 @@
   },
   "modules": [
     {
+      "id": "esrf-simulated-site",
+      "title": "Gesimuleerde ESRF.net home (validatie-bezoekersreis)",
+      "status": "in-validation",
+      "path": "/esrf-simulated-site.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Gesimuleerde ESRF.net-startpagina om de bezoekersreis naar het geïntegreerde opgaveformulier te valideren. Bevat duidelijke CTA's (Organisatie aanmelden, Bijdrage of praktijkverhaal insturen, Naar opgaveformulier) die naar submit-validation.html leiden. Productie index.html is niet gewijzigd.",
+      "lastUpdated": "2026-04-25",
+      "visibility": "hidden",
+      "primaryCallToAction": "/submit-validation.html",
+      "exitCriteria": [
+        "TEST/VALIDATIE banner zichtbaar bovenaan en in masthead.",
+        "Drie CTA's leiden naar submit-validation.html (organisatie / editorial / beide).",
+        "Geen publieke navigatie, footer, sitemap of robots verwijst hierheen.",
+        "Redactie keurt copy en NL-teksten goed."
+      ]
+    },
+    {
+      "id": "request-listing-validation",
+      "title": "Opgavepad — validatievariant (redirect/landing naar submit-validation)",
+      "status": "in-validation",
+      "path": "/request-listing-validation.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Validatievariant van het klassieke opgavepad. Eenvoudige landingspagina die binnen 6 seconden doorstuurt naar submit-validation.html en handmatige CTA's biedt. De echte productiepagina request-listing.html blijft ongewijzigd.",
+      "lastUpdated": "2026-04-25",
+      "visibility": "hidden",
+      "basedOn": "/request-listing.html",
+      "primaryCallToAction": "/submit-validation.html",
+      "exitCriteria": [
+        "Meta refresh + handmatige CTA werken naar submit-validation.html.",
+        "TEST/VALIDATIE banner zichtbaar; geen wijziging aan productie request-listing.html.",
+        "Geen publieke link naar deze pagina."
+      ]
+    },
+    {
       "id": "regional-editorial-contributor-intake",
       "title": "Regional Editorial Contributor Intake",
       "status": "in-validation",

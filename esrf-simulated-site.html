@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="googlebot" content="noindex,nofollow" />
+<meta name="referrer" content="no-referrer" />
+<title>[TEST/VALIDATIE] ESRF.net — gesimuleerde home (validatie)</title>
+<meta name="description" content="Verborgen validatie-simulatie van een ESRF.net-bezoekersreis. Niet publiek. noindex/nofollow." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<style>
+  .test-banner {
+    background:#fff3cd; border:2px solid #ffc107; color:#664d03;
+    padding:14px 20px; margin:0; border-bottom:2px solid #ffc107;
+    font-family:'IBM Plex Mono', monospace; font-size:13px; line-height:1.5;
+    text-align:center;
+  }
+  .test-banner strong { letter-spacing:0.06em; }
+  .test-banner a { color:#664d03; text-decoration:underline; }
+  .sim-wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
+  .sim-hero {
+    padding:64px 0 48px; border-bottom:1px solid #e2e8f0;
+  }
+  .sim-kicker {
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.1em;
+    color:#b91c1c; text-transform:uppercase; margin:0 0 14px;
+  }
+  .sim-h1 {
+    font-family:'PT Serif', serif; font-size:52px; line-height:1.1; margin:0 0 18px;
+    color:#0f172a; max-width:840px;
+  }
+  .sim-deck {
+    font-family:'Archivo', system-ui, sans-serif; font-size:18px; line-height:1.55;
+    color:#334155; max-width:680px; margin:0 0 28px;
+  }
+  .sim-cta-row {
+    display:flex; flex-wrap:wrap; gap:12px; margin-top:18px;
+  }
+  .sim-cta {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 22px; border-radius:6px; text-decoration:none;
+    font-family:'Archivo', system-ui, sans-serif; font-weight:600; font-size:15px;
+    border:1px solid #0f172a; transition:transform 0.15s ease;
+  }
+  .sim-cta:hover { transform:translateY(-1px); }
+  .sim-cta-primary { background:#0f172a; color:#fff; }
+  .sim-cta-secondary { background:#fff; color:#0f172a; }
+  .sim-cta-tertiary { background:#fff; color:#0f172a; border-color:#cbd5e1; }
+  .sim-cta-arrow { font-size:18px; }
+
+  .sim-section { padding:48px 0; border-bottom:1px solid #e2e8f0; }
+  .sim-section h2 {
+    font-family:'PT Serif', serif; font-size:30px; margin:0 0 22px;
+  }
+  .sim-cards {
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;
+  }
+  @media (max-width:760px){ .sim-cards { grid-template-columns:1fr; } }
+  .sim-card {
+    background:#fff; border:1px solid #e2e8f0; border-radius:8px;
+    padding:22px 22px 20px; display:flex; flex-direction:column;
+  }
+  .sim-card h3 {
+    font-family:'PT Serif', serif; font-size:20px; margin:0 0 8px;
+  }
+  .sim-card p {
+    font-family:'Archivo', system-ui, sans-serif; font-size:14px; line-height:1.55;
+    color:#475569; margin:0 0 14px; flex:1;
+  }
+  .sim-card-link {
+    font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:0.03em;
+    color:#1d4ed8; text-decoration:none; align-self:flex-start;
+  }
+  .sim-card-link:hover { text-decoration:underline; }
+
+  .sim-contribute {
+    background:#f8fafc;
+    border:1px solid #e2e8f0; border-radius:8px;
+    padding:32px 32px; margin:8px 0 0;
+  }
+  .sim-contribute h2 { margin:0 0 10px; font-family:'PT Serif', serif; font-size:28px; }
+  .sim-contribute p { margin:0 0 18px; font-family:'Archivo', system-ui, sans-serif; font-size:15px; line-height:1.6; color:#334155; max-width:700px; }
+  .sim-contribute-list {
+    margin:0 0 22px; padding:0; list-style:none;
+    display:grid; grid-template-columns:repeat(2,1fr); gap:10px 24px;
+  }
+  @media (max-width:680px){ .sim-contribute-list { grid-template-columns:1fr; } }
+  .sim-contribute-list li {
+    font-family:'Archivo', system-ui, sans-serif; font-size:14px; color:#0f172a;
+    padding-left:22px; position:relative;
+  }
+  .sim-contribute-list li::before {
+    content:"→"; position:absolute; left:0; color:#1d4ed8; font-weight:700;
+  }
+
+  .sim-footer {
+    padding:30px 0 60px; font-family:'IBM Plex Mono', monospace;
+    font-size:12px; color:#6b7280;
+  }
+  .sim-footer a { color:#475569; text-decoration:none; }
+  .sim-footer a:hover { text-decoration:underline; }
+
+  .sim-mast {
+    background:#0f172a; color:#fff; padding:18px 0;
+  }
+  .sim-mast-inner {
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:1080px; margin:0 auto; padding:0 24px;
+  }
+  .sim-logo {
+    font-family:'PT Serif', serif; font-size:22px; color:#fff; text-decoration:none;
+    font-weight:700;
+  }
+  .sim-mast-nav {
+    display:flex; gap:22px; font-family:'Archivo', system-ui, sans-serif;
+    font-size:14px;
+  }
+  .sim-mast-nav a { color:#cbd5e1; text-decoration:none; }
+  .sim-mast-nav a:hover { color:#fff; }
+  .sim-mast-flag {
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:#fbbf24; letter-spacing:0.08em; padding:4px 8px;
+    border:1px solid #fbbf24; border-radius:3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="test-banner" role="alert">
+  <strong>⚠ TEST &amp; VALIDATIE OMGEVING — NIET PUBLIEK</strong><br />
+  Dit is een gesimuleerde ESRF.net-bezoekersreis op de Cloudflare Pages branch preview.
+  Niet de echte site. Geen echte data invoeren. Niet publiek delen.
+  Terug naar <a href="validation-lab.html">Validation Lab</a>.
+</div>
+
+<header class="sim-mast" aria-label="Gesimuleerde ESRF.net masthead">
+  <div class="sim-mast-inner">
+    <a href="esrf-simulated-site.html" class="sim-logo">ESRF.net <span style="font-size:12px;font-weight:400;color:#fbbf24;letter-spacing:0.08em">[SIM]</span></a>
+    <nav class="sim-mast-nav" aria-label="Gesimuleerde primaire navigatie">
+      <a href="esrf-simulated-site.html#sectoren">Sectoren</a>
+      <a href="esrf-simulated-site.html#redactie">Redactie</a>
+      <a href="esrf-simulated-site.html#bijdragen">Bijdragen</a>
+      <a href="submit-validation.html">Naar opgaveformulier</a>
+    </nav>
+    <span class="sim-mast-flag">VALIDATION</span>
+  </div>
+</header>
+
+<main class="sim-wrap">
+
+  <section class="sim-hero" aria-labelledby="sim-hero-h">
+    <p class="sim-kicker">§ Gesimuleerde home · validatie · noindex,nofollow</p>
+    <h1 id="sim-hero-h" class="sim-h1">Europese veiligheid en weerbaarheid, samen zichtbaar gemaakt.</h1>
+    <p class="sim-deck">
+      Een gesimuleerde startpagina om de bezoekersreis naar het opgaveformulier te valideren.
+      Organisaties kunnen zich opgeven voor het atlas, redactionele bijdragers kunnen praktijkverhalen
+      en regionale notities insturen — beide via één geïntegreerd opgaveformulier.
+    </p>
+    <div class="sim-cta-row" role="group" aria-label="Primaire acties">
+      <a class="sim-cta sim-cta-primary" href="submit-validation.html">
+        Organisatie aanmelden <span class="sim-cta-arrow" aria-hidden="true">→</span>
+      </a>
+      <a class="sim-cta sim-cta-secondary" href="submit-validation.html#mode-editorial">
+        Bijdrage of praktijkverhaal insturen <span class="sim-cta-arrow" aria-hidden="true">→</span>
+      </a>
+      <a class="sim-cta sim-cta-tertiary" href="submit-validation.html">
+        Naar opgaveformulier
+      </a>
+    </div>
+  </section>
+
+  <section class="sim-section" id="sectoren" aria-labelledby="sim-sectoren-h">
+    <h2 id="sim-sectoren-h">Drie startpunten voor bezoekers</h2>
+    <div class="sim-cards">
+      <article class="sim-card">
+        <h3>Organisatie zonder vermelding</h3>
+        <p>Werk je bij een organisatie die past in de Europese veiligheid- en weerbaarheidsatlas, maar nog niet vermeld is? Geef je organisatie op via het geïntegreerde formulier.</p>
+        <a class="sim-card-link" href="submit-validation.html">→ Organisatie aanmelden</a>
+      </article>
+      <article class="sim-card">
+        <h3>Redactionele bijdrager</h3>
+        <p>Schrijf een Leadership Lesson, In het zonnetje of een Regional Field Note. Je bijdrage gaat via dezelfde intake, met een editorial-modus.</p>
+        <a class="sim-card-link" href="submit-validation.html#mode-editorial">→ Bijdrage insturen</a>
+      </article>
+      <article class="sim-card">
+        <h3>Beide tegelijk</h3>
+        <p>Organisaties die zich opgeven én een redactionele bijdrage willen leveren, kunnen dit in één formulier doen via de modus "beide".</p>
+        <a class="sim-card-link" href="submit-validation.html#mode-both">→ Naar opgaveformulier</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="sim-section" id="redactie" aria-labelledby="sim-redactie-h">
+    <h2 id="sim-redactie-h">Validatie van de bezoekersreis</h2>
+    <p style="font-family:'Archivo', system-ui, sans-serif; font-size:15px; line-height:1.65; color:#334155; max-width:720px;">
+      Deze gesimuleerde home dient om te toetsen of bezoekers het opgaveformulier kunnen vinden via een
+      logische reis: vanaf een herkenbare ESRF.net-stijl startpagina, via duidelijke CTA's,
+      naar het geïntegreerde validatieformulier op <code>submit-validation.html</code>.
+      Geen echte productiepagina is gewijzigd. Geen publieke navigatie of footer linkt hierheen.
+    </p>
+  </section>
+
+  <section class="sim-section" aria-labelledby="sim-contribute-h">
+    <div class="sim-contribute" id="bijdragen">
+      <h2 id="sim-contribute-h">Bijdragen aan ESRF.net</h2>
+      <p>Eén opgaveformulier, drie modi. Kies wat past bij jouw situatie:</p>
+      <ul class="sim-contribute-list">
+        <li>Organisatie aanmelden voor het atlas</li>
+        <li>Editorial bijdrage insturen (Leadership Lesson, In het zonnetje, Regional Field Note)</li>
+        <li>Beide tegelijk in één doorloop</li>
+        <li>Lichte editorial-only intake voor regionale bijdragers</li>
+      </ul>
+      <div class="sim-cta-row">
+        <a class="sim-cta sim-cta-primary" href="submit-validation.html">
+          Naar geïntegreerd opgaveformulier <span class="sim-cta-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="sim-cta sim-cta-tertiary" href="contribute-editorial-test.html">
+          Alleen editorial intake (lichte variant)
+        </a>
+        <a class="sim-cta sim-cta-tertiary" href="request-listing-validation.html">
+          Klassiek opgavepad (validatie)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="sim-footer" aria-label="Gesimuleerde voettekst">
+    <p>
+      Gesimuleerde ESRF.net-omgeving · branch preview · niet publiek ·
+      <a href="validation-lab.html">terug naar Validation Lab</a> ·
+      <a href="submit-validation.html">opgaveformulier</a>
+    </p>
+    <p>noindex,nofollow op alle validatiepagina's. Geen sitemap-, robots- of navigatielekken naar de publieke site.</p>
+  </footer>
+
+</main>
+
+</body>
+</html>
