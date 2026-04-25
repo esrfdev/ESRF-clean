@@ -11,3 +11,7 @@
 # Cloudflare for 301 responses; :splat preserves the path.
 https://www.esrf.net/* https://esrf.net/:splat 301
 http://www.esrf.net/*  https://esrf.net/:splat 301
+
+# Koningsdag 2026 — temporarily redirect until scheduled publish (27 Apr 02:00 CEST)
+/editorial-koningsdag-2026 / 302
+/editorial-koningsdag-2026.html / 302
