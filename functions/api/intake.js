@@ -31,10 +31,26 @@
 //   - In lab/preview, payloads carry `target_prefix: "LAB_"` and the
 //     explicit lab tab names so the Apps Script never accidentally
 //     touches Directory_Master.
-//   - Notification (INTAKE_NOTIFY_WEBHOOK) is minimal — no PII, no
-//     editorial body. If unset, response includes
+//   - Notification is minimal — no PII, no editorial body. The
+//     channel is referred to as the **ESRF mailnotificatie /
+//     operationele notificatie / mailrelay-webhook** (NOT a Gmail
+//     webhook — ESRF.net does not run on Gmail).
+//     Two env vars are honoured:
+//       * INTAKE_NOTIFY_WEBHOOK — optional generic mailrelay/webhook
+//         URL. When set, the backend POSTs the minimal notification
+//         message to that URL. The receiver (Apps Script, Pipedream,
+//         a custom mailrelay, …) is responsible for delivering the
+//         email to the configured recipient.
+//       * INTAKE_NOTIFY_TO — optional recipient address included in
+//         the notification message metadata so the relay knows where
+//         to deliver. Documented default: office@esrf.net. Setting
+//         this on its own does NOT cause the Cloudflare backend to
+//         send mail directly; the Apps Script (or another relay)
+//         performs the actual MailApp.sendEmail() call when its own
+//         NOTIFY_TO Script Property is set.
+//     If both are unset, the response includes
 //     `notification_status: "dry_run_not_configured"` plus the exact
-//     would-be message.
+//     would-be message — no real email is sent.
 //
 // No secrets are returned to the client. The endpoint refuses anything
 // that is not a JSON POST.
@@ -138,6 +154,14 @@ export async function onRequestPost(context) {
 
   const sheetDryRun = !hasSheetConfig;
   const issueDryRun = !hasIssueConfig;
+
+  // Optional notification recipient metadata. This is NEVER an
+  // editorial recipient — it is the operational ESRF inbox the
+  // mailrelay/Apps Script should deliver the minimal notification
+  // to. Documented default: office@esrf.net (kept as docs example,
+  // never hardcoded here). The backend only forwards this metadata;
+  // it does not send mail itself.
+  const notifyRecipient = sanitizeNotifyRecipient(env.INTAKE_NOTIFY_TO);
 
   const issuePreview = buildIssuePreview(payload);
   const sharedSecret = String(env.SHEETS_WEBHOOK_SECRET || env.INTAKE_SHEET_WEBHOOK_SECRET || '').trim();
@@ -255,7 +279,15 @@ export async function onRequestPost(context) {
     related_sheet: LAB_SPREADSHEET.tabs.intake_submissions,
     related_row: (sheetResult && sheetResult.row_id) || '',
     issue_url: refs.issue_url,
+    notify_to: notifyRecipient,
   });
+
+  // Forward the same minimal message to the Apps Script alongside the
+  // sheet write so it can (optionally) trigger a MailApp notificatie
+  // to the configured ESRF inbox without re-deriving fields. The
+  // Apps Script only sends mail if its own NOTIFY_TO Script Property
+  // is set; the Cloudflare backend never sends mail directly.
+  sheetWebhookPayload.notification_message = notificationMessage;
 
   let notificationStatus;
   let notifyResult = null;
@@ -313,8 +345,9 @@ export async function onRequestPost(context) {
       lab_tabs: LAB_SPREADSHEET.tabs,
       forbidden_targets: LAB_SPREADSHEET.forbidden_targets,
       evidence_record: 'github_issue',
-      notification: 'webhook_minimal_no_pii',
-      note: 'Lab/preview writes only to LAB_* tabs. Directory_Master is never modified by this backend.',
+      notification: 'esrf_mail_relay_or_webhook_minimal_no_pii',
+      notification_recipient_default: notifyRecipient || '(not set; documented default: office@esrf.net)',
+      note: 'Lab/preview writes only to LAB_* tabs. Directory_Master is never modified by this backend. The notification channel is an ESRF mailnotificatie / mailrelay-webhook (never Gmail-specific).',
     },
     warnings,
   };
@@ -744,7 +777,7 @@ function buildWorkflowEventRow(payload, opts) {
     status_to: opts.status_to || '',
     next_required_action: opts.next_required_action || '',
     actor: 'backend',
-    notification_channel: 'webhook',
+    notification_channel: 'esrf_mail_relay_or_webhook',
     notification_status: opts.notification_status || 'pending',
     message_summary: opts.message_summary || '',
     related_sheet: opts.related_sheet || '',
@@ -757,7 +790,12 @@ function buildWorkflowEventRow(payload, opts) {
 
 function buildNotificationMessage(payload, ctx) {
   const c = payload.contact || {};
-  return {
+  // Recipient metadata: included only when explicitly configured.
+  // The recipient is operational (the ESRF inbox the mailrelay should
+  // deliver to, e.g. office@esrf.net) — NOT an editorial address.
+  // We only ever surface a sanitised recipient or omit the field.
+  const notifyTo = sanitizeNotifyRecipient(ctx.notify_to);
+  const message = {
     schema_version: 1,
     submission_id: ctx.submission_id || '',
     request_id: ctx.request_id || '',
@@ -774,8 +812,25 @@ function buildNotificationMessage(payload, ctx) {
     related_sheet: ctx.related_sheet || '',
     related_row: ctx.related_row || '',
     issue_url: ctx.issue_url || '',
-    note: 'Minimal lab notification. Contains no PII (no email/phone) and no editorial body.',
+    notification_channel: 'esrf_mail_relay_or_webhook',
+    note: 'Minimal ESRF mailnotificatie / mailrelay payload. Contains no PII (no email/phone/name) and no editorial body. Recipient (when set) is the operational ESRF inbox, not an editorial submitter address.',
   };
+  if (notifyTo) message.notify_to_recipient = notifyTo;
+  return message;
+}
+
+// Recipient sanitiser. We never reflect arbitrary email addresses
+// from user input — only the operator-controlled INTAKE_NOTIFY_TO
+// env var (or an explicit ctx override). The check is intentionally
+// strict so a misconfigured value cannot leak as a notification
+// recipient.
+function sanitizeNotifyRecipient(value) {
+  if (value == null) return '';
+  const v = String(value).trim();
+  if (!v) return '';
+  if (v.length > 254) return '';
+  if (!/^[^@\s<>"']+@[^@\s<>"']+\.[^@\s<>"']+$/.test(v)) return '';
+  return v;
 }
 
 function nextRequiredAction(payload, stage) {
@@ -900,6 +955,7 @@ if (typeof globalThis !== 'undefined') {
     sanitize,
     sanitizeLong,
     sanitizeUrl,
+    sanitizeNotifyRecipient,
     isAllowedOrigin,
     mdEscapeInline,
   };

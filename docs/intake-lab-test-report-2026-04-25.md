@@ -75,8 +75,12 @@ All expectations met. Specifically:
 - Notification: `dry_run_not_configured`, message preview contains
   schema_version / submission_id / request_id / environment / mode /
   type / org_name / country / region / workflow_status /
-  next_required_action / related_sheet / note. **No** contact email,
+  next_required_action / related_sheet / notification_channel
+  (`esrf_mail_relay_or_webhook`) / note. **No** contact email,
   contact name, contact phone, summary, regional_angle, or lesson.
+  `notify_to_recipient` is **omitted** when `INTAKE_NOTIFY_TO` is
+  unset; when set to `office@esrf.net`, that recipient is the only
+  email address the message contains (operational, not editorial).
 - LAB row preview entries present for `LAB_Intake_Submissions`,
   `LAB_Editorial_Intake`, `LAB_Backend_Log`, `LAB_Workflow_Events`.
   No `LAB_Place_Candidates` row (place was a known one — matches
@@ -127,6 +131,13 @@ report:
 
 ## 4. Notification contract — process-step expectations
 
+The notification channel is the **ESRF mailnotificatie /
+operationele notificatie / mailrelay-webhook**. It is **not** a
+Gmail-specific integration — ESRF.net does not run on Gmail. The
+generic mailrelay-/webhook-receiver (Apps Script, Pipedream,
+internal SMTP relay, …) is responsible for delivering the email
+to the configured ESRF inbox (recommended: `office@esrf.net`).
+
 For each successful `POST /api/intake` the redactie should see, in
 order, these workflow steps in the response (and — once
 `INTAKE_NOTIFY_WEBHOOK` is active — a single ping carrying only the
@@ -146,17 +157,32 @@ minimal fields):
 `mode`, `type` (`org` / `editorial` / `org+editorial`), `org_name`,
 `country`, `region`, `workflow_status`, `next_required_action`,
 `related_sheet`, `related_row` (when known), `issue_url` (when
-GitHub evidence is configured), `note`.
+GitHub evidence is configured), `notification_channel`
+(always `esrf_mail_relay_or_webhook`), `note`.
+
+**Notification body — what it MAY contain (operational)**
+
+`notify_to_recipient` — the operational ESRF inbox the relay should
+deliver to (e.g. `office@esrf.net`). Present only when
+`INTAKE_NOTIFY_TO` is set to a valid email; omitted otherwise. The
+documented default for production activation is `office@esrf.net`.
+This is operational, not editorial — the submitter's address is
+**never** leaked here.
 
 **Notification body — what it MUST NOT contain**
 
 No `contact_email`, no `contact_name`, no `contact_phone`,
 no `editorial.summary`, no `editorial.regional_angle`,
-no `editorial.lesson`, no other free-form editorial body. The
-notification is a pointer back to the spreadsheet — it never
-duplicates editorial text or PII. Enforced by the test
-`notification message excludes PII and editorial body` in
-`functions/api/intake.test.mjs`.
+no `editorial.lesson`, no other free-form editorial body. No
+"Gmail" wording (the channel is named `esrf_mail_relay_or_webhook`,
+not a Gmail-specific integration). The notification is a pointer
+back to the spreadsheet — it never duplicates editorial text or
+PII. Enforced by the tests:
+- `notification message excludes PII and editorial body`
+- `notification message exposes notify_to_recipient ONLY when configured + valid`
+- `sanitizeNotifyRecipient accepts office@esrf.net and rejects junk`
+- `workflow event row labels notification channel as ESRF mail relay/webhook (not Gmail)`
+in `functions/api/intake.test.mjs`.
 
 ---
 
@@ -169,7 +195,8 @@ backend stays in full dry-run:
 |---|---|---|
 | `INTAKE_SHEET_WEBHOOK_URL` (or `SHEETS_WEBHOOK_URL`) | unset | `sheet_dry_run: true`, no row written |
 | `SHEETS_WEBHOOK_SECRET` | unset | n/a while URL is unset |
-| `INTAKE_NOTIFY_WEBHOOK` | unset | `notification_status: dry_run_not_configured` |
+| `INTAKE_NOTIFY_WEBHOOK` | unset | `notification_status: dry_run_not_configured` (no real email sent) |
+| `INTAKE_NOTIFY_TO` | unset | `notify_to_recipient` field omitted from notification message; documented default for activation is `office@esrf.net` |
 | `TURNSTILE_SECRET_KEY` | unset | Turnstile verification skipped (warning emitted) |
 | `GITHUB_TOKEN` + `INTAKE_REPO` | unset | `issue_dry_run: true`, no GitHub issue created |
 
@@ -197,10 +224,24 @@ operational, not code:
    only, `test/regional-editorial-contributor-intake`):**
    - `INTAKE_SHEET_WEBHOOK_URL` = the deployed Web App URL
    - `SHEETS_WEBHOOK_SECRET` = the shared secret from step 2
-   - (Optional) `INTAKE_NOTIFY_WEBHOOK` = a Slack-compatible webhook
-     for the redactie channel
+   - (Optional) `INTAKE_NOTIFY_WEBHOOK` = the ESRF mailrelay-/
+     notificatie-webhook URL (Apps Script, Pipedream, internal
+     SMTP relay, Slack-compatible endpoint, …). **Not** Gmail.
+   - (Optional) `INTAKE_NOTIFY_TO` = `office@esrf.net` — the
+     operational ESRF inbox the relay should deliver to. Forwarded
+     as `notify_to_recipient` metadata in the notification message.
    - (Optional) `TURNSTILE_SECRET_KEY`
    - **Do not** set these on Production until the redactie signs off.
+
+3a. **(Optional) Activate ESRF mailnotificatie inside the Apps
+    Script.** On the Apps Script project that backs the webhook,
+    open *Project Settings → Script Properties* and set
+    `NOTIFY_TO = office@esrf.net`. The next successful intake write
+    will trigger a `MailApp.sendEmail()` to that address with the
+    same minimal, PII-free payload. To stop sending mail, clear the
+    property — no code change or redeploy needed. **No real email
+    is sent until this property is set**; the lab dry-run has only
+    verified the route, not a live delivery.
 4. **Re-run the browser dry-run** of step 1 above. Expected change:
    `workflow.status: stored`, a real row id from the sheet appears in
    `related_row`, and the `LAB_Intake_Submissions` tab shows the new

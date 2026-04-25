@@ -61,7 +61,8 @@ until the redactie signs off.
 | `SHEETS_WEBHOOK_URL` | Documented alias accepted by the backend | Used if the canonical name is absent |
 | `GOOGLE_SHEET_WEBHOOK_URL` | Legacy alias | Fallback only |
 | `SHEETS_WEBHOOK_SECRET` (alias `INTAKE_SHEET_WEBHOOK_SECRET`) | Optional shared secret; sent as `x-esrf-intake-secret` header | Apps Script must verify this |
-| `INTAKE_NOTIFY_WEBHOOK` | Optional notify webhook (Slack-style) | Receives minimal payload only |
+| `INTAKE_NOTIFY_WEBHOOK` | Optional **ESRF mailrelay-/notificatie-webhook** URL | Receives the minimal, PII-free notification payload. Generic relay (Apps Script, Pipedream, custom mailrelay, Slack-compatible endpoint, …). **Not** a Gmail-specific integration — ESRF.net does not run on Gmail. |
+| `INTAKE_NOTIFY_TO` | Optional operational recipient address | Documented default: `office@esrf.net`. Forwarded as `notify_to_recipient` metadata in the notification message. The Cloudflare backend never sends mail directly; the relay (e.g. the Apps Script's `NOTIFY_TO` Script Property) performs the actual `MailApp.sendEmail()` call. |
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret | Without it, Turnstile is skipped (warning emitted) |
 | `GITHUB_TOKEN` + `INTAKE_REPO` | Optional: open a private intake issue as evidence record | `INTAKE_REPO` is `owner/repo` |
 
@@ -116,6 +117,13 @@ fields (and the existing `ok`, `mode`, `received_at`, etc.):
 
 ### Notification contract (minimal — no PII, no editorial body)
 
+The notification channel is the **ESRF mailnotificatie /
+operationele notificatie / mailrelay-webhook**. It is intentionally
+generic — any HTTP endpoint that knows how to deliver an email (Apps
+Script's `MailApp`, Pipedream, a custom mailrelay, a Slack-compatible
+incoming webhook, …) can be plugged in. ESRF.net does **not** run on
+Gmail and there is no Gmail-specific code path.
+
 The notification message contains **only**:
 
 ```
@@ -133,19 +141,53 @@ next_required_action
 related_sheet         // e.g. "LAB_Intake_Submissions"
 related_row           // sheet row id once known
 issue_url             // when GitHub evidence record is configured
+notification_channel  // always "esrf_mail_relay_or_webhook"
+notify_to_recipient   // OPTIONAL — operational ESRF inbox (e.g. office@esrf.net) — only present when INTAKE_NOTIFY_TO is set
 note
 ```
 
 It MUST NOT contain `contact_email`, `contact_phone`, `contact_name`,
 `editorial.summary`, `editorial.regional_angle`, `editorial.lesson` or
 any other free-form editorial body. The
-`functions/api/intake.test.mjs` test "notification message excludes PII
-and editorial body" enforces this.
+`functions/api/intake.test.mjs` tests *"notification message excludes
+PII and editorial body"* and *"notification message exposes
+notify_to_recipient ONLY when configured + valid"* enforce this. The
+test *"workflow event row labels notification channel as ESRF mail
+relay/webhook (not Gmail)"* enforces the channel naming.
 
 If `INTAKE_NOTIFY_WEBHOOK` is unset, the response carries
 `notification_status: "dry_run_not_configured"` and the exact would-be
 message is returned in `notification_message` so the redactie can
 inspect it.
+
+#### Activating real mail delivery to `office@esrf.net`
+
+Two activation paths, depending on where you want the actual
+`MailApp.sendEmail()` call to live:
+
+1. **Apps Script (recommended for the lab — single deploy unit).**
+   On the Apps Script project that backs `INTAKE_SHEET_WEBHOOK_URL`,
+   open *Project Settings → Script Properties* and set
+   `NOTIFY_TO = office@esrf.net`. After the next successful intake
+   write, the Apps Script sends a minimal MailApp notification to
+   that inbox. Clear the property to disable. The Apps Script
+   reference (`docs/apps-script-intake-webhook.gs`) implements this
+   with the same allow-list / forbidden-fields guarantees as the
+   backend payload, so PII cannot leak into the email body.
+
+2. **External mailrelay / webhook (e.g. Pipedream, n8n,
+   internal SMTP relay).** Set `INTAKE_NOTIFY_WEBHOOK` on Cloudflare
+   Pages to the relay URL, and `INTAKE_NOTIFY_TO=office@esrf.net` so
+   the relay knows the operational recipient. The Cloudflare backend
+   POSTs the same minimal JSON to the relay; the relay translates it
+   to email.
+
+In both paths **the Cloudflare Pages Function never sends email
+itself**. No SMTP credentials live in Cloudflare. No real email is
+sent until the operator opts in by setting the relevant property /
+env var. The lab readiness checklist in
+[`intake-lab-test-report-2026-04-25.md`](./intake-lab-test-report-2026-04-25.md)
+documents the exact activation steps.
 
 ---
 

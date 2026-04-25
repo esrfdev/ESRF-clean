@@ -29,6 +29,7 @@ const {
   sanitize,
   sanitizeLong,
   sanitizeUrl,
+  sanitizeNotifyRecipient,
   isAllowedOrigin,
   mdEscapeInline,
 } = api;
@@ -358,6 +359,77 @@ check('notification message excludes PII and editorial body', () => {
   assert.equal(msg.workflow_status, 'dry_run');
   assert.equal(msg.related_sheet, 'LAB_Intake_Submissions');
   assert.equal(msg.type, 'org+editorial');
+  // Channel is the ESRF mailnotificatie / mailrelay-webhook — never
+  // a Gmail-specific integration.
+  assert.equal(msg.notification_channel, 'esrf_mail_relay_or_webhook');
+  assert.ok(!/gmail/i.test(text), 'Gmail wording must not appear in notification');
+  // No recipient leaked when none was configured.
+  assert.equal(msg.notify_to_recipient, undefined);
+});
+
+// ─── Notification recipient metadata (operational, not PII) ─────────────
+check('notification message exposes notify_to_recipient ONLY when configured + valid', () => {
+  const payload = payloadOf({
+    intake_mode: 'org',
+    contact: goodContact,
+    organisation_listing: goodOrg,
+    privacy: goodPrivacy,
+  });
+  // Documented default recipient is the operational ESRF inbox.
+  const ok = buildNotificationMessage(payload, {
+    submission_id: 's1', request_id: 'r1',
+    workflow_status: 'stored', next_required_action: 'x',
+    related_sheet: 'LAB_Intake_Submissions',
+    notify_to: 'office@esrf.net',
+  });
+  assert.equal(ok.notify_to_recipient, 'office@esrf.net');
+  // Submitter PII must STILL not leak even when recipient is set.
+  const text = JSON.stringify(ok);
+  assert.ok(!text.includes('anna@example.org'), 'submitter email leaked when recipient set');
+  assert.ok(!text.includes('Anna Jansen'), 'submitter name leaked when recipient set');
+
+  // Invalid recipient → field omitted (we never reflect garbage).
+  const bad = buildNotificationMessage(payload, {
+    submission_id: 's1', request_id: 'r1',
+    workflow_status: 'stored', next_required_action: 'x',
+    related_sheet: 'LAB_Intake_Submissions',
+    notify_to: 'not an email',
+  });
+  assert.equal(bad.notify_to_recipient, undefined);
+
+  // Empty recipient → field omitted.
+  const empty = buildNotificationMessage(payload, {
+    submission_id: 's1', request_id: 'r1',
+    workflow_status: 'stored', next_required_action: 'x',
+    related_sheet: 'LAB_Intake_Submissions',
+    notify_to: '',
+  });
+  assert.equal(empty.notify_to_recipient, undefined);
+});
+
+check('sanitizeNotifyRecipient accepts office@esrf.net and rejects junk', () => {
+  assert.equal(sanitizeNotifyRecipient('office@esrf.net'), 'office@esrf.net');
+  assert.equal(sanitizeNotifyRecipient('  office@esrf.net  '), 'office@esrf.net');
+  assert.equal(sanitizeNotifyRecipient(''), '');
+  assert.equal(sanitizeNotifyRecipient(null), '');
+  assert.equal(sanitizeNotifyRecipient('not-an-email'), '');
+  assert.equal(sanitizeNotifyRecipient('a@b'), ''); // missing TLD dot
+  assert.equal(sanitizeNotifyRecipient('<x>@y.z'), ''); // angle brackets
+  assert.equal(sanitizeNotifyRecipient('a"b@y.z'), ''); // quote
+});
+
+// Notification rows / docs must not be tagged "Gmail webhook" anywhere.
+check('workflow event row labels notification channel as ESRF mail relay/webhook (not Gmail)', () => {
+  const payload = payloadOf({
+    intake_mode: 'org', contact: goodContact, organisation_listing: goodOrg, privacy: goodPrivacy,
+  });
+  const evt = buildWorkflowEventRow(payload, {
+    event_type: 'intake_received', workflow_step: 'stored',
+    status_from: '', status_to: 'new',
+    next_required_action: 'x', related_sheet: 'LAB_Intake_Submissions',
+  });
+  assert.equal(evt.notification_channel, 'esrf_mail_relay_or_webhook');
+  assert.ok(!/gmail/i.test(JSON.stringify(evt)));
 });
 
 // ─── No Directory_Master target anywhere in the lab payload ─────────────

@@ -86,7 +86,7 @@
       "id": "intake-lab-automation",
       "title": "Lab-automation voor /api/intake — workflow + LAB_* tabs + minimale notificatie",
       "status": "ready-for-webhook-activation",
-      "readinessNote": "Backend, LAB_* tabs and dry-run flow verified end-to-end on 2026-04-25 (submission sub_moelllvt_i21b). Awaiting Cloudflare Pages Preview env vars (INTAKE_SHEET_WEBHOOK_URL + SHEETS_WEBHOOK_SECRET) before live writes. See test report.",
+      "readinessNote": "Backend, LAB_* tabs and dry-run flow verified end-to-end on 2026-04-25 (submission sub_moelllvt_i21b). Awaiting Cloudflare Pages Preview env vars (INTAKE_SHEET_WEBHOOK_URL + SHEETS_WEBHOOK_SECRET) before live writes. Notification channel is the ESRF mailnotificatie / mailrelay-webhook (not a Gmail integration); when activated the operational recipient is office@esrf.net via INTAKE_NOTIFY_TO + INTAKE_NOTIFY_WEBHOOK or via the Apps Script's NOTIFY_TO Script Property. No real email is sent until the operator opts in. See test report.",
       "path": "/submit-validation.html",
       "owner": "ESRF Editorial",
       "purpose": "Lab-versie van de automatische intakeflow: backend POST /api/intake geeft een expliciete workflow (received → validated → stored_or_dry_run → notification_prepared_or_sent → next_required_action) terug, schrijft uitsluitend naar LAB_Intake_Submissions, LAB_Editorial_Intake, LAB_Place_Candidates, LAB_Backend_Log en LAB_Workflow_Events in de bestaande Drive-spreadsheet (id 1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g), en stuurt een PII-vrije notificatie. Directory_Master wordt nooit automatisch aangepast.",
@@ -119,7 +119,8 @@
       "envVars": [
         "INTAKE_SHEET_WEBHOOK_URL (alias: SHEETS_WEBHOOK_URL, legacy: GOOGLE_SHEET_WEBHOOK_URL)",
         "SHEETS_WEBHOOK_SECRET (alias: INTAKE_SHEET_WEBHOOK_SECRET)",
-        "INTAKE_NOTIFY_WEBHOOK",
+        "INTAKE_NOTIFY_WEBHOOK (ESRF mailrelay-/notificatie-webhook URL — not Gmail-specific)",
+        "INTAKE_NOTIFY_TO (operational recipient; documented default: office@esrf.net)",
         "TURNSTILE_SECRET_KEY",
         "GITHUB_TOKEN + INTAKE_REPO"
       ],
@@ -127,8 +128,9 @@
         "Backend response bevat een complete workflow met steps + next_required_action.",
         "Sheet payload draagt target_prefix=LAB_ en noemt Directory_Master als verboden target.",
         "Notification message bevat geen PII en geen editorial body — verifieerbaar via tests.",
-        "Apps Script reference (docs/apps-script-intake-webhook.gs) weigert niet-LAB-targets en Directory_Master.",
-        "node functions/api/intake.test.mjs slaagt voor dry-run, editorial-only, combined en place-candidate routes."
+        "Notification channel is gedocumenteerd als ESRF mailnotificatie / mailrelay-webhook (geen Gmail-specifieke wording); recipient (indien gezet) is office@esrf.net.",
+        "Apps Script reference (docs/apps-script-intake-webhook.gs) weigert niet-LAB-targets en Directory_Master, en heeft een opt-in MailApp-route (NOTIFY_TO) die alleen activeert wanneer expliciet ingesteld.",
+        "node functions/api/intake.test.mjs slaagt voor dry-run, editorial-only, combined, place-candidate, recipient-metadata en geen-Gmail-wording routes."
       ]
     }
   ]

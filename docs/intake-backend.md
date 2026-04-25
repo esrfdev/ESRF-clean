@@ -26,10 +26,14 @@ Per submission, three records exist (each with its own dry-run flag):
 |---|---|---|
 | **Single source of truth** | Google Sheet (Drive) | Minimal flat row: status, organisation, contact, country/region, mode, pointers to issue. The redactie works in this file. |
 | **Evidence / workflow** | Private GitHub issue (optional) | Full structured intake, including editorial body. Provides an immutable audit trail. The sheet row links to the issue. |
-| **Notification** | Webhook (optional) | Minimal ping only — no PII, no editorial text. Includes `sheet_row_id` and `issue_url` so the redactie can jump to the SSoT. |
+| **Notification** | ESRF mailnotificatie / mailrelay-webhook (optional) | Minimal operational ping only — no PII, no editorial text. Includes `sheet_row_id`, `issue_url` and an optional `notify_to_recipient` (default: `office@esrf.net`) so the redactie can jump to the SSoT. **Not** a Gmail-specific integration — ESRF.net does not run on Gmail. |
 
-E-mail is **never** used as a substitute for the spreadsheet. At most it is
-a notification ping that points back to the sheet/issue.
+E-mail is **never** used as a substitute for the spreadsheet. When activated
+(via `INTAKE_NOTIFY_WEBHOOK` + `INTAKE_NOTIFY_TO`, or via the Apps Script's
+`NOTIFY_TO` Script Property), it is at most a minimal operational ping that
+points back to the sheet/issue. The Cloudflare Pages Function never sends
+mail directly; a generic relay (Apps Script `MailApp`, Pipedream,
+internal SMTP relay, …) performs the actual send.
 
 ### Why a webhook (Apps Script) and not direct Sheets API?
 
@@ -73,7 +77,8 @@ via a redactie-side script (`triage`, `accepted`, `rejected`, `published`,
 | `TURNSTILE_SECRET_KEY` | Production anti-bot | Cloudflare Turnstile secret. Without it, Turnstile is skipped and the response includes a warning. |
 | `GITHUB_TOKEN` | Optional evidence | Fine-grained PAT with `issues: write` on the private intake repo only. |
 | `INTAKE_REPO` | Optional evidence | `owner/repo` of the private intake repo. |
-| `INTAKE_NOTIFY_WEBHOOK` | Optional notify | Slack-style webhook for minimal ping (no PII). |
+| `INTAKE_NOTIFY_WEBHOOK` | Optional notify | ESRF mailrelay-/notificatie-webhook URL. Generic relay (Apps Script, Pipedream, internal SMTP relay, Slack-compatible endpoint, …). Receives the minimal, PII-free notification payload only. **Not** Gmail. |
+| `INTAKE_NOTIFY_TO` | Optional recipient | Operational recipient address — documented default `office@esrf.net`. Forwarded as `notify_to_recipient` metadata so the relay knows where to deliver. The Cloudflare backend never sends mail itself. |
 
 Set via Cloudflare Pages → Settings → Environment variables. Use the
 **Production** environment for live, and **Preview** for branch validation
@@ -142,7 +147,7 @@ intake.backend.live            # "Row added to the spreadsheet (single source of
 intake.backend.architecture    # heading "Storage architecture:"
 intake.backend.sheet_label     # "Spreadsheet (Drive) — single source of truth"
 intake.backend.issue_label     # "GitHub issue (private) — evidence/workflow"
-intake.backend.notify_label    # "Notification webhook — ping only (no PII)"
+intake.backend.notify_label    # "ESRF mailnotificatie / mailrelay-webhook — operationele ping only (no PII)"
 intake.backend.warnings        # heading
 intake.backend.row_preview     # "Spreadsheet row (preview, would be added):"
 intake.backend.issue_preview   # "Issue preview (would be created):"
