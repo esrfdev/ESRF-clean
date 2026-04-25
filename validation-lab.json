@@ -85,7 +85,8 @@
     {
       "id": "intake-lab-automation",
       "title": "Lab-automation voor /api/intake — workflow + LAB_* tabs + minimale notificatie",
-      "status": "in-validation",
+      "status": "ready-for-webhook-activation",
+      "readinessNote": "Backend, LAB_* tabs and dry-run flow verified end-to-end on 2026-04-25 (submission sub_moelllvt_i21b). Awaiting Cloudflare Pages Preview env vars (INTAKE_SHEET_WEBHOOK_URL + SHEETS_WEBHOOK_SECRET) before live writes. See test report.",
       "path": "/submit-validation.html",
       "owner": "ESRF Editorial",
       "purpose": "Lab-versie van de automatische intakeflow: backend POST /api/intake geeft een expliciete workflow (received → validated → stored_or_dry_run → notification_prepared_or_sent → next_required_action) terug, schrijft uitsluitend naar LAB_Intake_Submissions, LAB_Editorial_Intake, LAB_Place_Candidates, LAB_Backend_Log en LAB_Workflow_Events in de bestaande Drive-spreadsheet (id 1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g), en stuurt een PII-vrije notificatie. Directory_Master wordt nooit automatisch aangepast.",
@@ -94,9 +95,20 @@
       "basedOn": "/submit-validation.html",
       "documentation": [
         "/docs/intake-lab-automation.md",
+        "/docs/intake-lab-test-report-2026-04-25.md",
         "/docs/apps-script-intake-webhook.gs",
         "/docs/intake-backend.md"
       ],
+      "testEvidence": {
+        "report": "/docs/intake-lab-test-report-2026-04-25.md",
+        "date": "2026-04-25",
+        "submissionId": "sub_moelllvt_i21b",
+        "requestId": "req_moelllvt_19wf",
+        "mode": "both",
+        "workflowStatus": "dry_run",
+        "notificationStatus": "dry_run_not_configured",
+        "directoryMasterTouched": false
+      },
       "labTabs": [
         "LAB_Intake_Submissions",
         "LAB_Editorial_Intake",

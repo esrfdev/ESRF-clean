@@ -4,6 +4,12 @@ Lab/preview automation for the integrated organisation + editorial intake
 form (`submit-validation.html`). Lives on the
 `test/regional-editorial-contributor-intake` branch — **never** production.
 
+> **Latest dry-run evidence:** see
+> [`intake-lab-test-report-2026-04-25.md`](./intake-lab-test-report-2026-04-25.md)
+> for the end-to-end browser dry-run (submission `sub_moelllvt_i21b`),
+> the notification-contract verification, and the operational
+> readiness checklist for activating the Apps Script webhook.
+
 This document covers:
 
 1. The lab tabs and the SSoT contract
