@@ -1,9 +1,22 @@
 {
   "generated": "2026-04-25T08:13:12.113380+00:00",
-  "article_count": 87,
+  "article_count": 88,
   "org_count": 20,
   "focus": "European resilience & regional strengthening",
   "articles": [
+    {
+      "title": "Editorial — Samen oranje, in vrede en veiligheid",
+      "url": "editorial-koningsdag-2026.html",
+      "organisation": "ESRF.net",
+      "orgUrl": "https://esrf.net",
+      "pillar": "stewardship",
+      "country": "EU",
+      "source": "ESRF.net Editorial",
+      "snippet": "Een editorial over Koningsdag in Nederland. Het feest, en de diepere laag eronder: dat we op deze dag samen vieren dat we in vrede en veiligheid kunnen leven. Dat gunnen we heel Europa.",
+      "date": "2026-04-27T12:00:00Z",
+      "lang": "nl",
+      "scope": "european"
+    },
     {
       "title": "Als het erop aankomt, moet hulp elkaar kunnen vinden",
       "url": "editorial-emergency-capaciteit-europa-2026.html",
