@@ -120,6 +120,30 @@
   .region-feedback strong{color:var(--accent);letter-spacing:0.08em}
   .region-feedback.is-warn{border-color:var(--ink);background:rgba(0,0,0,0.04)}
   .region-feedback.is-warn strong{color:var(--ink)}
+  .region-feedback.is-unknown{border-color:#7a5b00;background:rgba(255,196,0,0.10)}
+  .region-feedback.is-unknown strong{color:#7a5b00}
+
+  .place-addition{
+    margin-top:10px;padding:10px 12px;
+    border:1px solid var(--rule);background:rgba(0,0,0,0.02);
+    font-family:'PT Serif',serif;font-size:14px;line-height:1.55;color:var(--ink);
+  }
+  .place-addition[hidden]{display:none}
+  .place-addition .pa-title{
+    display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);
+    margin-bottom:4px;
+  }
+  .place-addition label.pa-check{
+    display:flex;align-items:flex-start;gap:8px;cursor:pointer;
+    font-family:'PT Serif',serif;font-size:14px;color:var(--ink);
+    margin-top:6px;
+  }
+  .place-addition label.pa-check input{margin-top:4px}
+  .place-addition .pa-help{
+    display:block;font-size:12px;color:var(--ink-soft);margin-top:4px;
+    font-family:'PT Serif',serif;font-style:italic;
+  }
 </style>
 </head>
 <body>
@@ -281,8 +305,17 @@
           placeholder="Bijv. Rotterdam, Brussels, Berlin" autocomplete="address-level2"
           list="sv-place-suggestions">
         <datalist id="sv-place-suggestions"></datalist>
-        <span class="hint">Optioneel. Op basis van bekende plaatsnamen kan ESRF een regio voorstellen — controleer het altijd.</span>
+        <span class="hint">Optioneel. Bekende plaatsnamen krijgen een regiovoorstel; staat een plaats er niet bij, dan kun je 'm voorstellen voor toevoeging.</span>
         <div id="sv-place-feedback" class="region-feedback" hidden aria-live="polite"></div>
+        <div id="sv-place-addition" class="place-addition" hidden>
+          <span class="pa-title">Plaats voorstellen voor de redactionele lijst</span>
+          <p style="margin:0">Deze plaats staat nog niet in onze validatielijst. Je kunt 'm laten meelopen als kandidaat — de redactie controleert handmatig en kan de lijst later aanvullen.</p>
+          <label class="pa-check">
+            <input type="checkbox" id="sv-place-add-check" name="place_addition_requested" checked>
+            <span>Voorstellen voor toevoeging aan de regiolijst (<em id="sv-place-add-name"></em>).</span>
+          </label>
+          <span class="pa-help">Kies hieronder zelf het land en de regio; dit helpt de redactie de plaats later goed te koppelen. Geen automatische geocoding — dit is redactionele verrijking.</span>
+        </div>
       </div>
 
       <div class="form-row">
@@ -462,6 +495,7 @@
     <summary>Technische details voor de redactie / Validation Lab</summary>
     <div class="tech-disclosure-body">
       <p>Dit prototype verzendt niets — het toont alleen een lokale preview ter validatie van de UX en velden. Voor productie verloopt de inzending via een Cloudflare Pages Function met Turnstile, honeypot, schema-validatie en een private intake (GitHub issue) zodat redactie een doorzoekbare workflow met labels en historie houdt. Notificaties bevatten alleen samenvatting + link, geen volledige PII.</p>
+      <p><strong>Onbekende plaatsnamen — werkwijze.</strong> Geeft een bezoeker een plaats op die niet in de validatielijst staat, dan blokkeert het formulier dat niet. De plaats blijft als vrije invoer staan, wordt zichtbaar gemarkeerd als nieuw, en gaat als kandidaat (<code>place_addition_candidate</code>) mee in de payload. De bezoeker kiest zelf land en regio. De redactie controleert de kandidaat handmatig; pas daarna kan de statische lookup-lijst worden uitgebreid via een GitHub-PR. Geen externe geocoding — dit is redactionele verrijking, geen automatische geodata.</p>
       <p>Volledige architectuurnotitie en exit-criteria staan in het <a href="validation-lab.html">Validation Lab</a> en in <code>validation-lab.json</code>.</p>
     </div>
   </details>
@@ -806,10 +840,14 @@
   const placeEl = document.getElementById('sv-place');
   const placeFeedback = document.getElementById('sv-place-feedback');
   const placeDatalist = document.getElementById('sv-place-suggestions');
+  const placeAddition = document.getElementById('sv-place-addition');
+  const placeAddCheck = document.getElementById('sv-place-add-check');
+  const placeAddName = document.getElementById('sv-place-add-name');
 
   /* Track the last reason a region was set, for the payload */
   let regionSuggestionSource = null;   /* 'autoselect-from-place' | 'manual-select' | 'manual-free' | null */
   let autoSuggestedRegion = null;
+  let placeKnown = true;   /* false when user types a place not in CITY_TO_REGION */
 
   function populateRegionOptions(cc, preserveValue){
     const list = REGIONS_BY_COUNTRY[cc];
@@ -852,16 +890,18 @@
     }
   }
 
-  function showPlaceFeedback(html, warn){
+  function showPlaceFeedback(html, warn, tone){
     if (!html) {
       placeFeedback.hidden = true;
       placeFeedback.innerHTML = '';
       placeFeedback.classList.remove('is-warn');
+      placeFeedback.classList.remove('is-unknown');
       return;
     }
     placeFeedback.innerHTML = html;
     placeFeedback.hidden = false;
     placeFeedback.classList.toggle('is-warn', !!warn);
+    placeFeedback.classList.toggle('is-unknown', tone === 'unknown');
   }
 
   function rebuildPlaceSuggestions(cc){
@@ -904,18 +944,44 @@
     }
   });
 
+  function setPlaceUnknown(rawLabel){
+    placeKnown = false;
+    if (placeAddName) placeAddName.textContent = rawLabel;
+    if (placeAddition) placeAddition.hidden = false;
+    showPlaceFeedback(
+      '<strong>Onbekende plaats:</strong> "' + escapeHtml(rawLabel) +
+      '" staat nog niet in de validatielijst. De redactie kan deze na controle toevoegen. ' +
+      'Kies hieronder zelf de regio; dit helpt de redactie de plaats later goed te koppelen.',
+      false,
+      'unknown'
+    );
+    /* Don't auto-select region — user picks. Clear any prior auto suggestion. */
+    autoSuggestedRegion = null;
+    if (regionSuggestionSource === 'autoselect-from-place') {
+      regionSuggestionSource = null;
+    }
+  }
+
+  function clearPlaceUnknown(){
+    placeKnown = true;
+    if (placeAddition) placeAddition.hidden = true;
+    if (placeAddName) placeAddName.textContent = '';
+  }
+
   function handlePlaceInput(silentForCountryChange){
     const raw = placeEl.value;
     const key = normalisePlace(raw);
     if (!key) {
+      clearPlaceUnknown();
       showPlaceFeedback('', false);
       return;
     }
     const match = CITY_TO_REGION[key];
     if (!match) {
-      showPlaceFeedback('', false);
+      setPlaceUnknown(raw.trim());
       return;
     }
+    clearPlaceUnknown();
     const currentCountry = countryEl.value;
     if (currentCountry && currentCountry !== match.country) {
       /* Conflict: don't aggressively change the country.
@@ -1064,6 +1130,8 @@
     const regionValue = manualOverride
       ? get(data, 'region_free')
       : get(data, 'region');
+    const placeRaw = get(data, 'place');
+    const additionRequested = !!(placeRaw && !placeKnown && placeAddCheck && placeAddCheck.checked);
     const payload = {
       meta: {
         environment: 'TEST/VALIDATIE',
@@ -1080,7 +1148,12 @@
         phone: get(data, 'phone'),
         country_code: get(data, 'country'),
         country_label: countryLabel,
-        place: get(data, 'place'),
+        place: placeRaw,
+        place_known: !placeRaw ? null : placeKnown,
+        place_addition_requested: additionRequested,
+        place_addition_candidate: additionRequested ? placeRaw : '',
+        place_addition_country: additionRequested ? get(data, 'country') : '',
+        place_addition_region: additionRequested ? regionValue : '',
         region: regionValue,
         region_manual_override: manualOverride,
         region_suggestion_source: regionSuggestionSource,
@@ -1136,7 +1209,19 @@
     lines.push('  E-mail:         ' + p.contact.email);
     if (p.contact.phone) lines.push('  Telefoon:       ' + p.contact.phone);
     lines.push('  Land:           ' + p.contact.country_label + ' (' + p.contact.country_code + ')');
-    if (p.contact.place) lines.push('  Plaats:         ' + p.contact.place);
+    if (p.contact.place) {
+      let placeLine = '  Plaats:         ' + p.contact.place;
+      if (p.contact.place_known === false) placeLine += '   [onbekend — kandidaat voor lijst]';
+      lines.push(placeLine);
+    }
+    if (p.contact.place_addition_requested) {
+      lines.push('                  └─ Voorgesteld voor toevoeging aan regiolijst');
+      if (p.contact.place_addition_country || p.contact.place_addition_region) {
+        lines.push('                     land: ' + (p.contact.place_addition_country || '—') +
+                   ' · regio: ' + (p.contact.place_addition_region || '—'));
+      }
+      lines.push('                     (redactie controleert handmatig — geen automatische geodata)');
+    }
     if (p.contact.region) {
       let regionLine = '  Regio:          ' + p.contact.region;
       if (p.contact.region_suggestion_source) {
