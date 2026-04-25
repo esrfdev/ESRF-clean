@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="googlebot" content="noindex,nofollow" />
+<title>[TEST/VALIDATIE] Regional Editorial Contributor Program — ESRF.net</title>
+<meta name="description" content="Internal test/validation page for the ESRF Regional Editorial Contributor Program. Not for public use." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<style>
+  .test-banner {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    color: #664d03;
+    padding: 16px 20px;
+    margin: 16px auto;
+    max-width: 820px;
+    border-radius: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .test-banner strong { display:block; font-size: 14px; margin-bottom: 6px; letter-spacing: 0.05em; }
+  .preview-box {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 24px;
+    border-radius: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 600px;
+    overflow-y: auto;
+    margin-top: 16px;
+  }
+  .preview-actions { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .preview-actions button {
+    padding: 10px 18px; border-radius: 4px; border: 1px solid #333;
+    background: #fff; cursor: pointer; font-family: inherit; font-size: 13px;
+  }
+  .preview-actions button.primary { background:#0f172a; color:#fff; border-color:#0f172a; }
+  .workflow-note {
+    background:#f0f4f8; border-left:4px solid #2563eb; padding:14px 18px;
+    margin: 18px 0; font-size: 14px; line-height: 1.55; border-radius: 0 4px 4px 0;
+  }
+  .workflow-note h4 { margin: 0 0 8px; font-size: 14px; letter-spacing: 0.04em; }
+  .workflow-note ol { margin: 0; padding-left: 20px; }
+</style>
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <div class="mast-nav" id="primary-nav">
+      <span style="color:#b91c1c;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em">[TEST / VALIDATIE — NOT PUBLIC]</span>
+    </div>
+  </div>
+</nav>
+
+<div class="test-banner" role="alert">
+  <strong>⚠ TEST &amp; VALIDATIE OMGEVING — NIET PUBLIEK</strong>
+  This is an internal test/validation page for the ESRF Regional Editorial Contributor Program.
+  Do <em>not</em> share this URL publicly. Do <em>not</em> enter sensitive, confidential or operational details during testing.
+  Submissions made here are <strong>not</strong> sent to the ESRF editorial intake — the form generates a local preview only.
+</div>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ Editorial · Contributor Program · TEST</div>
+    <h1 class="phero-title">Regional<br><i>Leadership Lessons</i>.</h1>
+    <p class="phero-deck">Contribute a short editorial story about regional collaboration, lessons learned in practice, or recognition for people and teams that make European resilience visible. ESRF.net reviews every contribution editorially before publication. This is the test/validation version of the intake form.</p>
+  </div>
+</section>
+
+<div class="form-wrap">
+
+  <div class="workflow-note">
+    <h4>Editorial workflow</h4>
+    <ol>
+      <li>You submit a short contribution via this form.</li>
+      <li>ESRF.net editorial reviews relevance, authenticity and regional angle.</li>
+      <li>Editorial contacts you to discuss scope, framing and any follow-up questions.</li>
+      <li>ESRF performs the final edit; you check facts and confirm permissions (name, role, organisation, image/logo).</li>
+      <li>If approved, the article is published on ESRF.net with proper attribution.</li>
+    </ol>
+  </div>
+
+  <div id="form-error" class="form-error" hidden role="alert" aria-live="assertive"></div>
+
+  <form id="contrib-form" class="form-grid" novalidate autocomplete="on">
+
+    <input type="text" name="company_website_hp" tabindex="-1" autocomplete="off"
+      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">1. Type of contribution</legend>
+
+      <div class="form-row">
+        <label for="ce-type">Contribution type <span class="req" aria-hidden="true">*</span></label>
+        <select id="ce-type" name="contribution_type" required>
+          <option value="">Select a format…</option>
+          <option value="Leadership Lesson">Leadership Lesson — practice story about collaboration (700–1.000 words)</option>
+          <option value="In het zonnetje">In het zonnetje — recognition for a person or team (400–600 words)</option>
+          <option value="Regional Field Note">Regional Field Note — short practice note from a region (500–800 words)</option>
+        </select>
+        <span class="hint">Choose the format that best fits your story. Editorial may suggest a different format after review.</span>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">2. Contributor details</legend>
+      <p class="fieldset-intro">We need contact information so the editorial team can reach you. Your details are not published without your explicit consent.</p>
+
+      <div class="form-row form-row-pair">
+        <div class="form-row">
+          <label for="ce-name">Your name <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="ce-name" name="contributor_name" required maxlength="120"
+            placeholder="Full name" autocomplete="name" />
+        </div>
+        <div class="form-row">
+          <label for="ce-role">Role / function <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="ce-role" name="contributor_role" required maxlength="160"
+            placeholder="e.g. Director, Crisis Coordinator, Mayor" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="ce-org">Organisation <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="ce-org" name="contributor_organisation" required maxlength="200"
+          placeholder="e.g. Port of Rotterdam, Veiligheidsregio Utrecht, ENISA" />
+      </div>
+
+      <div class="form-row form-row-pair">
+        <div class="form-row">
+          <label for="ce-email">Email <span class="req" aria-hidden="true">*</span></label>
+          <input type="email" id="ce-email" name="contributor_email" required
+            placeholder="you@organisation.eu" autocomplete="email" />
+          <span class="hint">Use your professional email if possible.</span>
+        </div>
+        <div class="form-row">
+          <label for="ce-phone">Phone (optional)</label>
+          <input type="tel" id="ce-phone" name="contributor_phone" maxlength="40"
+            placeholder="+31 …" autocomplete="tel" />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">3. Region &amp; context</legend>
+
+      <div class="form-row form-row-pair">
+        <div class="form-row">
+          <label for="ce-country">Country <span class="req" aria-hidden="true">*</span></label>
+          <select id="ce-country" name="country" required>
+            <option value="">Select…</option>
+            <optgroup label="EU Member States">
+              <option value="AT">Austria</option><option value="BE">Belgium</option>
+              <option value="BG">Bulgaria</option><option value="HR">Croatia</option>
+              <option value="CY">Cyprus</option><option value="CZ">Czech Republic</option>
+              <option value="DK">Denmark</option><option value="EE">Estonia</option>
+              <option value="FI">Finland</option><option value="FR">France</option>
+              <option value="DE">Germany</option><option value="GR">Greece</option>
+              <option value="HU">Hungary</option><option value="IE">Ireland</option>
+              <option value="IT">Italy</option><option value="LV">Latvia</option>
+              <option value="LT">Lithuania</option><option value="LU">Luxembourg</option>
+              <option value="MT">Malta</option><option value="NL">Netherlands</option>
+              <option value="PL">Poland</option><option value="PT">Portugal</option>
+              <option value="RO">Romania</option><option value="SK">Slovakia</option>
+              <option value="SI">Slovenia</option><option value="ES">Spain</option>
+              <option value="SE">Sweden</option>
+            </optgroup>
+            <optgroup label="Other European countries">
+              <option value="IS">Iceland</option><option value="NO">Norway</option>
+              <option value="UA">Ukraine</option><option value="GB">United Kingdom</option>
+              <option value="CH">Switzerland</option>
+            </optgroup>
+            <option value="OTHER">Other / cross-border</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="ce-region">Region <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="ce-region" name="region" required maxlength="160"
+            placeholder="e.g. Rijnmond, Île-de-France, Berlin-Brandenburg" />
+          <span class="hint">Veiligheidsregio, port area, border region, industrial cluster, urban network…</span>
+        </div>
+      </div>
+
+      <div class="form-row form-row-pair">
+        <div class="form-row">
+          <label for="ce-city">City (optional)</label>
+          <input type="text" id="ce-city" name="city" maxlength="120"
+            placeholder="e.g. Rotterdam" />
+        </div>
+        <div class="form-row">
+          <label for="ce-sector">Organisation type / sector <span class="req" aria-hidden="true">*</span></label>
+          <select id="ce-sector" name="sector" required>
+            <option value="">Select…</option>
+            <option>Regional government / municipality</option>
+            <option>Veiligheidsregio / emergency services</option>
+            <option>Port / logistics / supply chain</option>
+            <option>Healthcare / hospital network</option>
+            <option>Energy / utilities / grid</option>
+            <option>Water / environment</option>
+            <option>Industry / critical manufacturing</option>
+            <option>Telecom / digital infrastructure</option>
+            <option>Financial sector</option>
+            <option>Research / academia</option>
+            <option>Civil society / community network</option>
+            <option>Public-private partnership</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">4. The story</legend>
+
+      <div class="form-row">
+        <label for="ce-title">Working title <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="ce-title" name="working_title" required maxlength="200"
+          placeholder="e.g. How the Rijnmond water-energy table got its first joint exercise off the ground" />
+      </div>
+
+      <div class="form-row">
+        <label for="ce-core">Core story / lesson <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="ce-core" name="core_story" required maxlength="1500" rows="6"
+          placeholder="What happened? What was the situation, who was involved, what went well, what didn't, and what is the practical lesson? Plain language is fine — editorial will help shape it."></textarea>
+        <div class="counter" id="core-counter" aria-live="polite">0 / 1500</div>
+      </div>
+
+      <div class="form-row">
+        <label for="ce-partners">Collaboration partners</label>
+        <textarea id="ce-partners" name="partners" maxlength="600" rows="3"
+          placeholder="Which organisations, regions or networks were involved in the collaboration?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="ce-spotlight">Person or team to spotlight (and why)</label>
+        <textarea id="ce-spotlight" name="spotlight" maxlength="800" rows="3"
+          placeholder="If you would like to recognise specific people or teams: who, what did they do, and why did it matter? (Required for 'In het zonnetje'.)"></textarea>
+        <span class="hint">Focus on exemplary behaviour and what others can learn from it — not hero worship.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="ce-lesson">Practical lesson for other regions <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="ce-lesson" name="practical_lesson" required maxlength="800" rows="3"
+          placeholder="What can colleagues in other regions take away from this? One or two sentences is fine."></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">5. Consent &amp; permissions</legend>
+      <p class="fieldset-intro">ESRF.net is editorially independent. Contributions must contain a learning point or public value, and you remain in control of what is published about you.</p>
+
+      <div class="form-check">
+        <input type="checkbox" id="ce-consent-contact" name="consent_contact" required>
+        <label for="ce-consent-contact">I consent to be contacted by the ESRF.net editorial team for review and follow-up about this contribution. <span class="req" aria-hidden="true">*</span></label>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" id="ce-consent-publish" name="consent_publish">
+        <label for="ce-consent-publish">I agree that my name, role and organisation may be published with the article (subject to my final approval of the edited text).</label>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" id="ce-consent-image" name="consent_image">
+        <label for="ce-consent-image">If I provide an image or logo separately, I confirm I have the rights to share it for editorial publication.</label>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" id="ce-consent-noconfidential" name="consent_noconfidential" required>
+        <label for="ce-consent-noconfidential">I confirm that this contribution does <strong>not</strong> contain confidential, classified or operationally sensitive information. <span class="req" aria-hidden="true">*</span></label>
+      </div>
+
+      <div class="form-check">
+        <input type="checkbox" id="ce-gdpr" name="gdpr_consent" required>
+        <label for="ce-gdpr">I agree to the <a href="privacy.html">privacy policy</a> and the storage of these details for editorial review purposes. <span class="req" aria-hidden="true">*</span></label>
+      </div>
+    </fieldset>
+
+    <div>
+      <button type="submit" class="form-submit" id="submit-btn">
+        Generate editorial intake preview
+      </button>
+      <p class="hint" style="margin-top:10px">This test build does not send anything. It generates a structured intake summary you can copy or download for editorial review.</p>
+    </div>
+
+  </form>
+
+  <div id="form-success" class="form-success" hidden>
+    <div class="kicker">§ Preview generated</div>
+    <h2>Editorial intake preview</h2>
+    <p style="color:var(--ink-soft);max-width:560px;line-height:1.6">Below is the structured intake summary that ESRF editorial would receive. Review it, copy it to clipboard, or download it as a JSON / text file. To finish the test flow, continue to the test thank-you page.</p>
+
+    <div id="preview-text" class="preview-box" aria-live="polite"></div>
+
+    <div class="preview-actions">
+      <button type="button" class="primary" id="copy-btn">Copy to clipboard</button>
+      <button type="button" id="download-json-btn">Download JSON</button>
+      <button type="button" id="download-txt-btn">Download text</button>
+      <a href="contribution-test-thank-you.html" class="btn outline" style="display:inline-block;padding:10px 18px">Continue to test thank-you →</a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="foot" style="margin-top:60px">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net — TEST</h3>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#b91c1c">
+        Internal test/validation page for the Regional Editorial Contributor Program. Not part of the public site.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  window.__formLoadedAt = Date.now();
+
+  const coreEl = document.getElementById('ce-core');
+  const coreCounter = document.getElementById('core-counter');
+  if (coreEl && coreCounter) {
+    coreEl.addEventListener('input', function(){
+      coreCounter.textContent = this.value.length + ' / 1500';
+    });
+  }
+
+  const form = document.getElementById('contrib-form');
+  const errorBox = document.getElementById('form-error');
+  const successBox = document.getElementById('form-success');
+  const previewBox = document.getElementById('preview-text');
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
+    errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  function hideError() { errorBox.hidden = true; errorBox.textContent = ''; }
+
+  function buildIntake(data) {
+    const get = k => (data.get(k) || '').toString().trim();
+    const getLabel = sel => document.querySelector(sel + ' option:checked')?.textContent || '';
+
+    const payload = {
+      meta: {
+        environment: 'TEST/VALIDATIE',
+        program: 'ESRF Regional Editorial Contributor Program',
+        generated_at: new Date().toISOString(),
+        submitted_via: 'contribute-editorial-test.html'
+      },
+      contribution: {
+        type: get('contribution_type'),
+        working_title: get('working_title'),
+        core_story: get('core_story'),
+        collaboration_partners: get('partners'),
+        spotlight: get('spotlight'),
+        practical_lesson: get('practical_lesson')
+      },
+      contributor: {
+        name: get('contributor_name'),
+        role: get('contributor_role'),
+        organisation: get('contributor_organisation'),
+        email: get('contributor_email'),
+        phone: get('contributor_phone')
+      },
+      region: {
+        country_code: get('country'),
+        country_label: getLabel('#ce-country'),
+        region: get('region'),
+        city: get('city'),
+        sector: get('sector')
+      },
+      consent: {
+        contact: !!data.get('consent_contact'),
+        publish_name_role_org: !!data.get('consent_publish'),
+        image_logo_rights: !!data.get('consent_image'),
+        no_confidential_information: !!data.get('consent_noconfidential'),
+        gdpr_privacy_policy: !!data.get('gdpr_consent')
+      }
+    };
+    return payload;
+  }
+
+  function renderText(p) {
+    const lines = [
+      '═══════════════════════════════════════',
+      'ESRF EDITORIAL INTAKE — TEST/VALIDATIE',
+      'Regional Editorial Contributor Program',
+      '═══════════════════════════════════════',
+      'Generated: ' + p.meta.generated_at,
+      '',
+      '▸ CONTRIBUTION',
+      '  Type:           ' + p.contribution.type,
+      '  Working title:  ' + p.contribution.working_title,
+      '',
+      '  Core story / lesson:',
+      indent(p.contribution.core_story),
+      '',
+      p.contribution.collaboration_partners ? '  Partners:\n' + indent(p.contribution.collaboration_partners) : '',
+      p.contribution.spotlight ? '  Spotlight:\n' + indent(p.contribution.spotlight) : '',
+      '  Practical lesson:\n' + indent(p.contribution.practical_lesson),
+      '',
+      '▸ CONTRIBUTOR',
+      '  Name:           ' + p.contributor.name,
+      '  Role:           ' + p.contributor.role,
+      '  Organisation:   ' + p.contributor.organisation,
+      '  Email:          ' + p.contributor.email,
+      p.contributor.phone ? '  Phone:          ' + p.contributor.phone : '',
+      '',
+      '▸ REGION & SECTOR',
+      '  Country:        ' + p.region.country_label + ' (' + p.region.country_code + ')',
+      '  Region:         ' + p.region.region,
+      p.region.city ? '  City:           ' + p.region.city : '',
+      '  Sector:         ' + p.region.sector,
+      '',
+      '▸ CONSENT',
+      '  Editorial contact:           ' + (p.consent.contact ? 'YES' : 'no'),
+      '  Publish name/role/org:       ' + (p.consent.publish_name_role_org ? 'YES' : 'no'),
+      '  Image/logo rights confirmed: ' + (p.consent.image_logo_rights ? 'YES' : 'no'),
+      '  No confidential info:        ' + (p.consent.no_confidential_information ? 'YES' : 'no'),
+      '  GDPR / privacy policy:       ' + (p.consent.gdpr_privacy_policy ? 'YES' : 'no'),
+      '',
+      '═══════════════════════════════════════',
+      'TEST BUILD — not sent. For internal validation only.',
+      '═══════════════════════════════════════'
+    ].filter(l => l !== '');
+    return lines.join('\n');
+  }
+  function indent(s) {
+    if (!s) return '';
+    return s.split('\n').map(l => '    ' + l).join('\n');
+  }
+
+  let lastPayload = null;
+  let lastText = '';
+
+  function download(filename, content, mime) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+  }
+
+  if (form) {
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      hideError();
+
+      const data = new FormData(form);
+
+      if (data.get('company_website_hp')) return;
+
+      const elapsed = Date.now() - (window.__formLoadedAt || 0);
+      if (elapsed < 3000) {
+        showError('Please take a moment to review the form before submitting.');
+        return;
+      }
+
+      const required = [
+        ['contribution_type', 'contribution type'],
+        ['contributor_name', 'your name'],
+        ['contributor_role', 'your role'],
+        ['contributor_organisation', 'your organisation'],
+        ['contributor_email', 'your email'],
+        ['country', 'country'],
+        ['region', 'region'],
+        ['sector', 'sector'],
+        ['working_title', 'working title'],
+        ['core_story', 'core story'],
+        ['practical_lesson', 'practical lesson']
+      ];
+      for (const [k, label] of required) {
+        if (!(data.get(k) || '').toString().trim()) {
+          showError('Please fill in: ' + label + '.');
+          return;
+        }
+      }
+      const email = (data.get('contributor_email') || '').toString();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        showError('Please enter a valid email address.');
+        return;
+      }
+      if (!data.get('consent_contact') || !data.get('consent_noconfidential') || !data.get('gdpr_consent')) {
+        showError('Please confirm the required consent checkboxes.');
+        return;
+      }
+
+      lastPayload = buildIntake(data);
+      lastText = renderText(lastPayload);
+      previewBox.textContent = lastText;
+
+      form.hidden = true;
+      successBox.hidden = false;
+      successBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  document.getElementById('copy-btn')?.addEventListener('click', async function(){
+    if (!lastText) return;
+    try {
+      await navigator.clipboard.writeText(lastText);
+      this.textContent = 'Copied ✓';
+      setTimeout(() => { this.textContent = 'Copy to clipboard'; }, 1800);
+    } catch (err) {
+      this.textContent = 'Copy failed — select text manually';
+    }
+  });
+
+  document.getElementById('download-json-btn')?.addEventListener('click', function(){
+    if (!lastPayload) return;
+    download('esrf-editorial-intake-test.json', JSON.stringify(lastPayload, null, 2), 'application/json');
+  });
+
+  document.getElementById('download-txt-btn')?.addEventListener('click', function(){
+    if (!lastText) return;
+    download('esrf-editorial-intake-test.txt', lastText, 'text/plain');
+  });
+})();
+</script>
+</body>
+</html>
