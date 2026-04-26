@@ -97,8 +97,8 @@
     {
       "id": "intake-lab-automation",
       "title": "Lab-automation voor /api/intake — workflow + LAB_* tabs + minimale notificatie",
-      "status": "automatic-minimal-notification-disabled-google-mailrelay-delivery-unconfirmed-and-outlook-connector-broad-scope-rejected",
-      "readinessNote": "Backend, LAB_* tabs and dry-run flow verified end-to-end on 2026-04-25 (submission sub_moelllvt_i21b). First successful sheet-only LAB write via /api/intake-test on 2026-04-26 (sub-test_mofow7u5_4dzv → LAB_Intake_Submissions row 4, LAB_Editorial_Intake row 3). Sheet intake remains ACTIVE. Automatic minimal-notification route via Google Apps Script MailApp was tested on 2026-04-26 with operator probe submission sub_moftdrju_f8lk but delivery to office@esrf.net was NOT CONFIRMED; under rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401 the Cloudflare Pages Preview env vars INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO were removed/disabled. Later on 2026-04-26 (14:21) an attempt to authorize an Outlook / Microsoft 365 connector for office@esrf.net was REJECTED by the operator at the Microsoft consent screen because the connector requested broad / full mailbox access instead of a minimal send-only scope; this is recorded as decision event evt_outlook_broad_scope_rejected_20260426_1421. Refusing the broad consent is the correct security decision — the channel only needs Mail.Send. No Outlook connector was authorized; no env vars were set; no test emails were sent; production was not touched. The Google Apps Script MailApp route is therefore marked disabled / delivery-unconfirmed and is NOT a production route, AND the broad-scope Outlook connector path is REJECTED. The recommended next notification routes are minimal-rights only: (1) Microsoft Graph app registration with send-only Mail.Send as office@esrf.net (no Mail.Read / Mail.ReadWrite / full_access_as_app, mailbox-scoped via Exchange Online ApplicationAccessPolicy), (2) authenticated SMTP / mailrelay for office@esrf.net with SPF/DKIM/DMARC alignment, or (3) the manual Sheet-based notification fallback that is in effect today. Each must pass a manually-delivered test under minimal-rights consent before any env var is set. Until then INTAKE_NOTIFY_WEBHOOK / INTAKE_NOTIFY_TO stay unset on every environment and /api/intake keeps reporting notification_status=dry_run_not_configured. Automatic notifications stay disabled. The prepared Apps Script MailApp source remains in-tree as a reference artefact only (docs/apps-script-mail-notification.gs + docs/appsscript.mail-notification.json); see docs/apps-script-mail-notification.future.md and docs/intake-minimal-notification-design.md for the full rollback / decision records. Production was never enabled on this branch and is unchanged.",
+      "status": "sheet-monitoring-active-email-disabled",
+      "readinessNote": "Operational decision recorded 2026-04-26 14:46 UTC (event evt_sheet_monitoring_selected_20260426_1446): for the current lab phase, redactie notifications are handled by PERIODIC SHEET MONITORING of the Drive spreadsheet — NOT by automatic email. The user explicitly confirmed this is acceptable as the operational mode. The operational queue is the LAB_Intake_Submissions, LAB_Editorial_Intake and LAB_Workflow_Events tabs; the procedure for the redactie monitor is documented in the LAB_Instructions tab of the same Drive spreadsheet. Automatic email remains DISABLED until a minimal-rights Microsoft 365 Graph send-only Mail.Send route (or equivalent authenticated SMTP / mailrelay with SPF/DKIM/DMARC alignment) is approved and passes a manually-delivered test under minimal-rights consent. Backend, LAB_* tabs and dry-run flow verified end-to-end on 2026-04-25 (submission sub_moelllvt_i21b). First successful sheet-only LAB write via /api/intake-test on 2026-04-26 (sub-test_mofow7u5_4dzv → LAB_Intake_Submissions row 4, LAB_Editorial_Intake row 3). Sheet intake remains ACTIVE. Automatic minimal-notification route via Google Apps Script MailApp was tested on 2026-04-26 with operator probe submission sub_moftdrju_f8lk but delivery to office@esrf.net was NOT CONFIRMED; under rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401 the Cloudflare Pages Preview env vars INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO were removed/disabled. Later on 2026-04-26 (14:21) an attempt to authorize an Outlook / Microsoft 365 connector for office@esrf.net was REJECTED by the operator at the Microsoft consent screen because the connector requested broad / full mailbox access instead of a minimal send-only scope; this is recorded as decision event evt_outlook_broad_scope_rejected_20260426_1421. Refusing the broad consent is the correct security decision — the channel only needs Mail.Send. No Outlook connector was authorized; no env vars were set; no test emails were sent; production was not touched. The Google Apps Script MailApp route is therefore marked disabled / delivery-unconfirmed and is NOT a production route, AND the broad-scope Outlook connector path is REJECTED. The recommended next notification routes are minimal-rights only: (1) Microsoft Graph app registration with send-only Mail.Send as office@esrf.net (no Mail.Read / Mail.ReadWrite / full_access_as_app, mailbox-scoped via Exchange Online ApplicationAccessPolicy), (2) authenticated SMTP / mailrelay for office@esrf.net with SPF/DKIM/DMARC alignment, or (3) the manual Sheet-based notification fallback that is in effect today. Each must pass a manually-delivered test under minimal-rights consent before any env var is set. Until then INTAKE_NOTIFY_WEBHOOK / INTAKE_NOTIFY_TO stay unset on every environment and /api/intake keeps reporting notification_status=dry_run_not_configured. Automatic notifications stay disabled. The prepared Apps Script MailApp source remains in-tree as a reference artefact only (docs/apps-script-mail-notification.gs + docs/appsscript.mail-notification.json); see docs/apps-script-mail-notification.future.md and docs/intake-minimal-notification-design.md for the full rollback / decision records. Production was never enabled on this branch and is unchanged.",
       "securityReview": {
         "status": "ready",
         "date": "2026-04-26",
@@ -216,6 +216,34 @@
           "/docs/validation-lab.md"
         ]
       },
+      "sheetMonitoringDecision": {
+        "decisionEventId": "evt_sheet_monitoring_selected_20260426_1446",
+        "date": "2026-04-26",
+        "time": "14:46 UTC",
+        "selectedRoute": "Manual Sheet-based notification — redactie monitors the LAB_* tabs directly in the Drive spreadsheet on a periodic cadence.",
+        "userConfirmation": "User explicitly confirmed that periodic Sheet monitoring is acceptable as the operational notification mode for the current lab phase.",
+        "operationalQueue": [
+          "LAB_Intake_Submissions",
+          "LAB_Editorial_Intake",
+          "LAB_Workflow_Events"
+        ],
+        "procedureLocation": "LAB_Instructions tab in the same Drive spreadsheet (ESRF Directory CRM - actuele brondata 2026-04-24, id 1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g). Contains the redactie monitor procedure: cadence, who-watches-which-tab, and how to acknowledge a row.",
+        "automaticEmailStatus": "DISABLED. INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO remain unset on every Cloudflare Pages environment. /api/intake keeps reporting notification_status=dry_run_not_configured. MINIMAL_NOTIFICATION_DESIGN_STATUS stays minimal-notification-design-ready-not-enabled.",
+        "preconditionToReEnableAutomaticEmail": "A minimal-rights Microsoft 365 Graph send-only Mail.Send route (no Mail.Read / Mail.ReadWrite / full_access_as_app, mailbox-scoped via Exchange Online ApplicationAccessPolicy to office@esrf.net) — OR equivalent authenticated SMTP / mailrelay with SPF/DKIM/DMARC alignment — must be approved AND must pass a manually-delivered test under minimal-rights consent before any env var is set.",
+        "envVarsTouched": false,
+        "mailSent": false,
+        "productionTouched": false,
+        "directoryMasterTouched": false,
+        "mainBranchMerged": false,
+        "sheetIntakeImpact": "none — LAB_* rows continue to append on every successful submission via the spreadsheet-only Apps Script.",
+        "statusFlagAfterDecision": "minimal-notification-design-ready-not-enabled (unchanged). Automatic notifications stay disabled. Module status flipped to sheet-monitoring-active-email-disabled to reflect the operational mode.",
+        "supersedes": "Implements route (3) 'manual-sheet-based-notification' from outlookConnectorRejection.recommendedNextRoutes as the active operational mode for this lab phase.",
+        "documentation": [
+          "/docs/intake-minimal-notification-design.md",
+          "/docs/intake-lab-automation.md",
+          "/docs/validation-lab.md"
+        ]
+      },
       "officialIdentity": {
         "official_recipient": "office@esrf.net",
         "official_owner": "ESRF foundation",
@@ -315,8 +343,21 @@
         "LAB_Editorial_Intake",
         "LAB_Place_Candidates",
         "LAB_Backend_Log",
-        "LAB_Workflow_Events"
+        "LAB_Workflow_Events",
+        "LAB_Instructions"
       ],
+      "operationalQueue": {
+        "queueTabs": [
+          "LAB_Intake_Submissions",
+          "LAB_Editorial_Intake",
+          "LAB_Workflow_Events"
+        ],
+        "procedureTab": "LAB_Instructions",
+        "mode": "periodic-sheet-monitoring",
+        "automaticEmailEnabled": false,
+        "decisionEventId": "evt_sheet_monitoring_selected_20260426_1446",
+        "note": "While automatic email is disabled, the redactie watches the queue tabs on a periodic cadence and follows the procedure documented in LAB_Instructions. LAB_Instructions is a procedure tab (read by humans), not a write target of /api/intake — the backend never writes to it; it is excluded from the automatic write surface in the same way Directory_Master is excluded from automatic modification."
+      },
       "envVars": [
         "INTAKE_SHEET_WEBHOOK_URL (alias: SHEETS_WEBHOOK_URL, legacy: GOOGLE_SHEET_WEBHOOK_URL) — set on Preview, sheet intake active.",
         "SHEETS_WEBHOOK_SECRET (alias: INTAKE_SHEET_WEBHOOK_SECRET) — set on Preview, sheet intake active.",

@@ -4,6 +4,22 @@ Lab/preview automation for the integrated organisation + editorial intake
 form (`submit-validation.html`). Lives on the
 `test/regional-editorial-contributor-intake` branch — **never** production.
 
+> **Operational mode (2026-04-26, 14:46 UTC) — periodic Sheet
+> monitoring:** decision event
+> `evt_sheet_monitoring_selected_20260426_1446`. For the current lab
+> phase the redactie monitors `LAB_Intake_Submissions`,
+> `LAB_Editorial_Intake` and `LAB_Workflow_Events` directly in the
+> Drive spreadsheet on a periodic cadence; the redactie monitor
+> procedure lives in the `LAB_Instructions` tab of the same
+> spreadsheet. **No automatic email is sent.** The user explicitly
+> confirmed this is acceptable as the operational mode. Automatic
+> email remains disabled until a minimal-rights Microsoft 365 Graph
+> send-only `Mail.Send` route (or equivalent authenticated SMTP /
+> mailrelay with SPF/DKIM/DMARC alignment) is approved and passes a
+> manually-delivered test under minimal-rights consent. See
+> [`intake-minimal-notification-design.md`](./intake-minimal-notification-design.md)
+> for the full decision record.
+>
 > **Security posture (2026-04-26):** *security-review-ready,
 > production-blocked. First lab-write activation is
 > SPREADSHEET-ONLY; mail notification is deferred to a separate,
@@ -140,6 +156,13 @@ backend payload always carries `target_prefix: "LAB_"` and lists
 | `LAB_Place_Candidates` | Unknown / requested place additions | place candidate |
 | `LAB_Backend_Log` | Every `/api/intake` request, success or error | request |
 | `LAB_Workflow_Events` | State-change events / status transitions | event |
+
+In addition, the spreadsheet contains a procedure tab that the
+backend never writes to:
+
+| Tab | Purpose | Read by |
+|---|---|---|
+| `LAB_Instructions` | Redactie monitor procedure: cadence, who-watches-which-tab, and how to acknowledge a row in the operational queue (`LAB_Intake_Submissions` + `LAB_Editorial_Intake` + `LAB_Workflow_Events`) while automatic email is disabled. | Redactie / operator (humans only). `/api/intake` never writes here, in the same way it never writes to `Directory_Master`. |
 
 The exact column headers are documented in
 [`docs/apps-script-intake-webhook.gs`](./apps-script-intake-webhook.gs)

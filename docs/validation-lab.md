@@ -229,6 +229,43 @@ and
 for the full rollback / decision records and the minimal-rights route
 descriptions.
 
+## Sheet-monitoring decision — 2026-04-26, 14:46 UTC (route 3 selected as active operational mode)
+
+Decision event id: `evt_sheet_monitoring_selected_20260426_1446`.
+
+For the current lab phase the redactie notifications are handled by
+**periodic Sheet monitoring** of the existing Drive spreadsheet — not
+by automatic email. The user explicitly confirmed this is acceptable
+as the operational mode.
+
+- **Operational queue (watch these tabs):** `LAB_Intake_Submissions`,
+  `LAB_Editorial_Intake`, `LAB_Workflow_Events`.
+- **Procedure:** documented in the `LAB_Instructions` tab of the same
+  spreadsheet (cadence, who-watches-which-tab, how to acknowledge a
+  row). `LAB_Instructions` is a procedure tab read by humans; the
+  `/api/intake` backend never writes to it.
+- **Automatic email:** disabled. `INTAKE_NOTIFY_WEBHOOK` and
+  `INTAKE_NOTIFY_TO` remain unset on every Cloudflare Pages
+  environment; `/api/intake` keeps reporting
+  `notification_status: "dry_run_not_configured"`;
+  `MINIMAL_NOTIFICATION_DESIGN_STATUS` stays
+  `minimal-notification-design-ready-not-enabled`.
+- **Re-enabling automatic email:** requires a minimal-rights Microsoft
+  365 Graph send-only `Mail.Send` route — or equivalent authenticated
+  SMTP / mailrelay with SPF/DKIM/DMARC alignment — approved AND
+  passing a manually-delivered test under minimal-rights consent
+  before any env var is set. The Google Apps Script `MailApp` route
+  stays rejected; the broad-scope Outlook connector route stays
+  rejected.
+- **What did NOT happen:** no env vars were enabled, no mail was
+  sent, production was not touched, `Directory_Master` was not
+  touched, and `main` was not merged.
+
+This implements route (3) "Manual Sheet-based notification" from the
+canonical "Recommended next routes" list above as the active
+operational mode for this lab phase. Full record in
+[`intake-minimal-notification-design.md`](./intake-minimal-notification-design.md).
+
 ## Why a hub instead of one-off test branches
 
 - A single hidden branch + preview URL avoids the cost of cutting fresh

@@ -6,6 +6,22 @@
 > the LAB UI preview. **No mail is sent. Automatic notifications stay
 > disabled.**
 >
+> **Operational decision (2026-04-26, 14:46 UTC) — periodic Sheet
+> monitoring selected as the active notification mode:** event
+> `evt_sheet_monitoring_selected_20260426_1446`. For the current lab
+> phase the redactie monitors the LAB_* tabs in the Drive spreadsheet
+> on a periodic cadence; **no automatic email is sent**. The user
+> explicitly confirmed this is acceptable as the operational mode.
+> The operational queue is `LAB_Intake_Submissions`,
+> `LAB_Editorial_Intake` and `LAB_Workflow_Events`; the redactie
+> monitor procedure is documented in the `LAB_Instructions` tab of
+> the same Drive spreadsheet. Automatic email remains disabled until
+> a minimal-rights Microsoft 365 Graph send-only `Mail.Send` route
+> (or equivalent authenticated SMTP / mailrelay with SPF/DKIM/DMARC
+> alignment) is approved and passes a manually-delivered test under
+> minimal-rights consent. No env vars were enabled, no mail was
+> sent, production was not touched, and main was not merged.
+>
 > **Operational decision (2026-04-26, 14:01):** The Google Apps Script
 > `MailApp` mailrelay route was tested with operator probe submission
 > `sub_moftdrju_f8lk`, but delivery to `office@esrf.net` was **not
@@ -323,6 +339,30 @@ Operators MUST NOT re-attempt the Outlook connector flow as a stop-gap
 if it again surfaces a broad / full-mailbox consent screen. The
 recorded decision is that broad mailbox access is **out of scope** for
 the operational notification channel.
+
+## Decision record — 2026-04-26, 14:46 UTC (periodic Sheet monitoring selected)
+
+| Field | Value |
+|---|---|
+| Decision event id | `evt_sheet_monitoring_selected_20260426_1446` |
+| Date / time | 2026-04-26, 14:46 UTC |
+| Selected route | Manual Sheet-based notification — redactie monitors the LAB_* tabs directly in the Drive spreadsheet on a periodic cadence. Implements route (3) `manual-sheet-based-notification` from the canonical "Recommended next routes" list above. |
+| User confirmation | The user explicitly confirmed that periodic Sheet monitoring is acceptable as the operational notification mode for the current lab phase. |
+| Operational queue | `LAB_Intake_Submissions`, `LAB_Editorial_Intake`, `LAB_Workflow_Events` (in the existing `ESRF Directory CRM - actuele brondata 2026-04-24` spreadsheet, id `1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g`). |
+| Procedure | The `LAB_Instructions` tab in the same Drive spreadsheet contains the redactie monitor procedure: cadence, who-watches-which-tab, and how to acknowledge a row. `LAB_Instructions` is a procedure tab read by humans; `/api/intake` never writes to it. |
+| Automatic email | **Disabled.** `INTAKE_NOTIFY_WEBHOOK` and `INTAKE_NOTIFY_TO` remain unset on every Cloudflare Pages environment. `/api/intake` keeps reporting `notification_status: "dry_run_not_configured"`. |
+| Status flag | `MINIMAL_NOTIFICATION_DESIGN_STATUS = 'minimal-notification-design-ready-not-enabled'` (unchanged — the design status only flips to `enabled` when an automatic relay passes the activation checklist). |
+| Cloudflare Pages env vars touched | None. |
+| Test emails sent | None. |
+| Production touched | No. |
+| `Directory_Master` touched | No. |
+| Main branch merged | No. Work stays on `test/regional-editorial-contributor-intake`. |
+| Sheet intake impact | None — LAB_* rows continue to append on every successful submission via the spreadsheet-only Apps Script. |
+| Precondition to re-enable automatic email | A minimal-rights Microsoft 365 Graph send-only `Mail.Send` route (no `Mail.Read` / `Mail.ReadWrite` / `full_access_as_app`, mailbox-scoped via Exchange Online `New-ApplicationAccessPolicy` to `office@esrf.net`) — OR equivalent authenticated SMTP / mailrelay with SPF/DKIM/DMARC alignment — must be approved AND must pass a manually-delivered test under minimal-rights consent before any env var is set. The Google Apps Script `MailApp` route stays rejected (`evt_unconfirmed_google_mailrelay_disabled_20260426_1401`); the broad-scope Outlook / Microsoft 365 connector stays rejected (`evt_outlook_broad_scope_rejected_20260426_1421`). |
+
+This is not a rollback — automatic email was never enabled in the
+first place — it is the explicit selection of the **default-safe**
+fallback route as the active operational mode for this lab phase.
 
 ## Why the Cloudflare backend never sends mail itself
 
