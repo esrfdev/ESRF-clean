@@ -386,9 +386,11 @@
 
       <div class="form-row">
         <label for="sv-ed-summary">Korte samenvatting <span class="req" aria-hidden="true">*</span></label>
-        <textarea id="sv-ed-summary" name="ed_summary" rows="4" maxlength="600"
+        <textarea id="sv-ed-summary" name="ed_summary" rows="4" minlength="20" maxlength="600"
+          aria-required="true"
           placeholder="3–5 zinnen: wat is er gebeurd, waarom is het relevant, wat is de kern?"></textarea>
         <div class="counter" id="sv-ed-summary-counter" aria-live="polite">0 / 600</div>
+        <span class="hint">Minimaal 20 tekens — dit is de samenvatting die de redactie als eerste leest. In modus <em>Beide</em> óók verplicht.</span>
       </div>
 
       <div class="form-row">
@@ -486,6 +488,7 @@
       <button type="button" id="sv-json-btn">Download JSON</button>
       <button type="button" id="sv-txt-btn">Download tekst</button>
       <button type="button" id="sv-backend-btn">Backend test — geen productieopslag tenzij validatiesecrets actief zijn</button>
+      <button type="button" id="sv-lab-btn" hidden>LAB-opslag (preview-only) — POST /api/intake-test</button>
       <button type="button" id="sv-back-btn">← terug naar formulier</button>
     </div>
 
@@ -496,7 +499,15 @@
       </span>
     </p>
 
+    <p id="sv-lab-help" hidden style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
+      <span class="new-pill" style="background:rgba(210,75,31,0.06)">LAB-only</span>
+      <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
+        Verstuurt naar <code>POST /api/intake-test</code> met <code>lab_test:true</code>. Schrijft uitsluitend naar <code>LAB_*</code>-tabs, <strong>nooit</strong> naar <code>Directory_Master</code>. Geen notificatie, geen mail, geen publicatie. Naam en organisatie worden geprefixt met <code>ESRF Lab Test</code> zodat de backend deze als operatortest herkent. Productie-deploys (CF_PAGES_BRANCH=main) geven 404; deze knop is daarom alleen zichtbaar op preview-hostnames.
+      </span>
+    </p>
+
     <div id="sv-backend-result" class="preview-box" hidden aria-live="polite" style="margin-top:10px"></div>
+    <div id="sv-lab-result" class="preview-box" hidden aria-live="polite" style="margin-top:10px"></div>
 
     <pre id="sv-preview" class="preview-box" aria-label="Preview van je inzending"></pre>
   </div>
@@ -1150,6 +1161,13 @@
       for (const [k, label] of edRequired) {
         if (!get(data, k)) return 'Voor editorial bijdrage: vul a.u.b. in: ' + label + '.';
       }
+      const summary = get(data, 'ed_summary');
+      if (summary.length < 20) {
+        return 'Voor editorial bijdrage: de korte samenvatting moet minimaal 20 tekens zijn (3–5 zinnen).';
+      }
+      if (summary.length > 600) {
+        return 'Voor editorial bijdrage: de korte samenvatting mag maximaal 600 tekens zijn.';
+      }
       if (!data.get('consent_edit')) return 'Bevestig a.u.b. de toestemming voor redactie en publicatie.';
       if (!data.get('consent_contact_editorial')) return 'Bevestig a.u.b. dat de eindredactie contact mag opnemen.';
       if (!data.get('consent_no_confidential')) return 'Bevestig a.u.b. dat de inzending geen vertrouwelijke informatie bevat.';
@@ -1392,11 +1410,6 @@
   const backendBtn = document.getElementById('sv-backend-btn');
   const backendResult = document.getElementById('sv-backend-result');
 
-  function escapeHtml(s){
-    return String(s == null ? '' : s)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  }
   function showBackend(html){ backendResult.hidden = false; backendResult.innerHTML = html; }
 
   backendBtn.addEventListener('click', async function(){
@@ -1526,6 +1539,190 @@
     showBackend(lines.join('\n'));
     backendBtn.disabled = false;
     backendBtn.textContent = 'Opnieuw versturen naar validatie-backend';
+  });
+
+  /* ─── LAB-opslag flow (POST /api/intake-test) ────────────────────────
+     Preview-only knop. Alleen zichtbaar op:
+       *.esrf-clean.pages.dev   (Cloudflare Pages branch preview)
+       localhost / 127.0.0.1    (lokale dev)
+     Voegt automatisch het verplichte ESRF-Lab-Test-prefix toe aan
+     contact.organisation én contact.name zodat de backend de POST als
+     operatortest herkent en uitsluitend naar LAB_* tabs schrijft.
+     Notificaties zijn op deze route altijd uit; Directory_Master wordt
+     nooit aangeraakt.
+  */
+  const labBtn = document.getElementById('sv-lab-btn');
+  const labResult = document.getElementById('sv-lab-result');
+  const labHelp = document.getElementById('sv-lab-help');
+
+  function isLabPreviewHostname(hostname){
+    var h = String(hostname || '').toLowerCase();
+    if (!h) return false;
+    if (h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0') return true;
+    if (h.endsWith('.esrf-clean.pages.dev')) return true;
+    return false;
+  }
+
+  if (isLabPreviewHostname(window.location.hostname)) {
+    labBtn.hidden = false;
+    labHelp.hidden = false;
+  }
+
+  function showLab(html){ labResult.hidden = false; labResult.innerHTML = html; }
+
+  // Wrap a payload (built by buildPayload) into the exact shape /api/intake-test
+  // expects: lab_test:true, ESRF Lab Test prefixes on contact.name AND
+  // contact.organisation. We do NOT mutate the user's preview payload — the
+  // lab body is a clone with the marker fields injected.
+  function buildLabBody(basePayload){
+    if (!basePayload || typeof basePayload !== 'object') return null;
+    var clone = JSON.parse(JSON.stringify(basePayload));
+    var contact = clone.contact || (clone.contact = {});
+    var origOrg = String(contact.organisation || '').trim();
+    var origName = String(contact.name || '').trim();
+    function withPrefix(v){
+      var prefix = 'ESRF Lab Test';
+      if (!v) return prefix + ' (anoniem)';
+      if (v.toLowerCase().indexOf(prefix.toLowerCase()) === 0) return v;
+      return prefix + ' — ' + v;
+    }
+    contact.organisation = withPrefix(origOrg);
+    contact.name = withPrefix(origName);
+    // Mirror the prefix into organisation_listing.city/description? No —
+    // those are not the prefix anchor. We leave place enrichment intact.
+    clone.lab_test = true;
+    clone.lab_marker_explicit = true;
+    clone.meta = clone.meta || {};
+    clone.meta.environment = 'TEST/VALIDATIE';
+    clone.meta.lab_test = true;
+    clone.meta.source = 'submit-validation.html#lab-button';
+    clone.meta.original_organisation_redacted = origOrg ? origOrg.slice(0, 80) : '';
+    clone.meta.original_name_redacted = origName ? origName.slice(0, 80) : '';
+    // Honeypot + form-fill timer fields are NOT validated by /api/intake-test
+    // but we forward them anyway for parity with /api/intake.
+    clone.company_website_hp = '';
+    clone.form_duration_ms = Date.now() - (window.__svFormLoadedAt || 0);
+    return clone;
+  }
+
+  // Expose for unit-tests (no DOM/network).
+  window.__svBuildLabBody = buildLabBody;
+  window.__svBuildPayload = function(formData, mode){ return buildPayload(formData, mode); };
+  window.__svValidate = function(formData, mode){ return validate(formData, mode); };
+  window.__svIsLabPreviewHostname = isLabPreviewHostname;
+
+  labBtn.addEventListener('click', async function(){
+    if (!lastPayload) {
+      showLab('<strong>Geen payload.</strong> Genereer eerst de testpreview.');
+      return;
+    }
+    if (!isLabPreviewHostname(window.location.hostname)) {
+      showLab('<strong>Niet beschikbaar.</strong> LAB-opslag is alleen toegestaan op de Cloudflare Pages preview-host of localhost.');
+      return;
+    }
+    labBtn.disabled = true;
+    var original = labBtn.textContent;
+    labBtn.textContent = 'Bezig…';
+    showLab('<em>Verzoek naar /api/intake-test (LAB-opslag, geen notificatie)…</em>');
+
+    var labBody = buildLabBody(lastPayload);
+
+    var res, data;
+    try {
+      res = await fetch('/api/intake-test', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(labBody)
+      });
+    } catch(err) {
+      showLab('<strong>Backend niet bereikbaar.</strong> /api/intake-test werkt alleen op de Cloudflare Pages preview-build (functions zijn lokaal niet actief tenzij wrangler draait). (' + escapeHtml(err.message) + ')');
+      labBtn.disabled = false; labBtn.textContent = original;
+      return;
+    }
+    try { data = await res.json(); } catch { data = null; }
+
+    if (res.status === 404) {
+      showLab('<strong>Route niet beschikbaar (404).</strong> Dit lijkt een productie-deploy of de Pages-functie is niet gepubliceerd. /api/intake-test is met opzet alleen actief op preview-deploys.');
+      labBtn.disabled = false; labBtn.textContent = original;
+      return;
+    }
+
+    if (!res.ok || !data || !data.ok) {
+      var msg = (data && data.error) ? data.error : ('HTTP ' + res.status);
+      showLab('<strong>LAB-backend gaf een fout terug:</strong> ' + escapeHtml(msg));
+      labBtn.disabled = false; labBtn.textContent = original;
+      return;
+    }
+
+    var lines = [];
+    var arch = data.storage_architecture || {};
+    var labTabs = arch.lab_tabs || {};
+    var sw = data.sheet_webhook_payload_preview || {};
+    var swRows = (sw && sw.rows) ? sw.rows : {};
+    var wf = data.workflow || {};
+    lines.push('<strong>' + (data.sheet_dry_run ? 'LAB DRY-RUN — geen rij geschreven (preview secrets ontbreken)' : 'LAB-rij toegevoegd aan de spreadsheet (LAB_*)') + '</strong>');
+    lines.push('<strong>Geen notificatie verstuurd · Directory_Master beschermd</strong>');
+    lines.push('Submission id: ' + escapeHtml(String(data.submission_id || '')));
+    lines.push('Request id: ' + escapeHtml(String(data.request_id || '')));
+    lines.push('Modus: ' + escapeHtml(String(data.mode || '')));
+    lines.push('Ontvangen: ' + escapeHtml(String(data.received_at || '')));
+    lines.push('Omgeving: ' + escapeHtml(String(data.environment || '')));
+    lines.push('Route: ' + escapeHtml(String(data.route || '/api/intake-test')));
+    lines.push('lab_test markering: ' + escapeHtml(String(data.lab_test || false)));
+    lines.push('');
+    lines.push('<strong>Workflow:</strong>');
+    lines.push(' • status: ' + escapeHtml(String(wf.status || '')));
+    lines.push(' • next_required_action: ' + escapeHtml(String(wf.next_required_action || '')));
+    lines.push('');
+    lines.push('<strong>Sheet-doel (lab):</strong>');
+    lines.push(' • spreadsheet: ' + escapeHtml(String(arch.spreadsheet_label || '')) + ' (id ' + escapeHtml(String(arch.spreadsheet_id || '')) + ')');
+    lines.push(' • target_prefix: ' + escapeHtml(String(arch.target_prefix || 'LAB_')));
+    if (labTabs && Object.keys(labTabs).length) {
+      lines.push(' • lab tabs: ' + escapeHtml(Object.values(labTabs).join(', ')));
+    }
+    lines.push(' • verboden tabs: ' + escapeHtml((arch.forbidden_targets || []).join(', ') || 'Directory_Master'));
+    if (data.sheet && data.sheet.row_id) {
+      lines.push(' • geschreven row_id: ' + escapeHtml(String(data.sheet.row_id)));
+    }
+    lines.push('');
+    lines.push('<strong>Notificatie:</strong>');
+    lines.push(' • status: ' + escapeHtml(String(data.notification_status || 'disabled_for_intake_test')));
+    lines.push(' • verstuurd: ' + escapeHtml(String(data.notification_sent === true ? 'JA' : 'NEE')));
+    lines.push(' • opmerking: notificaties zijn op /api/intake-test ALTIJD uitgeschakeld.');
+    lines.push('');
+    lines.push('<strong>Payload-injectie (markering):</strong>');
+    lines.push(' • contact.organisation start met "ESRF Lab Test" (vereist door de backend).');
+    lines.push(' • contact.name start met "ESRF Lab Test" (vereist door de backend).');
+    lines.push(' • lab_test:true en meta.environment=TEST/VALIDATIE.');
+    lines.push('');
+    lines.push('<strong>Wat is er NIET gebeurd?</strong>');
+    lines.push(' • Geen schrijven naar Directory_Master.');
+    lines.push(' • Geen e-mail / mailrelay-aanroep.');
+    lines.push(' • Geen publicatie van editorial-tekst.');
+    lines.push(' • Geen wijziging aan productie-data.');
+
+    if (data.warnings && data.warnings.length) {
+      lines.push('');
+      lines.push('<strong>Waarschuwingen:</strong>');
+      data.warnings.forEach(function(w){ lines.push(' • ' + escapeHtml(w)); });
+    }
+
+    if (data.sheet_dry_run && swRows) {
+      lines.push('');
+      lines.push('<strong>LAB-rijen (preview, zouden worden toegevoegd):</strong>');
+      Object.keys(swRows).forEach(function(tab){
+        lines.push('  [' + escapeHtml(tab) + ']');
+        var row = swRows[tab] || {};
+        Object.keys(row).forEach(function(k){
+          var v = row[k];
+          if (v == null || v === '') return;
+          lines.push('     ' + k + ': ' + escapeHtml(String(v)));
+        });
+      });
+    }
+    showLab(lines.join('\n'));
+    labBtn.disabled = false;
+    labBtn.textContent = 'Opnieuw versturen naar LAB-opslag';
   });
 })();
 </script>

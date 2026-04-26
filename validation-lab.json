@@ -72,14 +72,26 @@
       "path": "/submit-validation.html",
       "owner": "ESRF Editorial",
       "purpose": "Prototype: bestaand atlas-opgaveformulier (request-listing.html) uitgebreid met optionele editorial bijdrage in één geïntegreerd formulier (organisatie / editorial / beide). Toont ook een aanbevolen architectuur voor veilige verwerking via Cloudflare Pages Function + private GitHub issue.",
-      "lastUpdated": "2026-04-25",
+      "lastUpdated": "2026-04-26",
       "visibility": "hidden",
       "basedOn": "/request-listing.html",
+      "labButton": {
+        "label": "LAB-opslag (preview-only) — POST /api/intake-test",
+        "purpose": "Knop in de previewstap die uitsluitend op preview-hostnames (*.esrf-clean.pages.dev / localhost) zichtbaar is en de payload met lab_test:true en het verplichte 'ESRF Lab Test'-prefix op contact.organisation én contact.name naar /api/intake-test stuurt. Notificatie is op deze route altijd uit; Directory_Master wordt nooit aangeraakt.",
+        "hostnameGate": "isLabPreviewHostname() in submit-validation.html: localhost, 127.0.0.1, 0.0.0.0, en *.esrf-clean.pages.dev",
+        "uiStatusMessages": [
+          "LAB-rij toegevoegd aan de spreadsheet (LAB_*) of LAB DRY-RUN melding bij ontbrekende secrets.",
+          "Geen notificatie verstuurd · Directory_Master beschermd.",
+          "Productie (404) en niet-bereikbaar zijn expliciet gemarkeerd in de UI."
+        ]
+      },
       "exitCriteria": [
-        "Modus-keuze (organisatie / editorial / beide) toont en valideert de juiste velden.",
+        "Modus-keuze (organisatie / editorial / beide) toont en valideert de juiste velden, incl. minimale lengte 20 op de korte editorial samenvatting.",
         "Lokale preview rendert correct als JSON, tekst, en kopieerbare samenvatting; niets wordt verzonden.",
         "Architectuurblok (Pages Function + Turnstile + private GitHub issue) is duidelijk en beoordeeld door redactie.",
-        "Wouter / redactie keurt de geïntegreerde UX en NL-teksten goed."
+        "Wouter / redactie keurt de geïntegreerde UX en NL-teksten goed.",
+        "LAB-opslagknop is alleen zichtbaar op preview-hostnames; productie-bezoekers zien hem niet en de backend zou een eventuele directe POST hoe dan ook met 404 weigeren.",
+        "node functions/api/submit-validation-payload.test.mjs slaagt — bevestigt dat de buildLabBody-helper de juiste prefix, lab_test marker en payloadvelden produceert en dat /api/intake-test deze accepteert in org/editorial/both mode."
       ]
     },
     {
@@ -162,7 +174,17 @@
         "mode": "both",
         "workflowStatus": "dry_run",
         "notificationStatus": "dry_run_not_configured",
-        "directoryMasterTouched": false
+        "directoryMasterTouched": false,
+        "labWriteEvidence": {
+          "date": "2026-04-26",
+          "submissionId": "sub-test_mofo28k4_ed8v",
+          "spreadsheetTab": "LAB_Intake_Submissions",
+          "row": 3,
+          "operatorIdentity": "office@esrf.net",
+          "directoryMasterTouched": false,
+          "notificationSent": false,
+          "note": "First successful sheet-only LAB write via /api/intake-test. Confirms end-to-end Apps Script path under office@esrf.net Workspace project. Directory_Master untouched; notification path remains disabled on this route."
+        }
       },
       "labTabs": [
         "LAB_Intake_Submissions",

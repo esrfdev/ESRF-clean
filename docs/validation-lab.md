@@ -89,6 +89,51 @@ When a module is ready, do **not** simply merge the test branch. Instead:
 | `contribute-editorial-test.html` | Existing module: regional editorial intake. |
 | `contribution-test-thank-you.html` | Existing thank-you page for that module. |
 
+## LAB-opslagknop in submit-validation.html (preview-only)
+
+Status: `available-on-preview` per 2026-04-26.
+
+The integrated submit form (`submit-validation.html`) ships with an
+extra **LAB-opslag** button in its preview/success step. It is the
+deliberate operator path for triggering one controlled sheet-only write
+against the LAB_* tabs without re-opening `/api/intake` to general
+traffic. The button:
+
+- is only rendered when `window.location.hostname` matches the
+  preview hostname allowlist (`*.esrf-clean.pages.dev`, `localhost`,
+  `127.0.0.1`, `0.0.0.0`);
+- POSTs to `/api/intake-test` with the user's preview payload, plus
+  the required `lab_test: true` marker and the `ESRF Lab Test` prefix
+  injected into `contact.organisation` AND `contact.name` (the prefix
+  is mandated by the route handler — see `functions/api/intake-test.js`);
+- forces `meta.environment = TEST/VALIDATIE`, never sets a notification
+  recipient, and logs the route used so the redactie can audit;
+- displays a clearly-styled status block reporting whether a row was
+  written, whether it was a dry-run, that no notification was sent,
+  and that `Directory_Master` was not touched;
+- on a production deploy (`CF_PAGES_BRANCH=main` or unset) the route
+  itself returns 404; the hostname gate is the secondary defence so
+  the button never even renders for production visitors.
+
+The frontend payload-shape contract is covered by
+`functions/api/submit-validation-payload.test.mjs`, which mirrors the
+inline `buildLabBody` helper in plain JS, asserts every required
+backend invariant (prefix, marker, environment, place enrichment,
+editorial fields), and runs the result through the real
+`/api/intake-test` handler in `org`, `editorial`, and `both` modes. A
+drift detector in the same file fails if the inline helpers, the LAB
+button or the editorial summary minimum-length guard are removed from
+`submit-validation.html`.
+
+## First successful LAB write — 2026-04-26
+
+The first end-to-end controlled lab-write happened on 2026-04-26 via
+`/api/intake-test` with submission id `sub-test_mofo28k4_ed8v`,
+landing on row 3 of `LAB_Intake_Submissions`. `Directory_Master` was
+not modified and no notification was dispatched. This evidence is
+recorded under `validation-lab.json` →
+`integrated-submit-with-editorial` → `testEvidence.labWriteEvidence`.
+
 ## Why a hub instead of one-off test branches
 
 - A single hidden branch + preview URL avoids the cost of cutting fresh
