@@ -33,6 +33,7 @@ const {
   constantTimeEquals,
   isPreviewEnv,
   safeRecords,
+  normaliseRecord,
 } = api;
 
 let failures = 0;
@@ -270,6 +271,229 @@ await asyncCheck('OPTIONS preflight respects origin allowlist', async () => {
 await asyncCheck('GET method returns 405', async () => {
   const res = await callReview('GET', { headers: { origin: PREVIEW_ORIGIN } });
   assert.equal(res.status, 405);
+});
+
+// ── Change-request normalisation (live LAB row → wijzigingsverzoek) ─────
+//
+// Reproduces the exact failure observed on Preview after intake-test
+// stored a change_request submission as row 7 of LAB_Intake_Submissions:
+// the upstream Apps Script returned the row with record_type='org' and
+// no title, so the redactie review form rendered "ORGANISATIE · … · NL"
+// with "(zonder titel)". Normalisation must rewrite the record to
+// record_type='change_request' with a Dutch title, type_label, and the
+// derived requested_action / sub_mode fields the dedicated panel reads.
+
+check('normaliseRecord: LAB_Intake_Submissions row tagged via submission_type → record_type=change_request', () => {
+  const live = {
+    submission_id: 'sub-test_mog9779c_2njk',
+    received_at: '2026-04-26T22:24:00Z',
+    environment: 'TEST/VALIDATIE',
+    submission_type: 'change_request:update',
+    mode: 'change_request',
+    name: 'ESRF Lab Test Existing Listing',
+    website: 'https://esrf.net/directory/esrf-lab-test',
+    country_code: 'NL',
+    country_name_local: 'Nederland',
+    region: 'Zuid-Holland',
+    consent_publish: 'change_request_only',
+    review_status: 'new',
+    source_tab: 'LAB_Intake_Submissions',
+    source_row_hint: 'rij 7',
+    record_type: 'org',  // upstream default that we override
+    cr_sub_mode: 'change_request',
+    cr_requested_action: 'update',
+    cr_target_listing_name: 'ESRF Lab Test Existing Listing',
+    cr_target_listing_url: 'https://esrf.net/directory/esrf-lab-test',
+    cr_change_description: 'Adres en sector kloppen niet meer.',
+    cr_reason: 'Organisatie is verhuisd.',
+    cr_evidence_url: 'https://example.org/persbericht',
+    cr_requester_authorization: 'authorized_representative',
+    cr_authorization_confirmation: 'yes',
+    cr_directory_master_touched: 'no',
+    cr_automatic_publication: 'no',
+  };
+  const out = normaliseRecord(live);
+  assert.equal(out.record_type, 'change_request');
+  assert.equal(out.requested_action, 'update');
+  assert.equal(out.sub_mode, 'change_request');
+  assert.equal(out.target_listing_name, 'ESRF Lab Test Existing Listing');
+  assert.equal(out.target_listing_url, 'https://esrf.net/directory/esrf-lab-test');
+  assert.equal(out.change_description, 'Adres en sector kloppen niet meer.');
+  assert.equal(out.reason, 'Organisatie is verhuisd.');
+  assert.equal(out.evidence_url, 'https://example.org/persbericht');
+  assert.equal(out.requester_authorization, 'authorized_representative');
+  assert.equal(out.authorization_confirmation, 'yes');
+  assert.equal(out.directory_master_touched, 'no');
+  assert.equal(out.automatic_publication, 'no');
+  assert.match(out.title, /^Wijzigingsverzoek/);
+  assert.match(out.type_label, /^Wijzigingsverzoek/);
+  assert.match(out.organization_name, /\(bestaande vermelding\)$/);
+});
+
+check('normaliseRecord: hide_delete mode without action → infers hide', () => {
+  const live = {
+    submission_id: 'sub-test_x',
+    submission_type: 'change_request:hide',
+    mode: 'hide_delete',
+    name: 'Voorbeeld Coöperatie Oost',
+    source_tab: 'LAB_Intake_Submissions',
+    record_type: 'org',
+  };
+  const out = normaliseRecord(live);
+  assert.equal(out.record_type, 'change_request');
+  assert.equal(out.requested_action, 'hide');
+  assert.match(out.title, /Verzoek tot verbergen/);
+  assert.match(out.type_label, /verbergen/);
+});
+
+check('normaliseRecord: delete action surfaces correct labels', () => {
+  const live = {
+    submission_id: 'sub-test_d',
+    submission_type: 'change_request:delete',
+    mode: 'hide_delete',
+    cr_target_listing_name: 'Coöperatie X',
+    source_tab: 'LAB_Intake_Submissions',
+  };
+  const out = normaliseRecord(live);
+  assert.equal(out.record_type, 'change_request');
+  assert.equal(out.requested_action, 'delete');
+  assert.match(out.title, /Verzoek tot verwijderen/);
+  assert.match(out.type_label, /verwijderen/);
+});
+
+check('normaliseRecord: regular org row stays record_type=org', () => {
+  const live = {
+    submission_id: 'sub-test_org',
+    submission_type: 'org',
+    mode: 'org',
+    name: 'Stichting X',
+    source_tab: 'LAB_Intake_Submissions',
+    record_type: 'org',
+  };
+  const out = normaliseRecord(live);
+  assert.equal(out.record_type, 'org');
+  // No CR-specific fields invented for non-CR rows
+  assert.equal(out.requested_action, undefined);
+  assert.equal(out.directory_master_touched, undefined);
+});
+
+check('normaliseRecord: editorial row passes through unchanged record_type', () => {
+  const live = {
+    submission_id: 'sub-test_ed',
+    submission_type: 'editorial',
+    source_tab: 'LAB_Editorial_Intake',
+    record_type: 'editorial',
+  };
+  const out = normaliseRecord(live);
+  assert.equal(out.record_type, 'editorial');
+});
+
+check('normaliseRecord: legacy LAB_Change_Requests source_tab → change_request', () => {
+  // Forward-compatibility: when the upgraded Apps Script ships and rows
+  // start arriving from the dedicated tab, those records must also map
+  // to record_type='change_request'.
+  const live = {
+    submission_id: 'sub-test_legacy',
+    source_tab: 'LAB_Change_Requests',
+    requested_action: 'update',
+    target_listing_name: 'Stichting Y',
+  };
+  const out = normaliseRecord(live);
+  assert.equal(out.record_type, 'change_request');
+  assert.equal(out.requested_action, 'update');
+  assert.equal(out.target_listing_name, 'Stichting Y');
+});
+
+check('safeRecords: change_request rows surface as record_type and never include Directory_Master target', () => {
+  const live = [{
+    submission_id: 'sub-test_mog9779c_2njk',
+    submission_type: 'change_request:update',
+    mode: 'change_request',
+    name: 'ESRF Lab Test Existing Listing',
+    cr_requested_action: 'update',
+    cr_target_listing_name: 'ESRF Lab Test Existing Listing',
+    source_tab: 'LAB_Intake_Submissions',
+    record_type: 'org',
+    contact_name: 'Pers. Soneel',
+    contact_email: 'leak@example.org',
+  }];
+  const out = safeRecords(live, false);
+  assert.equal(out.length, 1);
+  assert.equal(out[0].record_type, 'change_request');
+  assert.match(out[0].title, /Wijzigingsverzoek/);
+  // contact_name is a flat column on LAB_Intake_Submissions; default
+  // include_contact=false must strip it (and a future nested contact too).
+  assert.equal(out[0].contact, undefined);
+  // Directory_Master must not appear anywhere as a target/sheet hint
+  const blob = JSON.stringify(out);
+  assert.ok(blob.indexOf('Directory_Master') === -1, 'Directory_Master leaked into normalised record');
+});
+
+await asyncCheck('end-to-end: live-mode CR row from a stub upstream renders as change_request', async () => {
+  // Simulate the upstream Apps Script returning the same shape we observed
+  // on Preview (record_type=org, no title) and confirm the response the
+  // redactie UI consumes flips to record_type=change_request with a Dutch
+  // title and no Directory_Master mention as a target.
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => ({
+    ok: true,
+    status: 200,
+    async json(){
+      return {
+        ok: true,
+        records: [{
+          submission_id: 'sub-test_mog9779c_2njk',
+          received_at: '2026-04-26T22:24:00Z',
+          environment: 'TEST/VALIDATIE',
+          submission_type: 'change_request:update',
+          mode: 'change_request',
+          name: 'ESRF Lab Test Existing Listing',
+          website: 'https://esrf.net/directory/esrf-lab-test',
+          country_code: 'NL',
+          region: 'Zuid-Holland',
+          source_tab: 'LAB_Intake_Submissions',
+          source_row_hint: 'rij 7',
+          record_type: 'org',
+          cr_sub_mode: 'change_request',
+          cr_requested_action: 'update',
+          cr_target_listing_name: 'ESRF Lab Test Existing Listing',
+          cr_change_description: 'Adres en sector wijzigen.',
+          cr_reason: 'Verhuizing per 2026-03-01.',
+          cr_authorization_confirmation: 'yes',
+          cr_requester_authorization: 'authorized_representative',
+        }],
+      };
+    },
+  });
+  try {
+    const res = await callReview('POST', {
+      env: {
+        REDACTIE_REVIEW_ACCESS_CODE: 'valid-code',
+        REDACTIE_REVIEW_WEBHOOK_URL: 'https://stub.invalid/exec',
+        REDACTIE_REVIEW_WEBHOOK_SECRET: 'stub-secret',
+      },
+      headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
+      body: JSON.stringify({ access_code: 'valid-code' }),
+    });
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.equal(data.mode, 'lab');
+    assert.equal(data.records.length, 1);
+    const r = data.records[0];
+    assert.equal(r.record_type, 'change_request');
+    assert.equal(r.requested_action, 'update');
+    assert.match(r.title, /Wijzigingsverzoek/);
+    assert.match(r.type_label, /Wijzigingsverzoek/);
+    assert.equal(r.target_listing_name, 'ESRF Lab Test Existing Listing');
+    assert.equal(r.directory_master_touched, 'no');
+    assert.equal(r.automatic_publication, 'no');
+    // Top-level safety contract still holds
+    assert.equal(data.directory_master_touched, false);
+    assert.equal(data.automatic_publication, false);
+    assert.ok(data.forbidden_targets.indexOf('Directory_Master') !== -1);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });
 
 console.log('');

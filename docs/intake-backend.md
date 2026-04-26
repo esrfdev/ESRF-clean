@@ -511,3 +511,53 @@ contact-PII.
   stap.
 - Veiligheidsbanner: *"Geen automatische wijziging · Directory_Master
   wordt niet aangeraakt · niets wordt gepubliceerd."*
+
+### 7.b Apps Script-implementatie — uit te rollen
+
+De code in `functions/api/*.js` produceert al een volledige
+change-request payload. De Apps Script-laag moet in twee stappen
+bijgewerkt worden voordat alle data zichtbaar is in de redactie-UI.
+
+**Stap 1 — verplicht (zodat live LAB-rijen als wijzigingsverzoek
+verschijnen):**
+
+1. Voeg op het tabblad `LAB_Intake_Submissions` van het lab-spreadsheet
+   (`1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g`) deze 11 kolommen
+   toe aan de header-rij, achter de bestaande kolommen:
+   `cr_sub_mode`, `cr_requested_action`, `cr_target_listing_name`,
+   `cr_target_listing_url`, `cr_change_description`, `cr_reason`,
+   `cr_evidence_url`, `cr_requester_authorization`,
+   `cr_authorization_confirmation`, `cr_directory_master_touched`,
+   `cr_automatic_publication`.
+2. Redeploy `docs/apps-script-intake-webhook.gs` als Web App. De
+   `HEADERS` array bevat de kolommen al (zie `// cr_* …` blok). Zonder
+   redeploy worden de kolommen leeg geschreven.
+3. Redeploy `docs/apps-script-redactie-review-webhook.gs` als Web App.
+   `KNOWN_READ_HEADERS` en `projectRecord` projecteren rijen met
+   `submission_type` beginnend met `change_request:` of `mode` gelijk
+   aan `change_request` / `hide_delete` als `record_type:
+   'change_request'`. Zonder redeploy blijft de UI op de Cloudflare-
+   normalisatie leunen (werkt, maar mist `cr_*`-veldwaarden).
+
+Tot Stap 1 is uitgerold blijft de Cloudflare `redactie-review.js`
+normaliseren: rijen met `submission_type` = `change_request:*` worden
+nog steeds als wijzigingsverzoek getoond, maar zonder de specifieke
+CR-velden (deze komen uit `raw_payload_json` als die kolom aanwezig
+is, of zijn leeg).
+
+**Stap 2 — optioneel (toegewijd `LAB_Change_Requests`-tabblad):**
+
+1. Maak een nieuw tabblad `LAB_Change_Requests` aan met de header-rij
+   uit `buildChangeRequestRow` in `functions/api/intake.js`.
+2. Voeg `LAB_Change_Requests` toe aan de `HEADERS`-map in
+   `docs/apps-script-intake-webhook.gs` en redeploy.
+3. Zet op de Cloudflare Pages **Preview**-omgeving de env-var
+   `LAB_CHANGE_REQUESTS_ENABLED=true`. Pas dan begint
+   `/api/intake` (en `/api/intake-test`) een aparte rij in
+   `LAB_Change_Requests` te schrijven naast de gekoppelde rij in
+   `LAB_Intake_Submissions`.
+
+Zolang `LAB_CHANGE_REQUESTS_ENABLED` niet `true` is, blijft het
+gedrag exact gelijk aan vandaag: één rij in `LAB_Intake_Submissions`
+met `submission_type: change_request:<action>` plus de `cr_*`-kolommen
+als data-anker voor de redactie-UI.

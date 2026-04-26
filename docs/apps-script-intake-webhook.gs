@@ -132,7 +132,17 @@ var HEADERS = {
     'country_code','country_name_local','region','city_raw','city_match_status','sector_raw','description_en',
     'contact_name','contact_email','contact_role','consent_publish','source_url','notes_submitter',
     'review_status','next_required_action','assigned_to','due_date','linked_editorial_id',
-    'notification_status','notification_last_sent_at','created_by_flow','raw_payload_json','review_notes_internal'
+    'notification_status','notification_last_sent_at','created_by_flow','raw_payload_json','review_notes_internal',
+    // ── Change-request columns (added 2026-04-26) ──────────────────────────
+    // For mode=change_request / hide_delete the Cloudflare backend writes
+    // these fields so the redactie review form can show the request as a
+    // wijzigingsverzoek WITHOUT a separate LAB_Change_Requests tab being
+    // deployed yet. Existing org/editorial rows leave these columns empty.
+    // The redactie-review Apps Script (apps-script-redactie-review-webhook.gs)
+    // mirrors these in KNOWN_READ_HEADERS so they round-trip on read.
+    'cr_sub_mode','cr_requested_action','cr_target_listing_name','cr_target_listing_url',
+    'cr_change_description','cr_reason','cr_evidence_url','cr_requester_authorization',
+    'cr_authorization_confirmation','cr_directory_master_touched','cr_automatic_publication'
   ],
   'LAB_Editorial_Intake': [
     'editorial_id','received_at','environment','submission_id','org_id_match','organization_name','title','type',

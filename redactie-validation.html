@@ -1063,12 +1063,15 @@
     s3.appendChild(toggleWrap);
     var contactBox = el('div', { class: 'rv-contact' });
     if (state.showContact){
+      // Live LAB rows expose contact_* flat columns (LAB_Intake_Submissions
+      // header order). Sample fixtures use a nested r.contact object. Both
+      // shapes are tolerated so the panel renders identically against
+      // sample/dry-run, lab-mode-without-contact, and lab-mode-with-contact.
+      var cName = (r.contact && r.contact.name) || r.contact_name || '—';
+      var cEmail = (r.contact && r.contact.email) || r.contact_email || '—';
+      var cRole = (r.contact && r.contact.role) || r.contact_role || '—';
       contactBox.appendChild(el('span', { class: 'rv-contact-mark', text: 'INTERN' }));
-      contactBox.appendChild(document.createTextNode(
-        (r.contact && r.contact.name ? r.contact.name : '—') + ' · ' +
-        (r.contact && r.contact.email ? r.contact.email : '—') + ' · ' +
-        (r.contact && r.contact.role ? r.contact.role : '—')
-      ));
+      contactBox.appendChild(document.createTextNode(cName + ' · ' + cEmail + ' · ' + cRole));
     } else {
       contactBox.appendChild(el('span', { class: 'rv-contact-mark', text: 'VERBORGEN' }));
       contactBox.appendChild(document.createTextNode('Contactgegevens zijn verborgen om de pagina overzichtelijk te houden.'));

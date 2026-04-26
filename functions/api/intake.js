@@ -356,7 +356,13 @@ export async function onRequestPost(context) {
   const intakeRow = buildIntakeSubmissionRow(payload, refs);
   const editorialRow = (payload.editorial_contribution) ? buildEditorialIntakeRow(payload, refs) : null;
   const placeCandidateRow = needsPlaceCandidateRow(payload) ? buildPlaceCandidateRow(payload) : null;
-  const changeRequestRow = (payload.change_request) ? buildChangeRequestRow(payload, refs) : null;
+  // The dedicated LAB_Change_Requests tab is only included when the
+  // upgraded Apps Script has been deployed (see docs/intake-backend.md §7.b).
+  // The change-request data is also preserved on LAB_Intake_Submissions via
+  // the cr_* columns on intakeRow, so the redactie review form keeps
+  // working in either deployment state.
+  const changeRequestsEnabled = String(env.LAB_CHANGE_REQUESTS_ENABLED || '').trim().toLowerCase() === 'true';
+  const changeRequestRow = (payload.change_request && changeRequestsEnabled) ? buildChangeRequestRow(payload, refs) : null;
 
   const sheetWebhookPayload = {
     schema_version: 2,
@@ -945,6 +951,22 @@ function buildIntakeSubmissionRow(payload, refs) {
     review_notes_internal: '',
     issue_url: (refs && refs.issue_url) || '',
     issue_number: (refs && refs.issue_number) || '',
+    // Change-request fields. Empty for org/editorial submissions; populated
+    // for change_request / hide_delete so the redactie-review read endpoint
+    // can render the request as a wijzigingsverzoek even when the upstream
+    // Apps Script has not yet been redeployed with a separate
+    // LAB_Change_Requests tab. See docs/intake-backend.md §7.
+    cr_sub_mode: cr ? (cr.sub_mode || payload.intake_mode || '') : '',
+    cr_requested_action: cr ? (cr.requested_action || '') : '',
+    cr_target_listing_name: cr ? (cr.target_listing_name || '') : '',
+    cr_target_listing_url: cr ? (cr.target_listing_url || '') : '',
+    cr_change_description: cr ? (cr.change_description || '') : '',
+    cr_reason: cr ? (cr.reason || '') : '',
+    cr_evidence_url: cr ? (cr.evidence_url || '') : '',
+    cr_requester_authorization: cr ? (cr.requester_authorization || '') : '',
+    cr_authorization_confirmation: cr ? (cr.authorization_confirmation ? 'yes' : 'no') : '',
+    cr_directory_master_touched: cr ? 'no' : '',
+    cr_automatic_publication: cr ? 'no' : '',
   };
 }
 

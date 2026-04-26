@@ -246,6 +246,11 @@ const LAB_INTAKE_HEADERS = [
   'contact_name','contact_email','contact_role','consent_publish','source_url','notes_submitter',
   'review_status','next_required_action','assigned_to','due_date','linked_editorial_id',
   'notification_status','notification_last_sent_at','created_by_flow','raw_payload_json','review_notes_internal',
+  // cr_* columns preserve change-request data on LAB_Intake_Submissions until
+  // the dedicated LAB_Change_Requests tab is deployed.
+  'cr_sub_mode','cr_requested_action','cr_target_listing_name','cr_target_listing_url',
+  'cr_change_description','cr_reason','cr_evidence_url','cr_requester_authorization',
+  'cr_authorization_confirmation','cr_directory_master_touched','cr_automatic_publication',
 ];
 check('buildIntakeSubmissionRow contains every documented LAB_Intake_Submissions header', () => {
   const payload = payloadOf({
@@ -646,6 +651,40 @@ check('change_request emits a linked LAB_Intake_Submissions row with submission_
   // Listing reference comes from target_listing_*
   assert.equal(intake.name, 'Stichting Voorbeeld Noord');
   assert.equal(intake.consent_publish, 'change_request_only');
+});
+
+check('change_request populates cr_* columns on LAB_Intake_Submissions for fallback display', () => {
+  const payload = payloadOf({
+    intake_mode: 'change_request',
+    contact: goodContact,
+    change_request: { ...goodChangeRequest, requested_action: 'update' },
+    privacy: goodPrivacy,
+  });
+  const row = buildIntakeSubmissionRow(payload, {});
+  assert.equal(row.cr_sub_mode, 'change_request');
+  assert.equal(row.cr_requested_action, 'update');
+  assert.equal(row.cr_target_listing_name, 'Stichting Voorbeeld Noord');
+  assert.equal(row.cr_target_listing_url, 'https://esrf.net/directory/voorbeeld-noord');
+  assert.ok(row.cr_change_description && row.cr_change_description.length > 0);
+  assert.ok(row.cr_reason && row.cr_reason.length > 0);
+  assert.equal(row.cr_authorization_confirmation, 'yes');
+  assert.equal(row.cr_directory_master_touched, 'no');
+  assert.equal(row.cr_automatic_publication, 'no');
+});
+
+check('non-change-request submissions leave cr_* columns blank', () => {
+  const payload = payloadOf({
+    intake_mode: 'org',
+    contact: goodContact,
+    organisation_listing: goodOrg,
+    privacy: goodPrivacy,
+  });
+  const row = buildIntakeSubmissionRow(payload, {});
+  assert.equal(row.cr_sub_mode, '');
+  assert.equal(row.cr_requested_action, '');
+  assert.equal(row.cr_target_listing_name, '');
+  assert.equal(row.cr_change_description, '');
+  assert.equal(row.cr_authorization_confirmation, '');
 });
 
 check('change_request notification builder emits messageType change_request:<action> with no contact PII', () => {

@@ -41,6 +41,7 @@ import {
   buildIntakeSubmissionRow,
   buildEditorialIntakeRow,
   buildPlaceCandidateRow,
+  buildChangeRequestRow,
   buildBackendLogRow,
   buildWorkflowEventRow,
   buildNotificationMessage,
@@ -204,6 +205,18 @@ export async function onRequestPost(context) {
   const intakeRow = buildIntakeSubmissionRow(payload, { issue_url: '', issue_number: '' });
   const editorialRow = (payload.editorial_contribution) ? buildEditorialIntakeRow(payload, { issue_url: '', issue_number: '' }) : null;
   const placeCandidateRow = needsPlaceCandidateRow(payload) ? buildPlaceCandidateRow(payload) : null;
+  // Change-request row is gated by an env flag because the production
+  // Apps Script does not yet declare HEADERS for LAB_Change_Requests, and
+  // would otherwise reject the entire payload with "Unknown tab". Until
+  // that tab is deployed (see docs/intake-backend.md §7.b), the change
+  // request data is still preserved on LAB_Intake_Submissions via the
+  // cr_* columns on intakeRow — that is what the redactie review form
+  // reads. Setting LAB_CHANGE_REQUESTS_ENABLED=true after deploying the
+  // upgraded Apps Script unlocks the dedicated tab without code changes.
+  const changeRequestsEnabled = String(env.LAB_CHANGE_REQUESTS_ENABLED || '').trim().toLowerCase() === 'true';
+  const changeRequestRow = (payload.change_request && changeRequestsEnabled)
+    ? buildChangeRequestRow(payload, { issue_url: '', issue_number: '' })
+    : null;
 
   const sheetWebhookPayload = {
     schema_version: 2,
@@ -220,6 +233,7 @@ export async function onRequestPost(context) {
       [LAB_SPREADSHEET.tabs.intake_submissions]: intakeRow,
       ...(editorialRow ? { [LAB_SPREADSHEET.tabs.editorial_intake]: editorialRow } : {}),
       ...(placeCandidateRow ? { [LAB_SPREADSHEET.tabs.place_candidates]: placeCandidateRow } : {}),
+      ...(changeRequestRow ? { [LAB_SPREADSHEET.tabs.change_requests]: changeRequestRow } : {}),
     },
     log: null,
     workflow_event: null,
@@ -227,6 +241,7 @@ export async function onRequestPost(context) {
     official_recipient: OFFICE_IDENTITY.official_recipient,
     notification_message: null,           // notification disabled on this route
     source_route: '/api/intake-test',
+    change_requests_enabled: changeRequestsEnabled,
   };
 
   // 9) Defence-in-depth: refuse to put a Directory_Master-targeting or

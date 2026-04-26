@@ -182,7 +182,15 @@ var KNOWN_READ_HEADERS = {
     'country_code','country_name_local','region','city_raw','city_match_status','sector_raw','description_en',
     'contact_name','contact_email','contact_role','consent_publish','source_url','notes_submitter',
     'review_status','next_required_action','assigned_to','due_date','linked_editorial_id',
-    'notification_status','notification_last_sent_at','created_by_flow','raw_payload_json','review_notes_internal'
+    'notification_status','notification_last_sent_at','created_by_flow','raw_payload_json','review_notes_internal',
+    // Change-request columns (added 2026-04-26). Mirror the intake webhook
+    // headers; this Apps Script reads from the sheet's first row anyway, so
+    // these constants are a safety net. When the LAB sheet's header row is
+    // updated to include them, change_request submissions in
+    // LAB_Intake_Submissions round-trip to the redactie review UI.
+    'cr_sub_mode','cr_requested_action','cr_target_listing_name','cr_target_listing_url',
+    'cr_change_description','cr_reason','cr_evidence_url','cr_requester_authorization',
+    'cr_authorization_confirmation','cr_directory_master_touched','cr_automatic_publication'
   ],
   'LAB_Editorial_Intake': [
     'editorial_id','received_at','environment','submission_id','org_id_match','organization_name','title','type',
@@ -627,7 +635,17 @@ function projectRecord(row, sourceTab, includeContact) {
   if (sourceTab === 'LAB_Editorial_Intake') {
     out.record_type = 'editorial';
   } else if (sourceTab === 'LAB_Intake_Submissions') {
-    out.record_type = 'org';
+    // Change-request rows live in LAB_Intake_Submissions (tagged via
+    // submission_type or mode). Mark them so the redactie UI renders the
+    // wijzigingsverzoek panel rather than a generic organisation card.
+    var subType = String(row.submission_type || '');
+    var rmode = String(row.mode || '').toLowerCase();
+    if (subType.indexOf('change_request:') === 0
+        || rmode === 'change_request' || rmode === 'hide_delete') {
+      out.record_type = 'change_request';
+    } else {
+      out.record_type = 'org';
+    }
   } else if (sourceTab === 'LAB_Place_Candidates') {
     out.record_type = 'place_candidate';
   }

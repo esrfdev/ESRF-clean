@@ -259,12 +259,97 @@ function constantTimeEquals(a, b) {
   return diff === 0;
 }
 
+// Normalise a single upstream record so the redactie-validation UI can
+// render it consistently. The upstream Apps Script returns rows verbatim
+// from the sheet plus a derived record_type that defaults to 'org' for
+// any LAB_Intake_Submissions row. That is wrong for change_request /
+// hide_delete submissions, which currently live in LAB_Intake_Submissions
+// (because the LAB_Change_Requests tab is not yet deployed in the
+// production Apps Script). This helper detects those rows by inspecting
+// the documented signal fields (`submission_type` and `mode`) and rewrites
+// them to record_type='change_request' with the labels and derived fields
+// the dedicated wijzigingsverzoek panel expects.
+//
+// Defence-in-depth: never trust the upstream record_type if the row's own
+// submission_type / mode contradict it. This means a future Apps Script
+// upgrade (returning record_type='change_request' itself) and the legacy
+// deployment (returning record_type='org') both render correctly in the UI.
+function normaliseRecord(record) {
+  if (!record || typeof record !== 'object') return record;
+  const out = Object.assign({}, record);
+  const sourceTab = String(out.source_tab || '');
+  const subType = String(out.submission_type || '');
+  const mode = String(out.mode || '').toLowerCase();
+  const isChangeRequest = subType.indexOf('change_request:') === 0
+    || mode === 'change_request' || mode === 'hide_delete'
+    || out.record_type === 'change_request'
+    || sourceTab === 'LAB_Change_Requests';
+
+  if (isChangeRequest) {
+    out.record_type = 'change_request';
+    out.type = 'change_request';
+    // Derive the requested action from documented sources, in order:
+    //   1. explicit cr_requested_action column (added 2026-04-26)
+    //   2. requested_action column (LAB_Change_Requests tab, future)
+    //   3. parsed from `submission_type = "change_request:<action>"`
+    //   4. mode = hide_delete defaults to 'hide'
+    let action = String(out.cr_requested_action || out.requested_action || '').toLowerCase();
+    if (!action && subType.indexOf('change_request:') === 0) {
+      action = subType.substring('change_request:'.length).toLowerCase();
+    }
+    if (!action && mode === 'hide_delete') action = 'hide';
+    if (!action) action = 'update';
+    out.requested_action = action;
+    // Sub-mode: change_request (update only) vs hide_delete (hide/delete).
+    out.sub_mode = String(out.cr_sub_mode || out.sub_mode || mode || '');
+    // Promote cr_* columns to the canonical names the UI consumes.
+    if (out.cr_target_listing_name && !out.target_listing_name) out.target_listing_name = out.cr_target_listing_name;
+    if (out.cr_target_listing_url && !out.target_listing_url) out.target_listing_url = out.cr_target_listing_url;
+    if (out.cr_change_description && !out.change_description) out.change_description = out.cr_change_description;
+    if (out.cr_reason && !out.reason) out.reason = out.cr_reason;
+    if (out.cr_evidence_url && !out.evidence_url) out.evidence_url = out.cr_evidence_url;
+    if (out.cr_requester_authorization && !out.requester_authorization) out.requester_authorization = out.cr_requester_authorization;
+    if (out.cr_authorization_confirmation && !out.authorization_confirmation) out.authorization_confirmation = out.cr_authorization_confirmation;
+    // Fall back to the `name` column when the dedicated cr_target_listing_name
+    // is empty (older deployments stored the listing name in `name`).
+    if (!out.target_listing_name && out.name) out.target_listing_name = out.name;
+    if (!out.target_listing_url && out.website) out.target_listing_url = out.website;
+    // Title for the list — the LAB_Intake_Submissions tab has no `title`
+    // column, so without this the UI falls back to "(zonder titel)".
+    if (!out.title) {
+      const ref = out.target_listing_name || '(bestaande vermelding)';
+      if (action === 'delete') out.title = 'Verzoek tot verwijderen — ' + ref;
+      else if (action === 'hide') out.title = 'Verzoek tot verbergen — ' + ref;
+      else out.title = 'Wijzigingsverzoek — ' + ref;
+    }
+    // Type label used in the list pill / detail subtitle.
+    if (!out.type_label) {
+      if (action === 'delete') out.type_label = 'Wijzigingsverzoek · verwijderen';
+      else if (action === 'hide') out.type_label = 'Wijzigingsverzoek · verbergen';
+      else out.type_label = 'Wijzigingsverzoek · bijwerken';
+    }
+    // Organisation column — for CR rows this is the bestaande vermelding.
+    if (!out.organization_name && out.target_listing_name) {
+      out.organization_name = out.target_listing_name + ' (bestaande vermelding)';
+    }
+    // Hard guarantees: a change request never publishes and never modifies
+    // Directory_Master. The UI also enforces this; surfacing the flags here
+    // makes the contract auditable directly from the API response.
+    out.directory_master_touched = 'no';
+    out.automatic_publication = 'no';
+    // Keep consent_publish honest — change requests never publish content.
+    if (!out.consent_publish) out.consent_publish = 'change_request_only';
+  }
+  return out;
+}
+
 function safeRecords(records, includeContact) {
   if (!Array.isArray(records)) return [];
   return records.map(function(r){
     const cleaned = stripForbiddenKeys(r);
-    if (includeContact) return cleaned;
-    return stripContact(cleaned);
+    const normalised = normaliseRecord(cleaned);
+    if (includeContact) return normalised;
+    return stripContact(normalised);
   });
 }
 
@@ -489,6 +574,7 @@ export {
   constantTimeEquals,
   isPreviewEnv,
   safeRecords,
+  normaliseRecord,
 };
 
 if (typeof globalThis !== 'undefined') {
@@ -501,6 +587,7 @@ if (typeof globalThis !== 'undefined') {
     constantTimeEquals,
     isPreviewEnv,
     safeRecords,
+    normaliseRecord,
     onRequest,
     onRequestPost,
   };
