@@ -322,6 +322,67 @@ check('validation-lab.json includes redactie-validation-form module', () => {
   assert.ok(Array.isArray(mod.exitCriteria) && mod.exitCriteria.length >= 3);
 });
 
+// ── Access panel + LAB-mode wiring ───────────────────────────────────────
+check('access panel renders with SAMPLE-MODE pill and LAB-toegang heading', () => {
+  assert.ok(html.includes('LAB-toegang'), 'expected "LAB-toegang" heading');
+  assert.ok(html.includes('SAMPLE-MODE'), 'expected SAMPLE-MODE pill');
+  assert.ok(html.includes('rv-access'), 'expected access panel container');
+});
+
+check('access panel input is a password field (no autocomplete)', () => {
+  assert.match(html, /id="rv-access-code"[^>]*type="password"/i,
+    'expected access code input type=password');
+  assert.match(html, /autocomplete="off"/i, 'expected autocomplete off');
+});
+
+check('no localStorage / sessionStorage / document.cookie code calls on the page', () => {
+  // Allow mentions in copy/comments (the page explicitly tells the
+  // operator that no localStorage/cookie is used). Disallow actual
+  // method calls or property writes.
+  const methodCalls = [
+    /localStorage\.(?:setItem|getItem|removeItem|clear|key)/,
+    /sessionStorage\.(?:setItem|getItem|removeItem|clear|key)/,
+    /window\.localStorage/,
+    /window\.sessionStorage/,
+    /document\.cookie\s*=/,
+  ];
+  for (const re of methodCalls){
+    assert.ok(!re.test(html), 'redactie page must not call ' + re);
+  }
+});
+
+check('frontend posts to /api/redactie-review (server-validated access code)', () => {
+  assert.ok(html.includes('/api/redactie-review'),
+    'expected the page to reference /api/redactie-review');
+  assert.match(html, /access_code/, 'expected access_code field name in fetch body');
+});
+
+check('hooks expose STATUS_STEP_REMINDERS map covering all process steps', () => {
+  const map = hooks.STATUS_STEP_REMINDERS;
+  assert.ok(map && typeof map === 'object');
+  for (const k of ['binnengekomen','in_review','wachten_op_indiener','klaar_voor_akkoord','akkoord_voor_promote','afgewezen','gearchiveerd']){
+    assert.ok(typeof map[k] === 'string' && map[k].length > 0,
+      'missing reminder for step: ' + k);
+  }
+});
+
+check('stepReminderFor returns a reminder for a known step and empty for unknown', () => {
+  assert.ok(hooks.stepReminderFor('in_review').length > 0);
+  assert.equal(hooks.stepReminderFor('zzz_nonexistent_step'), '');
+});
+
+check('access panel warning copy: LAB only, geen automatische publicatie, Directory_Master niet aanpassen', () => {
+  assert.ok(html.includes('geen automatische publicatie'), 'expected access copy: geen automatische publicatie');
+  assert.ok(html.includes('Directory_Master niet aanpassen'));
+});
+
+check('contact still hidden by default — page emits "VERBORGEN" mark by default', () => {
+  // The contact section starts hidden until the operator toggles it on.
+  // We just check the markup constants are present.
+  assert.ok(html.includes('VERBORGEN'), 'expected VERBORGEN contact mark');
+  assert.ok(html.includes('rv-show-contact'), 'expected rv-show-contact toggle id');
+});
+
 // ── docs file exists ─────────────────────────────────────────────────────
 check('docs/redactie-validation-form.md exists', () => {
   const p = path.join(repoRoot, 'docs', 'redactie-validation-form.md');
@@ -329,6 +390,10 @@ check('docs/redactie-validation-form.md exists', () => {
   const md = fs.readFileSync(p, 'utf8');
   assert.match(md, /single source of truth/i);
   assert.match(md, /Directory_Master/);
+  // New activation/architecture sections
+  assert.match(md, /REDACTIE_REVIEW_ACCESS_CODE/);
+  assert.match(md, /\/api\/redactie-review/);
+  assert.match(md, /dry-run/i);
 });
 
 // ── Summary ──────────────────────────────────────────────────────────────

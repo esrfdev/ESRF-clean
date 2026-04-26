@@ -4,6 +4,76 @@
 > **Validatie-only.** Schrijft niet naar Sheet, GitHub, e-mail of Directory_Master.
 > **Single source of truth blijft de Drive-spreadsheet** (LAB_Intake_Submissions /
 > LAB_Editorial_Intake / LAB_Workflow_Events).
+> **LAB read API achter access-code.** Standaard sample-mode in de browser;
+> echte LAB-rijen verschijnen pas wanneer `REDACTIE_REVIEW_ACCESS_CODE` is
+> ingesteld op de Cloudflare Pages preview én de redacteur de code invult.
+> Een live write-pad bestaat niet — de update-API is dry-run.
+
+## API-architectuur (lab-only)
+
+Twee Cloudflare Pages Functions ondersteunen het redactieformulier
+(beide preview-only, productie geeft 404):
+
+- `POST /api/redactie-review` — **read**. Vraagt LAB_Intake_Submissions
+  en LAB_Editorial_Intake aan via een server-side Apps Script read-
+  webhook. De server valideert de review-toegangscode. Wanneer code
+  én webhook ontbreken: `mode: 'sample'` met lokale voorbeeldrijen.
+  Wanneer code geldig maar webhook ontbreekt: `mode: 'sample'` met een
+  duidelijke `activation_required`-lijst. Wanneer code én webhook
+  geldig: `mode: 'lab'` met echte rijen, contact-velden gestript tenzij
+  `include_contact: true`.
+
+- `POST /api/redactie-review-update` — **dry-run**. Bouwt de canonieke
+  review-update payload (precies zoals `redactie-validation.html` 'm
+  ook offline genereert) maar voert geen write uit. Refuseert elk
+  `target_tab` dat niet `LAB_*` is of in `forbidden_targets`
+  voorkomt. `live_write_ready` staat hard op `false`; live write is
+  bewust niet geïmplementeerd op deze branch.
+
+Vereiste env vars (preview project):
+
+| env var | doel | status |
+| --- | --- | --- |
+| `REDACTIE_REVIEW_ACCESS_CODE` | gates real-data read; zonder → sample | **ontbreekt → sample-mode** |
+| `REDACTIE_REVIEW_WEBHOOK_URL` | Apps Script /exec voor read | **ontbreekt → sample-mode** |
+| `REDACTIE_REVIEW_WEBHOOK_SECRET` | shared secret in body | **ontbreekt → sample-mode** |
+| `REDACTIE_REVIEW_WRITE_ENABLED` | hard toggle voor live write | **niet activeerbaar op deze branch** |
+| `ESRF_PREVIEW` of `CF_PAGES_BRANCH ≠ main` | preview-only gate | bestaande conventie |
+
+Veiligheidsregels die in de endpoints zelf staan:
+
+- Geen request wordt verwerkt als `CF_PAGES_BRANCH === 'main'` of
+  `ESRF_PREVIEW` niet expliciet preview is.
+- Origin-allowlist is hergebruikt van `/api/intake`.
+- Toegangscode wordt server-side vergeleken met constant-time-style
+  byte-vergelijking; een leeg of fout antwoord geeft altijd sample-mode
+  (geen lekkage of de code überhaupt is geconfigureerd).
+- Forbidden keys (`raw_payload_json`, alle `*_TOKEN`, `SHEETS_*`,
+  `REDACTIE_REVIEW_*`) worden uit elke response gestript voordat ze
+  de origin verlaten.
+- Contact-velden (`contact`, `contact_internal`) worden standaard
+  gestript en alleen meegegeven wanneer de redacteur expliciet
+  `include_contact: true` stuurt **én** de access code geldig is.
+
+## Frontend-toegangspaneel
+
+Bovenaan de pagina staat een compact toegangspaneel:
+
+- Mode-pil: `SAMPLE-MODE` (geel) of `LAB-MODE — live` (groen).
+- Wachtwoordveld voor de review-toegangscode. **Geen localStorage,
+  geen sessionStorage, geen cookie** — de code leeft alleen in de
+  closure van het script en wordt bij elke load opnieuw verstuurd.
+  *Wis code · terug naar sample* maakt de input leeg en herstelt de
+  lokale voorbeelddata.
+- Statusregel met de servermessage (`access code not configured`,
+  `review code missing or incorrect`, `access code valid · live LAB
+  read`).
+- `activation_required` lijst die exact noemt welke env vars nog
+  nodig zijn om over te schakelen naar echte LAB-data.
+- Onder *Procesgang* in de review-sectie verschijnt een korte
+  herinnering per stap (uit `STATUS_STEP_REMINDERS`, server-side de
+  bron). De hint herzetzet zich live wanneer de redacteur de stap
+  wijzigt.
 
 ## Wat dit is
 
@@ -299,3 +369,46 @@ Lichtgewicht Node-test: `scripts/redactie_validation.test.mjs`. Verifieert:
   als bron", "geen automatische live publicatie") staat in de pagina.
 
 Run: `node scripts/redactie_validation.test.mjs`.
+
+## Activatiestappen — overgang van sample naar echte LAB-data
+
+> Geen van de stappen wordt automatisch uitgevoerd. Wouter zet de
+> env vars op het Cloudflare Pages **preview** project, nooit op
+> productie.
+
+1. Maak een nieuw, *read-only* Apps Script-project onder
+   `office@esrf.net`. Scope uitsluitend `https://www.googleapis.com/auth/spreadsheets.readonly`.
+2. Implementeer `doPost(e)`: lees `LAB_Intake_Submissions` en
+   `LAB_Editorial_Intake` als objecten en geef terug als
+   `{ records: [...] }`. Verifieer in de Apps Script dat
+   `e.postData` een matchende `shared_secret` bevat.
+3. Publiceer als Web App, kopieer de `/exec` URL.
+4. Cloudflare Pages → preview project → Settings → Environment vars:
+   - `REDACTIE_REVIEW_ACCESS_CODE` → een nieuwe, voldoende lange string
+     (16+ karakters; alleen door redactie gedeeld).
+   - `REDACTIE_REVIEW_WEBHOOK_URL` → de `/exec` URL.
+   - `REDACTIE_REVIEW_WEBHOOK_SECRET` → exact dezelfde string als in
+     de Apps Script Script Properties.
+5. Deploy preview, open `/redactie-validation.html`, voer de access
+   code in. Verwacht: `LAB-MODE — live`, echte rijen verschijnen,
+   contactvelden ontbreken (tenzij later expliciet `include_contact`
+   wordt aangezet).
+6. Een live write-pad is op deze branch *bewust niet ingebouwd*. Voor
+   de volgende veilige stap: maak een tweede Apps Script-project, met
+   alléén `auth/spreadsheets` scope op specifieke status-kolommen of
+   een append-only `LAB_Workflow_Events` tab — nooit Directory_Master.
+   Pas dán is `REDACTIE_REVIEW_WRITE_ENABLED=true` zinvol.
+
+## Veiligheidsregels die de endpoints afdwingen
+
+- `target_tab` moet starten met `LAB_` en in `ALLOWED_REVIEW_TARGET_TABS`
+  staan (`LAB_Intake_Submissions`, `LAB_Editorial_Intake`,
+  `LAB_Workflow_Events`).
+- `Directory_Master` staat in `forbidden_targets` — elke poging om die
+  als target te gebruiken faalt server-side.
+- Process step en review status worden gevalideerd tegen de
+  documentatie-vaste set; niet-gedocumenteerde keuzes geven 400.
+- Contact en `raw_payload_json` worden uit elke response en elk dry-run
+  payload gestript.
+- Live write is uitgeschakeld: `live_write_ready: false` in elke
+  response op deze branch.

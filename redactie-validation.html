@@ -164,6 +164,33 @@
     margin-top:30px;padding-top:14px;border-top:1px solid #e2e8f0;
     font-family:'IBM Plex Mono',monospace;font-size:11px;color:#64748b;letter-spacing:0.04em;
   }
+
+  .rv-access{
+    margin:14px 0;padding:12px 14px;border-radius:6px;
+    background:#f8fafc;border:1px solid #cbd5e1;
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.55;color:#0f172a;
+  }
+  .rv-access-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+  .rv-access input[type="password"],
+  .rv-access input[type="text"]{
+    padding:8px 10px;border:1px solid #cbd5e1;border-radius:4px;
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;background:#fff;color:#0f172a;
+    min-width:220px;
+  }
+  .rv-access-mode{
+    display:inline-block;padding:2px 8px;border-radius:3px;letter-spacing:0.06em;
+    font-size:11px;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;
+  }
+  .rv-mode-sample{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+  .rv-mode-lab{background:#dcfce7;color:#166534;border:1px solid #86efac}
+  .rv-access p{margin:6px 0 0}
+  .rv-access ul{margin:6px 0 0;padding-left:20px}
+  .rv-access-msg{margin-top:6px;color:#475569}
+  .rv-step-hint{
+    margin:6px 0;padding:8px 12px;border-radius:4px;
+    background:#eff6ff;border-left:3px solid #3b82f6;color:#1e3a8a;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.55;
+  }
 </style>
 </head>
 <body>
@@ -194,6 +221,31 @@
       <h1 class="rv-h1">Redactieformulier — intake review</h1>
       <p class="rv-deck">Beoordeel één inzending tegelijk in een leesbaar kaartformaat. Kies een rij links, vul stap, status, herinnering, volgende actie, deadline en review-notities rechts in. Open daarna <em>Bewerken</em> om een redactieversie / publicatievoorstel op te stellen — de <strong>originele inzending</strong> blijft als read-only bron staan. Klik op <em>Genereer review-update</em> om een veilige JSON/tekstsamenvatting te kopiëren in de Sheet — geen automatische schrijfactie, geen automatische publicatie.</p>
     </div>
+  </div>
+
+  <div class="rv-access" id="rv-access" role="region" aria-label="Toegang LAB-data">
+    <strong>LAB-toegang</strong>
+    &nbsp;·&nbsp;
+    <span id="rv-access-mode" class="rv-access-mode rv-mode-sample">SAMPLE-MODE</span>
+    &nbsp;·&nbsp;
+    <span>geen automatische publicatie · Directory_Master niet aanpassen</span>
+    <p>
+      Standaard staat dit formulier in <strong>sample-mode</strong>: lokale voorbeeldrijen, niets uit de echte LAB-Sheet. Vul een door
+      Wouter verstrekte review-toegangscode in om — <em>als de server-side webhook is ingesteld</em> — de echte LAB_Intake_Submissions /
+      LAB_Editorial_Intake rijen te lezen. De toegangscode wordt nooit lokaal opgeslagen (geen localStorage, geen cookie) en
+      verlaat de browser alleen versleuteld via HTTPS naar <code>/api/redactie-review</code>.
+    </p>
+    <div class="rv-access-row">
+      <label for="rv-access-code">Review-toegangscode:</label>
+      <input id="rv-access-code" type="password" autocomplete="off" spellcheck="false"
+        placeholder="alleen invoeren als je de code hebt — anders sample" aria-describedby="rv-access-msg" />
+      <button id="rv-access-load" class="rv-btn rv-btn-primary" type="button">Laad LAB-data</button>
+      <button id="rv-access-clear" class="rv-btn rv-btn-warn" type="button">Wis code · terug naar sample</button>
+    </div>
+    <p id="rv-access-msg" class="rv-access-msg" aria-live="polite">
+      Sample-mode actief. Geen verbinding met LAB-Sheet — toon lokale voorbeelddata.
+    </p>
+    <div id="rv-access-activation" hidden></div>
   </div>
 
   <div class="rv-grid">
@@ -401,6 +453,88 @@
     });
   }
 
+  function stepReminderFor(stepKey){
+    var map = state.statusStepReminders || STATUS_STEP_REMINDERS_DEFAULT;
+    return map[stepKey] || '';
+  }
+
+  // ── Access panel + LAB read ─────────────────────────────────────────────
+  // Sends the access code to /api/redactie-review and replaces SAMPLE
+  // with real LAB rows when the server allows it. The code is held in
+  // memory (closure) only — never persisted.
+  function renderAccessPanel(){
+    var modeEl = $('rv-access-mode');
+    if (modeEl){
+      modeEl.textContent = state.accessMode === 'lab' ? 'LAB-MODE — live' : 'SAMPLE-MODE';
+      modeEl.className = 'rv-access-mode ' + (state.accessMode === 'lab' ? 'rv-mode-lab' : 'rv-mode-sample');
+    }
+    var msgEl = $('rv-access-msg');
+    if (msgEl){
+      msgEl.textContent = state.accessMessage || (state.accessMode === 'lab'
+        ? 'LAB-mode actief. Echte LAB_*-rijen geladen — Directory_Master niet aanpassen.'
+        : 'Sample-mode actief. Geen verbinding met LAB-Sheet — toon lokale voorbeelddata.');
+    }
+    var actEl = $('rv-access-activation');
+    if (actEl){
+      actEl.innerHTML = '';
+      if (state.accessActivation && state.accessActivation.length){
+        actEl.hidden = false;
+        var p = el('p', { text: 'Nodig om echte LAB-data te activeren:' });
+        actEl.appendChild(p);
+        var ul = el('ul');
+        state.accessActivation.forEach(function(line){
+          ul.appendChild(el('li', { text: String(line) }));
+        });
+        actEl.appendChild(ul);
+      } else {
+        actEl.hidden = true;
+      }
+    }
+  }
+
+  async function loadLabData(accessCode){
+    var msgEl = $('rv-access-msg');
+    if (msgEl) msgEl.textContent = 'Bezig met laden…';
+    try {
+      var res = await fetch('/api/redactie-review', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          access_code: accessCode || '',
+          include_contact: false
+        })
+      });
+      var data = null;
+      try { data = await res.json(); } catch(e){ data = null; }
+      if (!res.ok || !data || data.ok === false){
+        state.accessMode = 'sample';
+        state.accessMessage = (data && data.error) ? ('Fout: ' + data.error + ' — sample-mode actief.') : 'Kon LAB-data niet laden — sample-mode actief.';
+        state.accessActivation = null;
+        state.records = SAMPLE.slice();
+      } else {
+        state.accessMode = data.mode === 'lab' ? 'lab' : 'sample';
+        state.accessMessage = (data.access && data.access.message) || '';
+        state.accessActivation = Array.isArray(data.activation_required) ? data.activation_required : null;
+        state.statusStepReminders = (data.status_step_reminders && typeof data.status_step_reminders === 'object')
+          ? data.status_step_reminders : STATUS_STEP_REMINDERS_DEFAULT;
+        if (Array.isArray(data.records) && data.records.length){
+          state.records = data.records;
+        } else {
+          state.records = SAMPLE.slice();
+        }
+      }
+    } catch (e) {
+      state.accessMode = 'sample';
+      state.accessMessage = 'Netwerkfout — sample-mode actief.';
+      state.accessActivation = null;
+      state.records = SAMPLE.slice();
+    }
+    state.activeId = state.records[0] && state.records[0].submission_id || null;
+    state.exportText = '';
+    renderAccessPanel();
+    renderAll();
+  }
+
   // ── Edit mode ───────────────────────────────────────────────────────────
   // Editable fields for the redactieversie / publicatievoorstel. The
   // original SAMPLE record is never mutated; edits live in `editsById`.
@@ -422,6 +556,21 @@
       fromSource: function(){ return ''; } }
   ];
 
+  // ── Status → process step → reminder map ────────────────────────────────
+  // Mirrors the server-side STATUS_STEP_REMINDERS in
+  // functions/api/redactie-review.js. Source of truth is the server,
+  // but we keep a local copy so sample mode (no API call yet) still
+  // shows the reminder hint per step.
+  var STATUS_STEP_REMINDERS_DEFAULT = {
+    binnengekomen: 'Net binnengekomen — controleer of de organisatie/inzending al bestaat en wijs sector/tags toe voordat je in review zet.',
+    in_review: 'In review — controleer feiten, regio en bronnen; zet vervolgstap en deadline.',
+    wachten_op_indiener: 'Wacht op indiener — noteer welke verheldering nodig is en wie wanneer contact opneemt.',
+    klaar_voor_akkoord: 'Klaar voor akkoord — controleer review_notes_internal voordat je in de Sheet op approved zet.',
+    akkoord_voor_promote: 'Goedgekeurd — gereed voor handmatige lab-promotion via scripts/lab_promote/cli. Directory_Master niet aanpassen.',
+    afgewezen: 'Afgewezen — leg in review_notes_internal vast waarom; geen vervolgactie.',
+    gearchiveerd: 'Gearchiveerd — alleen leesbaar, geen verdere stappen.'
+  };
+
   // ── List rendering ──────────────────────────────────────────────────────
   var state = {
     filter: '',
@@ -429,7 +578,15 @@
     showContact: false,
     exportText: '',
     editMode: false,
-    editsById: {} // submission_id → { edited_title, edited_summary, ... }
+    editsById: {}, // submission_id → { edited_title, edited_summary, ... }
+    // Access / LAB-mode state. The access code is held in memory only —
+    // never localStorage / sessionStorage / cookie. It is sent to the
+    // server on each load and discarded after use.
+    accessMode: 'sample',         // 'sample' | 'lab'
+    accessMessage: '',
+    accessActivation: null,
+    statusStepReminders: STATUS_STEP_REMINDERS_DEFAULT,
+    records: SAMPLE.slice()       // active record set — replaced on LAB load
   };
 
   function originalValueFor(record, field){
@@ -462,9 +619,10 @@
   }
 
   function filteredRecords(){
+    var pool = (state.records && state.records.length) ? state.records : SAMPLE;
     var q = state.filter.trim().toLowerCase();
-    if (!q) return SAMPLE.slice();
-    return SAMPLE.filter(function(r){
+    if (!q) return pool.slice();
+    return pool.filter(function(r){
       var hay = [r.title, r.region, r.type_label, r.organization_name, r.country_code].join(' ').toLowerCase();
       return hay.indexOf(q) !== -1;
     });
@@ -474,7 +632,8 @@
     var box = $('rv-items');
     box.innerHTML = '';
     var rows = filteredRecords();
-    $('rv-count').textContent = rows.length + ' / ' + SAMPLE.length;
+    var pool = (state.records && state.records.length) ? state.records : SAMPLE;
+    $('rv-count').textContent = rows.length + ' / ' + pool.length;
     rows.forEach(function(r){
       var pillCls = r.record_type === 'org' ? 'rv-pill-org' : 'rv-pill-ed';
       var pillTxt = r.record_type === 'org' ? 'Organisatie' : 'Editorial';
@@ -496,7 +655,8 @@
 
   // ── Detail / review form ────────────────────────────────────────────────
   function getActive(){
-    return SAMPLE.filter(function(r){ return r.submission_id === state.activeId; })[0] || null;
+    var pool = (state.records && state.records.length) ? state.records : SAMPLE;
+    return pool.filter(function(r){ return r.submission_id === state.activeId; })[0] || null;
   }
 
   function renderDetail(){
@@ -647,7 +807,16 @@
     var s3 = el('div', { class: 'rv-section' });
     s3.appendChild(el('h3', { text: 'Beoordeling' }));
 
-    s3.appendChild(formRow('Procesgang', selectField('rv-process-step', PROCESS_STEPS, r.process_step)));
+    var processSelect = selectField('rv-process-step', PROCESS_STEPS, r.process_step);
+    s3.appendChild(formRow('Procesgang', processSelect));
+    var stepHint = el('div', { class: 'rv-step-hint', id: 'rv-step-hint' }, [
+      stepReminderFor(r.process_step) || 'Geen specifieke herinnering voor deze stap.'
+    ]);
+    s3.appendChild(stepHint);
+    processSelect.addEventListener('change', function(ev){
+      var hint = $('rv-step-hint');
+      if (hint) hint.textContent = stepReminderFor(ev.target.value) || 'Geen specifieke herinnering voor deze stap.';
+    });
     s3.appendChild(formRow('Status', selectField('rv-review-status', REVIEW_STATUSES, r.review_status)));
     s3.appendChild(formRow('Herinnering / checkvraag', textField('rv-reminder', r.reminder || '')));
     s3.appendChild(formRow('Volgende actie', textField('rv-next-action', r.next_required_action || '')));
@@ -830,7 +999,11 @@
     buildExportPayload: buildExportPayload,
     SAMPLE: SAMPLE,
     EDIT_FIELDS: EDIT_FIELDS,
-    originalValueFor: originalValueFor
+    originalValueFor: originalValueFor,
+    STATUS_STEP_REMINDERS: STATUS_STEP_REMINDERS_DEFAULT,
+    stepReminderFor: stepReminderFor,
+    loadLabData: loadLabData,
+    state: state
   };
 
   function generateExport(kind){
@@ -913,7 +1086,44 @@
   document.addEventListener('DOMContentLoaded', function(){
     $('rv-filter').addEventListener('input', function(ev){ state.filter = ev.target.value || ''; renderList(); });
     state.activeId = SAMPLE[0] && SAMPLE[0].submission_id || null;
-    renderAll();
+
+    // Access panel handlers — code held in memory only, never stored.
+    var accessInput = $('rv-access-code');
+    var loadBtn = $('rv-access-load');
+    var clearBtn = $('rv-access-clear');
+    if (loadBtn){
+      loadBtn.addEventListener('click', function(){
+        var code = accessInput ? (accessInput.value || '') : '';
+        loadLabData(code);
+      });
+    }
+    if (accessInput){
+      accessInput.addEventListener('keydown', function(ev){
+        if (ev.key === 'Enter'){
+          ev.preventDefault();
+          loadLabData(accessInput.value || '');
+        }
+      });
+    }
+    if (clearBtn){
+      clearBtn.addEventListener('click', function(){
+        if (accessInput) accessInput.value = '';
+        state.accessMode = 'sample';
+        state.accessMessage = 'Sample-mode actief. Geen verbinding met LAB-Sheet — toon lokale voorbeelddata.';
+        state.accessActivation = null;
+        state.records = SAMPLE.slice();
+        state.activeId = state.records[0] && state.records[0].submission_id || null;
+        state.exportText = '';
+        renderAccessPanel();
+        renderAll();
+      });
+    }
+    // Initial probe — call the API with an empty access code so the
+    // server can tell us whether it is configured at all. The response
+    // updates the access panel mode/banner. We never auto-load real
+    // data — a valid code is required.
+    renderAccessPanel();
+    loadLabData('');
   });
 
 })();

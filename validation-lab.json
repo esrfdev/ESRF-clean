@@ -380,11 +380,11 @@
     },
     {
       "id": "redactie-validation-form",
-      "title": "Redactieformulier — leesbaar review-formulier boven de Sheet (validatie-only) met edit-mode voor publicatievoorstel",
+      "title": "Redactieformulier — leesbaar review-formulier boven de Sheet (validatie-only) met edit-mode voor publicatievoorstel + LAB read API achter access-code",
       "status": "in-validation",
       "path": "/redactie-validation.html",
       "owner": "ESRF Editorial",
-      "purpose": "Hidden, noindex redactie-UI die LAB_Intake_Submissions / LAB_Editorial_Intake-rijen één voor één toont als leesbare kaarten met procesgang, status, herinnering, volgende actie, deadline en review-notities. Naast review heeft de pagina een edit-mode waarmee redactie een Redactieversie / Publicatievoorstel opbouwt (edited_title, edited_organization, edited_summary, edited_region, edited_sector_or_tags, edited_public_body, editorial_note, change_note, edited_by) — de originele inzending blijft daarbij als read-only bron / audit-spoor staan en wordt meegenomen als original_reference in de export. De Drive-spreadsheet blijft single source of truth; deze pagina schrijft nooit naar Sheet, GitHub, e-mail of Directory_Master en publiceert nooit automatisch. Lokale voorbeelddata in de browser; export levert een veilige JSON of tekst-samenvatting die de redactie handmatig in de juiste LAB_*-rij plakt.",
+      "purpose": "Hidden, noindex redactie-UI die LAB_Intake_Submissions / LAB_Editorial_Intake-rijen één voor één toont als leesbare kaarten met procesgang, status, herinnering, volgende actie, deadline en review-notities. Naast review heeft de pagina een edit-mode waarmee redactie een Redactieversie / Publicatievoorstel opbouwt (edited_title, edited_organization, edited_summary, edited_region, edited_sector_or_tags, edited_public_body, editorial_note, change_note, edited_by) — de originele inzending blijft daarbij als read-only bron / audit-spoor staan en wordt meegenomen als original_reference in de export. De Drive-spreadsheet blijft single source of truth; deze pagina schrijft nooit naar Sheet, GitHub, e-mail of Directory_Master en publiceert nooit automatisch. Twee preview-only Cloudflare Pages Functions ondersteunen de pagina: /api/redactie-review (read; gated achter REDACTIE_REVIEW_ACCESS_CODE; valt terug op sample-data wanneer code/webhook ontbreken) en /api/redactie-review-update (dry-run; bouwt review-update payload, weigert Directory_Master en niet-LAB_* targets, live write hard uitgeschakeld op deze branch). Toegangscode wordt nooit lokaal opgeslagen — geen localStorage, geen sessionStorage, geen cookie.",
       "lastUpdated": "2026-04-26",
       "visibility": "hidden",
       "labOnly": true,
@@ -394,14 +394,37 @@
       "documentation": [
         "/docs/redactie-validation-form.md"
       ],
-      "tests": "/scripts/redactie_validation.test.mjs (noindex meta, safety copy, sample records both types render, export excludes contact email by default, edit-mode fields present, original kept read-only, export carries original_reference + edited_publication_proposal + change_note + edited_by, validation-lab manifest includes module).",
+      "endpoints": {
+        "read": "/api/redactie-review",
+        "update": "/api/redactie-review-update",
+        "previewOnly": true,
+        "liveWriteEnabled": false,
+        "sampleFallback": true
+      },
+      "envVars": {
+        "REDACTIE_REVIEW_ACCESS_CODE": "Server-validated review access code; gates real-data reads. Without it the API returns sample/dry-run data and the UI shows SAMPLE-MODE.",
+        "REDACTIE_REVIEW_WEBHOOK_URL": "Apps Script /exec URL for the read-only LAB webhook (LAB_Intake_Submissions / LAB_Editorial_Intake). Optional — if missing, sample fallback is used.",
+        "REDACTIE_REVIEW_WEBHOOK_SECRET": "Shared secret in the request body to the Apps Script. Required together with REDACTIE_REVIEW_WEBHOOK_URL.",
+        "REDACTIE_REVIEW_WRITE_ENABLED": "Hard toggle for a future live-write path. Currently always treated as not-ready on this branch; live writes are not implemented."
+      },
+      "safetyRules": [
+        "Production short-circuits to 404 before any handler logic; preview-only via ESRF_PREVIEW or non-main CF_PAGES_BRANCH.",
+        "Origin allowlist reused from /api/intake.",
+        "Forbidden response keys (raw_payload_json, *_TOKEN, SHEETS_*, REDACTIE_REVIEW_*) are stripped from every response.",
+        "Contact details are stripped by default; only included when caller explicitly opts in AND access code is valid.",
+        "Update endpoint refuses any target_tab that is not LAB_Intake_Submissions / LAB_Editorial_Intake / LAB_Workflow_Events; Directory_Master is in forbidden_targets.",
+        "Live writes are disabled (live_write_ready: false) regardless of env vars on this branch."
+      ],
+      "tests": "/scripts/redactie_validation.test.mjs (noindex meta, safety copy, sample records both types render, export excludes contact email by default, edit-mode fields present, original kept read-only, export carries original_reference + edited_publication_proposal + change_note + edited_by, access panel rendered, status step reminders shipped); /functions/api/redactie-review.test.mjs (preview gate, access code gate, sample fallback when code missing, sample fallback when webhook missing, contact stripped by default, forbidden keys stripped, status_step_reminders surface in response, no Directory_Master in response); /functions/api/redactie-review-update.test.mjs (preview gate, target_tab must be LAB_*, Directory_Master forbidden, sanitised payload contains no contact, dry-run flag always true, live_write_ready always false on this branch, status step reminder injected per step).",
       "exitCriteria": [
         "Pagina bevat noindex,nofollow en validatie-banner met 'Niet publiceren', 'Directory_Master niet aanpassen', 'Preview pas na akkoord' en de edit-veiligheidsregel dat bewerkingen alleen het publicatievoorstel raken — niet de bron.",
-        "Linker lijst toont zowel organisatie-aanmelding als editorial bijdrage uit de lokale voorbeelddata; rechter paneel toont leesbare cards, een eenvoudig review-formulier en — na klikken op Bewerken — een Redactieversie / Publicatievoorstel sectie met de bewerkbare velden.",
+        "Linker lijst toont zowel organisatie-aanmelding als editorial bijdrage uit de lokale voorbeelddata; rechter paneel toont leesbare cards, een eenvoudig review-formulier met per-stap herinnering en — na klikken op Bewerken — een Redactieversie / Publicatievoorstel sectie met de bewerkbare velden.",
         "Originele inzending wordt onder een eigen kop 'Originele inzending (read-only · bron / audit)' getoond en is niet bewerkbaar; per bewerkbaar veld is het corresponderende originele veld zichtbaar als read-only verwijzing.",
         "Een lichtgewicht change-tracker toont realtime welke velden afwijken van de originele inzending; export-payload bevat changed_fields.",
         "Export sluit standaard contact-e-mail en raw payload uit; alleen na expliciete toggle 'Toon contactgegevens' wordt contact_internal in de export opgenomen. Export bevat altijd original_reference en edited_publication_proposal naast elkaar zodat het audit-spoor ondubbelzinnig is.",
-        "Geen Google Sheets, GitHub of e-mail call vanuit de browser; export is uitsluitend kopieerbaar (klembord). Geen automatische live publicatie.",
+        "Toegangspaneel toont SAMPLE-MODE bij ontbrekende REDACTIE_REVIEW_ACCESS_CODE en activation_required-lijst; LAB-MODE wordt pas getoond wanneer code geldig is en het Apps Script read-webhook geconfigureerd is. Code wordt nooit in localStorage / sessionStorage / cookies opgeslagen.",
+        "/api/redactie-review en /api/redactie-review-update geven beide 404 op productie (CF_PAGES_BRANCH=main of ESRF_PREVIEW niet preview); beide endpoints strippen contact en forbidden keys; update-endpoint weigert Directory_Master als target_tab.",
+        "Geen Google Sheets-write, GitHub- of e-mail-call vanuit de browser; export is uitsluitend kopieerbaar (klembord). Geen automatische live publicatie.",
         "Geen publieke navigatie, footer-link of sitemap-vermelding; pagina is niet vanaf productie bereikbaar."
       ]
     },
