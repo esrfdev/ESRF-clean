@@ -561,3 +561,78 @@ Zolang `LAB_CHANGE_REQUESTS_ENABLED` niet `true` is, blijft het
 gedrag exact gelijk aan vandaag: één rij in `LAB_Intake_Submissions`
 met `submission_type: change_request:<action>` plus de `cr_*`-kolommen
 als data-anker voor de redactie-UI.
+
+### 7.c Eerste geslaagde change_request review-save — 2026-04-26 23:41 CEST
+
+Op 2026-04-26 rond 23:41 CEST is op de Cloudflare Pages Preview de
+eerste end-to-end **change_request** review-save uitgevoerd via
+`/api/redactie-review-update`. Productie is niet geraakt.
+
+- Cloudflare-laag: commit `1142d908` ("redactie-review-update: allow
+  change_request / hide_delete saves") was al gedeployed.
+- Apps Script: Redactie Review Web App opnieuw uitgerold via `clasp`
+  als versie 2 op deployment
+  `AKfycbyS0ECklA3tnaywmBaLXXusK5wVvDUd3rsCI4n5YJck443Ejv6g43EpHSCxl6arvbyx`.
+- Header-migratie van `LAB_Redactie_Reviews` (Stap 1 hierboven) is
+  uitgevoerd: 13 `cr_*`-kolommen toegevoegd tussen `mode` en
+  `directory_master_touched`, conform
+  `LAB_REDACTIE_REVIEWS_HEADERS` in
+  `docs/apps-script-redactie-review-webhook.gs`. `appendKnownRow`
+  faalt nu niet meer met *"Header mismatch"*.
+- Save voor inzending `sub-test_mog9779c_2njk` (`record_type:
+  change_request`, `cr_requested_action: update`,
+  `cr_sub_mode: change_request`,
+  `cr_target_listing_name: "ESRF Lab Test Existing Listing"`,
+  `cr_target_listing_url: "https://www.esrf.net/directory.html#lab-test-existing-listing"`).
+  Backend-respons: `process_step: klaar_voor_akkoord`,
+  `review_status: pending_clarification`,
+  `cr_redactie_decision: request_clarification`,
+  `review_id: rev_20260426214134991_201794`,
+  `request_id: req-redactie-update_mogamk77_4oju`,
+  `saved_to.review_tab: LAB_Redactie_Reviews`,
+  `saved_to.events_tab: LAB_Workflow_Events`,
+  `rows_written: 2`, `directory_master_touched: false`,
+  `automatic_publication: false`. Warning-banner bevestigt: *"LAB
+  only · live save · originele inzending ongewijzigd ·
+  Directory_Master niet aangeraakt · geen automatische publicatie."*
+
+Wat dit bevestigt:
+
+1. De Cloudflare-laag accepteert `change_request` én `hide_delete`
+   als geldige `record_type` voor een save.
+2. De Apps Script-laag projecteert het `change_request_review`-blok
+   correct op de uitgebreide `cr_*`-kolommen in
+   `LAB_Redactie_Reviews`.
+3. De vier veiligheidslagen (LAB_*-only target, `Directory_Master`
+   forbidden, contact gestript, originele inzending ongewijzigd)
+   blijven actief.
+
+Bewijs in manifest: `validation-lab.json` →
+`redactie-validation-form` →
+`testEvidence.changeRequestSaveEvidence` en
+`listing-change-or-delete-request` →
+`testEvidence.redactieReviewSave`.
+
+### 7.d Werkflow — eerst akkoord op brontaal, dán vertalen, dán publiceren
+
+Inzendingen voor vermeldingen en editorials komen binnen in één taal
+(Nederlands of Engels). De redactie vertaalt **niets** automatisch op
+basis van die ruwe inzending. De vaste volgorde is:
+
+1. **Goedkeuring brontaal eerst.** Redactie keurt eerst een
+   master-tekst goed in de taal waarin de inzending is binnengekomen.
+   Dit is het redactionele anker.
+2. **Engelse master maken/goedkeuren als de bron Nederlands was.**
+   Voor de internationale fallback maakt of keurt de redactie daarna
+   een Engelse master goed — als vertaling van de goedgekeurde
+   NL-master, niet van de originele inzending.
+3. **Pas dán vertalen naar overige ESRF-talen.** Andere ESRF-talen
+   worden afgeleid van de goedgekeurde master, niet van de
+   onbewerkte indiening.
+4. **Pas daarna publiceren** naar Directory, Atlas of Editorial. Tot
+   die stap blijft `Directory_Master` ongewijzigd en gaat er niets
+   live.
+
+Kort samengevat: eerst goedkeuren in brontaal, dan eventueel een
+goedgekeurde Engelse master, dan vertalen vanuit die goedgekeurde
+master, dán publiceren. Nooit live op basis van onbewerkte tekst.

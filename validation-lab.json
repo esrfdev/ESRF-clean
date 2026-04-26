@@ -14,6 +14,15 @@
     "url": "https://test-regional-editorial-cont.esrf-clean.pages.dev",
     "draftPullRequest": "https://github.com/esrfdev/ESRF-clean/pull/35"
   },
+  "translationWorkflowRule": {
+    "summary": "Listings and editorials are submitted in one source language. Nothing is auto-translated from the raw submission. Redactie first approves a master text in the source language, then creates or approves an English fallback master, then translates the approved master into the other ESRF languages, and only then publishes.",
+    "steps": [
+      "1 Goedkeuring brontaal eerst — redactie keurt eerst een master-tekst goed in de taal waarin de inzending is binnengekomen (Nederlands of Engels). Dit is het redactionele anker.",
+      "2 Engelse master maken/goedkeuren als de bron Nederlands was — redactie maakt of keurt daarna een Engelse master goed als vertaling van de goedgekeurde NL-master, niet van de originele inzending.",
+      "3 Pas dán vertalen naar overige ESRF-talen — andere talen worden afgeleid van de goedgekeurde master, niet van de ruwe indiening.",
+      "4 Pas daarna publiceren — pas met goedgekeurde master- en vertaalteksten gaat een vermelding of editorial naar Directory, Atlas of Editorial. Tot die stap blijft Directory_Master ongewijzigd."
+    ]
+  },
   "modules": [
     {
       "id": "esrf-simulated-site",
@@ -397,7 +406,7 @@
     },
     {
       "id": "redactie-validation-form",
-      "title": "Redactieformulier — leesbaar review-formulier boven de Sheet (preview-only) met edit-mode voor publicatievoorstel, LAB read API achter access-code en automatisch opslaan in LAB_Redactie_Reviews + LAB_Workflow_Events (geen kopiëren/plakken in de gewone werkflow)",
+      "title": "Redactieformulier — leesbaar review-formulier boven de Sheet (preview-only) met edit-mode voor publicatievoorstel, LAB read API achter access-code en automatisch opslaan in LAB_Redactie_Reviews + LAB_Workflow_Events (geen kopiëren/plakken in de gewone werkflow). Live save voor org/editorial én change_request/hide_delete is bevestigd op Preview.",
       "status": "in-validation",
       "path": "/redactie-validation.html",
       "owner": "ESRF Editorial",
@@ -553,6 +562,50 @@
             "emailSent": false
           },
           "note": "First successful end-to-end live redactie review save via /api/redactie-review-update on the Cloudflare Pages Preview project. All four activation gates passed (REDACTIE_REVIEW_ACCESS_CODE valid + REDACTIE_REVIEW_WEBHOOK_URL set + REDACTIE_REVIEW_WEBHOOK_SECRET set + REDACTIE_REVIEW_WRITE_ENABLED=true). Apps Script appended one row to LAB_Redactie_Reviews and one row to LAB_Workflow_Events (rows_written=2). The original intake row stayed unchanged, Directory_Master was not touched, no website publication happened and no email was sent. REDACTIE_REVIEW_WRITE_ENABLED was enabled only on the Preview project; Production remains untouched and the Cloudflare Pages Function still returns 404 there."
+        },
+        "changeRequestSaveEvidence": {
+          "date": "2026-04-26",
+          "time": "23:41 CEST",
+          "environment": "Cloudflare Pages Preview",
+          "previewBranch": "test/regional-editorial-contributor-intake",
+          "previewUrl": "https://test-regional-editorial-cont.esrf-clean.pages.dev/redactie-validation.html",
+          "deployedCommit": "1142d908",
+          "appsScriptDeployment": "AKfycbyS0ECklA3tnaywmBaLXXusK5wVvDUd3rsCI4n5YJck443Ejv6g43EpHSCxl6arvbyx",
+          "appsScriptDeploymentVersion": 2,
+          "appsScriptRedeployTool": "clasp",
+          "headerMigration": {
+            "tab": "LAB_Redactie_Reviews",
+            "method": "manual",
+            "addedColumns": 13,
+            "addedColumnsLocation": "between mode and directory_master_touched",
+            "canonicalSource": "/docs/apps-script-redactie-review-webhook.gs (LAB_REDACTIE_REVIEWS_HEADERS)"
+          },
+          "saveResult": {
+            "submission_id": "sub-test_mog9779c_2njk",
+            "review_id": "rev_20260426214134991_201794",
+            "request_id": "req-redactie-update_mogamk77_4oju",
+            "record_type": "change_request",
+            "process_step": "klaar_voor_akkoord",
+            "review_status": "pending_clarification",
+            "cr_redactie_decision": "request_clarification",
+            "cr_requested_action": "update",
+            "cr_sub_mode": "change_request",
+            "cr_target_listing_name": "ESRF Lab Test Existing Listing",
+            "cr_target_listing_url": "https://www.esrf.net/directory.html#lab-test-existing-listing",
+            "saved_to": {
+              "review_tab": "LAB_Redactie_Reviews",
+              "events_tab": "LAB_Workflow_Events"
+            },
+            "rows_written": 2,
+            "directory_master_touched": false,
+            "automatic_publication": false,
+            "warning": "LAB only · live save · originele inzending ongewijzigd · Directory_Master niet aangeraakt · geen automatische publicatie",
+            "originalSubmissionUnchanged": true,
+            "directoryMasterUnchanged": true,
+            "websitePublished": false,
+            "emailSent": false
+          },
+          "note": "First successful change_request review save via /api/redactie-review-update on the Cloudflare Pages Preview. Cloudflare-side commit 1142d908 accepts change_request and hide_delete record types; Apps Script Web App was redeployed via clasp to version 2 on the same /exec deployment id and now projects the change_request_review block onto 13 cr_* columns in LAB_Redactie_Reviews. The header row of LAB_Redactie_Reviews was manually migrated to add those 13 cr_* columns between mode and directory_master_touched, matching LAB_REDACTIE_REVIEWS_HEADERS in the canonical Apps Script source. Result: one new row appended to LAB_Redactie_Reviews (with cr_* columns populated) and one to LAB_Workflow_Events (rows_written=2). Original intake row unchanged, Directory_Master untouched, no publication, no email. Production not touched; production endpoint still 404."
         }
       },
       "exitCriteria": [
@@ -606,6 +659,29 @@
         "authorization_confirmation (yes/no)",
         "sub_mode (change_request|hide_delete)"
       ],
+      "testEvidence": {
+        "redactieReviewSave": {
+          "date": "2026-04-26",
+          "time": "23:41 CEST",
+          "environment": "Cloudflare Pages Preview",
+          "submission_id": "sub-test_mog9779c_2njk",
+          "review_id": "rev_20260426214134991_201794",
+          "request_id": "req-redactie-update_mogamk77_4oju",
+          "record_type": "change_request",
+          "cr_redactie_decision": "request_clarification",
+          "cr_requested_action": "update",
+          "cr_sub_mode": "change_request",
+          "rows_written": 2,
+          "directory_master_touched": false,
+          "automatic_publication": false,
+          "deployedCommit": "1142d908",
+          "appsScriptDeployment": "AKfycbyS0ECklA3tnaywmBaLXXusK5wVvDUd3rsCI4n5YJck443Ejv6g43EpHSCxl6arvbyx",
+          "appsScriptDeploymentVersion": 2,
+          "headerMigrationApplied": true,
+          "crColumnsAdded": 13,
+          "note": "First successful end-to-end change_request review save into LAB_Redactie_Reviews + LAB_Workflow_Events on the Cloudflare Pages Preview. Cross-reference: validation-lab.json → redactie-validation-form → testEvidence.changeRequestSaveEvidence."
+        }
+      },
       "exitCriteria": [
         "submit-validation.html toont vijf top-level opties in eenvoudig Nederlands: organisatie, editorial, beide, bestaande vermelding wijzigen, vermelding verbergen/verwijderen.",
         "In wijzig-/verbergmodus zijn alleen change-velden vereist; persoonlijke organisatie-aanmeldvelden zijn niet verplicht. URL-validatie blokkeert ongeldige target_listing_url en evidence_url.",

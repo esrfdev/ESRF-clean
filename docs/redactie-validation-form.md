@@ -847,6 +847,85 @@ werkt zoals beschreven. Het bewijs is ook vastgelegd in
 `validation-lab.json` →
 `redactie-validation-form` → `testEvidence.liveSaveEvidence`.
 
+### Eerste geslaagde wijzigingsverzoek-save — 2026-04-26 23:41 CEST
+
+Op 2026-04-26 rond 23:41 CEST is op dezelfde Preview-omgeving ook de
+eerste echte **change_request** review-save gelukt — een
+redactiebesluit op een wijzigingsverzoek voor een bestaande vermelding.
+Productie is opnieuw **niet** aangeraakt.
+
+- **Code:** commit `1142d908` ("redactie-review-update: allow
+  change_request / hide_delete saves") was al gedeployed.
+- **Apps Script:** Redactie Review Web App is via `clasp` opnieuw
+  uitgerold tot **versie 2** op deployment
+  `AKfycbyS0ECklA3tnaywmBaLXXusK5wVvDUd3rsCI4n5YJck443Ejv6g43EpHSCxl6arvbyx`.
+- **Header-migratie:** de header-rij van `LAB_Redactie_Reviews` is
+  handmatig uitgebreid met de **13** `cr_*`-kolommen tussen `mode` en
+  `directory_master_touched`, conform de canonieke header-lijst in
+  `docs/apps-script-redactie-review-webhook.gs`.
+- **Save-stap:** redactiebesluit *Verheldering nodig* op een
+  `change_request:update`-inzending. Backend-respons:
+  - `submission_id: "sub-test_mog9779c_2njk"`
+  - `review_id: "rev_20260426214134991_201794"`
+  - `request_id: "req-redactie-update_mogamk77_4oju"`
+  - `record_type: "change_request"`
+  - `process_step: "klaar_voor_akkoord"`
+  - `review_status: "pending_clarification"`
+  - `cr_redactie_decision: "request_clarification"`
+  - `cr_requested_action: "update"`
+  - `cr_sub_mode: "change_request"`
+  - `cr_target_listing_name: "ESRF Lab Test Existing Listing"`
+  - `cr_target_listing_url: "https://www.esrf.net/directory.html#lab-test-existing-listing"`
+  - `saved_to.review_tab: "LAB_Redactie_Reviews"`
+  - `saved_to.events_tab: "LAB_Workflow_Events"`
+  - `rows_written: 2`
+  - `directory_master_touched: false`
+  - `automatic_publication: false`
+  - `warning: "LAB only · live save · originele inzending ongewijzigd · Directory_Master niet aangeraakt · geen automatische publicatie"`
+- **In de Sheet:** één nieuwe rij in `LAB_Redactie_Reviews` (met de
+  `cr_*`-kolommen ingevuld) en één gebeurtenis-rij in
+  `LAB_Workflow_Events`. `Directory_Master` is niet aangeraakt.
+
+Wat dit bewijst:
+
+- De Cloudflare-laag (commit `1142d908`) accepteert `change_request`
+  én `hide_delete` als geldige `record_type` voor een save.
+- De Apps Script-laag (deployment versie 2) projecteert de
+  `cr_*`-velden uit het binnenkomende `change_request_review`-blok
+  correct op de uitgebreide kolommen in `LAB_Redactie_Reviews` —
+  geen *"Header mismatch"*-fout meer.
+- De vier veiligheidslagen blijven actief: alleen `LAB_*`-targets,
+  `Directory_Master` blijft op de forbidden-list, contact wordt
+  gestript, en de UI bevestigt dat de originele inzending ongewijzigd
+  is gebleven en er niets is gepubliceerd of gemaild.
+
+### Werkflow-regel — eerst akkoord op brontaal, dán pas vertalen
+
+Inzendingen (vermeldingen én editorials) komen binnen in één taal —
+de taal die de indiener heeft gekozen. **De redactie vertaalt niets
+automatisch op basis van die ruwe inzending.** De volgorde is altijd:
+
+1. **Akkoord op de brontaal eerst.** Redactie keurt eerst een
+   master-tekst goed in de taal waarin de inzending is binnengekomen
+   (Nederlands of Engels). Dat is het *redactionele anker*.
+2. **Engelse master maken of goedkeuren als de bron Nederlands was.**
+   Voor de internationale fallback maakt of goedkeurt de redactie
+   daarna een Engelse master-tekst — als vertaling van de
+   goedgekeurde NL-master, niet van de originele inzending.
+3. **Pas dán vertalen naar overige ESRF-talen.** Andere ESRF-talen
+   worden afgeleid van de goedgekeurde master, niet van de ruwe
+   indiening. Vertaalfouten of onhandige formuleringen uit de ruwe
+   inzending mogen nooit één-op-één doorlekken naar publicatie.
+4. **Pas daarna publiceren.** Pas wanneer de juiste master- en
+   vertaalteksten klaarstaan kan de redactie publiceren naar de
+   Directory, Atlas of Editorial-pagina. Tot die tijd raakt
+   `Directory_Master` niet aangepast en gaat er niets live.
+
+Kort samengevat: **eerst goedkeuren in brontaal, dan eventueel een
+goedgekeurde Engelse master maken, dan vertalen vanuit die
+goedgekeurde master, dán publiceren.** Nooit live op basis van
+onbewerkte tekst.
+
 ### Live-save uitschakelen (incident-respons)
 
 Verwijder of zet `REDACTIE_REVIEW_WRITE_ENABLED` op iets anders dan
