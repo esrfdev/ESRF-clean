@@ -4,6 +4,66 @@ Lab/preview automation for the integrated organisation + editorial intake
 form (`submit-validation.html`). Lives on the
 `test/regional-editorial-contributor-intake` branch — **never** production.
 
+> **Security posture (2026-04-26):** *security-review-ready,
+> production-blocked.*  Production activation is held until an
+> `office@esrf.net`-owned Apps Script webhook and the Cloudflare Pages
+> preview secrets are configured. See §0 below for the full security
+> matrix.
+
+## 0. Security controls (security-review-ready)
+
+| Control | Status | Where enforced |
+|---|---|---|
+| LAB_*-only writes (no `Directory_Master`) | ✓ enforced | `functions/api/intake.js` `LAB_SPREADSHEET.forbidden_targets` + `assertLabPayloadSafe()` (defence-in-depth, runs before any network call). The Apps Script reference (`docs/apps-script-intake-webhook.gs`) also rejects on receipt. |
+| Shared secret on sheet webhook | ✓ enforced | Sent as `x-esrf-intake-secret` header **and** mirrored in the JSON body as `shared_secret` so the Apps Script `doPost` (which cannot read arbitrary headers) can verify either way. Apps Script accepts canonical `SHEETS_WEBHOOK_SECRET` and legacy `SHARED_SECRET` Script Property. |
+| Origin allowlist | ✓ enforced | `isAllowedOrigin()` — only `esrf.net`, `www.esrf.net`, and `*.esrf-clean.pages.dev` are allowed; anything else returns 403 (no body echo). |
+| POST-only endpoint | ✓ enforced | `onRequest()` returns 405 with `Allow: POST, OPTIONS` for any other method. |
+| `Content-Type: application/json` required | ✓ enforced | Returns 415 otherwise. |
+| Body size cap (64 KiB) | ✓ enforced | `MAX_BODY_BYTES`. Returns 413. |
+| Honeypot + min form-fill timer | ✓ enforced | `company_website_hp` (must be empty) and `form_duration_ms ≥ 2500`. |
+| Cloudflare Turnstile | TODO (runtime-dependent) | Honoured when `TURNSTILE_SECRET_KEY` is set; warning emitted otherwise. Lab posture leaves it disabled. |
+| Rate limiting | TODO (runtime-dependent) | Cloudflare Pages does not give Functions a built-in token bucket. Recommended path: add a Workers KV binding (`INTAKE_RATELIMIT`) and a per-IP counter, or front the route with a Cloudflare WAF rate-limit rule on `/api/intake`. Tracked in §6 of this doc. |
+| Input validation + sanitisation | ✓ enforced | Per-mode required fields, ISO-3166 country, email shape, mandatory editorial + GDPR consents. `sanitize` / `sanitizeLong` strip HTML and dangerous chars; `sanitizeUrl` rejects non-`http(s)`. Field length capped at 600 / 2000. |
+| Minimal notification (no PII / no editorial body) | ✓ enforced | `assertNotificationSafe()` runs on **both** the live and dry-run paths against `FORBIDDEN_NOTIFY_KEYS`. `notify_to_recipient` only appears when `INTAKE_NOTIFY_TO` is a valid email; otherwise omitted. |
+| No secrets in repo / response / logs | ✓ enforced | All secrets read from `env`. The shared-secret value is mirrored only on the wire (see above) and never logged. Upstream errors are flattened to `Sheet upstream <code>` / `Notify upstream <code>` / `GitHub upstream <code>` so script-side error bodies never reach the client. |
+| CORS handling | ✓ enforced | `onRequestOptions` answers preflight only for allowed origins. `Vary: origin` set on every response. |
+| Default-safe / dry-run | ✓ enforced | Without `INTAKE_SHEET_WEBHOOK_URL` the backend stays in `sheet_dry_run: true`; without `INTAKE_NOTIFY_WEBHOOK` notification stays in `dry_run_not_configured`. The Cloudflare backend never sends mail itself. |
+| Generic error messages | ✓ enforced | 4xx/5xx responses contain only `{ ok: false, error: "<short>" }`; no stack trace, no env-var name, no upstream body. |
+| Official identity | ✓ enforced | `OFFICE_IDENTITY.official_recipient = "office@esrf.net"`. Surfaced in every successful response under `storage_architecture.official_identity`. The legacy `ai.agent.wm@gmail.com` is listed under `non_production_identities` and hard-blocked by the Apps Script's `FORBIDDEN_NOTIFY_RECIPIENTS` deny-list. |
+
+The same controls are exercised by `functions/api/intake.test.mjs` —
+relevant case names: `assertLabPayloadSafe REFUSES Directory_Master
+target`, `assertLabPayloadSafe REFUSES non-LAB_ target tabs`,
+`assertNotificationSafe rejects every forbidden PII / editorial key`,
+`OFFICE_IDENTITY exposes office@esrf.net as the official recipient`,
+`OFFICE_IDENTITY note explicitly forbids ai.agent.wm@gmail.com as
+production recipient`, `GET /api/intake returns 405 (POST-only)`, `POST
+from disallowed origin returns 403`, `POST with non-JSON content-type
+returns 415`, `POST with body > 64 KiB returns 413`, `POST with
+honeypot value returns 400 (bot)`, `POST with too-fast form fill
+returns 400`, `Default dry-run when no INTAKE_SHEET_WEBHOOK_URL
+configured`, `Editorial mode without edit_and_publish consent returns
+400`, `Missing gdpr_privacy_policy returns 400`, `Validation error
+message is generic, not stack/secrets`.
+
+### Production blockers
+
+Production cannot be flipped on until **all** of these are resolved:
+
+- [ ] Apps Script project created/owned under `office@esrf.net` (so
+  MailApp delivers from an ESRF Workspace identity, never a personal
+  Gmail account).
+- [ ] Cloudflare Pages **preview** secrets configured:
+  `INTAKE_SHEET_WEBHOOK_URL`, `SHEETS_WEBHOOK_SECRET`. Optional but
+  recommended: `INTAKE_NOTIFY_WEBHOOK`, `INTAKE_NOTIFY_TO`,
+  `TURNSTILE_SECRET_KEY`. (Production env stays unset until sign-off.)
+- [ ] Activation gate in `intake-lab-test-report-2026-04-25.md` §6b
+  ticked off by the redactie.
+- [ ] Optional: Workers KV binding for rate-limiting OR Cloudflare WAF
+  rate-limit rule on `/api/intake`.
+
+
+
 > **Latest dry-run evidence:** see
 > [`intake-lab-test-report-2026-04-25.md`](./intake-lab-test-report-2026-04-25.md)
 > for the end-to-end browser dry-run (submission `sub_moelllvt_i21b`),

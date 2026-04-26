@@ -82,6 +82,16 @@
  * stores it. The NOTIFY_TO recipient is operational metadata, not a
  * secret, but is still kept in Script Properties so it can be
  * toggled without redeploying.
+ *
+ * ESRF official automation identity (security-review note):
+ *   - office@esrf.net is the ONLY documented production recipient and
+ *     also the recommended owner of the Apps Script project itself
+ *     (so MailApp delivers from an ESRF-controlled Workspace identity).
+ *   - ai.agent.wm@gmail.com is a non-production / legacy agent
+ *     identity. It MUST NEVER be set as NOTIFY_TO and MUST NEVER own
+ *     the production Apps Script deployment. The doPost() guard below
+ *     refuses to send mail to that address as a defence-in-depth
+ *     fail-safe.
  */
 
 /* eslint-disable no-undef */ // Apps Script globals: SpreadsheetApp, PropertiesService, ContentService, Utilities
@@ -324,9 +334,22 @@ var FORBIDDEN_NOTIFY_FIELDS = [
   'raw_payload_json'
 ];
 
+// Recipient deny-list — addresses that MUST NEVER receive a production
+// notification even if mistakenly configured. Keeps the legacy
+// non-production agent identity from leaking into the live mail path.
+var FORBIDDEN_NOTIFY_RECIPIENTS = [
+  'ai.agent.wm@gmail.com'
+];
+
 function sendMinimalMailNotification(props, recipient, msg, sheetUrl) {
   if (!recipient) return { ok: false, error: 'no recipient' };
   if (!msg || typeof msg !== 'object') return { ok: false, error: 'no message' };
+  // Defence-in-depth: refuse to send to a known non-production identity.
+  for (var f = 0; f < FORBIDDEN_NOTIFY_RECIPIENTS.length; f++) {
+    if (String(recipient).trim().toLowerCase() === FORBIDDEN_NOTIFY_RECIPIENTS[f]) {
+      return { ok: false, error: 'forbidden recipient (non-production identity)' };
+    }
+  }
 
   // Defensive copy: only allowed fields, no PII.
   var safe = {};

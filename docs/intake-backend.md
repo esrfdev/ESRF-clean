@@ -3,6 +3,31 @@
 Validation-environment backend for the integrated organisation + editorial
 intake form (`submit-validation.html`). Runs on Cloudflare Pages Functions.
 
+**Status (2026-04-26):** *Security review ready, production blocked.*
+The lab posture passes the security gates documented below
+(`functions/api/intake.test.mjs` covers Directory_Master refusal,
+shared-secret handling, dry-run default, minimal notification payload,
+office@esrf.net official-identity surface, POST-only enforcement, body
+size cap, required consent). Production activation is **blocked** until:
+
+1. The Apps Script webhook is deployed under an `office@esrf.net`-owned
+   Workspace project (so `MailApp` delivers from an ESRF identity).
+2. Cloudflare Pages **preview** secrets (`INTAKE_SHEET_WEBHOOK_URL`,
+   `SHEETS_WEBHOOK_SECRET`, optionally `INTAKE_NOTIFY_WEBHOOK` /
+   `INTAKE_NOTIFY_TO`) are configured by an operator.
+3. The redactie has signed off on the dry-run notification copy and
+   approved the activation gate in
+   `docs/intake-lab-test-report-2026-04-25.md` §6b.
+
+ESRF's official automation identity is **`office@esrf.net`**. The legacy
+agent identity `ai.agent.wm@gmail.com` (which still appears in some
+agent-tooling Google Sheets connectors) is **non-production only**: it
+must never be configured as `INTAKE_NOTIFY_TO`, must never own the
+production Apps Script project, and is hard-blocked as a recipient by
+both `functions/api/intake.js` (via the `OFFICE_IDENTITY` constant
+surfaced in the response) and `docs/apps-script-intake-webhook.gs` (via
+the `FORBIDDEN_NOTIFY_RECIPIENTS` deny-list).
+
 This document describes:
 
 1. The storage architecture (and why the Google Drive spreadsheet remains

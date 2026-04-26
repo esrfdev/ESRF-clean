@@ -26,6 +26,11 @@ const {
   needsPlaceCandidateRow,
   nextRequiredAction,
   LAB_SPREADSHEET,
+  OFFICE_IDENTITY,
+  FORBIDDEN_NOTIFY_KEYS,
+  assertLabPayloadSafe,
+  assertNotificationSafe,
+  onRequest,
   sanitize,
   sanitizeLong,
   sanitizeUrl,
@@ -473,6 +478,297 @@ check('nextRequiredAction returns dry-run copy when sheet not configured', () =>
   const payload = payloadOf({ intake_mode: 'org', contact: goodContact, organisation_listing: goodOrg, privacy: goodPrivacy });
   const txt = nextRequiredAction(payload, 'dry_run');
   assert.ok(/SHEETS_WEBHOOK_URL/i.test(txt));
+});
+
+// ─── Security gate: assertLabPayloadSafe ────────────────────────────────
+check('assertLabPayloadSafe accepts a well-formed LAB_ payload', () => {
+  assertLabPayloadSafe({
+    target_prefix: 'LAB_',
+    forbidden_targets: ['Directory_Master'],
+    rows: { LAB_Intake_Submissions: { submission_id: 's1' } },
+  });
+});
+
+check('assertLabPayloadSafe REFUSES Directory_Master target', () => {
+  assert.throws(() => assertLabPayloadSafe({
+    target_prefix: 'LAB_',
+    forbidden_targets: ['Directory_Master'],
+    rows: { Directory_Master: { name: 'rogue' } },
+  }), /Directory_Master|forbidden tab/);
+});
+
+check('assertLabPayloadSafe REFUSES non-LAB_ target tabs', () => {
+  assert.throws(() => assertLabPayloadSafe({
+    target_prefix: 'LAB_',
+    forbidden_targets: ['Directory_Master'],
+    rows: { OTHER_Tab: { x: 1 } },
+  }), /not LAB_-prefixed|LAB_/);
+});
+
+check('assertLabPayloadSafe REFUSES wrong target_prefix', () => {
+  assert.throws(() => assertLabPayloadSafe({
+    target_prefix: 'PROD_',
+    forbidden_targets: ['Directory_Master'],
+    rows: { PROD_Intake_Submissions: { x: 1 } },
+  }), /target_prefix/);
+});
+
+check('assertLabPayloadSafe REFUSES payload missing Directory_Master in forbidden_targets', () => {
+  assert.throws(() => assertLabPayloadSafe({
+    target_prefix: 'LAB_',
+    forbidden_targets: [],
+    rows: { LAB_Intake_Submissions: { x: 1 } },
+  }), /Directory_Master/);
+});
+
+// ─── Security gate: assertNotificationSafe ──────────────────────────────
+check('assertNotificationSafe accepts a documented minimal payload', () => {
+  assertNotificationSafe({
+    schema_version: 1, submission_id: 's1', request_id: 'r1',
+    environment: 'TEST', mode: 'org', type: 'org',
+    org_name: 'Acme', country: 'NL', region: 'Zuid-Holland',
+    workflow_status: 'stored', next_required_action: 'review',
+    related_sheet: 'LAB_Intake_Submissions', notification_channel: 'esrf_mail_relay_or_webhook',
+    note: 'minimal', notify_to_recipient: 'office@esrf.net',
+  });
+});
+
+check('assertNotificationSafe rejects every forbidden PII / editorial key', () => {
+  for (const k of FORBIDDEN_NOTIFY_KEYS) {
+    const m = { schema_version: 1, [k]: 'leaked' };
+    assert.throws(() => assertNotificationSafe(m), new RegExp('forbidden key ' + k));
+  }
+});
+
+check('FORBIDDEN_NOTIFY_KEYS covers every documented PII / editorial body field', () => {
+  const must = [
+    'contact_email','contact_phone','contact_name','email','phone','name',
+    'summary','regional_angle','lesson','editorial_summary','editorial_body',
+    'description_en','raw_payload_json',
+  ];
+  for (const k of must) {
+    assert.ok(FORBIDDEN_NOTIFY_KEYS.includes(k), 'missing forbidden key ' + k);
+  }
+});
+
+// ─── Office identity ────────────────────────────────────────────────────
+check('OFFICE_IDENTITY exposes office@esrf.net as the official recipient', () => {
+  assert.equal(OFFICE_IDENTITY.official_recipient, 'office@esrf.net');
+  assert.ok(/esrf\.net$/i.test(OFFICE_IDENTITY.official_recipient));
+  // ai.agent.wm@gmail.com is a non-production identity only.
+  assert.ok(Array.isArray(OFFICE_IDENTITY.non_production_identities));
+  assert.ok(OFFICE_IDENTITY.non_production_identities.includes('ai.agent.wm@gmail.com'));
+  assert.ok(/non-production/i.test(OFFICE_IDENTITY.note));
+});
+
+check('OFFICE_IDENTITY note explicitly forbids ai.agent.wm@gmail.com as production recipient', () => {
+  const haystack = JSON.stringify(OFFICE_IDENTITY).toLowerCase();
+  assert.ok(haystack.includes('ai.agent.wm@gmail.com'));
+  // The note text mentions production-blocked status for the legacy id.
+  assert.ok(/never.*production|non.production/i.test(OFFICE_IDENTITY.note));
+});
+
+// ─── HTTP method handling: POST-only endpoint ───────────────────────────
+async function callOnRequest(method, opts) {
+  opts = opts || {};
+  const headers = new Map(Object.entries(opts.headers || {}));
+  const request = {
+    method,
+    url: 'https://test-regional-editorial-cont.esrf-clean.pages.dev/api/intake',
+    headers: {
+      get(k) { return headers.get(String(k).toLowerCase()) || headers.get(k) || null; },
+    },
+    text: async () => opts.body || '',
+    cf: {},
+  };
+  const ctx = { request, env: opts.env || {} };
+  return await onRequest(ctx);
+}
+
+check('GET /api/intake returns 405 (POST-only)', async () => {
+  const res = await callOnRequest('GET');
+  assert.equal(res.status, 405);
+  assert.equal(res.headers.get('allow'), 'POST, OPTIONS');
+});
+
+check('PUT /api/intake returns 405 (POST-only)', async () => {
+  const res = await callOnRequest('PUT');
+  assert.equal(res.status, 405);
+});
+
+check('DELETE /api/intake returns 405 (POST-only)', async () => {
+  const res = await callOnRequest('DELETE');
+  assert.equal(res.status, 405);
+});
+
+// We can't actually await async checks via the sync `check()` runner
+// without converting it; instead, gate the async tests behind a small
+// async runner block. The previous `check(... async ...)` calls return
+// a promise that resolves to undefined — assertion errors throw inside
+// the async fn and become an unhandled rejection. To keep the failure
+// count accurate, run these synchronously below.
+async function asyncCheck(name, fn) {
+  try { await fn(); console.log('  ok  — ' + name); }
+  catch (e) { failures++; console.log('FAIL — ' + name); console.log('       ' + (e && e.message || e)); }
+}
+
+await asyncCheck('GET method is rejected (POST-only)', async () => {
+  const res = await callOnRequest('GET');
+  assert.equal(res.status, 405);
+});
+
+await asyncCheck('PUT method is rejected (POST-only)', async () => {
+  const res = await callOnRequest('PUT');
+  assert.equal(res.status, 405);
+});
+
+// ─── HTTP origin allowlist enforcement (forbidden origin path) ──────────
+await asyncCheck('POST from disallowed origin returns 403', async () => {
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://evil.example', 'content-type': 'application/json' },
+    body: '{}',
+  });
+  assert.equal(res.status, 403);
+});
+
+// ─── Content-Type enforcement ───────────────────────────────────────────
+await asyncCheck('POST with non-JSON content-type returns 415', async () => {
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'text/plain' },
+    body: '{}',
+  });
+  assert.equal(res.status, 415);
+});
+
+// ─── Payload size enforcement ───────────────────────────────────────────
+await asyncCheck('POST with body > 64 KiB returns 413', async () => {
+  const big = 'x'.repeat(64 * 1024 + 1);
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'application/json' },
+    body: '{"intake_mode":"org","contact":{"name":"' + big + '"}}',
+  });
+  assert.equal(res.status, 413);
+});
+
+// ─── JSON parse / object enforcement ────────────────────────────────────
+await asyncCheck('POST with invalid JSON returns 400', async () => {
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'application/json' },
+    body: '{not json',
+  });
+  assert.equal(res.status, 400);
+});
+
+await asyncCheck('POST with JSON array (not object) returns 400', async () => {
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'application/json' },
+    body: '[1,2,3]',
+  });
+  assert.equal(res.status, 400);
+});
+
+// ─── Honeypot + form-fill timer ─────────────────────────────────────────
+await asyncCheck('POST with honeypot value returns 400 (bot)', async () => {
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'application/json' },
+    body: JSON.stringify({ intake_mode: 'org', company_website_hp: 'http://spam.example', form_duration_ms: 9999 }),
+  });
+  assert.equal(res.status, 400);
+});
+
+await asyncCheck('POST with too-fast form fill returns 400', async () => {
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'application/json' },
+    body: JSON.stringify({ intake_mode: 'org', form_duration_ms: 100 }),
+  });
+  assert.equal(res.status, 400);
+});
+
+// ─── Dry-run default (no env vars set) ──────────────────────────────────
+await asyncCheck('Default dry-run when no INTAKE_SHEET_WEBHOOK_URL configured', async () => {
+  const body = {
+    intake_mode: 'org',
+    form_duration_ms: 9999,
+    contact: {
+      name: 'Anna Jansen', organisation: 'Acme', role: 'Coordinator',
+      email: 'anna@example.org', country_code: 'NL',
+      country_label: 'Nederland', place: 'Rotterdam',
+      website: 'https://acme.example.org',
+    },
+    organisation_listing: { sector: 'gov', sector_label: 'Overheid', city: 'Rotterdam', description: 'd' },
+    privacy: { gdpr_privacy_policy: true },
+  };
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+    env: {},
+  });
+  assert.equal(res.status, 200);
+  const j = JSON.parse(await res.text());
+  assert.equal(j.ok, true);
+  assert.equal(j.dry_run, true);
+  assert.equal(j.sheet_dry_run, true);
+  assert.equal(j.notification_status, 'dry_run_not_configured');
+  assert.equal(j.workflow.status, 'dry_run');
+  // Office identity surfaced in the response.
+  assert.equal(j.storage_architecture.official_identity.official_recipient, 'office@esrf.net');
+  assert.equal(j.storage_architecture.production_readiness.status, 'security_review_ready_production_blocked');
+  // Default dry-run preview must not leak PII via the notification message.
+  const text = JSON.stringify(j.notification_message);
+  assert.ok(!text.includes('anna@example.org'), 'dry-run notification leaked email');
+  assert.ok(!text.includes('Anna Jansen'), 'dry-run notification leaked name');
+});
+
+// ─── Editorial consent: required ────────────────────────────────────────
+await asyncCheck('Editorial mode without edit_and_publish consent returns 400', async () => {
+  const body = {
+    intake_mode: 'editorial',
+    form_duration_ms: 9999,
+    contact: {
+      name: 'Anna', organisation: 'Acme', role: 'Coord',
+      email: 'a@b.org', country_code: 'NL', country_label: 'NL',
+    },
+    editorial_contribution: {
+      topic: 'T', summary: 'S', regional_angle: 'R', lesson: 'L',
+      consent: { edit_and_publish: false, editorial_may_contact: true, no_confidential_information: true },
+    },
+    privacy: { gdpr_privacy_policy: true },
+  };
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  assert.equal(res.status, 400);
+});
+
+// ─── GDPR consent: required ─────────────────────────────────────────────
+await asyncCheck('Missing gdpr_privacy_policy returns 400', async () => {
+  const body = {
+    intake_mode: 'org', form_duration_ms: 9999,
+    contact: {
+      name: 'A', organisation: 'B', role: 'r', email: 'a@b.org',
+      country_code: 'NL', country_label: 'NL', website: 'https://x.org',
+    },
+    organisation_listing: { sector: 'gov' },
+    privacy: { gdpr_privacy_policy: false },
+  };
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  assert.equal(res.status, 400);
+});
+
+// ─── Error messages do not leak internal details ────────────────────────
+await asyncCheck('Validation error message is generic, not stack/secrets', async () => {
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'application/json' },
+    body: '{}',
+  });
+  assert.equal(res.status, 400);
+  const t = await res.text();
+  assert.ok(!/at\s+\w+\s+\(/.test(t), 'response leaked a stack trace');
+  assert.ok(!/SHEETS_WEBHOOK_SECRET|GITHUB_TOKEN/.test(t), 'response leaked an env var name');
 });
 
 // ─── summary ─────────────────────────────────────────────────────────────

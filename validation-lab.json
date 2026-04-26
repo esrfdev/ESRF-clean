@@ -85,8 +85,44 @@
     {
       "id": "intake-lab-automation",
       "title": "Lab-automation voor /api/intake — workflow + LAB_* tabs + minimale notificatie",
-      "status": "ready-for-webhook-activation",
-      "readinessNote": "Backend, LAB_* tabs and dry-run flow verified end-to-end on 2026-04-25 (submission sub_moelllvt_i21b). Awaiting Cloudflare Pages Preview env vars (INTAKE_SHEET_WEBHOOK_URL + SHEETS_WEBHOOK_SECRET) before live writes. Notification channel is the ESRF mailnotificatie / mailrelay-webhook (not a Gmail integration); when activated the operational recipient is office@esrf.net via INTAKE_NOTIFY_TO + INTAKE_NOTIFY_WEBHOOK or via the Apps Script's NOTIFY_TO Script Property. No real email is sent until the operator opts in. See test report.",
+      "status": "security-review-ready-production-blocked",
+      "readinessNote": "Backend, LAB_* tabs and dry-run flow verified end-to-end on 2026-04-25 (submission sub_moelllvt_i21b). Security review pass on 2026-04-26: defence-in-depth Directory_Master refusal (assertLabPayloadSafe), forbidden-keys notification guard (assertNotificationSafe), generic upstream error messages, POST-only enforcement, 64 KiB body cap, honeypot + form-fill timer, shared-secret in header AND body for Apps Script doPost compatibility, OFFICE_IDENTITY constant surfacing office@esrf.net as the official production recipient and explicitly demoting ai.agent.wm@gmail.com to a non-production identity. Production remains BLOCKED until: (1) the Apps Script webhook is deployed under an office@esrf.net-owned Workspace project, (2) Cloudflare Pages preview secrets (INTAKE_SHEET_WEBHOOK_URL + SHEETS_WEBHOOK_SECRET) are configured, and (3) the redactie ticks off the activation gate in docs/intake-lab-test-report-2026-04-25.md §6b. Notification channel is the ESRF mailnotificatie / mailrelay-webhook (not a Gmail integration). No real email is sent until the operator opts in.",
+      "securityReview": {
+        "status": "ready",
+        "date": "2026-04-26",
+        "controls": {
+          "lab_only_writes": "enforced (assertLabPayloadSafe + Apps Script receive-side guard)",
+          "directory_master_blocked": "enforced (forbidden_targets + tab-prefix check on both ends)",
+          "shared_secret": "header x-esrf-intake-secret AND body shared_secret for Apps Script doPost",
+          "origin_allowlist": "enforced (esrf.net + *.esrf-clean.pages.dev)",
+          "method_handling": "POST-only; OPTIONS preflight; 405 for other verbs",
+          "content_type": "application/json required (415 otherwise)",
+          "body_size_cap": "64 KiB (413 otherwise)",
+          "honeypot": "company_website_hp must be empty",
+          "form_fill_timer": "form_duration_ms >= 2500ms",
+          "turnstile": "honoured when TURNSTILE_SECRET_KEY set; warning emitted otherwise (lab leaves it disabled)",
+          "rate_limit": "TODO — runtime-dependent (Workers KV binding or Cloudflare WAF rate-limit rule on /api/intake)",
+          "input_validation": "per-mode required fields, ISO-3166 country, email shape, mandatory editorial + GDPR consents; HTML/control-char strip; length caps 600 / 2000",
+          "minimal_notification": "assertNotificationSafe enforces FORBIDDEN_NOTIFY_KEYS on both live + dry-run paths",
+          "no_secrets_leak": "secrets read from env only; upstream errors flattened to status code; no stack traces in responses",
+          "cors": "Vary: origin on every response; preflight only for allowed origins",
+          "default_safe": "dry-run by default when sheet/notify webhooks unset",
+          "official_identity": "office@esrf.net surfaced as official production recipient via OFFICE_IDENTITY constant; ai.agent.wm@gmail.com listed as non-production and hard-blocked by Apps Script FORBIDDEN_NOTIFY_RECIPIENTS deny-list"
+        },
+        "productionBlockers": [
+          "Apps Script webhook must be deployed under an office@esrf.net-owned Workspace project (so MailApp delivers from an ESRF identity).",
+          "Cloudflare Pages preview secrets (INTAKE_SHEET_WEBHOOK_URL + SHEETS_WEBHOOK_SECRET) are not configured.",
+          "INTAKE_NOTIFY_TO must be set to office@esrf.net (or another office@esrf.net-controlled inbox) before any real email is sent.",
+          "Redactie sign-off on activation gate in docs/intake-lab-test-report-2026-04-25.md §6b.",
+          "Optional: rate-limit (Workers KV binding INTAKE_RATELIMIT or Cloudflare WAF rule)."
+        ]
+      },
+      "officialIdentity": {
+        "official_recipient": "office@esrf.net",
+        "official_owner": "ESRF foundation",
+        "non_production_identities": ["ai.agent.wm@gmail.com"],
+        "note": "office@esrf.net is the only documented production recipient. ai.agent.wm@gmail.com may exist as a temporary / non-production context (e.g. legacy Google Sheets connector identity in agent tooling) but must never back the production webhook or be configured as INTAKE_NOTIFY_TO."
+      },
       "path": "/submit-validation.html",
       "owner": "ESRF Editorial",
       "purpose": "Lab-versie van de automatische intakeflow: backend POST /api/intake geeft een expliciete workflow (received → validated → stored_or_dry_run → notification_prepared_or_sent → next_required_action) terug, schrijft uitsluitend naar LAB_Intake_Submissions, LAB_Editorial_Intake, LAB_Place_Candidates, LAB_Backend_Log en LAB_Workflow_Events in de bestaande Drive-spreadsheet (id 1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g), en stuurt een PII-vrije notificatie. Directory_Master wordt nooit automatisch aangepast.",
@@ -126,11 +162,13 @@
       ],
       "exitCriteria": [
         "Backend response bevat een complete workflow met steps + next_required_action.",
-        "Sheet payload draagt target_prefix=LAB_ en noemt Directory_Master als verboden target.",
-        "Notification message bevat geen PII en geen editorial body — verifieerbaar via tests.",
+        "Sheet payload draagt target_prefix=LAB_ en noemt Directory_Master als verboden target; assertLabPayloadSafe weigert elke afwijkende vorm vóór de fetch.",
+        "Notification message bevat geen PII en geen editorial body — verifieerbaar via assertNotificationSafe en de bijbehorende tests.",
         "Notification channel is gedocumenteerd als ESRF mailnotificatie / mailrelay-webhook (geen Gmail-specifieke wording); recipient (indien gezet) is office@esrf.net.",
-        "Apps Script reference (docs/apps-script-intake-webhook.gs) weigert niet-LAB-targets en Directory_Master, en heeft een opt-in MailApp-route (NOTIFY_TO) die alleen activeert wanneer expliciet ingesteld.",
-        "node functions/api/intake.test.mjs slaagt voor dry-run, editorial-only, combined, place-candidate, recipient-metadata en geen-Gmail-wording routes."
+        "Apps Script reference (docs/apps-script-intake-webhook.gs) weigert niet-LAB-targets en Directory_Master, heeft een opt-in MailApp-route (NOTIFY_TO) die alleen activeert wanneer expliciet ingesteld, en blokkeert ai.agent.wm@gmail.com via FORBIDDEN_NOTIFY_RECIPIENTS.",
+        "OFFICE_IDENTITY (official_recipient=office@esrf.net) is zichtbaar in storage_architecture en getest.",
+        "Productie blijft geblokkeerd zolang: (a) Apps Script niet onder office@esrf.net draait, (b) Cloudflare Pages preview secrets niet zijn gezet, (c) §6b activation gate niet is afgevinkt door de redactie.",
+        "node functions/api/intake.test.mjs slaagt voor alle dry-run, editorial-only, combined, place-candidate, recipient-metadata, no-Gmail-wording, security-gate (Directory_Master refusal, missing/invalid secret, dry-run default, minimal notification, office identity, POST-only, payload size, required consent) routes."
       ]
     }
   ]

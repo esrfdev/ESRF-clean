@@ -72,6 +72,23 @@ const MIN_FORM_DURATION_MS = 2500;
 
 const VALID_MODES = new Set(['org', 'editorial', 'both']);
 
+// ESRF official automation identity. office@esrf.net is the operational
+// inbox owned by the ESRF foundation. ai.agent.wm@gmail.com is a legacy /
+// non-production agent identity and is NEVER referenced as a production
+// recipient or sender by this backend. The constant is exposed in the
+// response so the redactie can verify which identity the lab is wired
+// against without inspecting env vars.
+const OFFICE_IDENTITY = {
+  official_recipient: 'office@esrf.net',
+  official_owner: 'ESRF foundation',
+  non_production_identities: ['ai.agent.wm@gmail.com'],
+  note: 'office@esrf.net is the only documented production recipient. '
+      + 'ai.agent.wm@gmail.com may exist as a temporary / non-production '
+      + 'context (e.g. legacy connector identity in agent tooling) but '
+      + 'must never be configured as INTAKE_NOTIFY_TO or as the Apps '
+      + 'Script NOTIFY_TO Script Property in production.',
+};
+
 // Lab spreadsheet — single source of truth in lab/preview environments.
 // The backend never writes to Directory_Master; only LAB_* tabs.
 const LAB_SPREADSHEET = {
@@ -87,6 +104,61 @@ const LAB_SPREADSHEET = {
   },
   forbidden_targets: ['Directory_Master'],
 };
+
+// PII / editorial-body field names that MUST NEVER appear in a notification
+// message (or any other minimal payload that leaves Cloudflare). Used by
+// `assertNotificationSafe` and exercised by tests.
+const FORBIDDEN_NOTIFY_KEYS = [
+  'contact_email', 'contact_phone', 'contact_name',
+  'email', 'phone', 'name',
+  'summary', 'regional_angle', 'lesson',
+  'editorial_summary', 'editorial_regional_angle', 'editorial_lesson',
+  'editorial_body', 'body_md_or_url',
+  'description', 'description_en',
+  'raw_payload_json',
+];
+
+// Refuse to dispatch any sheet-webhook payload that targets a non-LAB tab
+// or that includes Directory_Master anywhere in its row map. This is a
+// defence-in-depth guard: validation already rejects this shape, and the
+// Apps Script also rejects on receipt, but the backend itself MUST NOT
+// even put such a payload on the wire.
+function assertLabPayloadSafe(payload) {
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('lab-payload-invalid: not an object');
+  }
+  if (payload.target_prefix !== 'LAB_') {
+    throw new Error('lab-payload-invalid: target_prefix must be LAB_');
+  }
+  const rows = payload.rows && typeof payload.rows === 'object' ? payload.rows : {};
+  for (const tab of Object.keys(rows)) {
+    if (LAB_SPREADSHEET.forbidden_targets.includes(tab)) {
+      throw new Error('lab-payload-invalid: forbidden tab ' + tab);
+    }
+    if (!tab.startsWith('LAB_')) {
+      throw new Error('lab-payload-invalid: tab not LAB_-prefixed: ' + tab);
+    }
+  }
+  // Defensive: forbidden_targets list itself must include Directory_Master.
+  if (!Array.isArray(payload.forbidden_targets) ||
+      !payload.forbidden_targets.includes('Directory_Master')) {
+    throw new Error('lab-payload-invalid: Directory_Master missing from forbidden_targets');
+  }
+}
+
+// Refuse to emit a notification that contains any forbidden (PII /
+// editorial body) field. Used by both the live and dry-run paths so the
+// preview shown in the response cannot leak either.
+function assertNotificationSafe(message) {
+  if (!message || typeof message !== 'object') {
+    throw new Error('notification-invalid: not an object');
+  }
+  for (const key of FORBIDDEN_NOTIFY_KEYS) {
+    if (Object.prototype.hasOwnProperty.call(message, key)) {
+      throw new Error('notification-invalid: forbidden key ' + key);
+    }
+  }
+}
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -220,7 +292,18 @@ export async function onRequestPost(context) {
     log: null,
     workflow_event: null,
     shared_secret_present: !!sharedSecret,
+    official_recipient: OFFICE_IDENTITY.official_recipient,
   };
+
+  // Defence-in-depth: refuse to even build a payload that targets
+  // Directory_Master or omits the LAB_ prefix. This runs before any
+  // network call so a misconfigured row map cannot reach the Apps
+  // Script even if the LAB_SPREADSHEET constant were tampered with.
+  try {
+    assertLabPayloadSafe(sheetWebhookPayload);
+  } catch (e) {
+    return cors(jsonErr('Lab safety check failed', 500), origin);
+  }
 
   // 3) Send to sheet webhook (or stay in dry-run).
   let sheetResult = null;
@@ -281,6 +364,16 @@ export async function onRequestPost(context) {
     issue_url: refs.issue_url,
     notify_to: notifyRecipient,
   });
+
+  // Defence-in-depth: refuse to surface the notification preview if it
+  // somehow contains a forbidden key. This mirrors the live-dispatch
+  // check in `postNotification` so the response payload itself cannot
+  // leak PII even in the dry-run path.
+  try {
+    assertNotificationSafe(notificationMessage);
+  } catch (e) {
+    return cors(jsonErr('Notification safety check failed', 500), origin);
+  }
 
   // Forward the same minimal message to the Apps Script alongside the
   // sheet write so it can (optionally) trigger a MailApp notificatie
@@ -347,6 +440,16 @@ export async function onRequestPost(context) {
       evidence_record: 'github_issue',
       notification: 'esrf_mail_relay_or_webhook_minimal_no_pii',
       notification_recipient_default: notifyRecipient || '(not set; documented default: office@esrf.net)',
+      official_identity: OFFICE_IDENTITY,
+      production_readiness: {
+        status: 'security_review_ready_production_blocked',
+        blockers: [
+          'Apps Script webhook must be deployed under an office@esrf.net-owned project before it accepts production traffic.',
+          'Cloudflare Pages preview secrets (INTAKE_SHEET_WEBHOOK_URL, SHEETS_WEBHOOK_SECRET) are not configured.',
+          'INTAKE_NOTIFY_TO must be set to office@esrf.net (or another office@esrf.net-controlled inbox) before any real email is sent.',
+          'ai.agent.wm@gmail.com identity, where present in agent tooling, is non-production only and must not back the production webhook.',
+        ],
+      },
       note: 'Lab/preview writes only to LAB_* tabs. Directory_Master is never modified by this backend. The notification channel is an ESRF mailnotificatie / mailrelay-webhook (never Gmail-specific).',
     },
     warnings,
@@ -582,13 +685,13 @@ async function createGithubIssue(env, preview) {
       body: JSON.stringify({ title: preview.title, body: preview.body, labels: preview.labels }),
     });
     if (!res.ok) {
-      const t = await res.text().catch(() => '');
-      return { error: 'GitHub ' + res.status + ': ' + t.slice(0, 200) };
+      // Status code only — upstream body may include error detail.
+      return { error: 'GitHub upstream ' + res.status };
     }
     const j = await res.json();
     return { url: j.html_url, number: j.number };
-  } catch (e) {
-    return { error: String(e && e.message || e) };
+  } catch (_e) {
+    return { error: 'GitHub upstream unreachable' };
   }
 }
 
@@ -596,14 +699,21 @@ async function postSheetWebhook(webhookUrl, payload, sharedSecret) {
   try {
     const headers = { 'content-type': 'application/json', 'user-agent': 'esrf-intake-bot' };
     if (sharedSecret) headers['x-esrf-intake-secret'] = sharedSecret;
+    // Apps Script `doPost` cannot read arbitrary HTTP request headers, so
+    // the shared secret is also forwarded in the JSON body. The Apps
+    // Script reference (`docs/apps-script-intake-webhook.gs`) accepts
+    // EITHER source. The body field is removed from the in-memory payload
+    // immediately after the fetch to keep it out of the response preview.
+    const wireBody = sharedSecret ? { ...payload, shared_secret: sharedSecret } : payload;
     const res = await fetch(webhookUrl, {
       method: 'POST',
       headers,
-      body: JSON.stringify(payload),
+      body: JSON.stringify(wireBody),
     });
     if (!res.ok) {
-      const t = await res.text().catch(() => '');
-      return { error: 'Sheet ' + res.status + ': ' + t.slice(0, 200) };
+      // Do NOT propagate the upstream body — it can include script-side
+      // diagnostic strings. Status code is enough.
+      return { error: 'Sheet upstream ' + res.status };
     }
     let j = null;
     try { j = await res.json(); } catch { j = null; }
@@ -613,20 +723,23 @@ async function postSheetWebhook(webhookUrl, payload, sharedSecret) {
       sheet_url: (j && j.sheet_url) || '',
       rows_written: (j && j.rows_written) || null,
     };
-  } catch (e) {
-    return { error: String(e && e.message || e) };
+  } catch (_e) {
+    // Generic message — never leak internal error text to the client.
+    return { error: 'Sheet upstream unreachable' };
   }
 }
 
 async function postNotification(webhookUrl, message) {
+  // Defence-in-depth: re-check the message before dispatch so a future
+  // refactor cannot leak PII through this codepath.
+  assertNotificationSafe(message);
   const res = await fetch(String(webhookUrl), {
     method: 'POST',
     headers: { 'content-type': 'application/json', 'user-agent': 'esrf-intake-bot' },
     body: JSON.stringify(message),
   });
   if (!res.ok) {
-    const t = await res.text().catch(() => '');
-    return { error: 'Notify ' + res.status + ': ' + t.slice(0, 120) };
+    return { error: 'Notify upstream ' + res.status };
   }
   return { ok: true };
 }
@@ -952,6 +1065,11 @@ if (typeof globalThis !== 'undefined') {
     needsPlaceCandidateRow,
     nextRequiredAction,
     LAB_SPREADSHEET,
+    OFFICE_IDENTITY,
+    FORBIDDEN_NOTIFY_KEYS,
+    assertLabPayloadSafe,
+    assertNotificationSafe,
+    onRequest,
     sanitize,
     sanitizeLong,
     sanitizeUrl,
