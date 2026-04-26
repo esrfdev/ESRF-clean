@@ -1,5 +1,60 @@
 # Redactieformulier — leesbaar review-formulier boven de Sheet
 
+## Voor de redacteur — in eenvoudige taal
+
+Dit formulier is een **testpagina** waarop je inzendingen kunt bekijken en beoordelen.
+
+Wat je moet weten in één oogopslag:
+
+- **Dit is een testomgeving.** Niets wordt op de website gepubliceerd.
+- **De inzending van de indiener verandert niet.** Wat de indiener heeft ingestuurd blijft staan zoals het was.
+- **De vaste hoofdtabel met organisaties verandert niet.** Deze pagina raakt die tabel nooit aan.
+- **In teststand wordt niets opgeslagen.** Je kunt rustig dingen uitproberen.
+- **Pas als beheer dit scherm activeert** wordt jouw beoordeling opgeslagen in de redactietabel en komt er een notitie in het activiteitenlogboek. Er gaat dan nog steeds niets automatisch naar de website en er wordt geen e-mail verstuurd.
+
+### Hoe gebruik je het scherm?
+
+1. **Kies een inzending** in de lijst links.
+2. Lees rustig de inhoud rechts. **Ontvangen** betekent: lees en controleer of alles begrijpelijk is.
+3. Wil je iets aan de tekst voor publicatie veranderen? Klik op **Tekst voor publicatie aanpassen**. Je verandert dan alleen de redactieversie — niet de inzending van de indiener. Dit is stap **In redactie**.
+4. Twijfel je of mis je informatie? Zet de stap op **Controle nodig** en vraag een collega mee te kijken.
+5. Klaar voor publicatie? Kies **Goedgekeurd voor concept**. Een collega van beheer maakt dan het conceptartikel of de conceptvermelding aan.
+6. Niet geschikt? Kies **Afgewezen / geparkeerd** en zet kort in de notitie waarom.
+
+### De vijf stappen
+
+1. **Ontvangen** — lees de inzending en controleer of alles begrijpelijk is.
+2. **In redactie** — pas alleen de tekst voor publicatie aan.
+3. **Controle nodig** — vraag extra informatie of laat iemand meekijken.
+4. **Goedgekeurd voor concept** — de tekst mag naar een conceptartikel of conceptvermelding.
+5. **Afgewezen / geparkeerd** — doe voorlopig niets en noteer waarom.
+
+### De hoofdknop onderaan
+
+Wat je ziet, hangt ervan af of het scherm in teststand staat of door beheer is geactiveerd:
+
+- **In teststand:** *Maak testvoorbeeld — er wordt niets opgeslagen.* Je ziet dan alleen een leesbare samenvatting van jouw beoordeling. Er wordt niets opgeslagen.
+- **Als beheer dit scherm heeft geactiveerd:** *Opslaan in redactietabel.* Jouw beoordeling wordt opgeslagen in de redactietabel en er komt een notitie in het activiteitenlogboek. De inzending van de indiener verandert niet, de vaste hoofdtabel met organisaties wordt niet aangeraakt en er wordt niets gemaild of gepubliceerd.
+
+Direct onder de knop staat altijd het blokje **Wat gebeurt er als ik klik?** met drie regels:
+
+- *Wat er wel gebeurt* — wat de knop precies doet.
+- *Wat er níet gebeurt* — bevestiging dat de inzending niet verandert, dat er niets op de website komt en dat er geen e-mail uitgaat.
+- *Wat jij hierna doet* — je hoeft niets te kopiëren of te plakken.
+
+### Toegangscode
+
+- **Teststand:** je ziet voorbeeldinzendingen. Geen toegangscode nodig.
+- **Echte inzendingen:** beheer geeft je een toegangscode. Vul die in en klik op *Echte inzendingen laden*. De code blijft alleen in dit tabblad; hij wordt niet onthouden, niet in een cookie en niet op je computer.
+
+### Het beheer-blok onderaan ("Alleen voor beheer bij storing")
+
+Onderaan staat een ingeklapt blok met technische knoppen voor beheer. **Gebruik dit niet voor normaal redactiewerk.** Dit blok is alleen bedoeld als opslaan een keer niet lukt en beheer je vraagt een technisch bestand op te sturen.
+
+---
+
+## Voor beheer — technische details
+
 > **Branch:** `test/regional-editorial-contributor-intake` only.
 > **Validatie-only voor de productie.** Productie schrijft niets — Cloudflare
 > Pages Functions zijn preview-only en geven 404 op productie.

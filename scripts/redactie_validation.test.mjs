@@ -342,9 +342,12 @@ check('validation-lab.json includes redactie-validation-form module', () => {
 });
 
 // ── Access panel + LAB-mode wiring ───────────────────────────────────────
-check('access panel renders with SAMPLE-MODE pill and LAB-toegang heading', () => {
-  assert.ok(html.includes('LAB-toegang'), 'expected "LAB-toegang" heading');
-  assert.ok(html.includes('SAMPLE-MODE'), 'expected SAMPLE-MODE pill');
+check('access panel renders with Teststand pill and Toegangscode heading', () => {
+  // Plain-Dutch rewrite: "LAB-toegang" → "Toegangscode";
+  // "SAMPLE-MODE" pill → "Teststand". The technical labels may still
+  // appear inside collapsed beheer <details> blocks.
+  assert.ok(html.includes('Toegangscode'), 'expected "Toegangscode" heading');
+  assert.ok(html.includes('Teststand'), 'expected Teststand pill text');
   assert.ok(html.includes('rv-access'), 'expected access panel container');
 });
 
@@ -414,7 +417,8 @@ check('numbered redaction workflow panel is visible (5 steps, plain Dutch)', () 
 
 check('primary action label is role-based, mode-aware (sample + lab variants)', () => {
   // Sample-mode primary label MUST be explicit that nothing is saved.
-  assert.ok(html.includes('Maak testvoorbeeld — niets wordt opgeslagen'),
+  // Plain-Dutch rewrite uses "er wordt niets opgeslagen".
+  assert.ok(html.includes('Maak testvoorbeeld — er wordt niets opgeslagen'),
     'expected sample-mode primary label');
   // LAB-mode primary label: action saves directly to the redactietabel.
   // No more "preview before save" wording — copy/paste is no longer the
@@ -462,12 +466,14 @@ check('copy/paste is not presented as the normal workflow anymore', () => {
   assert.ok(!/plak die handmatig in\s+\n?\s+de juiste rij van de LAB_\*-tab/.test(html),
     'old "plak handmatig in de juiste rij" instruction must not appear as primary flow');
   // The LAB-mode instruction must explicitly state no copy/paste needed.
-  assert.ok(html.includes('Geen handmatig kopiëren of plakken meer.'),
-    'expected explicit "geen handmatig kopiëren of plakken meer" instruction in LAB-mode');
+  // Plain-Dutch rewrite: "Je hoeft niets te kopiëren of te plakken."
+  assert.ok(html.includes('Je hoeft niets te kopiëren of te plakken.'),
+    'expected explicit "Je hoeft niets te kopiëren of te plakken" instruction in LAB-mode');
 });
 
-check('"Wat gebeurt er na deze knop?" instruction block is present', () => {
-  assert.ok(html.includes('Wat gebeurt er na deze knop?'),
+check('"Wat gebeurt er als ik klik?" instruction block is present', () => {
+  // Plain-Dutch rewrite: heading is now "Wat gebeurt er als ik klik?".
+  assert.ok(html.includes('Wat gebeurt er als ik klik?'),
     'expected the explicit instruction heading next to the primary action');
   assert.ok(html.includes('Wat er wel gebeurt'));
   assert.ok(html.includes('Wat er níet gebeurt'));
@@ -516,16 +522,15 @@ check('explicit edit-field warnings are present when bewerken is on', () => {
 });
 
 check('primary action area carries a mode-aware status note', () => {
-  assert.ok(html.includes('TESTVOORBEELD · niets wordt opgeslagen'),
-    'expected sample-mode primary status note');
-  // LAB-mode banner now describes the actual save destinations and the
-  // hard guarantees (origineel blijft staan, Directory_Master niet
-  // aangeraakt). The previous "echte rij, nog steeds geen automatische
-  // opslag" wording is no longer correct.
-  assert.ok(html.includes('LAB-MODE · opslaan in LAB_Redactie_Reviews'),
-    'expected lab-mode banner describing save target');
-  assert.ok(html.includes('Directory_Master wordt nooit aangeraakt'),
-    'expected lab-mode banner re-stating Directory_Master deny-list');
+  // Plain-Dutch rewrite: status notes are now in plain Dutch.
+  assert.ok(html.includes('Teststand · er wordt niets opgeslagen'),
+    'expected sample-mode primary status note in plain Dutch');
+  // LAB-mode banner describes the save in plain Dutch and re-states
+  // the hard guarantees (origineel blijft staan, hoofdtabel verandert niet).
+  assert.ok(html.includes('Echte inzending · jouw beoordeling wordt opgeslagen in de redactietabel'),
+    'expected lab-mode banner describing save target in plain Dutch');
+  assert.ok(html.includes('de hoofdtabel met organisaties verandert niet'),
+    'expected lab-mode banner re-stating that the main organisation table is not touched');
   assert.ok(!html.includes('LAB-MODE · echte rij, nog steeds geen automatische opslag'),
     'old lab-mode "geen automatische opslag" banner must be removed');
 });
@@ -610,6 +615,39 @@ check('docs no longer claim Knoppen genereren alleen kopieerbare JSON of tekst (
     'expected docs to describe automatic save in LAB-mode');
   assert.match(md, /technische\s+export is alleen een fallback voor beheer wanneer automatisch\s+opslaan niet werkt/i,
     'expected docs to mark technical export as fallback for beheer');
+});
+
+// ── Plain-language rewrite (2026-04-26) ─────────────────────────────────
+check('plain-language: top safety block uses simple sentences', () => {
+  // Top yellow safety block must lead with "Dit is een testomgeving"
+  // and explicitly state that the indiener's submission and the main
+  // organisation table do not change.
+  assert.ok(html.includes('Dit is een testomgeving'),
+    'expected "Dit is een testomgeving" in top safety block');
+  assert.ok(html.includes('De inzending van de indiener verandert niet.'),
+    'expected explicit "De inzending van de indiener verandert niet." statement');
+});
+
+check('plain-language: technical fallback block renamed and warned', () => {
+  // The technical export block must be renamed to "Alleen voor beheer
+  // bij storing" and carry an explicit warning that it is not for normal
+  // redactiewerk.
+  assert.ok(html.includes('Alleen voor beheer bij storing'),
+    'expected "Alleen voor beheer bij storing" summary on technical block');
+  assert.ok(html.includes('Gebruik dit niet voor normaal redactiewerk.'),
+    'expected explicit "Gebruik dit niet voor normaal redactiewerk." warning');
+});
+
+check('plain-language: validation-lab.json carries plainLanguageRevision metadata', () => {
+  const mod = manifest.modules.find(m => m.id === 'redactie-validation-form');
+  assert.ok(mod && mod.uxRevision && mod.uxRevision.plainLanguageRevision,
+    'expected uxRevision.plainLanguageRevision in manifest');
+  const plr = mod.uxRevision.plainLanguageRevision;
+  assert.ok(Array.isArray(plr.topYellowSafetyBlock) && plr.topYellowSafetyBlock.length === 6,
+    'expected six bullets in plainLanguageRevision.topYellowSafetyBlock');
+  assert.ok(Array.isArray(plr.workflowStepsPlain) && plr.workflowStepsPlain.length === 5,
+    'expected five plain-Dutch workflow steps in plainLanguageRevision');
+  assert.equal(plr.primaryActionInstructionHeading, 'Wat gebeurt er als ik klik?');
 });
 
 // ── docs file exists ─────────────────────────────────────────────────────

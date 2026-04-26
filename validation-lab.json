@@ -388,6 +388,32 @@
       "uxRevision": {
         "date": "2026-04-26",
         "summary": "Geen kopiëren/plakken in de gewone werkflow. In LAB-mode slaat de hoofdknop 'Opslaan in redactietabel' de redactiebeslissing rechtstreeks op via /api/redactie-review-update — append-only naar LAB_Redactie_Reviews + LAB_Workflow_Events. In sample-mode blijft de oude testvoorbeeld-knop zichtbaar. Een statusbanner onder de actie bevestigt save (review_id + tabs) of meldt expliciet dat opslaan nog niet actief is en welke env var ontbreekt. Technische export is verplaatst naar een ingeklapt <details class='rv-tech'>-blok met de letterlijke instructie 'Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.' Geen wijziging aan safety-laag: originele inzending blijft staan, Directory_Master wordt nooit aangeraakt, geen mail, geen auto-publish.",
+        "plainLanguageRevision": {
+          "date": "2026-04-26",
+          "summary": "Alle zichtbare UI-teksten in redactie-validation.html zijn herschreven naar eenvoudig Nederlands zonder technische jargon. Zichtbaar voor de redacteur: 'testomgeving' in plaats van validatie-only, 'teststand' in plaats van sample-mode, 'redactietabel' / 'activiteitenlogboek' in plaats van LAB_Redactie_Reviews / LAB_Workflow_Events, 'beheer-blok' in plaats van technische export. Termen zoals append-only, webhook, JSON, payload, env var, server-side, API, dry-run, sample-mode, Directory_Master, LAB_Redactie_Reviews en LAB_Workflow_Events worden alleen nog binnen ingeklapte 'Voor beheer'-blokken getoond, gepaard met een eenvoudige uitleg.",
+          "topYellowSafetyBlock": [
+            "Dit is een testomgeving.",
+            "Niets wordt op de website gepubliceerd.",
+            "De inzending van de indiener verandert niet.",
+            "De vaste hoofdtabel met organisaties verandert niet.",
+            "In teststand wordt niets opgeslagen.",
+            "Pas als beheer dit scherm activeert wordt jouw beoordeling opgeslagen in de redactietabel en komt er een notitie in het activiteitenlogboek."
+          ],
+          "workflowStepsPlain": [
+            "1 Ontvangen — lees de inzending en controleer of alles begrijpelijk is.",
+            "2 In redactie — pas alleen de tekst voor publicatie aan.",
+            "3 Controle nodig — vraag extra informatie of laat iemand meekijken.",
+            "4 Goedgekeurd voor concept — de tekst mag naar een conceptartikel of conceptvermelding.",
+            "5 Afgewezen of geparkeerd — doe voorlopig niets en noteer waarom."
+          ],
+          "primaryActionInstructionHeading": "Wat gebeurt er als ik klik?",
+          "primaryActionLabelsPlain": {
+            "teststand": "Maak testvoorbeeld — er wordt niets opgeslagen.",
+            "actief": "Opslaan in redactietabel."
+          },
+          "technicalFallbackBlockSummary": "Alleen voor beheer bij storing — Technische export voor beheer (Alleen gebruiken als beheer hierom vraagt)",
+          "technicalFallbackUseWarning": "Gebruik dit niet voor normaal redactiewerk."
+        },
         "primaryActionLabels": {
           "sampleMode": "Maak testvoorbeeld — niets wordt opgeslagen",
           "labMode": "Opslaan in redactietabel"

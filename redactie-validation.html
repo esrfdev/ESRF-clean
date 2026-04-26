@@ -6,8 +6,8 @@
 <meta name="robots" content="noindex,nofollow" />
 <meta name="googlebot" content="noindex,nofollow" />
 <meta name="referrer" content="no-referrer" />
-<title>[TEST/VALIDATIE] Redactieformulier — ESRF.net (validatie)</title>
-<meta name="description" content="Validatie-only redactieformulier voor ESRF intake-rijen. Niet publiek. noindex/nofollow. De Drive-spreadsheet blijft single source of truth — dit formulier schrijft niets weg." />
+<title>[Test] Redactieformulier — ESRF.net</title>
+<meta name="description" content="Testpagina voor de redactie. Niet openbaar. Op deze pagina wordt niets op de website gepubliceerd en de inzending van de indiener verandert niet." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -307,112 +307,127 @@
 <body>
 
 <div class="stage-bar" role="status">
-  <strong>VALIDATIEOMGEVING</strong> &nbsp;·&nbsp; NIET PUBLIEK &nbsp;·&nbsp; redactieformulier — geen Sheet-write &nbsp;·&nbsp;
+  <strong>VALIDATIEOMGEVING</strong> &nbsp;·&nbsp; NIET PUBLIEK &nbsp;·&nbsp; testpagina voor de redactie &nbsp;·&nbsp;
   <a href="validation-lab.html">Validation Lab</a>
 </div>
 
 <main class="rv-wrap">
 
   <div class="rv-warn" role="alert">
-    <strong>⚠ Validatie-only · geen automatische actie</strong>
-    Dit redactieformulier toont een lokale snapshot van LAB_Intake_Submissions / LAB_Editorial_Intake voor leesbare beoordeling.
-    De Drive-spreadsheet blijft single source of truth en audit-spoor.
+    <strong>⚠ Lees dit eerst — wat dit scherm wel en niet doet</strong>
+    Dit is een testomgeving voor de redactie. Niets op deze pagina komt op de website te staan.
     <ul>
-      <li><strong>Niet publiceren</strong> — dit scherm publiceert nooit naar live, editorials of directory.</li>
-      <li><strong>Directory_Master niet aanpassen</strong> — wijzigingen op deze pagina raken Directory_Master niet.</li>
-      <li><strong>Preview pas na akkoord</strong> — een lab-draft of directory-candidate wordt pas gegenereerd nadat redactie de rij in de Sheet expliciet op approved zet.</li>
-      <li><strong>Automatisch opslaan in LAB-mode</strong> — <em>Opslaan in redactietabel</em> schrijft append-only naar LAB_Redactie_Reviews + LAB_Workflow_Events. In sample-mode wordt niets opgeslagen. Geen kopiëren/plakken in de gewone werkflow; technische export is alleen een fallback voor beheer.</li>
-      <li><strong>Bewerkingen wijzigen alleen het publicatievoorstel</strong> — de originele inzending blijft als bron en audit-spoor bewaard; geen automatische live publicatie.</li>
+      <li><strong>Dit is een test­omgeving.</strong> Niets wordt op de website gepubliceerd.</li>
+      <li><strong>De inzending van de indiener verandert niet.</strong> Wat de indiener heeft ingestuurd blijft staan zoals het was.</li>
+      <li><strong>De vaste hoofdtabel met organisaties verandert niet.</strong> Deze pagina raakt die tabel nooit aan.</li>
+      <li><strong>In teststand wordt niets opgeslagen.</strong> Je kunt rustig dingen uitproberen.</li>
+      <li><strong>Pas als beheer dit scherm activeert</strong> wordt jouw beoordeling opgeslagen in de redactietabel en wordt er een notitie in het activiteitenlogboek gezet. Er gaat dan nog steeds niets automatisch naar de website en er wordt geen e-mail gestuurd.</li>
     </ul>
+    <details style="margin-top:8px">
+      <summary style="cursor:pointer;font-size:11.5px;color:#664d03">Voor beheer — technische details (tabellen en logboek)</summary>
+      <div style="margin-top:6px;font-size:12px;color:#664d03">
+        Niet publiceren — dit scherm publiceert nooit naar live, editorials of directory.
+        Directory_Master niet aanpassen — wijzigingen op deze pagina raken Directory_Master niet.
+        Preview pas na akkoord — een lab-draft of directory-candidate wordt pas gegenereerd nadat redactie de rij in de Sheet expliciet op approved zet.
+        Automatisch opslaan in LAB-mode — <em>Opslaan in redactietabel</em> schrijft append-only naar LAB_Redactie_Reviews + LAB_Workflow_Events. In sample-mode wordt niets opgeslagen.
+        Bewerkingen wijzigen alleen het publicatievoorstel — de originele inzending blijft als bron en audit-spoor bewaard; geen automatische live publicatie.
+        De redactietabel heet intern <code>LAB_Redactie_Reviews</code>; het activiteitenlogboek heet <code>LAB_Workflow_Events</code>; de bron-tabbladen heten <code>LAB_Intake_Submissions</code> en <code>LAB_Editorial_Intake</code>.
+      </div>
+    </details>
   </div>
 
   <div class="rv-head">
     <div>
-      <p class="rv-kicker">§ Redactie · validatie · noindex,nofollow</p>
-      <h1 class="rv-h1">Redactieformulier — intake review</h1>
-      <p class="rv-deck">Beoordeel één inzending tegelijk in een leesbaar kaartformaat. Kies een rij links, doorloop de vijf stappen hieronder en gebruik de knop <em>Opslaan in redactietabel</em> onderaan. De redactiebeslissing wordt rechtstreeks opgeslagen in LAB_Redactie_Reviews, met een gebeurtenis in LAB_Workflow_Events. De originele inzending blijft staan; Directory_Master wordt nooit aangepast en er is geen automatische publicatie.</p>
+      <p class="rv-kicker">§ Redactie · testomgeving</p>
+      <h1 class="rv-h1">Redactieformulier — beoordeel één inzending</h1>
+      <p class="rv-deck">Kies links een inzending, lees rustig wat er staat en vul rechts in wat de volgende stap is. Onderaan staat één duidelijke knop. Wat die knop doet, leggen we daar in het kort uit. De inzending van de indiener verandert niet en er wordt niets op de website gepubliceerd.</p>
     </div>
   </div>
 
-  <section class="rv-workflow" aria-label="Redactie-workflow">
-    <h2>Redactie-workflow — 5 zichtbare stappen</h2>
-    <p class="rv-workflow-sub">Iedere inzending volgt deze vaste volgorde. Kies bij <em>Procesgang</em> dezelfde stap als waar je nu bent.</p>
+  <section class="rv-workflow" aria-label="Redactie-stappen">
+    <h2>De vijf stappen — kies welke nu past</h2>
+    <p class="rv-workflow-sub">Iedere inzending doorloopt deze stappen. Kies bij <em>Procesgang</em> rechts dezelfde stap als hieronder.</p>
     <ol class="rv-steps">
       <li class="rv-step">
         <span class="rv-step-num">1</span>
         <span class="rv-step-title">Ontvangen</span>
-        <span class="rv-step-do">Alleen lezen en controleren. Niet bewerken, niet beantwoorden.</span>
+        <span class="rv-step-do">Lees de inzending en controleer of alles begrijpelijk is.</span>
       </li>
       <li class="rv-step">
         <span class="rv-step-num">2</span>
         <span class="rv-step-title">In redactie</span>
-        <span class="rv-step-do">Tekst aanpassen in de redactieversie. De originele inzending blijft staan.</span>
+        <span class="rv-step-do">Pas alleen de tekst voor publicatie aan. De inzending van de indiener blijft staan.</span>
       </li>
       <li class="rv-step">
         <span class="rv-step-num">3</span>
         <span class="rv-step-title">Controle nodig</span>
-        <span class="rv-step-do">Bron, contact of inhoud laten controleren voordat je verder gaat.</span>
+        <span class="rv-step-do">Vraag extra informatie of laat iemand meekijken voordat je verder gaat.</span>
       </li>
       <li class="rv-step">
         <span class="rv-step-num">4</span>
         <span class="rv-step-title">Goedgekeurd voor concept</span>
-        <span class="rv-step-do">Klaar om lab-draft of directory-candidate te maken (handmatig, via beheer).</span>
+        <span class="rv-step-do">De tekst mag naar een conceptartikel of conceptvermelding. Een collega van beheer maakt dat concept aan.</span>
       </li>
       <li class="rv-step">
         <span class="rv-step-num">5</span>
         <span class="rv-step-title">Afgewezen / geparkeerd</span>
-        <span class="rv-step-do">Niet verder verwerken. Reden noteren in review-notities.</span>
+        <span class="rv-step-do">Doe voorlopig niets en noteer waarom in de review-notitie.</span>
       </li>
     </ol>
   </section>
 
-  <div class="rv-access" id="rv-access" role="region" aria-label="Toegang LAB-data">
-    <strong>LAB-toegang</strong>
+  <div class="rv-access" id="rv-access" role="region" aria-label="Toegangscode (LAB-toegang)">
+    <strong>Toegangscode</strong>
     &nbsp;·&nbsp;
-    <span id="rv-access-mode" class="rv-access-mode rv-mode-sample">SAMPLE-MODE</span>
+    <span id="rv-access-mode" class="rv-access-mode rv-mode-sample">Teststand</span>
     &nbsp;·&nbsp;
-    <span>geen automatische publicatie · Directory_Master niet aanpassen</span>
+    <span>geen automatische publicatie · de hoofdtabel met organisaties (Directory_Master niet aanpassen) wordt niet aangeraakt</span>
     <p>
-      Standaard staat dit formulier in <strong>sample-mode</strong>: lokale voorbeeldrijen, niets uit de echte LAB-Sheet. Vul een door
-      Wouter verstrekte review-toegangscode in om — <em>als de server-side webhook is ingesteld</em> — de echte LAB_Intake_Submissions /
-      LAB_Editorial_Intake rijen te lezen. De toegangscode wordt nooit lokaal opgeslagen (geen localStorage, geen cookie) en
-      verlaat de browser alleen versleuteld via HTTPS naar <code>/api/redactie-review</code>.
+      Dit formulier staat standaard in <strong>teststand</strong>: je ziet voorbeeldinzendingen, geen echte gegevens. Echte inzendingen komen pas in beeld als je een geldige toegangscode invult <em>en</em> beheer dit scherm heeft geactiveerd. Tot die tijd verandert er niets in de echte gegevens.
+    </p>
+    <p style="margin-top:6px;font-size:12px;color:#475569">
+      De code blijft alleen in dit tabblad; hij wordt nergens onthouden, niet in een cookie en niet op je computer.
     </p>
     <div class="rv-access-row">
-      <label for="rv-access-code">Review-toegangscode:</label>
+      <label for="rv-access-code">Toegangscode:</label>
       <input id="rv-access-code" type="password" autocomplete="off" spellcheck="false"
-        placeholder="alleen invoeren als je de code hebt — anders sample" aria-describedby="rv-access-msg" />
-      <button id="rv-access-load" class="rv-btn rv-btn-primary" type="button">Laad LAB-data</button>
-      <button id="rv-access-clear" class="rv-btn rv-btn-warn" type="button">Wis code · terug naar sample</button>
+        placeholder="vul alleen in als je een code hebt gekregen" aria-describedby="rv-access-msg" />
+      <button id="rv-access-load" class="rv-btn rv-btn-primary" type="button">Echte inzendingen laden</button>
+      <button id="rv-access-clear" class="rv-btn rv-btn-warn" type="button">Code wissen · terug naar teststand</button>
     </div>
     <p id="rv-access-msg" class="rv-access-msg" aria-live="polite">
-      Sample-mode actief. Geen verbinding met LAB-Sheet — toon lokale voorbeelddata.
+      Teststand actief. Je werkt nu met voorbeeldinzendingen; er wordt niets opgeslagen.
     </p>
     <div id="rv-access-activation" hidden></div>
+    <details style="margin-top:8px">
+      <summary style="cursor:pointer;font-size:11.5px;color:#475569">Voor beheer — technische activatie (sample-mode → LAB-mode)</summary>
+      <div style="margin-top:6px;font-size:12px;color:#475569;line-height:1.55">
+        Standaard draait deze pagina in sample-mode (lokale voorbeeldrijen, niets uit de echte LAB-Sheet). Met een geldige review-toegangscode én alle vier de Cloudflare Pages preview env vars (REDACTIE_REVIEW_ACCESS_CODE, REDACTIE_REVIEW_WEBHOOK_URL, REDACTIE_REVIEW_WEBHOOK_SECRET, REDACTIE_REVIEW_WRITE_ENABLED=true) schakelt de pagina over naar LAB-mode en leest echte LAB_Intake_Submissions / LAB_Editorial_Intake rijen via <code>/api/redactie-review</code>. De toegangscode wordt nooit lokaal opgeslagen (geen localStorage, geen cookie) en verlaat de browser alleen versleuteld via HTTPS. Productie krijgt deze env vars niet — Cloudflare Pages Functions geven 404 op productie.
+      </div>
+    </details>
   </div>
 
   <div class="rv-grid">
 
     <aside class="rv-list" aria-label="Inzendingen">
       <div class="rv-list-head">
-        <span>Inzendingen (lokaal voorbeeld)</span>
+        <span>Inzendingen</span>
         <span id="rv-count" aria-live="polite">0</span>
       </div>
       <div class="rv-list-filter">
-        <input id="rv-filter" class="rv-filter" type="text" placeholder="Filter op titel, regio, type…" aria-label="Filter inzendingen" />
+        <input id="rv-filter" class="rv-filter" type="text" placeholder="Zoek op titel, regio of soort…" aria-label="Zoek in inzendingen" />
       </div>
       <div id="rv-items" role="list"></div>
     </aside>
 
     <section class="rv-detail" id="rv-detail" aria-live="polite">
-      <p class="rv-detail-sub">Selecteer een inzending links om de details en het review-formulier te zien.</p>
+      <p class="rv-detail-sub">Kies links een inzending om de inhoud en het beoordelingsformulier te zien.</p>
     </section>
 
   </div>
 
   <p class="rv-foot">
-    Bron: lokale voorbeelddata (afgeleid van fixtures op deze branch). Geen live Sheet-call vanuit de browser.
-    Submitter-contact is standaard verborgen en gemarkeerd als <strong>intern</strong>; export sluit contact en raw payload uit, tenzij je expliciet een toggle aanzet.
+    De contactgegevens van de indiener staan standaard verborgen en zijn alleen voor intern gebruik. Ze worden niet meegestuurd in een download, tenzij je dat zelf aanzet.
   </p>
 
 </main>
@@ -608,21 +623,21 @@
   function renderAccessPanel(){
     var modeEl = $('rv-access-mode');
     if (modeEl){
-      modeEl.textContent = state.accessMode === 'lab' ? 'LAB-MODE — live' : 'SAMPLE-MODE';
+      modeEl.textContent = state.accessMode === 'lab' ? 'Echte inzendingen — actief' : 'Teststand';
       modeEl.className = 'rv-access-mode ' + (state.accessMode === 'lab' ? 'rv-mode-lab' : 'rv-mode-sample');
     }
     var msgEl = $('rv-access-msg');
     if (msgEl){
       msgEl.textContent = state.accessMessage || (state.accessMode === 'lab'
-        ? 'LAB-mode actief. Echte LAB_*-rijen geladen — Directory_Master niet aanpassen.'
-        : 'Sample-mode actief. Geen verbinding met LAB-Sheet — toon lokale voorbeelddata.');
+        ? 'Je werkt nu met echte inzendingen. De vaste hoofdtabel met organisaties wordt niet aangeraakt.'
+        : 'Teststand actief. Je werkt met voorbeeldinzendingen; er wordt niets opgeslagen.');
     }
     var actEl = $('rv-access-activation');
     if (actEl){
       actEl.innerHTML = '';
       if (state.accessActivation && state.accessActivation.length){
         actEl.hidden = false;
-        var p = el('p', { text: 'Nodig om echte LAB-data te activeren:' });
+        var p = el('p', { text: 'Beheer moet hieronder eerst dit nog regelen voordat echte inzendingen geladen kunnen worden:' });
         actEl.appendChild(p);
         var ul = el('ul');
         state.accessActivation.forEach(function(line){
@@ -637,7 +652,7 @@
 
   async function loadLabData(accessCode){
     var msgEl = $('rv-access-msg');
-    if (msgEl) msgEl.textContent = 'Bezig met laden…';
+    if (msgEl) msgEl.textContent = 'Even geduld — bezig met ophalen…';
     try {
       var res = await fetch('/api/redactie-review', {
         method: 'POST',
@@ -651,7 +666,7 @@
       try { data = await res.json(); } catch(e){ data = null; }
       if (!res.ok || !data || data.ok === false){
         state.accessMode = 'sample';
-        state.accessMessage = (data && data.error) ? ('Fout: ' + data.error + ' — sample-mode actief.') : 'Kon LAB-data niet laden — sample-mode actief.';
+        state.accessMessage = (data && data.error) ? ('Het laden lukt niet (' + data.error + '). Je werkt nu in teststand — er wordt niets opgeslagen.') : 'Het laden van echte inzendingen lukt niet. Je werkt nu in teststand — er wordt niets opgeslagen.';
         state.accessActivation = null;
         state.accessCode = '';
         state.records = SAMPLE.slice();
@@ -670,7 +685,7 @@
       }
     } catch (e) {
       state.accessMode = 'sample';
-      state.accessMessage = 'Netwerkfout — sample-mode actief.';
+      state.accessMessage = 'Geen verbinding. Je werkt nu in teststand — er wordt niets opgeslagen.';
       state.accessActivation = null;
       state.records = SAMPLE.slice();
     }
@@ -812,7 +827,7 @@
     d.innerHTML = '';
     var r = getActive();
     if (!r){
-      d.appendChild(el('p', { class: 'rv-detail-sub', text: 'Selecteer een inzending links om de details en het review-formulier te zien.' }));
+      d.appendChild(el('p', { class: 'rv-detail-sub', text: 'Kies links een inzending om de inhoud en het beoordelingsformulier te zien.' }));
       return;
     }
 
@@ -828,7 +843,7 @@
       type: 'button',
       id: 'rv-edit-toggle',
       'aria-pressed': state.editMode ? 'true' : 'false'
-    }, [ state.editMode ? 'Bewerken: aan — sluit bewerker' : 'Bewerken — stel redactieversie op' ]);
+    }, [ state.editMode ? 'Klaar met bewerken — sluit het bewerkvak' : 'Tekst voor publicatie aanpassen' ]);
     editToggleBtn.addEventListener('click', function(){
       state.editMode = !state.editMode;
       if (state.editMode) ensureEdits(r);
@@ -837,7 +852,7 @@
     });
     editToggleWrap.appendChild(editToggleBtn);
     if (state.editMode){
-      var editResetBtn = el('button', { class: 'rv-btn rv-btn-warn', type: 'button', id: 'rv-edit-reset' }, ['Reset bewerkingen naar origineel']);
+      var editResetBtn = el('button', { class: 'rv-btn rv-btn-warn', type: 'button', id: 'rv-edit-reset' }, ['Mijn bewerkingen ongedaan maken']);
       editResetBtn.addEventListener('click', function(){
         delete state.editsById[r.submission_id];
         ensureEdits(r);
@@ -850,7 +865,7 @@
 
     // Content section — header changes when edit mode active
     var s1 = el('div', { class: 'rv-section rv-section-original' });
-    s1.appendChild(el('h3', { text: state.editMode ? 'Originele inzending (read-only · bron / audit)' : 'Inhoud' }));
+    s1.appendChild(el('h3', { text: state.editMode ? 'Originele inzending — wat de indiener heeft gestuurd (kun je niet aanpassen)' : 'Inhoud van de inzending' }));
     if (state.editMode){
       s1.appendChild(el('span', { class: 'rv-readonly-note', text: 'BRON · NIET BEWERKBAAR · BEWAARD VOOR AUDIT' }));
     }
@@ -867,7 +882,7 @@
     s1.appendChild(rowDl('Samenvatting', sumWrap));
     if (r.body_md_or_url){
       var body = el('details');
-      body.appendChild(el('summary', { text: 'Body / markdown (intern)' }));
+      body.appendChild(el('summary', { text: 'Volledige tekst van de inzending (klap uit om te lezen)' }));
       body.appendChild(el('pre', { class: 'rv-export', text: r.body_md_or_url }));
       s1.appendChild(body);
     }
@@ -877,15 +892,17 @@
     if (state.editMode){
       var edits = ensureEdits(r);
       var sEdit = el('div', { class: 'rv-section rv-section-edit' });
-      sEdit.appendChild(el('h3', { text: 'Redactieversie / Publicatievoorstel' }));
-      sEdit.appendChild(el('span', { class: 'rv-edit-note', text: 'REDACTIEVERSIE · WORDT NIET TERUG NAAR DE BRON GESCHREVEN' }));
+      sEdit.appendChild(el('h3', { text: 'Tekst voor publicatie — Redactieversie / Publicatievoorstel' }));
+      sEdit.appendChild(el('span', { class: 'rv-edit-note', text: 'JOUW BEWERKING — DE OORSPRONKELIJKE INZENDING WORDT NIET OVERSCHREVEN' }));
       sEdit.appendChild(el('div', { class: 'rv-edit-warn', text:
-        'Let op: bewerkingen wijzigen alleen het voorgestelde, publiek-gerichte concept. ' +
-        'De originele inzending blijft als bron en audit-spoor bewaard. ' +
-        'Geen automatische live publicatie. In LAB-mode schrijft "Opslaan in redactietabel" deze redactieversie automatisch weg in LAB_Redactie_Reviews + LAB_Workflow_Events; in sample-mode wordt niets opgeslagen. Technische export is alleen een fallback voor beheer.' }));
+        'Wat je hier verandert, is alleen de tekst die later voor publicatie wordt gebruikt. ' +
+        'De inzending van de indiener blijft staan zoals die was; die wordt nooit overschreven. ' +
+        'Er gaat niets automatisch naar de website. ' +
+        'Als beheer dit scherm heeft geactiveerd: bij "Opslaan in redactietabel" wordt jouw bewerking opgeslagen in de redactietabel en er komt een notitie bij in het activiteitenlogboek. ' +
+        'Technisch: schrijft "Opslaan in redactietabel" deze redactieversie automatisch weg in LAB_Redactie_Reviews + LAB_Workflow_Events; in sample-mode wordt niets opgeslagen. Technische export is alleen een fallback voor beheer.' }));
 
       var rules = el('div', { class: 'rv-edit-rules', id: 'rv-edit-rules' });
-      rules.appendChild(el('strong', { text: 'Regels bij bewerken' }));
+      rules.appendChild(el('strong', { text: 'Drie regels om te volgen' }));
       var rulesUl = el('ul');
       rulesUl.appendChild(el('li', { text: 'Wijzig hier alleen de redactieversie, niet de originele inzending.' }));
       rulesUl.appendChild(el('li', { text: 'Gebruik geen persoonlijke contactgegevens in publicatietekst.' }));
@@ -937,13 +954,13 @@
 
     // Submitter contact — hidden by default
     var s2 = el('div', { class: 'rv-section' });
-    s2.appendChild(el('h3', { text: 'Indiener (intern)' }));
+    s2.appendChild(el('h3', { text: 'Contactgegevens van de indiener (intern)' }));
     var toggleWrap = el('label', { class: 'rv-hidden-toggle' });
     var cb = el('input', { type: 'checkbox', id: 'rv-show-contact' });
     if (state.showContact) cb.checked = true;
     cb.addEventListener('change', function(){ state.showContact = cb.checked; renderDetail(); });
     toggleWrap.appendChild(cb);
-    toggleWrap.appendChild(document.createTextNode(' Toon contactgegevens (intern, niet exporteren tenzij expliciet)'));
+    toggleWrap.appendChild(document.createTextNode(' Laat contactgegevens zien (alleen voor intern gebruik; ze gaan niet mee in een download tenzij je dat zelf aanzet)'));
     s2.appendChild(toggleWrap);
     var contactBox = el('div', { class: 'rv-contact' });
     if (state.showContact){
@@ -955,31 +972,31 @@
       ));
     } else {
       contactBox.appendChild(el('span', { class: 'rv-contact-mark', text: 'VERBORGEN' }));
-      contactBox.appendChild(document.createTextNode('Contact verborgen voor leesbaar review. Niet meenemen in export tenzij expliciet aangezet.'));
+      contactBox.appendChild(document.createTextNode('Contactgegevens zijn verborgen om de pagina overzichtelijk te houden. Ze worden niet meegestuurd in een download, tenzij je het vinkje hierboven aanzet.'));
     }
     s2.appendChild(contactBox);
     d.appendChild(s2);
 
     // Review form
     var s3 = el('div', { class: 'rv-section' });
-    s3.appendChild(el('h3', { text: 'Beoordeling' }));
+    s3.appendChild(el('h3', { text: 'Jouw beoordeling' }));
 
     var processSelect = selectField('rv-process-step', PROCESS_STEPS, r.process_step);
-    s3.appendChild(formRow('Procesgang', processSelect));
+    s3.appendChild(formRow('Procesgang (welke stap?)', processSelect));
     var stepHint = el('div', { class: 'rv-step-hint', id: 'rv-step-hint' }, [
-      stepReminderFor(r.process_step) || 'Geen specifieke herinnering voor deze stap.'
+      stepReminderFor(r.process_step) || 'Bij deze stap hoort geen specifieke tip.'
     ]);
     s3.appendChild(stepHint);
     processSelect.addEventListener('change', function(ev){
       var hint = $('rv-step-hint');
-      if (hint) hint.textContent = stepReminderFor(ev.target.value) || 'Geen specifieke herinnering voor deze stap.';
+      if (hint) hint.textContent = stepReminderFor(ev.target.value) || 'Bij deze stap hoort geen specifieke tip.';
     });
     s3.appendChild(formRow('Status', selectField('rv-review-status', REVIEW_STATUSES, r.review_status)));
-    s3.appendChild(formRow('Herinnering / checkvraag', textField('rv-reminder', r.reminder || '')));
-    s3.appendChild(formRow('Volgende actie', textField('rv-next-action', r.next_required_action || '')));
-    s3.appendChild(formRow('Toegewezen aan', textField('rv-assigned-to', r.assigned_to || '')));
-    s3.appendChild(formRow('Deadline', dateField('rv-due-date', r.due_date || '')));
-    s3.appendChild(formRow('Review-notities (intern)', textareaField('rv-review-notes', r.review_notes_internal || '')));
+    s3.appendChild(formRow('Korte tip voor jezelf', textField('rv-reminder', r.reminder || '')));
+    s3.appendChild(formRow('Wat moet er hierna gebeuren?', textField('rv-next-action', r.next_required_action || '')));
+    s3.appendChild(formRow('Wie pakt het op?', textField('rv-assigned-to', r.assigned_to || '')));
+    s3.appendChild(formRow('Wanneer uiterlijk?', dateField('rv-due-date', r.due_date || '')));
+    s3.appendChild(formRow('Notitie voor de redactie (intern)', textareaField('rv-review-notes', r.review_notes_internal || '')));
 
     d.appendChild(s3);
 
@@ -990,14 +1007,14 @@
     // activated) it only generates a local preview — nothing is written.
     var isSample = state.accessMode !== 'lab';
     var primaryLabel = isSample
-      ? 'Maak testvoorbeeld — niets wordt opgeslagen'
+      ? 'Maak testvoorbeeld — er wordt niets opgeslagen'
       : 'Opslaan in redactietabel';
-    var primaryArea = el('div', { class: 'rv-primary-area', 'aria-label': 'Hoofdactie' });
+    var primaryArea = el('div', { class: 'rv-primary-area', 'aria-label': 'Hoofdknop' });
     var modeNote = el('span', {
       class: 'rv-primary-mode-note' + (isSample ? '' : ' is-lab'),
       text: isSample
-        ? 'TESTVOORBEELD · niets wordt opgeslagen'
-        : 'LAB-MODE · opslaan in LAB_Redactie_Reviews + LAB_Workflow_Events · originele inzending blijft staan · Directory_Master wordt nooit aangeraakt'
+        ? 'Teststand · er wordt niets opgeslagen'
+        : 'Echte inzending · jouw beoordeling wordt opgeslagen in de redactietabel; de inzending van de indiener blijft staan; de hoofdtabel met organisaties verandert niet'
     });
     primaryArea.appendChild(modeNote);
 
@@ -1005,7 +1022,7 @@
       class: 'rv-btn rv-btn-primary',
       type: 'button',
       id: 'rv-primary-action'
-    }, [state.saveBusy ? 'Bezig met opslaan…' : primaryLabel]);
+    }, [state.saveBusy ? 'Even geduld — bezig met opslaan…' : primaryLabel]);
     if (state.saveBusy) btnPrimary.disabled = true;
     btnPrimary.addEventListener('click', function(){
       if (state.saveBusy) return;
@@ -1021,30 +1038,30 @@
 
     // 'Wat gebeurt er na deze knop?' — explicit, role-based, plain Dutch.
     var instr = el('div', { class: 'rv-instruct', id: 'rv-instruct-primary' });
-    instr.appendChild(el('strong', { text: 'Wat gebeurt er na deze knop?' }));
+    instr.appendChild(el('strong', { text: 'Wat gebeurt er als ik klik?' }));
     var instrUl = el('ul');
     var liDo = el('li', { class: 'rv-instruct-do' });
     liDo.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#0f172a">Wat er wel gebeurt:</strong> ' +
       (isSample
-        ? 'Je krijgt een leesbare samenvatting van je redactiebeoordeling te zien.'
-        : 'Je redactiebeslissing wordt rechtstreeks opgeslagen als nieuwe rij in LAB_Redactie_Reviews; een gebeurtenis wordt vastgelegd in LAB_Workflow_Events.');
+        ? 'Je ziet een leesbare samenvatting van jouw beoordeling. Er wordt niets opgeslagen.'
+        : 'Jouw beoordeling wordt opgeslagen in de redactietabel en er komt een notitie bij in het activiteitenlogboek.');
     instrUl.appendChild(liDo);
     var liNot = el('li', { class: 'rv-instruct-not' });
     liNot.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#7f1d1d">Wat er níet gebeurt:</strong> ' +
-      'De originele inzending blijft staan, Directory_Master wordt niet aangeraakt, er wordt niets gemaild en er is geen automatische publicatie.';
+      'De inzending van de indiener blijft staan. De vaste hoofdtabel met organisaties verandert niet. Er wordt geen e-mail gestuurd. Er komt niets op de website.';
     instrUl.appendChild(liNot);
     var liNext = el('li', { class: 'rv-instruct-next' });
     liNext.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#1e3a8a">Wat jij hierna doet:</strong> ' +
       (isSample
-        ? 'Lees de samenvatting. Voor échte opslag is een geldige toegangscode én een door beheer geactiveerde webhook nodig.'
-        : 'Controleer de bevestiging hieronder. Geen handmatig kopiëren of plakken meer.');
+        ? 'Lees de samenvatting. Echt opslaan kan pas als je een geldige toegangscode hebt én beheer dit scherm heeft geactiveerd.'
+        : 'Controleer de bevestiging die direct hieronder verschijnt. Je hoeft niets te kopiëren of te plakken.');
     instrUl.appendChild(liNext);
     instr.appendChild(instrUl);
     primaryArea.appendChild(instr);
 
     // Reset is non-destructive: only clears the preview pane / save banner,
     // never sheet data.
-    var btnReset = el('button', { class: 'rv-btn rv-btn-warn', type: 'button', id: 'rv-reset-preview' }, ['Wis voorbeeld — begin opnieuw']);
+    var btnReset = el('button', { class: 'rv-btn rv-btn-warn', type: 'button', id: 'rv-reset-preview' }, ['Voorbeeld wissen en opnieuw beginnen']);
     btnReset.addEventListener('click', function(){
       state.exportText = '';
       state.saveState = null;
@@ -1067,24 +1084,24 @@
         'aria-live': 'polite'
       });
       var bannerTitle;
-      if (ss.status === 'saved') bannerTitle = 'Opgeslagen in redactietabel';
-      else if (ss.status === 'failed') bannerTitle = 'Opslaan mislukt';
+      if (ss.status === 'saved') bannerTitle = 'Opgeslagen in de redactietabel';
+      else if (ss.status === 'failed') bannerTitle = 'Opslaan is niet gelukt';
       else bannerTitle = 'Niet opgeslagen';
       saveBanner.appendChild(el('strong', { text: bannerTitle }));
       saveBanner.appendChild(el('p', { class: 'rv-save-msg', text: ss.message || '' }));
       if (ss.status === 'saved' && ss.savedTo){
         var saveUl = el('ul', { class: 'rv-save-list' });
-        saveUl.appendChild(el('li', { text: 'Geschreven naar tab: ' + (ss.savedTo.review_tab || 'LAB_Redactie_Reviews') }));
-        saveUl.appendChild(el('li', { text: 'Gebeurtenis vastgelegd in: ' + (ss.savedTo.events_tab || 'LAB_Workflow_Events') }));
-        if (ss.savedTo.review_id) saveUl.appendChild(el('li', { text: 'review_id: ' + ss.savedTo.review_id }));
-        saveUl.appendChild(el('li', { text: 'Originele inzending: ongewijzigd in bron-tab.' }));
-        saveUl.appendChild(el('li', { text: 'Directory_Master: niet aangeraakt.' }));
-        saveUl.appendChild(el('li', { text: 'Automatische publicatie: niet uitgevoerd.' }));
+        saveUl.appendChild(el('li', { text: 'Opgeslagen in de redactietabel (intern: ' + (ss.savedTo.review_tab || 'LAB_Redactie_Reviews') + ').' }));
+        saveUl.appendChild(el('li', { text: 'Notitie geplaatst in het activiteitenlogboek (intern: ' + (ss.savedTo.events_tab || 'LAB_Workflow_Events') + ').' }));
+        if (ss.savedTo.review_id) saveUl.appendChild(el('li', { text: 'Kenmerk van deze beoordeling (review_id): ' + ss.savedTo.review_id }));
+        saveUl.appendChild(el('li', { text: 'De inzending van de indiener is niet veranderd. Originele inzending: ongewijzigd in bron-tab.' }));
+        saveUl.appendChild(el('li', { text: 'De vaste hoofdtabel met organisaties is niet aangeraakt. Directory_Master: niet aangeraakt.' }));
+        saveUl.appendChild(el('li', { text: 'Er is niets op de website gepubliceerd en er is geen e-mail verstuurd.' }));
         saveBanner.appendChild(saveUl);
       } else if (ss.status === 'not_saved' && ss.blockedReason){
         saveBanner.appendChild(el('p', { class: 'rv-save-block', text: 'Reden: ' + ss.blockedReason }));
       } else if (ss.status === 'failed' && ss.error){
-        saveBanner.appendChild(el('p', { class: 'rv-save-block', text: 'Foutdetail: ' + ss.error }));
+        saveBanner.appendChild(el('p', { class: 'rv-save-block', text: 'Technisch detail (voor beheer): ' + ss.error }));
       }
       d.appendChild(saveBanner);
     }
@@ -1092,15 +1109,15 @@
     // Preview / readable summary box (only in sample-mode; in LAB-mode the
     // save banner above is the authoritative result).
     var defaultPreview = isSample
-      ? '// Klik hierboven op de hoofdknop om de redactiebeoordeling te bekijken.\n// Er wordt niets opgeslagen, gemaild of gepubliceerd.'
-      : '// In LAB-mode klikt "Opslaan in redactietabel" rechtstreeks op de Sheet.\n// Geen kopiëren/plakken nodig. De technische export onderaan is alleen een fallback.';
+      ? '// Klik hierboven op de hoofdknop om jouw beoordeling te bekijken.\n// Er wordt niets opgeslagen, geen e-mail verstuurd en niets gepubliceerd.'
+      : '// "Opslaan in redactietabel" doet het opslaan automatisch.\n// Je hoeft niets te kopiëren of plakken. De technische export onderaan is alleen voor beheer.';
     var exportBox = el('pre', { class: 'rv-export', id: 'rv-export-box' }, [
       state.exportText || defaultPreview
     ]);
     d.appendChild(exportBox);
     d.appendChild(el('p', { class: 'rv-export-hint', text: isSample
-      ? 'Sample-mode: dit is alleen een lokaal voorbeeld. Geen schrijfactie.'
-      : 'LAB-mode: het opslaan gaat automatisch via "Opslaan in redactietabel". De technische export hieronder is alleen een fallback voor beheer.' }));
+      ? 'Teststand: je ziet alleen een voorbeeld. Er wordt niets opgeslagen.'
+      : 'Het opslaan gebeurt automatisch zodra je op "Opslaan in redactietabel" klikt. Het beheer-blok hieronder is alleen een noodoplossing.' }));
 
     // ── Technische export voor beheer (collapsed by default, fallback) ────
     // Only used when automatic save is unavailable AND beheer asks for the
@@ -1108,11 +1125,13 @@
     // so a non-technical editor never mistakes them for the primary save
     // action. This is the explicit "noodluik".
     var tech = el('details', { class: 'rv-tech', id: 'rv-tech-details' });
-    tech.appendChild(el('summary', { text: 'Technische export voor beheer (Alleen gebruiken als beheer hierom vraagt)' }));
+    tech.appendChild(el('summary', { text: 'Alleen voor beheer bij storing — Technische export voor beheer (Alleen gebruiken als beheer hierom vraagt)' }));
+    tech.appendChild(el('div', { class: 'rv-tech-warn',
+      text: 'Gebruik dit niet voor normaal redactiewerk.' }));
     tech.appendChild(el('div', { class: 'rv-tech-warn', id: 'rv-tech-fallback-instruction',
       text: 'Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.' }));
     tech.appendChild(el('div', { class: 'rv-tech-warn',
-      text: 'Deze knoppen zijn geen onderdeel van de gewone werkflow — ze maken alleen een audit-bestand voor archief of debug. Niets wordt automatisch in de Sheet geschreven.' }));
+      text: 'Met deze knoppen maak je een technisch bestand of een tekstblok dat alleen bedoeld is voor beheer (bijvoorbeeld bij storing). Er wordt niets opgeslagen in de redactietabel, niets gemaild en niets gepubliceerd.' }));
 
     var techActions = el('div', { class: 'rv-actions' });
     var btnTechCopyJson = el('button', { class: 'rv-btn', type: 'button', id: 'rv-tech-copy-json' }, ['Kopieer technische audit-export']);
@@ -1129,9 +1148,9 @@
     var techInstr = el('div', { class: 'rv-instruct' });
     techInstr.appendChild(el('strong', { text: 'Wat doen deze knoppen?' }));
     var techUl = el('ul');
-    techUl.appendChild(el('li', { class: 'rv-instruct-do', text: 'Wat er wel gebeurt: een technisch bestand of tekstblok wordt naar je klembord of harde schijf gezet.' }));
-    techUl.appendChild(el('li', { class: 'rv-instruct-not', text: 'Wat er níet gebeurt: niets wordt opgeslagen in de Sheet, niets gemaild, niets gepubliceerd, niets aan Directory_Master gewijzigd.' }));
-    techUl.appendChild(el('li', { class: 'rv-instruct-next', text: 'Wat jij hierna doet: alleen versturen aan beheer als beheer hier expliciet om vraagt.' }));
+    techUl.appendChild(el('li', { class: 'rv-instruct-do', text: 'Wat er wel gebeurt: een technisch bestand of tekstblok komt op je klembord of in je downloadmap te staan.' }));
+    techUl.appendChild(el('li', { class: 'rv-instruct-not', text: 'Wat er níet gebeurt: er wordt niets opgeslagen in de redactietabel, geen e-mail verstuurd, niets gepubliceerd. De vaste hoofdtabel met organisaties wordt niet aangeraakt.' }));
+    techUl.appendChild(el('li', { class: 'rv-instruct-next', text: 'Wat jij hierna doet: alleen aan beheer geven als beheer er expliciet om vraagt. Gebruik dit niet voor normaal redactiewerk.' }));
     techInstr.appendChild(techUl);
     tech.appendChild(techInstr);
 
@@ -1160,10 +1179,10 @@
     tracker.innerHTML = '';
     var changed = changedFieldKeys(record);
     if (changed.length === 0){
-      tracker.appendChild(el('span', { class: 'rv-changes-empty', text: 'Geen wijzigingen ten opzichte van de originele inzending.' }));
+      tracker.appendChild(el('span', { class: 'rv-changes-empty', text: 'Je hebt nog niets aangepast ten opzichte van de oorspronkelijke inzending.' }));
       return;
     }
-    tracker.appendChild(el('strong', { text: 'Gewijzigde velden (' + changed.length + ')' }));
+    tracker.appendChild(el('strong', { text: 'Velden die jij hebt aangepast (' + changed.length + ')' }));
     var ul = el('ul');
     changed.forEach(function(k){
       var f = EDIT_FIELDS.filter(function(x){ return x.key === k; })[0];
@@ -1337,8 +1356,8 @@
       // Defence-in-depth: never POST a save in sample mode.
       state.saveState = {
         status: 'not_saved',
-        message: 'Opslaan is alleen actief in LAB-mode met een geldige toegangscode.',
-        blockedReason: 'Geen LAB-mode actief.'
+        message: 'Opslaan kan alleen als beheer dit scherm heeft geactiveerd én je een geldige toegangscode hebt ingevuld.',
+        blockedReason: 'Dit scherm staat nog in teststand.'
       };
       renderDetail();
       return;
@@ -1382,25 +1401,25 @@
     if (data && data.save_status === 'saved'){
       state.saveState = {
         status: 'saved',
-        message: data.save_message || 'Opgeslagen in LAB_Redactie_Reviews; gebeurtenis vastgelegd in LAB_Workflow_Events. Originele inzending ongewijzigd. Directory_Master ongewijzigd.',
+        message: data.save_message || 'Jouw beoordeling is opgeslagen in de redactietabel en er is een notitie in het activiteitenlogboek gezet. De inzending van de indiener is niet veranderd; de hoofdtabel met organisaties is niet aangeraakt.',
         savedTo: data.saved_to || { review_tab: 'LAB_Redactie_Reviews', events_tab: 'LAB_Workflow_Events' }
       };
     } else if (data && data.save_status === 'not_saved'){
       state.saveState = {
         status: 'not_saved',
-        message: data.save_message || 'Opslaan is nog niet actief; er wordt niets opgeslagen.',
-        blockedReason: data.live_write_blocked_reason || 'Onbekende reden.'
+        message: data.save_message || 'Opslaan staat nog niet aan. Er is niets opgeslagen.',
+        blockedReason: data.live_write_blocked_reason || 'Onbekende reden — vraag beheer om te kijken.'
       };
     } else if (data && data.save_status === 'failed'){
       state.saveState = {
         status: 'failed',
-        message: data.save_message || 'Opslaan in LAB-tabbladen is mislukt. Niets is geschreven.',
+        message: data.save_message || 'Opslaan is niet gelukt. Er is niets opgeslagen.',
         error: data.upstream_error || 'upstream_error'
       };
     } else {
       state.saveState = {
         status: 'failed',
-        message: 'Opslaan mislukt — server gaf geen leesbaar antwoord. Niets is geschreven.',
+        message: 'Opslaan is niet gelukt. Er kwam geen duidelijk antwoord terug. Er is niets opgeslagen.',
         error: httpOk ? 'invalid_response' : 'network_error'
       };
     }
@@ -1496,7 +1515,7 @@
       clearBtn.addEventListener('click', function(){
         if (accessInput) accessInput.value = '';
         state.accessMode = 'sample';
-        state.accessMessage = 'Sample-mode actief. Geen verbinding met LAB-Sheet — toon lokale voorbeelddata.';
+        state.accessMessage = 'Teststand actief. Je werkt met voorbeeldinzendingen; er wordt niets opgeslagen.';
         state.accessActivation = null;
         state.accessCode = '';
         state.records = SAMPLE.slice();
