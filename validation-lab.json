@@ -379,6 +379,31 @@
       ]
     },
     {
+      "id": "redactie-validation-form",
+      "title": "Redactieformulier — leesbaar review-formulier boven de Sheet (validatie-only)",
+      "status": "in-validation",
+      "path": "/redactie-validation.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Hidden, noindex redactie-UI die LAB_Intake_Submissions / LAB_Editorial_Intake-rijen één voor één toont als leesbare kaarten met procesgang, status, herinnering, volgende actie, deadline en review-notities. De Drive-spreadsheet blijft single source of truth en audit-spoor; deze pagina schrijft nooit naar Sheet, GitHub, e-mail of Directory_Master. Lokale voorbeelddata in de browser; export levert een veilige JSON of tekst-samenvatting die de redactie handmatig in de juiste LAB_*-rij plakt.",
+      "lastUpdated": "2026-04-26",
+      "visibility": "hidden",
+      "labOnly": true,
+      "automaticEmailEnabled": false,
+      "directoryMasterTouched": false,
+      "mainBranchMerged": false,
+      "documentation": [
+        "/docs/redactie-validation-form.md"
+      ],
+      "tests": "/scripts/redactie_validation.test.mjs (noindex meta, safety copy, sample records both types render, export excludes contact email by default, validation-lab manifest includes module).",
+      "exitCriteria": [
+        "Pagina bevat noindex,nofollow en validatie-banner met 'Niet publiceren', 'Directory_Master niet aanpassen', 'Preview pas na akkoord'.",
+        "Linker lijst toont zowel organisatie-aanmelding als editorial bijdrage uit de lokale voorbeelddata; rechter paneel toont leesbare cards en een eenvoudig review-formulier.",
+        "Export sluit standaard contact-e-mail en raw payload uit; alleen na expliciete toggle 'Toon contactgegevens' wordt contact_internal in de export opgenomen.",
+        "Geen Google Sheets, GitHub of e-mail call vanuit de browser; export is uitsluitend kopieerbaar (klembord).",
+        "Geen publieke navigatie, footer-link of sitemap-vermelding; pagina is niet vanaf productie bereikbaar."
+      ]
+    },
+    {
       "id": "lab-promotion-pipeline",
       "title": "Lab-only controlled promotion: approved LAB_* row → editorial draft / directory candidate",
       "status": "lab-only-promotion-ready-no-production-activation",
