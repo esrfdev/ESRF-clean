@@ -85,6 +85,34 @@ const ALLOWED_REVIEW_STATUSES = [
   'rejected',
 ];
 
+// Record types we accept for a redactie review save. `org` and `editorial`
+// remain the canonical values for new-listing and editorial intake. The
+// `change_request` and `hide_delete` values cover wijzigingsverzoeken on
+// existing Directory listings — the redactie review is still saved into
+// LAB_Redactie_Reviews + LAB_Workflow_Events. Directory_Master is never
+// touched on any of these record types; that contract is enforced by the
+// target_tab guard, the forbidden_targets list, and Apps Script itself.
+const ALLOWED_RECORD_TYPES = ['org', 'editorial', 'change_request', 'hide_delete'];
+
+// Documented redactie decision values for change-request reviews. Mirrors
+// REDACTIE_CR_DECISIONS in redactie-validation.html. Empty string is also
+// accepted so the redactie can save a draft review without a final decision.
+const ALLOWED_REDACTIE_DECISIONS = ['', 'approve', 'reject', 'request_clarification'];
+
+// Documented requested-action values from the visitor change-request form.
+// `update` is the bijwerken path; `hide` and `delete` are the hide_delete
+// paths. Empty string is tolerated for legacy rows that did not record an
+// explicit action.
+const ALLOWED_REQUESTED_ACTIONS = ['', 'update', 'hide', 'delete'];
+
+// Sub-modes the visitor form distinguishes for change requests. `change_request`
+// = bijwerken; `hide_delete` = verbergen of verwijderen.
+const ALLOWED_SUB_MODES = ['', 'change_request', 'hide_delete'];
+
+// Documented requester-authorization values. Mirrors REQUESTER_AUTH_LABELS
+// in redactie-validation.html and the LAB_Change_Requests intake form.
+const ALLOWED_REQUESTER_AUTH = ['', 'authorized_representative', 'employee', 'external_observer'];
+
 // ── Helpers ──────────────────────────────────────────────────────────────
 
 function isLabTab(name) {
@@ -101,9 +129,11 @@ function buildReviewUpdatePayload(body) {
   if (!submissionId) errors.push('submission_id required');
 
   const recordType = sanitize(body.record_type);
-  if (recordType !== 'org' && recordType !== 'editorial') {
-    errors.push('record_type must be "org" or "editorial"');
+  if (ALLOWED_RECORD_TYPES.indexOf(recordType) === -1) {
+    errors.push('record_type must be one of: ' + ALLOWED_RECORD_TYPES.join(', '));
   }
+
+  const isChangeRequest = recordType === 'change_request' || recordType === 'hide_delete';
 
   const targetTab = sanitize(body.target_tab);
   if (!isLabTab(targetTab)) {
@@ -121,6 +151,35 @@ function buildReviewUpdatePayload(body) {
   if (reviewStatus && ALLOWED_REVIEW_STATUSES.indexOf(reviewStatus) === -1) {
     errors.push('review_update.review_status is not in the allowed set');
   }
+
+  // ── Change-request review block ────────────────────────────────────────
+  // Only built when the record_type signals a wijzigingsverzoek. The block
+  // captures the redactie decision, the requested action, the target listing
+  // identity, the requested change/reason/evidence summary, and the
+  // submitter's authorisation role/confirmation. Contact PII is stripped
+  // upstream (frontend never sends it; we strip again here as defence).
+  const crReviewIn = body.change_request_review && typeof body.change_request_review === 'object'
+    ? body.change_request_review
+    : {};
+  const redactieDecision = sanitize(crReviewIn.redactie_decision || body.redactie_decision);
+  if (isChangeRequest && redactieDecision && ALLOWED_REDACTIE_DECISIONS.indexOf(redactieDecision) === -1) {
+    errors.push('change_request_review.redactie_decision is not in the allowed set');
+  }
+  const requestedAction = sanitize(crReviewIn.requested_action || body.requested_action).toLowerCase();
+  if (isChangeRequest && requestedAction && ALLOWED_REQUESTED_ACTIONS.indexOf(requestedAction) === -1) {
+    errors.push('change_request_review.requested_action is not in the allowed set');
+  }
+  const subMode = sanitize(crReviewIn.sub_mode || body.sub_mode).toLowerCase();
+  if (isChangeRequest && subMode && ALLOWED_SUB_MODES.indexOf(subMode) === -1) {
+    errors.push('change_request_review.sub_mode is not in the allowed set');
+  }
+  const requesterAuth = sanitize(crReviewIn.requester_authorization || body.requester_authorization);
+  if (isChangeRequest && requesterAuth && ALLOWED_REQUESTER_AUTH.indexOf(requesterAuth) === -1) {
+    errors.push('change_request_review.requester_authorization is not in the allowed set');
+  }
+  const authConfirm = sanitize(crReviewIn.authorization_confirmation || body.authorization_confirmation).toLowerCase();
+  // Tolerate yes/no/'' — stored verbatim in the review row.
+  const authConfirmSafe = (authConfirm === 'yes' || authConfirm === 'no') ? authConfirm : '';
 
   const editedProposal = body.edited_publication_proposal && typeof body.edited_publication_proposal === 'object'
     ? body.edited_publication_proposal
@@ -142,6 +201,31 @@ function buildReviewUpdatePayload(body) {
 
   const reminder = STATUS_STEP_REMINDERS[processStep] || '';
 
+  const changeRequestReview = isChangeRequest ? stripForbiddenKeys(stripContact({
+    redactie_decision: redactieDecision || '',
+    redactie_decision_reason: sanitizeLong(crReviewIn.redactie_decision_reason || body.redactie_decision_reason),
+    requested_action: requestedAction || '',
+    sub_mode: subMode || (recordType === 'hide_delete' ? 'hide_delete' : 'change_request'),
+    target_listing_name: sanitize(crReviewIn.target_listing_name || body.target_listing_name),
+    target_listing_url: sanitize(crReviewIn.target_listing_url || body.target_listing_url),
+    change_description: sanitizeLong(crReviewIn.change_description || body.change_description),
+    change_description_existing: sanitizeLong(crReviewIn.change_description_existing || body.change_description_existing),
+    change_description_requested: sanitizeLong(crReviewIn.change_description_requested || body.change_description_requested),
+    reason: sanitizeLong(crReviewIn.reason || body.reason),
+    evidence_url: sanitize(crReviewIn.evidence_url || body.evidence_url),
+    requester_authorization: requesterAuth || '',
+    authorization_confirmation: authConfirmSafe,
+  })) : null;
+
+  // Default source_tab depends on the record type. Editorial flows the
+  // editorial intake tab; org keeps the org intake tab; change requests
+  // live in LAB_Change_Requests (or LAB_Intake_Submissions in the legacy
+  // deployment — the frontend forwards whatever it read from the row).
+  let defaultSourceTab;
+  if (recordType === 'editorial') defaultSourceTab = LAB_SPREADSHEET.tabs.editorial_intake;
+  else if (isChangeRequest) defaultSourceTab = 'LAB_Change_Requests';
+  else defaultSourceTab = LAB_SPREADSHEET.tabs.intake_submissions;
+
   const payload = {
     submission_id: submissionId,
     record_type: recordType || '',
@@ -162,10 +246,11 @@ function buildReviewUpdatePayload(body) {
     process_step_reminder: reminder,
     edited_publication_proposal: proposalSafe || undefined,
     original_reference: originalSafe || undefined,
+    change_request_review: changeRequestReview || undefined,
     changed_fields: changedFields,
     change_note: sanitizeLong((editedProposal && editedProposal.change_note) || body.change_note),
     edited_by: sanitize((editedProposal && editedProposal.edited_by) || body.edited_by),
-    source_tab: sanitize(body.source_tab) || (recordType === 'editorial' ? LAB_SPREADSHEET.tabs.editorial_intake : LAB_SPREADSHEET.tabs.intake_submissions),
+    source_tab: sanitize(body.source_tab) || defaultSourceTab,
     contact_disclosed: false,
     directory_master_touched: false,
     automatic_publication: false,
@@ -222,11 +307,12 @@ async function forwardSubmitReviewUpdate(env, payload, requestId) {
     request_id: requestId,
     submission_id: payload.submission_id,
     record_type: payload.record_type,
-    source_tab: targetTab,
+    source_tab: payload.source_tab || targetTab,
     target_tab: 'LAB_Redactie_Reviews',
     review_update: payload.review_update || {},
     edited_publication_proposal: payload.edited_publication_proposal || undefined,
     original_reference: payload.original_reference || undefined,
+    change_request_review: payload.change_request_review || undefined,
     changed_fields: payload.changed_fields || [],
     change_note: payload.change_note || '',
     edited_by: payload.edited_by || '',
@@ -473,6 +559,11 @@ export {
   ALLOWED_REVIEW_TARGET_TABS,
   ALLOWED_PROCESS_STEPS,
   ALLOWED_REVIEW_STATUSES,
+  ALLOWED_RECORD_TYPES,
+  ALLOWED_REDACTIE_DECISIONS,
+  ALLOWED_REQUESTED_ACTIONS,
+  ALLOWED_SUB_MODES,
+  ALLOWED_REQUESTER_AUTH,
   isLabTab,
   buildReviewUpdatePayload,
   forwardSubmitReviewUpdate,
@@ -483,6 +574,11 @@ if (typeof globalThis !== 'undefined') {
     ALLOWED_REVIEW_TARGET_TABS,
     ALLOWED_PROCESS_STEPS,
     ALLOWED_REVIEW_STATUSES,
+    ALLOWED_RECORD_TYPES,
+    ALLOWED_REDACTIE_DECISIONS,
+    ALLOWED_REQUESTED_ACTIONS,
+    ALLOWED_SUB_MODES,
+    ALLOWED_REQUESTER_AUTH,
     isLabTab,
     buildReviewUpdatePayload,
     forwardSubmitReviewUpdate,

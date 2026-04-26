@@ -214,7 +214,7 @@ var LAB_REDACTIE_REVIEWS_HEADERS = [
   'environment',
   'source_tab',                  // LAB_Intake_Submissions or LAB_Editorial_Intake
   'submission_id',               // FK into the source tab
-  'record_type',                 // 'org' | 'editorial'
+  'record_type',                 // 'org' | 'editorial' | 'change_request' | 'hide_delete'
   'process_step',                // binnengekomen | in_review | ...
   'review_status',               // in_review | approved_* | rejected | ...
   'reviewer',                    // initials / handle (no email)
@@ -235,6 +235,23 @@ var LAB_REDACTIE_REVIEWS_HEADERS = [
   'changed_fields',              // JSON array of field names
   'include_contact',             // 'true'|'false' — explicit flag, audit
   'mode',                        // 'lab' | 'dry_run'
+  // ── Change-request / hide_delete review fields ────────────────────────
+  // Populated only when record_type is 'change_request' or 'hide_delete'.
+  // Older sheets that pre-date these headers will see them appended on
+  // the next save (ensureRedactieReviewsTab adds missing columns).
+  'cr_redactie_decision',           // '' | 'approve' | 'reject' | 'request_clarification'
+  'cr_redactie_decision_reason',    // free text (intern)
+  'cr_requested_action',            // '' | 'update' | 'hide' | 'delete'
+  'cr_sub_mode',                    // '' | 'change_request' | 'hide_delete'
+  'cr_target_listing_name',         // bestaande vermelding — naam
+  'cr_target_listing_url',          // bestaande vermelding — URL
+  'cr_change_description',          // toelichting indiener
+  'cr_change_description_existing', // wat staat er nu (kort)
+  'cr_change_description_requested',// wat wordt gevraagd (kort)
+  'cr_reason',                      // reden van het verzoek
+  'cr_evidence_url',                // bron / bewijs URL
+  'cr_requester_authorization',     // role label van indiener
+  'cr_authorization_confirmation',  // 'yes' | 'no' | ''
   'directory_master_touched',    // ALWAYS 'false'
   'automatic_publication'        // ALWAYS 'false'
 ];
@@ -280,6 +297,15 @@ var ALLOWED_REVIEW_STATUSES = [
   'approved_for_draft','approved_lab_promote',
   'rejected'
 ];
+// Mirrors the Cloudflare-side ALLOWED_RECORD_TYPES list. `change_request`
+// and `hide_delete` cover wijzigingsverzoeken on existing Directory
+// listings — saved into LAB_Redactie_Reviews + LAB_Workflow_Events only;
+// Directory_Master is never touched.
+var ALLOWED_RECORD_TYPES = ['org', 'editorial', 'change_request', 'hide_delete'];
+var ALLOWED_REDACTIE_DECISIONS = ['', 'approve', 'reject', 'request_clarification'];
+var ALLOWED_REQUESTED_ACTIONS = ['', 'update', 'hide', 'delete'];
+var ALLOWED_SUB_MODES = ['', 'change_request', 'hide_delete'];
+var ALLOWED_REQUESTER_AUTH = ['', 'authorized_representative', 'employee', 'external_observer'];
 
 // ── Public entry point ───────────────────────────────────────────────────
 
@@ -412,9 +438,10 @@ function handleUpdate(ss, body, requestId, dryRun) {
   if (!submissionId) errors.push('submission_id required');
 
   var recordType = sanitize(body.record_type);
-  if (recordType !== 'org' && recordType !== 'editorial') {
-    errors.push('record_type must be "org" or "editorial"');
+  if (ALLOWED_RECORD_TYPES.indexOf(recordType) === -1) {
+    errors.push('record_type must be one of: ' + ALLOWED_RECORD_TYPES.join(', '));
   }
+  var isChangeRequest = (recordType === 'change_request' || recordType === 'hide_delete');
 
   var targetTab = sanitize(body.target_tab) || 'LAB_Redactie_Reviews';
   if (!isLabWriteTabAllowed(targetTab)) {
@@ -431,6 +458,36 @@ function handleUpdate(ss, body, requestId, dryRun) {
     errors.push('review_update.review_status is not in the allowed set');
   }
 
+  var proposal = (body.edited_publication_proposal && typeof body.edited_publication_proposal === 'object')
+    ? stripForbiddenAndContact(body.edited_publication_proposal) : {};
+  var originalRef = (body.original_reference && typeof body.original_reference === 'object')
+    ? stripForbiddenAndContact(body.original_reference) : {};
+  var changedFields = Array.isArray(body.changed_fields)
+    ? body.changed_fields.filter(function(s){ return typeof s === 'string'; }).slice(0, 64) : [];
+
+  // Change-request review block. Only built for change_request / hide_delete
+  // record types; defence-in-depth strips contact PII and forbidden keys.
+  var crReview = (isChangeRequest && body.change_request_review && typeof body.change_request_review === 'object')
+    ? stripForbiddenAndContact(body.change_request_review) : {};
+  var crDecision = sanitize(crReview.redactie_decision);
+  if (isChangeRequest && crDecision && ALLOWED_REDACTIE_DECISIONS.indexOf(crDecision) === -1) {
+    errors.push('change_request_review.redactie_decision is not in the allowed set');
+  }
+  var crRequestedAction = String(sanitize(crReview.requested_action) || '').toLowerCase();
+  if (isChangeRequest && crRequestedAction && ALLOWED_REQUESTED_ACTIONS.indexOf(crRequestedAction) === -1) {
+    errors.push('change_request_review.requested_action is not in the allowed set');
+  }
+  var crSubMode = String(sanitize(crReview.sub_mode) || '').toLowerCase();
+  if (isChangeRequest && crSubMode && ALLOWED_SUB_MODES.indexOf(crSubMode) === -1) {
+    errors.push('change_request_review.sub_mode is not in the allowed set');
+  }
+  var crRequesterAuth = sanitize(crReview.requester_authorization);
+  if (isChangeRequest && crRequesterAuth && ALLOWED_REQUESTER_AUTH.indexOf(crRequesterAuth) === -1) {
+    errors.push('change_request_review.requester_authorization is not in the allowed set');
+  }
+  var crAuthConfirm = String(sanitize(crReview.authorization_confirmation) || '').toLowerCase();
+  if (crAuthConfirm !== 'yes' && crAuthConfirm !== 'no') crAuthConfirm = '';
+
   if (errors.length > 0) {
     return jsonOut(400, {
       ok: false,
@@ -442,13 +499,6 @@ function handleUpdate(ss, body, requestId, dryRun) {
       request_id: requestId
     });
   }
-
-  var proposal = (body.edited_publication_proposal && typeof body.edited_publication_proposal === 'object')
-    ? stripForbiddenAndContact(body.edited_publication_proposal) : {};
-  var originalRef = (body.original_reference && typeof body.original_reference === 'object')
-    ? stripForbiddenAndContact(body.original_reference) : {};
-  var changedFields = Array.isArray(body.changed_fields)
-    ? body.changed_fields.filter(function(s){ return typeof s === 'string'; }).slice(0, 64) : [];
 
   var includeContact = body.include_contact === true;
   var nowIso = new Date().toISOString();
@@ -479,6 +529,21 @@ function handleUpdate(ss, body, requestId, dryRun) {
     changed_fields: JSON.stringify(changedFields),
     include_contact: includeContact ? 'true' : 'false',
     mode: dryRun ? 'dry_run' : 'lab',
+    cr_redactie_decision: isChangeRequest ? (crDecision || '') : '',
+    cr_redactie_decision_reason: isChangeRequest ? sanitizeLong(crReview.redactie_decision_reason) : '',
+    cr_requested_action: isChangeRequest ? (crRequestedAction || '') : '',
+    cr_sub_mode: isChangeRequest
+      ? (crSubMode || (recordType === 'hide_delete' ? 'hide_delete' : 'change_request'))
+      : '',
+    cr_target_listing_name: isChangeRequest ? sanitize(crReview.target_listing_name) : '',
+    cr_target_listing_url: isChangeRequest ? sanitize(crReview.target_listing_url) : '',
+    cr_change_description: isChangeRequest ? sanitizeLong(crReview.change_description) : '',
+    cr_change_description_existing: isChangeRequest ? sanitizeLong(crReview.change_description_existing) : '',
+    cr_change_description_requested: isChangeRequest ? sanitizeLong(crReview.change_description_requested) : '',
+    cr_reason: isChangeRequest ? sanitizeLong(crReview.reason) : '',
+    cr_evidence_url: isChangeRequest ? sanitize(crReview.evidence_url) : '',
+    cr_requester_authorization: isChangeRequest ? (crRequesterAuth || '') : '',
+    cr_authorization_confirmation: isChangeRequest ? crAuthConfirm : '',
     directory_master_touched: 'false',
     automatic_publication: 'false'
   };
@@ -796,4 +861,65 @@ function __setupLabReviewTabsMaybe() {
     throw new Error('LAB_Workflow_Events missing — set up via intake webhook before activating review writes.');
   }
   return 'setup-ok: LAB_Redactie_Reviews ensured; LAB_Workflow_Events present.';
+}
+
+/**
+ * Idempotent migration helper for the LAB_Redactie_Reviews header row.
+ * Adds any LAB_REDACTIE_REVIEWS_HEADERS that are missing on the right
+ * edge of the sheet, in the canonical order. Existing data rows keep
+ * their values; the new columns are appended empty. Never reorders or
+ * deletes existing columns.
+ *
+ * Run once after pasting an updated `apps-script-redactie-review-webhook.gs`
+ * that adds new headers (e.g. the cr_* change-request review columns
+ * added 2026-04-26 to support wijzigingsverzoek saves).
+ *
+ * Operational invocation:
+ *   Apps Script editor → Select function `__migrateRedactieReviewsHeaders`
+ *   → Run. Approve the spreadsheets-only OAuth scope if prompted.
+ *   Inspect the LAB_Redactie_Reviews tab: header row 1 should now match
+ *   LAB_REDACTIE_REVIEWS_HEADERS exactly.
+ */
+function __migrateRedactieReviewsHeaders() {
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty('SHEET_ID') || EXPECTED_SPREADSHEET_ID;
+  var ss = SpreadsheetApp.openById(id);
+  var sheet = ss.getSheetByName('LAB_Redactie_Reviews');
+  if (!sheet) {
+    sheet = ensureRedactieReviewsTab(ss);
+    return 'created: LAB_Redactie_Reviews with current headers';
+  }
+  var lastCol = Math.max(sheet.getLastColumn(), 1);
+  var firstRow = sheet.getRange(1, 1, 1, lastCol).getValues()[0]
+    .map(function(h){ return String(h || ''); });
+  // Verify that every existing header still appears in our canonical list
+  // — refuse to migrate if a renamed column would leave orphaned data.
+  for (var i = 0; i < firstRow.length; i++) {
+    if (!firstRow[i]) continue;
+    if (LAB_REDACTIE_REVIEWS_HEADERS.indexOf(firstRow[i]) === -1) {
+      throw new Error('Refusing to migrate: column "' + firstRow[i] + '" at index ' + (i + 1) +
+        ' is not in the canonical header list. Inspect manually before re-running.');
+    }
+  }
+  // Append any missing headers on the right edge in canonical order.
+  var added = [];
+  for (var j = 0; j < LAB_REDACTIE_REVIEWS_HEADERS.length; j++) {
+    var h = LAB_REDACTIE_REVIEWS_HEADERS[j];
+    if (firstRow.indexOf(h) === -1) added.push(h);
+  }
+  if (added.length === 0) return 'noop: header row already matches canonical list';
+  var startCol = lastCol + 1;
+  sheet.getRange(1, startCol, 1, added.length).setValues([added]);
+  // Header verification — appendKnownRow will fail loud if the canonical
+  // list does not match the sheet; do a final read to surface mismatches
+  // immediately rather than at the next save.
+  var finalRow = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0]
+    .map(function(h){ return String(h || ''); });
+  for (var k = 0; k < LAB_REDACTIE_REVIEWS_HEADERS.length; k++) {
+    if (finalRow[k] !== LAB_REDACTIE_REVIEWS_HEADERS[k]) {
+      throw new Error('Migration left a mismatch at column ' + (k + 1) +
+        ': expected "' + LAB_REDACTIE_REVIEWS_HEADERS[k] + '", got "' + finalRow[k] + '". Inspect manually.');
+    }
+  }
+  return 'migrated: appended ' + added.length + ' header(s): ' + added.join(', ');
 }

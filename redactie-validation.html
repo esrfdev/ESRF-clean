@@ -1768,6 +1768,30 @@
       change_note: clientPayload.change_note || '',
       edited_by: clientPayload.edited_by || ''
     };
+    // For change-request rows (wijzigingsverzoek op bestaande vermelding) the
+    // backend stores a separate change_request_review block alongside the
+    // review_update. We collect the dedicated CR decision fields and the
+    // identifying fields of the verzoek so the audit row is complete.
+    // Contact PII is never sent — neither the form nor the export pulls it
+    // into this body, and the backend strips it again as defence in depth.
+    if (r && r.record_type === 'change_request'){
+      var formVals = readForm();
+      body.change_request_review = {
+        redactie_decision: formVals.redactie_decision || '',
+        redactie_decision_reason: formVals.redactie_decision_reason || '',
+        requested_action: r.requested_action || '',
+        sub_mode: r.sub_mode || (r.requested_action === 'hide' || r.requested_action === 'delete' ? 'hide_delete' : 'change_request'),
+        target_listing_name: r.target_listing_name || '',
+        target_listing_url: r.target_listing_url || '',
+        change_description: r.change_description || '',
+        change_description_existing: r.change_description_existing || '',
+        change_description_requested: r.change_description_requested || '',
+        reason: r.reason || '',
+        evidence_url: r.evidence_url || '',
+        requester_authorization: r.requester_authorization || '',
+        authorization_confirmation: (String(r.authorization_confirmation || '').toLowerCase() === 'yes' || r.authorization_confirmation === true) ? 'yes' : (r.authorization_confirmation ? 'no' : '')
+      };
+    }
     state.saveBusy = true;
     state.saveState = null;
     renderDetail();

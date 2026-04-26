@@ -27,6 +27,8 @@ const {
   ALLOWED_REVIEW_TARGET_TABS,
   ALLOWED_PROCESS_STEPS,
   ALLOWED_REVIEW_STATUSES,
+  ALLOWED_RECORD_TYPES,
+  ALLOWED_REDACTIE_DECISIONS,
   isLabTab,
   buildReviewUpdatePayload,
 } = api;
@@ -158,6 +160,120 @@ check('buildReviewUpdatePayload: missing submission_id and record_type produce e
 check('buildReviewUpdatePayload: process_step_reminder is injected from STATUS_STEP_REMINDERS', () => {
   const { payload } = buildReviewUpdatePayload(validUpdateBody);
   assert.ok(typeof payload.process_step_reminder === 'string' && payload.process_step_reminder.length > 0);
+});
+
+// ── Change-request / hide_delete record_type acceptance ──────────────────
+
+check('ALLOWED_RECORD_TYPES includes org, editorial, change_request and hide_delete', () => {
+  assert.ok(ALLOWED_RECORD_TYPES.indexOf('org') !== -1);
+  assert.ok(ALLOWED_RECORD_TYPES.indexOf('editorial') !== -1);
+  assert.ok(ALLOWED_RECORD_TYPES.indexOf('change_request') !== -1);
+  assert.ok(ALLOWED_RECORD_TYPES.indexOf('hide_delete') !== -1);
+});
+
+const changeRequestUpdateBody = {
+  submission_id: 'sub_lab_demo_005',
+  record_type: 'change_request',
+  target_tab: 'LAB_Redactie_Reviews',
+  source_tab: 'LAB_Change_Requests',
+  review_update: {
+    process_step: 'in_review',
+    review_status: 'in_review',
+    reminder: 'Verifieer adres en sector',
+    next_required_action: 'Verifieer bevoegdheid + bron',
+    assigned_to: 'redactie',
+    due_date: '2026-05-04',
+    review_notes_internal: 'Pass 1: bron lijkt te kloppen.'
+  },
+  change_request_review: {
+    redactie_decision: 'approve',
+    redactie_decision_reason: 'Persbericht verifieert verhuizing en sector-shift.',
+    requested_action: 'update',
+    sub_mode: 'change_request',
+    target_listing_name: 'Stichting Voorbeeld Noord',
+    target_listing_url: 'https://esrf.net/directory/voorbeeld-noord',
+    change_description: 'Adres en sector kloppen niet meer.',
+    change_description_existing: 'Stichting Voorbeeld Noord — sector: Beveiliging — locatie: Drenthe',
+    change_description_requested: 'Stichting Voorbeeld Noord — sector: Crisisbeheersing — locatie: Groningen',
+    reason: 'Organisatie is verhuisd en kerntaken zijn formeel verschoven.',
+    evidence_url: 'https://example.org/persbericht-verhuizing',
+    requester_authorization: 'authorized_representative',
+    authorization_confirmation: 'yes'
+  }
+};
+
+check('buildReviewUpdatePayload: change_request body produces no errors and preserves CR fields', () => {
+  const { errors, payload } = buildReviewUpdatePayload(changeRequestUpdateBody);
+  assert.deepEqual(errors, []);
+  assert.equal(payload.record_type, 'change_request');
+  assert.ok(payload.change_request_review, 'change_request_review block missing on payload');
+  assert.equal(payload.change_request_review.redactie_decision, 'approve');
+  assert.equal(payload.change_request_review.requested_action, 'update');
+  assert.equal(payload.change_request_review.sub_mode, 'change_request');
+  assert.equal(payload.change_request_review.target_listing_name, 'Stichting Voorbeeld Noord');
+  assert.equal(payload.change_request_review.requester_authorization, 'authorized_representative');
+  assert.equal(payload.change_request_review.authorization_confirmation, 'yes');
+  assert.equal(payload.directory_master_touched, false);
+  assert.equal(payload.automatic_publication, false);
+});
+
+check('buildReviewUpdatePayload: hide_delete record_type accepted; CR block flagged sub_mode hide_delete', () => {
+  const body = Object.assign({}, changeRequestUpdateBody, {
+    submission_id: 'sub_lab_demo_006',
+    record_type: 'hide_delete',
+    change_request_review: Object.assign({}, changeRequestUpdateBody.change_request_review, {
+      requested_action: 'delete',
+      sub_mode: 'hide_delete',
+      target_listing_name: 'Voorbeeld Coöperatie Oost',
+      target_listing_url: '',
+      reason: 'Organisatie bestaat niet meer.',
+    }),
+  });
+  const { errors, payload } = buildReviewUpdatePayload(body);
+  assert.deepEqual(errors, []);
+  assert.equal(payload.record_type, 'hide_delete');
+  assert.equal(payload.change_request_review.requested_action, 'delete');
+  assert.equal(payload.change_request_review.sub_mode, 'hide_delete');
+  // hide_delete record_type with no explicit sub_mode still defaults sensibly.
+  const bodyNoSubMode = Object.assign({}, body, {
+    change_request_review: Object.assign({}, body.change_request_review, { sub_mode: '' }),
+  });
+  const { payload: p2 } = buildReviewUpdatePayload(bodyNoSubMode);
+  assert.equal(p2.change_request_review.sub_mode, 'hide_delete');
+});
+
+check('buildReviewUpdatePayload: change_request rejects unknown redactie_decision', () => {
+  const bad = Object.assign({}, changeRequestUpdateBody, {
+    change_request_review: Object.assign({}, changeRequestUpdateBody.change_request_review, {
+      redactie_decision: 'publish_now',
+    }),
+  });
+  const { errors } = buildReviewUpdatePayload(bad);
+  assert.ok(errors.some(e => /redactie_decision/.test(e)), 'expected redactie_decision validation error');
+});
+
+check('buildReviewUpdatePayload: change_request strips contact PII from change_request_review', () => {
+  const dirty = Object.assign({}, changeRequestUpdateBody, {
+    change_request_review: Object.assign({}, changeRequestUpdateBody.change_request_review, {
+      contact: { email: 'leak-cr@example.org', phone: '+31 6 9999' },
+      raw_payload_json: '{"foo":1}',
+    }),
+  });
+  const { errors, payload } = buildReviewUpdatePayload(dirty);
+  assert.deepEqual(errors, []);
+  const blob = JSON.stringify(payload);
+  assert.ok(blob.indexOf('leak-cr@example.org') === -1, 'CR contact email leaked');
+  assert.ok(blob.indexOf('raw_payload_json') === -1, 'CR raw_payload_json leaked');
+});
+
+check('buildReviewUpdatePayload: org/editorial bodies do not get a change_request_review block', () => {
+  const { payload: orgPayload } = buildReviewUpdatePayload(validUpdateBody);
+  assert.equal(orgPayload.change_request_review, undefined,
+    'org record_type should not produce a change_request_review block');
+  const editorialBody = Object.assign({}, validUpdateBody, { record_type: 'editorial' });
+  const { payload: edPayload } = buildReviewUpdatePayload(editorialBody);
+  assert.equal(edPayload.change_request_review, undefined,
+    'editorial record_type should not produce a change_request_review block');
 });
 
 // ── End-to-end via onRequest ─────────────────────────────────────────────
@@ -311,6 +427,70 @@ await asyncCheck('all four gates pass + Apps Script accepts → save_status:save
     assert.equal(sent.shared_secret, 'shh-secret');
     assert.equal(sent.target_tab, 'LAB_Redactie_Reviews');
     assert.equal(sent.include_contact, false, 'include_contact must be hard-coded false on save path');
+  });
+});
+
+await asyncCheck('change_request save: 200 saved + outbound body carries change_request_review block', async () => {
+  const fakeUpstream = {
+    ok: true,
+    update_result: { review_id: 'rev_cr_001', target_tab: 'LAB_Redactie_Reviews', rows_written: 2 },
+  };
+  await withMockedFetch(async function(){
+    return new Response(JSON.stringify(fakeUpstream), {
+      status: 200, headers: { 'content-type': 'application/json' },
+    });
+  }, async function(calls){
+    const res = await callUpdate('POST', {
+      env: labEnv,
+      headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
+      body: JSON.stringify(Object.assign({}, changeRequestUpdateBody, { access_code: 'lab-code' })),
+    });
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.equal(data.ok, true);
+    assert.equal(data.save_status, 'saved');
+    assert.equal(calls.length, 1);
+    const sent = JSON.parse(String(calls[0].options.body || '{}'));
+    assert.equal(sent.record_type, 'change_request');
+    assert.equal(sent.target_tab, 'LAB_Redactie_Reviews');
+    assert.ok(sent.change_request_review, 'change_request_review missing on outbound webhook body');
+    assert.equal(sent.change_request_review.redactie_decision, 'approve');
+    assert.equal(sent.change_request_review.requested_action, 'update');
+    assert.equal(sent.change_request_review.target_listing_name, 'Stichting Voorbeeld Noord');
+    // Defence in depth: never publishes, never touches Directory_Master.
+    assert.equal(data.directory_master_touched, false);
+    assert.equal(data.automatic_publication, false);
+  });
+});
+
+await asyncCheck('hide_delete save: 200 saved + outbound body carries hide_delete sub_mode and delete action', async () => {
+  await withMockedFetch(async function(){
+    return new Response(JSON.stringify({ ok: true, update_result: { review_id: 'rev_cr_002' } }), {
+      status: 200, headers: { 'content-type': 'application/json' },
+    });
+  }, async function(calls){
+    const hideDeleteBody = Object.assign({}, changeRequestUpdateBody, {
+      access_code: 'lab-code',
+      submission_id: 'sub_lab_demo_006',
+      record_type: 'hide_delete',
+      change_request_review: Object.assign({}, changeRequestUpdateBody.change_request_review, {
+        requested_action: 'delete',
+        sub_mode: 'hide_delete',
+        target_listing_name: 'Voorbeeld Coöperatie Oost',
+      }),
+    });
+    const res = await callUpdate('POST', {
+      env: labEnv,
+      headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
+      body: JSON.stringify(hideDeleteBody),
+    });
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.equal(data.save_status, 'saved');
+    const sent = JSON.parse(String(calls[0].options.body || '{}'));
+    assert.equal(sent.record_type, 'hide_delete');
+    assert.equal(sent.change_request_review.sub_mode, 'hide_delete');
+    assert.equal(sent.change_request_review.requested_action, 'delete');
   });
 });
 

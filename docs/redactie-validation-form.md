@@ -855,6 +855,50 @@ Verwijder of zet `REDACTIE_REVIEW_WRITE_ENABLED` op iets anders dan
 wordt niets opgeslagen."* — zonder code-deploy. De redactiepagina
 gaat dan vanzelf terug naar het sample/fallback-pad.
 
+### Apps Script header-migratie (eenmalig na een bron-update)
+
+De Cloudflare-laag staat saves toe voor `record_type` waarden `org`,
+`editorial`, `change_request` en `hide_delete`. Voor wijzigingsverzoeken
+(`change_request` / `hide_delete`) wordt een aparte
+`change_request_review`-blok meegestuurd (redactiebesluit, requested
+action, target listing, change description, reden, evidence URL,
+indiener-rol/-bevestiging) — zonder PII. Dit blok wordt door Apps
+Script geprojecteerd op nieuwe `cr_*` kolommen in `LAB_Redactie_Reviews`.
+
+`appendKnownRow` controleert strikt dat de kolomkoppen in de Sheet exact
+overeenkomen met `LAB_REDACTIE_REVIEWS_HEADERS` in
+`docs/apps-script-redactie-review-webhook.gs`. Na een bron-update die
+nieuwe kolommen toevoegt (bv. de `cr_*` kolommen voor
+wijzigingsverzoek-saves, toegevoegd 2026-04-26) moet de Sheet eenmalig
+worden gemigreerd, anders faalt elke save met *"Header mismatch"*.
+
+**Operationele stap (eenmalig, alleen op preview-Sheet):**
+
+1. Open het Apps Script-project onder `office@esrf.net`.
+2. Plak de bijgewerkte inhoud van
+   `docs/apps-script-redactie-review-webhook.gs` als `Code.gs` over de
+   bestaande versie heen. Sla op.
+3. **Selecteer de functie `__migrateRedactieReviewsHeaders`** in de
+   functiekiezer en klik **Run**. Bevestig de spreadsheets-only OAuth
+   scope als die opnieuw gevraagd wordt.
+4. Lees het log: verwacht `migrated: appended N header(s): cr_redactie_decision, …`.
+   Een tweede aanroep moet `noop: header row already matches canonical list` geven.
+5. Open `LAB_Redactie_Reviews` in de Drive-spreadsheet en controleer dat
+   rij 1 nu eindigt met de nieuwe `cr_*` kolommen, gevolgd door
+   `directory_master_touched` en `automatic_publication`.
+6. Deploy → **Manage deployments** → het bestaande Web App-deployment →
+   pen-icoon → **New version** → Deploy. De `/exec` URL blijft gelijk;
+   geen wijziging nodig op Cloudflare Pages env vars.
+7. Voer één save-test uit op de preview met een
+   `LAB_Change_Requests`-fixture: verwacht `save_status: "saved"`, één
+   nieuwe rij in `LAB_Redactie_Reviews` met de `cr_*` kolommen ingevuld,
+   één rij in `LAB_Workflow_Events`, en `Directory_Master` ongewijzigd.
+
+Als `__migrateRedactieReviewsHeaders` weigert te draaien met *"Refusing
+to migrate: column X is not in the canonical header list"*: een eerdere
+deployment heeft handmatig kolomkoppen toegevoegd of hernoemd. Inspecteer
+en herstel handmatig — niet doorzetten.
+
 ## Veiligheidsregels die de endpoints afdwingen
 
 - `target_tab` moet starten met `LAB_` en in `ALLOWED_REVIEW_TARGET_TABS`
