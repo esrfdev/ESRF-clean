@@ -97,8 +97,8 @@
     {
       "id": "intake-lab-automation",
       "title": "Lab-automation voor /api/intake — workflow + LAB_* tabs + minimale notificatie",
-      "status": "automatic-minimal-notification-disabled-google-mailrelay-delivery-unconfirmed",
-      "readinessNote": "Backend, LAB_* tabs and dry-run flow verified end-to-end on 2026-04-25 (submission sub_moelllvt_i21b). First successful sheet-only LAB write via /api/intake-test on 2026-04-26 (sub-test_mofow7u5_4dzv → LAB_Intake_Submissions row 4, LAB_Editorial_Intake row 3). Sheet intake remains ACTIVE. Automatic minimal-notification route via Google Apps Script MailApp was tested on 2026-04-26 with operator probe submission sub_moftdrju_f8lk but delivery to office@esrf.net was NOT CONFIRMED; under rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401 the Cloudflare Pages Preview env vars INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO were removed/disabled. The Google Apps Script MailApp route is therefore marked disabled / delivery-unconfirmed and is NOT a production route. The recommended next notification route is an official Microsoft 365 / Outlook / SMTP relay for office@esrf.net, to be enabled only after a manually-delivered test message is confirmed at the inbox. Until then INTAKE_NOTIFY_WEBHOOK / INTAKE_NOTIFY_TO stay unset on every environment and /api/intake keeps reporting notification_status=dry_run_not_configured. The prepared Apps Script MailApp source remains in-tree as a reference artefact only (docs/apps-script-mail-notification.gs + docs/appsscript.mail-notification.json); see docs/apps-script-mail-notification.future.md and docs/intake-minimal-notification-design.md for the full rollback record. Production was never enabled on this branch and is unchanged.",
+      "status": "automatic-minimal-notification-disabled-google-mailrelay-delivery-unconfirmed-and-outlook-connector-broad-scope-rejected",
+      "readinessNote": "Backend, LAB_* tabs and dry-run flow verified end-to-end on 2026-04-25 (submission sub_moelllvt_i21b). First successful sheet-only LAB write via /api/intake-test on 2026-04-26 (sub-test_mofow7u5_4dzv → LAB_Intake_Submissions row 4, LAB_Editorial_Intake row 3). Sheet intake remains ACTIVE. Automatic minimal-notification route via Google Apps Script MailApp was tested on 2026-04-26 with operator probe submission sub_moftdrju_f8lk but delivery to office@esrf.net was NOT CONFIRMED; under rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401 the Cloudflare Pages Preview env vars INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO were removed/disabled. Later on 2026-04-26 (14:21) an attempt to authorize an Outlook / Microsoft 365 connector for office@esrf.net was REJECTED by the operator at the Microsoft consent screen because the connector requested broad / full mailbox access instead of a minimal send-only scope; this is recorded as decision event evt_outlook_broad_scope_rejected_20260426_1421. Refusing the broad consent is the correct security decision — the channel only needs Mail.Send. No Outlook connector was authorized; no env vars were set; no test emails were sent; production was not touched. The Google Apps Script MailApp route is therefore marked disabled / delivery-unconfirmed and is NOT a production route, AND the broad-scope Outlook connector path is REJECTED. The recommended next notification routes are minimal-rights only: (1) Microsoft Graph app registration with send-only Mail.Send as office@esrf.net (no Mail.Read / Mail.ReadWrite / full_access_as_app, mailbox-scoped via Exchange Online ApplicationAccessPolicy), (2) authenticated SMTP / mailrelay for office@esrf.net with SPF/DKIM/DMARC alignment, or (3) the manual Sheet-based notification fallback that is in effect today. Each must pass a manually-delivered test under minimal-rights consent before any env var is set. Until then INTAKE_NOTIFY_WEBHOOK / INTAKE_NOTIFY_TO stay unset on every environment and /api/intake keeps reporting notification_status=dry_run_not_configured. Automatic notifications stay disabled. The prepared Apps Script MailApp source remains in-tree as a reference artefact only (docs/apps-script-mail-notification.gs + docs/appsscript.mail-notification.json); see docs/apps-script-mail-notification.future.md and docs/intake-minimal-notification-design.md for the full rollback / decision records. Production was never enabled on this branch and is unchanged.",
       "securityReview": {
         "status": "ready",
         "date": "2026-04-26",
@@ -123,9 +123,10 @@
         },
         "productionBlockers": [
           "Google Apps Script MailApp mailrelay route is DISABLED / DELIVERY-UNCONFIRMED as of 2026-04-26 (rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401, operator probe sub_moftdrju_f8lk). The route MUST NOT be re-enabled in its current form.",
-          "Recommended next notification route is an official Microsoft 365 / Outlook / SMTP relay for office@esrf.net. It MUST NOT be wired up to INTAKE_NOTIFY_WEBHOOK until an operator has manually verified that a delivered test message arrives at the office@esrf.net inbox.",
-          "Cloudflare Pages preview secrets (INTAKE_SHEET_WEBHOOK_URL + SHEETS_WEBHOOK_SECRET) are configured for sheet intake; INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO are intentionally unset following the 2026-04-26 rollback.",
-          "INTAKE_NOTIFY_TO must be set to office@esrf.net (or another office@esrf.net-controlled inbox) and only together with INTAKE_NOTIFY_WEBHOOK pointing at the confirmed Microsoft 365 / SMTP relay.",
+          "Outlook / Microsoft 365 connector authorization for office@esrf.net was REJECTED on 2026-04-26 at 14:21 because the consent screen requested broad / full mailbox access instead of a minimal send-only scope (decision event evt_outlook_broad_scope_rejected_20260426_1421). Refusing was the correct security decision. The broad-scope Outlook connector path MUST NOT be re-attempted; if Microsoft consent again surfaces only broad / full mailbox access, the Outlook connector route stays rejected.",
+          "Recommended next notification routes are minimal-rights only: (1) Microsoft Graph app registration with send-only Mail.Send for office@esrf.net (no Mail.Read / Mail.ReadWrite / full_access_as_app, narrowed via Exchange Online New-ApplicationAccessPolicy to office@esrf.net only), (2) authenticated SMTP / mailrelay for office@esrf.net with SPF/DKIM/DMARC alignment verified end-to-end, or (3) manual Sheet-based notification (current default). Each must pass a manually-delivered test under minimal-rights consent before INTAKE_NOTIFY_WEBHOOK / INTAKE_NOTIFY_TO are set on any Cloudflare Pages environment.",
+          "Cloudflare Pages preview secrets (INTAKE_SHEET_WEBHOOK_URL + SHEETS_WEBHOOK_SECRET) are configured for sheet intake; INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO are intentionally unset following the 2026-04-26 rollback (evt_unconfirmed_google_mailrelay_disabled_20260426_1401) and the same-day Outlook rejection (evt_outlook_broad_scope_rejected_20260426_1421).",
+          "INTAKE_NOTIFY_TO must be set to office@esrf.net (or another office@esrf.net-controlled inbox) and only together with INTAKE_NOTIFY_WEBHOOK pointing at a confirmed minimal-rights relay (Microsoft Graph send-only Mail.Send, OR authenticated SMTP with SPF/DKIM/DMARC alignment).",
           "Redactie sign-off on activation gate in docs/intake-lab-test-report-2026-04-25.md §6b.",
           "Optional: rate-limit (Workers KV binding INTAKE_RATELIMIT or Cloudflare WAF rule)."
         ]
@@ -147,13 +148,70 @@
         "productionEnvVarsTouched": false,
         "statusFlagAfterRollback": "minimal-notification-design-ready-not-enabled (unchanged — was never flipped to enabled because step 7 of the activation checklist, delivered email at office@esrf.net, was never reached).",
         "recommendedNextRoute": {
-          "channel": "Official Microsoft 365 / Outlook / SMTP relay for office@esrf.net",
-          "preconditionBeforeEnabling": "Operator must manually send a test message through the candidate Microsoft 365 / SMTP relay and visually confirm it arrives at the office@esrf.net inbox. Only after that delivered-test confirmation may INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO be set on the Cloudflare Pages Preview project. Production env vars stay untouched until a second delivered-test confirmation under production identity.",
-          "doNotReEnableGoogleMailApp": true
+          "channel": "Minimal-rights only: Microsoft Graph app registration with send-only Mail.Send (no Mail.Read / Mail.ReadWrite / full_access_as_app, mailbox-scoped via Exchange Online New-ApplicationAccessPolicy) for office@esrf.net, OR authenticated SMTP / mailrelay for office@esrf.net with SPF/DKIM/DMARC alignment, OR manual Sheet-based notification (current default).",
+          "preconditionBeforeEnabling": "Operator must manually send a test message through the candidate minimal-rights relay and visually confirm it arrives at the office@esrf.net inbox AND that the consent scope is send-only (no broad mailbox access). Only after that delivered-test confirmation may INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO be set on the Cloudflare Pages Preview project. Production env vars stay untouched until a second delivered-test confirmation under production identity.",
+          "doNotReEnableGoogleMailApp": true,
+          "doNotAuthorizeBroadScopeOutlookConnector": true,
+          "outlookConnectorBroadScopeStatus": "REJECTED on 2026-04-26 (decision event evt_outlook_broad_scope_rejected_20260426_1421) — see outlookConnectorRejection block."
         },
         "documentation": [
           "/docs/apps-script-mail-notification.future.md",
           "/docs/intake-minimal-notification-design.md",
+          "/docs/intake-backend.md",
+          "/docs/validation-lab.md"
+        ]
+      },
+      "outlookConnectorRejection": {
+        "decisionEventId": "evt_outlook_broad_scope_rejected_20260426_1421",
+        "date": "2026-04-26",
+        "time": "14:21 local",
+        "routeUnderReview": "Outlook / Microsoft 365 connector for office@esrf.net",
+        "trigger": "Operator opened the Microsoft consent flow to authorize the connector.",
+        "consentScreenRequested": "Broad / full mailbox access (read mail / mailbox-wide permissions), not a minimal send-only scope.",
+        "operatorAction": "Authorization REJECTED at the consent screen. No tokens were issued. No connector was authorized. No client secret was stored anywhere (not in this repo, not in wrangler.toml, not in Cloudflare Pages env vars).",
+        "isCorrectSecurityDecision": true,
+        "securityRationale": "The notification channel only needs to send a single minimal, PII-free operational ping (the wire-level contract is defined in NOTIFICATION_CONTRACT in functions/api/intake.js and locked in docs/intake-minimal-notification-design.md). Granting broad / full mailbox access would let a relay compromise read the entire office@esrf.net mailbox (submitter correspondence, foundation mail, password-reset mails) — none of which the relay needs. Refusing the broad consent keeps the blast radius bounded to 'send one minimal mail' if the relay is ever compromised.",
+        "actionsTaken": [
+          "No Outlook connector was authorized.",
+          "No new Cloudflare Pages env var was created.",
+          "INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO remain disabled / unset on every environment (already unset after evt_unconfirmed_google_mailrelay_disabled_20260426_1401 earlier the same day).",
+          "No test emails were sent.",
+          "Decision recorded in docs/intake-minimal-notification-design.md, docs/apps-script-mail-notification.future.md, docs/intake-backend.md and docs/validation-lab.md."
+        ],
+        "directoryMasterTouched": false,
+        "productionEnvVarsTouched": false,
+        "productionDeploymentTouched": false,
+        "testEmailsSent": false,
+        "sheetIntakeImpact": "none — LAB_* rows continue to append on every successful submission via the spreadsheet-only Apps Script.",
+        "statusFlagAfterDecision": "minimal-notification-design-ready-not-enabled (unchanged). Automatic notifications stay disabled.",
+        "recommendedNextRoutes": [
+          {
+            "id": "ms-graph-mail-send-only",
+            "channel": "Microsoft Graph app registration with send-only Mail.Send as office@esrf.net.",
+            "consentScopeMustBe": "Mail.Send only — NOT Mail.Read, NOT Mail.ReadWrite, NOT Mail.ReadWrite.Shared, NOT full_access_as_app.",
+            "mailboxScopeNarrowing": "Exchange Online New-ApplicationAccessPolicy -AccessRight RestrictAccess -PolicyScopeGroupId office@esrf.net (so the app can only send AS office@esrf.net and cannot touch any other mailbox).",
+            "preconditionBeforeEnabling": "Operator must manually send a Graph sendMail call from the candidate app and visually confirm the test message arrives at office@esrf.net AND that the granted scope is exactly Mail.Send. If admin consent for Mail.Send cannot be granted in isolation, this route stays rejected.",
+            "cloudflareHoldsSecret": false
+          },
+          {
+            "id": "authenticated-smtp-with-alignment",
+            "channel": "Authenticated SMTP submission / mailrelay for office@esrf.net.",
+            "preconditionBeforeEnabling": "SPF, DKIM, and DMARC must be aligned for the From: office@esrf.net envelope. Verify with a manual test send and inspection of receiving mailbox headers (Authentication-Results: spf=pass dkim=pass dmarc=pass). Only after that delivered-and-aligned confirmation may INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO be set on Cloudflare Pages Preview.",
+            "cloudflareHoldsSecret": false
+          },
+          {
+            "id": "manual-sheet-based-notification",
+            "channel": "Manual Sheet-based notification — redactie monitors LAB_* tabs directly in the Drive spreadsheet.",
+            "preconditionBeforeEnabling": "Already in effect today. No automatic email channel; INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO stay unset. This is the default-safe state and the fallback if Microsoft Graph send-only and authenticated SMTP routes are not approved.",
+            "cloudflareHoldsSecret": false
+          }
+        ],
+        "doNotReAttemptIfBroadScope": true,
+        "doNotReEnableGoogleMailApp": true,
+        "automaticNotificationsDisabled": true,
+        "documentation": [
+          "/docs/intake-minimal-notification-design.md",
+          "/docs/apps-script-mail-notification.future.md",
           "/docs/intake-backend.md",
           "/docs/validation-lab.md"
         ]
@@ -228,7 +286,28 @@
           "actionTaken": "Removed/disabled INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO on the Cloudflare Pages Preview project. Marked the Google Apps Script MailApp route as disabled / delivery-unconfirmed. Sheet intake remains active.",
           "directoryMasterTouched": false,
           "productionEnvVarsTouched": false,
-          "note": "Operator probe confirmed that the Cloudflare backend's notification dispatch reached the relay, but no message arrived in the office@esrf.net inbox during the verification window. Recommended next route is an official Microsoft 365 / Outlook / SMTP relay for office@esrf.net, enabled only after a manually-delivered test message is confirmed."
+          "note": "Operator probe confirmed that the Cloudflare backend's notification dispatch reached the relay, but no message arrived in the office@esrf.net inbox during the verification window. Recommended next route is a minimal-rights route (Microsoft Graph send-only Mail.Send, OR authenticated SMTP with SPF/DKIM/DMARC alignment, OR manual Sheet-based notification), enabled only after a manually-delivered test message is confirmed under minimal-rights consent."
+        },
+        "outlookConnectorRejectionEvidence": {
+          "date": "2026-04-26",
+          "time": "14:21 local",
+          "decisionEventId": "evt_outlook_broad_scope_rejected_20260426_1421",
+          "routeUnderReview": "Outlook / Microsoft 365 connector for office@esrf.net",
+          "consentScreenRequested": "Broad / full mailbox access (read mail / mailbox-wide permissions), not a minimal send-only scope.",
+          "operatorAction": "Authorization REJECTED at the Microsoft consent screen.",
+          "isCorrectSecurityDecision": true,
+          "tokensIssued": false,
+          "connectorAuthorized": false,
+          "clientSecretStoredAnywhere": false,
+          "envVarsCreatedOrChanged": false,
+          "testEmailsSent": false,
+          "intendedRecipient": "office@esrf.net",
+          "directoryMasterTouched": false,
+          "productionEnvVarsTouched": false,
+          "productionDeploymentTouched": false,
+          "sheetIntakeImpact": "none — LAB_* rows continue to append on every successful submission via the spreadsheet-only Apps Script.",
+          "statusFlagAfterDecision": "minimal-notification-design-ready-not-enabled (unchanged). Automatic notifications stay disabled.",
+          "note": "Refusing broad / full mailbox consent is the correct security decision: the operational notification channel only needs Mail.Send. Granting full-mailbox access would expand a relay compromise to the entire office@esrf.net mailbox. Recommended next routes are minimal-rights only — see outlookConnectorRejection.recommendedNextRoutes for the canonical list (Microsoft Graph send-only Mail.Send, authenticated SMTP with SPF/DKIM/DMARC alignment, or manual Sheet-based notification)."
         }
       },
       "labTabs": [
@@ -241,8 +320,8 @@
       "envVars": [
         "INTAKE_SHEET_WEBHOOK_URL (alias: SHEETS_WEBHOOK_URL, legacy: GOOGLE_SHEET_WEBHOOK_URL) — set on Preview, sheet intake active.",
         "SHEETS_WEBHOOK_SECRET (alias: INTAKE_SHEET_WEBHOOK_SECRET) — set on Preview, sheet intake active.",
-        "INTAKE_NOTIFY_WEBHOOK — DISABLED / UNSET on every environment after rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401. Future value must point at an official Microsoft 365 / Outlook / SMTP relay for office@esrf.net (NOT the Google Apps Script MailApp route, NOT Gmail).",
-        "INTAKE_NOTIFY_TO — DISABLED / UNSET on every environment after rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401. Documented default when re-enabled: office@esrf.net.",
+        "INTAKE_NOTIFY_WEBHOOK — DISABLED / UNSET on every environment after rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401 and the same-day Outlook rejection (evt_outlook_broad_scope_rejected_20260426_1421). Future value must point at a MINIMAL-RIGHTS relay only: Microsoft Graph app registration with send-only Mail.Send for office@esrf.net (NOT Mail.Read / Mail.ReadWrite / full_access_as_app), OR authenticated SMTP / mailrelay for office@esrf.net with SPF/DKIM/DMARC alignment. NOT the Google Apps Script MailApp route. NOT Gmail. NOT a broad-scope Outlook / Microsoft 365 connector.",
+        "INTAKE_NOTIFY_TO — DISABLED / UNSET on every environment after rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401 (and confirmed unchanged after evt_outlook_broad_scope_rejected_20260426_1421). Documented default when re-enabled (under a minimal-rights relay only): office@esrf.net.",
         "TURNSTILE_SECRET_KEY",
         "GITHUB_TOKEN + INTAKE_REPO"
       ],

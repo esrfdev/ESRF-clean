@@ -3,9 +3,10 @@
 > **Status (2026-04-26, end of day):**
 > `minimal-notification-design-ready-not-enabled`. The contract is
 > implemented in code and surfaced in every dry-run response and in
-> the LAB UI preview. **No mail is sent.**
+> the LAB UI preview. **No mail is sent. Automatic notifications stay
+> disabled.**
 >
-> **Operational decision (2026-04-26):** The Google Apps Script
+> **Operational decision (2026-04-26, 14:01):** The Google Apps Script
 > `MailApp` mailrelay route was tested with operator probe submission
 > `sub_moftdrju_f8lk`, but delivery to `office@esrf.net` was **not
 > confirmed**. The Cloudflare Pages **Preview** env vars
@@ -17,12 +18,43 @@
 > Sheet intake (LAB_* tabs via the spreadsheet-only Apps Script) stays
 > active.
 >
-> **Recommended next route (not yet enabled):** an official
-> Microsoft 365 / Outlook / SMTP relay for `office@esrf.net`, to be
-> wired up only after a manually-delivered test message is confirmed
-> in the `office@esrf.net` inbox. Until that delivered-test
-> confirmation exists, the notification env vars stay unset and the
-> backend keeps reporting `notification_status: "dry_run_not_configured"`.
+> **Operational decision (2026-04-26, 14:21) — Outlook connector
+> rejected on scope:** A follow-up attempt to authorize an **Outlook /
+> Microsoft 365 connector** for `office@esrf.net` was **rejected by the
+> operator** because the consent screen requested **broad / full
+> mailbox access** (read mail, mailbox-wide permissions) rather than a
+> minimal send-only scope. Refusing this consent is the correct
+> security decision: the notification channel only needs to **send** a
+> minimal operational ping; granting full-mailbox access would expand
+> the blast radius of a relay compromise to the entire `office@esrf.net`
+> mailbox, including submitter correspondence and unrelated foundation
+> mail. This decision is recorded as event
+> `evt_outlook_broad_scope_rejected_20260426_1421`. **No Outlook
+> connector was authorized; no env vars were enabled; production was
+> not touched; no test emails were sent.**
+>
+> **Recommended next routes (all disabled until manually delivered
+> test confirmed AND minimal-rights only):**
+>
+> 1. **Microsoft Graph app registration with send-only `Mail.Send`**
+>    scoped to `office@esrf.net` (application permission narrowed via
+>    Exchange Online RBAC `ApplicationAccessPolicy` to that one
+>    mailbox), if the tenant admin can grant `Mail.Send` *without*
+>    `Mail.Read` / `Mail.ReadWrite` / `full_access_as_app`. If the
+>    only available consent is broad mailbox access, this route stays
+>    rejected.
+> 2. **Authenticated SMTP submission / mailrelay** for
+>    `office@esrf.net` with **SPF, DKIM, and DMARC alignment**
+>    verified end-to-end before any env var is set.
+> 3. **Manual Sheet-based notification fallback** — the redactie
+>    monitors the LAB_* tabs directly in the existing Drive
+>    spreadsheet. This is the safe default and is what is in effect
+>    today.
+>
+> Until one of these routes has passed a manually-delivered test
+> confirmation under minimal-rights consent, the notification env vars
+> stay unset, automatic notifications stay disabled, and the backend
+> keeps reporting `notification_status: "dry_run_not_configured"`.
 >
 > The prepared Apps Script `MailApp` source at
 > [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
@@ -237,12 +269,60 @@ runtime do not diverge.
 | Status flag after rollback | `MINIMAL_NOTIFICATION_DESIGN_STATUS = 'minimal-notification-design-ready-not-enabled'` (unchanged — was never flipped to `enabled` because step 7 of the activation checklist was never reached) |
 
 Recommended next step is **not** to retry the Google Apps Script
-`MailApp` route. The recommended next notification route is an
-official Microsoft 365 / Outlook / SMTP relay for `office@esrf.net`,
-enabled only after an operator manually verifies a delivered test
-message arrives at the inbox. See
+`MailApp` route. The recommended next notification route is one of
+the **minimal-rights** routes documented under "Recommended next
+routes" above (Microsoft Graph send-only `Mail.Send`, authenticated
+SMTP / mailrelay with SPF/DKIM/DMARC alignment, or manual Sheet-based
+notification), enabled only after an operator manually verifies a
+delivered test message arrives at the `office@esrf.net` inbox **and**
+the consent scope is confirmed to be send-only. See
 [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md)
-for the rollback record and the SMTP relay route description.
+for the full rollback record and route description.
+
+## Decision record — 2026-04-26, 14:21 (Outlook connector rejected on broad scope)
+
+| Field | Value |
+|---|---|
+| Decision event id | `evt_outlook_broad_scope_rejected_20260426_1421` |
+| Date / time | 2026-04-26, 14:21 local |
+| Route under review | Outlook / Microsoft 365 connector for `office@esrf.net` |
+| Trigger | Operator opened the Microsoft consent flow to authorize the connector. |
+| Consent screen requested | **Broad / full mailbox access** (read mail / mailbox-wide permissions), not a minimal send-only scope. |
+| Operator action | **Authorization rejected.** No tokens were issued, no connector was authorized, no client secret was stored anywhere in this repo or in Cloudflare Pages env vars. |
+| Why this is the correct security decision | The notification channel only needs to **send** a minimal, PII-free operational ping (the wire-level contract is locked in this document). Granting broad / full mailbox access would let a relay compromise read the entire `office@esrf.net` mailbox — submitter correspondence, foundation mail, password-reset mails — none of which the relay needs. Refusing broad consent keeps the blast radius bounded to "send one minimal mail" if the relay is ever compromised. |
+| Cloudflare Pages env vars | `INTAKE_NOTIFY_WEBHOOK` and `INTAKE_NOTIFY_TO` remain **disabled / unset** on every environment (they were already unset after `evt_unconfirmed_google_mailrelay_disabled_20260426_1401`). No new env var was created for this route. |
+| Production impact | None. Production env vars were not touched. No production deployment was modified. |
+| Sheet intake impact | None. Sheet intake via the spreadsheet-only Apps Script remains active; LAB_* rows continue to append. `Directory_Master` not touched. |
+| Test emails sent | **None.** |
+| Status flag | `MINIMAL_NOTIFICATION_DESIGN_STATUS = 'minimal-notification-design-ready-not-enabled'` (unchanged). Automatic notifications stay disabled. |
+
+### Recommended next routes after this rejection (minimal-rights only)
+
+This is the canonical list. **Any future route must be one of these
+*and* must pass a manually-delivered test before env vars are set.**
+
+1. **Microsoft Graph app registration with send-only `Mail.Send`** as
+   `office@esrf.net`, *if* the tenant admin can grant `Mail.Send` as
+   a narrowly-scoped application permission (no `Mail.Read`, no
+   `Mail.ReadWrite`, no `full_access_as_app`) and restrict it to the
+   single `office@esrf.net` mailbox via Exchange Online
+   `New-ApplicationAccessPolicy`. If the only consent path available
+   is broad mailbox access — as was the case for the Outlook
+   connector on 2026-04-26 — this route stays **rejected** and must
+   not be enabled.
+2. **Authenticated SMTP submission / mailrelay** for
+   `office@esrf.net`, with **SPF, DKIM, and DMARC alignment**
+   verified end-to-end before any Cloudflare Pages env var is set.
+   The relay must hold the SMTP credential; Cloudflare Pages must not.
+3. **Manual Sheet-based notification fallback** — the redactie
+   monitors the LAB_* tabs directly in the Drive spreadsheet. This is
+   the **default-safe** state today and remains in effect until one
+   of the routes above is approved.
+
+Operators MUST NOT re-attempt the Outlook connector flow as a stop-gap
+if it again surfaces a broad / full-mailbox consent screen. The
+recorded decision is that broad mailbox access is **out of scope** for
+the operational notification channel.
 
 ## Why the Cloudflare backend never sends mail itself
 
