@@ -21,31 +21,40 @@
       "status": "in-validation",
       "path": "/esrf-simulated-site.html",
       "owner": "ESRF Editorial",
-      "purpose": "Gesimuleerde ESRF.net-startpagina die qua header, hero, footer en typografie aansluit op productie (index.html, style.css). Een subtiele staging-bar bovenaan en kleine 'Nieuw in validatie'-pillen markeren alleen de vernieuwde routes (geïntegreerd opgaveformulier, editorial bijdrage). Productie index.html is niet gewijzigd.",
-      "lastUpdated": "2026-04-25",
+      "purpose": "Gesimuleerde ESRF.net-startpagina die qua header, hero, footer en typografie aansluit op productie (index.html, style.css). Een subtiele staging-bar bovenaan en kleine 'Nieuw in validatie'-pillen markeren alleen de vernieuwde routes (bezoekersformulier 'Deel je informatie', praktijkverhalen). Productie index.html is niet gewijzigd.",
+      "lastUpdated": "2026-04-26",
       "visibility": "hidden",
       "primaryCallToAction": "/submit-validation.html",
+      "primaryCallToActionLabel": {
+        "en": "Share your information",
+        "nl": "Deel je informatie"
+      },
       "exitCriteria": [
         "Look & feel volgt productie (mast, hero, foundation, sectors, featured editorial, join, foot); alleen subtiele staging-bar en 'Nieuw in validatie'-pillen.",
-        "CTA's leiden naar submit-validation.html (organisatie / editorial / beide).",
+        "CTA's leiden naar submit-validation.html en gebruiken de brede labels 'Deel je informatie' (NL) / 'Share your information' (EN); smalle wording als 'Submit signal' of 'Meld organisatie aan' wordt in de validatie-CTA's vermeden.",
         "Geen publieke navigatie, footer, sitemap of robots verwijst hierheen.",
         "Redactie keurt copy en NL-teksten goed."
       ]
     },
     {
       "id": "request-listing-validation",
-      "title": "Opgavepad — validatievariant (redirect/landing naar submit-validation)",
+      "title": "Aanmeld- en wijzigpad — validatievariant (landing naar 'Deel je informatie'-formulier)",
       "status": "in-validation",
       "path": "/request-listing-validation.html",
       "owner": "ESRF Editorial",
-      "purpose": "Validatievariant van het klassieke opgavepad. Eenvoudige landingspagina die binnen 6 seconden doorstuurt naar submit-validation.html en handmatige CTA's biedt. De echte productiepagina request-listing.html blijft ongewijzigd.",
-      "lastUpdated": "2026-04-25",
+      "purpose": "Validatievariant van het klassieke opgavepad. Brede bezoekerslanding: leidt naar het ene formulier waar bezoekers een organisatie kunnen aanmelden, gegevens kunnen wijzigen, een vermelding kunnen laten verbergen of een praktijkverhaal kunnen insturen. De echte productiepagina request-listing.html blijft ongewijzigd.",
+      "lastUpdated": "2026-04-26",
       "visibility": "hidden",
       "basedOn": "/request-listing.html",
       "primaryCallToAction": "/submit-validation.html",
+      "primaryCallToActionLabel": {
+        "en": "Share your information",
+        "nl": "Deel je informatie"
+      },
       "exitCriteria": [
-        "Meta refresh + handmatige CTA werken naar submit-validation.html.",
+        "Handmatige CTA werkt naar submit-validation.html en gebruikt de brede labels 'Deel je informatie' (NL) / 'Share your information' (EN).",
         "TEST/VALIDATIE banner zichtbaar; geen wijziging aan productie request-listing.html.",
+        "Header en footer-wording vermijden smalle termen als 'Submit signal' of 'Opgavepad' — bezoekers zien dat dit pad ook voor wijzigen, verbergen of een praktijkverhaal is.",
         "Geen publieke link naar deze pagina."
       ]
     },
@@ -67,14 +76,19 @@
     },
     {
       "id": "integrated-submit-with-editorial",
-      "title": "Geïntegreerde opgave + editorial bijdrage (uitbreiding bestaand opgaveformulier)",
+      "title": "Bezoekersformulier 'Deel je informatie' / 'Share your information' — organisatie aanmelden, wijzigen, verbergen of een praktijkverhaal insturen",
       "status": "in-validation",
       "path": "/submit-validation.html",
       "owner": "ESRF Editorial",
-      "purpose": "Prototype: bestaand atlas-opgaveformulier (request-listing.html) uitgebreid met optionele editorial bijdrage in één geïntegreerd formulier (organisatie / editorial / beide). Toont ook een aanbevolen architectuur voor veilige verwerking via Cloudflare Pages Function + private GitHub issue.",
+      "purpose": "Prototype: één breed bezoekersformulier voor de validatieomgeving waarin een bezoeker kan kiezen tussen een organisatie aanmelden, gegevens van een bestaande vermelding wijzigen, een vermelding laten verbergen of verwijderen, of een praktijkverhaal insturen. Header en submit-knop gebruiken de brede labels 'Deel je informatie' (NL) / 'Share your information' (EN); smalle termen als 'Submit signal' worden vermeden. Toont ook een aanbevolen architectuur voor veilige verwerking via Cloudflare Pages Function + private GitHub issue. Er gebeurt niets automatisch — de redactie kijkt elk verzoek na.",
       "lastUpdated": "2026-04-26",
       "visibility": "hidden",
       "basedOn": "/request-listing.html",
+      "primaryCallToActionLabel": {
+        "en": "Share your information",
+        "nl": "Deel je informatie"
+      },
+      "visitorIntroDutch": "Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen.",
       "labButton": {
         "label": "LAB-opslag (preview-only) — POST /api/intake-test",
         "purpose": "Knop in de previewstap die uitsluitend op preview-hostnames (*.esrf-clean.pages.dev / localhost) zichtbaar is en de payload met lab_test:true en het verplichte 'ESRF Lab Test'-prefix op contact.organisation én contact.name naar /api/intake-test stuurt. Notificatie is op deze route altijd uit; Directory_Master wordt nooit aangeraakt.",
@@ -86,8 +100,11 @@
         ]
       },
       "exitCriteria": [
-        "Modus-keuze (organisatie / editorial / beide) toont en valideert de juiste velden, incl. minimale lengte 20 op de korte editorial samenvatting.",
+        "Modus-keuze (organisatie / editorial / beide / wijzigen / verbergen-of-verwijderen) toont en valideert de juiste velden, incl. minimale lengte 20 op de korte editorial samenvatting.",
         "Lokale preview rendert correct als JSON, tekst, en kopieerbare samenvatting; niets wordt verzonden.",
+        "Header, hero, submit-knop en CTA's gebruiken het brede label 'Deel je informatie' (NL) / 'Share your information' (EN); smalle wording als 'Submit signal' of 'Genereer testpreview' wordt vermeden in de zichtbare bezoekers-CTA's.",
+        "De Nederlandstalige uitleg boven het formulier zegt expliciet: 'Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen.'",
+        "Veiligheidskopie blijft staan: er verandert niets automatisch en Directory_Master wordt nooit aangeraakt.",
         "Architectuurblok (Pages Function + Turnstile + private GitHub issue) is duidelijk en beoordeeld door redactie.",
         "Wouter / redactie keurt de geïntegreerde UX en NL-teksten goed.",
         "LAB-opslagknop is alleen zichtbaar op preview-hostnames; productie-bezoekers zien hem niet en de backend zou een eventuele directe POST hoe dan ook met 404 weigeren.",

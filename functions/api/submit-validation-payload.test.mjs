@@ -302,6 +302,149 @@ check('submit-validation.html marks ed_summary as min-length 20', () => {
   assert.ok(/summary\.length\s*<\s*20/.test(html), 'min-length-20 guard missing for ed_summary');
 });
 
+// ─── Visitor-route naming pass (validation branch) ──────────────────────
+// The unified validation visitor form must use the broad label
+// "Deel je informatie" (NL) / "Share your information" (EN) — not the
+// narrow "Submit signal" / "Genereer testpreview" / "Meld organisatie aan"
+// wording. The Dutch UI must include the explainer covering aanmelden,
+// wijzigen, verbergen, en praktijkverhaal. Safety copy stating nothing
+// changes automatically must remain.
+
+check('submit-validation.html: <title> uses broad label "Deel je informatie"', () => {
+  assert.match(html, /<title>\s*Deel je informatie[^<]*<\/title>/);
+});
+check('submit-validation.html: hero h1 leads with "Deel je"', () => {
+  assert.match(html, /<h1\s+class="phero-title">\s*Deel je\s*<br>\s*<i>informatie<\/i>\s*\.\s*<\/h1>/);
+});
+check('submit-validation.html: hero deck explains aanmelden/wijzigen/verbergen/praktijkverhaal', () => {
+  assert.ok(html.includes('Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen.'),
+    'expected the verbatim Dutch explainer in submit-validation.html hero deck');
+});
+check('submit-validation.html: submit button label is "Deel je informatie"', () => {
+  assert.match(html, /id="sv-submit-btn"[^>]*>[\s\S]*?Deel je informatie[\s\S]*?<\/button>/,
+    'expected sv-submit-btn label to be "Deel je informatie"');
+});
+check('submit-validation.html: submit button carries en/nl data labels', () => {
+  assert.match(html, /id="sv-submit-btn"[^>]*data-en-label="Share your information"/);
+  assert.match(html, /id="sv-submit-btn"[^>]*data-nl-label="Deel je informatie"/);
+});
+check('submit-validation.html: narrow CTA wording "Genereer testpreview" no longer used as submit-button label', () => {
+  // Allow the phrase to survive in scripts/comments if any, but make
+  // sure it is not the visible button label.
+  assert.ok(!/id="sv-submit-btn"[^>]*>[\s\S]*?Genereer testpreview/.test(html),
+    'old "Genereer testpreview" submit-button label must be removed');
+});
+check('submit-validation.html: kept safety copy that nothing is sent / changes automatically', () => {
+  assert.ok(html.includes('niets wordt verzonden in deze validatieomgeving'),
+    'expected explicit "niets wordt verzonden" safety copy near submit button');
+  assert.ok(html.includes('er verandert niets automatisch') || html.includes('niets automatisch'),
+    'expected safety copy stating nothing changes automatically');
+  assert.ok(html.includes('Directory_Master'),
+    'expected Directory_Master safety reference to remain on the page');
+});
+check('submit-validation.html: validation footer surfaces broad "Deel je informatie" entry', () => {
+  assert.match(html, /<a[^>]*href="submit-validation\.html"[^>]*>\s*Deel je informatie \(formulier\)/,
+    'expected validation footer entry "Deel je informatie (formulier)"');
+});
+check('submit-validation.html: validation footer drops narrow "Geïntegreerd opgaveformulier" wording', () => {
+  // The footer column for "Validatie" must not use the older narrow phrase.
+  // Check the footer block specifically.
+  const footMatch = html.match(/<footer\s+class="foot"[\s\S]*?<\/footer>/);
+  assert.ok(footMatch, 'expected a public footer block on submit-validation.html');
+  assert.ok(!/Geïntegreerd opgaveformulier/.test(footMatch[0]),
+    'narrow "Geïntegreerd opgaveformulier" wording must be removed from validation footer');
+});
+
+// ─── request-listing-validation.html naming pass ────────────────────────
+const rlvPath = path.resolve(here, '../../request-listing-validation.html');
+const rlv = fs.readFileSync(rlvPath, 'utf8');
+
+check('request-listing-validation.html: <title> uses broad label "Deel je informatie"', () => {
+  assert.match(rlv, /<title>\s*Deel je informatie[^<]*<\/title>/);
+});
+check('request-listing-validation.html: mast CTA uses "Deel je informatie"', () => {
+  assert.match(rlv, /class="mast-cta"[^>]*>\s*Deel je informatie\s*<\/a>/);
+});
+check('request-listing-validation.html: hero deck contains the verbatim Dutch explainer', () => {
+  assert.ok(rlv.includes('Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen.'),
+    'expected the Dutch explainer on request-listing-validation.html');
+});
+check('request-listing-validation.html: primary CTA reads "Deel je informatie →"', () => {
+  assert.match(rlv, /<a[^>]*class="btn primary"[^>]*href="submit-validation\.html"[^>]*>\s*Deel je informatie →\s*<\/a>/,
+    'expected primary CTA "Deel je informatie →" on request-listing-validation.html');
+  assert.ok(!/Naar geïntegreerd opgaveformulier/.test(rlv),
+    'old narrow "Naar geïntegreerd opgaveformulier" CTA must be removed');
+});
+check('request-listing-validation.html: footer Validatie list uses broad label', () => {
+  assert.match(rlv, /<a[^>]*href="submit-validation\.html"[^>]*>\s*Deel je informatie \(formulier\)\s*<\/a>/);
+  assert.ok(!/<a[^>]*href="submit-validation\.html"[^>]*>\s*Geïntegreerd opgaveformulier\s*<\/a>/.test(rlv),
+    'old narrow "Geïntegreerd opgaveformulier" footer entry must be removed from request-listing-validation.html');
+});
+check('request-listing-validation.html: noindex/nofollow still present', () => {
+  assert.match(rlv, /<meta\s+name="robots"\s+content="noindex,nofollow"/i);
+  assert.match(rlv, /<meta\s+name="googlebot"\s+content="noindex,nofollow"/i);
+});
+
+// ─── esrf-simulated-site.html naming pass ───────────────────────────────
+const simPath = path.resolve(here, '../../esrf-simulated-site.html');
+const sim = fs.readFileSync(simPath, 'utf8');
+
+check('esrf-simulated-site.html: mast CTA uses "Deel je informatie"', () => {
+  assert.match(sim, /class="mast-cta"[^>]*>\s*Deel je informatie\s*<\/a>/);
+  assert.ok(!/class="mast-cta"[^>]*>\s*Meld organisatie aan\s*<\/a>/.test(sim),
+    'old narrow "Meld organisatie aan" mast CTA must be removed from esrf-simulated-site.html');
+});
+check('esrf-simulated-site.html: join section CTA uses "Deel je informatie →"', () => {
+  assert.match(sim, /<a[^>]*class="btn on-accent"[\s\S]*?>\s*Deel je informatie →\s*<\/a>/,
+    'expected join-section CTA "Deel je informatie →" on esrf-simulated-site.html');
+  assert.ok(!/Meld je organisatie aan →/.test(sim),
+    'old narrow "Meld je organisatie aan →" CTA must be removed from esrf-simulated-site.html');
+});
+check('esrf-simulated-site.html: editorial CTA reframed as "Deel je praktijkverhaal →"', () => {
+  assert.match(sim, /<a[^>]*class="btn primary"[^>]*href="submit-validation\.html#mode-editorial"[^>]*>\s*Deel je praktijkverhaal →\s*<\/a>/,
+    'expected editorial CTA "Deel je praktijkverhaal →"');
+  assert.ok(!/Stuur een bijdrage in →/.test(sim),
+    'old "Stuur een bijdrage in →" CTA must be removed from esrf-simulated-site.html');
+});
+check('esrf-simulated-site.html: validation footer surfaces broad "Deel je informatie" entry', () => {
+  assert.match(sim, /<a[^>]*href="submit-validation\.html"[^>]*>\s*Deel je informatie \(formulier\)/);
+  assert.ok(!/Geïntegreerd opgaveformulier/.test(sim),
+    'old narrow "Geïntegreerd opgaveformulier" footer entry must be removed from esrf-simulated-site.html');
+});
+
+// ─── validation-lab.json naming pass ────────────────────────────────────
+const manifestPath = path.resolve(here, '../../validation-lab.json');
+const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+
+function moduleById(id){
+  return (manifest.modules || []).find(m => m.id === id) || null;
+}
+
+check('validation-lab.json: integrated-submit-with-editorial declares broad CTA labels', () => {
+  const mod = moduleById('integrated-submit-with-editorial');
+  assert.ok(mod, 'expected integrated-submit-with-editorial module');
+  assert.ok(mod.primaryCallToActionLabel && mod.primaryCallToActionLabel.en === 'Share your information',
+    'expected primaryCallToActionLabel.en === "Share your information"');
+  assert.equal(mod.primaryCallToActionLabel.nl, 'Deel je informatie',
+    'expected primaryCallToActionLabel.nl === "Deel je informatie"');
+  assert.equal(mod.visitorIntroDutch,
+    'Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen.',
+    'expected verbatim Dutch visitor intro on integrated-submit-with-editorial');
+});
+check('validation-lab.json: esrf-simulated-site declares broad CTA labels', () => {
+  const mod = moduleById('esrf-simulated-site');
+  assert.ok(mod, 'expected esrf-simulated-site module');
+  assert.ok(mod.primaryCallToActionLabel && mod.primaryCallToActionLabel.nl === 'Deel je informatie');
+  assert.equal(mod.primaryCallToActionLabel.en, 'Share your information');
+});
+check('validation-lab.json: request-listing-validation renamed away from "Opgavepad"', () => {
+  const mod = moduleById('request-listing-validation');
+  assert.ok(mod, 'expected request-listing-validation module');
+  assert.ok(!/^Opgavepad —/.test(mod.title),
+    'expected request-listing-validation.title to no longer lead with "Opgavepad —"');
+  assert.ok(mod.primaryCallToActionLabel && mod.primaryCallToActionLabel.nl === 'Deel je informatie');
+});
+
 if (failures) {
   console.log('\n' + failures + ' test(s) FAILED');
   process.exit(1);

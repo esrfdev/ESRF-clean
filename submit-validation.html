@@ -6,8 +6,10 @@
 <meta name="robots" content="noindex,nofollow" />
 <meta name="googlebot" content="noindex,nofollow" />
 <meta name="referrer" content="no-referrer" />
-<title>Meld je organisatie aan — ESRF.net (validatie)</title>
-<meta name="description" content="Verborgen validatieprototype: bestaand opgaveformulier uitgebreid met optionele editorial bijdrage. Niet voor publiek gebruik. noindex/nofollow." />
+<title>Deel je informatie — ESRF.net (validatie)</title>
+<meta name="description" content="Verborgen validatieprototype: één formulier voor bezoekers om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen. Niet voor publiek gebruik. noindex/nofollow." />
+<meta name="x-validation-en-label" content="Share your information" />
+<meta name="x-validation-nl-label" content="Deel je informatie" />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -173,10 +175,10 @@
 
 <section class="phero">
   <div class="phero-inner">
-    <div class="kicker">§ Gemeenschap · Opgave <span class="new-pill">Nieuw in validatie</span></div>
-    <h1 class="phero-title">Opgave <i>én</i><br>praktijkverhaal.</h1>
-    <p class="phero-deck">
-      Eén formulier voor twee dingen die nu nog los staan: je organisatie aanmelden of bijwerken in de ESRF-atlas, én — als je dat wil — een korte editorial bijdrage insturen over leiderschap in samenwerking, geleerde lessen, of mensen en teams die waardering verdienen. Je kiest hieronder wat van toepassing is.
+    <div class="kicker">§ Gemeenschap · Deel je informatie <span class="new-pill">Nieuw in validatie</span></div>
+    <h1 class="phero-title">Deel je<br><i>informatie</i>.</h1>
+    <p class="phero-deck" id="sv-intro-deck">
+      Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen. Je kiest hieronder zelf wat past. Er gebeurt niets automatisch — de redactie kijkt elk verzoek na voordat er iets wordt aangepast.
     </p>
   </div>
 </section>
@@ -552,12 +554,14 @@
       </div>
 
       <div>
-        <button type="submit" class="form-submit" id="sv-submit-btn">
-          Genereer testpreview
+        <button type="submit" class="form-submit" id="sv-submit-btn"
+          data-en-label="Share your information"
+          data-nl-label="Deel je informatie">
+          Deel je informatie
         </button>
         <p style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;color:var(--ink-dim);text-transform:uppercase">
           <span class="new-pill new-pill-soft">Alleen testpreview</span>
-          niets wordt verzonden in deze validatieomgeving
+          niets wordt verzonden in deze validatieomgeving — er verandert niets automatisch
         </p>
       </div>
     </fieldset>
@@ -673,7 +677,8 @@
       <h4>Validatie</h4>
       <ul>
         <li><a href="esrf-simulated-site.html">Simulatie-home</a></li>
-        <li><a href="request-listing-validation.html">Opgavepad (validatie)</a></li>
+        <li><a href="submit-validation.html">Deel je informatie (formulier)</a></li>
+        <li><a href="request-listing-validation.html">Aanmeld- en wijzigpad (validatie)</a></li>
         <li><a href="validation-lab.html">Validation Lab</a></li>
       </ul>
     </div>
@@ -968,11 +973,11 @@
     modeOptions.forEach(opt => {
       opt.classList.toggle('is-selected', opt.dataset.mode === m);
     });
-    if (m === 'editorial') submitBtn.textContent = 'Genereer testpreview van artikel-inzending';
-    else if (m === 'both') submitBtn.textContent = 'Genereer testpreview van aanmelding + artikel';
-    else if (m === 'change_request') submitBtn.textContent = 'Genereer testpreview van wijzigingsverzoek';
-    else if (m === 'hide_delete') submitBtn.textContent = 'Genereer testpreview van verberg-/verwijderverzoek';
-    else submitBtn.textContent = 'Genereer testpreview van organisatie-aanmelding';
+    if (m === 'editorial') submitBtn.textContent = 'Deel je praktijkverhaal';
+    else if (m === 'both') submitBtn.textContent = 'Deel je informatie en praktijkverhaal';
+    else if (m === 'change_request') submitBtn.textContent = 'Deel je wijzigingsverzoek';
+    else if (m === 'hide_delete') submitBtn.textContent = 'Deel je verberg- of verwijderverzoek';
+    else submitBtn.textContent = 'Deel je informatie';
   }
   modeRadios.forEach(r => r.addEventListener('change', applyMode));
 
