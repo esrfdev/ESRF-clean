@@ -5,10 +5,26 @@ form (`submit-validation.html`). Lives on the
 `test/regional-editorial-contributor-intake` branch — **never** production.
 
 > **Security posture (2026-04-26):** *security-review-ready,
-> production-blocked.*  Production activation is held until an
-> `office@esrf.net`-owned Apps Script webhook and the Cloudflare Pages
-> preview secrets are configured. See §0 below for the full security
-> matrix.
+> production-blocked. First lab-write activation is
+> SPREADSHEET-ONLY; mail notification is deferred to a separate,
+> later Apps Script deployment with its own OAuth consent
+> (`script.send_mail`).* Production activation is held until an
+> `office@esrf.net`-owned **spreadsheet-only** Apps Script webhook
+> and the Cloudflare Pages preview secrets are configured. See §0
+> below for the full security matrix and
+> [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md)
+> for the deferred mail route.
+>
+> **Why the split:** during an OAuth flow under `office@esrf.net`,
+> the consent screen surfaced the unwanted scope
+> `https://www.googleapis.com/auth/script.send_mail` because the
+> previous Apps Script reference contained `MailApp.sendEmail`. The
+> authorization was correctly stopped. The first-phase Apps Script
+> reference (`docs/apps-script-intake-webhook.gs`) is now
+> spreadsheet-only — no `MailApp` / `GmailApp` / `script.send_mail`
+> references — and pairs with `docs/appsscript.json` whose
+> `oauthScopes` is pinned to
+> `https://www.googleapis.com/auth/spreadsheets`.
 
 ## 0. Security controls (security-review-ready)
 
@@ -28,6 +44,8 @@ form (`submit-validation.html`). Lives on the
 | No secrets in repo / response / logs | ✓ enforced | All secrets read from `env`. The shared-secret value is mirrored only on the wire (see above) and never logged. Upstream errors are flattened to `Sheet upstream <code>` / `Notify upstream <code>` / `GitHub upstream <code>` so script-side error bodies never reach the client. |
 | CORS handling | ✓ enforced | `onRequestOptions` answers preflight only for allowed origins. `Vary: origin` set on every response. |
 | Default-safe / dry-run | ✓ enforced | Without `INTAKE_SHEET_WEBHOOK_URL` the backend stays in `sheet_dry_run: true`; without `INTAKE_NOTIFY_WEBHOOK` notification stays in `dry_run_not_configured`. The Cloudflare backend never sends mail itself. |
+| First-phase Apps Script is spreadsheet-only (no MailApp / GmailApp / script.send_mail) | ✓ enforced | `docs/apps-script-intake-webhook.gs` contains no mail-API references; `docs/appsscript.json` pins `oauthScopes` to `https://www.googleapis.com/auth/spreadsheets`. Tests in `functions/api/intake.test.mjs` (`apps-script reference contains no MailApp/GmailApp/sendEmail/send_mail`, `apps-script reference does not require NOTIFY_TO`, `appsscript.json oauthScopes is spreadsheets-only`) enforce this on every run. |
+| Mail notification disabled in first lab-write activation | ✓ enforced | First-phase Apps Script returns `mail_notification_status: "pending_separate_deployment"`. Cloudflare backend keeps `INTAKE_NOTIFY_WEBHOOK` / `INTAKE_NOTIFY_TO` unset, so `notification_status` stays `dry_run_not_configured`. Activating mail requires the deferred separate Apps Script deployment in `docs/apps-script-mail-notification.future.md`. |
 | Generic error messages | ✓ enforced | 4xx/5xx responses contain only `{ ok: false, error: "<short>" }`; no stack trace, no env-var name, no upstream body. |
 | Official identity | ✓ enforced | `OFFICE_IDENTITY.official_recipient = "office@esrf.net"`. Surfaced in every successful response under `storage_architecture.official_identity`. The legacy `ai.agent.wm@gmail.com` is listed under `non_production_identities` and hard-blocked by the Apps Script's `FORBIDDEN_NOTIFY_RECIPIENTS` deny-list. |
 
@@ -50,15 +68,25 @@ message is generic, not stack/secrets`.
 
 Production cannot be flipped on until **all** of these are resolved:
 
-- [ ] Apps Script project created/owned under `office@esrf.net` (so
-  MailApp delivers from an ESRF Workspace identity, never a personal
-  Gmail account).
+- [ ] **First-phase spreadsheet-only Apps Script project** created
+  / owned under `office@esrf.net`. OAuth consent must surface
+  **only** `https://www.googleapis.com/auth/spreadsheets`. If the
+  consent screen offers `script.send_mail` or any `gmail.*` scope,
+  STOP and re-check the source against
+  [`apps-script-intake-webhook.gs`](./apps-script-intake-webhook.gs).
 - [ ] Cloudflare Pages **preview** secrets configured:
-  `INTAKE_SHEET_WEBHOOK_URL`, `SHEETS_WEBHOOK_SECRET`. Optional but
-  recommended: `INTAKE_NOTIFY_WEBHOOK`, `INTAKE_NOTIFY_TO`,
-  `TURNSTILE_SECRET_KEY`. (Production env stays unset until sign-off.)
+  `INTAKE_SHEET_WEBHOOK_URL`, `SHEETS_WEBHOOK_SECRET`. **Leave
+  `INTAKE_NOTIFY_WEBHOOK` and `INTAKE_NOTIFY_TO` unset** during the
+  spreadsheet-only first phase. Optional: `TURNSTILE_SECRET_KEY`.
+  (Production env stays unset until sign-off.)
 - [ ] Activation gate in `intake-lab-test-report-2026-04-25.md` §6b
   ticked off by the redactie.
+- [ ] **Mail notification deferred** — handled by a separate Apps
+  Script deployment with its own OAuth consent
+  (`script.send_mail`), as per
+  [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md).
+  Activating that deployment is a **separate** gate, not part of
+  the first lab-write activation.
 - [ ] Optional: Workers KV binding for rate-limiting OR Cloudflare WAF
   rate-limit rule on `/api/intake`.
 
@@ -153,9 +181,9 @@ leave the legacy names unset.
 | `SHEET_ID` | **canonical, optional** | Spreadsheet id to write to. Optional: the script also resolves it from the inbound payload's `spreadsheet_id` and from the constant in the source. |
 | `SHARED_SECRET` | legacy alias (fallback) | Legacy alias for `SHEETS_WEBHOOK_SECRET`. Read only if the canonical name is unset. Do not set on new deployments. |
 | `SPREADSHEET_ID` | legacy alias (fallback) | Legacy alias for `SHEET_ID`. Read only if the canonical name is unset. Do not set on new deployments. |
-| `NOTIFY_TO` | optional, **unset by default** | Operational ESRF inbox (e.g. `office@esrf.net`). Leave unset to disable mail notifications. When set, the Apps Script sends a minimal, PII-free `MailApp.sendEmail()` after each successful sheet write. This is **not** a Gmail-as-ESRF route — MailApp delivers from the script-owner Workspace identity. |
-| `NOTIFY_FROM_NAME` | optional | Display name on the `From:` line (default `ESRF intake bot`). |
-| `NOTIFY_SUBJECT_PREFIX` | optional | Subject prefix (default `[ESRF intake]`). |
+| `NOTIFY_TO` | **NOT used by first-phase webhook** | The first-phase spreadsheet-only Apps Script does not read this property at all (it contains no `MailApp` calls). Mail notification is handled by a SEPARATE later deployment — see [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md). If the property is left over from a previous attempt, clearing it has no effect on this script; clearing it is recommended for hygiene. |
+| `NOTIFY_FROM_NAME` | **NOT used by first-phase webhook** | Same as above. Belongs to the deferred mail-notification Apps Script project. |
+| `NOTIFY_SUBJECT_PREFIX` | **NOT used by first-phase webhook** | Same as above. Belongs to the deferred mail-notification Apps Script project. |
 
 `Directory_Master` is **never** auto-written. The Apps Script refuses
 any payload whose `target_prefix` is not `LAB_` or whose row map

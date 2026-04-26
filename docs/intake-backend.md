@@ -3,18 +3,34 @@
 Validation-environment backend for the integrated organisation + editorial
 intake form (`submit-validation.html`). Runs on Cloudflare Pages Functions.
 
-**Status (2026-04-26):** *Security review ready, production blocked.*
+**Status (2026-04-26):** *Security review ready, production blocked.
+First lab-write activation is **spreadsheet-only**; mail
+notification is **deferred** to a separate later deployment.*
+
 The lab posture passes the security gates documented below
 (`functions/api/intake.test.mjs` covers Directory_Master refusal,
 shared-secret handling, dry-run default, minimal notification payload,
 office@esrf.net official-identity surface, POST-only enforcement, body
-size cap, required consent). Production activation is **blocked** until:
+size cap, required consent, and — new in this phase — the assertion
+that the spreadsheet-only Apps Script reference contains no
+`MailApp`/`GmailApp`/`script.send_mail` references and that
+`NOTIFY_TO` is **not** required for the first lab activation).
 
-1. The Apps Script webhook is deployed under an `office@esrf.net`-owned
-   Workspace project (so `MailApp` delivers from an ESRF identity).
+Production activation is **blocked** until:
+
+1. The first-phase spreadsheet-only Apps Script webhook is deployed
+   under an `office@esrf.net`-owned Workspace project. This first
+   webhook requests **only** the
+   `https://www.googleapis.com/auth/spreadsheets` OAuth scope — no
+   `script.send_mail`, no `gmail.*`. Mail delivery is handled by a
+   separate, later Apps Script project (see
+   [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md)).
 2. Cloudflare Pages **preview** secrets (`INTAKE_SHEET_WEBHOOK_URL`,
-   `SHEETS_WEBHOOK_SECRET`, optionally `INTAKE_NOTIFY_WEBHOOK` /
-   `INTAKE_NOTIFY_TO`) are configured by an operator.
+   `SHEETS_WEBHOOK_SECRET`) are configured by an operator. The mail
+   env vars (`INTAKE_NOTIFY_WEBHOOK`, `INTAKE_NOTIFY_TO`) stay
+   **unset** during the spreadsheet-only first phase; notification
+   remains pending/disabled and is surfaced in the response as
+   `dry_run_not_configured` (with the would-be message preview).
 3. The redactie has signed off on the dry-run notification copy and
    approved the activation gate in
    `docs/intake-lab-test-report-2026-04-25.md` §6b.
@@ -53,12 +69,20 @@ Per submission, three records exist (each with its own dry-run flag):
 | **Evidence / workflow** | Private GitHub issue (optional) | Full structured intake, including editorial body. Provides an immutable audit trail. The sheet row links to the issue. |
 | **Notification** | ESRF mailnotificatie / mailrelay-webhook (optional) | Minimal operational ping only — no PII, no editorial text. Includes `sheet_row_id`, `issue_url` and an optional `notify_to_recipient` (default: `office@esrf.net`) so the redactie can jump to the SSoT. **Not** a Gmail-specific integration — ESRF.net does not run on Gmail. |
 
-E-mail is **never** used as a substitute for the spreadsheet. When activated
-(via `INTAKE_NOTIFY_WEBHOOK` + `INTAKE_NOTIFY_TO`, or via the Apps Script's
-`NOTIFY_TO` Script Property), it is at most a minimal operational ping that
-points back to the sheet/issue. The Cloudflare Pages Function never sends
-mail directly; a generic relay (Apps Script `MailApp`, Pipedream,
-internal SMTP relay, …) performs the actual send.
+E-mail is **never** used as a substitute for the spreadsheet. **For the
+first lab-write activation, mail notification is intentionally
+DISABLED / PENDING.** The first-phase Apps Script webhook is
+spreadsheet-only and contains no `MailApp` calls; its `NOTIFY_TO`
+Script Property is **not** set (and is ignored by this script even
+if left over from a previous attempt). The Cloudflare Pages Function
+also leaves `INTAKE_NOTIFY_WEBHOOK` and `INTAKE_NOTIFY_TO` unset, so
+the response carries `notification_status: "dry_run_not_configured"`
+and exposes the would-be minimal payload for inspection. When the
+deferred mail route is later activated (via
+[`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md)
+or via an external mailrelay/webhook), it remains at most a minimal
+operational ping that points back to the sheet/issue. The
+Cloudflare Pages Function never sends mail directly.
 
 ### Why a webhook (Apps Script) and not direct Sheets API?
 

@@ -771,6 +771,145 @@ await asyncCheck('Validation error message is generic, not stack/secrets', async
   assert.ok(!/SHEETS_WEBHOOK_SECRET|GITHUB_TOKEN/.test(t), 'response leaked an env var name');
 });
 
+// ─── First-phase Apps Script reference is SPREADSHEET-ONLY ─────────────
+// The first lab-write activation must not request any mail-sending
+// OAuth scope. These tests fail if a MailApp/GmailApp/script.send_mail
+// reference creeps back into the Apps Script source, or if the
+// manifest's oauthScopes is no longer pinned to spreadsheets-only,
+// or if the source starts requiring a NOTIFY_TO Script Property.
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
+
+const __thisFile = fileURLToPath(import.meta.url);
+const __thisDir = dirname(__thisFile);
+const REPO_ROOT = resolve(__thisDir, '..', '..');
+const APPS_SCRIPT_PATH = resolve(REPO_ROOT, 'docs', 'apps-script-intake-webhook.gs');
+const APPS_SCRIPT_MANIFEST_PATH = resolve(REPO_ROOT, 'docs', 'appsscript.json');
+const FUTURE_MAIL_DOC_PATH = resolve(REPO_ROOT, 'docs', 'apps-script-mail-notification.future.md');
+
+const APPS_SCRIPT_SRC = readFileSync(APPS_SCRIPT_PATH, 'utf8');
+
+// Strip block + line comments so the lexical assertions only inspect
+// executable code. The script is plain Apps Script (ES5-ish), so
+// /* … */ and // … are sufficient.
+function stripComments(src) {
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1');
+}
+const APPS_SCRIPT_CODE = stripComments(APPS_SCRIPT_SRC);
+
+check('apps-script reference contains no MailApp call in executable code', () => {
+  assert.ok(
+    !/\bMailApp\b/.test(APPS_SCRIPT_CODE),
+    'docs/apps-script-intake-webhook.gs must not reference MailApp in executable code (first-phase webhook is spreadsheet-only)'
+  );
+});
+check('apps-script reference contains no GmailApp call', () => {
+  assert.ok(
+    !/\bGmailApp\b/.test(APPS_SCRIPT_CODE),
+    'docs/apps-script-intake-webhook.gs must not reference GmailApp (first-phase webhook is spreadsheet-only)'
+  );
+});
+check('apps-script reference does not call sendEmail / send_mail', () => {
+  assert.ok(
+    !/\bsendEmail\s*\(/.test(APPS_SCRIPT_CODE),
+    'docs/apps-script-intake-webhook.gs must not call sendEmail (first-phase webhook is spreadsheet-only)'
+  );
+  assert.ok(
+    !/\bsend_mail\b/.test(APPS_SCRIPT_CODE),
+    'docs/apps-script-intake-webhook.gs must not reference script.send_mail in executable code'
+  );
+});
+check('apps-script reference does not require NOTIFY_TO Script Property', () => {
+  // NOTIFY_TO must not be referenced in executable code at all in the
+  // spreadsheet-only first phase. (Comment-only mentions are allowed
+  // and were already stripped before this assertion.)
+  assert.ok(
+    !/NOTIFY_TO/.test(APPS_SCRIPT_CODE),
+    'docs/apps-script-intake-webhook.gs must not read NOTIFY_TO in the spreadsheet-only first phase'
+  );
+  assert.ok(
+    !/NOTIFY_FROM_NAME/.test(APPS_SCRIPT_CODE),
+    'docs/apps-script-intake-webhook.gs must not read NOTIFY_FROM_NAME in the spreadsheet-only first phase'
+  );
+  assert.ok(
+    !/NOTIFY_SUBJECT_PREFIX/.test(APPS_SCRIPT_CODE),
+    'docs/apps-script-intake-webhook.gs must not read NOTIFY_SUBJECT_PREFIX in the spreadsheet-only first phase'
+  );
+});
+check('apps-script reference reports notification as pending separate deployment', () => {
+  // The first-phase doPost() returns mail_notification_status set to a
+  // sentinel that makes the deferred state explicit.
+  assert.ok(
+    /pending_separate_deployment/.test(APPS_SCRIPT_SRC),
+    'docs/apps-script-intake-webhook.gs must surface mail_notification_status: "pending_separate_deployment"'
+  );
+});
+
+const APPS_SCRIPT_MANIFEST = JSON.parse(readFileSync(APPS_SCRIPT_MANIFEST_PATH, 'utf8'));
+check('appsscript.json oauthScopes is spreadsheets-only', () => {
+  const scopes = APPS_SCRIPT_MANIFEST.oauthScopes;
+  assert.ok(Array.isArray(scopes), 'appsscript.json must declare an oauthScopes array');
+  assert.ok(scopes.length >= 1, 'oauthScopes must list at least one scope');
+  for (const s of scopes) {
+    assert.ok(
+      /^https:\/\/www\.googleapis\.com\/auth\/spreadsheets(\.currentonly)?$/.test(s),
+      'oauthScopes contains non-spreadsheets scope: ' + s
+    );
+  }
+  assert.ok(
+    !scopes.some((s) => /script\.send_mail|gmail/.test(s)),
+    'first-phase appsscript.json must not declare any mail scope'
+  );
+});
+check('deferred mail-notification route is documented separately', () => {
+  // Spec gate: the deferred route MUST exist as documentation only;
+  // there must be no .gs source file for it in this branch.
+  const futureDoc = readFileSync(FUTURE_MAIL_DOC_PATH, 'utf8');
+  assert.ok(
+    /script\.send_mail/.test(futureDoc),
+    'docs/apps-script-mail-notification.future.md must call out the script.send_mail scope as deferred'
+  );
+  assert.ok(
+    /separate Apps Script (project|deployment)/i.test(futureDoc),
+    'docs/apps-script-mail-notification.future.md must state the mail route lives in a separate Apps Script project/deployment'
+  );
+});
+check('first-phase notification remains disabled / pending in the backend', () => {
+  // Without INTAKE_NOTIFY_TO / INTAKE_NOTIFY_WEBHOOK configured, the
+  // Cloudflare backend keeps the notification disabled / pending —
+  // this is the "notification disabled / pending" contract for the
+  // first lab-write activation. We exercise the same builder used
+  // in production (buildNotificationMessage) with no notify_to in
+  // ctx, mirroring the unset-env-var state.
+  const payload = payloadOf({
+    intake_mode: 'org',
+    contact: goodContact,
+    organisation_listing: goodOrg,
+    privacy: goodPrivacy,
+  });
+  const msg = buildNotificationMessage(payload, {
+    submission_id: payload.meta.submission_id,
+    request_id: payload.meta.request_id,
+    workflow_status: 'dry_run',
+    next_required_action: 'first-phase: configure SHEETS_WEBHOOK only',
+    related_sheet: 'LAB_Intake_Submissions',
+    // notify_to deliberately omitted — INTAKE_NOTIFY_TO is unset in
+    // the first-phase activation.
+  });
+  // notify_to_recipient must NOT appear when the operator has not
+  // explicitly opted in to a recipient.
+  assert.equal(msg.notify_to_recipient, undefined);
+  // The minimal message must still pass the notification-safety
+  // gate (no PII / editorial body).
+  assertNotificationSafe(msg);
+  // Channel name is preserved so future deferred mail-route
+  // deployments wire onto the same contract.
+  assert.equal(msg.notification_channel, 'esrf_mail_relay_or_webhook');
+});
+
 // ─── summary ─────────────────────────────────────────────────────────────
 if (failures) {
   console.log('\n' + failures + ' test(s) FAILED');
