@@ -49,7 +49,9 @@
   background:var(--cream,#F8F2E6);border:1px solid var(--ink,#0F1419);
   display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-.esrf-nav-avatar svg{width:22px;height:22px;display:block;color:var(--accent,#D24B1F)}
+/* Avatar uses ink as currentColor so the north lobe reads dark;
+   the south lobe is filled with --accent inside the SVG. */
+.esrf-nav-avatar svg{width:22px;height:22px;display:block;color:var(--ink,#0F1419)}
 .esrf-nav-title{
   font-family:'Archivo',system-ui,sans-serif;font-weight:800;
   font-size:15px;letter-spacing:-0.02em;line-height:1.1;flex:1;min-width:0;

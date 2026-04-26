@@ -10,28 +10,43 @@
   window.__esrfNavigatorMounted = true;
 
   // Inline SVG: ESRF compass mark.
-  // A slim compass rose: single hairline ring, four-point primary star
-  // (filled N, open S), four shorter intercardinal points, small hub.
-  // No cardinal node dots, no double ring — refined and balanced at
-  // 22px (panel avatar) and 28px (launcher) using currentColor.
+  // A distinctive split-tone compass rose:
+  //   • outer hairline ring with four cardinal tick marks (N/E/S/W)
+  //   • elongated north–south needle: ink-filled north lobe (currentColor),
+  //     accent-filled south lobe (var(--accent))
+  //   • short, hairline east/west and intercardinal points kept subordinate
+  //   • inner pivot ring + filled hub
+  // Reads clearly at 22px (panel avatar) and 28px (launcher).
   var COMPASS_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
       'stroke-width="1" stroke-linecap="round" stroke-linejoin="round" ' +
       'aria-hidden="true" focusable="false">' +
-      // single thin ring
-      '<circle cx="12" cy="12" r="9.25"/>' +
-      // intercardinal (NE, SE, SW, NW) — short hairline points
-      '<polyline points="8.6,8.6 12,12 15.4,8.6"/>' +
-      '<polyline points="15.4,15.4 12,12 8.6,15.4"/>' +
-      // primary star: north half filled
-      '<polygon points="12,3.4 13.7,12 12,12 10.3,12" fill="currentColor" stroke="none"/>' +
-      // primary star: south half open hairline
-      '<polygon points="12,20.6 10.3,12 13.7,12"/>' +
-      // east/west open hairline points
-      '<polygon points="20.6,12 12,10.3 12,13.7"/>' +
-      '<polygon points="3.4,12 12,13.7 12,10.3"/>' +
-      // hub
-      '<circle cx="12" cy="12" r="0.85" fill="currentColor" stroke="none"/>' +
+      // outer hairline ring
+      '<circle cx="12" cy="12" r="9.5"/>' +
+      // cardinal tick marks on the ring (N, E, S, W)
+      '<line x1="12" y1="2"  x2="12" y2="3.4"/>' +
+      '<line x1="22" y1="12" x2="20.6" y2="12"/>' +
+      '<line x1="12" y1="22" x2="12" y2="20.6"/>' +
+      '<line x1="2"  y1="12" x2="3.4"  y2="12"/>' +
+      // intercardinal hairline points (subordinate)
+      '<polygon points="6.6,6.6 12,12 11.1,11.1"/>' +
+      '<polygon points="17.4,6.6 12,12 12.9,11.1"/>' +
+      '<polygon points="17.4,17.4 12,12 12.9,12.9"/>' +
+      '<polygon points="6.6,17.4 12,12 11.1,12.9"/>' +
+      // east/west hairline lobes (open)
+      '<polygon points="20.6,12 12,11.1 12,12.9"/>' +
+      '<polygon points="3.4,12 12,12.9 12,11.1"/>' +
+      // ── primary needle ─────────────────────────────────
+      // north lobe — ink fill (currentColor)
+      '<polygon points="12,2.6 13.4,12 10.6,12" ' +
+        'fill="currentColor" stroke="none"/>' +
+      // south lobe — accent fill (ESRF red)
+      '<polygon points="12,21.4 10.6,12 13.4,12" ' +
+        'fill="var(--accent,#D24B1F)" stroke="none"/>' +
+      // inner pivot ring
+      '<circle cx="12" cy="12" r="1.85"/>' +
+      // central hub
+      '<circle cx="12" cy="12" r="0.7" fill="currentColor" stroke="none"/>' +
     '</svg>';
 
   // Topics — answers and CTAs reference confirmed pages/anchors.
