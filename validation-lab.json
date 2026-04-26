@@ -377,6 +377,65 @@
         "node functions/api/intake.test.mjs slaagt voor alle dry-run, editorial-only, combined, place-candidate, recipient-metadata, no-Gmail-wording, security-gate (Directory_Master refusal, missing/invalid secret, dry-run default, minimal notification, office identity, POST-only, payload size, required consent) routes.",
         "node functions/api/intake-test.test.mjs slaagt voor alle preview-only / production-blocked / lab_test-marker / ESRF Lab Test prefix / LAB-only / Directory_Master-forbidden / notification-disabled / secrets-missing dry-run / mocked success-path routes; node functions/_middleware.test.mjs bevestigt dat /api/intake-test wél en /api/intake niet op de bot-filter-bypass-lijst staan."
       ]
+    },
+    {
+      "id": "lab-promotion-pipeline",
+      "title": "Lab-only controlled promotion: approved LAB_* row → editorial draft / directory candidate",
+      "status": "lab-only-promotion-ready-no-production-activation",
+      "owner": "ESRF Editorial",
+      "purpose": "Convert redactie-approved rows from LAB_Editorial_Intake / LAB_Intake_Submissions / LAB_Place_Candidates into local repo artefacts (editorials/drafts/lab/<slug>.md and data/candidates/directory-candidates.lab.json) for review on the test/regional-editorial-contributor-intake branch via GitHub branch preview. Never writes Directory_Master, never runs on main, never sends notifications, never auto-publishes to live.",
+      "lastUpdated": "2026-04-26",
+      "visibility": "hidden",
+      "labOnly": true,
+      "automaticEmailEnabled": false,
+      "directoryMasterTouched": false,
+      "mainBranchMerged": false,
+      "documentation": [
+        "/docs/lab-promotion.md"
+      ],
+      "scripts": {
+        "package": "scripts/lab_promote/",
+        "cli": "python3 -m scripts.lab_promote.cli {editorial|directory} <rows.json> [--dry-run]",
+        "guards": "scripts/lab_promote/guards.py",
+        "transforms": "scripts/lab_promote/transforms.py",
+        "fixtures": [
+          "scripts/lab_promote/fixtures/editorial_approved.json",
+          "scripts/lab_promote/fixtures/intake_approved.json",
+          "scripts/lab_promote/fixtures/intake_unapproved.json"
+        ],
+        "tests": "scripts/lab_promote/tests/test_lab_promote.py"
+      },
+      "outputs": {
+        "editorialDraftsDir": "editorials/drafts/lab/",
+        "directoryCandidatesFile": "data/candidates/directory-candidates.lab.json",
+        "editorialFrontMatterFlags": {
+          "status": "lab-draft",
+          "auto_i18n": false,
+          "auto_publish": false,
+          "preview_only": true
+        },
+        "directoryCandidateFlags": {
+          "lab_status": "candidate-pending-review",
+          "auto_promote_to_directory_master": false
+        }
+      },
+      "guards": [
+        "ESRF_LAB_PROMOTE=1 must be set; otherwise refuse.",
+        "Current git branch (or ESRF_BRANCH override) must NOT be main / master / production / prod.",
+        "Source tab must be one of LAB_Intake_Submissions / LAB_Editorial_Intake / LAB_Place_Candidates.",
+        "Target name must not contain 'directory_master' (case-insensitive).",
+        "Intake row review_status must be in {approved_for_candidate, approved_for_directory_candidate, approved_lab_promote}; assigned_to and review_notes_internal must be non-empty.",
+        "Editorial row editorial_status must be in {approved_for_draft, approved_for_editorial_draft, approved_lab_promote}; review_notes_internal must be non-empty.",
+        "Output dict must not contain forbidden PII keys (contact_email, contact_phone, email, phone, raw_payload_json, shared_secret).",
+        "Filenames are slugified and refuse path-traversal sequences."
+      ],
+      "exitCriteria": [
+        "python3 -m unittest scripts.lab_promote.tests.test_lab_promote -v passes (26 tests) covering guards (lab flag, branch, Directory_Master refusal, source tab, status, required review fields, PII), transforms (PII strip, front-matter flags, slug safety, dedupe), and CLI happy path / refusal paths.",
+        "scripts.lab_promote.cli runs in dry-run mode against fixtures without any network or Sheet call.",
+        "Emitted draft markdown carries status=lab-draft, auto_i18n=false, auto_publish=false, preview_only=true and contains no contact_email / contact_name / contact_phone.",
+        "Directory candidate file carries auto_promote_to_directory_master=false and is written under data/candidates/, not Directory_Master.",
+        "docs/lab-promotion.md documents the controlled flow Form → LAB Sheet → redaction review → approved row → generated draft/candidate → GitHub branch/preview → human approval → main/live, plus the exact manual test procedure for one approved row."
+      ]
     }
   ]
 }

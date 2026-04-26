@@ -1,0 +1,4 @@
+# Lab-only directory / atlas candidate staging files produced by
+# scripts/lab_promote/cli.py. Files written here are NEVER read by
+# production runtime; promotion to Directory_Master is a separate,
+# manual PR step.

@@ -3,7 +3,9 @@ qa-*.png
 gen_i18n.py
 patch_i18n.py
 scripts/__pycache__/
+scripts/**/__pycache__/
 scripts/*.pyc
+scripts/**/*.pyc
 scripts/do_translate.partial.*.py
 scripts/translate_all.partial.*.py
 scripts/translate_data.partial.*.py
