@@ -10,33 +10,28 @@
   window.__esrfNavigatorMounted = true;
 
   // Inline SVG: ESRF compass mark.
-  // Outer ring = orientation/Europe; cardinal nodes = network/resilience;
-  // upright rhombus needle (filled north, open south) = direction without
-  // looking like a generic chat-bot arrow. Designed to read clearly at
+  // A slim compass rose: single hairline ring, four-point primary star
+  // (filled N, open S), four shorter intercardinal points, small hub.
+  // No cardinal node dots, no double ring — refined and balanced at
   // 22px (panel avatar) and 28px (launcher) using currentColor.
   var COMPASS_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-      'stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" ' +
+      'stroke-width="1" stroke-linecap="round" stroke-linejoin="round" ' +
       'aria-hidden="true" focusable="false">' +
-      // outer ring
+      // single thin ring
       '<circle cx="12" cy="12" r="9.25"/>' +
-      // inner faint ring — gives the rose a second contour at avatar size
-      '<circle cx="12" cy="12" r="6.4" stroke-opacity="0.35"/>' +
-      // cardinal ticks (N longer, E/S/W shorter) — compass rose cue
-      '<line x1="12" y1="2.4" x2="12" y2="4.2"/>' +
-      '<line x1="21.6" y1="12" x2="20.2" y2="12"/>' +
-      '<line x1="12" y1="21.6" x2="12" y2="20.2"/>' +
-      '<line x1="2.4" y1="12" x2="3.8" y2="12"/>' +
-      // needle: north half filled, south half open — directional but sober
-      '<polygon points="12,4.6 14.4,12 12,12 9.6,12" fill="currentColor" stroke="none"/>' +
-      '<polygon points="12,19.4 9.6,12 12,12 14.4,12"/>' +
-      // cardinal nodes — network/resilience association
-      '<circle cx="12" cy="4.2" r="0.95" fill="currentColor" stroke="none"/>' +
-      '<circle cx="19.8" cy="12" r="0.8" fill="currentColor" stroke="none"/>' +
-      '<circle cx="12" cy="19.8" r="0.8" fill="currentColor" stroke="none"/>' +
-      '<circle cx="4.2" cy="12" r="0.8" fill="currentColor" stroke="none"/>' +
+      // intercardinal (NE, SE, SW, NW) — short hairline points
+      '<polyline points="8.6,8.6 12,12 15.4,8.6"/>' +
+      '<polyline points="15.4,15.4 12,12 8.6,15.4"/>' +
+      // primary star: north half filled
+      '<polygon points="12,3.4 13.7,12 12,12 10.3,12" fill="currentColor" stroke="none"/>' +
+      // primary star: south half open hairline
+      '<polygon points="12,20.6 10.3,12 13.7,12"/>' +
+      // east/west open hairline points
+      '<polygon points="20.6,12 12,10.3 12,13.7"/>' +
+      '<polygon points="3.4,12 12,13.7 12,10.3"/>' +
       // hub
-      '<circle cx="12" cy="12" r="1.05" fill="currentColor" stroke="none"/>' +
+      '<circle cx="12" cy="12" r="0.85" fill="currentColor" stroke="none"/>' +
     '</svg>';
 
   // Topics — answers and CTAs reference confirmed pages/anchors.
@@ -232,9 +227,7 @@
     }
 
     bodyEl.innerHTML =
-      '<h3 style="font-family:\'Archivo\',system-ui,sans-serif;font-weight:700;' +
-        'font-size:16px;letter-spacing:-0.01em;margin:0 0 10px;color:var(--ink,#0F1419)">' +
-        t.title + '</h3>' +
+      '<h3 class="esrf-nav-topic-title">' + t.title + '</h3>' +
       t.body +
       (ctaHtml ? '<p style="margin-top:12px">' + ctaHtml + '</p>' : '') +
       '<button type="button" class="esrf-nav-back" data-navigator-action="back">' +
