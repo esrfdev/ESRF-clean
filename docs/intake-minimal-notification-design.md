@@ -3,9 +3,15 @@
 > **Status (2026-04-26):** `minimal-notification-design-ready-not-enabled`.
 > The contract is implemented in code and surfaced in every dry-run
 > response and in the LAB UI preview. **No mail is sent yet.** Real
-> dispatch requires a separate Apps Script deployment (see
-> [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md))
-> AND an explicit operator-driven activation checklist (below).
+> dispatch requires a separate Apps Script deployment — the source is
+> now checked into
+> [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
+> with manifest
+> [`appsscript.mail-notification.json`](./appsscript.mail-notification.json)
+> as a PREPARED, NOT ACTIVATED stub — see also
+> [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md)
+> for the activation checklist. Activation also requires
+> ticking off the operator-driven checklist (below).
 
 This document is the single source of truth for what the operational
 notification to `office@esrf.net` may and may not contain. It exists so
@@ -20,7 +26,12 @@ It complements:
   [`appsscript.json`](./appsscript.json) — the spreadsheet-only first
   phase. Contains no `MailApp` / `GmailApp` / `script.send_mail` scope.
 - [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md)
-  — the deferred mail relay route.
+  — the deferred mail relay route (activation checklist + rollback).
+- [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
+  / [`appsscript.mail-notification.json`](./appsscript.mail-notification.json)
+  — the SEPARATE prepared-not-activated mail relay source. Declares
+  only `auth/script.send_mail`; mirrors `NOTIFICATION_CONTRACT`
+  (`ALLOWED_FIELDS` / `FORBIDDEN_FIELDS` / `FORBIDDEN_RECIPIENTS`).
 
 ## Why a minimal payload
 
@@ -145,7 +156,11 @@ off **in order** by an operator with `office@esrf.net` access:
    [`intake-lab-test-report-2026-04-25.md`](./intake-lab-test-report-2026-04-25.md)
    §6b.
 3. Separate mail Apps Script project created under `office@esrf.net`
-   with the `auth/script.send_mail` scope only — see
+   with the `auth/script.send_mail` scope only. Paste the prepared
+   source from [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
+   and the manifest from
+   [`appsscript.mail-notification.json`](./appsscript.mail-notification.json);
+   activation steps in
    [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md).
 4. `INTAKE_NOTIFY_WEBHOOK` env var set on the Cloudflare Pages preview
    project (only) to that separate `/exec` URL.
@@ -164,6 +179,28 @@ off **in order** by an operator with `office@esrf.net` access:
 Until step 7 is committed, the notification system is design-ready but
 **not** enabled. The LAB UI continues to show the contract and the
 preview message; no real email is sent.
+
+## Rollback
+
+If anything goes wrong after activation, rollback is one of two env-var
+edits on the Cloudflare Pages **preview** project — production env
+vars are never touched on this branch:
+
+1. **Disable dispatch (preferred).** Unset
+   `INTAKE_NOTIFY_WEBHOOK`. The Cloudflare backend immediately falls
+   back to `notification_status: "dry_run_not_configured"` on every
+   request and stops calling the mail relay. No code change required.
+2. **Disable the relay itself.** In the separate Apps Script project
+   that hosts [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs),
+   delete the active deployment so the `/exec` URL returns 404. This
+   is the belt-and-braces option if a stale `INTAKE_NOTIFY_WEBHOOK` is
+   suspected anywhere.
+
+After rolling back, flip
+`MINIMAL_NOTIFICATION_DESIGN_STATUS` in `functions/api/intake.js`
+back to `'minimal-notification-design-ready-not-enabled'` and update
+the "Status" header at the top of this document so the design and the
+runtime do not diverge.
 
 ## Why the Cloudflare backend never sends mail itself
 

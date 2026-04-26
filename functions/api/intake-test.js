@@ -299,6 +299,15 @@ export async function onRequestPost(context) {
   //     build a minimal preview message (no PII, no editorial body) so
   //     the operator can verify the contract; we never dispatch and we
   //     never include a notify_to_recipient.
+  //
+  //     OPT-IN simulation: an operator may pass `notification_simulate:
+  //     true` in the request body. This NEVER calls fetch, NEVER reads
+  //     INTAKE_NOTIFY_WEBHOOK / INTAKE_NOTIFY_TO, NEVER produces real
+  //     mail. It only flips notification_status from
+  //     'disabled_for_intake_test' to 'simulated_no_dispatch' so the
+  //     redactie can verify the wire-shape end-to-end without leaving
+  //     the lab. The preview message is identical in either mode.
+  const wantsSimulate = body.notification_simulate === true;
   const notificationMessage = buildNotificationMessage(payload, {
     request_id: requestId,
     submission_id: submissionId,
@@ -318,6 +327,9 @@ export async function onRequestPost(context) {
   if (notificationMessage.notify_to_recipient) {
     return cors(jsonErr('Notification recipient leaked', 500), origin);
   }
+  const notificationStatusValue = wantsSimulate
+    ? 'simulated_no_dispatch'
+    : 'disabled_for_intake_test';
 
   const overallStatus = sheetDryRun ? 'dry_run' : (sheetResult && sheetResult.error ? 'error' : 'stored');
   const response = {
@@ -341,7 +353,8 @@ export async function onRequestPost(context) {
           ? { row_id: sheetResult.row_id || null, sheet_url: sheetResult.sheet_url || null, rows_written: sheetResult.rows_written || null }
           : null),
     sheet_webhook_payload_preview: sheetWebhookPayload,
-    notification_status: 'disabled_for_intake_test',
+    notification_status: notificationStatusValue,
+    notification_simulate: wantsSimulate,
     notification_message_preview: notificationMessage,
     notification_sent: false,
     notification_contract: NOTIFICATION_CONTRACT,

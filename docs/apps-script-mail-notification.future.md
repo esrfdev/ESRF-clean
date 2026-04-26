@@ -1,11 +1,16 @@
 # Deferred ESRF mailnotificatie route — separate Apps Script deployment
 
-> **Status (2026-04-26):** **NOT ACTIVATED.** This route exists as
-> documentation only. There is no code, no deployment, and no OAuth
-> consent associated with it yet. It will be implemented and
-> activated **only after** the first spreadsheet-only lab write
-> succeeds end-to-end via
-> [`apps-script-intake-webhook.gs`](./apps-script-intake-webhook.gs).
+> **Status (2026-04-26):** **PREPARED, NOT ACTIVATED.** The source
+> for this route is now checked into
+> [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
+> with manifest
+> [`appsscript.mail-notification.json`](./appsscript.mail-notification.json),
+> but it is **not deployed**: no Apps Script project exists for it,
+> no OAuth consent has been granted, and no Cloudflare Pages env var
+> points at it. The first sheet-only lab write succeeded end-to-end on
+> 2026-04-26 via
+> [`apps-script-intake-webhook.gs`](./apps-script-intake-webhook.gs);
+> activation of this route is the next gated step.
 >
 > ⚠️ This route requires an **additional OAuth scope**
 > (`https://www.googleapis.com/auth/script.send_mail`) which the
@@ -66,45 +71,41 @@ successful sheet write, and the Cloudflare backend reports
 `pending_separate_deployment` once `INTAKE_NOTIFY_WEBHOOK` is
 explicitly left unset and the first-phase webhook is reachable).
 
-## Sketch — separate Apps Script project (when activated)
+## Prepared source — separate Apps Script project (when activated)
 
-Outline only. Do **not** copy this into the first-phase webhook:
+The full source is checked in at
+[`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
+and the manifest at
+[`appsscript.mail-notification.json`](./appsscript.mail-notification.json).
+Both files are clearly labelled `PREPARED, NOT ACTIVATED`. They MUST be
+pasted into a **new** Apps Script project under `office@esrf.net` —
+**never** merged into the first-phase spreadsheet-only project (whose
+manifest is `docs/appsscript.json` and only requests
+`auth/spreadsheets`).
 
-```javascript
-// In a SEPARATE Apps Script project, with its own appsscript.json
-// requesting https://www.googleapis.com/auth/script.send_mail.
+The prepared source enforces, server-side:
 
-function doPost(e) {
-  // 1. Verify shared secret (same SHEETS_WEBHOOK_SECRET model).
-  // 2. Strict allow-list of fields (see ALLOWED_NOTIFY_FIELDS in the
-  //    git history of apps-script-intake-webhook.gs prior to this
-  //    split).
-  // 3. Strict deny-list for PII / editorial body fields.
-  // 4. Strict deny-list for non-production recipient identities
-  //    (e.g. ai.agent.wm@gmail.com).
-  // 5. MailApp.sendEmail(...) with the minimal, PII-free payload.
-}
-```
+1. **Shared-secret verification** against the Script Property
+   `NOTIFY_SHARED_SECRET` (must match Cloudflare's
+   `INTAKE_NOTIFY_SECRET`, or the legacy `SHEETS_WEBHOOK_SECRET` when
+   the dedicated secret is unset).
+2. **Allow-list** (`ALLOWED_FIELDS`) — mirrors
+   `NOTIFICATION_CONTRACT.allowed_keys` in `functions/api/intake.js`;
+   any field outside the list is silently dropped before send.
+3. **Forbidden-field rejection** (`FORBIDDEN_FIELDS`) — any presence
+   of submitter PII, editorial body, raw payload echo, or operational
+   secrets returns 4xx and does NOT send mail.
+4. **Recipient deny-list** (`FORBIDDEN_RECIPIENTS`) — explicitly
+   blocks `ai.agent.wm@gmail.com` even if `NOTIFY_TO` is misconfigured.
+5. **Recipient match check** — if the wire payload contains
+   `notify_to_recipient`, it must equal `NOTIFY_TO` exactly; mismatch
+   returns 4xx.
+6. **Single `MailApp.sendEmail()` call** — plain text only, no HTML,
+   no attachments, no inline images, capped subject length.
 
-The `appsscript.json` for that separate project will look like:
-
-```json
-{
-  "timeZone": "Europe/Amsterdam",
-  "dependencies": {},
-  "exceptionLogging": "STACKDRIVER",
-  "runtimeVersion": "V8",
-  "webapp": {
-    "executeAs": "USER_DEPLOYING",
-    "access": "ANYONE_ANONYMOUS"
-  },
-  "oauthScopes": [
-    "https://www.googleapis.com/auth/script.send_mail"
-  ]
-}
-```
-
-The first-phase spreadsheet-only `appsscript.json` (in
+The manifest declares `auth/script.send_mail` as the **only** OAuth
+scope, so the consent screen surfaces exactly that scope and nothing
+else. The first-phase spreadsheet-only `appsscript.json` (in
 [`docs/appsscript.json`](./appsscript.json)) deliberately does NOT
 include `script.send_mail`.
 
@@ -163,10 +164,17 @@ particular would be a sev-2 finding in any subsequent security review.
       explicit (commit or PR comment) — silent acceptance does not
       count.
 - [ ] **3. Separate Apps Script project created** under
-      `office@esrf.net`. Manifest declares `auth/script.send_mail` and
-      nothing else (no `auth/spreadsheets`, no broader Gmail scope).
-      Source contains exactly one `MailApp.sendEmail()` call gated on
-      shared-secret verification.
+      `office@esrf.net`. Paste the prepared source from
+      [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
+      and the manifest from
+      [`appsscript.mail-notification.json`](./appsscript.mail-notification.json)
+      into a NEW project — do NOT add the source to the spreadsheet-only
+      project. Manifest declares `auth/script.send_mail` and nothing
+      else (no `auth/spreadsheets`, no broader Gmail scope). Source
+      contains exactly one `MailApp.sendEmail()` call gated on
+      shared-secret verification (the test
+      `mail-relay source is the ONLY place that calls MailApp.sendEmail`
+      in `functions/api/intake.test.mjs` enforces this).
 - [ ] **4. OAuth consent for the new project** surfaces ONLY
       `https://www.googleapis.com/auth/script.send_mail`. If anything
       else appears, STOP — the manifest is wrong.
@@ -209,3 +217,31 @@ Until step 9 is committed, the contract is "design ready, not
 enabled". `notification_status` continues to report
 `dry_run_not_configured` and the LAB UI continues to show
 `design-vlag: minimal-notification-design-ready-not-enabled`.
+
+## Rollback procedure (post-activation)
+
+If a real-mail issue surfaces after activation — wrong recipient,
+unexpected leakage in the body, redactie wants to pause — rollback is
+a single Cloudflare Pages env-var edit on the **preview** project:
+
+1. **Disable the dispatch**: unset
+   `INTAKE_NOTIFY_WEBHOOK` on Cloudflare Pages (preview project only).
+   The Cloudflare backend immediately falls back to
+   `notification_status: "dry_run_not_configured"` on every request
+   and stops calling the relay. The first-phase spreadsheet write is
+   unaffected and keeps logging into the LAB_* tabs.
+2. **Belt-and-braces**: in the separate Apps Script project hosting
+   [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs),
+   delete the active deployment so the `/exec` URL returns 404 even
+   if a stale `INTAKE_NOTIFY_WEBHOOK` is still configured somewhere
+   we forgot.
+3. **Flip the design flag back**: in `functions/api/intake.js`,
+   restore `MINIMAL_NOTIFICATION_DESIGN_STATUS` to
+   `'minimal-notification-design-ready-not-enabled'` and revert the
+   "Status" header in
+   [`intake-minimal-notification-design.md`](./intake-minimal-notification-design.md).
+   Commit the revert together with a short post-mortem in
+   `docs/intake-lab-test-report-YYYY-MM-DD.md`.
+
+Production env vars (and Directory_Master) are never touched at any
+point in this rollback.

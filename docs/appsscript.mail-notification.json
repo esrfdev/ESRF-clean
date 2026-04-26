@@ -1,0 +1,14 @@
+{
+  "_comment": "Manifest for the SEPARATE deferred mail-notification Apps Script project (PREPARED, NOT ACTIVATED). This must NEVER be merged into the first-phase spreadsheet-only project (docs/appsscript.json). The spreadsheet-only project requests auth/spreadsheets and nothing else; this project requests auth/script.send_mail and nothing else. Two separate projects, two separate OAuth consents.",
+  "timeZone": "Europe/Amsterdam",
+  "dependencies": {},
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "webapp": {
+    "executeAs": "USER_DEPLOYING",
+    "access": "ANYONE_ANONYMOUS"
+  },
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/script.send_mail"
+  ]
+}

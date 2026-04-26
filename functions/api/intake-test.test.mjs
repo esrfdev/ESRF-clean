@@ -330,6 +330,49 @@ await asyncCheck('Notification is NOT sent even if INTAKE_NOTIFY_* env vars are 
   assert.equal(j.notification_message_preview.notify_to_recipient, undefined);
 });
 
+// ─── Notification simulate — opt-in, no real dispatch ──────────────────
+await asyncCheck('notification_simulate=true returns simulated_no_dispatch and never calls fetch', async () => {
+  // Replace fetch with a tripwire so we can prove no network call is
+  // made when simulate is on. The route never reaches fetch in
+  // dry-run anyway, but the assertion makes the contract explicit.
+  const realFetch = globalThis.fetch;
+  let fetchCalls = 0;
+  globalThis.fetch = async () => { fetchCalls++; return new Response('{}'); };
+  try {
+    const res = await callIntakeTest('POST', {
+      env: {
+        CF_PAGES_BRANCH: 'test/regional-editorial-contributor-intake',
+        // Even with notify env vars present, simulate must not dispatch.
+        INTAKE_NOTIFY_WEBHOOK: 'https://example.org/should-not-be-called',
+        INTAKE_NOTIFY_TO: 'office@esrf.net',
+      },
+      headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
+      body: labBody({ notification_simulate: true }),
+    });
+    assert.equal(res.status, 200);
+    const j = await res.json();
+    assert.equal(j.notification_status, 'simulated_no_dispatch');
+    assert.equal(j.notification_simulate, true);
+    assert.equal(j.notification_sent, false);
+    // notify_to_recipient must NEVER appear on this route, simulate or not.
+    assert.equal(j.notification_message_preview.notify_to_recipient, undefined);
+    // No real network call.
+    assert.equal(fetchCalls, 0, 'simulate must not dispatch a real notification');
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+await asyncCheck('notification_simulate omitted defaults to disabled_for_intake_test', async () => {
+  const res = await callIntakeTest('POST', {
+    headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
+    body: labBody(),
+  });
+  assert.equal(res.status, 200);
+  const j = await res.json();
+  assert.equal(j.notification_status, 'disabled_for_intake_test');
+  assert.equal(j.notification_simulate, false);
+});
+
 // ─── Live-write requires BOTH webhook URL AND secret ────────────────────
 await asyncCheck('Live mode requires BOTH INTAKE_SHEET_WEBHOOK_URL and SHEETS_WEBHOOK_SECRET', async () => {
   // URL only → still dry-run.

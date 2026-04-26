@@ -506,6 +506,13 @@
       </span>
     </p>
 
+    <p id="sv-notify-banner" hidden style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
+      <span class="new-pill" style="background:rgba(210,75,31,0.06)">Mailnotificatie</span>
+      <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
+        <strong>Automatische notificatieroute is voorbereid, op dit moment niet actief.</strong> De Cloudflare-backend bouwt na een succesvolle LAB sheet-write een PII-vrije payload volgens <code>NOTIFICATION_CONTRACT</code>. POST naar een aparte mailrelay gebeurt pas wanneer <code>INTAKE_NOTIFY_WEBHOOK</code> (en optioneel <code>INTAKE_NOTIFY_SECRET</code>) als environment variables zijn gezet en de aparte Apps Script-deployment uit <code>docs/apps-script-mail-notification.gs</code> live staat. Tot dan: <code>notification_status: dry_run_not_configured</code>. Op <code>/api/intake-test</code> kan een operator opt-in <code>notification_simulate:true</code> meesturen om alleen het wire-shape te valideren — er gaat dan nog steeds geen netwerkaanroep en geen mail uit.
+      </span>
+    </p>
+
     <div id="sv-backend-result" class="preview-box" hidden aria-live="polite" style="margin-top:10px"></div>
     <div id="sv-lab-result" class="preview-box" hidden aria-live="polite" style="margin-top:10px"></div>
 
@@ -523,7 +530,7 @@
       <ol>
         <li><strong>Spreadsheet (Google Drive) — single source of truth.</strong> Minimale gestructureerde rij met status, organisatie, contact, land/regio, modus en pointers naar het eventuele issue. Redactie beheert hier het besluit en de rapportage.</li>
         <li><strong>Private GitHub issue — bewijs/werkstroom-record.</strong> Optioneel; bevat de volledige ruwe inzending (inclusief editorial-tekst). Voorkomt dat de spreadsheet vol komt te staan met lange teksten en biedt een onveranderlijk auditspoor. De spreadsheetrij linkt ernaar.</li>
-        <li><strong>ESRF mailnotificatie / mailrelay-webhook — alleen operationele ping (PENDING in eerste lab-write activatie).</strong> Stuurt geen PII, geen editorial-tekst, alleen modus/organisatie/land/regio + verwijzingen (sheet row id, issue url) zodat de redactie naar de spreadsheet kan springen. <strong>Veiligheidsbesluit (2026-04-26):</strong> de eerste lab-write Apps Script is bewust <em>spreadsheet-only</em> (alleen OAuth-scope <code>auth/spreadsheets</code>); de mailroute is uitgesteld en wordt later via een <em>aparte</em> Apps Script-deployment met eigen OAuth-consent (<code>script.send_mail</code>) geactiveerd — zie <code>docs/apps-script-mail-notification.future.md</code>. Tot dan blijft <code>notification_status: dry_run_not_configured</code>. Als kanaal blijft het later generiek (Apps Script <code>MailApp</code>, Pipedream, interne SMTP-relay, Slack-compatibele endpoint, …) en levert af op een operationele ESRF-inbox (aanbevolen: <code>office@esrf.net</code>). <strong>Geen Gmail-specifieke integratie</strong> — ESRF.net draait niet op Gmail. <strong>E-mail vervangt nooit de spreadsheet</strong> — het is hooguit een notificatie.</li>
+        <li><strong>ESRF mailnotificatie / mailrelay-webhook — automatische notificatieroute VOORBEREID, NIET ACTIEF.</strong> Stuurt geen PII, geen editorial-tekst, alleen modus/organisatie/land/regio + verwijzingen (sheet row id, issue url) zodat de redactie naar de spreadsheet kan springen. <strong>Status (2026-04-26):</strong> de Cloudflare-backend bouwt na een succesvolle LAB sheet-write een PII-vrije notification-payload volgens <code>NOTIFICATION_CONTRACT</code>; <strong>POST naar de mailrelay gebeurt alleen als <code>INTAKE_NOTIFY_WEBHOOK</code> én optioneel <code>INTAKE_NOTIFY_SECRET</code> als environment variables zijn gezet</strong>. Standaard (zoals nu) zijn die niet gezet, dus <code>notification_status: dry_run_not_configured</code> en er gaat niets de deur uit. De aparte Apps Script-broncode voor de mailrelay staat als prepared-not-activated stub in <code>docs/apps-script-mail-notification.gs</code> met manifest <code>docs/appsscript.mail-notification.json</code> (alleen scope <code>script.send_mail</code>); activatie volgt de checklist in <code>docs/apps-script-mail-notification.future.md</code>. De eerste lab-write Apps Script (<code>docs/apps-script-mail-notification.gs</code> staat <em>los</em> van) blijft bewust <em>spreadsheet-only</em> en heeft alleen OAuth-scope <code>auth/spreadsheets</code>. Receivers blijven generiek (Apps Script <code>MailApp</code>, Pipedream, interne SMTP-relay, Slack-compatibele endpoint, …) en leveren af op een operationele ESRF-inbox (aanbevolen: <code>office@esrf.net</code>). <strong>Geen Gmail-specifieke integratie</strong> — ESRF.net draait niet op Gmail. <strong>E-mail vervangt nooit de spreadsheet</strong> — het is hooguit een notificatie.</li>
       </ol>
 
       <p><strong>Onbekende plaatsnamen — werkwijze.</strong> Geeft een bezoeker een plaats op die niet in de validatielijst staat, dan blokkeert het formulier dat niet. De plaats blijft als vrije invoer staan, wordt zichtbaar gemarkeerd als nieuw, en gaat als kandidaat (<code>place_addition_candidate</code>) mee in de payload. De bezoeker kiest zelf land en regio. De redactie controleert de kandidaat handmatig in de spreadsheet; pas daarna kan de statische lookup-lijst worden uitgebreid via een GitHub-PR. Geen externe geocoding — dit is redactionele verrijking, geen automatische geodata.</p>
@@ -1572,6 +1579,7 @@
   const labBtn = document.getElementById('sv-lab-btn');
   const labResult = document.getElementById('sv-lab-result');
   const labHelp = document.getElementById('sv-lab-help');
+  const notifyBanner = document.getElementById('sv-notify-banner');
 
   function isLabPreviewHostname(hostname){
     var h = String(hostname || '').toLowerCase();
@@ -1584,6 +1592,7 @@
   if (isLabPreviewHostname(window.location.hostname)) {
     labBtn.hidden = false;
     labHelp.hidden = false;
+    if (notifyBanner) notifyBanner.hidden = false;
   }
 
   function showLab(html){ labResult.hidden = false; labResult.innerHTML = html; }

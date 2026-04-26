@@ -867,8 +867,11 @@ check('appsscript.json oauthScopes is spreadsheets-only', () => {
   );
 });
 check('deferred mail-notification route is documented separately', () => {
-  // Spec gate: the deferred route MUST exist as documentation only;
-  // there must be no .gs source file for it in this branch.
+  // Spec gate: the deferred route lives in a SEPARATE Apps Script
+  // project. It now has a prepared (not-deployed) source stub at
+  // docs/apps-script-mail-notification.gs and a separate manifest at
+  // docs/appsscript.mail-notification.json. Both must remain
+  // explicitly disjoint from the first-phase spreadsheet-only project.
   const futureDoc = readFileSync(FUTURE_MAIL_DOC_PATH, 'utf8');
   assert.ok(
     /script\.send_mail/.test(futureDoc),
@@ -878,6 +881,82 @@ check('deferred mail-notification route is documented separately', () => {
     /separate Apps Script (project|deployment)/i.test(futureDoc),
     'docs/apps-script-mail-notification.future.md must state the mail route lives in a separate Apps Script project/deployment'
   );
+});
+
+// ─── Separate mail-relay source (PREPARED, NOT ACTIVATED) ───────────────
+// The mail-relay source lives at docs/apps-script-mail-notification.gs
+// alongside its own manifest docs/appsscript.mail-notification.json. We
+// pin its safety contract here so a future edit cannot silently widen
+// the scope or echo PII back to the recipient.
+const MAIL_RELAY_PATH = resolve(REPO_ROOT, 'docs', 'apps-script-mail-notification.gs');
+const MAIL_RELAY_MANIFEST_PATH = resolve(REPO_ROOT, 'docs', 'appsscript.mail-notification.json');
+const MAIL_RELAY_SRC = readFileSync(MAIL_RELAY_PATH, 'utf8');
+const MAIL_RELAY_CODE = stripComments(MAIL_RELAY_SRC);
+
+check('mail-relay source is the ONLY place that calls MailApp.sendEmail', () => {
+  // The first-phase webhook must NOT call MailApp at all (already
+  // covered above). The mail-relay source must call it exactly once.
+  const matches = MAIL_RELAY_CODE.match(/MailApp\.sendEmail\s*\(/g) || [];
+  assert.equal(matches.length, 1,
+    'docs/apps-script-mail-notification.gs must call MailApp.sendEmail exactly once');
+});
+
+check('mail-relay source enforces shared-secret check before any side-effect', () => {
+  // The unauthorised return must occur lexically before the
+  // MailApp.sendEmail call. We approximate this by checking that
+  // 'unauthorised' (the doPost reject string) appears before the
+  // MailApp call in the source.
+  const idxAuth = MAIL_RELAY_CODE.indexOf("'unauthorised'");
+  const idxSend = MAIL_RELAY_CODE.indexOf('MailApp.sendEmail');
+  assert.ok(idxAuth > 0 && idxSend > idxAuth,
+    'mail-relay source must reject unauthorised requests before calling MailApp.sendEmail');
+});
+
+check('mail-relay source pins the FORBIDDEN_RECIPIENTS deny-list', () => {
+  // ai.agent.wm@gmail.com must be hard-blocked at the Apps Script
+  // level too, not only on the Cloudflare side.
+  assert.ok(/FORBIDDEN_RECIPIENTS/.test(MAIL_RELAY_CODE),
+    'mail-relay source must declare a FORBIDDEN_RECIPIENTS list');
+  assert.ok(/ai\.agent\.wm@gmail\.com/.test(MAIL_RELAY_SRC),
+    'mail-relay source must include ai.agent.wm@gmail.com on the deny-list');
+});
+
+check('mail-relay ALLOWED_FIELDS exactly mirrors NOTIFICATION_CONTRACT.allowed_keys', () => {
+  // Lexical assertion: every allowed key in the Cloudflare contract
+  // must appear in ALLOWED_FIELDS in the .gs source. Both sides must
+  // agree on the wire shape.
+  for (const k of NOTIFICATION_CONTRACT.allowed_keys) {
+    assert.ok(MAIL_RELAY_CODE.indexOf("'" + k + "'") !== -1,
+      'mail-relay source missing allowed_keys entry: ' + k);
+  }
+});
+
+check('mail-relay FORBIDDEN_FIELDS pins every Cloudflare forbidden_keys entry', () => {
+  for (const k of NOTIFICATION_CONTRACT.forbidden_keys) {
+    assert.ok(MAIL_RELAY_CODE.indexOf("'" + k + "'") !== -1,
+      'mail-relay source missing forbidden_keys entry: ' + k);
+  }
+});
+
+check('mail-relay manifest declares ONLY script.send_mail scope', () => {
+  const manifest = JSON.parse(readFileSync(MAIL_RELAY_MANIFEST_PATH, 'utf8'));
+  assert.ok(Array.isArray(manifest.oauthScopes), 'mail-relay manifest must declare an oauthScopes array');
+  assert.equal(manifest.oauthScopes.length, 1,
+    'mail-relay manifest must declare EXACTLY one oauthScope (script.send_mail)');
+  assert.equal(manifest.oauthScopes[0],
+    'https://www.googleapis.com/auth/script.send_mail');
+  // No spreadsheet scope — the two projects stay disjoint.
+  for (const s of manifest.oauthScopes) {
+    assert.ok(!/auth\/spreadsheets/.test(s),
+      'mail-relay manifest must NOT contain auth/spreadsheets (that belongs to the first-phase project)');
+  }
+});
+
+check('mail-relay source documents PREPARED/NOT-ACTIVATED status', () => {
+  assert.ok(/PREPARED, NOT ACTIVATED/i.test(MAIL_RELAY_SRC),
+    'mail-relay source must declare PREPARED, NOT ACTIVATED status in its header');
+  assert.ok(/Rollback/i.test(MAIL_RELAY_SRC),
+    'mail-relay source must document a Rollback procedure');
 });
 check('first-phase notification remains disabled / pending in the backend', () => {
   // Without INTAKE_NOTIFY_TO / INTAKE_NOTIFY_WEBHOOK configured, the

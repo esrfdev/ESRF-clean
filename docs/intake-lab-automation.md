@@ -81,12 +81,23 @@ Production cannot be flipped on until **all** of these are resolved:
   (Production env stays unset until sign-off.)
 - [ ] Activation gate in `intake-lab-test-report-2026-04-25.md` §6b
   ticked off by the redactie.
-- [ ] **Mail notification deferred** — handled by a separate Apps
-  Script deployment with its own OAuth consent
-  (`script.send_mail`), as per
+- [ ] **Mail notification PREPARED, NOT ACTIVATED** — the Cloudflare
+  backend now dispatches a sanitized notification payload to
+  `INTAKE_NOTIFY_WEBHOOK` when (and only when) that env var is set.
+  The env var is intentionally unset on every Cloudflare Pages
+  environment until activation, so `notification_status` defaults to
+  `dry_run_not_configured`. The relay endpoint is a separate Apps
+  Script deployment with its own OAuth consent (`script.send_mail`);
+  source is checked in at
+  [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
+  with manifest
+  [`appsscript.mail-notification.json`](./appsscript.mail-notification.json),
+  activation checklist + rollback in
   [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md).
   Activating that deployment is a **separate** gate, not part of
-  the first lab-write activation.
+  the first lab-write activation. `/api/intake-test` never dispatches
+  notifications — the opt-in `notification_simulate: true` flag
+  returns `simulated_no_dispatch` without any fetch.
 - [ ] Optional: Workers KV binding for rate-limiting OR Cloudflare WAF
   rate-limit rule on `/api/intake`.
 
