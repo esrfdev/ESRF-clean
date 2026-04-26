@@ -472,14 +472,15 @@
         "appsScriptReadTabs": ["LAB_Intake_Submissions", "LAB_Editorial_Intake", "LAB_Place_Candidates"],
         "appsScriptWriteTabs": ["LAB_Redactie_Reviews", "LAB_Workflow_Events"],
         "appsScriptForbiddenTargets": ["Directory_Master"],
-        "appsScriptDeployed": false,
+        "appsScriptDeployed": true,
+        "appsScriptDeployedNote": "Apps Script Web App deployed under office@esrf.net and verified live on 2026-04-26 22:24 CEST via the first successful redactie review save (review_id rev_20260426202343218_224302; rows_written=2). Preview-only — production remains untouched.",
         "appsScriptOwnerIdentity": "office@esrf.net"
       },
       "envVars": {
-        "REDACTIE_REVIEW_ACCESS_CODE": "Server-validated review access code; gates real-data reads AND live save. Without it the API returns sample/dry-run data and the UI shows SAMPLE-MODE. Status: not set — sample mode active.",
-        "REDACTIE_REVIEW_WEBHOOK_URL": "Apps Script /exec URL for the LAB webhook (read + append-only review writes; bron docs/apps-script-redactie-review-webhook.gs). Required for live read and live save. Status: not set — Apps Script not deployed yet.",
-        "REDACTIE_REVIEW_WEBHOOK_SECRET": "Shared secret in the request body to the Apps Script. Must equal the Apps Script script property of the same name. Required together with REDACTIE_REVIEW_WEBHOOK_URL. Status: not set.",
-        "REDACTIE_REVIEW_WRITE_ENABLED": "Explicit toggle (=true) that enables live save via /api/redactie-review-update → Apps Script submit_review_update → append-only writes to LAB_Redactie_Reviews + LAB_Workflow_Events. Without this the endpoint stays dry-run with save_status=not_saved. Cloudflare-side Directory_Master deny-list and PII stripping remain active regardless. Status: not set."
+        "REDACTIE_REVIEW_ACCESS_CODE": "Server-validated review access code; gates real-data reads AND live save. Without it the API returns sample/dry-run data and the UI shows SAMPLE-MODE. Status: set on Cloudflare Pages Preview only (verified live 2026-04-26 22:24 CEST). Production not set.",
+        "REDACTIE_REVIEW_WEBHOOK_URL": "Apps Script /exec URL for the LAB webhook (read + append-only review writes; bron docs/apps-script-redactie-review-webhook.gs). Required for live read and live save. Status: set on Cloudflare Pages Preview only (verified live 2026-04-26 22:24 CEST). Production not set.",
+        "REDACTIE_REVIEW_WEBHOOK_SECRET": "Shared secret in the request body to the Apps Script. Must equal the Apps Script script property of the same name. Required together with REDACTIE_REVIEW_WEBHOOK_URL. Status: set on Cloudflare Pages Preview only (verified live 2026-04-26 22:24 CEST). Production not set.",
+        "REDACTIE_REVIEW_WRITE_ENABLED": "Explicit toggle (=true) that enables live save via /api/redactie-review-update → Apps Script submit_review_update → append-only writes to LAB_Redactie_Reviews + LAB_Workflow_Events. Without this the endpoint stays dry-run with save_status=not_saved. Cloudflare-side Directory_Master deny-list and PII stripping remain active regardless. Status: enabled (=true) on Cloudflare Pages Preview only on 2026-04-26 22:24 CEST; one successful save-test recorded (review_id rev_20260426202343218_224302, rows_written=2). Production not set; production endpoint still returns 404."
       },
       "activationChecklist": [
         "Apps Script under office@esrf.net deployed from docs/apps-script-redactie-review-webhook.gs with docs/appsscript.redactie-review.json manifest (spreadsheets-only OAuth scope).",
@@ -499,6 +500,44 @@
         "Live save is gated behind four env vars; flipping REDACTIE_REVIEW_WRITE_ENABLED away from true disables live save instantly without a code deploy (incident kill-switch)."
       ],
       "tests": "/scripts/redactie_validation.test.mjs (noindex meta, safety copy, sample records both types render, export excludes contact email by default, edit-mode fields present, original kept read-only, export carries original_reference + edited_publication_proposal + change_note + edited_by, access panel rendered, status step reminders shipped, LAB-mode primary label is 'Opslaan in redactietabel' and copy/paste is no longer presented as the normal workflow, technical export includes the explicit fallback instruction); /functions/api/redactie-review.test.mjs (preview gate, access code gate, sample fallback when code missing, sample fallback when webhook missing, contact stripped by default, forbidden keys stripped, status_step_reminders surface in response, no Directory_Master in response); /functions/api/redactie-review-update.test.mjs (preview gate, target_tab must be LAB_*, Directory_Master forbidden, sanitised payload contains no contact, save_status=not_saved with explicit Dutch save_message when activation is incomplete, save_status=saved with saved_to {review_tab,events_tab,review_id} when all four gates pass and Apps Script accepts, save_status=failed on upstream error, outbound webhook body never contains contact PII or REDACTIE_REVIEW_* env keys).",
+      "testEvidence": {
+        "liveSaveEvidence": {
+          "date": "2026-04-26",
+          "time": "22:24 CEST",
+          "environment": "Cloudflare Pages Preview",
+          "previewBranch": "test/regional-editorial-contributor-intake",
+          "previewUrl": "https://test-regional-editorial-cont.esrf-clean.pages.dev/redactie-validation.html",
+          "accessCodeUsed": "ESRF-Redactie-D86E91",
+          "writeToggleEnabledOn": "Cloudflare Pages Preview only (REDACTIE_REVIEW_WRITE_ENABLED=true). Production was NOT touched.",
+          "readResult": {
+            "mode": "lab",
+            "recordsLoaded": 9,
+            "source": "real LAB rows (LAB_Intake_Submissions / LAB_Editorial_Intake)"
+          },
+          "saveResult": {
+            "submissionId": "sub_lab_20260425_1825_sheet",
+            "ok": true,
+            "mode": "lab",
+            "dry_run": false,
+            "live_write_ready": true,
+            "save_status": "saved",
+            "savedTo": {
+              "review_tab": "LAB_Redactie_Reviews",
+              "events_tab": "LAB_Workflow_Events",
+              "review_id": "rev_20260426202343218_224302"
+            },
+            "rowsWritten": 2,
+            "directoryMasterTouched": false,
+            "automaticPublication": false,
+            "uiBanner": "OPGESLAGEN IN DE REDACTIETABEL",
+            "originalSubmissionUnchanged": true,
+            "directoryMasterUnchanged": true,
+            "websitePublished": false,
+            "emailSent": false
+          },
+          "note": "First successful end-to-end live redactie review save via /api/redactie-review-update on the Cloudflare Pages Preview project. All four activation gates passed (REDACTIE_REVIEW_ACCESS_CODE valid + REDACTIE_REVIEW_WEBHOOK_URL set + REDACTIE_REVIEW_WEBHOOK_SECRET set + REDACTIE_REVIEW_WRITE_ENABLED=true). Apps Script appended one row to LAB_Redactie_Reviews and one row to LAB_Workflow_Events (rows_written=2). The original intake row stayed unchanged, Directory_Master was not touched, no website publication happened and no email was sent. REDACTIE_REVIEW_WRITE_ENABLED was enabled only on the Preview project; Production remains untouched and the Cloudflare Pages Function still returns 404 there."
+        }
+      },
       "exitCriteria": [
         "Pagina bevat noindex,nofollow en validatie-banner met 'Niet publiceren', 'Directory_Master niet aanpassen', 'Preview pas na akkoord' en de edit-veiligheidsregel dat bewerkingen alleen het publicatievoorstel raken — niet de bron.",
         "Linker lijst toont zowel organisatie-aanmelding als editorial bijdrage uit de lokale voorbeelddata; rechter paneel toont leesbare cards, een eenvoudig review-formulier met per-stap herinnering en — na klikken op Bewerken — een Redactieversie / Publicatievoorstel sectie met de bewerkbare velden.",

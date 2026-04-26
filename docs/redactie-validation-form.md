@@ -807,6 +807,46 @@ ontbreekt. Bij upstream-fouten: `save_status: "failed"` met
 > dat geval `{"action":"dry_run_update","shared_secret":"…", … }` direct
 > naar `/exec` — er wordt niets weggeschreven.
 
+### Eerste geslaagde live save — 2026-04-26 22:24 CEST
+
+Op 2026-04-26 rond 22:24 CEST is de eerste echte redactie review-save
+gelukt op de Cloudflare Pages **Preview**. Productie is **niet**
+aangeraakt.
+
+- **Preview-omgeving:** branch
+  `test/regional-editorial-contributor-intake`,
+  `https://test-regional-editorial-cont.esrf-clean.pages.dev/redactie-validation.html`.
+- **Toegangscode gebruikt:** `ESRF-Redactie-D86E91`.
+- **Activatie-toggle:** `REDACTIE_REVIEW_WRITE_ENABLED=true` is
+  uitsluitend op het Preview-project gezet. Productie is niet
+  geraakt; daar geeft de Cloudflare Pages Function nog steeds 404.
+- **Read-stap:** de pagina laadde **9 echte LAB-rijen**
+  (`mode: "lab"`).
+- **Save-stap:** één review-save uitgevoerd voor inzending
+  `sub_lab_20260425_1825_sheet`. Backend-respons:
+  - `ok: true`
+  - `mode: "lab"`
+  - `dry_run: false`
+  - `live_write_ready: true`
+  - `save_status: "saved"`
+  - `saved_to.review_tab: "LAB_Redactie_Reviews"`
+  - `saved_to.events_tab: "LAB_Workflow_Events"`
+  - `saved_to.review_id: "rev_20260426202343218_224302"`
+  - `rows_written: 2`
+  - `directory_master_touched: false`
+  - `automatic_publication: false`
+- **In de UI:** groene banner **`OPGESLAGEN IN DE REDACTIETABEL`**.
+  De originele inzending bleef ongewijzigd, `Directory_Master` werd
+  niet aangeraakt, er werd niets op de website gepubliceerd en er is
+  geen e-mail verstuurd.
+
+Dit bevestigt dat alle vier de gates passen op Preview en dat de
+end-to-end keten — Cloudflare Pages Function → Apps Script Web App
+(`office@esrf.net`) → `LAB_Redactie_Reviews` + `LAB_Workflow_Events` —
+werkt zoals beschreven. Het bewijs is ook vastgelegd in
+`validation-lab.json` →
+`redactie-validation-form` → `testEvidence.liveSaveEvidence`.
+
 ### Live-save uitschakelen (incident-respons)
 
 Verwijder of zet `REDACTIE_REVIEW_WRITE_ENABLED` op iets anders dan

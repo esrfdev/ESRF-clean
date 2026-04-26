@@ -125,6 +125,38 @@ drift detector in the same file fails if the inline helpers, the LAB
 button or the editorial summary minimum-length guard are removed from
 `submit-validation.html`.
 
+## First successful redactie review live save — 2026-04-26 (22:24 CEST)
+
+Later op 2026-04-26, rond 22:24 CEST, is de eerste end-to-end
+**redactie review live-save** gelukt op de Cloudflare Pages
+**Preview**. Productie bleef ongewijzigd.
+
+- Preview-formulier:
+  `https://test-regional-editorial-cont.esrf-clean.pages.dev/redactie-validation.html`
+- Toegangscode gebruikt: `ESRF-Redactie-D86E91`.
+- Cloudflare Pages env var `REDACTIE_REVIEW_WRITE_ENABLED=true` is
+  uitsluitend op het **Preview**-project gezet — Productie is niet
+  aangeraakt en de Cloudflare Pages Function geeft daar nog steeds 404.
+- De pagina laadde **9 echte LAB-rijen** (`mode: "lab"`).
+- Voor inzending `sub_lab_20260425_1825_sheet` is één review-save
+  uitgevoerd. Backend-respons: `ok: true`, `mode: "lab"`,
+  `dry_run: false`, `live_write_ready: true`, `save_status: "saved"`,
+  `saved_to.review_tab: "LAB_Redactie_Reviews"`,
+  `saved_to.events_tab: "LAB_Workflow_Events"`,
+  `saved_to.review_id: "rev_20260426202343218_224302"`,
+  `rows_written: 2`, `directory_master_touched: false`,
+  `automatic_publication: false`.
+- De UI toonde de groene banner
+  **`OPGESLAGEN IN DE REDACTIETABEL`**. Bevestigd: originele inzending
+  ongewijzigd, `Directory_Master` ongewijzigd, geen website-publicatie,
+  geen e-mail.
+
+Het bewijs is vastgelegd in `validation-lab.json` →
+`redactie-validation-form` → `testEvidence.liveSaveEvidence`. De
+volledige procedurele context staat in
+[`redactie-validation-form.md`](./redactie-validation-form.md) onder
+*"Eerste geslaagde live save — 2026-04-26 22:24 CEST"*.
+
 ## First successful LAB write — 2026-04-26
 
 The first end-to-end controlled lab-write happened on 2026-04-26 via
