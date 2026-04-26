@@ -321,7 +321,7 @@
       <li><strong>Niet publiceren</strong> — dit scherm publiceert nooit naar live, editorials of directory.</li>
       <li><strong>Directory_Master niet aanpassen</strong> — wijzigingen op deze pagina raken Directory_Master niet.</li>
       <li><strong>Preview pas na akkoord</strong> — een lab-draft of directory-candidate wordt pas gegenereerd nadat redactie de rij in de Sheet expliciet op approved zet.</li>
-      <li><strong>Geen e-mail, geen webhook</strong> — exports zijn handmatig kopieerbaar; niets verlaat de browser.</li>
+      <li><strong>Automatisch opslaan in LAB-mode</strong> — <em>Opslaan in redactietabel</em> schrijft append-only naar LAB_Redactie_Reviews + LAB_Workflow_Events. In sample-mode wordt niets opgeslagen. Geen kopiëren/plakken in de gewone werkflow; technische export is alleen een fallback voor beheer.</li>
       <li><strong>Bewerkingen wijzigen alleen het publicatievoorstel</strong> — de originele inzending blijft als bron en audit-spoor bewaard; geen automatische live publicatie.</li>
     </ul>
   </div>
@@ -882,7 +882,7 @@
       sEdit.appendChild(el('div', { class: 'rv-edit-warn', text:
         'Let op: bewerkingen wijzigen alleen het voorgestelde, publiek-gerichte concept. ' +
         'De originele inzending blijft als bron en audit-spoor bewaard. ' +
-        'Geen automatische live publicatie; export plak je handmatig in de juiste LAB_*-rij.' }));
+        'Geen automatische live publicatie. In LAB-mode schrijft "Opslaan in redactietabel" deze redactieversie automatisch weg in LAB_Redactie_Reviews + LAB_Workflow_Events; in sample-mode wordt niets opgeslagen. Technische export is alleen een fallback voor beheer.' }));
 
       var rules = el('div', { class: 'rv-edit-rules', id: 'rv-edit-rules' });
       rules.appendChild(el('strong', { text: 'Regels bij bewerken' }));
@@ -1282,7 +1282,7 @@
       },
       review_generated_at: new Date().toISOString(),
       generated_by: 'redactie-validation.html (lab, browser-only)',
-      warning: 'Validatie-only export. Bewerkingen vormen alleen een publicatievoorstel — de originele inzending (original_reference) blijft de bron. Niet automatisch ingelezen, geen auto-publicatie — plak handmatig in de juiste LAB_*-rij. Directory_Master niet aanpassen.'
+      warning: 'Validatie-only fallback-export voor beheer. Bewerkingen vormen alleen een publicatievoorstel — de originele inzending (original_reference) blijft de bron. Geen auto-publicatie. Normale werkflow: "Opslaan in redactietabel" schrijft automatisch naar LAB_Redactie_Reviews + LAB_Workflow_Events. Deze export alleen gebruiken als automatisch opslaan niet werkt en beheer hierom vraagt. Directory_Master niet aanpassen.'
     };
     // Strip any contact / PII keys unless caller explicitly opted in.
     if (includeContact && record.contact){

@@ -214,9 +214,13 @@ Belangrijk:
   `edited_publication_proposal` (redactieversie). Pas in een latere,
   handmatige stap kan deze redactieversie worden meegenomen naar de
   lab-promotion pipeline.
-- **Geen automatische live publicatie.** Knoppen genereren alleen
-  kopieerbare JSON of tekst — niets verlaat de browser, geen Sheet-write,
-  geen e-mail, geen webhook.
+- **Geen automatische live publicatie.** In LAB-mode schrijft de
+  hoofdknop *Opslaan in redactietabel* de redactieversie automatisch
+  weg in `LAB_Redactie_Reviews` + `LAB_Workflow_Events` (append-only,
+  via `/api/redactie-review-update`). In sample-mode wordt niets
+  opgeslagen. Geen kopiëren/plakken in de gewone werkflow; technische
+  export is alleen een fallback voor beheer wanneer automatisch
+  opslaan niet werkt.
 
 ### Activeren
 
@@ -358,8 +362,10 @@ Twee samenvatting-formaten:
 
 - **Tekst-samenvatting (hoofdknop output)** — leesbaar regel-per-veld,
   prettig om in een Sheet-cel te plakken.
-- **JSON (technische export)** — vlak object dat de redactie of
-  beheer handmatig in de juiste LAB_*-rij plakt. Sleutels:
+- **JSON (technische export, fallback)** — vlak object dat beheer
+  alleen gebruikt als audit-bestand wanneer automatisch opslaan niet
+  werkt en beheer hierom expliciet vraagt. Geen onderdeel van de
+  gewone werkflow. Sleutels:
   ```json
   {
     "submission_id": "...",
@@ -416,7 +422,7 @@ Twee samenvatting-formaten:
     },
     "review_generated_at": "<ISO>",
     "generated_by": "redactie-validation.html (lab, browser-only)",
-    "warning": "Validatie-only export. Bewerkingen vormen alleen een publicatievoorstel — de originele inzending (original_reference) blijft de bron. Niet automatisch ingelezen, geen auto-publicatie — plak handmatig in de juiste LAB_*-rij. Directory_Master niet aanpassen.",
+    "warning": "Validatie-only fallback-export voor beheer. Bewerkingen vormen alleen een publicatievoorstel — de originele inzending (original_reference) blijft de bron. Geen auto-publicatie. Normale werkflow: \"Opslaan in redactietabel\" schrijft automatisch naar LAB_Redactie_Reviews + LAB_Workflow_Events. Deze export alleen gebruiken als automatisch opslaan niet werkt en beheer hierom vraagt. Directory_Master niet aanpassen.",
     "contact_disclosed": false
   }
   ```

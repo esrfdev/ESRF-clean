@@ -530,6 +530,88 @@ check('primary action area carries a mode-aware status note', () => {
     'old lab-mode "geen automatische opslag" banner must be removed');
 });
 
+// ── QA fix 2026-04-26: removed copy/paste-as-normal-workflow phrasing ──
+check('top validation block no longer claims exports zijn handmatig kopieerbaar (QA fix)', () => {
+  // Old wording from before the automatic-save flow was wired up. After
+  // the QA pass on commit 8306159 this phrase must not appear anywhere
+  // user-visible — it implied copy/paste was the normal path.
+  assert.ok(!html.includes('exports zijn handmatig kopieerbaar'),
+    'old "exports zijn handmatig kopieerbaar" wording must be removed');
+});
+
+check('edit warning no longer instructs to plak handmatig in de juiste LAB_*-rij (QA fix)', () => {
+  // The edit-mode warning previously ended with a copy/paste instruction.
+  // It must now describe automatic save in LAB-mode and clarify that
+  // technical export is only a fallback.
+  assert.ok(!/export plak je handmatig/i.test(html),
+    'old "export plak je handmatig" wording must be removed from edit warning');
+  assert.ok(!/plak handmatig in de juiste LAB_\*-rij/i.test(html),
+    'old "plak handmatig in de juiste LAB_*-rij" instruction must be removed');
+});
+
+check('top validation block now describes automatic save + fallback explicitly (QA fix)', () => {
+  // New wording must state automatic save in LAB-mode and that technical
+  // export is only a fallback for beheer.
+  assert.ok(/Automatisch opslaan in LAB-mode/.test(html),
+    'expected new "Automatisch opslaan in LAB-mode" wording in top validation block');
+  assert.ok(/append-only naar LAB_Redactie_Reviews \+ LAB_Workflow_Events/.test(html),
+    'expected new wording referencing append-only writes to LAB_Redactie_Reviews + LAB_Workflow_Events');
+  assert.ok(/technische export is alleen een fallback voor beheer/i.test(html),
+    'expected technical export described as fallback for beheer in top validation block');
+});
+
+check('edit-mode warning now states automatic save + fallback (QA fix)', () => {
+  // The edit-mode banner must explain the automatic save target and
+  // mark technical export as fallback only.
+  assert.ok(/schrijft "Opslaan in redactietabel" deze redactieversie automatisch weg in LAB_Redactie_Reviews \+ LAB_Workflow_Events/.test(html),
+    'expected edit warning to describe automatic save into LAB_Redactie_Reviews + LAB_Workflow_Events');
+  assert.ok(/in sample-mode wordt niets opgeslagen/i.test(html),
+    'expected edit warning to state nothing is saved in sample-mode');
+  assert.ok(/Technische export is alleen een fallback voor beheer/i.test(html),
+    'expected edit warning to mark technical export as fallback only');
+});
+
+check('export warning string drops manual-paste phrasing and adds fallback wording (QA fix)', () => {
+  const r = hooks.SAMPLE[0];
+  const out = hooks.buildExportPayload(r, {
+    process_step: 'in_review', review_status: 'in_review',
+    reminder: '', next_required_action: '', assigned_to: '',
+    due_date: '', review_notes_internal: ''
+  }, false, null);
+  assert.ok(!/plak handmatig in de juiste LAB_\*-rij/i.test(out.warning),
+    'export warning must not instruct to "plak handmatig in de juiste LAB_*-rij"');
+  assert.match(out.warning, /fallback-export voor beheer/i,
+    'export warning must describe itself as a fallback-export for beheer');
+  assert.match(out.warning, /Opslaan in redactietabel/,
+    'export warning must reference the normal automatic-save action');
+  assert.match(out.warning, /alleen gebruiken als automatisch opslaan niet werkt/i,
+    'export warning must state it is only for when automatic save fails');
+});
+
+check('validation-lab.json no longer says export is uitsluitend kopieerbaar (klembord) (QA fix)', () => {
+  const blob = JSON.stringify(manifest);
+  assert.ok(!/export is uitsluitend kopieerbaar \(klembord\)/.test(blob),
+    'old "export is uitsluitend kopieerbaar (klembord)" wording must be removed from manifest');
+  // And the new wording referencing automatic save + fallback should be present.
+  assert.ok(/LAB-mode 'Opslaan in redactietabel' POST't naar \/api\/redactie-review-update/.test(blob),
+    'expected manifest to describe LAB-mode automatic save in the exit criteria');
+  assert.ok(/Technische export is alleen een fallback voor beheer/.test(blob),
+    'expected manifest to mark technical export as fallback only');
+});
+
+check('docs no longer claim Knoppen genereren alleen kopieerbare JSON of tekst (QA fix)', () => {
+  const docPath = path.join(repoRoot, 'docs', 'redactie-validation-form.md');
+  const md = fs.readFileSync(docPath, 'utf8');
+  assert.ok(!/Knoppen genereren alleen\s+kopieerbare JSON of tekst/.test(md),
+    'old "Knoppen genereren alleen kopieerbare JSON of tekst" wording must be removed from docs');
+  assert.ok(!/handmatig in de juiste LAB_\*-rij plakt/.test(md),
+    'old "handmatig in de juiste LAB_*-rij plakt" wording must be removed from docs');
+  assert.match(md, /\*Opslaan in redactietabel\*[\s\S]*automatisch[\s\S]*weg in `LAB_Redactie_Reviews` \+ `LAB_Workflow_Events`/,
+    'expected docs to describe automatic save in LAB-mode');
+  assert.match(md, /technische\s+export is alleen een fallback voor beheer wanneer automatisch\s+opslaan niet werkt/i,
+    'expected docs to mark technical export as fallback for beheer');
+});
+
 // ── docs file exists ─────────────────────────────────────────────────────
 check('docs/redactie-validation-form.md exists and reflects automatic save', () => {
   const p = path.join(repoRoot, 'docs', 'redactie-validation-form.md');
