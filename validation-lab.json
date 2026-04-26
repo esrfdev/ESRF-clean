@@ -384,7 +384,33 @@
       "status": "in-validation",
       "path": "/redactie-validation.html",
       "owner": "ESRF Editorial",
-      "purpose": "Hidden, noindex redactie-UI die LAB_Intake_Submissions / LAB_Editorial_Intake-rijen één voor één toont als leesbare kaarten met procesgang, status, herinnering, volgende actie, deadline en review-notities. Naast review heeft de pagina een edit-mode waarmee redactie een Redactieversie / Publicatievoorstel opbouwt (edited_title, edited_organization, edited_summary, edited_region, edited_sector_or_tags, edited_public_body, editorial_note, change_note, edited_by) — de originele inzending blijft daarbij als read-only bron / audit-spoor staan en wordt meegenomen als original_reference in de export. De Drive-spreadsheet blijft single source of truth; deze pagina schrijft nooit naar Sheet, GitHub, e-mail of Directory_Master en publiceert nooit automatisch. Twee preview-only Cloudflare Pages Functions ondersteunen de pagina: /api/redactie-review (read; gated achter REDACTIE_REVIEW_ACCESS_CODE; valt terug op sample-data wanneer code/webhook ontbreken) en /api/redactie-review-update (dry-run; bouwt review-update payload, weigert Directory_Master en niet-LAB_* targets, live write hard uitgeschakeld op deze branch). Toegangscode wordt nooit lokaal opgeslagen — geen localStorage, geen sessionStorage, geen cookie.",
+      "purpose": "Hidden, noindex redactie-UI die LAB_Intake_Submissions / LAB_Editorial_Intake-rijen één voor één toont als leesbare kaarten met procesgang, status, herinnering, volgende actie, deadline en review-notities. Naast review heeft de pagina een edit-mode waarmee redactie een Redactieversie / Publicatievoorstel opbouwt (edited_title, edited_organization, edited_summary, edited_region, edited_sector_or_tags, edited_public_body, editorial_note, change_note, edited_by) — de originele inzending blijft daarbij als read-only bron / audit-spoor staan en wordt meegenomen als original_reference in de export. Bovenaan de pagina staat een zichtbare 5-stappen workflow (1 Ontvangen, 2 In redactie, 3 Controle nodig, 4 Goedgekeurd voor concept, 5 Afgewezen/geparkeerd). De hoofdactie onderaan gebruikt role-based labels: in sample/dry-run mode 'Maak testvoorbeeld — niets wordt opgeslagen' (geel), in LAB-mode 'Bekijk redactiebeoordeling vóór opslaan' (groen) — geen knop suggereert ooit een echte automatische save. Onder elke hoofdactie staat een 'Wat gebeurt er na deze knop?'-blok in eenvoudig Nederlands (wat wel / wat níet / wat jij hierna doet). Technische copy/download/export-knoppen (Kopieer technische audit-export, Download auditbestand (JSON), Kopieer tekstsamenvatting voor beheer) zijn verplaatst naar een ingeklapt <details class='rv-tech'>-blok 'Technische export voor beheer (alleen openen als beheer hierom vraagt)'. Naast bewerkbare velden staat een 'Regels bij bewerken'-blok met de waarschuwingen 'Wijzig hier alleen de redactieversie, niet de originele inzending.' en 'Gebruik geen persoonlijke contactgegevens in publicatietekst.'. De Drive-spreadsheet blijft single source of truth; deze pagina schrijft nooit naar Sheet, GitHub, e-mail of Directory_Master en publiceert nooit automatisch. Twee preview-only Cloudflare Pages Functions ondersteunen de pagina: /api/redactie-review (read; gated achter REDACTIE_REVIEW_ACCESS_CODE; valt terug op sample-data wanneer code/webhook ontbreken) en /api/redactie-review-update (dry-run; bouwt review-update payload, weigert Directory_Master en niet-LAB_* targets, live write hard uitgeschakeld op deze branch). Toegangscode wordt nooit lokaal opgeslagen — geen localStorage, geen sessionStorage, geen cookie.",
+      "uxRevision": {
+        "date": "2026-04-26",
+        "summary": "Action area onderaan herontworpen voor niet-technische redacteurs. Ambigue technische labels (copy JSON, download payload, generate update) zijn weg als hoofdactie. Hoofdknop is mode-aware en role-based; 'Wat gebeurt er na deze knop?'-instructieblok staat onder elke hoofdactie; technische copy/download/export-knoppen zijn ingeklapt in <details class='rv-tech'>; zichtbare 5-stappen workflow staat bovenaan; expliciete edit-warnings staan naast de invoervelden. Geen wijziging aan safety-laag: nog steeds geen Sheet-write, geen mail, geen auto-publish, geen Directory_Master-aanraking, originele inzending blijft read-only.",
+        "primaryActionLabels": {
+          "sampleMode": "Maak testvoorbeeld — niets wordt opgeslagen",
+          "labMode": "Bekijk redactiebeoordeling vóór opslaan"
+        },
+        "technicalExportLabels": [
+          "Kopieer technische audit-export",
+          "Download auditbestand (JSON)",
+          "Kopieer tekstsamenvatting voor beheer"
+        ],
+        "technicalExportContainer": "<details class='rv-tech'> 'Technische export voor beheer (alleen openen als beheer hierom vraagt)'",
+        "workflowSteps": [
+          "1 Ontvangen — alleen lezen en controleren",
+          "2 In redactie — tekst aanpassen in redactieversie",
+          "3 Controle nodig — bron/contact/inhoud laten controleren",
+          "4 Goedgekeurd voor concept — klaar om lab-draft/candidate te maken",
+          "5 Afgewezen / geparkeerd — niet verder verwerken"
+        ],
+        "editFieldWarnings": [
+          "Wijzig hier alleen de redactieversie, niet de originele inzending.",
+          "Gebruik geen persoonlijke contactgegevens in publicatietekst.",
+          "Bij twijfel: zet de status op 'Controle nodig' en laat een collega meelezen."
+        ]
+      },
       "lastUpdated": "2026-04-26",
       "visibility": "hidden",
       "labOnly": true,
@@ -436,7 +462,12 @@
         "Toegangspaneel toont SAMPLE-MODE bij ontbrekende REDACTIE_REVIEW_ACCESS_CODE en activation_required-lijst; LAB-MODE wordt pas getoond wanneer code geldig is en het Apps Script read-webhook geconfigureerd is. Code wordt nooit in localStorage / sessionStorage / cookies opgeslagen.",
         "/api/redactie-review en /api/redactie-review-update geven beide 404 op productie (CF_PAGES_BRANCH=main of ESRF_PREVIEW niet preview); beide endpoints strippen contact en forbidden keys; update-endpoint weigert Directory_Master als target_tab.",
         "Geen Google Sheets-write, GitHub- of e-mail-call vanuit de browser; export is uitsluitend kopieerbaar (klembord). Geen automatische live publicatie.",
-        "Geen publieke navigatie, footer-link of sitemap-vermelding; pagina is niet vanaf productie bereikbaar."
+        "Geen publieke navigatie, footer-link of sitemap-vermelding; pagina is niet vanaf productie bereikbaar.",
+        "Hoofdactie onderaan is role-based en mode-aware: in sample/dry-run mode 'Maak testvoorbeeld — niets wordt opgeslagen' (geel TESTVOORBEELD-pil), in LAB-mode 'Bekijk redactiebeoordeling vóór opslaan' (groen LAB-MODE-pil). Geen knop mag een echte automatische save suggereren zolang live write disabled is.",
+        "Onder elke hoofdactie staat een 'Wat gebeurt er na deze knop?'-instructieblok met drie regels (wat wel gebeurt / wat níet gebeurt / wat de redacteur hierna doet) in eenvoudig Nederlands.",
+        "Technische copy/download/export-knoppen ('Kopieer technische audit-export', 'Download auditbestand (JSON)', 'Kopieer tekstsamenvatting voor beheer') leven in een ingeklapt <details class='rv-tech'>-blok 'Technische export voor beheer' met de hint 'Alleen gebruiken als beheer hierom vraagt.'; de oude ambigue labels (Genereer review-update (JSON), Genereer tekst-samenvatting, Kopieer naar klembord) verschijnen niet meer als hoofdactie.",
+        "Bovenaan de pagina staat een zichtbare 5-stappen workflow-panel: 1 Ontvangen, 2 In redactie, 3 Controle nodig, 4 Goedgekeurd voor concept, 5 Afgewezen/geparkeerd, met korte beschrijvingen die 1-op-1 matchen met de process_step / review_status keuzes.",
+        "Naast de bewerkbare velden in edit-mode staat een 'Regels bij bewerken'-blok met de zinnen 'Wijzig hier alleen de redactieversie, niet de originele inzending.' en 'Gebruik geen persoonlijke contactgegevens in publicatietekst.'."
       ]
     },
     {

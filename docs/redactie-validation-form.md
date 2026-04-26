@@ -234,12 +234,79 @@ De pagina is niet gelinkt vanuit productie-navigatie, footer of sitemap.
 Productie kan alleen via direct intypen van het pad worden bereikt — en is
 daar `noindex`.
 
-## Export — wat zit erin, wat niet
+## Acties onderaan de pagina (2026-04-26 — UX-revisie)
 
-Twee knoppen:
+De actieknoppen onderaan zijn opnieuw ingedeeld zodat een redacteur
+zonder technische uitleg precies weet wat een knop doet, en wat hij
+níet doet. Niets aan de safety-laag is veranderd: er wordt nog steeds
+niets opgeslagen, gemaild of gepubliceerd; de Drive-spreadsheet blijft
+single source of truth en Directory_Master wordt nooit aangeraakt.
 
-- **Genereer review-update (JSON)** — produceert een vlak object dat de
-  redactie handmatig in de juiste LAB_*-rij plakt. Sleutels:
+### Hoofdactie (zichtbaar, role-based)
+
+- **Sample- / dry-run-mode (huidige toestand op deze branch):**
+  knoplabel **`Maak testvoorbeeld — niets wordt opgeslagen`**.
+  Boven de knop staat een gele pil **`TESTVOORBEELD · niets wordt
+  opgeslagen`**. De pagina draait nu altijd in deze mode totdat de
+  REDACTIE_REVIEW_*-env vars op het preview-project staan.
+- **LAB-mode (later, alleen na activatie):** knoplabel
+  **`Bekijk redactiebeoordeling vóór opslaan`**. Boven de knop staat
+  een groene pil **`LAB-MODE · echte rij, nog steeds geen
+  automatische opslag`**. Ook in deze mode is *opslaan* nooit
+  automatisch — de redacteur plakt de samenvatting handmatig in de
+  Sheet.
+
+> Een knop zoals *Opslaan als redactiebeoordeling* verschijnt pas
+> wanneer een server-side write-pad geactiveerd is. Op deze branch is
+> dat pad bewust niet geïmplementeerd; de UI mag daarom nooit een
+> label tonen dat een echte save suggereert.
+
+Direct onder de hoofdknop staat een **`Wat gebeurt er na deze knop?`**
+instructieblok met drie regels in eenvoudig Nederlands:
+
+1. *Wat er wel gebeurt:* je krijgt een leesbare samenvatting van je
+   redactiebeoordeling te zien.
+2. *Wat er níet gebeurt:* niets wordt opgeslagen in de Sheet, niets
+   gemaild, niets gepubliceerd, niets aan Directory_Master gewijzigd.
+3. *Wat jij hierna doet:* lees de samenvatting, plak die handmatig in
+   de juiste rij van de LAB_*-tab in de Drive-spreadsheet en zet daar
+   de status.
+
+Naast de hoofdknop staat **`Wis voorbeeld — begin opnieuw`**
+(rv-btn-warn). Die knop wist alleen het preview-paneel; geen Sheet,
+geen export, geen status wordt geraakt.
+
+### Technische export voor beheer (ingeklapt)
+
+De vroegere knoppen *Genereer review-update (JSON)*, *Genereer
+tekst-samenvatting* en *Kopieer naar klembord* zijn **niet meer**
+zichtbaar als hoofdactie. Ze leven nu onder een ingeklapt
+`<details class="rv-tech">` blok met titel
+**`Technische export voor beheer (alleen openen als beheer hierom
+vraagt)`**. Boven de knoppen staat de waarschuwing
+*“Alleen gebruiken als beheer hierom vraagt.”*
+
+Knoppen binnen het blok (role-based labels):
+
+- **`Kopieer technische audit-export`** — bouwt JSON en zet die op je
+  klembord.
+- **`Download auditbestand (JSON)`** — bouwt JSON en biedt een
+  lokaal `.json`-bestand aan (browser-only `Blob`/`URL.createObjectURL`,
+  geen netwerk).
+- **`Kopieer tekstsamenvatting voor beheer`** — bouwt de tekstvariant
+  en zet die op je klembord.
+
+Onder de knoppen staat dezelfde drie-regel instructieblok
+(*wat wel / wat níet / wat jij hierna doet*).
+
+### Welke informatie de export bevat
+
+Twee samenvatting-formaten:
+
+- **Tekst-samenvatting (hoofdknop output)** — leesbaar regel-per-veld,
+  prettig om in een Sheet-cel te plakken.
+- **JSON (technische export)** — vlak object dat de redactie of
+  beheer handmatig in de juiste LAB_*-rij plakt. Sleutels:
   ```json
   {
     "submission_id": "...",
@@ -307,8 +374,6 @@ Twee knoppen:
   > is óf identiek aan de bron (bij geen wijzigingen) óf een door
   > redactie aangepaste versie. `changed_fields` somt op welke
   > proposal-velden afwijken.
-- **Genereer tekst-samenvatting** — dezelfde inhoud als compacte regel-per-veld
-  tekst, prettig om in een Sheet-cel te plakken.
 
 **Wat zit er bewust NIET in de export, behalve als de operator de toggle
 "Toon contactgegevens" expliciet aanzet:**
@@ -336,19 +401,64 @@ de standaard is altijd zonder PII.
 | Promotie naar editorial draft / directory candidate | Nee — handmatig via `scripts/lab_promote/cli`, alleen na akkoord in Sheet |
 | Publicatie naar live | Nee — alleen via reguliere PR-merge na expliciete approval |
 
-## Aanbevolen redactie-flow
+## Zichtbare 5-stappen redactie-workflow
+
+Bovenaan de pagina staat een gele/grijze panel met de vaste volgorde
+die elke inzending doorloopt. De labels matchen 1-op-1 met de
+process_step / review_status keuzes in het formulier:
+
+1. **Ontvangen** — alleen lezen en controleren. Niet bewerken,
+   niet beantwoorden. *(process_step: `binnengekomen`)*
+2. **In redactie** — tekst aanpassen in de redactieversie. De
+   originele inzending blijft staan. *(process_step: `in_review`)*
+3. **Controle nodig** — bron, contact of inhoud laten controleren
+   voordat je verder gaat. *(process_step: `wachten_op_indiener`,
+   review_status: `pending_clarification`)*
+4. **Goedgekeurd voor concept** — klaar om lab-draft of
+   directory-candidate te maken via beheer.
+   *(process_step: `klaar_voor_akkoord` / `akkoord_voor_promote`,
+   review_status: `approved_for_*`)*
+5. **Afgewezen / geparkeerd** — niet verder verwerken. Reden in
+   review-notities. *(process_step: `afgewezen` / `gearchiveerd`,
+   review_status: `rejected`)*
+
+## Regels bij bewerken (zichtbaar naast de invoervelden)
+
+In edit-mode staat naast de bewerkbare velden een rood-roze
+*Regels bij bewerken* blok:
+
+- *Wijzig hier alleen de redactieversie, niet de originele inzending.*
+- *Gebruik geen persoonlijke contactgegevens in publicatietekst.*
+- *Bij twijfel: zet de status op “Controle nodig” en laat een collega
+  meelezen.*
+
+## Aanbevolen redactie-flow (nieuwe UX)
 
 1. Open `redactie-validation.html` op de Cloudflare Pages branch-preview.
-2. Selecteer de inzending uit de lijst (gefilterd op regio of type indien nodig).
-3. Lees de samenvatting en velden in het rechterpaneel.
-4. Vul procesgang, status, reminder/checkvraag, volgende actie, assigned_to,
-   deadline en review-notities in.
-5. Klik **Genereer review-update (JSON)** of **tekst-samenvatting**.
-6. Klik **Kopieer naar klembord**.
-7. Open de Drive-spreadsheet, ga naar de juiste LAB_*-rij (zie
+2. Lees de **5-stappen workflow** bovenaan en bepaal in welke stap
+   de huidige inzending zit.
+3. Selecteer de inzending uit de lijst (gefilterd op regio of type indien nodig).
+4. Lees de samenvatting en velden in het rechterpaneel.
+5. (Optioneel) Open **Bewerken — stel redactieversie op** om een
+   publicatievoorstel te maken. Volg de *Regels bij bewerken*; de
+   originele inzending blijft read-only.
+6. Vul procesgang, status, reminder/checkvraag, volgende actie,
+   assigned_to, deadline en review-notities in.
+7. Klik op de hoofdknop:
+   - in sample/dry-run mode heet die **`Maak testvoorbeeld — niets
+     wordt opgeslagen`**;
+   - in (toekomstige) LAB-mode heet die **`Bekijk
+     redactiebeoordeling vóór opslaan`**.
+   In beide gevallen krijg je een leesbare samenvatting; er wordt
+   nooit automatisch geschreven, gemaild of gepubliceerd.
+8. Open de Drive-spreadsheet, ga naar de juiste LAB_*-rij (zie
    `source_row_hint`) en plak de waarden in de bestaande kolommen — *niet*
    de hele JSON in één cel.
-8. Pas daarna mag de lab-promotion pipeline lopen voor goedgekeurde rijen.
+9. Alleen wanneer beheer expliciet vraagt om een audit-bestand:
+   open **Technische export voor beheer** (ingeklapt) en kies daar
+   *Kopieer technische audit-export*, *Download auditbestand (JSON)*
+   of *Kopieer tekstsamenvatting voor beheer*.
+10. Pas daarna mag de lab-promotion pipeline lopen voor goedgekeurde rijen.
 
 ## Tests
 

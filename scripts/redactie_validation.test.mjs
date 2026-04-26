@@ -383,6 +383,81 @@ check('contact still hidden by default — page emits "VERBORGEN" mark by defaul
   assert.ok(html.includes('rv-show-contact'), 'expected rv-show-contact toggle id');
 });
 
+// ── New role-based UX checks (2026-04-26) ───────────────────────────────
+check('numbered redaction workflow panel is visible (5 steps, plain Dutch)', () => {
+  assert.match(html, /rv-workflow/, 'expected rv-workflow panel container');
+  assert.match(html, /Ontvangen/);
+  assert.match(html, /In redactie/);
+  assert.match(html, /Controle nodig/);
+  assert.match(html, /Goedgekeurd voor concept/);
+  assert.match(html, /Afgewezen \/ geparkeerd/);
+});
+
+check('primary action label is role-based, mode-aware (sample + lab variants)', () => {
+  // Sample-mode primary label MUST be explicit that nothing is saved.
+  assert.ok(html.includes('Maak testvoorbeeld — niets wordt opgeslagen'),
+    'expected sample-mode primary label');
+  // LAB-mode primary label: review-before-save, not a technical export label.
+  assert.ok(html.includes('Bekijk redactiebeoordeling vóór opslaan'),
+    'expected lab-mode primary label');
+});
+
+check('"Wat gebeurt er na deze knop?" instruction block is present', () => {
+  assert.ok(html.includes('Wat gebeurt er na deze knop?'),
+    'expected the explicit instruction heading next to the primary action');
+  assert.ok(html.includes('Wat er wel gebeurt'));
+  assert.ok(html.includes('Wat er níet gebeurt'));
+  assert.ok(html.includes('Wat jij hierna doet'));
+});
+
+check('technical export actions live inside a collapsed <details> block', () => {
+  // The technical export block is built dynamically via el('details', ...).
+  // We assert the constructor + its label/class, plus the role-based labels
+  // for the buttons inside it.
+  assert.match(html, /el\(\s*['"]details['"][^)]*rv-tech/,
+    'expected runtime construction of <details class="rv-tech">');
+  assert.ok(html.includes('Technische export voor beheer'),
+    'expected technical-export details summary in plain Dutch');
+  assert.ok(html.includes('Alleen gebruiken als beheer hierom vraagt'),
+    'expected explicit "Alleen gebruiken als beheer hierom vraagt" hint');
+  // Role-based labels for the technical buttons (no longer at the top
+  // level — only inside the collapsed details block).
+  assert.ok(html.includes('Kopieer technische audit-export'));
+  assert.ok(html.includes('Download auditbestand (JSON)'));
+  assert.ok(html.includes('Kopieer tekstsamenvatting voor beheer'));
+});
+
+check('old ambiguous primary labels are NOT used as primary actions anymore', () => {
+  // These labels were ambiguous to non-technical editors. They must not
+  // appear as the primary, top-level action button text. They may still
+  // appear inside the technical <details> block for beheer, but never as
+  // a primary button. We therefore look for the original ambiguous
+  // primary-button markup that USED to exist.
+  assert.ok(!/class="rv-btn rv-btn-primary"[^>]*id="rv-export-json"/.test(html),
+    'old "Genereer review-update (JSON)" primary button must be removed');
+  // Also assert the literal old primary label string no longer occurs as
+  // a plain button label. (It can still be referenced in docs / comments.)
+  // Keep this lenient: just check the button id is gone.
+  assert.ok(!html.includes('id="rv-export-text"'),
+    'old "Genereer tekst-samenvatting" button id must be removed');
+  assert.ok(!html.includes('id="rv-copy"'),
+    'old generic "Kopieer naar klembord" button id must be removed (folded into role-based actions)');
+});
+
+check('explicit edit-field warnings are present when bewerken is on', () => {
+  assert.ok(html.includes('Wijzig hier alleen de redactieversie, niet de originele inzending.'),
+    'expected edit-mode warning: change only the redactieversie');
+  assert.ok(html.includes('Gebruik geen persoonlijke contactgegevens in publicatietekst.'),
+    'expected edit-mode warning: no personal contact details in publication text');
+});
+
+check('primary action area carries a mode-aware status note', () => {
+  assert.ok(html.includes('TESTVOORBEELD · niets wordt opgeslagen'),
+    'expected sample-mode primary status note');
+  assert.ok(html.includes('LAB-MODE · echte rij, nog steeds geen automatische opslag'),
+    'expected lab-mode primary status note');
+});
+
 // ── docs file exists ─────────────────────────────────────────────────────
 check('docs/redactie-validation-form.md exists', () => {
   const p = path.join(repoRoot, 'docs', 'redactie-validation-form.md');
