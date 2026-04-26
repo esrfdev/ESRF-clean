@@ -19,6 +19,9 @@
     '</svg>';
 
   // Topics — answers and CTAs reference confirmed pages/anchors.
+  // Pattern set follows common nonprofit/foundation help-widget categories:
+  // identity, mission, find/explore, governance/trust, partner, support,
+  // publications, contact.
   var TOPICS = [
     {
       id: 'about',
@@ -29,7 +32,7 @@
         'community that maps and connects organisations working on security and ' +
         'resilience across Europe.</p>' +
         '<p>The Foundation curates a public directory and atlas, publishes editorials, ' +
-        'and supports a transparent governance model.</p>',
+        'and works in the open.</p>',
       cta: { href: 'about.html', label: 'Read the Foundation page' }
     },
     {
@@ -37,11 +40,38 @@
       label: 'Mission &amp; focus',
       title: 'Our mission and focus',
       body:
-        '<p>ESRF stands for <strong>a Europe that holds</strong>: prevent, protect, ' +
-        'prepare, respond, recover. Five pillars frame how we organise the field.</p>' +
-        '<p>We focus on ten vital sectors — from emergency services and security to ' +
-        'critical infrastructure, energy, transport, and digital resilience.</p>',
+        '<p>ESRF stands for <strong>a Europe that holds</strong>. Five pillars frame ' +
+        'the work: <em>Vigilance</em> (prevent), <em>Stewardship</em> (protect), ' +
+        '<em>Empowerment</em> (prepare), <em>Solidarity</em> (respond) and ' +
+        '<em>Renewal</em> (recover).</p>' +
+        '<p>We follow these principles across the sectors that keep daily life ' +
+        'working — from emergency services and security to critical infrastructure, ' +
+        'energy, transport, and digital resilience.</p>',
       cta: { href: 'about.html#pillars', label: 'See the five pillars' }
+    },
+    {
+      id: 'explore',
+      label: 'Find organisations',
+      title: 'Directory and Atlas',
+      body:
+        '<p>The <strong>Directory</strong> lists organisations active in European ' +
+        'security and resilience, organised by pillar, sector and country.</p>' +
+        '<p>The <strong>Atlas</strong> is the same network shown on a map, useful for ' +
+        'finding organisations near a place or along a corridor.</p>',
+      cta: { href: 'directory.html', label: 'Open the Directory' },
+      altCta: { href: 'map.html', label: 'Open the Atlas' }
+    },
+    {
+      id: 'governance',
+      label: 'Governance &amp; trust',
+      title: 'Governance and transparency',
+      body:
+        '<p>ESRF is run by a small editorial team and supported by patrons. The ' +
+        'Foundation does not sell listings, rank its members, or charge subscription ' +
+        'fees.</p>' +
+        '<p>How listings are reviewed, how the network is governed, and how the ' +
+        'Foundation funds itself are documented on the about page.</p>',
+      cta: { href: 'about.html#how-it-works', label: 'How it works' }
     },
     {
       id: 'partnership',
@@ -49,22 +79,24 @@
       title: 'Partnerships and listings',
       body:
         '<p>Organisations working in security or resilience can request a listing in ' +
-        'the ESRF directory. Patrons and sponsors support the public infrastructure of ' +
-        'the network.</p>' +
+        'the ESRF directory at no cost. Listings are reviewed against the editorial ' +
+        'criteria.</p>' +
         '<p>For partnership conversations, write to ' +
         '<a href="mailto:hello@esrf.net" style="color:var(--accent,#D24B1F)">hello@esrf.net</a>.</p>',
       cta: { href: 'request-listing.html', label: 'Request a listing' }
     },
     {
       id: 'contribute',
-      label: 'Contribute',
-      title: 'How to contribute',
+      label: 'Contribute &amp; support',
+      title: 'Contribute and support the work',
       body:
-        '<p>You can contribute by funding the Foundation, becoming a sponsor, or ' +
-        'helping curate the directory.</p>' +
+        '<p>Individual contributors can donate to the Foundation. Organisations can ' +
+        'become patrons or sponsors and help sustain the public infrastructure of the ' +
+        'network.</p>' +
         '<p>Contributions keep the directory, the atlas, and the editorials open and ' +
         'free to read.</p>',
-      cta: { href: 'fund.html', label: 'Contribute' }
+      cta: { href: 'fund.html', label: 'Contribute (donate)' },
+      altCta: { href: 'sponsor.html', label: 'Become a patron' }
     },
     {
       id: 'publications',
