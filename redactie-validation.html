@@ -132,6 +132,34 @@
   }
   .rv-export-hint{font-size:11px;color:#64748b;font-family:'IBM Plex Mono',monospace;margin:8px 0 0}
 
+  .rv-section-original{background:#f8fafc;border-color:#cbd5e1}
+  .rv-section-original h3{color:#334155}
+  .rv-section-edit{background:#fffbeb;border-color:#fde68a}
+  .rv-section-edit h3{color:#92400e}
+  .rv-readonly-note{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:#475569;letter-spacing:0.04em;
+    background:#e2e8f0;color:#1e293b;padding:4px 8px;border-radius:3px;display:inline-block;margin-bottom:6px;
+  }
+  .rv-edit-note{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;
+    background:#fde68a;color:#7c2d12;padding:4px 8px;border-radius:3px;display:inline-block;margin-bottom:6px;
+  }
+  .rv-edit-warn{
+    background:#fff7ed;border:1px dashed #fb923c;color:#7c2d12;
+    padding:8px 12px;border-radius:4px;font-size:12.5px;line-height:1.5;margin:6px 0 12px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .rv-changes{
+    margin:8px 0;padding:8px 12px;border-radius:4px;
+    background:#ecfeff;border:1px solid #67e8f9;color:#155e75;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.55;
+  }
+  .rv-changes strong{color:#0e7490;letter-spacing:0.06em;text-transform:uppercase;font-size:11px}
+  .rv-changes ul{margin:4px 0 0;padding-left:18px}
+  .rv-changes li{margin:2px 0}
+  .rv-changes-empty{color:#475569;font-style:italic}
+  .rv-readonly{background:#f1f5f9 !important;color:#475569 !important}
+
   .rv-foot{
     margin-top:30px;padding-top:14px;border-top:1px solid #e2e8f0;
     font-family:'IBM Plex Mono',monospace;font-size:11px;color:#64748b;letter-spacing:0.04em;
@@ -156,6 +184,7 @@
       <li><strong>Directory_Master niet aanpassen</strong> — wijzigingen op deze pagina raken Directory_Master niet.</li>
       <li><strong>Preview pas na akkoord</strong> — een lab-draft of directory-candidate wordt pas gegenereerd nadat redactie de rij in de Sheet expliciet op approved zet.</li>
       <li><strong>Geen e-mail, geen webhook</strong> — exports zijn handmatig kopieerbaar; niets verlaat de browser.</li>
+      <li><strong>Bewerkingen wijzigen alleen het publicatievoorstel</strong> — de originele inzending blijft als bron en audit-spoor bewaard; geen automatische live publicatie.</li>
     </ul>
   </div>
 
@@ -163,7 +192,7 @@
     <div>
       <p class="rv-kicker">§ Redactie · validatie · noindex,nofollow</p>
       <h1 class="rv-h1">Redactieformulier — intake review</h1>
-      <p class="rv-deck">Beoordeel één inzending tegelijk in een leesbaar kaartformaat. Kies een rij links, vul stap, status, herinnering, volgende actie, deadline en review-notities rechts in. Klik op <em>Genereer review-update</em> om een veilige JSON/tekstsamenvatting te kopiëren in de Sheet — geen automatische schrijfactie.</p>
+      <p class="rv-deck">Beoordeel één inzending tegelijk in een leesbaar kaartformaat. Kies een rij links, vul stap, status, herinnering, volgende actie, deadline en review-notities rechts in. Open daarna <em>Bewerken</em> om een redactieversie / publicatievoorstel op te stellen — de <strong>originele inzending</strong> blijft als read-only bron staan. Klik op <em>Genereer review-update</em> om een veilige JSON/tekstsamenvatting te kopiëren in de Sheet — geen automatische schrijfactie, geen automatische publicatie.</p>
     </div>
   </div>
 
@@ -372,8 +401,65 @@
     });
   }
 
+  // ── Edit mode ───────────────────────────────────────────────────────────
+  // Editable fields for the redactieversie / publicatievoorstel. The
+  // original SAMPLE record is never mutated; edits live in `editsById`.
+  // Export carries both `original_reference` (snapshot of submitted source)
+  // and `edited_publication_proposal` (redactie-edited version).
+  var EDIT_FIELDS = [
+    { key: 'edited_title',           sourceKey: 'title',             label: 'Titel / naam' },
+    { key: 'edited_organization',    sourceKey: 'organization_name', label: 'Organisatie' },
+    { key: 'edited_summary',         sourceKey: 'summary',           label: 'Samenvatting / omschrijving' },
+    { key: 'edited_region',          sourceKey: 'region',            label: 'Regio' },
+    { key: 'edited_sector_or_tags',  sourceKey: null,                label: 'Sector / tags',
+      fromSource: function(r){ return r.sector_raw || r.topic_tags || ''; } },
+    { key: 'edited_public_body',     sourceKey: 'body_md_or_url',    label: 'Publicatie-veilige tekst (body)', textarea: true },
+    { key: 'editorial_note',         sourceKey: null,                label: 'Redactienotitie (publiek)', textarea: true,
+      fromSource: function(){ return ''; } },
+    { key: 'change_note',            sourceKey: null,                label: 'Wijzigingsnotitie (intern, waarom?)', textarea: true,
+      fromSource: function(){ return ''; } },
+    { key: 'edited_by',              sourceKey: null,                label: 'Bewerkt door (initialen / naam)',
+      fromSource: function(){ return ''; } }
+  ];
+
   // ── List rendering ──────────────────────────────────────────────────────
-  var state = { filter: '', activeId: null, showContact: false, exportText: '' };
+  var state = {
+    filter: '',
+    activeId: null,
+    showContact: false,
+    exportText: '',
+    editMode: false,
+    editsById: {} // submission_id → { edited_title, edited_summary, ... }
+  };
+
+  function originalValueFor(record, field){
+    if (typeof field.fromSource === 'function') return field.fromSource(record) || '';
+    if (field.sourceKey) return record[field.sourceKey] == null ? '' : String(record[field.sourceKey]);
+    return '';
+  }
+
+  function ensureEdits(record){
+    if (!record) return null;
+    var id = record.submission_id;
+    if (!state.editsById[id]){
+      var e = {};
+      EDIT_FIELDS.forEach(function(f){ e[f.key] = originalValueFor(record, f); });
+      state.editsById[id] = e;
+    }
+    return state.editsById[id];
+  }
+
+  function changedFieldKeys(record){
+    var edits = state.editsById[record.submission_id];
+    if (!edits) return [];
+    var changed = [];
+    EDIT_FIELDS.forEach(function(f){
+      var orig = originalValueFor(record, f);
+      var cur = edits[f.key] == null ? '' : String(edits[f.key]);
+      if (cur !== orig) changed.push(f.key);
+    });
+    return changed;
+  }
 
   function filteredRecords(){
     var q = state.filter.trim().toLowerCase();
@@ -427,9 +513,39 @@
       escapeHtml(r.type_label || '') + ' · ' + escapeHtml(r.source_tab) + ' · ' + escapeHtml(r.source_row_hint || '') + ' · submission ' + escapeHtml(r.submission_id)
     ]));
 
-    // Content section
-    var s1 = el('div', { class: 'rv-section' });
-    s1.appendChild(el('h3', { text: 'Inhoud' }));
+    // Edit-mode toggle
+    var editToggleWrap = el('div', { class: 'rv-actions' });
+    var editToggleBtn = el('button', {
+      class: 'rv-btn' + (state.editMode ? ' rv-btn-primary' : ''),
+      type: 'button',
+      id: 'rv-edit-toggle',
+      'aria-pressed': state.editMode ? 'true' : 'false'
+    }, [ state.editMode ? 'Bewerken: aan — sluit bewerker' : 'Bewerken — stel redactieversie op' ]);
+    editToggleBtn.addEventListener('click', function(){
+      state.editMode = !state.editMode;
+      if (state.editMode) ensureEdits(r);
+      state.exportText = '';
+      renderDetail();
+    });
+    editToggleWrap.appendChild(editToggleBtn);
+    if (state.editMode){
+      var editResetBtn = el('button', { class: 'rv-btn rv-btn-warn', type: 'button', id: 'rv-edit-reset' }, ['Reset bewerkingen naar origineel']);
+      editResetBtn.addEventListener('click', function(){
+        delete state.editsById[r.submission_id];
+        ensureEdits(r);
+        state.exportText = '';
+        renderDetail();
+      });
+      editToggleWrap.appendChild(editResetBtn);
+    }
+    d.appendChild(editToggleWrap);
+
+    // Content section — header changes when edit mode active
+    var s1 = el('div', { class: 'rv-section rv-section-original' });
+    s1.appendChild(el('h3', { text: state.editMode ? 'Originele inzending (read-only · bron / audit)' : 'Inhoud' }));
+    if (state.editMode){
+      s1.appendChild(el('span', { class: 'rv-readonly-note', text: 'BRON · NIET BEWERKBAAR · BEWAARD VOOR AUDIT' }));
+    }
     s1.appendChild(rowDl('Organisatie', r.organization_name || '—'));
     s1.appendChild(rowDl('Regio', r.region || '—'));
     s1.appendChild(rowDl('Land', (r.country_name_local || r.country_code || '—')));
@@ -448,6 +564,59 @@
       s1.appendChild(body);
     }
     d.appendChild(s1);
+
+    // Edit / Redactieversie section — only when editMode is active
+    if (state.editMode){
+      var edits = ensureEdits(r);
+      var sEdit = el('div', { class: 'rv-section rv-section-edit' });
+      sEdit.appendChild(el('h3', { text: 'Redactieversie / Publicatievoorstel' }));
+      sEdit.appendChild(el('span', { class: 'rv-edit-note', text: 'REDACTIEVERSIE · WORDT NIET TERUG NAAR DE BRON GESCHREVEN' }));
+      sEdit.appendChild(el('div', { class: 'rv-edit-warn', text:
+        'Let op: bewerkingen wijzigen alleen het voorgestelde, publiek-gerichte concept. ' +
+        'De originele inzending blijft als bron en audit-spoor bewaard. ' +
+        'Geen automatische live publicatie; export plak je handmatig in de juiste LAB_*-rij.' }));
+
+      EDIT_FIELDS.forEach(function(f){
+        var inputEl;
+        var origVal = originalValueFor(r, f);
+        if (f.textarea){
+          inputEl = el('textarea', { id: 'rv-edit-' + f.key, name: 'rv-edit-' + f.key, rows: '4' });
+          inputEl.value = edits[f.key] == null ? '' : edits[f.key];
+        } else {
+          inputEl = el('input', { id: 'rv-edit-' + f.key, name: 'rv-edit-' + f.key, type: 'text', value: edits[f.key] == null ? '' : edits[f.key] });
+        }
+        inputEl.addEventListener('input', function(ev){
+          state.editsById[r.submission_id][f.key] = ev.target.value;
+          // Re-render only the change-tracking block to keep focus.
+          updateChangeTracker(r);
+        });
+        var label = f.label + (origVal ? '' : ' (geen origineel)');
+        sEdit.appendChild(formRow(label, inputEl));
+
+        // Inline read-only original snippet underneath when present.
+        if (origVal){
+          var origRow = el('div', { class: 'rv-form-row' });
+          origRow.appendChild(el('label', { text: 'Origineel', for: 'rv-edit-' + f.key }));
+          var origField;
+          if (f.textarea){
+            origField = el('textarea', { rows: '3', readonly: 'readonly', class: 'rv-readonly', 'aria-label': 'Origineel ' + f.label });
+            origField.value = origVal;
+          } else {
+            origField = el('input', { type: 'text', readonly: 'readonly', value: origVal, class: 'rv-readonly', 'aria-label': 'Origineel ' + f.label });
+          }
+          origRow.appendChild(origField);
+          sEdit.appendChild(origRow);
+        }
+      });
+
+      // Change tracker
+      var tracker = el('div', { class: 'rv-changes', id: 'rv-change-tracker' });
+      sEdit.appendChild(tracker);
+      d.appendChild(sEdit);
+      // Initial render of the change tracker.
+      // We append it first then fill it.
+      setTimeout(function(){ updateChangeTracker(r); }, 0);
+    }
 
     // Submitter contact — hidden by default
     var s2 = el('div', { class: 'rv-section' });
@@ -512,6 +681,24 @@
     d.appendChild(el('p', { class: 'rv-export-hint', text: 'Plak deze samenvatting handmatig in de juiste rij van de Drive-spreadsheet (LAB_*-tab). Geen automatische schrijfactie.' }));
   }
 
+  function updateChangeTracker(record){
+    var tracker = $('rv-change-tracker');
+    if (!tracker || !record) return;
+    tracker.innerHTML = '';
+    var changed = changedFieldKeys(record);
+    if (changed.length === 0){
+      tracker.appendChild(el('span', { class: 'rv-changes-empty', text: 'Geen wijzigingen ten opzichte van de originele inzending.' }));
+      return;
+    }
+    tracker.appendChild(el('strong', { text: 'Gewijzigde velden (' + changed.length + ')' }));
+    var ul = el('ul');
+    changed.forEach(function(k){
+      var f = EDIT_FIELDS.filter(function(x){ return x.key === k; })[0];
+      ul.appendChild(el('li', { text: (f ? f.label : k) + ' — gewijzigd' }));
+    });
+    tracker.appendChild(ul);
+  }
+
   function rowDl(label, value){
     var dl = el('dl', { class: 'rv-row' });
     dl.appendChild(el('dt', { text: label }));
@@ -557,8 +744,43 @@
     };
   }
 
-  function buildExportPayload(record, formValues, includeContact){
+  function buildExportPayload(record, formValues, includeContact, edits){
     if (!record) return null;
+    // Snapshot of the originally submitted source — never mutated by the
+    // editor. This block is always present so the audit trail survives
+    // editing.
+    var originalReference = {
+      submission_id: record.submission_id,
+      record_type: record.record_type,
+      source_tab: record.source_tab,
+      source_row_hint: record.source_row_hint || '',
+      received_at: record.received_at || '',
+      environment: record.environment || 'TEST/VALIDATIE',
+      title: record.title || '',
+      organization_name: record.organization_name || '',
+      region: record.region || '',
+      country_code: record.country_code || '',
+      sector_raw: record.sector_raw || '',
+      topic_tags: record.topic_tags || '',
+      language: record.language || '',
+      type: record.type || '',
+      summary: record.summary || '',
+      body_md_or_url: record.body_md_or_url || '',
+      website: record.website || ''
+    };
+
+    // Build edited publication proposal (redactieversie). When no edits
+    // were made the proposal mirrors the original, but the export keeps
+    // them as separate blocks so the audit trail is unambiguous.
+    var proposal = {};
+    var changedFields = [];
+    EDIT_FIELDS.forEach(function(f){
+      var orig = originalValueFor(record, f);
+      var cur = (edits && edits[f.key] != null) ? String(edits[f.key]) : orig;
+      proposal[f.key] = cur;
+      if (cur !== orig) changedFields.push(f.key);
+    });
+
     var safe = {
       submission_id: record.submission_id,
       record_type: record.record_type,
@@ -570,6 +792,12 @@
       region: record.region || '',
       country_code: record.country_code || '',
       type: record.type || '',
+      original_reference: originalReference,
+      edited_publication_proposal: proposal,
+      changed_fields: changedFields,
+      change_note: proposal.change_note || '',
+      edited_by: proposal.edited_by || '',
+      edited_at: changedFields.length ? new Date().toISOString() : '',
       review_update: {
         process_step: formValues.process_step,
         review_status: formValues.review_status,
@@ -581,7 +809,7 @@
       },
       review_generated_at: new Date().toISOString(),
       generated_by: 'redactie-validation.html (lab, browser-only)',
-      warning: 'Validatie-only export. Niet automatisch ingelezen — plak handmatig in de juiste LAB_*-rij. Directory_Master niet aanpassen.'
+      warning: 'Validatie-only export. Bewerkingen vormen alleen een publicatievoorstel — de originele inzending (original_reference) blijft de bron. Niet automatisch ingelezen, geen auto-publicatie — plak handmatig in de juiste LAB_*-rij. Directory_Master niet aanpassen.'
     };
     // Strip any contact / PII keys unless caller explicitly opted in.
     if (includeContact && record.contact){
@@ -598,13 +826,19 @@
   }
 
   // Exposed for tests.
-  window.__esrfRedactieReview = { buildExportPayload: buildExportPayload, SAMPLE: SAMPLE };
+  window.__esrfRedactieReview = {
+    buildExportPayload: buildExportPayload,
+    SAMPLE: SAMPLE,
+    EDIT_FIELDS: EDIT_FIELDS,
+    originalValueFor: originalValueFor
+  };
 
   function generateExport(kind){
     var r = getActive();
     if (!r) return;
     var includeContact = state.showContact === true; // never include unless explicit toggle
-    var payload = buildExportPayload(r, readForm(), includeContact);
+    var edits = state.editsById[r.submission_id] || null;
+    var payload = buildExportPayload(r, readForm(), includeContact, edits);
     if (kind === 'json'){
       state.exportText = JSON.stringify(payload, null, 2);
     } else {
@@ -616,6 +850,8 @@
   function textSummary(p){
     if (!p) return '';
     var u = p.review_update || {};
+    var prop = p.edited_publication_proposal || {};
+    var orig = p.original_reference || {};
     var lines = [
       '# Review-update — ' + (p.title || ''),
       '# submission_id: ' + p.submission_id,
@@ -623,6 +859,26 @@
       '# omgeving: ' + p.environment,
       '# gegenereerd: ' + p.review_generated_at,
       '',
+      '## Originele inzending (bron, audit)',
+      'original.title             : ' + (orig.title || ''),
+      'original.organization_name : ' + (orig.organization_name || ''),
+      'original.region            : ' + (orig.region || ''),
+      'original.summary           : ' + (orig.summary || ''),
+      '',
+      '## Redactieversie / Publicatievoorstel',
+      'edited_title               : ' + (prop.edited_title || ''),
+      'edited_organization        : ' + (prop.edited_organization || ''),
+      'edited_summary             : ' + (prop.edited_summary || ''),
+      'edited_region              : ' + (prop.edited_region || ''),
+      'edited_sector_or_tags      : ' + (prop.edited_sector_or_tags || ''),
+      'edited_public_body         : ' + (prop.edited_public_body || ''),
+      'editorial_note             : ' + (prop.editorial_note || ''),
+      'change_note                : ' + (p.change_note || ''),
+      'edited_by                  : ' + (p.edited_by || ''),
+      'edited_at                  : ' + (p.edited_at || ''),
+      'changed_fields             : ' + ((p.changed_fields || []).join(', ') || '(geen wijzigingen)'),
+      '',
+      '## Review-status (procesgang)',
       'process_step          : ' + u.process_step,
       'review_status         : ' + u.review_status,
       'reminder              : ' + u.reminder,

@@ -380,11 +380,11 @@
     },
     {
       "id": "redactie-validation-form",
-      "title": "Redactieformulier — leesbaar review-formulier boven de Sheet (validatie-only)",
+      "title": "Redactieformulier — leesbaar review-formulier boven de Sheet (validatie-only) met edit-mode voor publicatievoorstel",
       "status": "in-validation",
       "path": "/redactie-validation.html",
       "owner": "ESRF Editorial",
-      "purpose": "Hidden, noindex redactie-UI die LAB_Intake_Submissions / LAB_Editorial_Intake-rijen één voor één toont als leesbare kaarten met procesgang, status, herinnering, volgende actie, deadline en review-notities. De Drive-spreadsheet blijft single source of truth en audit-spoor; deze pagina schrijft nooit naar Sheet, GitHub, e-mail of Directory_Master. Lokale voorbeelddata in de browser; export levert een veilige JSON of tekst-samenvatting die de redactie handmatig in de juiste LAB_*-rij plakt.",
+      "purpose": "Hidden, noindex redactie-UI die LAB_Intake_Submissions / LAB_Editorial_Intake-rijen één voor één toont als leesbare kaarten met procesgang, status, herinnering, volgende actie, deadline en review-notities. Naast review heeft de pagina een edit-mode waarmee redactie een Redactieversie / Publicatievoorstel opbouwt (edited_title, edited_organization, edited_summary, edited_region, edited_sector_or_tags, edited_public_body, editorial_note, change_note, edited_by) — de originele inzending blijft daarbij als read-only bron / audit-spoor staan en wordt meegenomen als original_reference in de export. De Drive-spreadsheet blijft single source of truth; deze pagina schrijft nooit naar Sheet, GitHub, e-mail of Directory_Master en publiceert nooit automatisch. Lokale voorbeelddata in de browser; export levert een veilige JSON of tekst-samenvatting die de redactie handmatig in de juiste LAB_*-rij plakt.",
       "lastUpdated": "2026-04-26",
       "visibility": "hidden",
       "labOnly": true,
@@ -394,12 +394,14 @@
       "documentation": [
         "/docs/redactie-validation-form.md"
       ],
-      "tests": "/scripts/redactie_validation.test.mjs (noindex meta, safety copy, sample records both types render, export excludes contact email by default, validation-lab manifest includes module).",
+      "tests": "/scripts/redactie_validation.test.mjs (noindex meta, safety copy, sample records both types render, export excludes contact email by default, edit-mode fields present, original kept read-only, export carries original_reference + edited_publication_proposal + change_note + edited_by, validation-lab manifest includes module).",
       "exitCriteria": [
-        "Pagina bevat noindex,nofollow en validatie-banner met 'Niet publiceren', 'Directory_Master niet aanpassen', 'Preview pas na akkoord'.",
-        "Linker lijst toont zowel organisatie-aanmelding als editorial bijdrage uit de lokale voorbeelddata; rechter paneel toont leesbare cards en een eenvoudig review-formulier.",
-        "Export sluit standaard contact-e-mail en raw payload uit; alleen na expliciete toggle 'Toon contactgegevens' wordt contact_internal in de export opgenomen.",
-        "Geen Google Sheets, GitHub of e-mail call vanuit de browser; export is uitsluitend kopieerbaar (klembord).",
+        "Pagina bevat noindex,nofollow en validatie-banner met 'Niet publiceren', 'Directory_Master niet aanpassen', 'Preview pas na akkoord' en de edit-veiligheidsregel dat bewerkingen alleen het publicatievoorstel raken — niet de bron.",
+        "Linker lijst toont zowel organisatie-aanmelding als editorial bijdrage uit de lokale voorbeelddata; rechter paneel toont leesbare cards, een eenvoudig review-formulier en — na klikken op Bewerken — een Redactieversie / Publicatievoorstel sectie met de bewerkbare velden.",
+        "Originele inzending wordt onder een eigen kop 'Originele inzending (read-only · bron / audit)' getoond en is niet bewerkbaar; per bewerkbaar veld is het corresponderende originele veld zichtbaar als read-only verwijzing.",
+        "Een lichtgewicht change-tracker toont realtime welke velden afwijken van de originele inzending; export-payload bevat changed_fields.",
+        "Export sluit standaard contact-e-mail en raw payload uit; alleen na expliciete toggle 'Toon contactgegevens' wordt contact_internal in de export opgenomen. Export bevat altijd original_reference en edited_publication_proposal naast elkaar zodat het audit-spoor ondubbelzinnig is.",
+        "Geen Google Sheets, GitHub of e-mail call vanuit de browser; export is uitsluitend kopieerbaar (klembord). Geen automatische live publicatie.",
         "Geen publieke navigatie, footer-link of sitemap-vermelding; pagina is niet vanaf productie bereikbaar."
       ]
     },

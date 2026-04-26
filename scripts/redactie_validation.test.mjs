@@ -167,6 +167,147 @@ check('buildExportPayload carries warning string and review_update shape', () =>
   assert.equal(out.environment, 'TEST/VALIDATIE');
 });
 
+// ── Edit-mode checks ─────────────────────────────────────────────────────
+check('edit-mode UI heading present (Redactieversie / Publicatievoorstel)', () => {
+  assert.ok(html.includes('Redactieversie / Publicatievoorstel'),
+    'expected the edit-mode section heading in the HTML');
+});
+
+check('edit-mode warning copy present (publicatievoorstel + audit + geen automatische live publicatie)', () => {
+  assert.match(html, /publicatievoorstel/i);
+  assert.match(html, /originele inzending blijft/i);
+  assert.match(html, /[Gg]een automatische live publicatie/);
+});
+
+check('original section labelled as read-only / bron / audit', () => {
+  assert.ok(html.includes('Originele inzending'), 'expected "Originele inzending" label');
+  assert.ok(/BRON · NIET BEWERKBAAR · BEWAARD VOOR AUDIT/.test(html),
+    'expected the explicit read-only/audit marker');
+});
+
+check('all required editable field keys exist in EDIT_FIELDS', () => {
+  const keys = (hooks.EDIT_FIELDS || []).map(f => f.key);
+  for (const required of [
+    'edited_title',
+    'edited_organization',
+    'edited_summary',
+    'edited_region',
+    'edited_sector_or_tags',
+    'edited_public_body',
+    'editorial_note',
+    'change_note',
+    'edited_by'
+  ]) {
+    assert.ok(keys.includes(required), 'missing edit field key: ' + required);
+  }
+});
+
+check('all editable fields carry a Dutch label', () => {
+  for (const f of hooks.EDIT_FIELDS || []) {
+    assert.ok(typeof f.label === 'string' && f.label.length > 0,
+      'edit field ' + f.key + ' missing label');
+  }
+});
+
+check('export carries original_reference snapshot of submitted source', () => {
+  const r = hooks.SAMPLE.find(x => x.record_type === 'editorial');
+  const out = hooks.buildExportPayload(r, {
+    process_step: 'in_review', review_status: 'in_review',
+    reminder: '', next_required_action: '', assigned_to: '',
+    due_date: '', review_notes_internal: ''
+  }, false, null);
+  assert.ok(out.original_reference, 'original_reference must be present');
+  assert.equal(out.original_reference.submission_id, r.submission_id);
+  assert.equal(out.original_reference.title, r.title);
+  assert.equal(out.original_reference.summary, r.summary);
+  assert.equal(out.original_reference.source_tab, r.source_tab);
+});
+
+check('export carries edited_publication_proposal that mirrors original when no edits made', () => {
+  const r = hooks.SAMPLE.find(x => x.record_type === 'editorial');
+  const out = hooks.buildExportPayload(r, {
+    process_step: 'in_review', review_status: 'in_review',
+    reminder: '', next_required_action: '', assigned_to: '',
+    due_date: '', review_notes_internal: ''
+  }, false, null);
+  assert.ok(out.edited_publication_proposal, 'edited_publication_proposal must be present');
+  assert.equal(out.edited_publication_proposal.edited_title, r.title);
+  assert.equal(out.edited_publication_proposal.edited_summary, r.summary);
+  assert.deepEqual(out.changed_fields, [],
+    'with no edits, changed_fields should be an empty array');
+  assert.equal(out.edited_at, '', 'edited_at should be empty when no fields changed');
+});
+
+check('export reports changed_fields, change_note, edited_by and edited_at when edits applied', () => {
+  const r = hooks.SAMPLE.find(x => x.record_type === 'editorial');
+  const edits = {
+    edited_title: r.title + ' (redactieversie)',
+    edited_summary: 'Door redactie aangepaste samenvatting voor publicatie.',
+    edited_region: r.region,
+    editorial_note: 'Redactie heeft toon en feiten gecontroleerd.',
+    change_note: 'Titel verkort en feitelijke claim verwijderd.',
+    edited_by: 'AB'
+  };
+  const out = hooks.buildExportPayload(r, {
+    process_step: 'klaar_voor_akkoord', review_status: 'approved_for_draft',
+    reminder: '', next_required_action: '', assigned_to: 'redactie',
+    due_date: '', review_notes_internal: ''
+  }, false, edits);
+
+  assert.notEqual(out.edited_publication_proposal.edited_title, r.title,
+    'edited_title should reflect the edit');
+  assert.equal(out.edited_publication_proposal.edited_summary,
+    'Door redactie aangepaste samenvatting voor publicatie.');
+  assert.equal(out.change_note, 'Titel verkort en feitelijke claim verwijderd.');
+  assert.equal(out.edited_by, 'AB');
+  assert.ok(out.changed_fields.length >= 2,
+    'changed_fields should include the modified keys, got: ' + JSON.stringify(out.changed_fields));
+  assert.ok(out.changed_fields.includes('edited_title'));
+  assert.ok(out.changed_fields.includes('edited_summary'));
+  assert.ok(out.changed_fields.includes('change_note'));
+  assert.ok(out.changed_fields.includes('edited_by'));
+  assert.match(out.edited_at, /^\d{4}-\d{2}-\d{2}T/, 'edited_at must be an ISO timestamp when edits exist');
+
+  // Original reference must still reflect the submitted source — never the edits.
+  assert.equal(out.original_reference.title, r.title,
+    'original_reference must preserve the original title even after edits');
+  assert.equal(out.original_reference.summary, r.summary,
+    'original_reference must preserve the original summary even after edits');
+});
+
+check('export still excludes contact email by default when edits are applied', () => {
+  const r = hooks.SAMPLE.find(x => x.record_type === 'editorial');
+  const edits = { edited_title: 'iets nieuws', edited_by: 'AB', change_note: 'omdat' };
+  const out = hooks.buildExportPayload(r, {
+    process_step: 'in_review', review_status: 'in_review',
+    reminder: '', next_required_action: '', assigned_to: '',
+    due_date: '', review_notes_internal: ''
+  }, /* includeContact */ false, edits);
+  assert.equal(out.contact_disclosed, false);
+  assert.equal(out.contact_internal, undefined);
+  // Defence in depth: serialise everything and ensure no email-shaped string slipped in.
+  const blob = JSON.stringify(out);
+  assert.ok(!/@/.test(blob),
+    'export payload must not contain any email-shaped string by default, even with edits');
+});
+
+check('export warning string mentions publicatievoorstel + original_reference + Directory_Master + no auto-publish', () => {
+  const r = hooks.SAMPLE[0];
+  const out = hooks.buildExportPayload(r, {
+    process_step: 'in_review', review_status: 'in_review',
+    reminder: '', next_required_action: '', assigned_to: '',
+    due_date: '', review_notes_internal: ''
+  }, false, null);
+  assert.match(out.warning, /publicatievoorstel/i,
+    'warning should describe edits as a publicatievoorstel');
+  assert.match(out.warning, /original_reference/,
+    'warning should reference original_reference');
+  assert.match(out.warning, /Directory_Master/,
+    'warning must keep the Directory_Master refusal copy');
+  assert.match(out.warning, /auto-publicatie/i,
+    'warning must rule out automatic publication');
+});
+
 // ── validation-lab.json manifest check ───────────────────────────────────
 check('validation-lab.json includes redactie-validation-form module', () => {
   const ids = (manifest.modules || []).map(m => m.id);

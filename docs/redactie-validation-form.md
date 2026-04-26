@@ -87,6 +87,61 @@ Rechter kolom: detail- en review-formulier voor de gekozen rij:
   - Deadline (datum)
   - Review-notities (intern)
 
+## Edit-mode — Redactieversie / Publicatievoorstel
+
+De pagina ondersteunt naast lezen/beoordelen ook een **edit-mode** waarmee
+redactie een *redactieversie* van de inzending opbouwt. Dit is een
+voorstel voor publicatie, geen aanpassing van de bron.
+
+Belangrijk:
+
+- **De originele inzending is en blijft de bron.** Edits worden lokaal in
+  de browser bijgehouden onder `editsById[submission_id]`. Het SAMPLE-record
+  wordt nooit gemuteerd. De Drive-spreadsheet (LAB_*-tab) blijft het
+  audit-spoor van wat er oorspronkelijk binnenkwam.
+- **Bewerken wijzigt alleen het publicatievoorstel.** De export bevat
+  twee blokken naast elkaar — `original_reference` (bron, audit) en
+  `edited_publication_proposal` (redactieversie). Pas in een latere,
+  handmatige stap kan deze redactieversie worden meegenomen naar de
+  lab-promotion pipeline.
+- **Geen automatische live publicatie.** Knoppen genereren alleen
+  kopieerbare JSON of tekst — niets verlaat de browser, geen Sheet-write,
+  geen e-mail, geen webhook.
+
+### Activeren
+
+Klik in het detail-paneel op **Bewerken — stel redactieversie op**. De
+sectie *Redactieversie / Publicatievoorstel* (geel-getint) verschijnt
+onder de sectie *Originele inzending (read-only · bron / audit)*. Een
+oranje banner herhaalt dat bewerkingen alleen het voorstel raken en
+nooit live gaan.
+
+### Editbare velden (NL labels)
+
+| key | label |
+| --- | --- |
+| `edited_title` | Titel / naam |
+| `edited_organization` | Organisatie |
+| `edited_summary` | Samenvatting / omschrijving |
+| `edited_region` | Regio |
+| `edited_sector_or_tags` | Sector / tags |
+| `edited_public_body` | Publicatie-veilige tekst (body) |
+| `editorial_note` | Redactienotitie (publiek) |
+| `change_note` | Wijzigingsnotitie (intern, waarom?) |
+| `edited_by` | Bewerkt door (initialen / naam) |
+
+Onder elk editbaar veld toont de UI het corresponderende **originele**
+veld als een read-only invoerveld (grijs gemarkeerd), zodat redactie
+direct kan vergelijken zonder context-switch.
+
+### Change tracking
+
+Onder de edit-sectie staat een lichtgewicht change-tracker (cyaan) die
+realtime opsomt welke velden afwijken van de originele inzending. Bij
+0 wijzigingen toont de tracker *"Geen wijzigingen ten opzichte van de
+originele inzending."* Hetzelfde wordt geëxporteerd als
+`changed_fields: [...]`.
+
 ## Veiligheidsbanier
 
 Bovenaan de pagina:
@@ -121,6 +176,39 @@ Twee knoppen:
     "region": "...",
     "country_code": "...",
     "type": "...",
+    "original_reference": {
+      "submission_id": "...",
+      "record_type": "...",
+      "source_tab": "...",
+      "source_row_hint": "...",
+      "received_at": "...",
+      "title": "...",
+      "organization_name": "...",
+      "region": "...",
+      "country_code": "...",
+      "sector_raw": "...",
+      "topic_tags": "...",
+      "language": "...",
+      "type": "...",
+      "summary": "...",
+      "body_md_or_url": "...",
+      "website": "..."
+    },
+    "edited_publication_proposal": {
+      "edited_title": "...",
+      "edited_organization": "...",
+      "edited_summary": "...",
+      "edited_region": "...",
+      "edited_sector_or_tags": "...",
+      "edited_public_body": "...",
+      "editorial_note": "...",
+      "change_note": "...",
+      "edited_by": "..."
+    },
+    "changed_fields": ["edited_title", "edited_summary"],
+    "change_note": "...",
+    "edited_by": "...",
+    "edited_at": "<ISO when changed_fields is non-empty>",
     "review_update": {
       "process_step": "...",
       "review_status": "...",
@@ -132,10 +220,17 @@ Twee knoppen:
     },
     "review_generated_at": "<ISO>",
     "generated_by": "redactie-validation.html (lab, browser-only)",
-    "warning": "Validatie-only export. Niet automatisch ingelezen — plak handmatig in de juiste LAB_*-rij. Directory_Master niet aanpassen.",
+    "warning": "Validatie-only export. Bewerkingen vormen alleen een publicatievoorstel — de originele inzending (original_reference) blijft de bron. Niet automatisch ingelezen, geen auto-publicatie — plak handmatig in de juiste LAB_*-rij. Directory_Master niet aanpassen.",
     "contact_disclosed": false
   }
   ```
+
+  > De `original_reference` blok is altijd aanwezig (ook als er geen
+  > bewerkingen zijn gemaakt) en is een bevroren kopie van de submitted
+  > velden. Het `edited_publication_proposal`-blok is altijd aanwezig en
+  > is óf identiek aan de bron (bij geen wijzigingen) óf een door
+  > redactie aangepaste versie. `changed_fields` somt op welke
+  > proposal-velden afwijken.
 - **Genereer tekst-samenvatting** — dezelfde inhoud als compacte regel-per-veld
   tekst, prettig om in een Sheet-cel te plakken.
 
@@ -191,5 +286,16 @@ Lichtgewicht Node-test: `scripts/redactie_validation.test.mjs`. Verifieert:
 - `buildExportPayload` sluit standaard `contact` uit en bevat het pas
   wanneer `includeContact === true`.
 - `validation-lab.json` bevat een module met id `redactie-validation-form`.
+- Edit-mode velden zijn aanwezig in de HTML
+  (Redactieversie / Publicatievoorstel, edited_title, edited_summary,
+  edited_region, edited_sector_or_tags, editorial_note, change_note,
+  edited_by, edited_public_body).
+- Originele inzending wordt read-only weergegeven naast de edit-sectie.
+- Export draagt `original_reference` en `edited_publication_proposal`
+  in de payload.
+- Export bevat `changed_fields`, `change_note`, `edited_by` en — bij
+  daadwerkelijke wijzigingen — een `edited_at` timestamp.
+- Edit-warning copy ("publicatievoorstel", "originele inzending blijft
+  als bron", "geen automatische live publicatie") staat in de pagina.
 
 Run: `node scripts/redactie_validation.test.mjs`.
