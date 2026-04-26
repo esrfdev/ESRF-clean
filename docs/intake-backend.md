@@ -427,3 +427,87 @@ Expected response in live mode:
 If the Preview env is missing either secret the route stays in dry-run
 and returns `dry_run: true` with the same shape — no upstream call
 made, no rows written. In neither case does the route send any email.
+
+---
+
+## 7. Change-, hide- en delete-verzoeken voor bestaande vermeldingen
+
+Naast de drie publicatiemodi (`org`, `editorial`, `both`) accepteert
+`/api/intake` twee LAB-only modi voor verzoeken op een **bestaande**
+vermelding:
+
+| Mode | Doel | Toegestane `requested_action` |
+|---|---|---|
+| `change_request` | Bijwerken, verbergen of verwijderen van een bestaande Directory- / Atlas-vermelding | `update`, `hide`, `delete` |
+| `hide_delete` | Snelle route puur voor verbergen of verwijderen | `hide`, `delete` |
+
+### Payload-velden
+
+```jsonc
+{
+  "mode": "change_request",
+  "change_request": {
+    "target_listing_name": "Stichting Voorbeeld Noord",
+    "target_listing_url": "https://esrf.net/directory/voorbeeld-noord",
+    "requested_action": "update",
+    "change_description": "Adres en sector kloppen niet meer. ...",
+    "reason": "Organisatie is verhuisd en kerntaken zijn verschoven.",
+    "evidence_url": "https://example.org/persbericht-verhuizing",
+    "requester_authorization": "authorized_representative",
+    "authorization_confirmation": "yes",
+    "sub_mode": "change_request"
+  },
+  "contact": { "name": "...", "email": "...", "role": "..." },
+  "privacy": { "gdpr_privacy_policy": true }
+}
+```
+
+- `target_listing_name` **of** `target_listing_url` is verplicht; bij
+  voorkeur beide.
+- `requested_action` wordt geserver-zijdig gevalideerd tegen
+  `VALID_CHANGE_ACTIONS`. In `hide_delete`-mode is alleen `hide` of
+  `delete` toegestaan.
+- `requester_authorization` is een enum (`authorized_representative`,
+  `employee`, `external_observer`).
+- `authorization_confirmation` moet `yes` / `true` zijn voordat de
+  redactie het verzoek mag honoreren.
+- `evidence_url` is optioneel maar wordt door de redactie sterk
+  aangemoedigd voor `delete`-verzoeken.
+
+### Routing & opslag
+
+- **Canonieke rij** wordt geschreven naar
+  `LAB_Change_Requests` (lab tab — niet aanwezig in productie-
+  spreadsheets).
+- Een **gekoppelde rij** in `LAB_Intake_Submissions` met
+  `submission_type: "change_request:<action>"` en
+  `linked_change_request_id: chg_*` zorgt dat de redactie alle
+  inkomende verzoeken in één tijdslijn ziet.
+- `Directory_Master` staat in `forbidden_targets`; `assertLabPayloadSafe`
+  faalt elke poging om Directory_Master als doel-tab op te geven, ook
+  via een knoeiende Apps Script.
+- `directory_master_touched: 'no'` en `automatic_publication: 'no'`
+  worden op de rij gezet.
+
+### Notificatie
+
+`buildNotificationMessage` herkent change-requests en stuurt een
+minimale ping met `messageType: "change_request:<action>"`. De
+referentie is de `target_listing_name` / `target_listing_url` — geen
+contact-PII.
+
+### Redactie-UI
+
+`redactie-validation.html` toont change-requests met:
+
+- Een eigen pil **Wijziging · bijwerken / verbergen / verwijderen**.
+- Side-by-side panelen **Bestaand** vs **Gevraagd**.
+- Autorisatie-status (rol + bevestiging).
+- Evidence-link.
+- Een redactiebesluit-formulier (akkoord / niet akkoord / verheldering
+  nodig + toelichting). Het besluit wordt naar
+  `LAB_Redactie_Reviews` + `LAB_Workflow_Events` geschreven; de
+  toepassing van de wijziging gebeurt **handmatig** in een aparte
+  stap.
+- Veiligheidsbanner: *"Geen automatische wijziging · Directory_Master
+  wordt niet aangeraakt · niets wordt gepubliceerd."*

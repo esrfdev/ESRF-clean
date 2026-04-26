@@ -200,18 +200,28 @@
       <div class="mode-switch" role="radiogroup" aria-label="Type opgave" id="mode-org">
         <label class="mode-option" data-mode="org">
           <input type="radio" name="intake_mode" value="org" checked>
-          <strong>Organisatie aanmelden / bijwerken</strong>
-          <span>Plaats je organisatie in de ESRF-atlas, of werk bestaande gegevens bij. Geen verhaal nodig.</span>
+          <strong>Nieuwe organisatie aanmelden</strong>
+          <span>Plaats je organisatie voor het eerst in de ESRF-atlas. Geen verhaal nodig.</span>
         </label>
         <label class="mode-option" data-mode="editorial" id="mode-editorial">
           <input type="radio" name="intake_mode" value="editorial">
-          <strong>Editorial bijdrage / praktijkverhaal <span class="new-pill">Nieuw</span></strong>
+          <strong>Artikel / praktijkverhaal insturen <span class="new-pill">Nieuw</span></strong>
           <span>Stuur een kort artikel of praktijkverhaal in over samenwerking, een geleerde les of waardering voor mensen die erkenning verdienen.</span>
         </label>
         <label class="mode-option" data-mode="both" id="mode-both">
           <input type="radio" name="intake_mode" value="both">
           <strong>Beide <span class="new-pill">Nieuw</span></strong>
-          <span>Aanmelden van je organisatie én een editorial bijdrage in één keer.</span>
+          <span>Aanmelden van je organisatie én een artikel of praktijkverhaal in één keer.</span>
+        </label>
+        <label class="mode-option" data-mode="change_request" id="mode-change">
+          <input type="radio" name="intake_mode" value="change_request">
+          <strong>Bestaande vermelding wijzigen <span class="new-pill">Nieuw</span></strong>
+          <span>Vraag aan om een bestaande organisatievermelding aan te passen (bijv. naam, sector, beschrijving). De redactie controleert en past niets automatisch aan.</span>
+        </label>
+        <label class="mode-option" data-mode="hide_delete" id="mode-hide-delete">
+          <input type="radio" name="intake_mode" value="hide_delete">
+          <strong>Vermelding laten verbergen / verwijderen <span class="new-pill">Nieuw</span></strong>
+          <span>Vraag aan om een bestaande vermelding tijdelijk onzichtbaar te maken of helemaal te verwijderen. De redactie controleert eerst of je daartoe bevoegd bent.</span>
         </label>
       </div>
     </fieldset>
@@ -450,6 +460,85 @@
           Mijn inzending bevat <strong>geen vertrouwelijke of operationeel gevoelige informatie</strong>.
         </label>
       </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset section-block" data-section="change">
+      <legend class="form-legend">3C. Wat moet er aan de bestaande vermelding gebeuren? <span class="new-pill">Nieuw</span></legend>
+      <p class="fieldset-intro">
+        Vul deze stap alleen in als je een bestaande vermelding wilt laten <strong>wijzigen, verbergen of verwijderen</strong>.
+        De ESRF-redactie controleert je verzoek handmatig — er gebeurt <strong>niets automatisch</strong> en de directory wordt nooit zelf bijgewerkt door dit formulier.
+      </p>
+
+      <div class="callout-new">
+        <strong>Veilig pad</strong> · niets wordt direct aangepast. We loggen je verzoek in een aparte lab-tab en de redactie beslist daarna welke stappen passend zijn. Wijzigingen vinden alleen plaats na bevestiging dat jij daartoe bevoegd bent.
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-target-name">Naam van de organisatie of vermelding <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-cr-target-name" name="cr_target_name" maxlength="200"
+          placeholder="Bijv. Veiligheidsregio Rotterdam-Rijnmond">
+        <span class="hint">Vul minstens één van: naam óf URL van de huidige vermelding.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-target-url">Of: URL van de bestaande vermelding</label>
+        <input type="url" id="sv-cr-target-url" name="cr_target_url" maxlength="400"
+          placeholder="https://esrf.net/directory/voorbeeld">
+        <span class="hint">Begint met https:// of http://. Helpt de redactie om de juiste vermelding te vinden.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-action">Wat wil je dat er gebeurt? <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-cr-action" name="cr_action">
+          <option value="update">Bijwerken / corrigeren</option>
+          <option value="hide">Tijdelijk verbergen (uit de atlas halen, maar bewaren)</option>
+          <option value="delete">Definitief verwijderen</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-description">Wat moet er precies veranderen? <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-cr-description" name="cr_description" rows="4" minlength="10" maxlength="1500"
+          placeholder="Bijv. 'Adres is verhuisd naar nieuwe locatie X' of 'Sector is gewijzigd van Y naar Z' of 'De vermelding klopt niet meer; graag verbergen'."></textarea>
+        <span class="hint">Schrijf in gewone taal — de redactie leest dit als eerste.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-reason">Waarom dit verzoek? <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-cr-reason" name="cr_reason" rows="3" minlength="10" maxlength="1000"
+          placeholder="Bijv. 'Organisatie is gefuseerd' of 'Informatie is verouderd' of 'Verzoek namens de directie'."></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-evidence">Bron of bewijs (optioneel)</label>
+        <input type="url" id="sv-cr-evidence" name="cr_evidence" maxlength="400"
+          placeholder="https://… (bijv. KvK-uittreksel, persbericht, officiële mededeling)">
+        <span class="hint">Optioneel. Een link maakt verificatie sneller. Geen vertrouwelijke documenten in dit veld.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-requester-auth">In welke hoedanigheid dien je dit verzoek in? <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-cr-requester-auth" name="cr_requester_auth">
+          <option value="authorized_representative">Bevoegd vertegenwoordiger / namens de organisatie</option>
+          <option value="employee">Medewerker van de organisatie</option>
+          <option value="external_observer">Extern (geen rol bij de organisatie — bijv. correctie als bezoeker)</option>
+        </select>
+        <span class="hint">De redactie weegt dit mee bij verificatie. Externe meldingen worden strenger gecheckt.</span>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-cr-auth-confirm" name="cr_auth_confirm" style="margin-top:4px">
+        <label for="sv-cr-auth-confirm" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          Ik bevestig dat ik <strong>bevoegd</strong> ben om dit verzoek in te dienen, of dat ik dit als externe melding doe en dat de redactie eerst contact mag opnemen met de organisatie voordat er iets verandert.
+        </label>
+      </div>
+
+      <p style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
+        <span class="new-pill new-pill-soft">Geen automatische wijziging</span>
+        <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
+          Dit verzoek komt in <code>LAB_Change_Requests</code>; de redactie beslist of, hoe en wanneer iets wordt aangepast in <code>Directory_Master</code>. Niets in deze workflow wijzigt de directory automatisch.
+        </span>
+      </p>
     </fieldset>
 
     <fieldset class="form-fieldset">
@@ -846,6 +935,7 @@
   const modeRadios = form.querySelectorAll('input[name="intake_mode"]');
   const sectionOrg = form.querySelector('[data-section="org"]');
   const sectionEd = form.querySelector('[data-section="editorial"]');
+  const sectionChange = form.querySelector('[data-section="change"]');
   const modeOptions = form.querySelectorAll('.mode-option');
 
   function currentMode(){
@@ -857,16 +947,32 @@
     const m = currentMode();
     const showOrg = (m === 'org' || m === 'both');
     const showEd = (m === 'editorial' || m === 'both');
+    const showChange = (m === 'change_request' || m === 'hide_delete');
     sectionOrg.classList.toggle('is-active', showOrg);
     sectionEd.classList.toggle('is-active', showEd);
+    if (sectionChange) sectionChange.classList.toggle('is-active', showChange);
+
+    // For hide_delete mode, constrain the action select to hide/delete only.
+    var actionSel = document.getElementById('sv-cr-action');
+    if (actionSel) {
+      var updateOpt = actionSel.querySelector('option[value="update"]');
+      if (m === 'hide_delete') {
+        if (updateOpt) updateOpt.disabled = true;
+        if (actionSel.value === 'update' || !actionSel.value) actionSel.value = 'hide';
+      } else if (m === 'change_request') {
+        if (updateOpt) updateOpt.disabled = false;
+        if (!actionSel.value || actionSel.value === '') actionSel.value = 'update';
+      }
+    }
+
     modeOptions.forEach(opt => {
       opt.classList.toggle('is-selected', opt.dataset.mode === m);
     });
-    submitBtn.textContent = m === 'editorial'
-      ? 'Genereer testpreview van editorial inzending'
-      : (m === 'both'
-          ? 'Genereer testpreview van opgave + editorial'
-          : 'Genereer testpreview van organisatie-opgave');
+    if (m === 'editorial') submitBtn.textContent = 'Genereer testpreview van artikel-inzending';
+    else if (m === 'both') submitBtn.textContent = 'Genereer testpreview van aanmelding + artikel';
+    else if (m === 'change_request') submitBtn.textContent = 'Genereer testpreview van wijzigingsverzoek';
+    else if (m === 'hide_delete') submitBtn.textContent = 'Genereer testpreview van verberg-/verwijderverzoek';
+    else submitBtn.textContent = 'Genereer testpreview van organisatie-aanmelding';
   }
   modeRadios.forEach(r => r.addEventListener('change', applyMode));
 
@@ -1140,18 +1246,55 @@
   function get(data, k){ return (data.get(k) || '').toString().trim(); }
 
   function validate(data, mode){
+    const isChangeMode = (mode === 'change_request' || mode === 'hide_delete');
     const sharedRequired = [
       ['contact_name', 'naam'],
-      ['organisation', 'organisatie'],
       ['role', 'functie'],
       ['email', 'e-mail'],
       ['country', 'land']
     ];
+    if (!isChangeMode) {
+      sharedRequired.splice(1, 0, ['organisation', 'organisatie']);
+    }
     for (const [k, label] of sharedRequired) {
       if (!get(data, k)) return 'Vul a.u.b. in: ' + label + '.';
     }
     const email = get(data, 'email');
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return 'Vul a.u.b. een geldig e-mailadres in.';
+
+    if (isChangeMode) {
+      const targetName = get(data, 'cr_target_name');
+      const targetUrl = get(data, 'cr_target_url');
+      if (!targetName && !targetUrl) {
+        return 'Vul a.u.b. minstens de naam óf de URL in van de bestaande vermelding.';
+      }
+      if (targetUrl && !/^https?:\/\//.test(targetUrl)) {
+        return 'De URL van de bestaande vermelding moet beginnen met https:// of http://';
+      }
+      let action = (get(data, 'cr_action') || '').toLowerCase();
+      if (mode === 'hide_delete') {
+        if (!action) action = 'hide';
+        if (action !== 'hide' && action !== 'delete') {
+          return 'Bij verberg/verwijder kies je "verbergen" of "verwijderen".';
+        }
+      } else {
+        if (!action) action = 'update';
+        if (action !== 'update' && action !== 'hide' && action !== 'delete') {
+          return 'Kies a.u.b. een geldige actie (bijwerken, verbergen of verwijderen).';
+        }
+      }
+      const desc = get(data, 'cr_description');
+      if (!desc) return 'Vul a.u.b. in wat er precies moet veranderen.';
+      if (desc.length < 10) return 'De beschrijving van de wijziging moet minstens 10 tekens zijn.';
+      if (!get(data, 'cr_reason')) return 'Vul a.u.b. de reden van het verzoek in.';
+      const evidence = get(data, 'cr_evidence');
+      if (evidence && !/^https?:\/\//.test(evidence)) {
+        return 'De bron-URL moet beginnen met https:// of http://';
+      }
+      if (!data.get('cr_auth_confirm')) {
+        return 'Bevestig a.u.b. dat je bevoegd bent (of dat dit een externe melding is) — anders kan de redactie het verzoek niet beoordelen.';
+      }
+    }
 
     if (mode === 'org' || mode === 'both') {
       if (!get(data, 'website')) return 'Voor organisatie-opgave: vul a.u.b. een website in.';
@@ -1229,6 +1372,22 @@
         description: get(data, 'org_description')
       };
     }
+    if (mode === 'change_request' || mode === 'hide_delete') {
+      let action = (get(data, 'cr_action') || '').toLowerCase();
+      if (mode === 'hide_delete' && action !== 'delete') action = 'hide';
+      if (mode === 'change_request' && !action) action = 'update';
+      payload.change_request = {
+        target_listing_name: get(data, 'cr_target_name'),
+        target_listing_url: get(data, 'cr_target_url'),
+        requested_action: action,
+        change_description: get(data, 'cr_description'),
+        reason: get(data, 'cr_reason'),
+        evidence_url: get(data, 'cr_evidence'),
+        requester_authorization: get(data, 'cr_requester_auth') || 'authorized_representative',
+        authorization_confirmation: !!data.get('cr_auth_confirm'),
+        sub_mode: mode
+      };
+    }
     if (mode === 'editorial' || mode === 'both') {
       payload.editorial_contribution = {
         topic: get(data, 'ed_topic'),
@@ -1294,6 +1453,26 @@
     }
     if (p.contact.website) lines.push('  Website:        ' + p.contact.website);
     lines.push('');
+
+    if (p.change_request) {
+      const cr = p.change_request;
+      lines.push('▸ WIJZIGINGS- / VERBERG- / VERWIJDERVERZOEK');
+      lines.push('  Sub-modus:      ' + (cr.sub_mode || p.intake_mode));
+      lines.push('  Gevraagde actie: ' + cr.requested_action);
+      if (cr.target_listing_name) lines.push('  Doelvermelding: ' + cr.target_listing_name);
+      if (cr.target_listing_url) lines.push('  Doel-URL:       ' + cr.target_listing_url);
+      lines.push('  Toelichting:');
+      lines.push(indent(cr.change_description));
+      lines.push('  Reden:');
+      lines.push(indent(cr.reason));
+      if (cr.evidence_url) lines.push('  Bron / bewijs:  ' + cr.evidence_url);
+      lines.push('  Hoedanigheid:   ' + cr.requester_authorization);
+      lines.push('  Bevestigd bevoegd: ' + (cr.authorization_confirmation ? 'JA' : 'nee'));
+      lines.push('');
+      lines.push('  ⓘ De redactie controleert dit verzoek handmatig in LAB_Change_Requests.');
+      lines.push('     Directory_Master wordt nooit automatisch gewijzigd.');
+      lines.push('');
+    }
 
     if (p.organisation_listing) {
       lines.push('▸ ORGANISATIE-OPGAVE');

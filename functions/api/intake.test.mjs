@@ -22,6 +22,10 @@ const {
   buildPlaceCandidateRow,
   buildBackendLogRow,
   buildWorkflowEventRow,
+  buildChangeRequestRow,
+  VALID_MODES,
+  VALID_CHANGE_ACTIONS,
+  VALID_REQUESTER_AUTH,
   buildNotificationMessage,
   needsPlaceCandidateRow,
   nextRequiredAction,
@@ -480,6 +484,205 @@ check('nextRequiredAction returns dry-run copy when sheet not configured', () =>
   const payload = payloadOf({ intake_mode: 'org', contact: goodContact, organisation_listing: goodOrg, privacy: goodPrivacy });
   const txt = nextRequiredAction(payload, 'dry_run');
   assert.ok(/SHEETS_WEBHOOK_URL/i.test(txt));
+});
+
+// ─── Change-request / hide_delete mode ──────────────────────────────────
+const goodChangeRequest = {
+  target_listing_name: 'Stichting Voorbeeld Noord',
+  target_listing_url: 'https://esrf.net/directory/voorbeeld-noord',
+  requested_action: 'update',
+  change_description: 'Adres en sector kloppen niet meer; verhuisd naar Groningen.',
+  reason: 'Organisatie is verhuisd en kerntaken zijn verschoven.',
+  evidence_url: 'https://example.org/persbericht-verhuizing',
+  requester_authorization: 'authorized_representative',
+  authorization_confirmation: 'yes',
+};
+
+check('VALID_MODES includes change_request and hide_delete', () => {
+  assert.ok(VALID_MODES instanceof Set, 'VALID_MODES should be a Set');
+  assert.ok(VALID_MODES.has('change_request'));
+  assert.ok(VALID_MODES.has('hide_delete'));
+  assert.ok(VALID_MODES.has('org'));
+  assert.ok(!VALID_MODES.has('xyz'));
+});
+
+check('VALID_CHANGE_ACTIONS and VALID_REQUESTER_AUTH enforce the right enums', () => {
+  assert.deepEqual([...VALID_CHANGE_ACTIONS].sort(), ['delete', 'hide', 'update']);
+  assert.deepEqual(
+    [...VALID_REQUESTER_AUTH].sort(),
+    ['authorized_representative', 'employee', 'external_observer']
+  );
+});
+
+check('change_request mode validates and produces payload.change_request', () => {
+  const r = validateAndSanitize({
+    intake_mode: 'change_request',
+    contact: goodContact,
+    change_request: goodChangeRequest,
+    privacy: goodPrivacy,
+  });
+  assert.ok(!r.error, 'expected no error, got: ' + r.error);
+  assert.equal(r.payload.intake_mode, 'change_request');
+  assert.ok(r.payload.change_request);
+  assert.equal(r.payload.change_request.requested_action, 'update');
+  assert.equal(r.payload.change_request.target_listing_name, 'Stichting Voorbeeld Noord');
+  assert.equal(r.payload.change_request.target_listing_url, 'https://esrf.net/directory/voorbeeld-noord');
+  assert.equal(r.payload.change_request.authorization_confirmation, true);
+  assert.equal(r.payload.change_request.sub_mode, 'change_request');
+});
+
+check('change_request rejects payload without target_listing_name or _url', () => {
+  const r = validateAndSanitize({
+    intake_mode: 'change_request',
+    contact: goodContact,
+    change_request: { ...goodChangeRequest, target_listing_name: '', target_listing_url: '' },
+    privacy: goodPrivacy,
+  });
+  assert.ok(r.error && /target_listing/i.test(r.error), 'expected target_listing error, got: ' + r.error);
+});
+
+check('change_request rejects missing authorization_confirmation', () => {
+  const r = validateAndSanitize({
+    intake_mode: 'change_request',
+    contact: goodContact,
+    change_request: { ...goodChangeRequest, authorization_confirmation: false },
+    privacy: goodPrivacy,
+  });
+  assert.ok(r.error && /authorization_confirmation/i.test(r.error));
+});
+
+check('change_request rejects unknown requester_authorization enum', () => {
+  const r = validateAndSanitize({
+    intake_mode: 'change_request',
+    contact: goodContact,
+    change_request: { ...goodChangeRequest, requester_authorization: 'random_role' },
+    privacy: goodPrivacy,
+  });
+  assert.ok(r.error && /requester_authorization/i.test(r.error));
+});
+
+check('change_request rejects bogus target_listing_url scheme', () => {
+  const r = validateAndSanitize({
+    intake_mode: 'change_request',
+    contact: goodContact,
+    change_request: { ...goodChangeRequest, target_listing_url: 'javascript:alert(1)' },
+    privacy: goodPrivacy,
+  });
+  assert.ok(r.error && /target_listing_url/i.test(r.error));
+});
+
+check('hide_delete mode constrains requested_action to hide or delete', () => {
+  const okHide = validateAndSanitize({
+    intake_mode: 'hide_delete',
+    contact: goodContact,
+    change_request: { ...goodChangeRequest, requested_action: 'hide' },
+    privacy: goodPrivacy,
+  });
+  assert.ok(!okHide.error);
+  assert.equal(okHide.payload.change_request.requested_action, 'hide');
+  assert.equal(okHide.payload.change_request.sub_mode, 'hide_delete');
+
+  const okDelete = validateAndSanitize({
+    intake_mode: 'hide_delete',
+    contact: goodContact,
+    change_request: { ...goodChangeRequest, requested_action: 'delete' },
+    privacy: goodPrivacy,
+  });
+  assert.ok(!okDelete.error);
+  assert.equal(okDelete.payload.change_request.requested_action, 'delete');
+
+  const bad = validateAndSanitize({
+    intake_mode: 'hide_delete',
+    contact: goodContact,
+    change_request: { ...goodChangeRequest, requested_action: 'update' },
+    privacy: goodPrivacy,
+  });
+  assert.ok(bad.error && /hide_delete/i.test(bad.error));
+});
+
+check('change_request mode does NOT require contact.organisation', () => {
+  // Requester may be an external observer without their own organisation.
+  const { organisation: _omit, ...contactNoOrg } = goodContact;
+  const r = validateAndSanitize({
+    intake_mode: 'change_request',
+    contact: contactNoOrg,
+    change_request: goodChangeRequest,
+    privacy: goodPrivacy,
+  });
+  assert.ok(!r.error, 'expected no error, got: ' + r.error);
+});
+
+check('buildChangeRequestRow produces a LAB_Change_Requests row with the right shape', () => {
+  const payload = payloadOf({
+    intake_mode: 'change_request',
+    contact: goodContact,
+    change_request: goodChangeRequest,
+    privacy: goodPrivacy,
+  });
+  const row = buildChangeRequestRow(payload, { issue_url: '', issue_number: '' });
+  assert.ok(row.change_request_id && row.change_request_id.startsWith('chg_'));
+  assert.equal(row.requested_action, 'update');
+  assert.equal(row.target_listing_name, 'Stichting Voorbeeld Noord');
+  assert.equal(row.target_listing_url, 'https://esrf.net/directory/voorbeeld-noord');
+  assert.equal(row.requester_email, 'anna@example.org');
+  assert.equal(row.requester_authorization, 'authorized_representative');
+  assert.equal(row.authorization_confirmation, 'yes');
+  assert.equal(row.directory_master_touched, 'no');
+  assert.equal(row.automatic_publication, 'no');
+  assert.equal(row.review_status, 'new');
+  // Forbidden PII keys must NOT exist in this row shape
+  assert.ok(!('raw_payload_json' in row));
+});
+
+check('change_request emits a linked LAB_Intake_Submissions row with submission_type=change_request:<action>', () => {
+  const payload = payloadOf({
+    intake_mode: 'change_request',
+    contact: goodContact,
+    change_request: { ...goodChangeRequest, requested_action: 'delete' },
+    privacy: goodPrivacy,
+  });
+  const intake = buildIntakeSubmissionRow(payload, {});
+  assert.equal(intake.submission_type, 'change_request:delete');
+  // Listing reference comes from target_listing_*
+  assert.equal(intake.name, 'Stichting Voorbeeld Noord');
+  assert.equal(intake.consent_publish, 'change_request_only');
+});
+
+check('change_request notification builder emits messageType change_request:<action> with no contact PII', () => {
+  const payload = payloadOf({
+    intake_mode: 'change_request',
+    contact: goodContact,
+    change_request: { ...goodChangeRequest, requested_action: 'hide' },
+    privacy: goodPrivacy,
+  });
+  const msg = buildNotificationMessage(payload, {
+    sheet_row_id: 'row_test',
+    issue_url: '',
+    notify_to: 'office@esrf.net',
+  });
+  assert.ok(msg, 'expected a notification message');
+  // The contract puts the message-type under the `type` key.
+  assert.equal(msg.type, 'change_request:hide');
+  assert.equal(msg.org_name, 'Stichting Voorbeeld Noord');
+  // Payload must NOT contain contact email/phone or raw payload
+  const json = JSON.stringify(msg);
+  assert.ok(!json.includes('anna@example.org'), 'notification leaked contact email');
+  assert.ok(!json.includes('+31 6 12345678'), 'notification leaked contact phone');
+  assert.ok(!json.includes('raw_payload_json'));
+});
+
+check('LAB_SPREADSHEET registers LAB_Change_Requests tab and forbids Directory_Master', () => {
+  assert.equal(LAB_SPREADSHEET.tabs.change_requests, 'LAB_Change_Requests');
+  assert.ok(LAB_SPREADSHEET.forbidden_targets.includes('Directory_Master'));
+  assert.equal(LAB_SPREADSHEET.target_prefix, 'LAB_');
+});
+
+check('assertLabPayloadSafe accepts LAB_Change_Requests as a target tab', () => {
+  assertLabPayloadSafe({
+    target_prefix: 'LAB_',
+    forbidden_targets: ['Directory_Master'],
+    rows: { LAB_Change_Requests: { change_request_id: 'chg_x', requested_action: 'update' } },
+  });
 });
 
 // ─── Security gate: assertLabPayloadSafe ────────────────────────────────

@@ -70,7 +70,9 @@ const MAX_FIELD_LENGTH = 600;
 const MAX_LONG_FIELD_LENGTH = 2000;
 const MIN_FORM_DURATION_MS = 2500;
 
-const VALID_MODES = new Set(['org', 'editorial', 'both']);
+const VALID_MODES = new Set(['org', 'editorial', 'both', 'change_request', 'hide_delete']);
+const VALID_CHANGE_ACTIONS = new Set(['update', 'hide', 'delete']);
+const VALID_REQUESTER_AUTH = new Set(['authorized_representative', 'employee', 'external_observer']);
 
 // ESRF official automation identity. office@esrf.net is the operational
 // inbox owned by the ESRF foundation. ai.agent.wm@gmail.com is a legacy /
@@ -101,6 +103,7 @@ const LAB_SPREADSHEET = {
     place_candidates: 'LAB_Place_Candidates',
     backend_log: 'LAB_Backend_Log',
     workflow_events: 'LAB_Workflow_Events',
+    change_requests: 'LAB_Change_Requests',
   },
   forbidden_targets: ['Directory_Master'],
 };
@@ -353,6 +356,7 @@ export async function onRequestPost(context) {
   const intakeRow = buildIntakeSubmissionRow(payload, refs);
   const editorialRow = (payload.editorial_contribution) ? buildEditorialIntakeRow(payload, refs) : null;
   const placeCandidateRow = needsPlaceCandidateRow(payload) ? buildPlaceCandidateRow(payload) : null;
+  const changeRequestRow = (payload.change_request) ? buildChangeRequestRow(payload, refs) : null;
 
   const sheetWebhookPayload = {
     schema_version: 2,
@@ -368,6 +372,7 @@ export async function onRequestPost(context) {
       [LAB_SPREADSHEET.tabs.intake_submissions]: intakeRow,
       ...(editorialRow ? { [LAB_SPREADSHEET.tabs.editorial_intake]: editorialRow } : {}),
       ...(placeCandidateRow ? { [LAB_SPREADSHEET.tabs.place_candidates]: placeCandidateRow } : {}),
+      ...(changeRequestRow ? { [LAB_SPREADSHEET.tabs.change_requests]: changeRequestRow } : {}),
     },
     // Backend log + workflow event are appended after dispatch (see below);
     // the Apps Script receives them in a single payload so it can write
@@ -573,16 +578,23 @@ export async function onRequest(context) {
 
 function validateAndSanitize(body) {
   const mode = String(body.intake_mode || '').toLowerCase();
-  if (!VALID_MODES.has(mode)) return { error: 'Invalid intake_mode (must be org, editorial, or both)' };
+  if (!VALID_MODES.has(mode)) return { error: 'Invalid intake_mode (must be org, editorial, both, change_request, or hide_delete)' };
+
+  const isChangeMode = (mode === 'change_request' || mode === 'hide_delete');
 
   const contact = body.contact && typeof body.contact === 'object' ? body.contact : {};
+  // For change/hide_delete the "organisation" field on contact may be the
+  // requester's own organisation (which can equal the listing) — we still
+  // require name/role/email/country so the redactie can verify authority.
   const required = [
     ['name', contact.name],
-    ['organisation', contact.organisation],
     ['role', contact.role],
     ['email', contact.email],
     ['country_code', contact.country_code],
   ];
+  if (!isChangeMode) {
+    required.unshift(['organisation', contact.organisation]);
+  }
   for (const [k, v] of required) {
     if (!v || !String(v).trim()) return { error: `Missing contact.${k}` };
   }
@@ -658,6 +670,54 @@ function validateAndSanitize(body) {
         editorial_may_contact: true,
         no_confidential_information: true,
       },
+    };
+  }
+
+  if (mode === 'change_request' || mode === 'hide_delete') {
+    const cr = body.change_request && typeof body.change_request === 'object' ? body.change_request : {};
+    const targetName = String(cr.target_listing_name || '').trim();
+    const targetUrl = String(cr.target_listing_url || '').trim();
+    if (!targetName && !targetUrl) {
+      return { error: 'change_request requires target_listing_name or target_listing_url' };
+    }
+    if (targetUrl && !/^https?:\/\//i.test(targetUrl)) {
+      return { error: 'change_request.target_listing_url must start with http(s)://' };
+    }
+    let action = String(cr.requested_action || '').toLowerCase().trim();
+    // hide_delete mode constrains the action to hide or delete
+    if (mode === 'hide_delete') {
+      if (!action) action = 'hide';
+      if (action !== 'hide' && action !== 'delete') {
+        return { error: 'hide_delete mode requires requested_action of "hide" or "delete"' };
+      }
+    } else {
+      if (!action) action = 'update';
+      if (!VALID_CHANGE_ACTIONS.has(action)) {
+        return { error: 'change_request.requested_action must be update, hide, or delete' };
+      }
+    }
+    const description = String(cr.change_description || '').trim();
+    if (!description) return { error: 'change_request.change_description is required (plain language)' };
+    const reason = String(cr.reason || '').trim();
+    if (!reason) return { error: 'change_request.reason is required' };
+    if (!cr.authorization_confirmation) {
+      return { error: 'change_request.authorization_confirmation is required (requester must confirm authority)' };
+    }
+    let requesterAuth = String(cr.requester_authorization || '').trim();
+    if (requesterAuth && !VALID_REQUESTER_AUTH.has(requesterAuth)) {
+      return { error: 'change_request.requester_authorization must be authorized_representative, employee, or external_observer' };
+    }
+    if (!requesterAuth) requesterAuth = 'authorized_representative';
+    out.change_request = {
+      target_listing_name: sanitize(targetName),
+      target_listing_url: sanitizeUrl(targetUrl),
+      requested_action: action,
+      change_description: sanitizeLong(description),
+      reason: sanitizeLong(reason),
+      evidence_url: sanitizeUrl(cr.evidence_url || ''),
+      requester_authorization: requesterAuth,
+      authorization_confirmation: true,
+      sub_mode: mode,
     };
   }
 
@@ -838,8 +898,18 @@ function buildIntakeSubmissionRow(payload, refs) {
   const c = payload.contact || {};
   const o = payload.organisation_listing || null;
   const e = payload.editorial_contribution || null;
+  const cr = payload.change_request || null;
   const m = payload.meta || {};
-  const submissionType = e && o ? 'org+editorial' : (e ? 'editorial' : 'org');
+  let submissionType;
+  if (cr) {
+    submissionType = 'change_request:' + (cr.requested_action || 'update');
+  } else if (e && o) {
+    submissionType = 'org+editorial';
+  } else if (e) {
+    submissionType = 'editorial';
+  } else {
+    submissionType = 'org';
+  }
   return {
     submission_id: m.submission_id || '',
     received_at: m.received_at || '',
@@ -847,8 +917,8 @@ function buildIntakeSubmissionRow(payload, refs) {
     submission_type: submissionType,
     mode: payload.intake_mode || '',
     org_id_match: '',
-    name: c.organisation || '',
-    website: c.website || '',
+    name: cr ? (cr.target_listing_name || c.organisation || '') : (c.organisation || ''),
+    website: cr ? (cr.target_listing_url || c.website || '') : (c.website || ''),
     country_code: c.country_code || '',
     country_name_local: c.country_label || '',
     region: c.region || '',
@@ -859,7 +929,7 @@ function buildIntakeSubmissionRow(payload, refs) {
     contact_name: c.name || '',
     contact_email: c.email || '',
     contact_role: c.role || '',
-    consent_publish: e ? 'yes' : (o ? 'listing' : ''),
+    consent_publish: cr ? 'change_request_only' : (e ? 'yes' : (o ? 'listing' : '')),
     source_url: m.source || '',
     notes_submitter: '',
     review_status: 'new',
@@ -867,6 +937,7 @@ function buildIntakeSubmissionRow(payload, refs) {
     assigned_to: '',
     due_date: '',
     linked_editorial_id: '',
+    linked_change_request_id: cr ? '(see LAB_Change_Requests row)' : '',
     notification_status: 'pending',
     notification_last_sent_at: '',
     created_by_flow: 'submit-validation.html',
@@ -941,6 +1012,47 @@ function buildPlaceCandidateRow(payload) {
   };
 }
 
+function buildChangeRequestRow(payload, refs) {
+  const c = payload.contact || {};
+  const cr = payload.change_request || {};
+  const m = payload.meta || {};
+  const changeId = generateId('chg');
+  return {
+    change_request_id: changeId,
+    received_at: m.received_at || '',
+    environment: m.environment || '',
+    submission_id: m.submission_id || '',
+    intake_mode: payload.intake_mode || '',
+    sub_mode: cr.sub_mode || payload.intake_mode || '',
+    requested_action: cr.requested_action || '',
+    target_listing_name: cr.target_listing_name || '',
+    target_listing_url: cr.target_listing_url || '',
+    change_description: cr.change_description || '',
+    reason: cr.reason || '',
+    evidence_url: cr.evidence_url || '',
+    requester_name: c.name || '',
+    requester_role: c.role || '',
+    requester_organisation: c.organisation || '',
+    requester_email: c.email || '',
+    requester_phone: c.phone || '',
+    requester_country: c.country_code || '',
+    requester_authorization: cr.requester_authorization || '',
+    authorization_confirmation: cr.authorization_confirmation ? 'yes' : 'no',
+    review_status: 'new',
+    redactie_decision: '',
+    redactie_decision_reason: '',
+    next_required_action: nextRequiredAction(payload, 'received'),
+    assigned_to: '',
+    due_date: '',
+    notification_status: 'pending',
+    review_notes_internal: '',
+    issue_url: (refs && refs.issue_url) || '',
+    issue_number: (refs && refs.issue_number) || '',
+    directory_master_touched: 'no',
+    automatic_publication: 'no',
+  };
+}
+
 function buildBackendLogRow(payload, opts) {
   const m = payload.meta || {};
   return {
@@ -1003,16 +1115,24 @@ function buildNotificationMessage(payload, ctx) {
     : '';
   const validationLabUrl = ctx.validation_lab_url ||
     'https://test-regional-editorial-cont.esrf-clean.pages.dev/submit-validation.html';
+  let messageType;
+  if (payload.change_request) {
+    messageType = 'change_request:' + (payload.change_request.requested_action || 'update');
+  } else if (payload.editorial_contribution) {
+    messageType = payload.organisation_listing ? 'org+editorial' : 'editorial';
+  } else {
+    messageType = 'org';
+  }
   const message = {
     schema_version: 1,
     submission_id: ctx.submission_id || '',
     request_id: ctx.request_id || '',
     environment: payload.meta.environment,
     mode: payload.intake_mode,
-    type: payload.editorial_contribution
-      ? (payload.organisation_listing ? 'org+editorial' : 'editorial')
-      : 'org',
-    org_name: c.organisation || '',
+    type: messageType,
+    org_name: payload.change_request
+      ? (payload.change_request.target_listing_name || c.organisation || '')
+      : (c.organisation || ''),
     country: c.country_code || '',
     region: c.region || '',
     workflow_status: ctx.workflow_status || '',
@@ -1054,6 +1174,16 @@ function sanitizeNotifyRecipient(value) {
 function nextRequiredAction(payload, stage) {
   if (stage === 'dry_run') {
     return 'Configure SHEETS_WEBHOOK_URL (or INTAKE_SHEET_WEBHOOK_URL) to enable lab sheet writes; review preview in submit-validation.html.';
+  }
+  if (payload.change_request) {
+    const cr = payload.change_request;
+    if (cr.requested_action === 'delete') {
+      return 'Verify deletion request in LAB_Change_Requests; confirm requester authority before any manual change. Directory_Master is never modified automatically.';
+    }
+    if (cr.requested_action === 'hide') {
+      return 'Verify hide request in LAB_Change_Requests; redactie decides on listing visibility. Directory_Master is never modified automatically.';
+    }
+    return 'Triage change request in LAB_Change_Requests; cross-check existing listing in Directory_Master (read-only) before applying any update.';
   }
   if (payload.editorial_contribution) {
     return 'Editorial review in LAB_Editorial_Intake; redactie decides accept/reject and assigns an editor.';
@@ -1159,11 +1289,15 @@ export {
   buildIntakeSubmissionRow,
   buildEditorialIntakeRow,
   buildPlaceCandidateRow,
+  buildChangeRequestRow,
   buildBackendLogRow,
   buildWorkflowEventRow,
   buildNotificationMessage,
   needsPlaceCandidateRow,
   nextRequiredAction,
+  VALID_MODES,
+  VALID_CHANGE_ACTIONS,
+  VALID_REQUESTER_AUTH,
   postSheetWebhook,
   assertLabPayloadSafe,
   assertNotificationSafe,
@@ -1201,11 +1335,15 @@ if (typeof globalThis !== 'undefined') {
     buildIntakeSubmissionRow,
     buildEditorialIntakeRow,
     buildPlaceCandidateRow,
+    buildChangeRequestRow,
     buildBackendLogRow,
     buildWorkflowEventRow,
     buildNotificationMessage,
     needsPlaceCandidateRow,
     nextRequiredAction,
+    VALID_MODES,
+    VALID_CHANGE_ACTIONS,
+    VALID_REQUESTER_AUTH,
     LAB_SPREADSHEET,
     OFFICE_IDENTITY,
     FORBIDDEN_NOTIFY_KEYS,

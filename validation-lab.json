@@ -556,6 +556,50 @@
       ]
     },
     {
+      "id": "listing-change-or-delete-request",
+      "title": "Wijzigings- / verberg- / verwijderverzoek voor bestaande vermelding (LAB-only)",
+      "status": "in-validation",
+      "owner": "ESRF Editorial",
+      "purpose": "Geeft organisaties (en bevoegde vertegenwoordigers) een veilige LAB-only route om een bestaande vermelding bij te werken, te verbergen of te verwijderen. Verzoeken landen in LAB_Change_Requests (en als koppelrij in LAB_Intake_Submissions met submission_type 'change_request:<action>'). Directory_Master wordt nooit aangeraakt; goedkeuring is alleen een redactiebesluit dat de redactie daarna handmatig toepast.",
+      "lastUpdated": "2026-04-26",
+      "visibility": "hidden",
+      "labOnly": true,
+      "directoryMasterTouched": false,
+      "automaticPublication": false,
+      "submitPath": "/submit-validation.html",
+      "reviewPath": "/redactie-validation.html",
+      "modes": [
+        { "key": "change_request", "label": "Bestaande vermelding wijzigen", "actions": ["update", "hide", "delete"] },
+        { "key": "hide_delete", "label": "Vermelding laten verbergen of verwijderen", "actions": ["hide", "delete"] }
+      ],
+      "labTabs": {
+        "primary": "LAB_Change_Requests",
+        "linked": "LAB_Intake_Submissions",
+        "redactieReviewTab": "LAB_Redactie_Reviews",
+        "workflowEventsTab": "LAB_Workflow_Events"
+      },
+      "payloadFields": [
+        "target_listing_name",
+        "target_listing_url",
+        "requested_action (update|hide|delete)",
+        "change_description",
+        "reason",
+        "evidence_url (optional)",
+        "requester_authorization (authorized_representative|employee|external_observer)",
+        "authorization_confirmation (yes/no)",
+        "sub_mode (change_request|hide_delete)"
+      ],
+      "exitCriteria": [
+        "submit-validation.html toont vijf top-level opties in eenvoudig Nederlands: organisatie, editorial, beide, bestaande vermelding wijzigen, vermelding verbergen/verwijderen.",
+        "In wijzig-/verbergmodus zijn alleen change-velden vereist; persoonlijke organisatie-aanmeldvelden zijn niet verplicht. URL-validatie blokkeert ongeldige target_listing_url en evidence_url.",
+        "Backend /api/intake schrijft change-/verwijderverzoeken alleen naar LAB_Change_Requests (canoniek) + LAB_Intake_Submissions (link). Directory_Master is opgenomen in forbidden_targets; assertLabPayloadSafe weigert iedere poging om Directory_Master te targeten.",
+        "redactie-validation.html toont een eigen 'Wijziging'-pil, side-by-side 'Bestaand' vs 'Gevraagd' panelen, het verzochte action (Bijwerken/Verbergen/Verwijderen), de autorisatie-status van de indiener, een evidence-URL en een redactiebesluit-formulier (akkoord / niet akkoord / verheldering nodig + toelichting).",
+        "Veiligheidsbanner staat altijd bovenaan het CR-detailpaneel: 'Geen automatische wijziging · Directory_Master wordt niet aangeraakt · niets wordt gepubliceerd'.",
+        "Notification-builder rapporteert messageType change_request:<action>, gebruikt target_listing_name/url als referentie en bevat geen contact-PII.",
+        "Tests in functions/api/intake.test.mjs dekken: change_request happy path, hide_delete actie-restrictie, missende target rejection, missende authorization rejection, en buildChangeRequestRow shape met directory_master_touched='no'."
+      ]
+    },
+    {
       "id": "lab-promotion-pipeline",
       "title": "Lab-only controlled promotion: approved LAB_* row → editorial draft / directory candidate",
       "status": "lab-only-promotion-ready-no-production-activation",
