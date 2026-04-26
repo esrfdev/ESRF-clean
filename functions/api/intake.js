@@ -1043,6 +1043,41 @@ function mdEscapeInline(s) {
   return String(s == null ? '' : s).replace(/[\\`*_{}\[\]<>]/g, c => '\\' + c);
 }
 
+// Named exports so sibling routes (e.g. functions/api/intake-test.js) can
+// reuse the same validation/sanitisation, row builders, notification
+// builder, and lab-safety asserts without copy/paste. The Cloudflare
+// Pages Functions runtime treats this file as an ES module so these
+// exports are tree-shaken into intake-test.js cleanly.
+export {
+  validateAndSanitize,
+  buildIssuePreview,
+  buildIntakeSubmissionRow,
+  buildEditorialIntakeRow,
+  buildPlaceCandidateRow,
+  buildBackendLogRow,
+  buildWorkflowEventRow,
+  buildNotificationMessage,
+  needsPlaceCandidateRow,
+  nextRequiredAction,
+  postSheetWebhook,
+  assertLabPayloadSafe,
+  assertNotificationSafe,
+  sanitize,
+  sanitizeLong,
+  sanitizeUrl,
+  sanitizeNotifyRecipient,
+  isAllowedOrigin,
+  cors,
+  json,
+  jsonErr,
+  generateId,
+  LAB_SPREADSHEET,
+  OFFICE_IDENTITY,
+  FORBIDDEN_NOTIFY_KEYS,
+  MAX_BODY_BYTES,
+  MIN_FORM_DURATION_MS,
+};
+
 // Backward-compat alias kept for the existing test harness.
 function buildSheetRow(payload, refs) {
   payload.meta = payload.meta || {};

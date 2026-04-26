@@ -241,11 +241,133 @@ the backend flow, so we don't translate strings that may still change.
 - `functions/api/intake.test.mjs` — Node-only self-contained unit tests.
   Covers sanitiser, origin allowlist, validator (per mode), issue preview,
   and the new `buildSheetRow` (schema, refs, no editorial body inlined).
-- `functions/_middleware.test.mjs` — independent middleware tests.
+- `functions/api/intake-test.test.mjs` — tests for the preview-only
+  `/api/intake-test` route (see §6).
+- `functions/_middleware.test.mjs` — independent middleware tests,
+  including the `/api/intake-test` bot-filter bypass and the assertion
+  that `/api/intake` is **not** bypassed.
 
 Run with:
 
 ```
 node functions/api/intake.test.mjs
+node functions/api/intake-test.test.mjs
 node functions/_middleware.test.mjs
 ```
+
+---
+
+## 6. Preview-only test route — `/api/intake-test`
+
+**Status (2026-04-26):** *Preview test route ready. Still no production
+activation.*
+
+`/api/intake-test` exists so we can run **one** controlled lab-write
+end-to-end against the authorised office@esrf.net Apps Script Web App
+without re-opening `/api/intake` to general traffic. Production deploys
+short-circuit to a 404 before any handler logic runs.
+
+### Why a separate route
+
+`functions/_middleware.js` blocks generic HTTP-client UAs (`curl/`,
+`wget`, `python-requests`, `Go-http-client`, …) outside Europe and
+returns a plain 403 *before* `/api/intake`'s handler runs. That is
+correct for HTML pages but makes a single controlled `curl` POST from
+an authorised operator infeasible. Rather than carving general holes
+into `/api/intake`, we expose a strictly-gated test route that the
+middleware bypass list permits — and the route itself is the gate.
+
+### Guardrails
+
+1. **Preview-only.** Production environment (`CF_PAGES_BRANCH=main` or
+   unset) returns 404. Preview deploy must set `CF_PAGES_BRANCH` to a
+   non-`main` branch or `ESRF_PREVIEW=true`.
+2. **POST-only**, OPTIONS preflight, 405 for other verbs. In production
+   even GET returns 404 — the route is not advertised.
+3. **Required marker.** Body must include `lab_test === true` (boolean;
+   string `"true"` is rejected).
+4. **Required prefix.** `contact.organisation` AND `contact.name` must
+   start with `ESRF Lab Test` (case-insensitive, prefix-only). Checked
+   both pre- and post-sanitisation.
+5. **Forces `meta.environment = 'TEST/VALIDATIE'`** with a defence-in-
+   depth re-check after sanitisation.
+6. **Live writes require BOTH** `INTAKE_SHEET_WEBHOOK_URL` and
+   `SHEETS_WEBHOOK_SECRET`. Missing either flips the route to dry-run.
+7. **Notification stays disabled.** This route deliberately does NOT
+   read `INTAKE_NOTIFY_WEBHOOK` or `INTAKE_NOTIFY_TO`.
+   `notification_status` is always `disabled_for_intake_test` and
+   `notification_sent` is always `false`. A minimal preview message is
+   built and `assertNotificationSafe`-checked, but no recipient is ever
+   surfaced.
+8. **LAB_* tabs only.** Same `assertLabPayloadSafe` guard as
+   `/api/intake`; Directory_Master is forbidden by name and by tab-
+   prefix re-check.
+9. **Same input validation** as `/api/intake` — 64 KiB body cap, JSON
+   shape, content-type, origin allowlist, per-mode required fields,
+   ISO-3166 country, email shape, mandatory editorial + GDPR consents,
+   HTML/control-char strip, length caps.
+10. **Generic JSON errors only.** No upstream stack traces, no env-var
+    names, no shared-secret reflection.
+
+### Middleware bypass
+
+`/api/intake-test` is on `BOT_FILTER_BYPASS_PATHS` in
+`functions/_middleware.js`. `/api/intake` is **not** — production stays
+fully covered by the bot rule. The bypass uses a strict
+`path === prefix || path.startsWith(prefix + '/')` match so an
+attacker-crafted path like `/api/intake-tester-evil` does not bypass.
+
+### Single controlled POST — exact instruction
+
+The next step is **one** POST from an authorised operator against the
+Preview deploy. `INTAKE_SHEET_WEBHOOK_URL` and `SHEETS_WEBHOOK_SECRET`
+are already configured in the Preview env per the activation context;
+the route will run live (`dry_run: false`). Notification env vars must
+remain unset.
+
+```bash
+curl -sS -X POST \
+  'https://test-regional-editorial-cont.esrf-clean.pages.dev/api/intake-test' \
+  -H 'content-type: application/json' \
+  -H 'origin: https://test-regional-editorial-cont.esrf-clean.pages.dev' \
+  --data-binary @- <<'JSON'
+{
+  "lab_test": true,
+  "intake_mode": "org",
+  "form_duration_ms": 9999,
+  "contact": {
+    "name": "ESRF Lab Test Operator",
+    "organisation": "ESRF Lab Test Foundation",
+    "role": "Lab Operator",
+    "email": "lab-test@example.org",
+    "country_code": "NL",
+    "country_label": "Nederland",
+    "place": "Rotterdam",
+    "region": "Zuid-Holland",
+    "website": "https://example.org"
+  },
+  "organisation_listing": {
+    "sector": "gov",
+    "sector_label": "Overheid",
+    "city": "Rotterdam",
+    "description": "Lab test row — single controlled probe."
+  },
+  "privacy": { "gdpr_privacy_policy": true }
+}
+JSON
+```
+
+Expected response in live mode:
+
+- `status: 200`
+- `ok: true`, `route: "/api/intake-test"`, `lab_test: true`
+- `dry_run: false`, `sheet_dry_run: false`
+- `sheet.row_id` populated by the Apps Script
+- `notification_status: "disabled_for_intake_test"`,
+  `notification_sent: false`
+- One row appended to **`LAB_Intake_Submissions`** only
+  (`Directory_Master` untouched).
+
+If the Preview env is missing either secret the route stays in dry-run
+and returns `dry_run: true` with the same shape — no upstream call
+made, no rows written. In neither case does the route send any email.

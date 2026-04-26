@@ -239,6 +239,37 @@ function canonicalHostRedirect(url) {
   return Response.redirect(target.toString(), 301);
 }
 
+// -------------------------------------------------------------------------
+// Preview-only API test routes that must bypass the bot/UA filter.
+//
+// Why bypass: the bot rule blocks generic HTTP-client UAs (curl/, wget,
+// python-requests, Go-http-client, …) outside Europe. That is the right
+// default for HTML pages, but it also blocks an authorised operator who
+// runs ONE controlled `curl` against a Cloudflare Pages preview to
+// validate a backend route end-to-end. The route itself is the gate:
+// `/api/intake-test` is preview-only, requires a `lab_test === true`
+// marker, an `ESRF Lab Test` organisation/name prefix, and only writes
+// to LAB_* tabs — Directory_Master is forbidden. So bypassing the
+// UA-shaped bot filter for that single path does not weaken any
+// production surface.
+//
+// The bypass is path-prefix only: production routes (`/api/intake`,
+// `/api/submit-listing`, etc.) and HTML pages remain fully covered by
+// the bot/geo rule. Each bypassed route is itself responsible for
+// origin allowlisting, payload validation, and (where applicable) an
+// environment-marker check that returns 404/403 outside Preview.
+const BOT_FILTER_BYPASS_PATHS = [
+  '/api/intake-test',
+];
+
+function shouldBypassBotFilter(url) {
+  const path = url.pathname || '';
+  for (const prefix of BOT_FILTER_BYPASS_PATHS) {
+    if (path === prefix || path.startsWith(prefix + '/')) return true;
+  }
+  return false;
+}
+
 // Expose internals for the test harness only. This is a no-op at runtime
 // (globalThis always exists) and adds no observable behaviour for visitors.
 globalThis.__esrfBotProtection = {
@@ -247,6 +278,8 @@ globalThis.__esrfBotProtection = {
   isBadBotUA,
   isEuropeanCountry,
   canonicalHostRedirect,
+  shouldBypassBotFilter,
+  BOT_FILTER_BYPASS_PATHS,
   EUROPEAN_COUNTRIES,
   ADSENSE_UA_ALLOWLIST,
   BAD_BOT_UA_PATTERNS,
@@ -263,8 +296,18 @@ export async function onRequest(context) {
   // before bot/geo blocking so that requests from outside Europe (which
   // would otherwise be 403'd by the bot rule for www.*) are sent to the
   // canonical host first.
-  const redirect = canonicalHostRedirect(new URL(request.url));
+  const url = new URL(request.url);
+  const redirect = canonicalHostRedirect(url);
   if (redirect) return redirect;
+
+  // Bypass the UA-shaped bot filter for preview-only API test routes
+  // (e.g. /api/intake-test). The route itself is the gate — it
+  // requires a TEST/VALIDATIE environment, an explicit lab_test
+  // marker, LAB_*-only writes, and rejects in production. See the
+  // BOT_FILTER_BYPASS_PATHS rationale above.
+  if (shouldBypassBotFilter(url)) {
+    return next();
+  }
 
   const ua = request.headers.get('user-agent') || '';
   const cf = request.cf || null;

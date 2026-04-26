@@ -126,9 +126,28 @@
       "path": "/submit-validation.html",
       "owner": "ESRF Editorial",
       "purpose": "Lab-versie van de automatische intakeflow: backend POST /api/intake geeft een expliciete workflow (received → validated → stored_or_dry_run → notification_prepared_or_sent → next_required_action) terug, schrijft uitsluitend naar LAB_Intake_Submissions, LAB_Editorial_Intake, LAB_Place_Candidates, LAB_Backend_Log en LAB_Workflow_Events in de bestaande Drive-spreadsheet (id 1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g), en stuurt een PII-vrije notificatie. Directory_Master wordt nooit automatisch aangepast.",
-      "lastUpdated": "2026-04-25",
+      "lastUpdated": "2026-04-26",
       "visibility": "hidden",
       "basedOn": "/submit-validation.html",
+      "previewTestRoute": {
+        "path": "/api/intake-test",
+        "status": "preview-test-route-ready-no-production-activation",
+        "purpose": "Preview-only single-write probe so ONE controlled lab-write can be validated end-to-end without re-opening /api/intake to general traffic. Production deploys short-circuit to 404 before any handler logic runs.",
+        "guardrails": [
+          "Preview-only: production environment (CF_PAGES_BRANCH=main or unset) returns 404.",
+          "POST-only; OPTIONS preflight; 405 for other verbs.",
+          "Required body marker lab_test === true (boolean).",
+          "Required prefix 'ESRF Lab Test' on contact.organisation AND contact.name (case-insensitive, prefix-only).",
+          "Forces meta.environment to 'TEST/VALIDATIE'; defence-in-depth re-check after sanitisation.",
+          "Live write requires BOTH INTAKE_SHEET_WEBHOOK_URL and SHEETS_WEBHOOK_SECRET; missing either flips to dry-run.",
+          "Notification disabled — INTAKE_NOTIFY_WEBHOOK / INTAKE_NOTIFY_TO are deliberately ignored on this route; notification_status is always 'disabled_for_intake_test' and notification_sent is always false.",
+          "Writes only to LAB_* tabs; Directory_Master forbidden via assertLabPayloadSafe + tab-prefix re-check.",
+          "Same payload validation, body-size cap (64 KiB), origin allowlist, and JSON-shape checks as /api/intake.",
+          "Generic JSON errors only — no upstream stack traces, no env-var names, no shared-secret reflection."
+        ],
+        "middlewareBypass": "/api/intake-test is on functions/_middleware.js BOT_FILTER_BYPASS_PATHS so an authorised operator can run a single curl POST against the Preview deploy without being 403'd by the UA filter. /api/intake itself is NOT bypassed; production HTML pages and the production intake remain fully protected.",
+        "tests": "/functions/api/intake-test.test.mjs (method handling, preview-only guard, production blocked, lab_test marker, ESRF Lab Test prefix, LAB-only targets, Directory_Master forbidden, notification disabled, secrets-missing dry-run, success path with mocked sheet upstream, generic error messages)."
+      },
       "documentation": [
         "/docs/intake-lab-automation.md",
         "/docs/intake-lab-test-report-2026-04-25.md",
@@ -168,7 +187,8 @@
         "Apps Script reference (docs/apps-script-intake-webhook.gs) weigert niet-LAB-targets en Directory_Master, heeft een opt-in MailApp-route (NOTIFY_TO) die alleen activeert wanneer expliciet ingesteld, en blokkeert ai.agent.wm@gmail.com via FORBIDDEN_NOTIFY_RECIPIENTS.",
         "OFFICE_IDENTITY (official_recipient=office@esrf.net) is zichtbaar in storage_architecture en getest.",
         "Productie blijft geblokkeerd zolang: (a) Apps Script niet onder office@esrf.net draait, (b) Cloudflare Pages preview secrets niet zijn gezet, (c) §6b activation gate niet is afgevinkt door de redactie.",
-        "node functions/api/intake.test.mjs slaagt voor alle dry-run, editorial-only, combined, place-candidate, recipient-metadata, no-Gmail-wording, security-gate (Directory_Master refusal, missing/invalid secret, dry-run default, minimal notification, office identity, POST-only, payload size, required consent) routes."
+        "node functions/api/intake.test.mjs slaagt voor alle dry-run, editorial-only, combined, place-candidate, recipient-metadata, no-Gmail-wording, security-gate (Directory_Master refusal, missing/invalid secret, dry-run default, minimal notification, office identity, POST-only, payload size, required consent) routes.",
+        "node functions/api/intake-test.test.mjs slaagt voor alle preview-only / production-blocked / lab_test-marker / ESRF Lab Test prefix / LAB-only / Directory_Master-forbidden / notification-disabled / secrets-missing dry-run / mocked success-path routes; node functions/_middleware.test.mjs bevestigt dat /api/intake-test wél en /api/intake niet op de bot-filter-bypass-lijst staan."
       ]
     }
   ]

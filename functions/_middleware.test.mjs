@@ -347,5 +347,52 @@ await checkAsync('www + AdSense crawler → 301 (canonical host wins; AdSense fo
   assert.equal(res.headers.get('location'), 'https://esrf.net/');
 });
 
+// ─── Preview-only API test-route bypass ─────────────────────────────────
+// /api/intake-test must skip the bot/UA filter so an authorised
+// operator can run a single controlled curl POST against the Preview
+// deploy. /api/intake itself MUST NOT be bypassed — production stays
+// fully protected by the bot rule.
+console.log('\nBOT_FILTER_BYPASS_PATHS — preview API test routes:');
+check('BOT_FILTER_BYPASS_PATHS includes /api/intake-test', () => {
+  assert.ok(api.BOT_FILTER_BYPASS_PATHS.includes('/api/intake-test'));
+});
+check('BOT_FILTER_BYPASS_PATHS does NOT include /api/intake', () => {
+  assert.ok(!api.BOT_FILTER_BYPASS_PATHS.includes('/api/intake'));
+});
+check('shouldBypassBotFilter matches exact path', () => {
+  assert.equal(api.shouldBypassBotFilter(new URL('https://x/api/intake-test')), true);
+});
+check('shouldBypassBotFilter matches path prefix', () => {
+  assert.equal(api.shouldBypassBotFilter(new URL('https://x/api/intake-test/extra')), true);
+});
+check('shouldBypassBotFilter rejects non-listed path', () => {
+  assert.equal(api.shouldBypassBotFilter(new URL('https://x/api/intake')), false);
+  assert.equal(api.shouldBypassBotFilter(new URL('https://x/api/submit-listing')), false);
+});
+check('shouldBypassBotFilter does NOT match a substring trick', () => {
+  // Defensive: an attacker-crafted path like /api/intake-tester-evil
+  // must NOT bypass — we require an exact match or a `/`-delimited
+  // sub-path.
+  assert.equal(api.shouldBypassBotFilter(new URL('https://x/api/intake-tester-evil')), false);
+});
+
+await checkAsync('apex + curl + US to /api/intake-test → bypass (next() called, no 403)', async () => {
+  const { res, nextCalled } = await run('https://esrf.net/api/intake-test', {
+    ua: 'curl/8.1.2',
+    cf: { country: 'US' },
+  });
+  // The bypass means next() is invoked even for a curl UA from the US.
+  assert.equal(nextCalled, true, 'next() should run for the bypassed path');
+  assert.equal(res.status, 200);
+});
+await checkAsync('apex + curl + US to /api/intake → still 403 (no bypass)', async () => {
+  const { res, nextCalled } = await run('https://esrf.net/api/intake', {
+    ua: 'curl/8.1.2',
+    cf: { country: 'US' },
+  });
+  assert.equal(nextCalled, false);
+  assert.equal(res.status, 403);
+});
+
 console.log(`\n${failures === 0 ? 'All tests passed.' : failures + ' test(s) FAILED.'}`);
 process.exit(failures === 0 ? 0 : 1);
