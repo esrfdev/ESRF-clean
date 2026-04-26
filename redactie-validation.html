@@ -269,6 +269,30 @@
     font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.5;
   }
 
+  /* Save status banner shown after a /api/redactie-review-update call. */
+  .rv-save-banner{
+    margin:14px 0 8px;padding:10px 14px;border-radius:6px;
+    border:1px solid #cbd5e1;background:#f8fafc;color:#0f172a;
+    font-size:13.5px;line-height:1.55;
+  }
+  .rv-save-banner > strong{
+    display:block;font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;
+  }
+  .rv-save-banner .rv-save-msg{margin:0 0 6px}
+  .rv-save-banner .rv-save-list{margin:4px 0 0;padding-left:18px;font-size:12.5px}
+  .rv-save-banner .rv-save-block{
+    margin:6px 0 0;padding:6px 10px;border-radius:4px;
+    background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  }
+  .rv-save-saved{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}
+  .rv-save-saved > strong{color:#065f46}
+  .rv-save-failed{background:#fef2f2;border-color:#fecaca;color:#7f1d1d}
+  .rv-save-failed > strong{color:#7f1d1d}
+  .rv-save-not_saved{background:#f1f5f9;border-color:#cbd5e1;color:#334155}
+  .rv-save-not_saved > strong{color:#334155}
+
   /* Editable-field warnings */
   .rv-edit-rules{
     margin:6px 0 12px;padding:10px 12px;
@@ -306,7 +330,7 @@
     <div>
       <p class="rv-kicker">§ Redactie · validatie · noindex,nofollow</p>
       <h1 class="rv-h1">Redactieformulier — intake review</h1>
-      <p class="rv-deck">Beoordeel één inzending tegelijk in een leesbaar kaartformaat. Kies een rij links, doorloop de vijf stappen hieronder en gebruik de knop <em>Bekijk redactiebeoordeling vóór opslaan</em> onderaan. Geen automatische schrijfactie, geen automatische publicatie.</p>
+      <p class="rv-deck">Beoordeel één inzending tegelijk in een leesbaar kaartformaat. Kies een rij links, doorloop de vijf stappen hieronder en gebruik de knop <em>Opslaan in redactietabel</em> onderaan. De redactiebeslissing wordt rechtstreeks opgeslagen in LAB_Redactie_Reviews, met een gebeurtenis in LAB_Workflow_Events. De originele inzending blijft staan; Directory_Master wordt nooit aangepast en er is geen automatische publicatie.</p>
     </div>
   </div>
 
@@ -629,11 +653,13 @@
         state.accessMode = 'sample';
         state.accessMessage = (data && data.error) ? ('Fout: ' + data.error + ' — sample-mode actief.') : 'Kon LAB-data niet laden — sample-mode actief.';
         state.accessActivation = null;
+        state.accessCode = '';
         state.records = SAMPLE.slice();
       } else {
         state.accessMode = data.mode === 'lab' ? 'lab' : 'sample';
         state.accessMessage = (data.access && data.access.message) || '';
         state.accessActivation = Array.isArray(data.activation_required) ? data.activation_required : null;
+        state.accessCode = (data.mode === 'lab') ? String(accessCode || '') : '';
         state.statusStepReminders = (data.status_step_reminders && typeof data.status_step_reminders === 'object')
           ? data.status_step_reminders : STATUS_STEP_REMINDERS_DEFAULT;
         if (Array.isArray(data.records) && data.records.length){
@@ -704,8 +730,11 @@
     accessMode: 'sample',         // 'sample' | 'lab'
     accessMessage: '',
     accessActivation: null,
+    accessCode: '',               // last accepted code, in-memory only
     statusStepReminders: STATUS_STEP_REMINDERS_DEFAULT,
-    records: SAMPLE.slice()       // active record set — replaced on LAB load
+    records: SAMPLE.slice(),      // active record set — replaced on LAB load
+    saveState: null,              // { status, message, savedTo, blockedReason, error }
+    saveBusy: false               // disables primary button while a save is in flight
   };
 
   function originalValueFor(record, field){
@@ -764,9 +793,9 @@
         el('div', { class: 'rv-item-title', text: r.title || '(zonder titel)' }),
         el('div', { class: 'rv-item-line', text: r.source_tab + ' · ' + (r.source_row_hint || '') + ' · ' + (r.received_at || '').substring(0, 10) })
       ]);
-      item.addEventListener('click', function(){ state.activeId = r.submission_id; state.exportText = ''; renderAll(); });
+      item.addEventListener('click', function(){ state.activeId = r.submission_id; state.exportText = ''; state.saveState = null; renderAll(); });
       item.addEventListener('keydown', function(ev){
-        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); state.activeId = r.submission_id; state.exportText = ''; renderAll(); }
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); state.activeId = r.submission_id; state.exportText = ''; state.saveState = null; renderAll(); }
       });
       box.appendChild(item);
     });
@@ -955,18 +984,20 @@
     d.appendChild(s3);
 
     // ── Primary action area (role-based labels, mode-aware) ───────────────
-    // Real save is currently DISABLED on this branch. The primary button
-    // never claims to save; it generates a preview the editor must then
-    // paste into the Sheet by hand. In sample-mode the label is even more
-    // explicit ("niets wordt opgeslagen").
+    // In LAB-mode the primary button calls /api/redactie-review-update and
+    // saves the review directly into LAB_Redactie_Reviews + LAB_Workflow_Events
+    // (append-only). In sample-mode (no access code, or webhook not yet
+    // activated) it only generates a local preview — nothing is written.
     var isSample = state.accessMode !== 'lab';
     var primaryLabel = isSample
       ? 'Maak testvoorbeeld — niets wordt opgeslagen'
-      : 'Bekijk redactiebeoordeling vóór opslaan';
+      : 'Opslaan in redactietabel';
     var primaryArea = el('div', { class: 'rv-primary-area', 'aria-label': 'Hoofdactie' });
     var modeNote = el('span', {
       class: 'rv-primary-mode-note' + (isSample ? '' : ' is-lab'),
-      text: isSample ? 'TESTVOORBEELD · niets wordt opgeslagen' : 'LAB-MODE · echte rij, nog steeds geen automatische opslag'
+      text: isSample
+        ? 'TESTVOORBEELD · niets wordt opgeslagen'
+        : 'LAB-MODE · opslaan in LAB_Redactie_Reviews + LAB_Workflow_Events · originele inzending blijft staan · Directory_Master wordt nooit aangeraakt'
     });
     primaryArea.appendChild(modeNote);
 
@@ -974,8 +1005,17 @@
       class: 'rv-btn rv-btn-primary',
       type: 'button',
       id: 'rv-primary-action'
-    }, [primaryLabel]);
-    btnPrimary.addEventListener('click', function(){ generateExport('text'); });
+    }, [state.saveBusy ? 'Bezig met opslaan…' : primaryLabel]);
+    if (state.saveBusy) btnPrimary.disabled = true;
+    btnPrimary.addEventListener('click', function(){
+      if (state.saveBusy) return;
+      if (isSample){
+        // Sample / no-webhook fallback: generate a local preview only.
+        generateExport('text');
+        return;
+      }
+      submitReviewUpdate();
+    });
     primaryArea.appendChild(document.createElement('br'));
     primaryArea.appendChild(btnPrimary);
 
@@ -985,42 +1025,94 @@
     var instrUl = el('ul');
     var liDo = el('li', { class: 'rv-instruct-do' });
     liDo.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#0f172a">Wat er wel gebeurt:</strong> ' +
-      'Je krijgt een leesbare samenvatting van je redactiebeoordeling te zien.';
+      (isSample
+        ? 'Je krijgt een leesbare samenvatting van je redactiebeoordeling te zien.'
+        : 'Je redactiebeslissing wordt rechtstreeks opgeslagen als nieuwe rij in LAB_Redactie_Reviews; een gebeurtenis wordt vastgelegd in LAB_Workflow_Events.');
     instrUl.appendChild(liDo);
     var liNot = el('li', { class: 'rv-instruct-not' });
     liNot.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#7f1d1d">Wat er níet gebeurt:</strong> ' +
-      'Er wordt niets opgeslagen in de Sheet, niets gemaild, niets gepubliceerd, niets aan Directory_Master gewijzigd.';
+      'De originele inzending blijft staan, Directory_Master wordt niet aangeraakt, er wordt niets gemaild en er is geen automatische publicatie.';
     instrUl.appendChild(liNot);
     var liNext = el('li', { class: 'rv-instruct-next' });
     liNext.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#1e3a8a">Wat jij hierna doet:</strong> ' +
-      'Lees de samenvatting, plak die handmatig in de juiste rij van de LAB_*-tab in de Drive-spreadsheet en zet daar de status.';
+      (isSample
+        ? 'Lees de samenvatting. Voor échte opslag is een geldige toegangscode én een door beheer geactiveerde webhook nodig.'
+        : 'Controleer de bevestiging hieronder. Geen handmatig kopiëren of plakken meer.');
     instrUl.appendChild(liNext);
     instr.appendChild(instrUl);
     primaryArea.appendChild(instr);
 
-    // Reset is non-destructive: only clears the preview pane, never sheet data.
+    // Reset is non-destructive: only clears the preview pane / save banner,
+    // never sheet data.
     var btnReset = el('button', { class: 'rv-btn rv-btn-warn', type: 'button', id: 'rv-reset-preview' }, ['Wis voorbeeld — begin opnieuw']);
-    btnReset.addEventListener('click', function(){ state.exportText = ''; renderDetail(); });
+    btnReset.addEventListener('click', function(){
+      state.exportText = '';
+      state.saveState = null;
+      renderDetail();
+    });
     primaryArea.appendChild(document.createTextNode(' '));
     primaryArea.appendChild(btnReset);
 
     d.appendChild(primaryArea);
 
-    // Preview / readable summary box (the output of the primary action).
+    // Save status banner (saved / not_saved / failed) — rendered after a
+    // submitReviewUpdate() call. In sample mode this also shows when the
+    // user clicks the primary button: nothing was saved.
+    if (state.saveState){
+      var ss = state.saveState;
+      var saveBanner = el('div', {
+        class: 'rv-save-banner rv-save-' + ss.status,
+        id: 'rv-save-banner',
+        role: 'status',
+        'aria-live': 'polite'
+      });
+      var bannerTitle;
+      if (ss.status === 'saved') bannerTitle = 'Opgeslagen in redactietabel';
+      else if (ss.status === 'failed') bannerTitle = 'Opslaan mislukt';
+      else bannerTitle = 'Niet opgeslagen';
+      saveBanner.appendChild(el('strong', { text: bannerTitle }));
+      saveBanner.appendChild(el('p', { class: 'rv-save-msg', text: ss.message || '' }));
+      if (ss.status === 'saved' && ss.savedTo){
+        var saveUl = el('ul', { class: 'rv-save-list' });
+        saveUl.appendChild(el('li', { text: 'Geschreven naar tab: ' + (ss.savedTo.review_tab || 'LAB_Redactie_Reviews') }));
+        saveUl.appendChild(el('li', { text: 'Gebeurtenis vastgelegd in: ' + (ss.savedTo.events_tab || 'LAB_Workflow_Events') }));
+        if (ss.savedTo.review_id) saveUl.appendChild(el('li', { text: 'review_id: ' + ss.savedTo.review_id }));
+        saveUl.appendChild(el('li', { text: 'Originele inzending: ongewijzigd in bron-tab.' }));
+        saveUl.appendChild(el('li', { text: 'Directory_Master: niet aangeraakt.' }));
+        saveUl.appendChild(el('li', { text: 'Automatische publicatie: niet uitgevoerd.' }));
+        saveBanner.appendChild(saveUl);
+      } else if (ss.status === 'not_saved' && ss.blockedReason){
+        saveBanner.appendChild(el('p', { class: 'rv-save-block', text: 'Reden: ' + ss.blockedReason }));
+      } else if (ss.status === 'failed' && ss.error){
+        saveBanner.appendChild(el('p', { class: 'rv-save-block', text: 'Foutdetail: ' + ss.error }));
+      }
+      d.appendChild(saveBanner);
+    }
+
+    // Preview / readable summary box (only in sample-mode; in LAB-mode the
+    // save banner above is the authoritative result).
+    var defaultPreview = isSample
+      ? '// Klik hierboven op de hoofdknop om de redactiebeoordeling te bekijken.\n// Er wordt niets opgeslagen, gemaild of gepubliceerd.'
+      : '// In LAB-mode klikt "Opslaan in redactietabel" rechtstreeks op de Sheet.\n// Geen kopiëren/plakken nodig. De technische export onderaan is alleen een fallback.';
     var exportBox = el('pre', { class: 'rv-export', id: 'rv-export-box' }, [
-      state.exportText || '// Klik hierboven op de hoofdknop om de redactiebeoordeling te bekijken.\n// Er wordt niets opgeslagen, gemaild of gepubliceerd.'
+      state.exportText || defaultPreview
     ]);
     d.appendChild(exportBox);
-    d.appendChild(el('p', { class: 'rv-export-hint', text: 'Plak deze samenvatting handmatig in de juiste rij van de Drive-spreadsheet (LAB_*-tab). Geen automatische schrijfactie.' }));
+    d.appendChild(el('p', { class: 'rv-export-hint', text: isSample
+      ? 'Sample-mode: dit is alleen een lokaal voorbeeld. Geen schrijfactie.'
+      : 'LAB-mode: het opslaan gaat automatisch via "Opslaan in redactietabel". De technische export hieronder is alleen een fallback voor beheer.' }));
 
-    // ── Technische export voor beheer (collapsed by default) ──────────────
-    // Only used when beheer asks for the raw audit-export. The labels here
-    // are deliberately neutral / technical so a non-technical editor never
-    // mistakes them for the primary save action.
+    // ── Technische export voor beheer (collapsed by default, fallback) ────
+    // Only used when automatic save is unavailable AND beheer asks for the
+    // raw audit-export. The labels here are deliberately neutral / technical
+    // so a non-technical editor never mistakes them for the primary save
+    // action. This is the explicit "noodluik".
     var tech = el('details', { class: 'rv-tech', id: 'rv-tech-details' });
-    tech.appendChild(el('summary', { text: 'Technische export voor beheer (alleen openen als beheer hierom vraagt)' }));
+    tech.appendChild(el('summary', { text: 'Technische export voor beheer (Alleen gebruiken als beheer hierom vraagt)' }));
+    tech.appendChild(el('div', { class: 'rv-tech-warn', id: 'rv-tech-fallback-instruction',
+      text: 'Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.' }));
     tech.appendChild(el('div', { class: 'rv-tech-warn',
-      text: 'Alleen gebruiken als beheer hierom vraagt. Deze knoppen zijn niet de gewone werkflow — ze maken alleen een audit-bestand voor archief of debug.' }));
+      text: 'Deze knoppen zijn geen onderdeel van de gewone werkflow — ze maken alleen een audit-bestand voor archief of debug. Niets wordt automatisch in de Sheet geschreven.' }));
 
     var techActions = el('div', { class: 'rv-actions' });
     var btnTechCopyJson = el('button', { class: 'rv-btn', type: 'button', id: 'rv-tech-copy-json' }, ['Kopieer technische audit-export']);
@@ -1215,6 +1307,7 @@
     STATUS_STEP_REMINDERS: STATUS_STEP_REMINDERS_DEFAULT,
     stepReminderFor: stepReminderFor,
     loadLabData: loadLabData,
+    submitReviewUpdate: submitReviewUpdate,
     state: state
   };
 
@@ -1228,6 +1321,88 @@
       state.exportText = JSON.stringify(payload, null, 2);
     } else {
       state.exportText = textSummary(payload);
+    }
+    renderDetail();
+  }
+
+  // Send the redactiebeslissing to /api/redactie-review-update. The endpoint
+  // is preview-only and gated by REDACTIE_REVIEW_ACCESS_CODE +
+  // REDACTIE_REVIEW_WRITE_ENABLED + webhook URL/secret. Contact details are
+  // never sent — include_contact is hard-coded false here AND on the server.
+  // Directory_Master is refused both client-side (target_tab) and server-side.
+  async function submitReviewUpdate(){
+    var r = getActive();
+    if (!r) return;
+    if (state.accessMode !== 'lab'){
+      // Defence-in-depth: never POST a save in sample mode.
+      state.saveState = {
+        status: 'not_saved',
+        message: 'Opslaan is alleen actief in LAB-mode met een geldige toegangscode.',
+        blockedReason: 'Geen LAB-mode actief.'
+      };
+      renderDetail();
+      return;
+    }
+    var edits = state.editsById[r.submission_id] || null;
+    // PII never crosses the network on a save: include_contact is hard-coded
+    // false here AND on the server. The buildExportPayload call below mirrors
+    // the audit-export shape without contact data.
+    var clientPayload = buildExportPayload(r, readForm(), false, edits);
+    if (!clientPayload) return;
+    var body = {
+      access_code: state.accessCode || '',
+      submission_id: clientPayload.submission_id,
+      record_type: clientPayload.record_type,
+      target_tab: 'LAB_Redactie_Reviews',
+      source_tab: clientPayload.source_tab,
+      review_update: clientPayload.review_update || {},
+      edited_publication_proposal: clientPayload.edited_publication_proposal || null,
+      original_reference: clientPayload.original_reference || null,
+      changed_fields: clientPayload.changed_fields || [],
+      change_note: clientPayload.change_note || '',
+      edited_by: clientPayload.edited_by || ''
+    };
+    state.saveBusy = true;
+    state.saveState = null;
+    renderDetail();
+    var data = null;
+    var httpOk = false;
+    try {
+      var res = await fetch('/api/redactie-review-update', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      httpOk = !!(res && res.ok);
+      try { data = await res.json(); } catch(e){ data = null; }
+    } catch (e) {
+      data = null;
+    }
+    state.saveBusy = false;
+    if (data && data.save_status === 'saved'){
+      state.saveState = {
+        status: 'saved',
+        message: data.save_message || 'Opgeslagen in LAB_Redactie_Reviews; gebeurtenis vastgelegd in LAB_Workflow_Events. Originele inzending ongewijzigd. Directory_Master ongewijzigd.',
+        savedTo: data.saved_to || { review_tab: 'LAB_Redactie_Reviews', events_tab: 'LAB_Workflow_Events' }
+      };
+    } else if (data && data.save_status === 'not_saved'){
+      state.saveState = {
+        status: 'not_saved',
+        message: data.save_message || 'Opslaan is nog niet actief; er wordt niets opgeslagen.',
+        blockedReason: data.live_write_blocked_reason || 'Onbekende reden.'
+      };
+    } else if (data && data.save_status === 'failed'){
+      state.saveState = {
+        status: 'failed',
+        message: data.save_message || 'Opslaan in LAB-tabbladen is mislukt. Niets is geschreven.',
+        error: data.upstream_error || 'upstream_error'
+      };
+    } else {
+      state.saveState = {
+        status: 'failed',
+        message: 'Opslaan mislukt — server gaf geen leesbaar antwoord. Niets is geschreven.',
+        error: httpOk ? 'invalid_response' : 'network_error'
+      };
     }
     renderDetail();
   }
@@ -1323,9 +1498,11 @@
         state.accessMode = 'sample';
         state.accessMessage = 'Sample-mode actief. Geen verbinding met LAB-Sheet — toon lokale voorbeelddata.';
         state.accessActivation = null;
+        state.accessCode = '';
         state.records = SAMPLE.slice();
         state.activeId = state.records[0] && state.records[0].submission_id || null;
         state.exportText = '';
+        state.saveState = null;
         renderAccessPanel();
         renderAll();
       });

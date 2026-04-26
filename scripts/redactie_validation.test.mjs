@@ -320,6 +320,25 @@ check('validation-lab.json includes redactie-validation-form module', () => {
   assert.equal(mod.automaticEmailEnabled, false);
   assert.ok(Array.isArray(mod.documentation) && mod.documentation.includes('/docs/redactie-validation-form.md'));
   assert.ok(Array.isArray(mod.exitCriteria) && mod.exitCriteria.length >= 3);
+  // UX-revisie now declares automatic save in LAB-mode and explicitly
+  // marks copy/paste as not part of the normal workflow.
+  assert.ok(mod.uxRevision && mod.uxRevision.primaryActionLabels,
+    'expected uxRevision.primaryActionLabels in manifest');
+  assert.equal(mod.uxRevision.primaryActionLabels.labMode, 'Opslaan in redactietabel');
+  assert.equal(mod.uxRevision.primaryActionLabels.sampleMode, 'Maak testvoorbeeld — niets wordt opgeslagen');
+  assert.equal(mod.uxRevision.noCopyPasteInNormalFlow, true);
+  assert.deepEqual(mod.uxRevision.labModeSaveTargets, ['LAB_Redactie_Reviews', 'LAB_Workflow_Events']);
+  assert.equal(mod.uxRevision.technicalExportFallbackInstruction,
+    'Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.');
+  // Endpoints metadata must reflect gated live save and the activation
+  // checklist (used by ops to know what to set).
+  assert.ok(mod.endpoints && mod.endpoints.liveWriteGated === true,
+    'expected endpoints.liveWriteGated === true');
+  assert.ok(Array.isArray(mod.endpoints.liveWriteGates) && mod.endpoints.liveWriteGates.length === 4,
+    'expected four explicit live-write gates in manifest');
+  assert.deepEqual(mod.endpoints.saveTargets, ['LAB_Redactie_Reviews', 'LAB_Workflow_Events']);
+  assert.ok(Array.isArray(mod.activationChecklist) && mod.activationChecklist.length >= 5,
+    'expected activationChecklist with at least 5 items');
 });
 
 // ── Access panel + LAB-mode wiring ───────────────────────────────────────
@@ -397,9 +416,54 @@ check('primary action label is role-based, mode-aware (sample + lab variants)', 
   // Sample-mode primary label MUST be explicit that nothing is saved.
   assert.ok(html.includes('Maak testvoorbeeld — niets wordt opgeslagen'),
     'expected sample-mode primary label');
-  // LAB-mode primary label: review-before-save, not a technical export label.
-  assert.ok(html.includes('Bekijk redactiebeoordeling vóór opslaan'),
-    'expected lab-mode primary label');
+  // LAB-mode primary label: action saves directly to the redactietabel.
+  // No more "preview before save" wording — copy/paste is no longer the
+  // normal workflow.
+  assert.ok(html.includes('Opslaan in redactietabel'),
+    'expected lab-mode primary label "Opslaan in redactietabel"');
+  // The OLD lab-mode label (review-before-save) must not be used anymore.
+  assert.ok(!html.includes('Bekijk redactiebeoordeling vóór opslaan'),
+    'old "Bekijk redactiebeoordeling vóór opslaan" label must be removed');
+});
+
+check('LAB-mode posts the redactiebeoordeling automatically (no copy/paste flow)', () => {
+  // The save flow must call the dedicated update endpoint, not just
+  // generate a clipboard preview. Look for the fetch reference.
+  assert.match(html, /\/api\/redactie-review-update/,
+    'LAB-mode primary action must POST to /api/redactie-review-update');
+  assert.match(html, /submitReviewUpdate/,
+    'expected an explicit submitReviewUpdate handler in the page script');
+  // Confirmation copy from a successful save — surfaces the two
+  // append-only target tabs and the unchanged-original promise.
+  assert.ok(html.includes('LAB_Redactie_Reviews'),
+    'expected LAB_Redactie_Reviews referenced in save flow / confirmation');
+  assert.ok(html.includes('LAB_Workflow_Events'),
+    'expected LAB_Workflow_Events referenced in save flow / confirmation');
+  assert.ok(html.includes('Originele inzending: ongewijzigd'),
+    'expected explicit "Originele inzending: ongewijzigd" confirmation copy');
+  assert.ok(html.includes('Directory_Master: niet aangeraakt'),
+    'expected explicit "Directory_Master: niet aangeraakt" confirmation copy');
+});
+
+check('technical export carries the explicit "fallback only" instruction', () => {
+  // Hard requirement from the spec: this exact sentence must appear inside
+  // the technical-export details block so editors know it is not the
+  // normal workflow.
+  assert.ok(html.includes('Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.'),
+    'expected verbatim fallback instruction inside technical export details');
+});
+
+check('copy/paste is not presented as the normal workflow anymore', () => {
+  // The previous architecture diagram and instructions told the editor
+  // to copy the JSON/text and paste it into the spreadsheet. That
+  // instruction must no longer appear as part of the primary flow.
+  // Sample-mode hint may still mention "lokaal voorbeeld" but never
+  // tell the editor to paste it into the Sheet.
+  assert.ok(!/plak die handmatig in\s+\n?\s+de juiste rij van de LAB_\*-tab/.test(html),
+    'old "plak handmatig in de juiste rij" instruction must not appear as primary flow');
+  // The LAB-mode instruction must explicitly state no copy/paste needed.
+  assert.ok(html.includes('Geen handmatig kopiëren of plakken meer.'),
+    'expected explicit "geen handmatig kopiëren of plakken meer" instruction in LAB-mode');
 });
 
 check('"Wat gebeurt er na deze knop?" instruction block is present', () => {
@@ -454,12 +518,20 @@ check('explicit edit-field warnings are present when bewerken is on', () => {
 check('primary action area carries a mode-aware status note', () => {
   assert.ok(html.includes('TESTVOORBEELD · niets wordt opgeslagen'),
     'expected sample-mode primary status note');
-  assert.ok(html.includes('LAB-MODE · echte rij, nog steeds geen automatische opslag'),
-    'expected lab-mode primary status note');
+  // LAB-mode banner now describes the actual save destinations and the
+  // hard guarantees (origineel blijft staan, Directory_Master niet
+  // aangeraakt). The previous "echte rij, nog steeds geen automatische
+  // opslag" wording is no longer correct.
+  assert.ok(html.includes('LAB-MODE · opslaan in LAB_Redactie_Reviews'),
+    'expected lab-mode banner describing save target');
+  assert.ok(html.includes('Directory_Master wordt nooit aangeraakt'),
+    'expected lab-mode banner re-stating Directory_Master deny-list');
+  assert.ok(!html.includes('LAB-MODE · echte rij, nog steeds geen automatische opslag'),
+    'old lab-mode "geen automatische opslag" banner must be removed');
 });
 
 // ── docs file exists ─────────────────────────────────────────────────────
-check('docs/redactie-validation-form.md exists', () => {
+check('docs/redactie-validation-form.md exists and reflects automatic save', () => {
   const p = path.join(repoRoot, 'docs', 'redactie-validation-form.md');
   assert.ok(fs.existsSync(p), 'docs file missing');
   const md = fs.readFileSync(p, 'utf8');
@@ -467,8 +539,13 @@ check('docs/redactie-validation-form.md exists', () => {
   assert.match(md, /Directory_Master/);
   // New activation/architecture sections
   assert.match(md, /REDACTIE_REVIEW_ACCESS_CODE/);
+  assert.match(md, /REDACTIE_REVIEW_WRITE_ENABLED/);
   assert.match(md, /\/api\/redactie-review/);
-  assert.match(md, /dry-run/i);
+  // Automatic save + activation checklist
+  assert.match(md, /Opslaan in redactietabel/);
+  assert.match(md, /LAB_Redactie_Reviews/);
+  assert.match(md, /Activatie-checklist/i);
+  assert.match(md, /Geen kopiëren\/plakken/);
 });
 
 // ── Summary ──────────────────────────────────────────────────────────────

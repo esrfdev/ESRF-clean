@@ -180,7 +180,7 @@ await asyncCheck('forbidden origin returns 403', async () => {
   assert.equal(res.status, 403);
 });
 
-await asyncCheck('valid body without access code → 200, mode:sample, dry_run:true, live_write_ready:false', async () => {
+await asyncCheck('valid body without access code → 200, mode:sample, dry_run:true, save_status:not_saved with explicit save_message', async () => {
   const res = await callUpdate('POST', {
     headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
     body: JSON.stringify(validUpdateBody),
@@ -191,6 +191,16 @@ await asyncCheck('valid body without access code → 200, mode:sample, dry_run:t
   assert.equal(data.mode, 'sample');
   assert.equal(data.dry_run, true);
   assert.equal(data.live_write_ready, false);
+  assert.equal(data.save_status, 'not_saved');
+  // Exact Dutch copy required by the user spec.
+  assert.equal(data.save_message, 'Opslaan is nog niet actief; er wordt niets opgeslagen.');
+  // The reason should explain WHY (which env var is missing). On this
+  // call, no access code is configured.
+  assert.match(data.live_write_blocked_reason, /access code not configured/i);
+  // Activation hint must list all four required env vars so ops knows
+  // exactly what to set.
+  assert.ok(Array.isArray(data.activation_required) && data.activation_required.length >= 4);
+  assert.ok(data.activation_required.some(s => /REDACTIE_REVIEW_WRITE_ENABLED/.test(s)));
   assert.equal(data.directory_master_touched, false);
   assert.equal(data.automatic_publication, false);
   assert.match(data.warning, /Directory_Master/);
@@ -209,23 +219,192 @@ await asyncCheck('Directory_Master as target_tab → 400', async () => {
   assert.ok(data.errors.some(e => /target_tab/.test(e)));
 });
 
-await asyncCheck('valid access code yields mode:lab but live_write_ready remains false', async () => {
+await asyncCheck('access code valid but REDACTIE_REVIEW_WRITE_ENABLED missing → save_status:not_saved with reason', async () => {
+  // Three of four gates pass; the toggle env var is missing — endpoint
+  // must stay dry-run and tell ops which var is missing.
   const res = await callUpdate('POST', {
     env: {
       REDACTIE_REVIEW_ACCESS_CODE: 'lab-code',
       REDACTIE_REVIEW_WEBHOOK_URL: 'https://script.example/exec',
       REDACTIE_REVIEW_WEBHOOK_SECRET: 'shh',
-      REDACTIE_REVIEW_WRITE_ENABLED: 'true',
+      // REDACTIE_REVIEW_WRITE_ENABLED intentionally NOT set
     },
     headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
     body: JSON.stringify(Object.assign({}, validUpdateBody, { access_code: 'lab-code' })),
   });
+  assert.equal(res.status, 200);
   const data = await res.json();
   assert.equal(data.mode, 'lab');
-  // EVEN with all env vars set, live writes remain disabled on this branch.
   assert.equal(data.dry_run, true);
   assert.equal(data.live_write_ready, false);
-  assert.match(data.live_write_blocked_reason, /not implemented|disabled/i);
+  assert.equal(data.save_status, 'not_saved');
+  assert.equal(data.save_message, 'Opslaan is nog niet actief; er wordt niets opgeslagen.');
+  assert.match(data.live_write_blocked_reason, /REDACTIE_REVIEW_WRITE_ENABLED/);
+});
+
+// ── Live-save path with mocked Apps Script fetch ───────────────────────
+// Each of the next checks installs a fetch mock that intercepts the call
+// to the (fake) Apps Script /exec URL, asserts the outbound body shape,
+// and returns a canned response. We restore globalThis.fetch after each
+// check so the network never actually runs.
+async function withMockedFetch(impl, fn){
+  const originalFetch = globalThis.fetch;
+  let calls = [];
+  globalThis.fetch = async function(url, options){
+    calls.push({ url: String(url), options: options || {} });
+    return await impl(url, options);
+  };
+  try {
+    await fn(calls);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+}
+
+const labEnv = {
+  REDACTIE_REVIEW_ACCESS_CODE: 'lab-code',
+  REDACTIE_REVIEW_WEBHOOK_URL: 'https://script.example/exec',
+  REDACTIE_REVIEW_WEBHOOK_SECRET: 'shh-secret',
+  REDACTIE_REVIEW_WRITE_ENABLED: 'true',
+};
+
+await asyncCheck('all four gates pass + Apps Script accepts → save_status:saved with saved_to', async () => {
+  const fakeUpstream = {
+    ok: true,
+    update_result: {
+      review_id: 'rev_lab_test_001',
+      target_tab: 'LAB_Redactie_Reviews',
+      rows_written: 2,
+    },
+  };
+  await withMockedFetch(async function(_url, _opts){
+    return new Response(JSON.stringify(fakeUpstream), {
+      status: 200,
+      headers: { 'content-type': 'application/json' },
+    });
+  }, async function(calls){
+    const res = await callUpdate('POST', {
+      env: labEnv,
+      headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
+      body: JSON.stringify(Object.assign({}, validUpdateBody, { access_code: 'lab-code' })),
+    });
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.equal(data.ok, true);
+    assert.equal(data.mode, 'lab');
+    assert.equal(data.dry_run, false);
+    assert.equal(data.live_write_ready, true);
+    assert.equal(data.save_status, 'saved');
+    // Exact Dutch save message required by spec.
+    assert.match(data.save_message, /Opgeslagen in LAB_Redactie_Reviews/);
+    assert.match(data.save_message, /LAB_Workflow_Events/);
+    assert.match(data.save_message, /Originele inzending ongewijzigd/);
+    assert.match(data.save_message, /Directory_Master ongewijzigd/);
+    assert.equal(data.saved_to.review_tab, 'LAB_Redactie_Reviews');
+    assert.equal(data.saved_to.events_tab, 'LAB_Workflow_Events');
+    assert.equal(data.saved_to.review_id, 'rev_lab_test_001');
+    // Outbound webhook call assertions
+    assert.equal(calls.length, 1, 'expected exactly one fetch call');
+    assert.equal(calls[0].url, 'https://script.example/exec');
+    const sent = JSON.parse(String(calls[0].options.body || '{}'));
+    assert.equal(sent.action, 'submit_review_update');
+    assert.equal(sent.shared_secret, 'shh-secret');
+    assert.equal(sent.target_tab, 'LAB_Redactie_Reviews');
+    assert.equal(sent.include_contact, false, 'include_contact must be hard-coded false on save path');
+  });
+});
+
+await asyncCheck('outbound webhook body never contains contact PII or REDACTIE_REVIEW_* secrets', async () => {
+  const SENSITIVE = 'leak-on-save@example.org';
+  await withMockedFetch(async function(){
+    return new Response(JSON.stringify({ ok: true, update_result: { review_id: 'rev_x' } }), {
+      status: 200, headers: { 'content-type': 'application/json' },
+    });
+  }, async function(calls){
+    await callUpdate('POST', {
+      env: labEnv,
+      headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
+      body: JSON.stringify(Object.assign({}, validUpdateBody, {
+        access_code: 'lab-code',
+        edited_publication_proposal: Object.assign({}, validUpdateBody.edited_publication_proposal, {
+          contact: { email: SENSITIVE, phone: '+31 6 11111111' },
+          raw_payload_json: '{"foo":"bar"}',
+        }),
+        original_reference: Object.assign({}, validUpdateBody.original_reference, {
+          contact: { email: SENSITIVE },
+        }),
+      })),
+    });
+    const sentRaw = String(calls[0].options.body || '');
+    assert.ok(sentRaw.indexOf(SENSITIVE) === -1, 'contact email leaked into outbound webhook body');
+    assert.ok(sentRaw.indexOf('raw_payload_json') === -1, 'raw_payload_json leaked into outbound webhook body');
+    // Defence-in-depth: never echo the env var names that hold secrets.
+    assert.ok(sentRaw.indexOf('REDACTIE_REVIEW_ACCESS_CODE') === -1);
+    assert.ok(sentRaw.indexOf('REDACTIE_REVIEW_WEBHOOK_URL') === -1);
+    // The shared_secret IS sent — that is the auth surface — but ONLY
+    // as the body field, not as a leaked env-var name in any other place.
+  });
+});
+
+await asyncCheck('Directory_Master as target_tab is refused before any fetch', async () => {
+  let fetched = false;
+  await withMockedFetch(async function(){
+    fetched = true;
+    return new Response('{}', { status: 200 });
+  }, async function(){
+    const res = await callUpdate('POST', {
+      env: labEnv,
+      headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
+      body: JSON.stringify(Object.assign({}, validUpdateBody, {
+        access_code: 'lab-code',
+        target_tab: 'Directory_Master',
+      })),
+    });
+    assert.equal(res.status, 400);
+    const data = await res.json();
+    assert.ok(data.errors && data.errors.some(e => /target_tab/.test(e)));
+    assert.equal(fetched, false, 'fetch must NEVER be called when target_tab is Directory_Master');
+  });
+});
+
+await asyncCheck('upstream Apps Script error → 502 with save_status:failed', async () => {
+  await withMockedFetch(async function(){
+    return new Response('upstream blew up', { status: 500 });
+  }, async function(){
+    const res = await callUpdate('POST', {
+      env: labEnv,
+      headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
+      body: JSON.stringify(Object.assign({}, validUpdateBody, { access_code: 'lab-code' })),
+    });
+    assert.equal(res.status, 502);
+    const data = await res.json();
+    assert.equal(data.ok, false);
+    assert.equal(data.save_status, 'failed');
+    assert.match(data.save_message, /Opslaan in LAB-tabbladen is mislukt/);
+    assert.match(String(data.upstream_error || ''), /upstream_status_500/);
+  });
+});
+
+await asyncCheck('upstream returns ok:false → 502 with save_status:failed and no leakage', async () => {
+  const SENSITIVE_RESP_KEY = 'shared_secret';
+  await withMockedFetch(async function(){
+    return new Response(JSON.stringify({
+      ok: false,
+      reason: 'forbidden_target',
+      // Defensive fixture: Apps Script accidentally echoes a forbidden key.
+      shared_secret: 'should-be-stripped',
+    }), { status: 200, headers: { 'content-type': 'application/json' } });
+  }, async function(){
+    const res = await callUpdate('POST', {
+      env: labEnv,
+      headers: { origin: PREVIEW_ORIGIN, 'content-type': 'application/json' },
+      body: JSON.stringify(Object.assign({}, validUpdateBody, { access_code: 'lab-code' })),
+    });
+    assert.equal(res.status, 502);
+    const blob = await res.text();
+    assert.ok(blob.indexOf('should-be-stripped') === -1, 'shared_secret value leaked from upstream into response');
+    assert.ok(blob.indexOf(SENSITIVE_RESP_KEY) === -1, 'shared_secret key leaked from upstream into response');
+  });
 });
 
 await asyncCheck('contact details in edited_publication_proposal are stripped from response payload', async () => {

@@ -1,13 +1,22 @@
 # Redactieformulier — leesbaar review-formulier boven de Sheet
 
 > **Branch:** `test/regional-editorial-contributor-intake` only.
-> **Validatie-only.** Schrijft niet naar Sheet, GitHub, e-mail of Directory_Master.
+> **Validatie-only voor de productie.** Productie schrijft niets — Cloudflare
+> Pages Functions zijn preview-only en geven 404 op productie.
 > **Single source of truth blijft de Drive-spreadsheet** (LAB_Intake_Submissions /
-> LAB_Editorial_Intake / LAB_Workflow_Events).
-> **LAB read API achter access-code.** Standaard sample-mode in de browser;
-> echte LAB-rijen verschijnen pas wanneer `REDACTIE_REVIEW_ACCESS_CODE` is
-> ingesteld op de Cloudflare Pages preview én de redacteur de code invult.
-> Een live write-pad bestaat niet — de update-API is dry-run.
+> LAB_Editorial_Intake / LAB_Redactie_Reviews / LAB_Workflow_Events).
+> **Geen kopiëren/plakken in de gewone werkflow.** Zodra de redactie-Apps-
+> Script en bijbehorende Cloudflare preview env vars geactiveerd zijn,
+> slaat de redactiepagina de redactiebeoordeling rechtstreeks op in
+> `LAB_Redactie_Reviews` (append-only) en logt een gebeurtenis in
+> `LAB_Workflow_Events`. De originele inzending in
+> `LAB_Intake_Submissions` / `LAB_Editorial_Intake` blijft staan.
+> **LAB read + write API achter access-code + 4-gate activatie.** Zonder
+> de env vars draait de pagina in sample-mode en wordt er niets opgeslagen.
+> **Directory_Master blijft hard-deny** — geen UI, geen API, geen Apps
+> Script raakt die tab aan.
+> **Technische export blijft als noodluik.** Alleen openen wanneer
+> automatisch opslaan niet werkt en beheer hierom vraagt.
 
 ## API-architectuur (lab-only)
 
@@ -29,12 +38,24 @@ staat hard op de deny-list.
   geldig: `mode: 'lab'` met echte rijen, contact-velden gestript tenzij
   `include_contact: true`.
 
-- `POST /api/redactie-review-update` — **dry-run**. Bouwt de canonieke
-  review-update payload (precies zoals `redactie-validation.html` 'm
-  ook offline genereert) maar voert geen write uit. Refuseert elk
-  `target_tab` dat niet `LAB_*` is of in `forbidden_targets`
-  voorkomt. `live_write_ready` staat hard op `false`; live write is
-  bewust niet geïmplementeerd op deze branch.
+- `POST /api/redactie-review-update` — **save (preview-only)**. Bouwt
+  de canonieke review-update payload, valideert `target_tab` (alleen
+  `LAB_*` en niet in `forbidden_targets`) en — zodra alle vier de
+  activatie-poorten passen — stuurt die door naar de Apps-Script
+  Web App met `action: "submit_review_update"`. Apps Script schrijft
+  één rij naar `LAB_Redactie_Reviews` en één rij naar
+  `LAB_Workflow_Events` (beide append-only). Zonder volledige activatie
+  blijft het endpoint dry-run en geeft het `save_status: "not_saved"`
+  terug met de reden welke env var ontbreekt. Bij upstream-fouten
+  geeft het `save_status: "failed"`. Directory_Master wordt zowel
+  Cloudflare-side als in Apps Script hard geweigerd. Contact-velden en
+  `raw_payload_json` worden defensief uit de outbound payload gestript.
+
+  Vier gates voor live opslaan, alle vier vereist:
+  1. `REDACTIE_REVIEW_ACCESS_CODE` geconfigureerd én geldige code in body.
+  2. `REDACTIE_REVIEW_WEBHOOK_URL` (Apps Script `/exec`).
+  3. `REDACTIE_REVIEW_WEBHOOK_SECRET` (shared secret, server-side only).
+  4. `REDACTIE_REVIEW_WRITE_ENABLED=true` (expliciete toggle).
 
 Vereiste env vars (preview project):
 
@@ -43,7 +64,7 @@ Vereiste env vars (preview project):
 | `REDACTIE_REVIEW_ACCESS_CODE` | gates real-data read; zonder → sample | **ontbreekt → sample-mode** |
 | `REDACTIE_REVIEW_WEBHOOK_URL` | Apps Script /exec voor read | **ontbreekt → sample-mode** |
 | `REDACTIE_REVIEW_WEBHOOK_SECRET` | shared secret in body | **ontbreekt → sample-mode** |
-| `REDACTIE_REVIEW_WRITE_ENABLED` | hard toggle voor live write | **niet activeerbaar op deze branch** |
+| `REDACTIE_REVIEW_WRITE_ENABLED` | expliciete toggle (`true`) voor live opslaan | **vereist voor live opslaan; zonder → dry-run** |
 | `ESRF_PREVIEW` of `CF_PAGES_BRANCH ≠ main` | preview-only gate | bestaande conventie |
 
 Veiligheidsregels die in de endpoints zelf staan:
@@ -120,23 +141,36 @@ weggeschreven.
    │ Sheet (single SoT)       │  LAB_Editorial_Intake
    │                          │  LAB_Workflow_Events
    └────────────┬─────────────┘
-                │ redactie leest rijen
+                │ redactie leest rijen via /api/redactie-review
                 ▼
    ┌──────────────────────────┐
    │ redactie-validation.html │  ← dit document
-   │ (lokale voorbeelddata)   │  leesbare review-UI, geen Sheet-write
+   │ (LAB-mode of sample)     │  leesbare review-UI
    └────────────┬─────────────┘
-                │ operator kopieert review-update (JSON of tekst)
+                │ klik "Opslaan in redactietabel"
+                │ POST /api/redactie-review-update
+                │ (preview-only, access-code + 4-gate activatie)
                 ▼
    ┌──────────────────────────┐
-   │ Drive-spreadsheet        │  redactie plakt handmatig terug
-   │ (LAB_*)                  │  in de juiste rij
+   │ Apps Script Web App      │  spreadsheet-only OAuth
+   │ submit_review_update     │  hard deny: Directory_Master
    └────────────┬─────────────┘
-                │ pas hierna kan de lab-promotion pipeline draaien
+                │ append-only writes
+                ▼
+   ┌──────────────────────────┐
+   │ LAB_Redactie_Reviews     │  redactiebeslissing (audit-rij)
+   │ LAB_Workflow_Events      │  gebeurtenis (audit-log)
+   │ (origineel blijft staan) │  intake-tabs ongewijzigd
+   └────────────┬─────────────┘
+                │ pas na akkoord: handmatige lab-promotion
                 ▼
    ┌──────────────────────────┐
    │ Lab promotion (offline)  │  scripts/lab_promote/cli  (handmatig)
    └──────────────────────────┘
+
+   ── Geen kopiëren/plakken in de gewone werkflow ──
+   ── Directory_Master blijft hard-deny op elk niveau ──
+   ── Geen automatische publicatie ──
 ```
 
 ## Wat de pagina toont
@@ -234,57 +268,76 @@ De pagina is niet gelinkt vanuit productie-navigatie, footer of sitemap.
 Productie kan alleen via direct intypen van het pad worden bereikt — en is
 daar `noindex`.
 
-## Acties onderaan de pagina (2026-04-26 — UX-revisie)
+## Acties onderaan de pagina (2026-04-26 — automatisch opslaan)
 
-De actieknoppen onderaan zijn opnieuw ingedeeld zodat een redacteur
-zonder technische uitleg precies weet wat een knop doet, en wat hij
-níet doet. Niets aan de safety-laag is veranderd: er wordt nog steeds
-niets opgeslagen, gemaild of gepubliceerd; de Drive-spreadsheet blijft
-single source of truth en Directory_Master wordt nooit aangeraakt.
+De actieknoppen onderaan zijn ingedeeld zodat de redacteur zonder
+technische uitleg precies weet wat een knop doet, en wat hij níet
+doet. Het normale pad is **opslaan in de redactietabel** —
+kopiëren/plakken is geen onderdeel van de werkflow meer. Directory_Master
+wordt nooit aangeraakt en er is geen automatische publicatie naar de
+publieke site of e-mail.
 
-### Hoofdactie (zichtbaar, role-based)
+### Hoofdactie (zichtbaar, role-based, mode-aware)
 
-- **Sample- / dry-run-mode (huidige toestand op deze branch):**
-  knoplabel **`Maak testvoorbeeld — niets wordt opgeslagen`**.
-  Boven de knop staat een gele pil **`TESTVOORBEELD · niets wordt
-  opgeslagen`**. De pagina draait nu altijd in deze mode totdat de
-  REDACTIE_REVIEW_*-env vars op het preview-project staan.
-- **LAB-mode (later, alleen na activatie):** knoplabel
-  **`Bekijk redactiebeoordeling vóór opslaan`**. Boven de knop staat
-  een groene pil **`LAB-MODE · echte rij, nog steeds geen
-  automatische opslag`**. Ook in deze mode is *opslaan* nooit
-  automatisch — de redacteur plakt de samenvatting handmatig in de
-  Sheet.
-
-> Een knop zoals *Opslaan als redactiebeoordeling* verschijnt pas
-> wanneer een server-side write-pad geactiveerd is. Op deze branch is
-> dat pad bewust niet geïmplementeerd; de UI mag daarom nooit een
-> label tonen dat een echte save suggereert.
+- **Sample- / fallback-mode** (geen access code, of activatie-vars
+  ontbreken op de preview): knoplabel
+  **`Maak testvoorbeeld — niets wordt opgeslagen`**. Boven de knop
+  staat een gele pil **`TESTVOORBEELD · niets wordt opgeslagen`**.
+  De knop genereert alleen een lokaal voorbeeld; er wordt geen API
+  aangeroepen voor opslaan.
+- **LAB-mode** (geldige access code én alle webhook-env vars): knoplabel
+  **`Opslaan in redactietabel`**. Boven de knop staat een groene
+  banner **`LAB-MODE · opslaan in LAB_Redactie_Reviews +
+  LAB_Workflow_Events · originele inzending blijft staan ·
+  Directory_Master wordt nooit aangeraakt`**. Klikken op deze knop
+  POST't naar `/api/redactie-review-update`, dat de Apps Script
+  webhook aanroept met `action: submit_review_update`. Apps Script
+  schrijft één rij naar `LAB_Redactie_Reviews` (audit-rij) en één
+  rij naar `LAB_Workflow_Events` (gebeurtenis-log). Geen kopiëren,
+  geen plakken.
 
 Direct onder de hoofdknop staat een **`Wat gebeurt er na deze knop?`**
-instructieblok met drie regels in eenvoudig Nederlands:
+instructieblok met drie regels in eenvoudig Nederlands. In LAB-mode:
 
-1. *Wat er wel gebeurt:* je krijgt een leesbare samenvatting van je
-   redactiebeoordeling te zien.
-2. *Wat er níet gebeurt:* niets wordt opgeslagen in de Sheet, niets
-   gemaild, niets gepubliceerd, niets aan Directory_Master gewijzigd.
-3. *Wat jij hierna doet:* lees de samenvatting, plak die handmatig in
-   de juiste rij van de LAB_*-tab in de Drive-spreadsheet en zet daar
-   de status.
+1. *Wat er wel gebeurt:* je redactiebeslissing wordt rechtstreeks
+   opgeslagen als nieuwe rij in `LAB_Redactie_Reviews`; een gebeurtenis
+   wordt vastgelegd in `LAB_Workflow_Events`.
+2. *Wat er níet gebeurt:* de originele inzending blijft staan,
+   `Directory_Master` wordt niet aangeraakt, er wordt niets gemaild en
+   er is geen automatische publicatie.
+3. *Wat jij hierna doet:* controleer de bevestiging onder de knop
+   (`save_status: saved`). Geen handmatig kopiëren of plakken meer.
+
+Onder de hoofdactie verschijnt na een save een statusbanner:
+
+- `Opgeslagen in redactietabel` (groen) — bevestigt naar welke tab
+  geschreven is, welke `review_id` is toegekend en bevestigt expliciet
+  dat originele inzending en `Directory_Master` ongewijzigd zijn.
+- `Niet opgeslagen` (grijs) — alleen in sample-mode of wanneer een
+  activatie-var ontbreekt. De banner noemt exact welke env var ontbreekt
+  en de tekst *"Opslaan is nog niet actief; er wordt niets opgeslagen."*
+- `Opslaan mislukt` (rood) — netwerk- of upstream-fout. Niets is
+  geschreven; de redacteur kan opnieuw klikken.
 
 Naast de hoofdknop staat **`Wis voorbeeld — begin opnieuw`**
-(rv-btn-warn). Die knop wist alleen het preview-paneel; geen Sheet,
-geen export, geen status wordt geraakt.
+(rv-btn-warn). Die knop wist alleen het preview-paneel en de
+status-banner; geen Sheet, geen export wordt geraakt.
 
-### Technische export voor beheer (ingeklapt)
+### Technische export voor beheer (ingeklapt — fallback)
 
 De vroegere knoppen *Genereer review-update (JSON)*, *Genereer
-tekst-samenvatting* en *Kopieer naar klembord* zijn **niet meer**
-zichtbaar als hoofdactie. Ze leven nu onder een ingeklapt
+tekst-samenvatting* en *Kopieer naar klembord* zijn **geen onderdeel
+van de gewone werkflow**. Ze leven nu onder een ingeklapt
 `<details class="rv-tech">` blok met titel
 **`Technische export voor beheer (alleen openen als beheer hierom
-vraagt)`**. Boven de knoppen staat de waarschuwing
-*“Alleen gebruiken als beheer hierom vraagt.”*
+vraagt)`**. De eerste regel binnenin luidt letterlijk:
+
+> **Gebruik de technische export alleen als automatisch opslaan niet
+> werkt en beheer hierom vraagt.**
+
+Daaronder staat de aanvullende waarschuwing dat deze knoppen alleen
+een audit-bestand voor archief of debug maken — er wordt niets
+automatisch in de Sheet geschreven.
 
 Knoppen binnen het blok (role-based labels):
 
@@ -396,8 +449,10 @@ de standaard is altijd zonder PII.
 | Inzending indienen via `submit-validation.html` | Ja (LAB-only) |
 | Schrijven naar LAB_*-tabs via `/api/intake-test` | Ja (LAB-only) |
 | Notificatie naar redactie | **Nee** — periodieke Sheet monitoring (zie `intake-minimal-notification-design.md`) |
-| Leesbaar review-formulier (deze pagina) | Ja, maar *alleen lokaal in de browser* |
-| Terug-schrijven van review-update naar Sheet | **Nee — handmatig kopiëren** |
+| Leesbaar review-formulier (deze pagina) | Ja, LAB-mode laadt echte rijen |
+| Terug-schrijven van redactiebeslissing naar Sheet | **Ja — `Opslaan in redactietabel` schrijft append-only naar `LAB_Redactie_Reviews` + `LAB_Workflow_Events`. Géén kopiëren/plakken in de gewone werkflow.** |
+| Wijziging van originele intake-rij | **Nee** — origineel blijft staan; redactiebeslissing leeft alleen in `LAB_Redactie_Reviews` |
+| Aanpassing aan `Directory_Master` | **Nee — hard-deny op Cloudflare en in Apps Script** |
 | Promotie naar editorial draft / directory candidate | Nee — handmatig via `scripts/lab_promote/cli`, alleen na akkoord in Sheet |
 | Publicatie naar live | Nee — alleen via reguliere PR-merge na expliciete approval |
 
@@ -445,20 +500,26 @@ In edit-mode staat naast de bewerkbare velden een rood-roze
 6. Vul procesgang, status, reminder/checkvraag, volgende actie,
    assigned_to, deadline en review-notities in.
 7. Klik op de hoofdknop:
-   - in sample/dry-run mode heet die **`Maak testvoorbeeld — niets
-     wordt opgeslagen`**;
-   - in (toekomstige) LAB-mode heet die **`Bekijk
-     redactiebeoordeling vóór opslaan`**.
-   In beide gevallen krijg je een leesbare samenvatting; er wordt
-   nooit automatisch geschreven, gemaild of gepubliceerd.
-8. Open de Drive-spreadsheet, ga naar de juiste LAB_*-rij (zie
-   `source_row_hint`) en plak de waarden in de bestaande kolommen — *niet*
-   de hele JSON in één cel.
-9. Alleen wanneer beheer expliciet vraagt om een audit-bestand:
-   open **Technische export voor beheer** (ingeklapt) en kies daar
+   - in sample-mode heet die **`Maak testvoorbeeld — niets wordt
+     opgeslagen`** en genereert alleen een lokaal voorbeeld;
+   - in LAB-mode heet die **`Opslaan in redactietabel`** en POST't
+     naar `/api/redactie-review-update`. Bij succes verschijnt
+     onder de knop een groene banner *Opgeslagen in redactietabel*
+     met de toegekende `review_id`, de naam van de tab waar geschreven
+     is en de bevestiging dat originele inzending en
+     `Directory_Master` ongewijzigd zijn.
+   In geen enkel geval is er kopiëren of plakken nodig in de gewone
+   werkflow; er wordt nooit gemaild en er is geen automatische
+   publicatie.
+8. Alleen als de banner *Opslaan mislukt* of *Niet opgeslagen* toont
+   en beheer expliciet om een audit-bestand vraagt: open
+   **Technische export voor beheer** (ingeklapt) en kies daar
    *Kopieer technische audit-export*, *Download auditbestand (JSON)*
-   of *Kopieer tekstsamenvatting voor beheer*.
-10. Pas daarna mag de lab-promotion pipeline lopen voor goedgekeurde rijen.
+   of *Kopieer tekstsamenvatting voor beheer*. Letterlijke
+   instructie binnenin: *"Gebruik de technische export alleen als
+   automatisch opslaan niet werkt en beheer hierom vraagt."*
+9. Pas daarna mag de lab-promotion pipeline lopen voor goedgekeurde
+   rijen.
 
 ## Tests
 
@@ -486,12 +547,36 @@ Lichtgewicht Node-test: `scripts/redactie_validation.test.mjs`. Verifieert:
 
 Run: `node scripts/redactie_validation.test.mjs`.
 
-## Activatiestappen — overgang van sample naar echte LAB-data
+## Activatiestappen — overgang van sample naar echte LAB-save
 
 > Geen van de stappen wordt automatisch uitgevoerd. Wouter zet de
 > env vars op het Cloudflare Pages **preview** project, nooit op
 > productie. De Apps Script wordt onder `office@esrf.net` gedraaid,
 > nooit onder `ai.agent.wm@gmail.com`.
+
+### Activatie-checklist (één keer per preview-project)
+
+- [ ] Apps Script onder `office@esrf.net` gedeployed met
+  `docs/apps-script-redactie-review-webhook.gs` als bron en
+  `docs/appsscript.redactie-review.json` als manifest
+  (Spreadsheet-only OAuth scope).
+- [ ] Script Properties gezet: `REDACTIE_REVIEW_WEBHOOK_SECRET`
+  (≥ 32 char, sterk random), `SHEET_ID`. Geen `MAIL_*` /
+  `NOTIFY_*` properties.
+- [ ] `__authorizeSpreadsheetAccessOnly` gerund — OAuth consent
+  toont uitsluitend `https://www.googleapis.com/auth/spreadsheets`.
+- [ ] `__setupLabReviewTabsMaybe` gerund —
+  `LAB_Redactie_Reviews` bestaat met veilige kolomkoppen.
+- [ ] Cloudflare Pages **preview** env vars gezet:
+  `REDACTIE_REVIEW_ACCESS_CODE` (16+ char), `REDACTIE_REVIEW_WEBHOOK_URL`
+  (Apps Script `/exec`), `REDACTIE_REVIEW_WEBHOOK_SECRET` (zelfde
+  als Script Property), `REDACTIE_REVIEW_WRITE_ENABLED=true`.
+  *Productie krijgt deze vars niet.*
+- [ ] Eén read-test op de preview: `mode: "lab"` + echte rijen.
+- [ ] Eén save-test op de preview: groene banner *Opgeslagen in
+  redactietabel*, één extra rij in `LAB_Redactie_Reviews`, één extra
+  rij in `LAB_Workflow_Events`, origineel ongewijzigd,
+  `Directory_Master` ongewijzigd.
 
 ### Niet-technische stroom (zo komt LAB-data in beeld)
 
@@ -512,17 +597,19 @@ Run: `node scripts/redactie_validation.test.mjs`.
             │
             │  fetch  (origin allowlist, contact stripped)
             ▼
-   redactie-validation.html  (alleen lezen + lokaal bewerken)
+   redactie-validation.html  (LAB-mode of sample, geen kopieer-stap)
             │
-            │  redactie kopieert óf verstuurt review-update
+            │  klik "Opslaan in redactietabel"
             ▼
-   /api/redactie-review-update  (dry-run; live-write disabled op deze branch)
+   /api/redactie-review-update  (preview-only, 4-gate activatie)
             │
-            │  bij latere activatie: doPost (action: submit_review_update)
+            │  doPost (action: submit_review_update, shared_secret)
             ▼
    LAB_Redactie_Reviews + LAB_Workflow_Events   (append-only, audit-spoor)
 
    ── Directory_Master wordt nooit aangeraakt ──
+   ── Originele inzending blijft staan in intake-tab ──
+   ── Geen automatische publicatie ──
 ```
 
 ### Apps Script — bron en manifest
@@ -573,11 +660,23 @@ deployment:
    - `REDACTIE_REVIEW_WEBHOOK_URL` → de `/exec` URL uit stap 7.
    - `REDACTIE_REVIEW_WEBHOOK_SECRET` → exact dezelfde string als de
      Apps Script Script Property in stap 4.
-   *Zet `REDACTIE_REVIEW_WRITE_ENABLED` voorlopig niet.*
+   - `REDACTIE_REVIEW_WRITE_ENABLED=true` — pas zetten **nadat** de
+     read-test (stap 9) groen is en je één save-test (stap 10) hebt
+     gedraaid.
 9. Deploy preview, open `/redactie-validation.html`, voer de access
    code in. Verwacht: `LAB-MODE — live`, echte LAB-rijen verschijnen,
    contact-velden ontbreken (tenzij later expliciet `include_contact`
-   wordt aangezet).
+   wordt aangezet). De primaire knop heet nu
+   **`Opslaan in redactietabel`**.
+10. **Eén save-test:** kies een lab-fixture-rij, vul status/herinnering/
+    deadline in en klik op **`Opslaan in redactietabel`**. Verwacht:
+    groene banner *Opgeslagen in redactietabel* met een verse
+    `review_id` en bevestiging dat naar `LAB_Redactie_Reviews` is
+    geschreven. Open vervolgens de Drive-spreadsheet en controleer:
+    één nieuwe rij in `LAB_Redactie_Reviews`, één nieuwe rij in
+    `LAB_Workflow_Events`, originele rij in
+    `LAB_Intake_Submissions`/`LAB_Editorial_Intake` ongewijzigd,
+    `Directory_Master` ongewijzigd, geen e-mail verzonden.
 
 ### Eén keer testen — read
 
@@ -597,7 +696,10 @@ Verwacht:
 - `n` ≥ 1 (echte LAB-rijen, niet `sub_lab_demo_*`)
 - `first` is een echte submission_id uit de Sheet.
 
-### Eén keer testen — dry-run update
+### Eén keer testen — save (live, preview-only)
+
+> Vereist: alle vier de gates passen (`REDACTIE_REVIEW_WRITE_ENABLED=true`,
+> webhook URL/secret gezet, geldige access code).
 
 ```bash
 curl -sS -H 'content-type: application/json' \
@@ -619,41 +721,53 @@ curl -sS -H 'content-type: application/json' \
 }
 EOF
 )" \
-  | jq '{ok, mode, dry_run, live_write_ready, would_write, payload: .payload.target_tab}'
+  | jq '{ok, mode, save_status, save_message, saved_to}'
 ```
 
 Verwacht:
 - `ok: true`
-- `dry_run: true`
-- `live_write_ready: false`
-- `would_write.target_tab: "LAB_Redactie_Reviews"`
+- `mode: "lab"`
+- `save_status: "saved"`
+- `save_message`: bevestigt opslaan in `LAB_Redactie_Reviews` +
+  gebeurtenis in `LAB_Workflow_Events`, originele inzending
+  ongewijzigd, `Directory_Master` ongewijzigd.
+- `saved_to.review_tab: "LAB_Redactie_Reviews"`,
+  `saved_to.events_tab: "LAB_Workflow_Events"`,
+  `saved_to.review_id` aanwezig.
+
+Als één van de gates faalt: `save_status: "not_saved"` met
+`save_message: "Opslaan is nog niet actief; er wordt niets opgeslagen."`
+en een `live_write_blocked_reason` die exact noemt welke env var
+ontbreekt. Bij upstream-fouten: `save_status: "failed"` met
+`upstream_error`.
 
 > Het Apps Script `doPost` heeft óók een `dry_run_update`-actie zodat
 > Wouter het zonder Cloudflare-laag rechtstreeks kan testen. Stuur in
 > dat geval `{"action":"dry_run_update","shared_secret":"…", … }` direct
 > naar `/exec` — er wordt niets weggeschreven.
 
-### Live-write activatie (later — niet op deze branch)
+### Live-save uitschakelen (incident-respons)
 
-10. Pas wanneer alle tests groen zijn én Wouter expliciet akkoord is:
-    schakel live-write in via een aparte review-PR. Minimaal vereist:
-    - `REDACTIE_REVIEW_WRITE_ENABLED=true` op de preview env;
-    - de Cloudflare-side `redactie-review-update.js` route aanpassen
-      zodat de geverifieerde payload naar `/exec` doorgestuurd wordt
-      met `action: "submit_review_update"`;
-    - Apps Script blijft hetzelfde. De append-only contract zorgt dat
-      Directory_Master nooit aangeraakt wordt.
+Verwijder of zet `REDACTIE_REVIEW_WRITE_ENABLED` op iets anders dan
+`true` op het preview-project. De API valt onmiddellijk terug op
+`save_status: "not_saved"` met *"Opslaan is nog niet actief; er
+wordt niets opgeslagen."* — zonder code-deploy. De redactiepagina
+gaat dan vanzelf terug naar het sample/fallback-pad.
 
 ## Veiligheidsregels die de endpoints afdwingen
 
 - `target_tab` moet starten met `LAB_` en in `ALLOWED_REVIEW_TARGET_TABS`
   staan (`LAB_Intake_Submissions`, `LAB_Editorial_Intake`,
-  `LAB_Workflow_Events`).
+  `LAB_Workflow_Events`, `LAB_Redactie_Reviews`).
 - `Directory_Master` staat in `forbidden_targets` — elke poging om die
-  als target te gebruiken faalt server-side.
+  als target te gebruiken faalt server-side, zowel Cloudflare-side
+  als in Apps Script.
 - Process step en review status worden gevalideerd tegen de
   documentatie-vaste set; niet-gedocumenteerde keuzes geven 400.
-- Contact en `raw_payload_json` worden uit elke response en elk dry-run
-  payload gestript.
-- Live write is uitgeschakeld: `live_write_ready: false` in elke
-  response op deze branch.
+- Contact en `raw_payload_json` worden uit elke response, payload én
+  outbound webhook-body gestript. `include_contact` op de save-route is
+  hard-coded `false` — het frontend kan PII niet smokkelen.
+- Live save is gegate door vier env vars (toegangscode, webhook URL,
+  webhook secret, write-enabled toggle). Eén ervan wegnemen schakelt
+  live save direct uit zonder code-deploy.
+- Cloudflare Pages Functions returneren 404 in productie — preview-only.

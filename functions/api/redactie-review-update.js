@@ -1,28 +1,38 @@
 // Cloudflare Pages Function — POST /api/redactie-review-update
 //
-// Preview-only LAB *dry-run* endpoint that builds the canonical review-
-// update payload the redactie page would normally have to copy/paste
-// into the Drive spreadsheet by hand. This route:
+// Preview-only LAB review-write endpoint. Two modes:
 //
-//   - Is gated by REDACTIE_REVIEW_ACCESS_CODE just like the read route.
-//   - NEVER writes anywhere by default. It only validates the payload
-//     and returns a sanitised, audit-shaped object that the operator
-//     would paste into the LAB_* row.
-//   - Refuses to target Directory_Master or any non-LAB_* tab. The
-//     `target_tab` field on the request must start with the LAB_
-//     prefix and be one of the documented review/status/event tabs.
-//   - Strips contact details and forbidden keys from the payload.
-//   - Surfaces a `dry_run: true` flag and a `would_write` summary so
-//     the redactie can audit exactly what would be written if a real
-//     write endpoint were ever activated.
+//   • Sample / dry-run (default, when env vars are absent): builds the
+//     canonical review-update payload and returns it in `payload` /
+//     `would_write`. NOTHING is sent to Apps Script. The response carries
+//     `dry_run: true`, `live_write_ready: false`, and an explicit
+//     `activation_required` list so the operator knows what is missing.
 //
-// Live writes are intentionally NOT enabled. We document the contract
-// here so the next safe step (a write-capable Apps Script Web App
-// limited to LAB_Workflow_Events / status columns) has a single
-// canonical payload to consume. If/when a write webhook becomes safe,
-// the activation steps are listed in docs/redactie-validation-form.md
-// and require an explicit env var (REDACTIE_REVIEW_WRITE_ENABLED=true)
-// AND the webhook URL/secret. Until then this endpoint is dry-run only.
+//   • Live save (preview only, when ALL env vars are present):
+//       - REDACTIE_REVIEW_ACCESS_CODE valid (gates the request)
+//       - REDACTIE_REVIEW_WEBHOOK_URL set (Apps Script /exec)
+//       - REDACTIE_REVIEW_WEBHOOK_SECRET set (shared with Apps Script)
+//       - REDACTIE_REVIEW_WRITE_ENABLED=true (explicit toggle)
+//     The endpoint then forwards a sanitised payload to the Apps Script
+//     webhook with `action: "submit_review_update"`. The Apps Script
+//     appends one row to LAB_Redactie_Reviews and one row to
+//     LAB_Workflow_Events. Directory_Master is hard-refused both here
+//     and inside Apps Script.
+//
+// Security contract (preserved on every code path):
+//   - Preview-only: production short-circuits to 404.
+//   - Origin allowlist: same as /api/intake.
+//   - target_tab must start with LAB_ and be in ALLOWED_REVIEW_TARGET_TABS.
+//     Directory_Master is in `forbidden_targets` and refused both before
+//     and after the Apps Script round-trip.
+//   - Contact details and forbidden keys are stripped from the payload
+//     before it leaves Cloudflare. Even if the caller smuggles `contact`
+//     or `raw_payload_json` into edited_publication_proposal /
+//     original_reference, those keys never reach Apps Script.
+//   - `include_contact` defaults to false; the live-write path forces
+//     contact-stripping regardless of what the caller sends.
+//   - Webhook URL/secret are server-side only — never echoed in the
+//     response. The forbidden-key filter strips them defensively.
 
 import {
   isAllowedOrigin,
@@ -47,6 +57,7 @@ import {
 // ── Config ───────────────────────────────────────────────────────────────
 
 const UPDATE_MAX_BODY_BYTES = Math.min(MAX_BODY_BYTES, 32768); // 32 KiB cap
+const UPDATE_FETCH_TIMEOUT_MS = 10000;
 
 // Allowed LAB_* targets for review/status/event writes. Directory_Master
 // is explicitly forbidden by LAB_SPREADSHEET.forbidden_targets, but we
@@ -56,6 +67,7 @@ const ALLOWED_REVIEW_TARGET_TABS = [
   LAB_SPREADSHEET.tabs.intake_submissions, // status columns only
   LAB_SPREADSHEET.tabs.editorial_intake,   // status columns only
   LAB_SPREADSHEET.tabs.workflow_events,    // append-only event log
+  'LAB_Redactie_Reviews',                  // append-only review audit
 ];
 
 // Process steps and review statuses we accept. Mirrors the dropdowns in
@@ -145,6 +157,7 @@ function buildReviewUpdatePayload(body) {
       assigned_to: sanitize(review.assigned_to),
       due_date: sanitize(review.due_date),
       review_notes_internal: sanitizeLong(review.review_notes_internal),
+      reviewer: sanitize(review.reviewer || review.assigned_to || body.edited_by),
     },
     process_step_reminder: reminder,
     edited_publication_proposal: proposalSafe || undefined,
@@ -152,13 +165,97 @@ function buildReviewUpdatePayload(body) {
     changed_fields: changedFields,
     change_note: sanitizeLong((editedProposal && editedProposal.change_note) || body.change_note),
     edited_by: sanitize((editedProposal && editedProposal.edited_by) || body.edited_by),
+    source_tab: sanitize(body.source_tab) || (recordType === 'editorial' ? LAB_SPREADSHEET.tabs.editorial_intake : LAB_SPREADSHEET.tabs.intake_submissions),
     contact_disclosed: false,
     directory_master_touched: false,
     automatic_publication: false,
-    warning: 'LAB only · dry-run · geen automatische publicatie · Directory_Master niet aanpassen. Plak handmatig in de juiste LAB_*-rij.',
+    warning: 'LAB only · append-only naar LAB_Redactie_Reviews + LAB_Workflow_Events. Originele inzending blijft staan; Directory_Master wordt nooit aangeraakt; geen automatische publicatie.',
   };
 
   return { errors: errors, payload: payload };
+}
+
+async function fetchWithTimeout(url, options, timeoutMs) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(function(){ ctrl.abort(); }, timeoutMs);
+  try {
+    return await fetch(url, Object.assign({}, options, { signal: ctrl.signal }));
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function forwardSubmitReviewUpdate(env, payload, requestId) {
+  const url = String(env.REDACTIE_REVIEW_WEBHOOK_URL || '').trim();
+  const secret = String(env.REDACTIE_REVIEW_WEBHOOK_SECRET || '').trim();
+  if (!url || !secret) {
+    return { ok: false, error: 'webhook_not_configured' };
+  }
+
+  // Hard target-tab guard before anything leaves Cloudflare. Apps Script
+  // also refuses Directory_Master, but defence-in-depth: do not even
+  // make the network call if the target tab is unsafe.
+  const targetTab = String(payload.target_tab || '');
+  if (LAB_SPREADSHEET.forbidden_targets.indexOf(targetTab) !== -1) {
+    return { ok: false, error: 'forbidden_target_tab' };
+  }
+  if (!targetTab.startsWith(LAB_SPREADSHEET.target_prefix)) {
+    return { ok: false, error: 'non_lab_target_tab' };
+  }
+
+  // The body sent to Apps Script. NOTE:
+  //   - include_contact is hard-coded false here. The Cloudflare layer
+  //     never asks Apps Script to include contact PII on a save.
+  //   - shared_secret is the only auth surface; never echoed back.
+  //   - We only forward the sanitised review/edit/original blocks the
+  //     buildReviewUpdatePayload pipeline produced. Contact and
+  //     forbidden keys have already been stripped.
+  //   - target_tab on the outbound payload is always LAB_Redactie_Reviews:
+  //     reviews are append-only into the review audit tab. The status
+  //     columns of the *source* tab (LAB_Intake_Submissions or
+  //     LAB_Editorial_Intake) are reflected by source_tab, and the
+  //     workflow_events tab is appended by Apps Script.
+  const outbound = {
+    schema_version: 1,
+    action: 'submit_review_update',
+    shared_secret: secret,
+    request_id: requestId,
+    submission_id: payload.submission_id,
+    record_type: payload.record_type,
+    source_tab: targetTab,
+    target_tab: 'LAB_Redactie_Reviews',
+    review_update: payload.review_update || {},
+    edited_publication_proposal: payload.edited_publication_proposal || undefined,
+    original_reference: payload.original_reference || undefined,
+    changed_fields: payload.changed_fields || [],
+    change_note: payload.change_note || '',
+    edited_by: payload.edited_by || '',
+    include_contact: false,
+  };
+
+  let res;
+  try {
+    res = await fetchWithTimeout(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(outbound),
+    }, UPDATE_FETCH_TIMEOUT_MS);
+  } catch (e) {
+    return { ok: false, error: 'upstream_unreachable' };
+  }
+  if (!res.ok) {
+    return { ok: false, error: 'upstream_status_' + res.status };
+  }
+  let data;
+  try { data = await res.json(); }
+  catch { return { ok: false, error: 'upstream_invalid_json' }; }
+  if (!data || typeof data !== 'object') {
+    return { ok: false, error: 'upstream_invalid_shape' };
+  }
+  if (data.ok !== true) {
+    return { ok: false, error: 'upstream_refused', upstream: stripForbiddenKeys(data) };
+  }
+  return { ok: true, upstream: stripForbiddenKeys(data) };
 }
 
 // ── Main handler ─────────────────────────────────────────────────────────
@@ -212,57 +309,138 @@ export async function onRequestPost(context) {
     }, 400), origin);
   }
 
-  // Live write is gated behind THREE conditions, all required:
+  // Live write is gated behind FOUR conditions, all required:
   //   1. REDACTIE_REVIEW_WRITE_ENABLED = "true" (explicit toggle)
-  //   2. REDACTIE_REVIEW_WEBHOOK_URL configured (read webhook reused)
+  //   2. REDACTIE_REVIEW_WEBHOOK_URL configured
   //   3. REDACTIE_REVIEW_WEBHOOK_SECRET configured
-  //   4. Access code valid (already enforced above for "lab" mode)
-  //
-  // If ANY of those is missing we return a dry-run-only response. We
-  // do NOT implement the live write path on this branch — the contract
-  // is documented for the next reviewable step.
-  const writeEnabled = String(env.REDACTIE_REVIEW_WRITE_ENABLED || '').trim().toLowerCase();
-  const wantsLiveWrite = writeEnabled === 'true' || writeEnabled === '1' || writeEnabled === 'yes';
+  //   4. Access code valid
+  const writeEnabledRaw = String(env.REDACTIE_REVIEW_WRITE_ENABLED || '').trim().toLowerCase();
+  const wantsLiveWrite = writeEnabledRaw === 'true' || writeEnabledRaw === '1' || writeEnabledRaw === 'yes';
   const writeWebhook = String(env.REDACTIE_REVIEW_WEBHOOK_URL || '').trim();
   const writeSecret = String(env.REDACTIE_REVIEW_WEBHOOK_SECRET || '').trim();
   const liveWriteReady = wantsLiveWrite && !!writeWebhook && !!writeSecret && accessValid;
 
+  // Build the canonical activation list — surfaced verbatim in the
+  // response so the operator can audit which env var is missing.
+  const activation_required = [
+    'REDACTIE_REVIEW_ACCESS_CODE env var (gates the request)',
+    'REDACTIE_REVIEW_WEBHOOK_URL env var (Apps Script /exec)',
+    'REDACTIE_REVIEW_WEBHOOK_SECRET env var (shared secret)',
+    'REDACTIE_REVIEW_WRITE_ENABLED=true env var (explicit live-write toggle)',
+    'Apps Script Web App limited to LAB_Redactie_Reviews + LAB_Workflow_Events append; never Directory_Master',
+  ];
+
+  // ── Sample / dry-run path: live write NOT ready ────────────────────────
+  if (!liveWriteReady) {
+    let blockReason;
+    if (!accessConfigured) {
+      blockReason = 'access code not configured — opslaan is nog niet actief; er wordt niets opgeslagen';
+    } else if (!accessValid) {
+      blockReason = 'access code missing or incorrect — opslaan is nog niet actief; er wordt niets opgeslagen';
+    } else if (!wantsLiveWrite) {
+      blockReason = 'REDACTIE_REVIEW_WRITE_ENABLED is not set to true — opslaan is nog niet actief; er wordt niets opgeslagen';
+    } else if (!writeWebhook || !writeSecret) {
+      blockReason = 'webhook URL or secret not configured — opslaan is nog niet actief; er wordt niets opgeslagen';
+    } else {
+      blockReason = 'opslaan is nog niet actief; er wordt niets opgeslagen';
+    }
+
+    return cors(json({
+      ok: true,
+      mode: accessValid ? 'lab' : 'sample',
+      access: {
+        configured: accessConfigured,
+        valid: accessValid,
+        message: accessValid
+          ? 'access code valid · dry-run payload built'
+          : (accessConfigured
+            ? 'review code missing or incorrect — dry-run payload only, no write'
+            : 'access code not configured — dry-run payload only, no write'),
+      },
+      dry_run: true,
+      live_write_ready: false,
+      live_write_blocked_reason: blockReason,
+      save_status: 'not_saved',
+      save_message: 'Opslaan is nog niet actief; er wordt niets opgeslagen.',
+      would_write: {
+        target_tab: built.payload.target_tab,
+        submission_id: built.payload.submission_id,
+        review_status: built.payload.review_update.review_status,
+        process_step: built.payload.review_update.process_step,
+      },
+      payload: built.payload,
+      activation_required: activation_required,
+      target_prefix: LAB_SPREADSHEET.target_prefix,
+      forbidden_targets: LAB_SPREADSHEET.forbidden_targets,
+      directory_master_touched: false,
+      automatic_publication: false,
+      warning: 'LAB only · dry-run · geen automatische publicatie · Directory_Master niet aanpassen.',
+      request_id: requestId,
+    }, 200), origin);
+  }
+
+  // ── Live write path ────────────────────────────────────────────────────
+  // All four gates passed. Forward the sanitised payload to Apps Script
+  // with action: "submit_review_update". Apps Script appends one row to
+  // LAB_Redactie_Reviews and one row to LAB_Workflow_Events. Never
+  // Directory_Master — both Cloudflare and Apps Script enforce this.
+  const fwd = await forwardSubmitReviewUpdate(env, built.payload, requestId);
+  if (!fwd.ok) {
+    return cors(json({
+      ok: false,
+      mode: 'lab',
+      access: { configured: true, valid: true, message: 'access code valid · live write attempted' },
+      dry_run: false,
+      live_write_ready: true,
+      save_status: 'failed',
+      save_message: 'Opslaan in LAB-tabbladen is mislukt. Niets is geschreven. Probeer opnieuw of meld dit aan beheer.',
+      upstream_error: fwd.error,
+      upstream: fwd.upstream || undefined,
+      would_write: {
+        target_tab: built.payload.target_tab,
+        submission_id: built.payload.submission_id,
+        review_status: built.payload.review_update.review_status,
+        process_step: built.payload.review_update.process_step,
+      },
+      directory_master_touched: false,
+      automatic_publication: false,
+      warning: 'LAB only · upstream save failed · Directory_Master niet aangeraakt · niets gepubliceerd.',
+      request_id: requestId,
+    }, 502), origin);
+  }
+
+  // Success — Apps Script appended rows to LAB_Redactie_Reviews and
+  // LAB_Workflow_Events. The original inzending stays untouched in its
+  // source tab; Directory_Master was never targeted.
+  const upstream = fwd.upstream || {};
+  const updateResult = (upstream.update_result && typeof upstream.update_result === 'object') ? upstream.update_result : {};
+
   return cors(json({
     ok: true,
-    mode: accessValid ? 'lab' : 'sample',
-    access: {
-      configured: accessConfigured,
-      valid: accessValid,
-      message: accessValid
-        ? 'access code valid · dry-run payload built'
-        : (accessConfigured
-          ? 'review code missing or incorrect — dry-run payload only, no write'
-          : 'access code not configured — dry-run payload only, no write'),
+    mode: 'lab',
+    access: { configured: true, valid: true, message: 'access code valid · live save complete' },
+    dry_run: false,
+    live_write_ready: true,
+    save_status: 'saved',
+    save_message: 'Opgeslagen in LAB_Redactie_Reviews; gebeurtenis vastgelegd in LAB_Workflow_Events. Originele inzending ongewijzigd. Directory_Master ongewijzigd.',
+    saved_to: {
+      review_tab: 'LAB_Redactie_Reviews',
+      events_tab: LAB_SPREADSHEET.tabs.workflow_events,
+      review_id: updateResult.review_id || '',
+      target_tab: updateResult.target_tab || built.payload.target_tab,
+      rows_written: typeof updateResult.rows_written === 'number' ? updateResult.rows_written : undefined,
     },
-    dry_run: true,
-    live_write_ready: false, // hard-coded false on this branch
-    live_write_blocked_reason: liveWriteReady
-      ? 'live write disabled on this branch — write path is documented but not implemented'
-      : 'live write not configured (requires REDACTIE_REVIEW_WRITE_ENABLED=true + webhook + secret + valid access code)',
     would_write: {
       target_tab: built.payload.target_tab,
       submission_id: built.payload.submission_id,
       review_status: built.payload.review_update.review_status,
       process_step: built.payload.review_update.process_step,
     },
-    payload: built.payload,
-    activation_required: liveWriteReady ? undefined : [
-      'REDACTIE_REVIEW_ACCESS_CODE env var (gates the request)',
-      'REDACTIE_REVIEW_WEBHOOK_URL env var (Apps Script /exec)',
-      'REDACTIE_REVIEW_WEBHOOK_SECRET env var (shared secret)',
-      'REDACTIE_REVIEW_WRITE_ENABLED=true env var (explicit live-write toggle)',
-      'Apps Script Web App limited to LAB_* status columns / LAB_Workflow_Events append; never Directory_Master',
-    ],
     target_prefix: LAB_SPREADSHEET.target_prefix,
     forbidden_targets: LAB_SPREADSHEET.forbidden_targets,
     directory_master_touched: false,
     automatic_publication: false,
-    warning: 'LAB only · dry-run · plak handmatig in de juiste LAB_*-rij. Geen Directory_Master, geen e-mail, geen automatische publicatie.',
+    warning: 'LAB only · live save · originele inzending ongewijzigd · Directory_Master niet aangeraakt · geen automatische publicatie.',
     request_id: requestId,
   }, 200), origin);
 }
@@ -297,6 +475,7 @@ export {
   ALLOWED_REVIEW_STATUSES,
   isLabTab,
   buildReviewUpdatePayload,
+  forwardSubmitReviewUpdate,
 };
 
 if (typeof globalThis !== 'undefined') {
@@ -306,6 +485,7 @@ if (typeof globalThis !== 'undefined') {
     ALLOWED_REVIEW_STATUSES,
     isLabTab,
     buildReviewUpdatePayload,
+    forwardSubmitReviewUpdate,
     onRequest,
     onRequestPost,
   };
