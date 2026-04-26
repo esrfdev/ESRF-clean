@@ -1,16 +1,40 @@
 # Deferred ESRF mailnotificatie route — separate Apps Script deployment
 
-> **Status (2026-04-26):** **PREPARED, NOT ACTIVATED.** The source
-> for this route is now checked into
+> **Status (2026-04-26, end of day):** **DISABLED — DELIVERY UNCONFIRMED.**
+> The Google Apps Script `MailApp` mailrelay route was tested on
+> 2026-04-26 against `office@esrf.net` but **delivery was not
+> confirmed** (no message landed in the `office@esrf.net` inbox during
+> the test window). As a direct consequence, the Cloudflare Pages
+> Preview env vars `INTAKE_NOTIFY_WEBHOOK` and `INTAKE_NOTIFY_TO` were
+> **removed / disabled** under rollback event
+> `evt_unconfirmed_google_mailrelay_disabled_20260426_1401` (see §"Rollback
+> event" below). This route is therefore **not a production route** and
+> must not be re-enabled in its current Google Apps Script `MailApp`
+> form.
+>
+> Sheet intake via the spreadsheet-only Apps Script
+> ([`apps-script-intake-webhook.gs`](./apps-script-intake-webhook.gs))
+> remains **active** and is unaffected by this rollback — LAB_* rows
+> continue to append normally.
+>
+> **Recommended next notification route (not yet enabled):** an
+> **official Microsoft 365 / Outlook / SMTP relay** for
+> `office@esrf.net`, owned by the same Workspace identity that owns the
+> mailbox. This SMTP relay is to be enabled **only after a delivered
+> test email is confirmed** (operator manually verifies a test message
+> arrives at `office@esrf.net`). Until then `INTAKE_NOTIFY_WEBHOOK` and
+> `INTAKE_NOTIFY_TO` stay unset on every Cloudflare Pages environment
+> and the backend keeps reporting
+> `notification_status: "dry_run_not_configured"`.
+>
+> **Earlier status (2026-04-26, morning) — superseded:** the source for
+> this route was checked into
 > [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
 > with manifest
-> [`appsscript.mail-notification.json`](./appsscript.mail-notification.json),
-> but it is **not deployed**: no Apps Script project exists for it,
-> no OAuth consent has been granted, and no Cloudflare Pages env var
-> points at it. The first sheet-only lab write succeeded end-to-end on
-> 2026-04-26 via
-> [`apps-script-intake-webhook.gs`](./apps-script-intake-webhook.gs);
-> activation of this route is the next gated step.
+> [`appsscript.mail-notification.json`](./appsscript.mail-notification.json)
+> as PREPARED, NOT ACTIVATED. After the unconfirmed-delivery test on the
+> same day, that prepared source is retained **only as a reference
+> artefact**; it is no longer the recommended activation path.
 >
 > ⚠️ This route requires an **additional OAuth scope**
 > (`https://www.googleapis.com/auth/script.send_mail`) which the
@@ -245,3 +269,55 @@ a single Cloudflare Pages env-var edit on the **preview** project:
 
 Production env vars (and Directory_Master) are never touched at any
 point in this rollback.
+
+## Rollback event 2026-04-26 — Google Apps Script MailApp route disabled
+
+| Field | Value |
+|---|---|
+| Rollback event id | `evt_unconfirmed_google_mailrelay_disabled_20260426_1401` |
+| Date / time | 2026-04-26, 14:01 local |
+| Test submission id (operator probe) | `sub_moftdrju_f8lk` |
+| Route under test | Google Apps Script `MailApp.sendEmail` deployment, hit via Cloudflare Pages Preview `INTAKE_NOTIFY_WEBHOOK` |
+| Intended recipient | `office@esrf.net` (`INTAKE_NOTIFY_TO`) |
+| Observed delivery to `office@esrf.net` | **NOT CONFIRMED** — no inbound message visible in the `office@esrf.net` mailbox during the verification window. |
+| Cloudflare backend response | `notification_status` reported as dispatched to the relay; the relay's own logs were not sufficient to prove inbox arrival. |
+| Action taken | Cloudflare Pages **Preview** env vars `INTAKE_NOTIFY_WEBHOOK` and `INTAKE_NOTIFY_TO` were **removed / disabled**. The Apps Script project for the mail-relay was not deleted, but it is treated as inert: no Cloudflare env var points at it, and operators MUST NOT re-attach it without first switching to the Microsoft 365 / SMTP route below. |
+| Sheet intake impact | None. Sheet intake via the spreadsheet-only Apps Script remains active; LAB_* rows continue to append on every successful submission. `Directory_Master` not touched. |
+| Production impact | None. Production Cloudflare Pages env vars were never set for this route on this branch and are not touched by the rollback. |
+
+After this rollback the Cloudflare backend response reverts to
+`notification_status: "dry_run_not_configured"` on every `/api/intake`
+call, matching the documented default-safe behaviour.
+
+## Recommended next notification route — Microsoft 365 / Outlook / SMTP relay
+
+The Google Apps Script `MailApp` route is **not** the route ESRF will
+ship to production. The recommended next route is an **official
+Microsoft 365 / Outlook / SMTP relay** for `office@esrf.net`:
+
+- Authentication: a Microsoft 365 / Exchange Online connector or
+  authenticated SMTP submission scoped to the `office@esrf.net`
+  mailbox identity (the same identity that owns the inbox).
+- Delivery: the relay accepts the same minimal, PII-free notification
+  payload defined by `NOTIFICATION_CONTRACT` in
+  `functions/api/intake.js` (allowed_keys only; forbidden_keys
+  rejected) and sends a single plain-text email to `office@esrf.net`.
+- Scope: the relay is the **only** thing that holds mail credentials.
+  The Cloudflare Pages Function never holds an SMTP credential, never
+  links against a mail SDK, and never opens an SMTP connection (this
+  invariant is unchanged from the rest of this document).
+- Activation precondition: an operator MUST first send a manual test
+  message through the candidate relay and **visually confirm** it
+  arrives at `office@esrf.net`. Only after that delivered-test
+  confirmation may `INTAKE_NOTIFY_WEBHOOK` (pointing at the relay) and
+  `INTAKE_NOTIFY_TO=office@esrf.net` be set on the Cloudflare Pages
+  Preview project. Production env vars stay untouched until a second
+  delivered-test confirmation under production identity.
+- Until those two delivered-test confirmations exist, this document is
+  the SSoT that the notification route is **disabled / delivery-
+  unconfirmed**.
+
+Operators MUST NOT re-enable the Google Apps Script `MailApp` route as
+a stop-gap while waiting for the SMTP relay. The documented next route
+is SMTP via Microsoft 365 / Outlook, not a re-attempt of the route
+that failed delivery on 2026-04-26.

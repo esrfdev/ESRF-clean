@@ -134,6 +134,46 @@ not modified and no notification was dispatched. This evidence is
 recorded under `validation-lab.json` →
 `integrated-submit-with-editorial` → `testEvidence.labWriteEvidence`.
 
+## Mailrelay rollback — 2026-04-26 (Google Apps Script MailApp route disabled)
+
+Later on 2026-04-26 an operator probe (submission id
+`sub_moftdrju_f8lk`) was sent through the Cloudflare Pages **Preview**
+backend with `INTAKE_NOTIFY_WEBHOOK` temporarily pointed at a Google
+Apps Script `MailApp` deployment, intended to deliver the minimal
+notification payload to `office@esrf.net`. The Cloudflare backend
+reported the call as dispatched, but **delivery to `office@esrf.net`
+was not confirmed** in the inbox during the verification window.
+
+Under rollback event
+`evt_unconfirmed_google_mailrelay_disabled_20260426_1401` the
+following actions were taken:
+
+- `INTAKE_NOTIFY_WEBHOOK` and `INTAKE_NOTIFY_TO` were **removed /
+  disabled** on the Cloudflare Pages **Preview** project. (Production
+  was never set on this branch and is unchanged.)
+- The Google Apps Script `MailApp` deployment is treated as inert —
+  no Cloudflare env var points at it.
+- Sheet intake (LAB_* tabs via the spreadsheet-only Apps Script)
+  remains active and is unaffected; LAB_* rows continue to append on
+  every successful submission. `Directory_Master` was not touched.
+- The status flag in code (`MINIMAL_NOTIFICATION_DESIGN_STATUS`) stays
+  `minimal-notification-design-ready-not-enabled`. The flag was never
+  flipped to `enabled` because step 7 of the activation checklist —
+  delivered email at `office@esrf.net` — was never reached.
+
+The Google Apps Script `MailApp` route is therefore marked
+**disabled / delivery-unconfirmed** and is **not** the route ESRF will
+ship to production. The recommended next notification route is an
+official Microsoft 365 / Outlook / SMTP relay for `office@esrf.net`,
+enabled only after an operator manually verifies a delivered test
+message at the inbox. Until then the notification env vars stay unset
+and `/api/intake` keeps reporting
+`notification_status: "dry_run_not_configured"`. See
+[`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md)
+and
+[`intake-minimal-notification-design.md`](./intake-minimal-notification-design.md)
+for the full rollback record and the recommended SMTP route.
+
 ## Why a hub instead of one-off test branches
 
 - A single hidden branch + preview URL avoids the cost of cutting fresh

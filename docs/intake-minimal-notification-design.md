@@ -1,17 +1,36 @@
 # Minimal-notification design — `/api/intake` → office@esrf.net
 
-> **Status (2026-04-26):** `minimal-notification-design-ready-not-enabled`.
-> The contract is implemented in code and surfaced in every dry-run
-> response and in the LAB UI preview. **No mail is sent yet.** Real
-> dispatch requires a separate Apps Script deployment — the source is
-> now checked into
+> **Status (2026-04-26, end of day):**
+> `minimal-notification-design-ready-not-enabled`. The contract is
+> implemented in code and surfaced in every dry-run response and in
+> the LAB UI preview. **No mail is sent.**
+>
+> **Operational decision (2026-04-26):** The Google Apps Script
+> `MailApp` mailrelay route was tested with operator probe submission
+> `sub_moftdrju_f8lk`, but delivery to `office@esrf.net` was **not
+> confirmed**. The Cloudflare Pages **Preview** env vars
+> `INTAKE_NOTIFY_WEBHOOK` and `INTAKE_NOTIFY_TO` were **removed /
+> disabled** under rollback event
+> `evt_unconfirmed_google_mailrelay_disabled_20260426_1401`. The Google
+> Apps Script `MailApp` route is therefore marked
+> **disabled / delivery-unconfirmed** and is **not** a production route.
+> Sheet intake (LAB_* tabs via the spreadsheet-only Apps Script) stays
+> active.
+>
+> **Recommended next route (not yet enabled):** an official
+> Microsoft 365 / Outlook / SMTP relay for `office@esrf.net`, to be
+> wired up only after a manually-delivered test message is confirmed
+> in the `office@esrf.net` inbox. Until that delivered-test
+> confirmation exists, the notification env vars stay unset and the
+> backend keeps reporting `notification_status: "dry_run_not_configured"`.
+>
+> The prepared Apps Script `MailApp` source at
 > [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
 > with manifest
 > [`appsscript.mail-notification.json`](./appsscript.mail-notification.json)
-> as a PREPARED, NOT ACTIVATED stub — see also
-> [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md)
-> for the activation checklist. Activation also requires
-> ticking off the operator-driven checklist (below).
+> remains in-tree as a reference artefact only; see the disabled-status
+> notice and rollback record at the top of
+> [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md).
 
 This document is the single source of truth for what the operational
 notification to `office@esrf.net` may and may not contain. It exists so
@@ -201,6 +220,29 @@ After rolling back, flip
 back to `'minimal-notification-design-ready-not-enabled'` and update
 the "Status" header at the top of this document so the design and the
 runtime do not diverge.
+
+## Rollback record — 2026-04-26 (Google Apps Script MailApp route disabled)
+
+| Field | Value |
+|---|---|
+| Rollback event id | `evt_unconfirmed_google_mailrelay_disabled_20260426_1401` |
+| Operator probe submission id | `sub_moftdrju_f8lk` |
+| Tested route | Google Apps Script `MailApp.sendEmail` deployment hit via Cloudflare Pages Preview `INTAKE_NOTIFY_WEBHOOK` |
+| Intended recipient | `office@esrf.net` |
+| Delivery to `office@esrf.net` | **NOT CONFIRMED** during the verification window |
+| Cloudflare Pages Preview env vars | `INTAKE_NOTIFY_WEBHOOK` and `INTAKE_NOTIFY_TO` **removed / disabled** |
+| Sheet intake | Unaffected — LAB_* tabs continue to receive rows |
+| `Directory_Master` | Untouched |
+| Production env vars | Untouched (never set on this branch for this route) |
+| Status flag after rollback | `MINIMAL_NOTIFICATION_DESIGN_STATUS = 'minimal-notification-design-ready-not-enabled'` (unchanged — was never flipped to `enabled` because step 7 of the activation checklist was never reached) |
+
+Recommended next step is **not** to retry the Google Apps Script
+`MailApp` route. The recommended next notification route is an
+official Microsoft 365 / Outlook / SMTP relay for `office@esrf.net`,
+enabled only after an operator manually verifies a delivered test
+message arrives at the inbox. See
+[`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md)
+for the rollback record and the SMTP relay route description.
 
 ## Why the Cloudflare backend never sends mail itself
 
