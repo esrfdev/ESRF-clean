@@ -2,15 +2,16 @@
 # Syntax: <source> <destination> <status>
 # Docs: https://developers.cloudflare.com/pages/configuration/redirects/
 #
-# Canonicalise www.esrf.net -> esrf.net (permanent, path + query preserved).
-# Cloudflare's "Always Use HTTPS" rule still upgrades http://esrf.net/* to
-# https://esrf.net/* before this file is consulted, so we only need to
-# redirect the www host. We list http:// explicitly as a defence in depth in
-# case Always-HTTPS is ever disabled; both rules send traffic to the canonical
-# https://esrf.net origin. Query strings are preserved automatically by
-# Cloudflare for 301 responses; :splat preserves the path.
+# Canonical URL: https://esrf.net/
+# All other public host/scheme variants must 301 to it (path + query preserved).
+# Cloudflare's "Always Use HTTPS" normally upgrades http://* to https://* at
+# the edge before this file is consulted, but we still list every variant
+# explicitly as defence in depth in case that toggle is ever disabled or a
+# browser hits a cached parking-style A record. :splat preserves the path;
+# Cloudflare preserves query strings on 301 responses automatically.
 https://www.esrf.net/* https://esrf.net/:splat 301
 http://www.esrf.net/*  https://esrf.net/:splat 301
+http://esrf.net/*      https://esrf.net/:splat 301
 
 # Koningsdag 2026 — temporarily redirect until scheduled publish (27 Apr 02:00 CEST)
 /editorial-koningsdag-2026 / 302
