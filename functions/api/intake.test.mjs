@@ -28,6 +28,8 @@ const {
   LAB_SPREADSHEET,
   OFFICE_IDENTITY,
   FORBIDDEN_NOTIFY_KEYS,
+  NOTIFICATION_CONTRACT,
+  MINIMAL_NOTIFICATION_DESIGN_STATUS,
   assertLabPayloadSafe,
   assertNotificationSafe,
   onRequest,
@@ -908,6 +910,218 @@ check('first-phase notification remains disabled / pending in the backend', () =
   // Channel name is preserved so future deferred mail-route
   // deployments wire onto the same contract.
   assert.equal(msg.notification_channel, 'esrf_mail_relay_or_webhook');
+});
+
+// ─── Minimal-notification design contract + status flag ────────────────
+check('MINIMAL_NOTIFICATION_DESIGN_STATUS is the documented not-enabled value', () => {
+  assert.equal(MINIMAL_NOTIFICATION_DESIGN_STATUS, 'minimal-notification-design-ready-not-enabled');
+});
+
+check('NOTIFICATION_CONTRACT exposes the documented status flag, channel, and pointers', () => {
+  assert.equal(NOTIFICATION_CONTRACT.status, 'minimal-notification-design-ready-not-enabled');
+  assert.equal(NOTIFICATION_CONTRACT.channel, 'esrf_mail_relay_or_webhook');
+  // The note may mention Gmail explicitly to call out that the channel
+  // is NOT Gmail-specific (defensive disclaimer). What it must NOT do is
+  // claim that the channel IS a Gmail integration.
+  assert.ok(/never gmail/i.test(NOTIFICATION_CONTRACT.channel_note),
+    'NOTIFICATION_CONTRACT.channel_note must explicitly disclaim Gmail-specificity');
+  assert.equal(NOTIFICATION_CONTRACT.spec_doc, 'docs/intake-minimal-notification-design.md');
+  assert.equal(NOTIFICATION_CONTRACT.future_mail_relay_doc, 'docs/apps-script-mail-notification.future.md');
+});
+
+check('NOTIFICATION_CONTRACT.allowed_keys covers every key the builder emits + nothing else', () => {
+  const payload = payloadOf({
+    intake_mode: 'both',
+    contact: goodContact,
+    organisation_listing: goodOrg,
+    editorial_contribution: goodEd,
+    privacy: goodPrivacy,
+  });
+  const msg = buildNotificationMessage(payload, {
+    submission_id: 's1', request_id: 'r1',
+    workflow_status: 'stored',
+    next_required_action: 'review',
+    related_sheet: 'LAB_Intake_Submissions',
+    related_row: '4',
+    issue_url: 'https://github.com/x/y/issues/12',
+    notify_to: 'office@esrf.net',
+  });
+  for (const k of Object.keys(msg)) {
+    assert.ok(NOTIFICATION_CONTRACT.allowed_keys.includes(k),
+      'builder emitted key not in NOTIFICATION_CONTRACT.allowed_keys: ' + k);
+  }
+  // The message must surface the documented operational keys.
+  for (const required of ['submission_id','request_id','related_sheet','related_sheet_url','validation_lab_url','notification_channel']) {
+    assert.ok(Object.prototype.hasOwnProperty.call(msg, required),
+      'builder did not emit required key ' + required);
+  }
+  // related_sheet_url points at the LAB spreadsheet root only.
+  assert.ok(/^https:\/\/docs\.google\.com\/spreadsheets\/d\/[A-Za-z0-9_-]+\/edit$/.test(msg.related_sheet_url),
+    'related_sheet_url is not a plain spreadsheet root URL: ' + msg.related_sheet_url);
+});
+
+check('NOTIFICATION_CONTRACT.forbidden_keys mirrors FORBIDDEN_NOTIFY_KEYS exactly', () => {
+  const a = [...FORBIDDEN_NOTIFY_KEYS].sort();
+  const b = [...NOTIFICATION_CONTRACT.forbidden_keys].sort();
+  assert.deepEqual(a, b);
+});
+
+check('NOTIFICATION_CONTRACT.forbidden_keys covers operational secrets and raw payload', () => {
+  const must = [
+    'shared_secret', 'shared_secret_present',
+    'INTAKE_SHEET_WEBHOOK_URL', 'SHEETS_WEBHOOK_URL',
+    'SHEETS_WEBHOOK_SECRET', 'GITHUB_TOKEN',
+    'INTAKE_NOTIFY_WEBHOOK', 'TURNSTILE_SECRET_KEY',
+    'raw_payload_json',
+  ];
+  for (const k of must) {
+    assert.ok(NOTIFICATION_CONTRACT.forbidden_keys.includes(k),
+      'forbidden_keys missing ' + k);
+  }
+});
+
+check('NOTIFICATION_CONTRACT activation checklist is non-empty and references office@esrf.net', () => {
+  assert.ok(Array.isArray(NOTIFICATION_CONTRACT.activation_checklist));
+  assert.ok(NOTIFICATION_CONTRACT.activation_checklist.length >= 5,
+    'activation checklist must list at least 5 ordered steps');
+  const text = NOTIFICATION_CONTRACT.activation_checklist.join(' | ');
+  assert.ok(/office@esrf\.net/.test(text), 'activation checklist must mention office@esrf.net');
+  assert.ok(/auth\/spreadsheets/.test(text), 'activation checklist must reference the spreadsheet-only first phase');
+  assert.ok(/script\.send_mail/.test(text), 'activation checklist must mention the deferred script.send_mail scope');
+});
+
+check('NOTIFICATION_CONTRACT forbidden_recipients includes the legacy non-production identity', () => {
+  assert.ok(Array.isArray(NOTIFICATION_CONTRACT.forbidden_recipients));
+  assert.ok(NOTIFICATION_CONTRACT.forbidden_recipients.includes('ai.agent.wm@gmail.com'));
+});
+
+check('notification builder rejects unregistered keys at build time', () => {
+  // Defence-in-depth: prove the builder's contract-allowed_keys check
+  // fires by monkey-patching the contract to drop one key, calling the
+  // builder, and confirming it throws. We restore on exit.
+  const original = NOTIFICATION_CONTRACT.allowed_keys.slice();
+  try {
+    // Drop "org_name" so the builder's emitted payload contains an
+    // unregistered key.
+    NOTIFICATION_CONTRACT.allowed_keys.length = 0;
+    for (const k of original) {
+      if (k !== 'org_name') NOTIFICATION_CONTRACT.allowed_keys.push(k);
+    }
+    const payload = payloadOf({
+      intake_mode: 'org', contact: goodContact, organisation_listing: goodOrg, privacy: goodPrivacy,
+    });
+    assert.throws(() => buildNotificationMessage(payload, {
+      submission_id: 's', request_id: 'r',
+      workflow_status: 'dry_run', next_required_action: 'x',
+      related_sheet: 'LAB_Intake_Submissions',
+    }), /key not in contract allowed_keys/);
+  } finally {
+    NOTIFICATION_CONTRACT.allowed_keys.length = 0;
+    for (const k of original) NOTIFICATION_CONTRACT.allowed_keys.push(k);
+  }
+});
+
+check('notification message excludes operational secrets and raw_payload_json', () => {
+  const payload = payloadOf({
+    intake_mode: 'both',
+    contact: goodContact,
+    organisation_listing: goodOrg,
+    editorial_contribution: goodEd,
+    privacy: goodPrivacy,
+  });
+  const msg = buildNotificationMessage(payload, {
+    submission_id: 's1', request_id: 'r1',
+    workflow_status: 'stored',
+    next_required_action: 'review',
+    related_sheet: 'LAB_Intake_Submissions',
+    related_row: '4',
+    issue_url: 'https://github.com/x/y/issues/12',
+    notify_to: 'office@esrf.net',
+  });
+  // The message JSON must not contain any of the forbidden secret-like
+  // keys, even as nested values.
+  for (const k of [
+    'shared_secret', 'SHEETS_WEBHOOK_SECRET', 'GITHUB_TOKEN',
+    'INTAKE_SHEET_WEBHOOK_URL', 'INTAKE_NOTIFY_WEBHOOK',
+    'TURNSTILE_SECRET_KEY', 'raw_payload_json',
+  ]) {
+    assert.ok(!Object.prototype.hasOwnProperty.call(msg, k), 'forbidden key surfaced: ' + k);
+  }
+  // assertNotificationSafe is the runtime gate.
+  assertNotificationSafe(msg);
+});
+
+check('assertNotificationSafe rejects messages carrying operational secrets', () => {
+  for (const k of ['shared_secret','SHEETS_WEBHOOK_SECRET','GITHUB_TOKEN','INTAKE_SHEET_WEBHOOK_URL','INTAKE_NOTIFY_WEBHOOK','TURNSTILE_SECRET_KEY']) {
+    const m = { schema_version: 1, [k]: 'leak' };
+    assert.throws(() => assertNotificationSafe(m), new RegExp('forbidden key ' + k));
+  }
+});
+
+// ─── HTTP response surfacing of the contract + status flag ──────────────
+await asyncCheck('Default dry-run surfaces notification_contract and minimal_notification_design_status', async () => {
+  const body = {
+    intake_mode: 'org',
+    form_duration_ms: 9999,
+    contact: {
+      name: 'Anna Jansen', organisation: 'Acme', role: 'Coordinator',
+      email: 'anna@example.org', country_code: 'NL',
+      country_label: 'Nederland', place: 'Rotterdam',
+      website: 'https://acme.example.org',
+    },
+    organisation_listing: { sector: 'gov', sector_label: 'Overheid', city: 'Rotterdam', description: 'd' },
+    privacy: { gdpr_privacy_policy: true },
+  };
+  const res = await callOnRequest('POST', {
+    headers: { origin: 'https://www.esrf.net', 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+    env: {},
+  });
+  assert.equal(res.status, 200);
+  const j = JSON.parse(await res.text());
+  assert.equal(j.minimal_notification_design_status, 'minimal-notification-design-ready-not-enabled');
+  assert.ok(j.notification_contract, 'response must surface notification_contract');
+  assert.equal(j.notification_contract.status, 'minimal-notification-design-ready-not-enabled');
+  assert.equal(j.notification_contract.channel, 'esrf_mail_relay_or_webhook');
+  assert.ok(Array.isArray(j.notification_contract.allowed_keys));
+  assert.ok(Array.isArray(j.notification_contract.forbidden_keys));
+  assert.ok(j.notification_contract.forbidden_keys.includes('shared_secret'));
+  assert.ok(j.notification_contract.forbidden_keys.includes('raw_payload_json'));
+  assert.ok(j.notification_contract.forbidden_keys.includes('contact_email'));
+  assert.ok(Array.isArray(j.notification_contract.activation_checklist));
+  // The actual notification_message must still pass the contract.
+  assertNotificationSafe(j.notification_message);
+  for (const k of Object.keys(j.notification_message)) {
+    assert.ok(j.notification_contract.allowed_keys.includes(k),
+      'response notification_message contains key not in allowed_keys: ' + k);
+  }
+});
+
+// ─── Spec doc presence ──────────────────────────────────────────────────
+check('docs/intake-minimal-notification-design.md exists and references the status flag + activation checklist', () => {
+  const designDoc = readFileSync(resolve(REPO_ROOT, 'docs', 'intake-minimal-notification-design.md'), 'utf8');
+  assert.ok(/minimal-notification-design-ready-not-enabled/.test(designDoc),
+    'design doc must reference the not-enabled status flag');
+  assert.ok(/Activation checklist/i.test(designDoc),
+    'design doc must include an activation checklist section');
+  assert.ok(/office@esrf\.net/.test(designDoc),
+    'design doc must call out office@esrf.net as the documented recipient');
+  assert.ok(/raw_payload_json/.test(designDoc),
+    'design doc must list raw_payload_json among forbidden keys');
+  assert.ok(/SHEETS_WEBHOOK_SECRET/.test(designDoc),
+    'design doc must list SHEETS_WEBHOOK_SECRET among forbidden secrets');
+});
+
+check('docs/apps-script-mail-notification.future.md links the design doc + lists the activation checklist', () => {
+  const futureDoc = readFileSync(FUTURE_MAIL_DOC_PATH, 'utf8');
+  assert.ok(/intake-minimal-notification-design\.md/.test(futureDoc),
+    'future-mail doc must link the design doc');
+  assert.ok(/Real-mail-test activation checklist/i.test(futureDoc),
+    'future-mail doc must include the activation checklist section');
+  assert.ok(/INTAKE_NOTIFY_TO/.test(futureDoc),
+    'future-mail doc must reference INTAKE_NOTIFY_TO env var');
+  assert.ok(/MINIMAL_NOTIFICATION_DESIGN_STATUS/.test(futureDoc),
+    'future-mail doc must reference the design status flag');
 });
 
 // ─── summary ─────────────────────────────────────────────────────────────

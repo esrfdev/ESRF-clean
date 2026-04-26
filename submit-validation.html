@@ -1483,11 +1483,29 @@
     lines.push('');
     lines.push('<strong>Notificatie:</strong>');
     lines.push(' • status: ' + escapeHtml(String(data.notification_status || '')));
+    lines.push(' • design-vlag: ' + escapeHtml(String(data.minimal_notification_design_status || '')));
     if (data.notification_message) {
-      lines.push(' • bericht (preview, zonder PII):');
+      lines.push(' • bericht (preview, zonder PII / zonder editorial body):');
       Object.keys(data.notification_message).forEach(function(k){
         lines.push('     - ' + k + ': ' + escapeHtml(String(data.notification_message[k])));
       });
+    }
+    if (data.notification_contract) {
+      var nc = data.notification_contract;
+      lines.push(' • contract:');
+      lines.push('     - status: ' + escapeHtml(String(nc.status || '')));
+      lines.push('     - kanaal: ' + escapeHtml(String(nc.channel || '')));
+      lines.push('     - toegestane velden: ' + escapeHtml((nc.allowed_keys || []).join(', ')));
+      lines.push('     - verboden velden (PII / editorial / secrets): ' + escapeHtml((nc.forbidden_keys || []).join(', ')));
+      lines.push('     - verboden ontvangers: ' + escapeHtml((nc.forbidden_recipients || []).join(', ')));
+      lines.push('     - spec: ' + escapeHtml(String(nc.spec_doc || '')));
+      lines.push('     - future-route: ' + escapeHtml(String(nc.future_mail_relay_doc || '')));
+      if (Array.isArray(nc.activation_checklist) && nc.activation_checklist.length) {
+        lines.push('     - activatie-checklist (handmatig, vereist sign-off):');
+        nc.activation_checklist.forEach(function(step, i){
+          lines.push('         ' + (i + 1) + '. ' + escapeHtml(String(step)));
+        });
+      }
     }
     lines.push('');
     lines.push('<strong>Wat moet de redactie doen?</strong>');
@@ -1688,7 +1706,22 @@
     lines.push('<strong>Notificatie:</strong>');
     lines.push(' • status: ' + escapeHtml(String(data.notification_status || 'disabled_for_intake_test')));
     lines.push(' • verstuurd: ' + escapeHtml(String(data.notification_sent === true ? 'JA' : 'NEE')));
+    lines.push(' • design-vlag: ' + escapeHtml(String(data.minimal_notification_design_status || '')));
     lines.push(' • opmerking: notificaties zijn op /api/intake-test ALTIJD uitgeschakeld.');
+    if (data.notification_message_preview) {
+      lines.push(' • bericht (preview, zonder PII / zonder editorial body):');
+      Object.keys(data.notification_message_preview).forEach(function(k){
+        lines.push('     - ' + k + ': ' + escapeHtml(String(data.notification_message_preview[k])));
+      });
+    }
+    if (data.notification_contract) {
+      var nc2 = data.notification_contract;
+      lines.push(' • contract:');
+      lines.push('     - status: ' + escapeHtml(String(nc2.status || '')));
+      lines.push('     - toegestane velden: ' + escapeHtml((nc2.allowed_keys || []).join(', ')));
+      lines.push('     - verboden velden: ' + escapeHtml((nc2.forbidden_keys || []).join(', ')));
+      lines.push('     - spec: ' + escapeHtml(String(nc2.spec_doc || '')));
+    }
     lines.push('');
     lines.push('<strong>Payload-injectie (markering):</strong>');
     lines.push(' • contact.organisation start met "ESRF Lab Test" (vereist door de backend).');

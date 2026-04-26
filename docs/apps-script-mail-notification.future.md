@@ -126,3 +126,86 @@ include `script.send_mail`.
    `intake-lab-test-report-2026-04-25.md`.
 
 Until step 1 is verified, this route stays a paper trail.
+
+## Activation gate vs. the minimal-notification design
+
+The wire-level contract for what this future route may emit is locked
+in [`intake-minimal-notification-design.md`](./intake-minimal-notification-design.md).
+That document is the SSoT for:
+
+- the exact `allowed_keys` / `forbidden_keys` of the notification
+  payload (mirrored verbatim by `NOTIFICATION_CONTRACT` in
+  `functions/api/intake.js`),
+- the `MINIMAL_NOTIFICATION_DESIGN_STATUS` flag (currently
+  `minimal-notification-design-ready-not-enabled`),
+- the manual activation checklist that must be ticked off **before**
+  this route can be deployed.
+
+The activation checklist below is the same one surfaced in the API
+response under `notification_contract.activation_checklist` and in the
+LAB UI on `submit-validation.html`. It is reproduced here so an
+operator working from the future-mail doc has the full picture in one
+place.
+
+### Real-mail-test activation checklist (manual; separate approval required)
+
+Each item must be approved and ticked off in order by an operator with
+`office@esrf.net` access. **Do NOT skip steps.** Skipping step 6 in
+particular would be a sev-2 finding in any subsequent security review.
+
+- [ ] **1. First-phase spreadsheet-only deployment is healthy.** LAB_*
+      rows append correctly via the existing Cloudflare Pages preview;
+      OAuth consent for the first-phase Apps Script shows ONLY
+      `auth/spreadsheets`. Reference: §6 of
+      [`intake-lab-test-report-2026-04-25.md`](./intake-lab-test-report-2026-04-25.md).
+- [ ] **2. Redactie sign-off** on the dry-run notification copy in
+      `intake-lab-test-report-2026-04-25.md` §6b. Sign-off must be
+      explicit (commit or PR comment) — silent acceptance does not
+      count.
+- [ ] **3. Separate Apps Script project created** under
+      `office@esrf.net`. Manifest declares `auth/script.send_mail` and
+      nothing else (no `auth/spreadsheets`, no broader Gmail scope).
+      Source contains exactly one `MailApp.sendEmail()` call gated on
+      shared-secret verification.
+- [ ] **4. OAuth consent for the new project** surfaces ONLY
+      `https://www.googleapis.com/auth/script.send_mail`. If anything
+      else appears, STOP — the manifest is wrong.
+- [ ] **5. Deploy the separate project as a Web app**, take the
+      `/exec` URL, and store it as `INTAKE_NOTIFY_WEBHOOK` on the
+      Cloudflare Pages **preview** project only. Production project
+      env vars are untouched in this branch.
+- [ ] **6. Set `INTAKE_NOTIFY_TO=office@esrf.net`** on the same
+      Cloudflare Pages preview project. NEVER set this to
+      `ai.agent.wm@gmail.com` or to any submitter address. The
+      notification builder rejects anything that does not pass
+      `sanitizeNotifyRecipient`, but the env var is the human-facing
+      gate.
+- [ ] **7. Send one real `/api/intake` submission** from the LAB form.
+      Confirm:
+        - `notification_status: "sent"` in the API response,
+        - the email arrives at `office@esrf.net`,
+        - the email body contains ONLY the keys in
+          `notification_contract.allowed_keys`,
+        - the email body contains NONE of the keys in
+          `notification_contract.forbidden_keys` (no submitter email,
+          no submitter phone, no editorial summary / regional_angle /
+          lesson, no `raw_payload_json`, no shared secret),
+        - the recipient is `office@esrf.net` only — verify message
+          headers.
+- [ ] **8. Document the activation** in a new
+      `docs/intake-lab-test-report-YYYY-MM-DD.md`. Include the email
+      message id, the `submission_id`, and a redacted copy of the
+      message body proving the contract.
+- [ ] **9. Flip the design flag** in code. In
+      `functions/api/intake.js`, change
+      `MINIMAL_NOTIFICATION_DESIGN_STATUS` from
+      `'minimal-notification-design-ready-not-enabled'` to
+      `'minimal-notification-enabled'`. Update
+      [`intake-minimal-notification-design.md`](./intake-minimal-notification-design.md)
+      "Status" header to match. Commit the flip together with the
+      activation report from step 8.
+
+Until step 9 is committed, the contract is "design ready, not
+enabled". `notification_status` continues to report
+`dry_run_not_configured` and the LAB UI continues to show
+`design-vlag: minimal-notification-design-ready-not-enabled`.

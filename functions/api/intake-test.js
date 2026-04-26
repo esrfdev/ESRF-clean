@@ -57,6 +57,8 @@ import {
   generateId,
   LAB_SPREADSHEET,
   OFFICE_IDENTITY,
+  NOTIFICATION_CONTRACT,
+  MINIMAL_NOTIFICATION_DESIGN_STATUS,
   MAX_BODY_BYTES,
 } from './intake.js';
 
@@ -342,6 +344,8 @@ export async function onRequestPost(context) {
     notification_status: 'disabled_for_intake_test',
     notification_message_preview: notificationMessage,
     notification_sent: false,
+    notification_contract: NOTIFICATION_CONTRACT,
+    minimal_notification_design_status: MINIMAL_NOTIFICATION_DESIGN_STATUS,
     storage_architecture: {
       single_source_of_truth: 'google_sheet',
       spreadsheet_id: LAB_SPREADSHEET.spreadsheet_id,

@@ -279,9 +279,18 @@ await asyncCheck('POST with valid lab body (no webhook secrets) succeeds in dry-
   // Notification must NOT contain any recipient or PII keys.
   const msg = j.notification_message_preview;
   assert.equal(msg.notify_to_recipient, undefined);
-  for (const forbidden of ['contact_email','email','phone','contact_phone','contact_name','name','summary','editorial_body']) {
+  for (const forbidden of ['contact_email','email','phone','contact_phone','contact_name','name','summary','editorial_body','raw_payload_json','shared_secret','SHEETS_WEBHOOK_SECRET','GITHUB_TOKEN']) {
     assert.ok(!Object.prototype.hasOwnProperty.call(msg, forbidden), 'notification leaked ' + forbidden);
   }
+  // /api/intake-test surfaces the same minimal-notification design contract
+  // and not-enabled status flag as /api/intake.
+  assert.equal(j.minimal_notification_design_status, 'minimal-notification-design-ready-not-enabled');
+  assert.ok(j.notification_contract, 'response must surface notification_contract');
+  assert.equal(j.notification_contract.status, 'minimal-notification-design-ready-not-enabled');
+  assert.ok(j.notification_contract.allowed_keys.includes('submission_id'));
+  assert.ok(j.notification_contract.forbidden_keys.includes('shared_secret'));
+  assert.ok(j.notification_contract.forbidden_keys.includes('raw_payload_json'));
+  assert.ok(j.notification_contract.forbidden_recipients.includes('ai.agent.wm@gmail.com'));
 });
 
 // ─── Directory_Master forbidden — covered by builders + asserts ─────────

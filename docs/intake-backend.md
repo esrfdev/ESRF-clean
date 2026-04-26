@@ -67,7 +67,7 @@ Per submission, three records exist (each with its own dry-run flag):
 |---|---|---|
 | **Single source of truth** | Google Sheet (Drive) | Minimal flat row: status, organisation, contact, country/region, mode, pointers to issue. The redactie works in this file. |
 | **Evidence / workflow** | Private GitHub issue (optional) | Full structured intake, including editorial body. Provides an immutable audit trail. The sheet row links to the issue. |
-| **Notification** | ESRF mailnotificatie / mailrelay-webhook (optional) | Minimal operational ping only — no PII, no editorial text. Includes `sheet_row_id`, `issue_url` and an optional `notify_to_recipient` (default: `office@esrf.net`) so the redactie can jump to the SSoT. **Not** a Gmail-specific integration — ESRF.net does not run on Gmail. |
+| **Notification** | ESRF mailnotificatie / mailrelay-webhook (optional) | Minimal operational ping only — no PII, no editorial text, no operational secrets. Wire-level contract is locked in [`intake-minimal-notification-design.md`](./intake-minimal-notification-design.md) and surfaced in every API response under `notification_contract`. Includes `sheet_row_id`, `issue_url` and an optional `notify_to_recipient` (default: `office@esrf.net`) so the redactie can jump to the SSoT. **Not** a Gmail-specific integration — ESRF.net does not run on Gmail. Status flag: `minimal-notification-design-ready-not-enabled` until the activation checklist in [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md) is signed off. |
 
 E-mail is **never** used as a substitute for the spreadsheet. **For the
 first lab-write activation, mail notification is intentionally

@@ -116,7 +116,90 @@ const FORBIDDEN_NOTIFY_KEYS = [
   'editorial_body', 'body_md_or_url',
   'description', 'description_en',
   'raw_payload_json',
+  // Operational secrets / wire-protocol fields that must never echo back
+  // out to the redactie or to a relay as part of a notification.
+  'shared_secret', 'shared_secret_present', 'INTAKE_SHEET_WEBHOOK_URL',
+  'SHEETS_WEBHOOK_URL', 'SHEETS_WEBHOOK_SECRET', 'GITHUB_TOKEN',
+  'INTAKE_NOTIFY_WEBHOOK', 'TURNSTILE_SECRET_KEY',
 ];
+
+// Minimal-notification design contract — surfaced verbatim in both the
+// /api/intake and /api/intake-test responses, in the LAB UI preview, and
+// in docs/intake-minimal-notification-design.md. The contract enumerates
+// the EXACT keys the redactie may rely on and the keys that must NEVER
+// appear, so reviewers can audit a single source of truth.
+//
+// Status flag is intentionally `minimal-notification-design-ready-not-enabled`
+// so that no operator can mistake the contract for an active mail relay.
+const MINIMAL_NOTIFICATION_DESIGN_STATUS =
+  'minimal-notification-design-ready-not-enabled';
+
+const NOTIFICATION_CONTRACT = {
+  schema_version: 1,
+  status: MINIMAL_NOTIFICATION_DESIGN_STATUS,
+  purpose: 'Operational signal to office@esrf.net only. Never carries the '
+         + 'submission body, never carries submitter PII, never carries '
+         + 'secrets. Recipient (when configured) is the ESRF foundation '
+         + 'inbox, not an editorial submitter address.',
+  channel: 'esrf_mail_relay_or_webhook',
+  channel_note: 'ESRF mailnotificatie / mailrelay-webhook. Never Gmail-specific.',
+  // Stable, documented payload keys. The notification builder is the
+  // only producer of this payload; new keys must be added here AND
+  // covered by tests before they may appear on the wire.
+  allowed_keys: [
+    'schema_version',
+    'submission_id',
+    'request_id',
+    'environment',
+    'mode',                    // org | editorial | both
+    'type',                    // org | editorial | org+editorial
+    'org_name',                // organisation name only — not contact name
+    'country',                 // ISO-3166 alpha-2
+    'region',                  // sub-national region label
+    'workflow_status',         // dry_run | stored | error
+    'next_required_action',    // human-readable redactie action
+    'related_sheet',           // LAB_* tab name
+    'related_row',             // sheet row id (when known)
+    'related_sheet_url',       // direct URL into the LAB sheet (when known)
+    'validation_lab_url',      // submit-validation.html URL (when set)
+    'issue_url',               // GitHub intake issue URL (when known)
+    'notification_channel',    // = channel constant above
+    'note',                    // human-readable disclaimer
+    'notify_to_recipient',     // OPTIONAL — operational ESRF inbox only
+  ],
+  // Forbidden keys mirror FORBIDDEN_NOTIFY_KEYS. Listed here as well so
+  // the contract is self-contained when surfaced in the response/UI.
+  forbidden_keys: [
+    'contact_email', 'contact_phone', 'contact_name',
+    'email', 'phone', 'name',
+    'summary', 'regional_angle', 'lesson',
+    'editorial_summary', 'editorial_regional_angle', 'editorial_lesson',
+    'editorial_body', 'body_md_or_url',
+    'description', 'description_en',
+    'raw_payload_json',
+    'shared_secret', 'shared_secret_present',
+    'INTAKE_SHEET_WEBHOOK_URL', 'SHEETS_WEBHOOK_URL',
+    'SHEETS_WEBHOOK_SECRET', 'GITHUB_TOKEN',
+    'INTAKE_NOTIFY_WEBHOOK', 'TURNSTILE_SECRET_KEY',
+  ],
+  // Operator-visible activation gate. The Cloudflare backend never
+  // sends mail itself; activation requires a separate Apps Script
+  // project (see docs/apps-script-mail-notification.future.md) AND
+  // explicit env-var configuration. Listing the steps here, in code,
+  // means the LAB UI surfaces them on every dry-run preview.
+  activation_checklist: [
+    'First-phase spreadsheet-only Apps Script verified end-to-end (LAB_* rows append; OAuth consent shows only auth/spreadsheets).',
+    'Redactie sign-off on dry-run notification copy in docs/intake-lab-test-report-2026-04-25.md §6b.',
+    'Separate mail Apps Script project created under office@esrf.net with auth/script.send_mail scope only.',
+    'INTAKE_NOTIFY_WEBHOOK env var set on Cloudflare Pages preview to that separate /exec URL.',
+    'INTAKE_NOTIFY_TO env var set to office@esrf.net (never to ai.agent.wm@gmail.com or any submitter address).',
+    'End-to-end test: send one /api/intake submission, confirm minimal payload arrives at office@esrf.net, confirm no PII / editorial body / secrets in the email body.',
+    'After verification, document activation date in docs/intake-lab-test-report-*.md and flip status from minimal-notification-design-ready-not-enabled to minimal-notification-enabled.',
+  ],
+  forbidden_recipients: ['ai.agent.wm@gmail.com'],
+  spec_doc: 'docs/intake-minimal-notification-design.md',
+  future_mail_relay_doc: 'docs/apps-script-mail-notification.future.md',
+};
 
 // Refuse to dispatch any sheet-webhook payload that targets a non-LAB tab
 // or that includes Directory_Master anywhere in its row map. This is a
@@ -430,6 +513,8 @@ export async function onRequestPost(context) {
     notification_status: notificationStatus,
     notification_message: notificationMessage,
     notification_sent: notificationStatus === 'sent',
+    notification_contract: NOTIFICATION_CONTRACT,
+    minimal_notification_design_status: MINIMAL_NOTIFICATION_DESIGN_STATUS,
     storage_architecture: {
       single_source_of_truth: 'google_sheet',
       spreadsheet_id: LAB_SPREADSHEET.spreadsheet_id,
@@ -908,6 +993,16 @@ function buildNotificationMessage(payload, ctx) {
   // deliver to, e.g. office@esrf.net) — NOT an editorial address.
   // We only ever surface a sanitised recipient or omit the field.
   const notifyTo = sanitizeNotifyRecipient(ctx.notify_to);
+  // related_sheet_url: deep link to the LAB spreadsheet (no row anchor —
+  // the SSoT spreadsheet does not expose stable per-row URLs without an
+  // Apps Script lookup, which we do not perform here). Including only
+  // the spreadsheet root keeps the notification minimal and avoids
+  // leaking row indices that could be sensitive in adjacent rows.
+  const relatedSheetUrl = LAB_SPREADSHEET.spreadsheet_id
+    ? 'https://docs.google.com/spreadsheets/d/' + LAB_SPREADSHEET.spreadsheet_id + '/edit'
+    : '';
+  const validationLabUrl = ctx.validation_lab_url ||
+    'https://test-regional-editorial-cont.esrf-clean.pages.dev/submit-validation.html';
   const message = {
     schema_version: 1,
     submission_id: ctx.submission_id || '',
@@ -924,11 +1019,21 @@ function buildNotificationMessage(payload, ctx) {
     next_required_action: ctx.next_required_action || '',
     related_sheet: ctx.related_sheet || '',
     related_row: ctx.related_row || '',
+    related_sheet_url: relatedSheetUrl,
+    validation_lab_url: validationLabUrl,
     issue_url: ctx.issue_url || '',
     notification_channel: 'esrf_mail_relay_or_webhook',
     note: 'Minimal ESRF mailnotificatie / mailrelay payload. Contains no PII (no email/phone/name) and no editorial body. Recipient (when set) is the operational ESRF inbox, not an editorial submitter address.',
   };
   if (notifyTo) message.notify_to_recipient = notifyTo;
+  // Defence-in-depth: every populated key MUST be in the contract's
+  // allowed_keys list. This guards against a future refactor that adds
+  // a key here but forgets to register it in the contract.
+  for (const key of Object.keys(message)) {
+    if (!NOTIFICATION_CONTRACT.allowed_keys.includes(key)) {
+      throw new Error('notification-builder-invalid: key not in contract allowed_keys: ' + key);
+    }
+  }
   return message;
 }
 
@@ -1074,6 +1179,8 @@ export {
   LAB_SPREADSHEET,
   OFFICE_IDENTITY,
   FORBIDDEN_NOTIFY_KEYS,
+  NOTIFICATION_CONTRACT,
+  MINIMAL_NOTIFICATION_DESIGN_STATUS,
   MAX_BODY_BYTES,
   MIN_FORM_DURATION_MS,
 };
@@ -1102,6 +1209,8 @@ if (typeof globalThis !== 'undefined') {
     LAB_SPREADSHEET,
     OFFICE_IDENTITY,
     FORBIDDEN_NOTIFY_KEYS,
+    NOTIFICATION_CONTRACT,
+    MINIMAL_NOTIFICATION_DESIGN_STATUS,
     assertLabPayloadSafe,
     assertNotificationSafe,
     onRequest,
