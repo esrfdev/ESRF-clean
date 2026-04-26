@@ -12,7 +12,13 @@
 ## API-architectuur (lab-only)
 
 Twee Cloudflare Pages Functions ondersteunen het redactieformulier
-(beide preview-only, productie geeft 404):
+(beide preview-only, productie geeft 404). De serverless functions
+praten met een **gescheiden** Apps Script Web App (bron in
+`docs/apps-script-redactie-review-webhook.gs`, manifest in
+`docs/appsscript.redactie-review.json`). De Apps Script is
+spreadsheet-only, leest LAB_*-tabs en schrijft alleen append-only naar
+`LAB_Redactie_Reviews` en `LAB_Workflow_Events`. Directory_Master
+staat hard op de deny-list.
 
 - `POST /api/redactie-review` — **read**. Vraagt LAB_Intake_Submissions
   en LAB_Editorial_Intake aan via een server-side Apps Script read-
@@ -374,30 +380,159 @@ Run: `node scripts/redactie_validation.test.mjs`.
 
 > Geen van de stappen wordt automatisch uitgevoerd. Wouter zet de
 > env vars op het Cloudflare Pages **preview** project, nooit op
-> productie.
+> productie. De Apps Script wordt onder `office@esrf.net` gedraaid,
+> nooit onder `ai.agent.wm@gmail.com`.
 
-1. Maak een nieuw, *read-only* Apps Script-project onder
-   `office@esrf.net`. Scope uitsluitend `https://www.googleapis.com/auth/spreadsheets.readonly`.
-2. Implementeer `doPost(e)`: lees `LAB_Intake_Submissions` en
-   `LAB_Editorial_Intake` als objecten en geef terug als
-   `{ records: [...] }`. Verifieer in de Apps Script dat
-   `e.postData` een matchende `shared_secret` bevat.
-3. Publiceer als Web App, kopieer de `/exec` URL.
-4. Cloudflare Pages → preview project → Settings → Environment vars:
+### Niet-technische stroom (zo komt LAB-data in beeld)
+
+```
+   Drive-spreadsheet
+   (LAB_Intake_Submissions / LAB_Editorial_Intake)
+            │
+            │  doPost (Sheets-only OAuth, shared secret)
+            ▼
+   Apps Script Web App
+   docs/apps-script-redactie-review-webhook.gs
+            │
+            │  POST /exec  (REDACTIE_REVIEW_WEBHOOK_URL)
+            │  body { shared_secret, action, ... }
+            ▼
+   Cloudflare Pages Function
+   /api/redactie-review  (preview-only, access-code-gated)
+            │
+            │  fetch  (origin allowlist, contact stripped)
+            ▼
+   redactie-validation.html  (alleen lezen + lokaal bewerken)
+            │
+            │  redactie kopieert óf verstuurt review-update
+            ▼
+   /api/redactie-review-update  (dry-run; live-write disabled op deze branch)
+            │
+            │  bij latere activatie: doPost (action: submit_review_update)
+            ▼
+   LAB_Redactie_Reviews + LAB_Workflow_Events   (append-only, audit-spoor)
+
+   ── Directory_Master wordt nooit aangeraakt ──
+```
+
+### Apps Script — bron en manifest
+
+De referentie-implementatie staat in dit repo en is **bron**, geen
+deployment:
+
+- `docs/apps-script-redactie-review-webhook.gs` — `doPost` only,
+  geen `MailApp` / `GmailApp` / `UrlFetchApp`. Leest uitsluitend
+  `LAB_Intake_Submissions`, `LAB_Editorial_Intake` (en optioneel
+  `LAB_Place_Candidates`). Schrijft uitsluitend append-only naar
+  `LAB_Redactie_Reviews` en `LAB_Workflow_Events`. Hard deny-list voor
+  `Directory_Master`.
+- `docs/appsscript.redactie-review.json` — manifest met *alleen*
+  `https://www.googleapis.com/auth/spreadsheets` als oauthScope.
+
+### Stappen
+
+1. Maak een **nieuw, gescheiden** Apps Script-project onder
+   `office@esrf.net`. Geen hergebruik van het intake-project.
+2. Plak de inhoud van `docs/apps-script-redactie-review-webhook.gs`
+   als `Code.gs`.
+3. Project Settings → vink "Show appsscript.json manifest file in
+   editor" aan → plak `docs/appsscript.redactie-review.json` als
+   `appsscript.json`. Dit pint de OAuth-scope op spreadsheets-only.
+4. Project Settings → Script Properties:
+   - `REDACTIE_REVIEW_WEBHOOK_SECRET` → een nieuwe, sterke random
+     string (≥ 32 karakters). Niet committen, niet delen buiten Wouter
+     en de Cloudflare Pages env vars.
+   - `SHEET_ID` → `1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g`.
+   *Zet géén* `NOTIFY_*`, `MAIL_*` of andere mail-properties.
+5. Run **`__authorizeSpreadsheetAccessOnly`** vanuit de Apps Script-
+   editor. Het OAuth consent-scherm moet uitsluitend de scope
+   `https://www.googleapis.com/auth/spreadsheets` tonen. Als
+   `script.send_mail`, `gmail.*`, `drive.*` of
+   `script.external_request` opduikt: **STOP** en herchek dat de bron
+   ongewijzigd is overgenomen.
+6. Run **`__setupLabReviewTabsMaybe`** om `LAB_Redactie_Reviews` met
+   veilige kolomkoppen aan te maken (idempotent — niet-destructief).
+   `LAB_Workflow_Events` moet al bestaan vanuit het intake-project; zo
+   niet, fail luid en herstel via het intake-project eerst.
+7. Deploy → New deployment → "Web app". Execute as: *Me*
+   (office@esrf.net). Who has access: *Anyone with the link*.
+8. Cloudflare Pages → **preview** project (niet productie!) → Settings
+   → Environment variables:
    - `REDACTIE_REVIEW_ACCESS_CODE` → een nieuwe, voldoende lange string
      (16+ karakters; alleen door redactie gedeeld).
-   - `REDACTIE_REVIEW_WEBHOOK_URL` → de `/exec` URL.
-   - `REDACTIE_REVIEW_WEBHOOK_SECRET` → exact dezelfde string als in
-     de Apps Script Script Properties.
-5. Deploy preview, open `/redactie-validation.html`, voer de access
-   code in. Verwacht: `LAB-MODE — live`, echte rijen verschijnen,
-   contactvelden ontbreken (tenzij later expliciet `include_contact`
+   - `REDACTIE_REVIEW_WEBHOOK_URL` → de `/exec` URL uit stap 7.
+   - `REDACTIE_REVIEW_WEBHOOK_SECRET` → exact dezelfde string als de
+     Apps Script Script Property in stap 4.
+   *Zet `REDACTIE_REVIEW_WRITE_ENABLED` voorlopig niet.*
+9. Deploy preview, open `/redactie-validation.html`, voer de access
+   code in. Verwacht: `LAB-MODE — live`, echte LAB-rijen verschijnen,
+   contact-velden ontbreken (tenzij later expliciet `include_contact`
    wordt aangezet).
-6. Een live write-pad is op deze branch *bewust niet ingebouwd*. Voor
-   de volgende veilige stap: maak een tweede Apps Script-project, met
-   alléén `auth/spreadsheets` scope op specifieke status-kolommen of
-   een append-only `LAB_Workflow_Events` tab — nooit Directory_Master.
-   Pas dán is `REDACTIE_REVIEW_WRITE_ENABLED=true` zinvol.
+
+### Eén keer testen — read
+
+Vanaf de Cloudflare preview-branch, met access code geconfigureerd:
+
+```bash
+curl -sS -H 'content-type: application/json' \
+     -H "origin: $PREVIEW_ORIGIN" \
+     "$PREVIEW_ORIGIN/api/redactie-review" \
+     --data-raw "{\"access_code\":\"$REDACTIE_REVIEW_ACCESS_CODE\"}" \
+  | jq '{ok, mode, n: (.records|length), first: .records[0].submission_id}'
+```
+
+Verwacht:
+- `ok: true`
+- `mode: "lab"`
+- `n` ≥ 1 (echte LAB-rijen, niet `sub_lab_demo_*`)
+- `first` is een echte submission_id uit de Sheet.
+
+### Eén keer testen — dry-run update
+
+```bash
+curl -sS -H 'content-type: application/json' \
+     -H "origin: $PREVIEW_ORIGIN" \
+     "$PREVIEW_ORIGIN/api/redactie-review-update" \
+     --data-raw "$(cat <<EOF
+{
+  "access_code": "$REDACTIE_REVIEW_ACCESS_CODE",
+  "submission_id": "<echte submission_id>",
+  "record_type": "org",
+  "target_tab": "LAB_Redactie_Reviews",
+  "review_update": {
+    "process_step": "in_review",
+    "review_status": "in_review",
+    "next_required_action": "Verifieer regio + sector",
+    "assigned_to": "WM",
+    "due_date": "2026-05-10"
+  }
+}
+EOF
+)" \
+  | jq '{ok, mode, dry_run, live_write_ready, would_write, payload: .payload.target_tab}'
+```
+
+Verwacht:
+- `ok: true`
+- `dry_run: true`
+- `live_write_ready: false`
+- `would_write.target_tab: "LAB_Redactie_Reviews"`
+
+> Het Apps Script `doPost` heeft óók een `dry_run_update`-actie zodat
+> Wouter het zonder Cloudflare-laag rechtstreeks kan testen. Stuur in
+> dat geval `{"action":"dry_run_update","shared_secret":"…", … }` direct
+> naar `/exec` — er wordt niets weggeschreven.
+
+### Live-write activatie (later — niet op deze branch)
+
+10. Pas wanneer alle tests groen zijn én Wouter expliciet akkoord is:
+    schakel live-write in via een aparte review-PR. Minimaal vereist:
+    - `REDACTIE_REVIEW_WRITE_ENABLED=true` op de preview env;
+    - de Cloudflare-side `redactie-review-update.js` route aanpassen
+      zodat de geverifieerde payload naar `/exec` doorgestuurd wordt
+      met `action: "submit_review_update"`;
+    - Apps Script blijft hetzelfde. De append-only contract zorgt dat
+      Directory_Master nooit aangeraakt wordt.
 
 ## Veiligheidsregels die de endpoints afdwingen
 

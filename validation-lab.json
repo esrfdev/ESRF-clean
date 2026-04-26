@@ -392,20 +392,31 @@
       "directoryMasterTouched": false,
       "mainBranchMerged": false,
       "documentation": [
-        "/docs/redactie-validation-form.md"
+        "/docs/redactie-validation-form.md",
+        "/docs/apps-script-redactie-review-webhook.gs",
+        "/docs/appsscript.redactie-review.json"
       ],
       "endpoints": {
         "read": "/api/redactie-review",
         "update": "/api/redactie-review-update",
         "previewOnly": true,
         "liveWriteEnabled": false,
-        "sampleFallback": true
+        "sampleFallback": true,
+        "appsScriptSource": "/docs/apps-script-redactie-review-webhook.gs",
+        "appsScriptManifest": "/docs/appsscript.redactie-review.json",
+        "appsScriptScopes": ["https://www.googleapis.com/auth/spreadsheets"],
+        "appsScriptActions": ["list_records", "get_record", "dry_run_update", "submit_review_update"],
+        "appsScriptReadTabs": ["LAB_Intake_Submissions", "LAB_Editorial_Intake", "LAB_Place_Candidates"],
+        "appsScriptWriteTabs": ["LAB_Redactie_Reviews", "LAB_Workflow_Events"],
+        "appsScriptForbiddenTargets": ["Directory_Master"],
+        "appsScriptDeployed": false,
+        "appsScriptOwnerIdentity": "office@esrf.net"
       },
       "envVars": {
-        "REDACTIE_REVIEW_ACCESS_CODE": "Server-validated review access code; gates real-data reads. Without it the API returns sample/dry-run data and the UI shows SAMPLE-MODE.",
-        "REDACTIE_REVIEW_WEBHOOK_URL": "Apps Script /exec URL for the read-only LAB webhook (LAB_Intake_Submissions / LAB_Editorial_Intake). Optional — if missing, sample fallback is used.",
-        "REDACTIE_REVIEW_WEBHOOK_SECRET": "Shared secret in the request body to the Apps Script. Required together with REDACTIE_REVIEW_WEBHOOK_URL.",
-        "REDACTIE_REVIEW_WRITE_ENABLED": "Hard toggle for a future live-write path. Currently always treated as not-ready on this branch; live writes are not implemented."
+        "REDACTIE_REVIEW_ACCESS_CODE": "Server-validated review access code; gates real-data reads. Without it the API returns sample/dry-run data and the UI shows SAMPLE-MODE. Status: not set — sample mode active.",
+        "REDACTIE_REVIEW_WEBHOOK_URL": "Apps Script /exec URL for the LAB webhook (read + append-only review writes; bron docs/apps-script-redactie-review-webhook.gs). Optional — if missing, sample fallback is used. Status: not set — Apps Script not deployed yet.",
+        "REDACTIE_REVIEW_WEBHOOK_SECRET": "Shared secret in the request body to the Apps Script. Must equal the Apps Script script property of the same name. Required together with REDACTIE_REVIEW_WEBHOOK_URL. Status: not set.",
+        "REDACTIE_REVIEW_WRITE_ENABLED": "Hard toggle for a future live-write path. Currently always treated as not-ready on this branch; live writes are not implemented in the Cloudflare layer (Apps Script supports submit_review_update but Cloudflare never invokes it on this branch)."
       },
       "safetyRules": [
         "Production short-circuits to 404 before any handler logic; preview-only via ESRF_PREVIEW or non-main CF_PAGES_BRANCH.",
