@@ -121,6 +121,37 @@
       ]
     },
     {
+      "id": "public-share-information-label",
+      "title": "Publieke navigatie/footer/zoek — brede label 'Deel je informatie' / 'Share your information'",
+      "status": "pr-ready-not-published",
+      "owner": "ESRF Editorial",
+      "purpose": "PR-ready publieke tekstvoorbereiding op branch test/regional-editorial-contributor-intake. De smalle wording 'Submit signal' in de footer-navigatie van de productiepagina's wordt vervangen door de brede route 'Deel je informatie' / 'Share your information' (NL/EN), die past bij organisatie aanmelden, gegevens wijzigen, een vermelding laten verbergen of een praktijkverhaal delen. De route blijft submit-news.html (productieformulier) — er wordt expliciet NIET vanaf productie naar een testpagina gerouteerd. Validatiepagina's blijven naar submit-validation.html linken.",
+      "lastUpdated": "2026-04-27",
+      "visibility": "branch-only",
+      "primaryCallToAction": "/submit-news.html",
+      "primaryCallToActionLabel": {
+        "en": "Share your information",
+        "nl": "Deel je informatie"
+      },
+      "i18nKeys": [
+        "common.share_information",
+        "common.share_information_cta",
+        "common.share_information_help"
+      ],
+      "publicHelperText": {
+        "en": "Use this form to submit an organisation, request an update or removal, or share a practice story.",
+        "nl": "Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal te delen."
+      },
+      "exitCriteria": [
+        "Footer-link op productie-HTMLs (about, analytics, directory, editorials, events, fund, index, news, privacy, request-listing, responsible-disclosure, sponsor, submit-event, submit-news, terms, plus de drie editorial-pagina's) toont 'Share your information' / 'Deel je informatie' via data-i18n=common.share_information.",
+        "Geen publieke productie-pagina linkt naar submit-validation.html, request-listing-validation.html, esrf-simulated-site.html of contribute-editorial-test.html.",
+        "Validatie/simulated pagina's mogen wél naar submit-validation.html linken — productie blijft via submit-news.html.",
+        "i18n keys common.share_information, common.share_information_cta en common.share_information_help bestaan in en.json en nl.json en parsen als geldige JSON.",
+        "Veiligheidsregels onveranderd: geen automatische publicatie, Directory_Master nooit automatisch aangepast, redactiecontrole blijft nodig.",
+        "Branch test/regional-editorial-contributor-intake: alleen committen en pushen, niet mergen naar main."
+      ]
+    },
+    {
       "id": "intake-lab-automation",
       "title": "Lab-automation voor /api/intake — workflow + LAB_* tabs + minimale notificatie",
       "status": "sheet-monitoring-active-email-disabled",
