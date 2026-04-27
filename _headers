@@ -18,3 +18,48 @@
   Cache-Control: public, max-age=0, must-revalidate
 /submit-news
   Cache-Control: public, max-age=0, must-revalidate
+
+# Public HTML pages embed the header CTA markup directly (no shared
+# include). After 2026-04-27 we shipped Variant A (command-card) and
+# bumped the style.css/app.js cache-bust query so the new CSS rules
+# can't be masked by a stale stylesheet. To make sure visitors who
+# already have a cached HTML page from the legacy-pill era pick up
+# the new HTML — and therefore the new ?v= asset URLs — force
+# revalidation on every public HTML page that carries the masthead.
+# This costs a 304 round-trip; it does not re-download the body.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+/about.html
+  Cache-Control: public, max-age=0, must-revalidate
+/analytics.html
+  Cache-Control: public, max-age=0, must-revalidate
+/directory.html
+  Cache-Control: public, max-age=0, must-revalidate
+/editorials.html
+  Cache-Control: public, max-age=0, must-revalidate
+/events.html
+  Cache-Control: public, max-age=0, must-revalidate
+/fund.html
+  Cache-Control: public, max-age=0, must-revalidate
+/map.html
+  Cache-Control: public, max-age=0, must-revalidate
+/news.html
+  Cache-Control: public, max-age=0, must-revalidate
+/privacy.html
+  Cache-Control: public, max-age=0, must-revalidate
+/request-listing.html
+  Cache-Control: public, max-age=0, must-revalidate
+/responsible-disclosure.html
+  Cache-Control: public, max-age=0, must-revalidate
+/sponsor.html
+  Cache-Control: public, max-age=0, must-revalidate
+/submit-event.html
+  Cache-Control: public, max-age=0, must-revalidate
+/terms.html
+  Cache-Control: public, max-age=0, must-revalidate
+/countries/
+  Cache-Control: public, max-age=0, must-revalidate
+/countries/index.html
+  Cache-Control: public, max-age=0, must-revalidate

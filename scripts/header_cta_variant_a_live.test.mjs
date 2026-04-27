@@ -235,6 +235,126 @@ check('submit-event.html and request-listing.html still ship', () => {
   }
 });
 
+/* 12. The "Variant A is shipped but users still see the pill" cache bug:
+       the header CTA visual depends on rules in style.css. If style.css is
+       fetched without a version query string, intermediate caches (browser
+       disk cache, Cloudflare edge) can serve a pre-rollout copy that has
+       no .mast-cta rules — at which point the new HTML falls through to
+       default <a> styling and looks like nothing.
+
+       So every public page must reference style.css and app.js with a
+       ?v= cache-buster, and that token must match the rolled-out version.
+       We don't pin the exact value (so future bumps don't break the test),
+       but we require ALL pages share the SAME token — otherwise a bumped
+       page falls out of sync with an unbumped one. */
+const VERSIONED_PAGES = PUBLIC_PAGES.filter(p => p !== 'countries/index.html');
+function assetVersion(html, asset){
+  // asset is e.g. 'style.css' or 'app.js'. Match either bare-name or
+  // root-path variants and capture the v= token.
+  const re = new RegExp(
+    '(?:href|src)="(?:\\.\\.\\/|\\/)?' + asset.replace('.', '\\.') +
+    '\\?v=([A-Za-z0-9._-]+)"');
+  const m = html.match(re);
+  return m ? m[1] : null;
+}
+
+for (const page of VERSIONED_PAGES){
+  check(`${page}: style.css carries a ?v= cache-buster`, () => {
+    const html = fs.readFileSync(path.join(repoRoot, page), 'utf8');
+    const v = assetVersion(html, 'style.css');
+    assert.ok(v,
+      page + ' references style.css without ?v= — stale CSS will mask ' +
+      'the Variant A header rollout. Add ?v=<token>.');
+  });
+  check(`${page}: app.js carries a ?v= cache-buster`, () => {
+    const html = fs.readFileSync(path.join(repoRoot, page), 'utf8');
+    // Pages without app.js (e.g. pure static) are exempt — but every page
+    // in PUBLIC_PAGES does load app.js for i18n + lang sync.
+    if (!/<script\s+[^>]*\bsrc="[^"]*app\.js/.test(html)) return;
+    const v = assetVersion(html, 'app.js');
+    assert.ok(v,
+      page + ' references app.js without ?v= — stale JS will mask the ' +
+      'lang/aria-label sync. Add ?v=<token>.');
+  });
+}
+
+check('all public pages share the same style.css ?v= token', () => {
+  const tokens = new Set();
+  for (const page of VERSIONED_PAGES){
+    const html = fs.readFileSync(path.join(repoRoot, page), 'utf8');
+    const v = assetVersion(html, 'style.css');
+    if (v) tokens.add(v);
+  }
+  assert.equal(tokens.size, 1,
+    'style.css ?v= token must be identical across pages, found: ' +
+    [...tokens].join(', '));
+});
+
+check('countries/index.html: style.css carries a ?v= cache-buster', () => {
+  const html = fs.readFileSync(path.join(repoRoot, 'countries/index.html'), 'utf8');
+  // It uses ../style.css — the regex above already accepts that prefix.
+  const v = assetVersion(html, 'style.css');
+  assert.ok(v, 'countries/index.html references style.css without ?v=');
+});
+
+/* 13. The .mast-cta CSS must NOT be a "pill" (heavy border-radius) — it
+       is a rail/card. We assert two things:
+        - the base .mast-cta rule sets border-radius <= 8px (rail/card),
+        - there is a rail span with a coloured background driven by the CSS
+          (an actual <span class="mast-cta-rail">), so the look isn't just
+          a re-styled pill.
+       This catches the "Wouter still sees the pill" failure mode where a
+       future edit drops the rail and goes back to a rounded pill. */
+check('.mast-cta base rule has border-radius <= 8px (rail/card, not pill)', () => {
+  const css = fs.readFileSync(path.join(repoRoot, 'style.css'), 'utf8');
+  // Find the base .mast-cta { ... } rule. Take the first block and read
+  // its border-radius declaration (if any).
+  const ruleMatch = css.match(/(^|\n)\.mast-cta\s*\{([^}]+)\}/);
+  assert.ok(ruleMatch, 'no base .mast-cta rule found');
+  const body = ruleMatch[2];
+  const radiusMatch = body.match(/border-radius\s*:\s*([^;]+);/);
+  assert.ok(radiusMatch, '.mast-cta should declare a border-radius (rail/card 1-8px)');
+  const value = radiusMatch[1].trim();
+  // Reject anything that looks like a pill: 50%, 100%, 999px, 9999px, or
+  // values >= 16px which round into pill territory at the CTA's height.
+  assert.ok(!/\b(50%|100%|9{3,}px)\b/.test(value),
+    '.mast-cta has pill-style border-radius: ' + value);
+  const px = Number((value.match(/(\d+)px/) || [,'0'])[1]);
+  assert.ok(px <= 8,
+    '.mast-cta border-radius ' + value + ' is too round for a rail/card; ' +
+    'use <= 8px or remove. Pills are 999px / 50% — we are not a pill.');
+});
+
+check('.mast-cta layout uses grid with a rail column (not a single round button)', () => {
+  const css = fs.readFileSync(path.join(repoRoot, 'style.css'), 'utf8');
+  const ruleMatch = css.match(/(^|\n)\.mast-cta\s*\{([^}]+)\}/);
+  assert.ok(ruleMatch);
+  const body = ruleMatch[2];
+  assert.match(body, /display\s*:\s*grid/,
+    '.mast-cta should use display:grid so the rail + body lay out as columns');
+  assert.match(body, /grid-template-columns\s*:\s*\d+px\s+1fr/,
+    '.mast-cta grid-template-columns must define a fixed-width rail + 1fr body');
+});
+
+/* 14. _headers cache policy: the public pages that carry the masthead
+       must be set to revalidate, otherwise visitors with a cached pre-
+       rollout HTML never pick up the bumped style.css / app.js URLs. */
+check('_headers forces revalidation for public masthead pages', () => {
+  const headers = fs.readFileSync(path.join(repoRoot, '_headers'), 'utf8');
+  // Spot-check the highest-traffic surfaces. We don't require every
+  // path to be listed — Cloudflare Pages applies the first matching rule —
+  // but the home page and the index/about/news/directory must revalidate.
+  for (const route of ['/', '/index.html', '/about.html', '/news.html', '/directory.html']){
+    // Route header followed (possibly across blank lines) by a
+    // Cache-Control with must-revalidate.
+    const re = new RegExp(
+      '^' + route.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') +
+      '\\s*\\n(?:\\s+[^\\n]*\\n)*\\s+Cache-Control:[^\\n]*must-revalidate', 'm');
+    assert.match(headers, re,
+      '_headers missing must-revalidate Cache-Control for ' + route);
+  }
+});
+
 if (failures > 0) {
   console.log('\n' + failures + ' check(s) failed.');
   process.exit(1);
