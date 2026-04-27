@@ -1,95 +1,258 @@
 <!doctype html>
-<html lang="en">
+<html lang="nl">
 <head>
 <meta charset="utf-8" />
-<title>ESRF — Header CTA preview (internal review)</title>
+<title>ESRF — Header CTA preview · ronde 2 (intern)</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<!-- Hidden internal preview. Not linked from nav, footer, sitemap or any
-     production page. The robots directives below keep it out of any
-     index even if a URL is shared directly. -->
+<!--
+  Hidden internal preview — ronde 2.
+  Wouter vond ronde 1 te krap, te zuinig, te veel van hetzelfde.
+  Deze ronde mikt op: groter raakvlak, meer witruimte,
+  eigen vorm, subtiele diepte, redactioneel zelfvertrouwen.
+  Niet gelinkt vanaf nav, footer, sitemap of welke productiepagina dan ook.
+-->
 <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
 <meta name="googlebot" content="noindex,nofollow" />
 <meta http-equiv="X-Robots-Tag" content="noindex,nofollow,noarchive" />
 <link rel="canonical" href="about:blank" />
 <link rel="stylesheet" href="style.css" />
 <style>
-  /* Preview-only chrome — does NOT touch production CSS */
-  .preview-shell{max-width:1200px;margin:0 auto;padding:48px 32px 120px}
+  /* ─── Preview-only chrome — raakt productie-CSS niet aan. ─── */
+  .preview-shell{max-width:1240px;margin:0 auto;padding:56px 32px 160px}
   .preview-banner{
     background:#fff5e0;border:1px solid var(--accent);
-    padding:14px 18px;border-radius:6px;margin-bottom:36px;
-    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;
+    padding:16px 20px;border-radius:6px;margin-bottom:40px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.7;
     color:var(--ink);
   }
   .preview-banner strong{color:var(--accent-deep)}
+  .preview-eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.28em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:14px;
+    padding-bottom:10px;border-bottom:2px solid var(--accent);width:fit-content;
+  }
   .preview-h1{
     font-family:'Archivo',sans-serif;font-weight:800;
-    font-size:36px;letter-spacing:-0.02em;margin-bottom:8px;
+    font-size:44px;letter-spacing:-0.025em;margin:0 0 12px;line-height:1.05;
   }
-  .preview-deck{font-family:'PT Serif',serif;font-size:17px;color:var(--ink-soft);margin-bottom:40px;max-width:760px}
+  .preview-h1 i{
+    font-family:'PT Serif',serif;font-style:italic;font-weight:400;
+    color:var(--accent);letter-spacing:-0.01em;
+  }
+  .preview-deck{
+    font-family:'PT Serif',serif;font-size:18px;line-height:1.6;
+    color:var(--ink-soft);margin-bottom:48px;max-width:780px;
+  }
+
   .variant{
     background:var(--cream);border:1px solid rgba(15,20,25,0.12);
-    border-radius:8px;padding:0;margin-bottom:48px;overflow:hidden;
+    border-radius:10px;padding:0;margin-bottom:64px;overflow:hidden;
+    box-shadow:0 1px 0 rgba(15,20,25,0.04), 0 12px 40px -24px rgba(15,20,25,0.18);
   }
   .variant-meta{
-    padding:18px 22px;border-bottom:1px solid rgba(15,20,25,0.1);
+    padding:22px 26px;border-bottom:1px solid rgba(15,20,25,0.1);
     display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;
     background:#fff;
   }
   .variant-tag{
-    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;
     text-transform:uppercase;color:var(--accent);
-    border:1px solid var(--accent);padding:3px 9px;border-radius:999px;
+    border:1px solid var(--accent);padding:4px 10px;border-radius:999px;
   }
   .variant-tag.recommended{background:var(--accent);color:var(--cream)}
+  .variant-tag.compact{
+    color:var(--ink-soft);border-color:rgba(15,20,25,0.4);
+  }
   .variant-title{
-    font-family:'Archivo',sans-serif;font-weight:800;font-size:20px;
-    letter-spacing:-0.01em;
+    font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;
+    letter-spacing:-0.015em;
   }
   .variant-stage{
-    /* Mimic the dark hero so the overlay masthead reads correctly */
+    /* Mimic real dark hero — overlay masthead reads correctly. */
     background:
       linear-gradient(135deg, rgba(210,75,31,0.88), rgba(32,78,122,0.78)),
       radial-gradient(circle at 30% 40%, #D24B1F, transparent 60%),
       radial-gradient(circle at 70% 70%, #204E7A, transparent 60%),
       #2A2018;
-    padding:0;position:relative;min-height:160px;
+    padding:0;position:relative;min-height:200px;
     filter:contrast(1.05) saturate(1.05);
   }
   .variant-stage .mast.overlay{position:relative}
+  .variant-stage.compact{min-height:240px;padding:24px 0}
   .variant-notes{
-    padding:18px 22px;border-top:1px solid rgba(15,20,25,0.1);
-    font-family:'PT Serif',serif;font-size:15px;line-height:1.65;color:var(--ink-soft);
+    padding:24px 26px;border-top:1px solid rgba(15,20,25,0.1);
+    font-family:'PT Serif',serif;font-size:15.5px;line-height:1.7;color:var(--ink-soft);
   }
-  .variant-notes ul{margin:8px 0 0 22px}
+  .variant-notes strong{color:var(--ink)}
+  .variant-notes ul{margin:10px 0 0 22px}
+  .variant-notes ul li{margin-bottom:4px}
   .variant-notes code{
     font-family:'IBM Plex Mono',monospace;font-size:12px;
     background:rgba(15,20,25,0.06);padding:1px 6px;border-radius:3px;
   }
   .destinations{
-    margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:11px;
     letter-spacing:0.06em;color:var(--ink-dim);
   }
   .destinations a{color:var(--accent);text-decoration:underline}
 
-  /* Variant B uses a refined orange CTA — preview-only override that
-     does NOT modify the real .mast-cta class anywhere else. */
-  .v-b .mast-cta{
-    background:var(--accent);
+  /* ─── Variant-specific styling — preview-only, never touches production. ─── */
+
+  /* VARIANT A — Editorial slab.
+     Two lines: monospace eyebrow ("BIJDRAGEN") + Archivo label.
+     Generous padding, cream-on-dark contrast, sharp inset separator. */
+  .v-a .mast-cta{
+    display:inline-flex;flex-direction:column;align-items:flex-start;
+    gap:2px;padding:10px 22px 10px 22px;border-radius:4px;
+    background:var(--cream);color:var(--ink) !important;
+    border:1px solid var(--cream) !important;
+    border-bottom:1px solid var(--cream) !important;
+    line-height:1;text-transform:none;letter-spacing:0;
+    box-shadow:0 1px 0 rgba(15,20,25,0.15), 0 8px 24px -10px rgba(15,20,25,0.45);
+    transition:transform .15s ease, box-shadow .15s ease, background .2s;
+  }
+  .v-a .mast-cta:hover{
+    background:var(--accent);color:var(--cream) !important;
     border-color:var(--accent) !important;
-    color:var(--cream) !important;
-    border-bottom-color:var(--accent) !important;
+    transform:translateY(-1px);
+    box-shadow:0 2px 0 rgba(15,20,25,0.25), 0 14px 32px -10px rgba(15,20,25,0.55);
+  }
+  .v-a .mast-cta .cta-eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-weight:500;
+    font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--accent);
+  }
+  .v-a .mast-cta:hover .cta-eyebrow{color:var(--cream);opacity:0.9}
+  .v-a .mast-cta .cta-label{
+    font-family:'Archivo',sans-serif;font-weight:700;
+    font-size:14px;letter-spacing:-0.005em;
+  }
+  .v-a .mast-nav{gap:32px}
+
+  /* VARIANT B — Sharp accent slab.
+     Solid accent, square corners, two-line, all-caps tracking,
+     no rounded pill. Reads like a press / dispatch button. */
+  .v-b .mast-cta{
+    display:inline-flex;align-items:center;gap:14px;
+    padding:12px 22px;border-radius:0;
+    background:var(--accent);color:var(--cream) !important;
+    border:1px solid var(--accent) !important;
+    border-bottom:1px solid var(--accent) !important;
+    box-shadow:
+      inset 0 -2px 0 rgba(15,20,25,0.25),
+      0 10px 30px -10px rgba(210,75,31,0.55);
+    transition:background .2s, box-shadow .2s, transform .15s;
   }
   .v-b .mast-cta:hover{
     background:var(--accent-deep);
     border-color:var(--accent-deep) !important;
+    transform:translateY(-1px);
   }
-  /* Variant C uses an icon-led ghost button. */
+  .v-b .mast-cta .cta-label{
+    font-family:'Archivo',sans-serif;font-weight:800;
+    font-size:13px;letter-spacing:0.04em;text-transform:uppercase;
+  }
+  .v-b .mast-cta .cta-arrow{
+    width:18px;height:1px;background:currentColor;position:relative;display:inline-block;
+  }
+  .v-b .mast-cta .cta-arrow::after{
+    content:"";position:absolute;right:0;top:-3px;
+    width:7px;height:7px;border-top:1px solid currentColor;
+    border-right:1px solid currentColor;transform:rotate(45deg);
+  }
+
+  /* VARIANT C — Status-framed pill.
+     Cream pill, generous padding, live "intake open" green dot,
+     monospace status eyebrow before label. Institutional. */
   .v-c .mast-cta{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:8px 16px;
+    display:inline-flex;align-items:center;gap:12px;
+    padding:9px 20px;border-radius:999px;
+    background:rgba(248,242,230,0.06);
+    border:1px solid var(--cream) !important;
+    border-bottom:1px solid var(--cream) !important;
+    color:var(--cream) !important;
+    backdrop-filter:blur(2px);
+    transition:background .2s;
   }
-  .v-c .mast-cta svg{width:14px;height:14px;flex:0 0 14px}
+  .v-c .mast-cta:hover{background:var(--cream);color:var(--ink) !important}
+  .v-c .mast-cta:hover .cta-status{color:var(--accent-deep)}
+  .v-c .mast-cta:hover .cta-dot{background:var(--accent-deep);box-shadow:none}
+  .v-c .mast-cta .cta-dot{
+    width:7px;height:7px;border-radius:999px;background:#7BC47F;
+    box-shadow:0 0 0 3px rgba(123,196,127,0.18);flex:0 0 7px;
+  }
+  .v-c .mast-cta .cta-status{
+    font-family:'IBM Plex Mono',monospace;font-weight:500;
+    font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
+    color:#A6E3A6;border-right:1px solid rgba(248,242,230,0.3);padding-right:12px;
+  }
+  .v-c .mast-cta .cta-label{
+    font-family:'Archivo',sans-serif;font-weight:700;font-size:13.5px;
+    letter-spacing:-0.005em;
+  }
+
+  /* VARIANT D — Mobile / compact.
+     Two stacked rows on narrow viewport: top = logo + burger,
+     bottom = full-width accent CTA bar with arrow. */
+  .v-d .mast.overlay{padding:0}
+  .v-d .mast-inner{
+    flex-direction:column;align-items:stretch;gap:0;padding:14px 24px 0;
+  }
+  .v-d .mast-row-top{
+    display:flex;justify-content:space-between;align-items:center;
+    padding-bottom:14px;
+  }
+  .v-d .mast-row-top .mast-burger-fake{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;
+    text-transform:uppercase;color:var(--cream);
+    border:1px solid rgba(248,242,230,0.45);
+    padding:6px 12px;border-radius:4px;
+  }
+  .v-d .mast-row-cta{
+    margin:6px -24px 0;padding:0;
+    border-top:1px solid rgba(248,242,230,0.18);
+    border-bottom:1px solid rgba(248,242,230,0.18);
+  }
+  .v-d .mast-cta{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 24px;border-radius:0;
+    background:transparent;
+    border:0 !important;border-bottom:0 !important;
+    color:var(--cream) !important;
+    transition:background .2s;
+  }
+  .v-d .mast-cta:hover{background:rgba(210,75,31,0.18)}
+  .v-d .mast-cta .cta-left{display:flex;flex-direction:column;gap:3px}
+  .v-d .mast-cta .cta-eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-weight:500;
+    font-size:10px;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--accent);
+  }
+  .v-d .mast-cta .cta-label{
+    font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;
+    letter-spacing:-0.015em;
+  }
+  .v-d .mast-cta .cta-arrow{
+    font-family:'PT Serif',serif;font-style:italic;font-size:24px;
+    color:var(--accent);
+  }
+
+  /* ─── Label vergelijking — kleine vergelijktabel onderaan. ─── */
+  .label-table{
+    margin-top:24px;width:100%;border-collapse:collapse;
+    font-family:'PT Serif',serif;font-size:14.5px;
+  }
+  .label-table th, .label-table td{
+    text-align:left;padding:10px 14px;
+    border-bottom:1px solid rgba(15,20,25,0.08);vertical-align:top;
+  }
+  .label-table th{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim);
+    background:rgba(15,20,25,0.03);font-weight:500;
+  }
+  .label-table td em{color:var(--accent);font-style:italic}
+  .label-table td.win{background:rgba(210,75,31,0.06)}
 </style>
 </head>
 <body>
@@ -97,154 +260,281 @@
 <div class="preview-shell">
 
   <div class="preview-banner">
-    <strong>Internal preview — not public.</strong>
-    Three header-CTA variants for Wouter to review. Live header is unchanged.
-    This page is <code>noindex,nofollow</code>, absent from <code>sitemap.xml</code>,
-    and not linked from any nav, footer or production page.
-    Buttons are clickable and point to real intake routes so the destination flow can be tested.
+    <strong>Interne preview — ronde 2.</strong>
+    Vier nieuwe header-CTA-richtingen voor Wouter. De live header is niet aangeraakt.
+    Deze pagina is <code>noindex,nofollow</code>, staat niet in <code>sitemap.xml</code>,
+    en is niet gelinkt vanaf welke productiepagina dan ook.
+    Knoppen zijn klikbaar en wijzen naar echte intake-routes, zodat het volgflow getest kan worden.
   </div>
 
-  <h1 class="preview-h1">Header CTA — visual preview</h1>
+  <div class="preview-eyebrow">Header CTA · Ronde 2</div>
+  <h1 class="preview-h1">Groter, ruimer, <i>met meer lef</i>.</h1>
   <p class="preview-deck">
-    Three candidate replacements for the current
-    “Update or verify a listing” button. Each variant is rendered inside the
-    real ESRF overlay masthead using existing tokens (Archivo / IBM Plex Mono,
-    cream / ink / accent), so what you see is what you’d ship.
+    Ronde 1 was te krap en te zuinig — meer van hetzelfde grijze pilletje.
+    Deze ronde verkent vier eigen vormen: een redactionele slab met kicker,
+    een scherpe accent-actieknop, een institutioneel statuslabel met
+    “intake open”-indicator, en een volwaardige mobiele CTA-balk.
+    Allemaal nog steeds binnen ESRF’s ernstige toon — geen marketinglawaai,
+    wel zelfvertrouwen en ruimte.
   </p>
 
-  <!-- ─────────────────────────── VARIANT A ─────────────────────────── -->
+  <!-- ─────────────────────── VARIANT A — Recommended ─────────────────────── -->
   <section class="variant v-a" aria-labelledby="va-title">
     <div class="variant-meta">
-      <span class="variant-tag recommended">Recommended · A</span>
-      <span class="variant-title" id="va-title">“Share information” — ghost pill, current shape</span>
+      <span class="variant-tag recommended">Aanbevolen · A</span>
+      <span class="variant-title" id="va-title">“Werk mee aan de atlas” — redactionele slab met kicker</span>
     </div>
     <div class="variant-stage">
-      <nav class="mast overlay" aria-label="Variant A">
+      <nav class="mast overlay" aria-label="Variant A — primaire navigatie">
         <div class="mast-inner">
           <a href="#" class="mast-logo" onclick="return false">ESRF.net</a>
           <div class="mast-nav">
-            <a href="#" onclick="return false">Foundation</a>
+            <a href="#" onclick="return false">Stichting</a>
             <a href="#" onclick="return false">Directory</a>
             <a href="#" onclick="return false">Atlas</a>
             <a href="#" onclick="return false">Dispatch</a>
-            <a class="mast-cta" href="/submit-news?lang=en" lang="en">Share information</a>
-            <a href="#" class="mast-contribute" onclick="return false">Contribute</a>
-          </div>
-        </div>
-      </nav>
-    </div>
-    <div class="variant-notes">
-      <strong>Why this is the recommended variant.</strong> Keeps the existing
-      ghost-pill silhouette already established in the masthead — so the
-      change is wording-only, not visual disruption. The label is short, neutral,
-      and inviting: it does not imply ownership (“claim”), bureaucracy
-      (“opgave / wijzigen informatie”), or obligation. Works equally well in
-      both languages.
-      <ul>
-        <li><strong>NL:</strong> <em>Deel informatie</em></li>
-        <li><strong>EN:</strong> <em>Share information</em></li>
-      </ul>
-      <div class="destinations">
-        Destinations:
-        <a href="/submit-news?lang=nl">/submit-news?lang=nl</a> ·
-        <a href="/submit-news?lang=en">/submit-news?lang=en</a> ·
-        <a href="/submit-news?lang=nl&amp;mode=change_request">/submit-news?lang=nl&amp;mode=change_request</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────── VARIANT B ─────────────────────────── -->
-  <section class="variant v-b" aria-labelledby="vb-title">
-    <div class="variant-meta">
-      <span class="variant-tag">Alternative · B</span>
-      <span class="variant-title" id="vb-title">“Contribute or update” — solid accent pill</span>
-    </div>
-    <div class="variant-stage">
-      <nav class="mast overlay" aria-label="Variant B">
-        <div class="mast-inner">
-          <a href="#" class="mast-logo" onclick="return false">ESRF.net</a>
-          <div class="mast-nav">
-            <a href="#" onclick="return false">Foundation</a>
-            <a href="#" onclick="return false">Directory</a>
-            <a href="#" onclick="return false">Atlas</a>
-            <a href="#" onclick="return false">Dispatch</a>
-            <a class="mast-cta" href="/submit-news?lang=en&amp;mode=change_request" lang="en">Contribute or update</a>
-            <a href="#" class="mast-contribute" onclick="return false">Contribute</a>
-          </div>
-        </div>
-      </nav>
-    </div>
-    <div class="variant-notes">
-      <strong>Why consider this.</strong> Same shape, but filled with the brand
-      accent so the CTA reads first in the masthead. Higher click-affordance,
-      stronger “primary action” signal. Risk: it sits next to the orange
-      “Contribute” donate link, which could create a colour collision —
-      Wouter to judge. Works well if the donate link migrates to a less
-      saturated treatment.
-      <ul>
-        <li><strong>NL:</strong> <em>Bijdragen of wijzigen</em></li>
-        <li><strong>EN:</strong> <em>Contribute or update</em></li>
-      </ul>
-      <div class="destinations">
-        Destinations:
-        <a href="/submit-news?lang=nl&amp;mode=change_request">/submit-news?lang=nl&amp;mode=change_request</a> ·
-        <a href="/submit-news?lang=en&amp;mode=change_request">/submit-news?lang=en&amp;mode=change_request</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────────────────── VARIANT C ─────────────────────────── -->
-  <section class="variant v-c" aria-labelledby="vc-title">
-    <div class="variant-meta">
-      <span class="variant-tag">Formal · C</span>
-      <span class="variant-title" id="vc-title">“Submit information” — ghost pill with icon</span>
-    </div>
-    <div class="variant-stage">
-      <nav class="mast overlay" aria-label="Variant C">
-        <div class="mast-inner">
-          <a href="#" class="mast-logo" onclick="return false">ESRF.net</a>
-          <div class="mast-nav">
-            <a href="#" onclick="return false">Foundation</a>
-            <a href="#" onclick="return false">Directory</a>
-            <a href="#" onclick="return false">Atlas</a>
-            <a href="#" onclick="return false">Dispatch</a>
-            <a class="mast-cta" href="/submit-news?lang=en" lang="en">
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-                <path d="M8 1.5v9M4 7l4-4 4 4M2.5 13.5h11" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Submit information
+            <a class="mast-cta" href="/submit-news?lang=nl" lang="nl"
+               aria-label="Werk mee aan de atlas — open intake">
+              <span class="cta-eyebrow">Bijdragen</span>
+              <span class="cta-label">Werk mee aan de atlas</span>
             </a>
-            <a href="#" class="mast-contribute" onclick="return false">Contribute</a>
+            <a href="#" class="mast-contribute" onclick="return false">Doneer</a>
           </div>
         </div>
       </nav>
     </div>
     <div class="variant-notes">
-      <strong>Why consider this.</strong> The most formal register —
-      “Informatie doorgeven / Submit information” reads close to a government
-      or institutional service. The small upload glyph clarifies that this is
-      an action, not a destination. Best fit if ESRF wants to lean further
-      into its “Foundation / institutional” voice. Slightly heavier than
-      Variant&nbsp;A, but still well within the existing visual vocabulary.
+      <strong>Waarom dit de aanbevolen richting is.</strong>
+      Een tweelaags label — een kleine monospace kicker (<em>Bijdragen</em>)
+      boven een Archivo-zin (<em>Werk mee aan de atlas</em>) — geeft de knop
+      voor het eerst een <em>eigen vorm</em> in plaats van een generiek pilletje.
+      De cream-op-donker-contrast zet de CTA visueel los van de rest van de nav,
+      zonder de overlay-toon te breken. De zachte schaduw plus 1&nbsp;px-bodemlijn
+      geven net genoeg <em>diepte</em> om premium aan te voelen, niet promotioneel.
       <ul>
-        <li><strong>NL:</strong> <em>Informatie doorgeven</em></li>
-        <li><strong>EN:</strong> <em>Submit information</em></li>
+        <li>Groter raakvlak (~44 px hoog) — voldoet aan WCAG-tikdoel.</li>
+        <li>De kicker maakt expliciet wat het is: <em>bijdragen</em>, geen abonnement, geen claim.</li>
+        <li>De label “Werk mee aan de atlas” verbindt de actie aan de inhoud (de Atlas-pagina) en past bij de stichtingstoon.</li>
+        <li>Bij hover keert de knop om naar accent: zelfvertrouwen, geen agressie.</li>
       </ul>
+      <table class="label-table" aria-label="Labelvergelijking voor variant A">
+        <thead><tr><th>Taal</th><th>Kicker</th><th>Label</th></tr></thead>
+        <tbody>
+          <tr class="win"><td>NL</td><td><em>Bijdragen</em></td><td>Werk mee aan de atlas</td></tr>
+          <tr><td>EN</td><td><em>Contribute</em></td><td>Help build the atlas</td></tr>
+        </tbody>
+      </table>
       <div class="destinations">
-        Destinations:
+        Bestemmingen:
         <a href="/submit-news?lang=nl">/submit-news?lang=nl</a> ·
         <a href="/submit-news?lang=en">/submit-news?lang=en</a>
       </div>
     </div>
   </section>
 
+  <!-- ─────────────────────── VARIANT B — Sharp accent slab ─────────────────────── -->
+  <section class="variant v-b" aria-labelledby="vb-title">
+    <div class="variant-meta">
+      <span class="variant-tag">Alternatief · B</span>
+      <span class="variant-title" id="vb-title">“Draag bij aan ESRF” — scherpe accent-slab met pijl</span>
+    </div>
+    <div class="variant-stage">
+      <nav class="mast overlay" aria-label="Variant B">
+        <div class="mast-inner">
+          <a href="#" class="mast-logo" onclick="return false">ESRF.net</a>
+          <div class="mast-nav">
+            <a href="#" onclick="return false">Stichting</a>
+            <a href="#" onclick="return false">Directory</a>
+            <a href="#" onclick="return false">Atlas</a>
+            <a href="#" onclick="return false">Dispatch</a>
+            <a class="mast-cta" href="/submit-news?lang=nl" lang="nl">
+              <span class="cta-label">Draag bij aan ESRF</span>
+              <span class="cta-arrow" aria-hidden="true"></span>
+            </a>
+            <a href="#" class="mast-contribute" onclick="return false">Doneer</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="variant-notes">
+      <strong>Wanneer kies je dit.</strong>
+      Hoogste klikgevoel: massieve accent-vlak, scherpe hoeken, eigen pijl.
+      De binnen-schaduw onderaan geeft tactiele diepte — alsof de knop ingedrukt
+      kan worden — zonder web 2.0-glans. Past goed bij momenten waarin we
+      de bijdrage-flow actief willen pushen (bijv. tijdens een crisis-dispatch).
+      Risico: botst met het oranje van <em>Doneer</em>; dat kan opgelost door
+      Doneer naar onderlijn-only te brengen (zoals nu eigenlijk al).
+      <ul>
+        <li><strong>NL:</strong> <em>Draag bij aan ESRF</em></li>
+        <li><strong>EN:</strong> <em>Contribute to ESRF</em></li>
+      </ul>
+      <div class="destinations">
+        Bestemming:
+        <a href="/submit-news?lang=nl">/submit-news?lang=nl</a> ·
+        <a href="/submit-news?lang=en">/submit-news?lang=en</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── VARIANT C — Status-framed ─────────────────────── -->
+  <section class="variant v-c" aria-labelledby="vc-title">
+    <div class="variant-meta">
+      <span class="variant-tag">Institutioneel · C</span>
+      <span class="variant-title" id="vc-title">“Update de atlas” — pill met live <em>intake open</em>-indicator</span>
+    </div>
+    <div class="variant-stage">
+      <nav class="mast overlay" aria-label="Variant C">
+        <div class="mast-inner">
+          <a href="#" class="mast-logo" onclick="return false">ESRF.net</a>
+          <div class="mast-nav">
+            <a href="#" onclick="return false">Stichting</a>
+            <a href="#" onclick="return false">Directory</a>
+            <a href="#" onclick="return false">Atlas</a>
+            <a href="#" onclick="return false">Dispatch</a>
+            <a class="mast-cta" href="/submit-news?lang=nl&amp;mode=change_request" lang="nl"
+               aria-label="Update de atlas — intake is open">
+              <span class="cta-dot" aria-hidden="true"></span>
+              <span class="cta-status">Intake open</span>
+              <span class="cta-label">Update de atlas</span>
+            </a>
+            <a href="#" class="mast-contribute" onclick="return false">Doneer</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="variant-notes">
+      <strong>Wanneer kies je dit.</strong>
+      Het meest institutionele register: een <em>statuslabel</em>
+      (groen puntje + “Intake open”) gevolgd door de actiezin.
+      Werkt als een echte service-indicator — vergelijkbaar met overheids-
+      en SOC-dashboards. Communiceert dat de redactie reageert <em>nu</em>,
+      niet ergens-een-keer. De label past bij directory-onderhoud, niet bij
+      eerste melding. Mogelijk te druk voor een sticky overlay; goed te testen
+      naast variant&nbsp;A.
+      <ul>
+        <li><strong>NL:</strong> <em>Update de atlas</em> (status: <em>Intake open</em>)</li>
+        <li><strong>EN:</strong> <em>Update the atlas</em> (status: <em>Intake open</em>)</li>
+      </ul>
+      <div class="destinations">
+        Bestemming:
+        <a href="/submit-news?lang=nl&amp;mode=change_request">/submit-news?lang=nl&amp;mode=change_request</a> ·
+        <a href="/submit-news?lang=en&amp;mode=change_request">/submit-news?lang=en&amp;mode=change_request</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── VARIANT D — Mobile / compact ─────────────────────── -->
+  <section class="variant v-d" aria-labelledby="vd-title">
+    <div class="variant-meta">
+      <span class="variant-tag compact">Mobiel · D</span>
+      <span class="variant-title" id="vd-title">“Start je bijdrage” — full-bleed CTA-balk onder de logo-rij</span>
+    </div>
+    <div class="variant-stage compact" style="max-width:430px;margin:0 auto;border-left:1px solid rgba(15,20,25,0.08);border-right:1px solid rgba(15,20,25,0.08)">
+      <nav class="mast overlay" aria-label="Variant D — mobiel">
+        <div class="mast-inner">
+          <div class="mast-row-top">
+            <a href="#" class="mast-logo" onclick="return false">ESRF.net</a>
+            <span class="mast-burger-fake" aria-hidden="true">Menu</span>
+          </div>
+          <div class="mast-row-cta">
+            <a class="mast-cta" href="/submit-news?lang=nl" lang="nl"
+               aria-label="Start je bijdrage — open intake">
+              <span class="cta-left">
+                <span class="cta-eyebrow">Bijdragen</span>
+                <span class="cta-label">Start je bijdrage</span>
+              </span>
+              <span class="cta-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="variant-notes">
+      <strong>Wanneer kies je dit.</strong>
+      Op mobiel raakt de huidige CTA verstopt achter de hamburger.
+      Variant&nbsp;D promoveert de bijdrage tot een <em>tweede rij</em> in de header:
+      logo + menu boven, een volle CTA-balk eronder. Geen drukke pillen,
+      geen oranje-botsing — gewoon een ruime, klikbare strook met kicker,
+      label en serif-pijl als redactioneel accent. Duidelijk waar je heen klikt,
+      ook met dikke duim.
+      <ul>
+        <li><strong>NL:</strong> <em>Start je bijdrage</em></li>
+        <li><strong>EN:</strong> <em>Start your contribution</em></li>
+      </ul>
+      <div class="destinations">
+        Bestemming:
+        <a href="/submit-news?lang=nl">/submit-news?lang=nl</a> ·
+        <a href="/submit-news?lang=en">/submit-news?lang=en</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── Label-overzicht ─────────────────────── -->
+  <section class="variant" aria-labelledby="labels-title">
+    <div class="variant-meta">
+      <span class="variant-tag">Labels · overzicht</span>
+      <span class="variant-title" id="labels-title">Microcopy-keuzes &amp; waarom</span>
+    </div>
+    <div class="variant-notes">
+      <p>
+        Wouter wilde labels verkennen voorbij <em>Deel informatie</em>.
+        Onderstaande korte lijst legt de toon van elke kandidaat uit.
+        Alle labels vermijden bewust de oude “claim”-frasering — die toon is sitewide al uitgefaseerd.
+      </p>
+      <table class="label-table" aria-label="Microcopy-overzicht NL en EN">
+        <thead>
+          <tr><th>NL</th><th>EN</th><th>Toon &amp; gebruik</th></tr>
+        </thead>
+        <tbody>
+          <tr class="win">
+            <td><em>Werk mee aan de atlas</em></td>
+            <td><em>Help build the atlas</em></td>
+            <td>Aanbevolen (variant A). Gemeenschappelijk, redactioneel, verbindt aan inhoud.</td>
+          </tr>
+          <tr>
+            <td><em>Draag bij aan ESRF</em></td>
+            <td><em>Contribute to ESRF</em></td>
+            <td>Variant B. Direct, krachtig — past bij actieve push-momenten.</td>
+          </tr>
+          <tr>
+            <td><em>Update de atlas</em></td>
+            <td><em>Update the atlas</em></td>
+            <td>Variant C. Onderhoud-toon, voor bestaande organisaties.</td>
+          </tr>
+          <tr>
+            <td><em>Start je bijdrage</em></td>
+            <td><em>Start your contribution</em></td>
+            <td>Variant D, mobiel. Persoonlijk, duidelijk eerste-stap-frame.</td>
+          </tr>
+          <tr>
+            <td>Deel informatie</td>
+            <td>Share information</td>
+            <td>Vorige ronde — neutraal maar zonder eigen stem.</td>
+          </tr>
+          <tr>
+            <td>Bijdragen of wijzigen</td>
+            <td>Contribute or update</td>
+            <td>Vorige ronde — accuraat maar bureaucratisch en lang.</td>
+          </tr>
+          <tr>
+            <td>Informatie doorgeven</td>
+            <td>Submit information</td>
+            <td>Vorige ronde — formeel, voelt als overheidsformulier.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <div class="preview-banner" style="margin-top:48px">
-    <strong>Reviewer note.</strong> No production file has been edited.
-    The current live CTA (“Update or verify a listing” → <code>?mode=change_request</code>)
-    remains in place across <code>index.html</code>, <code>about.html</code>, etc.
-    Once Wouter picks a variant, a follow-up PR can swap the label site-wide
-    via <code>i18n/{en,nl}.json</code> (<code>nav.request_listing</code>) plus the inline
-    fallback strings.
+    <strong>Reviewer note.</strong>
+    Geen productie-bestand is gewijzigd. De live CTA
+    (“Update or verify a listing” → <code>?mode=change_request</code>) staat nog op alle pagina’s.
+    Zodra Wouter een variant kiest, kan een vervolg-PR de label sitewide
+    omzetten via <code>i18n/{en,nl}.json</code> (<code>nav.request_listing</code>)
+    en de inline-fallback in <code>index.html</code>, <code>about.html</code> et al.
+    Voor variant&nbsp;A/D wordt ook één klein CSS-blok toegevoegd aan
+    <code>style.css</code> (eyebrow + label binnen <code>.mast-cta</code>).
   </div>
 
 </div>
