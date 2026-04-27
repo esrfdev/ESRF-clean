@@ -49,29 +49,27 @@ function check(name, fn){
 const html = fs.readFileSync(path.join(repoRoot, 'submit-news.html'), 'utf8');
 
 /* ─────────────────────────────────────────────────────────────────
-   Fix #1: the EN form variant must NOT carry a `hidden` attribute.
-   The pre-render CSS only HIDES the wrong variant — it cannot
-   unhide a variant that was statically marked `hidden`.
+   Static-default variant visibility:
+   - EN containers must NOT carry `hidden`. They are the default-visible
+     variant for the global audience (any non-NL language renders EN).
+   - NL containers MUST carry `hidden` so a no-JS or pre-script paint
+     never leaks Dutch hero/form copy to a non-NL visitor. The
+     pre-render IIFE removes `hidden` from NL when isNl is true.
    ───────────────────────────────────────────────────────────────── */
 check('EN form variant container is NOT statically hidden', () => {
   const m = html.match(/<div[^>]*data-form-lang="en"[^>]*>/);
   assert.ok(m, 'EN form container missing');
   assert.doesNotMatch(m[0], /\bhidden\b/, 'EN form container must not have `hidden` attr');
 });
-check('NL form variant container is NOT statically hidden', () => {
+check('NL form variant container IS statically hidden (revealed by JS for lang=nl)', () => {
   const m = html.match(/<div[^>]*data-form-lang="nl"[^>]*>/);
   assert.ok(m, 'NL form container missing');
-  assert.doesNotMatch(m[0], /\bhidden\b/, 'NL form container must not have `hidden` attr');
+  assert.match(m[0], /\bhidden\b/, 'NL form container must have static `hidden` attr');
 });
-
-/* ─────────────────────────────────────────────────────────────────
-   Fix #2: hero variants must exist for both languages and neither
-   may carry a `hidden` attribute.
-   ───────────────────────────────────────────────────────────────── */
-check('NL hero variant <section data-hero-lang="nl"> exists and is not hidden', () => {
+check('NL hero variant <section data-hero-lang="nl"> IS statically hidden', () => {
   const m = html.match(/<section[^>]*data-hero-lang="nl"[^>]*>/);
   assert.ok(m, 'NL hero variant missing');
-  assert.doesNotMatch(m[0], /\bhidden\b/);
+  assert.match(m[0], /\bhidden\b/, 'NL hero variant must have static `hidden` attr');
 });
 check('EN hero variant <section data-hero-lang="en"> exists and is not hidden', () => {
   const m = html.match(/<section[^>]*data-hero-lang="en"[^>]*>/);

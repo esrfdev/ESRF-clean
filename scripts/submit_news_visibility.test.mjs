@@ -42,13 +42,17 @@ check('static HTML: EN container has no `hidden` attribute', () => {
     'data-form-lang="en" must not have a `hidden` attribute (live bug regression)');
 });
 
-// The NL container must also not carry a `hidden` attribute — the JS
-// is the single source of truth for visibility.
-check('static HTML: NL container has no `hidden` attribute', () => {
+// The NL container MUST carry a static `hidden` attribute. This guards
+// against pre-script paint and no-JS scenarios where the resolved
+// language is non-NL (the global default) — without static `hidden`,
+// a visitor at ?lang=en could briefly see Dutch hero/form copy. The
+// pre-render IIFE removes `hidden` from the NL container only when
+// isNl=true.
+check('static HTML: NL container has the `hidden` attribute', () => {
   const m = html.match(/<div\s+data-form-lang="nl"[^>]*>/);
   assert.ok(m, 'NL container open tag missing');
-  assert.ok(!/\bhidden\b/.test(m[0]),
-    'data-form-lang="nl" must not have a `hidden` attribute');
+  assert.ok(/\bhidden\b/.test(m[0]),
+    'data-form-lang="nl" must carry a static `hidden` attribute');
 });
 
 // Visible manual fallback link so a visitor can always force a variant.
