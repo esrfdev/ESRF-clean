@@ -47,6 +47,7 @@ CANONICAL_ORIGIN = f"https://{CANONICAL_HOST}"
 NON_INDEXABLE_FILES = {
     "maintenance.html",
     "google7704d050956c7783.html",   # Google Search Console verification
+    "404.html",                      # custom 404 page, noindex
 }
 
 # Files at the repo root that look like HTML pages but should never be
@@ -361,6 +362,58 @@ def check_sitemap(pages: list[str]) -> list[str]:
     return errors
 
 
+def check_redirects_file() -> list[str]:
+    """Validate _redirects: every static redirect's target path must
+    resolve to a real file (or to /, which is index.html). This catches
+    typos in legacy-path redirects that would otherwise silently 200 with
+    the homepage SPA fallback.
+
+    Also enforce: a custom 404.html exists, so Cloudflare Pages serves
+    real 404 responses for unknown paths instead of falling back to the
+    homepage. This is the structural fix for the April 2026 regression
+    where unknown paths returned 200 with homepage HTML.
+    """
+    errors = []
+    # 404.html must exist
+    if not os.path.isfile(os.path.join(REPO_ROOT, "404.html")):
+        errors.append("404.html: missing — Cloudflare Pages will fall back to "
+                      "the homepage for unknown paths, producing 'Alternate "
+                      "page with proper canonical tag' issues in Search Console")
+
+    redirects = os.path.join(REPO_ROOT, "_redirects")
+    if not os.path.isfile(redirects):
+        return errors  # nothing else to check
+
+    with open(redirects, encoding="utf-8") as f:
+        for lineno, raw in enumerate(f, start=1):
+            line = raw.strip()
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split()
+            if len(parts) < 2:
+                continue
+            src, dst = parts[0], parts[1]
+            # Skip wildcard / external rules — only on-site path redirects.
+            if "*" in src or "*" in dst or ":splat" in dst:
+                continue
+            if dst.startswith(("http://", "https://")):
+                # If destination is on canonical host, treat path-only.
+                u = urlparse(dst)
+                if u.netloc not in (CANONICAL_HOST, "www." + CANONICAL_HOST):
+                    continue
+                dst_path = u.path or "/"
+            else:
+                dst_path = dst
+            # Strip query string from target path
+            dst_path = dst_path.split("?", 1)[0]
+            if path_to_repo_file(dst_path) is None:
+                errors.append(
+                    f"_redirects line {lineno}: {src} -> {dst} target does not "
+                    f"resolve to a file ({dst_path})"
+                )
+    return errors
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--quiet", action="store_true")
@@ -373,6 +426,7 @@ def main(argv=None) -> int:
     failures += [("alternate-canonical", e) for e in check_alternate_canonical_links(pages)]
     failures += [("canonical", e) for e in check_canonical_self_consistency(pages)]
     failures += [("sitemap", e) for e in check_sitemap(pages)]
+    failures += [("redirects", e) for e in check_redirects_file()]
 
     if not failures:
         if not args.quiet:

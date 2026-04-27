@@ -20,7 +20,18 @@ await import('./_middleware.js');
 const api = globalThis.__esrfBotProtection;
 assert.ok(api, 'middleware did not expose test hooks on globalThis');
 
-const { shouldBlock, isAdSenseUA, isBadBotUA, isEuropeanCountry, canonicalHostRedirect } = api;
+const {
+  shouldBlock,
+  isAdSenseUA,
+  isBadBotUA,
+  isEuropeanCountry,
+  canonicalHostRedirect,
+  isHomepagePath,
+  looksLikeHtmlPath,
+  bodyLooksLikeHomepageFallback,
+  build404Response,
+  HOMEPAGE_CANONICAL_MARKER,
+} = api;
 
 let failures = 0;
 function check(name, fn) {
@@ -262,14 +273,17 @@ check('other subdomains are not redirected', () => {
 console.log('\nonRequest — www redirect runs before bot blocking:');
 const { onRequest } = await import('./_middleware.js');
 
-async function run(url, { ua = 'Mozilla/5.0', cf = null } = {}) {
+async function run(url, { ua = 'Mozilla/5.0', cf = null, nextResponse = null, env = null } = {}) {
   const req = new Request(url, { headers: { 'user-agent': ua } });
   // Workers' Request doesn't expose `.cf` from the constructor in Node, so
   // attach it manually for the middleware to read.
   if (cf) Object.defineProperty(req, 'cf', { value: cf });
   let nextCalled = false;
-  const next = async () => { nextCalled = true; return new Response('ok'); };
-  const res = await onRequest({ request: req, next });
+  const next = async () => {
+    nextCalled = true;
+    return nextResponse || new Response('ok');
+  };
+  const res = await onRequest({ request: req, next, env });
   return { res, nextCalled };
 }
 
@@ -345,6 +359,200 @@ await checkAsync('www + AdSense crawler → 301 (canonical host wins; AdSense fo
   });
   assert.equal(res.status, 301);
   assert.equal(res.headers.get('location'), 'https://esrf.net/');
+});
+
+// -------------------------------------------------------------------------
+// SPA-fallback → 404 conversion. The regression we are guarding against:
+// arbitrary unknown paths (e.g. /definitely-not-real.html, /editorials/X.html)
+// were returning HTTP 200 with the homepage HTML, because Cloudflare Pages
+// served /index.html as a fallback. After the fix, those paths must return
+// a real 404.
+
+console.log('\nisHomepagePath / looksLikeHtmlPath helpers:');
+check('/ is homepage path',           () => assert.equal(isHomepagePath('/'), true));
+check('/index.html is homepage path', () => assert.equal(isHomepagePath('/index.html'), true));
+check('/foo.html is NOT homepage',    () => assert.equal(isHomepagePath('/foo.html'), false));
+check('/ looks like HTML path',       () => assert.equal(looksLikeHtmlPath('/'), true));
+check('/foo.html looks like HTML',    () => assert.equal(looksLikeHtmlPath('/foo.html'), true));
+check('/foo/ looks like HTML',        () => assert.equal(looksLikeHtmlPath('/foo/'), true));
+check('/foo (extensionless) looks like HTML', () => assert.equal(looksLikeHtmlPath('/foo'), true));
+check('/style.css does NOT look like HTML',   () => assert.equal(looksLikeHtmlPath('/style.css'), false));
+check('/app.js does NOT look like HTML',      () => assert.equal(looksLikeHtmlPath('/app.js'), false));
+check('/og-image.png does NOT look like HTML',() => assert.equal(looksLikeHtmlPath('/og-image.png'), false));
+check('/sitemap.xml does NOT look like HTML', () => assert.equal(looksLikeHtmlPath('/sitemap.xml'), false));
+
+console.log('\nbodyLooksLikeHomepageFallback — body sniff:');
+const homepageBody = `<!doctype html><html><head>${HOMEPAGE_CANONICAL_MARKER}</head><body>x</body></html>`;
+const otherHtmlBody = `<!doctype html><html><head><link rel="canonical" href="https://esrf.net/about.html" /></head><body>about</body></html>`;
+await checkAsync('homepage HTML body matches fallback signature', async () => {
+  const r = new Response(homepageBody, { status: 200, headers: { 'content-type': 'text/html; charset=utf-8' } });
+  assert.equal(await bodyLooksLikeHomepageFallback(r), true);
+});
+await checkAsync('other-page HTML body does NOT match', async () => {
+  const r = new Response(otherHtmlBody, { status: 200, headers: { 'content-type': 'text/html; charset=utf-8' } });
+  assert.equal(await bodyLooksLikeHomepageFallback(r), false);
+});
+await checkAsync('non-200 response does NOT match (no false 404 conversion)', async () => {
+  const r = new Response(homepageBody, { status: 404, headers: { 'content-type': 'text/html' } });
+  assert.equal(await bodyLooksLikeHomepageFallback(r), false);
+});
+await checkAsync('non-HTML response does NOT match', async () => {
+  const r = new Response('{}', { status: 200, headers: { 'content-type': 'application/json' } });
+  assert.equal(await bodyLooksLikeHomepageFallback(r), false);
+});
+
+console.log('\nbuild404Response — minimal inline path (no ASSETS binding):');
+await checkAsync('returns status 404 with HTML body and noindex', async () => {
+  const r = await build404Response(undefined, new URL('https://esrf.net/missing'));
+  assert.equal(r.status, 404);
+  assert.match(r.headers.get('content-type') || '', /text\/html/i);
+  assert.match(r.headers.get('x-robots-tag') || '', /noindex/i);
+  const body = await r.text();
+  assert.match(body, /404/);
+});
+await checkAsync('uses ASSETS.fetch when binding is provided', async () => {
+  const env = {
+    ASSETS: {
+      fetch: async (urlStr) => {
+        // Verify we asked for /404.html on the same origin.
+        assert.match(urlStr, /\/404\.html$/);
+        return new Response('<html><body>custom 404 body</body></html>', {
+          status: 200,
+          headers: { 'content-type': 'text/html; charset=utf-8' },
+        });
+      },
+    },
+  };
+  const r = await build404Response(env, new URL('https://esrf.net/missing'));
+  assert.equal(r.status, 404, 'must coerce to 404 even if ASSETS returned 200');
+  const body = await r.text();
+  assert.match(body, /custom 404 body/);
+});
+
+console.log('\nonRequest — SPA fallback gets converted to 404:');
+
+function htmlResp(body, status = 200) {
+  return new Response(body, {
+    status,
+    headers: { 'content-type': 'text/html; charset=utf-8' },
+  });
+}
+
+await checkAsync('unknown .html path with homepage body → 404', async () => {
+  const fakeAssets = {
+    fetch: async () => new Response('<html><body>404 body</body></html>', {
+      status: 200,
+      headers: { 'content-type': 'text/html; charset=utf-8' },
+    }),
+  };
+  const { res } = await run('https://esrf.net/definitely-not-a-real-page-xyz.html', {
+    ua: 'Mozilla/5.0 Firefox/121',
+    cf: { country: 'NL' },
+    nextResponse: htmlResp(homepageBody),
+    env: { ASSETS: fakeAssets },
+  });
+  assert.equal(res.status, 404, 'expected 404, got ' + res.status);
+  assert.match(res.headers.get('x-robots-tag') || '', /noindex/i);
+});
+
+await checkAsync('unknown editorials path with homepage body → 404', async () => {
+  const { res } = await run('https://esrf.net/editorials/koningsdag-2026.html', {
+    ua: 'Mozilla/5.0',
+    cf: { country: 'NL' },
+    nextResponse: htmlResp(homepageBody),
+    env: null,
+  });
+  assert.equal(res.status, 404);
+});
+
+await checkAsync('unknown editorial path with homepage body → 404', async () => {
+  const { res } = await run('https://esrf.net/editorial/koningsdag-2026.html', {
+    ua: 'Mozilla/5.0',
+    cf: { country: 'NL' },
+    nextResponse: htmlResp(homepageBody),
+    env: null,
+  });
+  assert.equal(res.status, 404);
+});
+
+await checkAsync('extensionless unknown path with homepage body → 404', async () => {
+  const { res } = await run('https://esrf.net/this-page-does-not-exist', {
+    ua: 'Mozilla/5.0',
+    cf: { country: 'DE' },
+    nextResponse: htmlResp(homepageBody),
+    env: null,
+  });
+  assert.equal(res.status, 404);
+});
+
+await checkAsync('homepage itself (/) with homepage body → still 200', async () => {
+  const { res } = await run('https://esrf.net/', {
+    ua: 'Mozilla/5.0',
+    cf: { country: 'DE' },
+    nextResponse: htmlResp(homepageBody),
+    env: null,
+  });
+  assert.equal(res.status, 200);
+});
+
+await checkAsync('/index.html (Pages-collapsed) with homepage body → still 200', async () => {
+  // /index.html is 301'd to / by _redirects, but if the request reaches
+  // next() we must not double-convert it to a 404.
+  const { res } = await run('https://esrf.net/index.html', {
+    ua: 'Mozilla/5.0',
+    cf: { country: 'DE' },
+    nextResponse: htmlResp(homepageBody),
+    env: null,
+  });
+  assert.equal(res.status, 200);
+});
+
+await checkAsync('valid /about.html (real page body) → 200, untouched', async () => {
+  // A real page with its own canonical does NOT contain the homepage marker.
+  const { res } = await run('https://esrf.net/about.html', {
+    ua: 'Mozilla/5.0',
+    cf: { country: 'DE' },
+    nextResponse: htmlResp(otherHtmlBody),
+    env: null,
+  });
+  assert.equal(res.status, 200);
+});
+
+await checkAsync('static asset path (.css) → never inspected, untouched', async () => {
+  // Even if for some reason next() returns the homepage body for a .css
+  // path, we don't reclassify — the path filter excludes asset extensions.
+  const { res } = await run('https://esrf.net/style.css', {
+    ua: 'Mozilla/5.0',
+    cf: { country: 'DE' },
+    nextResponse: htmlResp(homepageBody),
+    env: null,
+  });
+  assert.equal(res.status, 200);
+});
+
+await checkAsync('non-200 response from next() → passed through (no body sniff)', async () => {
+  // A real 404 from Pages should be returned as-is, even if it happens to
+  // contain the marker (it shouldn't, but defence in depth).
+  const { res } = await run('https://esrf.net/missing.html', {
+    ua: 'Mozilla/5.0',
+    cf: { country: 'DE' },
+    nextResponse: htmlResp(homepageBody, 404),
+    env: null,
+  });
+  assert.equal(res.status, 404);
+});
+
+await checkAsync('Googlebot fetching unknown path also gets 404 (not homepage 200)', async () => {
+  // Critical for SEO: Googlebot must see a real 404 status, not 200 with
+  // homepage content. Otherwise Search Console reports soft-404 / alternate-
+  // canonical issues.
+  const { res } = await run('https://esrf.net/definitely-not-real.html', {
+    ua: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+    cf: { country: 'US', verifiedBotCategory: 'Search Engine Crawler' },
+    nextResponse: htmlResp(homepageBody),
+    env: null,
+  });
+  assert.equal(res.status, 404, 'Googlebot must see 404, not 200 SPA fallback');
 });
 
 console.log(`\n${failures === 0 ? 'All tests passed.' : failures + ' test(s) FAILED.'}`);

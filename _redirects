@@ -51,3 +51,27 @@ http://esrf.net/*      https://esrf.net/:splat 301
 /countries/switzerland/index.html     /countries/switzerland/     301
 /countries/united-kingdom/index.html  /countries/united-kingdom/  301
 
+# Legacy editorial path variants. The published editorials live at
+# /editorial-<slug>.html (single hyphenated file at the site root). External
+# citations and old internal drafts have been seen using /editorials/<slug>.html
+# and /editorial/<slug>.html, both of which previously fell back to the
+# Cloudflare Pages homepage (200) and produced "Alternate page with proper
+# canonical tag" issues in Search Console. Redirect them permanently to the
+# canonical file. Keep this list updated when new editorials publish.
+/editorials/koningsdag-2026.html              /editorial-koningsdag-2026.html              301
+/editorial/koningsdag-2026.html               /editorial-koningsdag-2026.html               301
+/editorials/koningsdag-2026                   /editorial-koningsdag-2026.html               301
+/editorial/koningsdag-2026                    /editorial-koningsdag-2026.html               301
+/editorials/oil-shortage-2026.html            /editorial-oil-shortage-2026.html             301
+/editorial/oil-shortage-2026.html             /editorial-oil-shortage-2026.html             301
+/editorials/oil-shortage-2026                 /editorial-oil-shortage-2026.html             301
+/editorial/oil-shortage-2026                  /editorial-oil-shortage-2026.html             301
+/editorials/emergency-capaciteit-europa-2026.html  /editorial-emergency-capaciteit-europa-2026.html  301
+/editorial/emergency-capaciteit-europa-2026.html   /editorial-emergency-capaciteit-europa-2026.html  301
+/editorials/emergency-capaciteit-europa-2026       /editorial-emergency-capaciteit-europa-2026.html  301
+/editorial/emergency-capaciteit-europa-2026        /editorial-emergency-capaciteit-europa-2026.html  301
+/editorials/rotterdam-weerbaarheid-2026.html  /editorial-rotterdam-weerbaarheid-2026.html  301
+/editorial/rotterdam-weerbaarheid-2026.html   /editorial-rotterdam-weerbaarheid-2026.html  301
+/editorials/rotterdam-weerbaarheid-2026       /editorial-rotterdam-weerbaarheid-2026.html  301
+/editorial/rotterdam-weerbaarheid-2026        /editorial-rotterdam-weerbaarheid-2026.html  301
+
