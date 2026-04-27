@@ -13,3 +13,41 @@ https://www.esrf.net/* https://esrf.net/:splat 301
 http://www.esrf.net/*  https://esrf.net/:splat 301
 http://esrf.net/*      https://esrf.net/:splat 301
 
+# Canonical-path redirects: collapse Pages-served index.html duplicates onto
+# the directory canonical so Google never indexes both /foo/ and /foo/index.html.
+# This is defence in depth — the in-repo links were updated to point at the
+# canonical paths, but old inbound links and external citations are now
+# permanently corrected at the edge.
+/index.html             /                       301
+/countries/index.html   /countries/             301
+/countries/austria/index.html         /countries/austria/         301
+/countries/belgium/index.html         /countries/belgium/         301
+/countries/bulgaria/index.html        /countries/bulgaria/        301
+/countries/croatia/index.html         /countries/croatia/         301
+/countries/cyprus/index.html          /countries/cyprus/          301
+/countries/czech-republic/index.html  /countries/czech-republic/  301
+/countries/denmark/index.html         /countries/denmark/         301
+/countries/estonia/index.html         /countries/estonia/         301
+/countries/finland/index.html         /countries/finland/         301
+/countries/france/index.html          /countries/france/          301
+/countries/germany/index.html         /countries/germany/         301
+/countries/greece/index.html          /countries/greece/          301
+/countries/hungary/index.html         /countries/hungary/         301
+/countries/ireland/index.html         /countries/ireland/         301
+/countries/italy/index.html           /countries/italy/           301
+/countries/latvia/index.html          /countries/latvia/          301
+/countries/lithuania/index.html       /countries/lithuania/       301
+/countries/luxembourg/index.html      /countries/luxembourg/      301
+/countries/malta/index.html           /countries/malta/           301
+/countries/netherlands/index.html     /countries/netherlands/     301
+/countries/norway/index.html          /countries/norway/          301
+/countries/poland/index.html          /countries/poland/          301
+/countries/portugal/index.html        /countries/portugal/        301
+/countries/romania/index.html         /countries/romania/         301
+/countries/slovakia/index.html        /countries/slovakia/        301
+/countries/slovenia/index.html        /countries/slovenia/        301
+/countries/spain/index.html           /countries/spain/           301
+/countries/sweden/index.html          /countries/sweden/          301
+/countries/switzerland/index.html     /countries/switzerland/     301
+/countries/united-kingdom/index.html  /countries/united-kingdom/  301
+
