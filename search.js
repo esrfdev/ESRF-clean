@@ -27,6 +27,7 @@
     { title: 'Sponsor',             url: 'sponsor.html',      kind: 'page' },
     { title: 'Claim your listing',  url: 'request-listing.html', kind: 'page', i18n: 'nav.request_listing' },
     { title: 'Submit an event',     url: 'submit-event.html', kind: 'page' },
+    { title: 'Share your information', url: 'submit-news.html', kind: 'page', i18n: 'common.share_information' },
     { title: 'Submit a signal',     url: 'submit-news.html',  kind: 'page' },
     { title: 'Privacy',             url: 'privacy.html',      kind: 'page' },
     { title: 'Terms',               url: 'terms.html',        kind: 'page' },
