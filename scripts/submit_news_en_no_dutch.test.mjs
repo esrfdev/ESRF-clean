@@ -139,12 +139,10 @@ for (const term of FORBIDDEN_DUTCH) {
     assert.ok(!enBlock.includes(term), `EN container contains "${term}"`);
   });
   check(`EN hero has no Dutch term ${JSON.stringify(term)}`, () => {
-    // The EN hero may contain a small Dutch translation in <em> as a
-    // visible bilingual courtesy line, but that line is EXACTLY the
-    // canonical "Alle inzendingen worden door de redactie van ESRF.net
-    // beoordeeld. Niets wordt automatisch gepubliceerd." — guard against
-    // any of our other forbidden phrases leaking in elsewhere.
-    if (term === 'Niets wordt automatisch' || term === 'niets automatisch' || term === 'redactie kijkt' || term === 'gepubliceerd') return; // exempt: bilingual courtesy <em>
+    // The EN hero must be English only — no bilingual courtesy line.
+    // An earlier iteration kept a Dutch <em> sentence under the English
+    // copy, but readers reported it as a leak; the NL hero alone keeps
+    // the Dutch sentence (NL visitors only ever see the NL hero).
     assert.ok(!enHero.includes(term), `EN hero contains "${term}"`);
   });
   check(`EN handler script has no Dutch term ${JSON.stringify(term)}`, () => {
@@ -175,6 +173,44 @@ check('EN hero has English title "Share your information."', () => {
 });
 check('EN hero has English deck with "submit an organisation"', () => {
   assert.match(enHero, /submit an organisation, request an update or removal/i);
+});
+
+/* ── Editorial-review notice: the EXACT Dutch sentence reported by
+   readers must never appear in the EN-rendered surfaces (hero, EN form
+   container, EN handler script). The English equivalent must be the
+   visible copy in EN. The Dutch sentence is allowed to remain in the
+   NL hero / NL form (which non-NL visitors never see). ──────────── */
+const DUTCH_REVIEW_SENTENCE = 'Alle inzendingen worden door de redactie van ESRF.net beoordeeld. Niets wordt automatisch gepubliceerd.';
+const EN_REVIEW_SENTENCE = 'All submissions are reviewed by the ESRF.net editorial team. Nothing is published automatically.';
+
+check('EN hero does NOT contain the canonical Dutch review sentence', () => {
+  assert.ok(!enHero.includes(DUTCH_REVIEW_SENTENCE),
+    `EN hero still leaks: "${DUTCH_REVIEW_SENTENCE}"`);
+});
+check('EN form container does NOT contain the canonical Dutch review sentence', () => {
+  assert.ok(!enBlock.includes(DUTCH_REVIEW_SENTENCE),
+    `EN form container leaks: "${DUTCH_REVIEW_SENTENCE}"`);
+});
+check('EN handler does NOT contain the canonical Dutch review sentence', () => {
+  assert.ok(!enHandler.includes(DUTCH_REVIEW_SENTENCE),
+    `EN handler leaks: "${DUTCH_REVIEW_SENTENCE}"`);
+});
+check('EN hero contains the English editorial review sentence', () => {
+  assert.ok(enHero.includes(EN_REVIEW_SENTENCE),
+    `EN hero missing: "${EN_REVIEW_SENTENCE}"`);
+});
+check('EN form container contains an English editorial review notice', () => {
+  // The aside.sv-review-notice in the EN form should be in English.
+  assert.match(enBlock, /After you submit, the ESRF editorial team takes a look\./);
+  assert.match(enBlock, /Nothing is automatically published or changed/);
+});
+check('NL hero still keeps the canonical Dutch review sentence', () => {
+  // Sanity check on the symmetric side — the NL hero is the place this
+  // Dutch sentence lives.
+  const nlHeroMatch = html.match(/<section[^>]*data-hero-lang="nl"[\s\S]*?<\/section>/);
+  assert.ok(nlHeroMatch, 'NL hero missing entirely');
+  assert.ok(nlHeroMatch[0].includes(DUTCH_REVIEW_SENTENCE),
+    'NL hero must keep the canonical Dutch review sentence');
 });
 check('EN container has English submit button "Share your information"', () => {
   assert.match(enBlock, /id="sv-en-submit-btn"[^>]*>\s*Share your information\s*</);
