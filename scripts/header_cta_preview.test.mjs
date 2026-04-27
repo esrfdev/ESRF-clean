@@ -115,22 +115,20 @@ function walk(dir, visit){
   }
 }
 
-/* 6. Live masthead in index.html unchanged — preview did not leak. */
-check('live index.html masthead still uses "Update or verify a listing"', () => {
+/* 6. Live masthead in index.html now ships Variant A (rolled out 2026-04-27).
+      The preview file remains as an internal archive; it is the production
+      header that must reflect Variant A — not the legacy pill. */
+check('live index.html masthead ships Variant A (data-mast-cta-share)', () => {
   const idx = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
-  const m = idx.match(/<a\b[^>]*data-mast-cta-listing[^>]*>([^<]+)<\/a>/);
-  assert.ok(m, 'production CTA <a data-mast-cta-listing> not found in index.html');
-  assert.match(m[1], /Update or verify a listing/,
-    'production CTA label changed unexpectedly: "' + m[1].trim() + '"');
+  const m = idx.match(/<a class="mast-cta"[^>]*data-mast-cta-share[^>]*>/);
+  assert.ok(m, 'Variant A header CTA <a data-mast-cta-share> not found in index.html');
 });
 
-check('production CTA still points at ?mode=change_request', () => {
-  const idx = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
-  const m = idx.match(/<a\b[^>]*data-mast-cta-listing[^>]*>/);
-  assert.ok(m, 'production CTA tag not found');
-  const href = (m[0].match(/\bhref="([^"]+)"/) || [,''])[1];
-  assert.match(href, /\bmode=change_request\b/,
-    'production CTA href no longer carries mode=change_request: ' + href);
+check('preview itself is marked IMPLEMENTED in its banner', () => {
+  // Round 5 cleanup: when the variant ships live, the preview gains a
+  // status banner so future readers know it is archival, not a backlog item.
+  assert.match(previewHtml, /IMPLEMENTED/i,
+    'preview should contain an IMPLEMENTED status marker');
 });
 
 /* 7. Three concepts + mobile treatment, each inside a .mast.overlay nav. */

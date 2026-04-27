@@ -8,7 +8,9 @@
     "editorials": "Editorials",
     "request_listing": "Vermelding wijzigen of verifiëren",
     "support": "Ondersteunen",
-    "fund": "Bijdragen"
+    "fund": "Bijdragen",
+    "cta_action": "Draag bij aan verbinding",
+    "cta_meta": "Open intake"
   },
   "common": {
     "visit": "Bezoeken →",

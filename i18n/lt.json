@@ -6,7 +6,9 @@
     "analytics": "Analizė",
     "dispatch": "Dispatch",
     "request_listing": "Prašyti įrašo",
-    "support": "Parama"
+    "support": "Parama",
+    "cta_action": "Dalinkitės ir junkime",
+    "cta_meta": "Atviras priėmimas"
   },
   "common": {
     "visit": "Apsilankyti →",

@@ -8,7 +8,9 @@
     "editorials": "Editorials",
     "request_listing": "Update or verify a listing",
     "support": "Support",
-    "fund": "Contribute"
+    "fund": "Contribute",
+    "cta_action": "Share to connect",
+    "cta_meta": "Open intake"
   },
   "search": {
     "title": "Search",

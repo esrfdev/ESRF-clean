@@ -6,7 +6,9 @@
     "analytics": "Greiningar",
     "dispatch": "Dispatch",
     "request_listing": "Biðja um skráningu",
-    "support": "Stuðningur"
+    "support": "Stuðningur",
+    "cta_action": "Deildu og tengdu",
+    "cta_meta": "Opin móttaka"
   },
   "common": {
     "visit": "Heimsækja →",

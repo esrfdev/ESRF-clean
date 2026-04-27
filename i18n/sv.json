@@ -6,7 +6,9 @@
     "analytics": "Analyser",
     "dispatch": "Dispatch",
     "request_listing": "Begär listning",
-    "support": "Support"
+    "support": "Support",
+    "cta_action": "Dela och förbind",
+    "cta_meta": "Öppen mottagning"
   },
   "common": {
     "visit": "Besök →",

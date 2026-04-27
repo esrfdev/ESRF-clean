@@ -6,7 +6,9 @@
     "analytics": "Análises",
     "dispatch": "Dispatch",
     "request_listing": "Solicitar registo",
-    "support": "Apoiar"
+    "support": "Apoiar",
+    "cta_action": "Partilhe para conectar",
+    "cta_meta": "Receção aberta"
   },
   "common": {
     "visit": "Visitar →",

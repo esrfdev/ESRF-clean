@@ -6,7 +6,9 @@
     "analytics": "Analüütika",
     "dispatch": "Dispatch",
     "request_listing": "Küsi kirjet",
-    "support": "Tugi"
+    "support": "Tugi",
+    "cta_action": "Jaga ja ühenda",
+    "cta_meta": "Avatud vastuvõtt"
   },
   "common": {
     "visit": "Külasta →",

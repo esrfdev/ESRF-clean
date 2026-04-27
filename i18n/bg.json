@@ -6,7 +6,9 @@
     "analytics": "Анализи",
     "dispatch": "Бюлетин",
     "request_listing": "Заявете регистрация",
-    "support": "Подкрепа"
+    "support": "Подкрепа",
+    "cta_action": "Споделете, за да свържем",
+    "cta_meta": "Отворен прием"
   },
   "common": {
     "visit": "Посети →",

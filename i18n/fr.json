@@ -6,7 +6,9 @@
     "analytics": "Analyses",
     "dispatch": "Dispatch",
     "request_listing": "Demander un référencement",
-    "support": "Soutenir"
+    "support": "Soutenir",
+    "cta_action": "Partagez, reliez",
+    "cta_meta": "Réception ouverte"
   },
   "common": {
     "visit": "Visiter →",

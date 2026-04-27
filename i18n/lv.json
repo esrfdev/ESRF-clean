@@ -6,7 +6,9 @@
     "analytics": "Analītika",
     "dispatch": "Dispatch",
     "request_listing": "Pieprasīt ierakstu",
-    "support": "Atbalsts"
+    "support": "Atbalsts",
+    "cta_action": "Dalieties, lai savienotu",
+    "cta_meta": "Atvērta uzņemšana"
   },
   "common": {
     "visit": "Apmeklēt →",

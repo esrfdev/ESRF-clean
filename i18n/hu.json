@@ -6,7 +6,9 @@
     "analytics": "Elemzés",
     "dispatch": "Hírlap",
     "request_listing": "Felvételi kérelem",
-    "support": "Támogatás"
+    "support": "Támogatás",
+    "cta_action": "Ossza meg, kapcsoljon össze",
+    "cta_meta": "Nyitott beérkezés"
   },
   "common": {
     "visit": "Látogasson el →",

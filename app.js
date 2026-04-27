@@ -477,9 +477,22 @@ function wireModalForm() {
 
 document.addEventListener('DOMContentLoaded', injectListingModal);
 
-// ── Update-or-verify CTA: append current lang to href so users land on the
-// matching language variant of the combined submit form. The mode=change_request
-// query param is already on the href; this only adds &lang=<current>. ──
+// ── Header / in-page intake CTAs: keep ?lang= in the href in sync with the
+// user's current language so they land on the matching language variant of
+// the combined submit form.
+//
+// Two CTA families:
+//   • [data-mast-cta-share]   — the new general header CTA (Variant A
+//     command card, rolled out 2026-04-27). No preset mode; users pick
+//     "submit news / submit event / change_request" inside the form.
+//   • [data-mast-cta-listing] — secondary in-page CTAs that pin
+//     mode=change_request (directory page sidebar, request-listing page,
+//     about page body CTA). These keep their listing-specific routing.
+//
+// Both get ?lang=<current> appended/refreshed. Listing CTAs additionally
+// keep mode=change_request. Header CTAs additionally get an aria-label
+// refreshed from the current translation of nav.cta_action so screen
+// readers announce the localised action line.
 function syncListingCtaLang() {
   function pickLang() {
     try {
@@ -496,14 +509,33 @@ function syncListingCtaLang() {
     } catch (e) {}
     return (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
   }
+  function localisedAction() {
+    if (window.esrfI18n && typeof window.esrfI18n.t === 'function') {
+      const v = window.esrfI18n.t('nav.cta_action');
+      if (v && v !== 'nav.cta_action') return v;
+    }
+    return 'Share to connect';
+  }
   function apply() {
     const lang = pickLang();
+    // Listing-specific CTAs — keep mode=change_request.
     document.querySelectorAll('[data-mast-cta-listing]').forEach(function(a) {
       try {
         const url = new URL(a.getAttribute('href') || '/submit-news?mode=change_request', window.location.origin);
         url.searchParams.set('mode', 'change_request');
         url.searchParams.set('lang', lang);
         a.setAttribute('href', url.pathname + '?' + url.searchParams.toString());
+      } catch (e) {}
+    });
+    // Header share CTA — general intake, no mode preset.
+    const action = localisedAction();
+    document.querySelectorAll('[data-mast-cta-share]').forEach(function(a) {
+      try {
+        const url = new URL(a.getAttribute('href') || '/submit-news', window.location.origin);
+        url.searchParams.delete('mode');
+        url.searchParams.set('lang', lang);
+        a.setAttribute('href', url.pathname + '?' + url.searchParams.toString());
+        a.setAttribute('aria-label', action + ' — open intake');
       } catch (e) {}
     });
   }

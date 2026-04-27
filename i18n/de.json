@@ -6,7 +6,9 @@
     "analytics": "Analysen",
     "dispatch": "Dispatch",
     "request_listing": "Eintrag anfragen",
-    "support": "Fördern"
+    "support": "Fördern",
+    "cta_action": "Teilen, was verbindet",
+    "cta_meta": "Offene Annahme"
   },
   "common": {
     "visit": "Besuchen →",

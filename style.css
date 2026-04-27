@@ -93,11 +93,52 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .mast-nav a:hover,.mast-nav a[aria-current="page"]{
   color:var(--ink);border-bottom-color:var(--accent);
 }
+/* Header CTA — Variant A "command card" (rolled out 2026-04-27).
+   Vertical accent rail + monospace meta + serif italic action line.
+   On dark overlay headers it floats with a glass blur; on light
+   masthead it inverts to ink-on-cream. Two rows of text — never a pill. */
 .mast-cta{
-  border:1px solid var(--ink);padding:8px 14px;border-radius:999px;
-  color:var(--ink) !important;border-bottom:1px solid var(--ink) !important;
+  display:grid;grid-template-columns:3px 1fr;gap:0;padding:0;border-radius:3px;
+  background:rgba(15,20,25,0.04);
+  border:1px solid rgba(15,20,25,0.18) !important;
+  border-bottom:1px solid rgba(15,20,25,0.18) !important;
+  color:var(--ink) !important;text-transform:none;letter-spacing:0;line-height:1;
+  min-width:230px;min-height:56px;
+  text-decoration:none;
+  transition:background .25s ease, border-color .25s ease, transform .15s ease;
+  overflow:hidden;
 }
-.mast-cta:hover{background:var(--ink);color:var(--cream) !important}
+.mast-cta:hover{
+  background:var(--ink);border-color:var(--ink) !important;
+  color:var(--cream) !important;transform:translateY(-1px);
+}
+.mast-cta:hover .mast-cta-rail{background:var(--accent-deep)}
+.mast-cta:hover .mast-cta-arrow{transform:translateX(4px);color:var(--accent)}
+.mast-cta-rail{background:var(--accent);width:3px;height:100%;align-self:stretch;
+  transition:background .25s}
+.mast-cta-body{padding:10px 18px 12px;display:flex;flex-direction:column;
+  justify-content:center;gap:7px}
+.mast-cta-meta{
+  display:flex;align-items:center;gap:8px;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:9.5px;letter-spacing:0.24em;text-transform:uppercase;
+  color:var(--ink-dim);
+}
+.mast-cta:hover .mast-cta-meta{color:rgba(248,242,230,0.75)}
+.mast-cta-meta-dot{
+  width:5px;height:5px;border-radius:999px;background:var(--accent);
+  box-shadow:0 0 0 3px rgba(210,75,31,0.18);
+}
+.mast-cta-line{
+  font-family:'PT Serif',serif;font-style:italic;font-weight:400;
+  font-size:17px;letter-spacing:-0.005em;color:var(--ink);
+  line-height:1.15;display:flex;align-items:baseline;gap:10px;
+}
+.mast-cta:hover .mast-cta-line{color:var(--cream)}
+.mast-cta-arrow{
+  font-style:normal;font-family:'Archivo',sans-serif;font-weight:600;
+  font-size:14px;color:var(--accent);transition:transform .25s ease,color .25s;
+}
 .mast-contribute{
   font-family:'IBM Plex Mono',monospace;font-weight:500;
   font-size:12px;letter-spacing:0.18em;text-transform:uppercase;
@@ -143,8 +184,25 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .mast.overlay .mast-nav a{color:var(--cream)}
 .mast.overlay .mast-logo sup{color:var(--accent)}
 .mast.overlay .mast-nav a:hover{border-bottom-color:var(--accent)}
-.mast.overlay .mast-cta{border-color:var(--cream);color:var(--cream) !important}
-.mast.overlay .mast-cta:hover{background:var(--cream);color:var(--ink) !important}
+/* Variant A on dark overlay header: glass tile with cream type. */
+.mast.overlay .mast-cta{
+  background:rgba(248,242,230,0.04);
+  border:1px solid rgba(248,242,230,0.22) !important;
+  border-bottom:1px solid rgba(248,242,230,0.22) !important;
+  color:var(--cream) !important;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.mast.overlay .mast-cta:hover{
+  background:var(--cream);border-color:var(--cream) !important;
+  color:var(--ink) !important;
+}
+.mast.overlay .mast-cta:hover .mast-cta-rail{background:var(--accent-deep)}
+.mast.overlay .mast-cta:hover .mast-cta-meta{color:var(--ink)}
+.mast.overlay .mast-cta:hover .mast-cta-line{color:var(--ink)}
+.mast.overlay .mast-cta:hover .mast-cta-meta-dot{background:var(--accent-deep)}
+.mast.overlay .mast-cta-meta{color:rgba(248,242,230,0.78)}
+.mast.overlay .mast-cta-line{color:var(--cream)}
+.mast.overlay .mast-cta:hover .mast-cta-arrow{color:var(--accent-deep)}
 .mast.overlay .mast-contribute{color:var(--accent)!important;border-bottom-color:var(--accent)}
 .mast.overlay .mast-contribute:hover{color:var(--cream)!important;border-bottom-color:var(--cream)}
 
@@ -1049,7 +1107,21 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
     background:var(--ink);color:var(--cream);border-color:var(--cream);
   }
   .mast.nav-open .mast-burger{background:var(--ink);color:var(--cream);border-color:var(--cream)}
-  .mast-cta{display:none}
+  /* Variant A on mobile — keep the command card visible inside the open
+     drawer as a full-width row, with the same identity dragers
+     (rail + mono meta + serif italic line). Min-height 56px = ≥ WCAG 2.2
+     tap target. The card sits in the menu rather than the closed header
+     to avoid eating fold space; users still see it the moment they open
+     the burger. */
+  .mast-cta{
+    display:grid;grid-template-columns:4px 1fr auto;gap:0;
+    width:100%;min-width:0;min-height:56px;border-radius:0;
+    margin-top:18px;padding:0;
+  }
+  .mast-cta-rail{width:4px}
+  .mast-cta-body{padding:14px 18px;gap:8px}
+  .mast-cta-line{font-size:18px}
+  .mast-cta-arrow{align-self:center;padding:0 22px 0 8px;font-size:18px}
   .mast-contribute{
     display:inline-block;margin-top:24px;
     font-size:14px;letter-spacing:0.14em;

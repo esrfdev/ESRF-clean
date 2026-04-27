@@ -6,7 +6,9 @@
     "analytics": "Analyser",
     "dispatch": "Dispatch",
     "request_listing": "Anmod om opslag",
-    "support": "Support"
+    "support": "Support",
+    "cta_action": "Del og skab forbindelse",
+    "cta_meta": "Åben modtagelse"
   },
   "common": {
     "visit": "Besøg →",

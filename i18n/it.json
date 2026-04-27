@@ -6,7 +6,9 @@
     "analytics": "Analisi",
     "dispatch": "Dispatch",
     "request_listing": "Richiedi inserimento",
-    "support": "Sostieni"
+    "support": "Sostieni",
+    "cta_action": "Condividi per connettere",
+    "cta_meta": "Accesso aperto"
   },
   "common": {
     "visit": "Visita →",

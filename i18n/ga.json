@@ -6,7 +6,9 @@
     "analytics": "Anailísíocht",
     "dispatch": "Dispatch",
     "request_listing": "Liostú a iarraidh",
-    "support": "Tacaíocht"
+    "support": "Tacaíocht",
+    "cta_action": "Roinn chun nascadh",
+    "cta_meta": "Glacadh oscailte"
   },
   "common": {
     "visit": "Tabhair cuairt →",

@@ -6,7 +6,9 @@
     "analytics": "Analitika",
     "dispatch": "Dispatch",
     "request_listing": "Itlob dħul fil-lista",
-    "support": "Appoġġ"
+    "support": "Appoġġ",
+    "cta_action": "Aqsam biex tgħaqqad",
+    "cta_meta": "Ammissjoni miftuħa"
   },
   "common": {
     "visit": "Żur →",

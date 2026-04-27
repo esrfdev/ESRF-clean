@@ -6,7 +6,9 @@
     "analytics": "Analitika",
     "dispatch": "Bilten",
     "request_listing": "Zatraži unos",
-    "support": "Podrška"
+    "support": "Podrška",
+    "cta_action": "Podijelite i povežite",
+    "cta_meta": "Otvoren prijem"
   },
   "common": {
     "visit": "Posjeti →",

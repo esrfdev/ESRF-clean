@@ -6,7 +6,9 @@
     "analytics": "Analytika",
     "dispatch": "Spravodaj",
     "request_listing": "Žiadosť o zápis",
-    "support": "Podpora"
+    "support": "Podpora",
+    "cta_action": "Zdieľajte, prepojme sa",
+    "cta_meta": "Otvorený príjem"
   },
   "common": {
     "visit": "Navštíviť →",

@@ -6,7 +6,9 @@
     "analytics": "Analytiikka",
     "dispatch": "Dispatch",
     "request_listing": "Pyydä listausta",
-    "support": "Tuki"
+    "support": "Tuki",
+    "cta_action": "Jaa ja yhdistä",
+    "cta_meta": "Avoin vastaanotto"
   },
   "common": {
     "visit": "Vieraile →",
