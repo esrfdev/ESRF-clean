@@ -239,6 +239,109 @@ function canonicalHostRedirect(url) {
   return Response.redirect(target.toString(), 301);
 }
 
+// -------------------------------------------------------------------------
+// SPA-fallback detection.
+//
+// Live tests showed that arbitrary unknown paths (e.g. /definitely-not-real,
+// /editorials/koningsdag-2026.html) returned HTTP 200 with the homepage HTML
+// and the homepage canonical link. That is the classic Cloudflare Pages
+// "single-page-app" fallback: when no asset matches a path, Pages serves
+// /index.html instead of a 404. Search Console then logs the path as
+// "Alternate page with proper canonical tag" or "Crawled — currently not
+// indexed", which damages the site's index coverage.
+//
+// We can't disable that Pages behaviour from this repo (it lives in the
+// project's deploy config, which the connector cannot reach). Instead, we
+// detect the fallback in middleware after `next()` runs and rewrite the
+// response to a real 404. The signature is unambiguous: any non-root path
+// whose response body contains the homepage canonical marker is the
+// fallback. The marker is a single literal byte sequence that exists only
+// in /index.html — see the test for the regression harness.
+
+// Unique to /index.html. If the body for a non-root path contains this,
+// Pages has served the SPA fallback rather than an asset that actually
+// exists, and we must convert it to a real 404.
+const HOMEPAGE_CANONICAL_MARKER = '<link rel="canonical" href="https://esrf.net/" />';
+
+// Paths that legitimately resolve to /index.html (i.e. the homepage itself).
+// /index.html is also redirected to / by _redirects, but if for any reason
+// a request reaches `next()` with one of these, the homepage 200 is correct.
+function isHomepagePath(pathname) {
+  return pathname === '/' || pathname === '/index.html';
+}
+
+// Heuristic: should we even attempt SPA-fallback detection for this path?
+// Only HTML-ish paths can produce the fallback; static assets (.css, .js,
+// .json, images, fonts) either match or 404 cleanly without ever being
+// rewritten to index.html. Restricting the check avoids reading bodies
+// of large binary responses for no reason.
+function looksLikeHtmlPath(pathname) {
+  if (pathname.endsWith('/')) return true;
+  if (pathname.endsWith('.html')) return true;
+  // Extensionless paths (e.g. /editorial-koningsdag-2026) — Pages may serve
+  // them via Pages' optional trailing-slash/extensionless rules; treat as
+  // HTML candidates.
+  const lastSeg = pathname.slice(pathname.lastIndexOf('/') + 1);
+  if (!lastSeg.includes('.')) return true;
+  return false;
+}
+
+async function bodyLooksLikeHomepageFallback(response) {
+  // Only inspect successful HTML responses. Anything else (3xx, 4xx, 5xx,
+  // non-HTML content type) is by definition not the SPA fallback.
+  if (response.status !== 200) return false;
+  const ct = (response.headers.get('content-type') || '').toLowerCase();
+  if (!ct.includes('text/html')) return false;
+  // We need to read the body. The caller is responsible for not consuming
+  // the original response — we work on a clone so the original can still
+  // be returned if the heuristic is negative.
+  let text;
+  try {
+    text = await response.clone().text();
+  } catch {
+    return false;
+  }
+  return text.includes(HOMEPAGE_CANONICAL_MARKER);
+}
+
+// Build the 404 response. Tries to fetch the static /404.html via the
+// Pages ASSETS binding; falls back to a tiny inline body if that binding
+// isn't present (e.g. local dev). Either way the status is 404 and robots
+// are told not to index it.
+async function build404Response(env, originUrl) {
+  const headers = {
+    'content-type': 'text/html; charset=utf-8',
+    'cache-control': 'no-store',
+    'x-content-type-options': 'nosniff',
+    'x-robots-tag': 'noindex, nofollow',
+    'referrer-policy': 'strict-origin-when-cross-origin',
+  };
+  if (env && env.ASSETS && typeof env.ASSETS.fetch === 'function') {
+    try {
+      const target = new URL('/404.html', originUrl);
+      const assetRes = await env.ASSETS.fetch(target.toString());
+      if (assetRes && assetRes.body) {
+        // Force status 404 and our hardened headers; preserve body.
+        const merged = new Headers(headers);
+        const upstreamCt = assetRes.headers.get('content-type');
+        if (upstreamCt) merged.set('content-type', upstreamCt);
+        return new Response(assetRes.body, { status: 404, headers: merged });
+      }
+    } catch {
+      // fall through to inline
+    }
+  }
+  // Inline fallback — minimal but valid 404.
+  const body =
+    '<!doctype html><html lang="en"><head><meta charset="utf-8">' +
+    '<meta name="robots" content="noindex, nofollow">' +
+    '<title>Page not found — ESRF.net</title></head>' +
+    '<body><h1>404 — Page not found</h1>' +
+    '<p>The page you requested could not be found on esrf.net. ' +
+    '<a href="/">Return home</a>.</p></body></html>\n';
+  return new Response(body, { status: 404, headers });
+}
+
 // Expose internals for the test harness only. This is a no-op at runtime
 // (globalThis always exists) and adds no observable behaviour for visitors.
 globalThis.__esrfBotProtection = {
@@ -247,6 +350,11 @@ globalThis.__esrfBotProtection = {
   isBadBotUA,
   isEuropeanCountry,
   canonicalHostRedirect,
+  isHomepagePath,
+  looksLikeHtmlPath,
+  bodyLooksLikeHomepageFallback,
+  build404Response,
+  HOMEPAGE_CANONICAL_MARKER,
   EUROPEAN_COUNTRIES,
   ADSENSE_UA_ALLOWLIST,
   BAD_BOT_UA_PATTERNS,
@@ -257,13 +365,14 @@ globalThis.__esrfBotProtection = {
 // under `functions/` routing. We pass through to `next()` for the vast
 // majority of traffic; the block path returns 403 directly.
 export async function onRequest(context) {
-  const { request, next } = context;
+  const { request, next, env } = context;
 
   // Step 0: canonical host redirect (www.esrf.net -> esrf.net). Must run
   // before bot/geo blocking so that requests from outside Europe (which
   // would otherwise be 403'd by the bot rule for www.*) are sent to the
   // canonical host first.
-  const redirect = canonicalHostRedirect(new URL(request.url));
+  const url = new URL(request.url);
+  const redirect = canonicalHostRedirect(url);
   if (redirect) return redirect;
 
   const ua = request.headers.get('user-agent') || '';
@@ -292,5 +401,19 @@ export async function onRequest(context) {
     });
   }
 
-  return next();
+  const response = await next();
+
+  // Step 2: convert Cloudflare Pages SPA fallback (homepage served at 200
+  // for an unknown path) into a real 404. Only inspect HTML-shaped paths;
+  // skip the homepage itself and anything not 200/HTML. See module comment
+  // above HOMEPAGE_CANONICAL_MARKER for the rationale.
+  if (
+    !isHomepagePath(url.pathname) &&
+    looksLikeHtmlPath(url.pathname) &&
+    (await bodyLooksLikeHomepageFallback(response))
+  ) {
+    return build404Response(env, url);
+  }
+
+  return response;
 }
