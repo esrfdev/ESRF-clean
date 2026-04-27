@@ -229,7 +229,7 @@
 
     <fieldset class="form-fieldset">
       <legend class="form-legend">2. Contact &amp; organisatie</legend>
-      <p class="fieldset-intro">Deze gegevens hergebruiken we voor zowel de atlas-opgave als de editorial bijdrage.</p>
+      <p class="fieldset-intro">Deze contactgegevens gebruiken we voor elk type verzoek — aanmelden, wijzigen, verbergen/verwijderen of een praktijkverhaal. Zo weet de redactie met wie ze contact kan opnemen.</p>
 
       <div class="form-row">
         <label for="sv-contact-name">Naam <span class="req" aria-hidden="true">*</span></label>
@@ -349,7 +349,7 @@
         <label for="sv-website">Website</label>
         <input type="url" id="sv-website" name="website"
           placeholder="https://voorbeeld.nl" autocomplete="url" pattern="https?://.+">
-        <span class="hint">Verplicht bij organisatie-opgave. Begint met https:// of http://</span>
+        <span class="hint">Verplicht als je een organisatie aanmeldt (of "Beide" kiest). Voor wijzigen, verbergen/verwijderen of een praktijkverhaal: optioneel. Begint met https:// of http://</span>
       </div>
     </fieldset>
 
@@ -612,7 +612,7 @@
   </div>
 
   <details class="tech-disclosure">
-    <summary>Technische details voor de redactie / Validation Lab</summary>
+    <summary>Technische details voor de redactie / Validation Lab — bezoekers kunnen dit overslaan</summary>
     <div class="tech-disclosure-body">
       <p>Dit prototype kent twee paden naast elkaar: (1) <strong>lokale preview</strong> — niets verlaat de browser; (2) <strong>validatie-backend</strong> — een knop in de previewstap roept <code>POST /api/intake</code> aan op de Cloudflare Pages branch-preview. De endpoint valideert, sanitiseert, controleert honeypot/timer en (als ingesteld) Turnstile, en geeft een gestructureerd JSON-antwoord terug. Zonder productie-secrets blijft de endpoint in <em>dry-run</em>: er wordt niets weggeschreven en geen notificatie verstuurd.</p>
 
