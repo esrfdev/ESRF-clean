@@ -56,6 +56,11 @@
   .mode-option span{
     font-family:'PT Serif',serif;font-size:14px;color:var(--ink-soft);line-height:1.5;
   }
+  .mode-option em.mode-tagline{
+    display:block;margin:0 0 6px;
+    font-family:'IBM Plex Mono',monospace;font-style:normal;
+    font-size:12px;letter-spacing:0.04em;color:var(--accent);line-height:1.45;
+  }
   .mode-option.is-selected{
     background:var(--cream);
     box-shadow:inset 0 0 0 2px var(--accent);
@@ -63,6 +68,18 @@
 
   .section-block{display:none}
   .section-block.is-active{display:block}
+
+  /* Plain-language review notice — sits at the very top of the form */
+  .sv-review-notice{
+    margin:0 0 22px;padding:14px 18px;
+    border-left:4px solid var(--accent);background:rgba(210,75,31,0.06);
+    font-family:'PT Serif',serif;font-size:15px;line-height:1.55;color:var(--ink);
+  }
+  .sv-review-notice strong{
+    display:block;font-family:'Archivo',sans-serif;font-weight:700;font-size:15px;
+    color:var(--ink);margin-bottom:4px;letter-spacing:0;text-transform:none;
+  }
+  .sv-review-notice span{color:var(--ink-soft);}
 
   /* Subtle "Nieuw" callout sits above editorial fieldset */
   .callout-new{
@@ -185,6 +202,11 @@
 
 <div class="form-wrap">
 
+  <aside id="sv-editorial-review-notice" class="sv-review-notice" role="note">
+    <strong>Na verzending kijkt de ESRF-redactie mee.</strong>
+    <span>Er wordt niets automatisch gepubliceerd of aangepast in de Directory of Atlas. De redactie beoordeelt elk verzoek handmatig.</span>
+  </aside>
+
   <div id="form-error" class="form-error" hidden role="alert" aria-live="assertive"></div>
 
   <form id="sv-form" class="form-grid" novalidate autocomplete="on">
@@ -201,27 +223,32 @@
       <div class="mode-switch" role="radiogroup" aria-label="Type opgave" id="mode-org">
         <label class="mode-option" data-mode="org">
           <input type="radio" name="intake_mode" value="org" checked>
-          <strong>Nieuwe organisatie aanmelden</strong>
+          <strong>Organisatie aanmelden</strong>
+          <em class="mode-tagline">Voor nieuwe opname in Directory en Atlas.</em>
           <span>Plaats je organisatie voor het eerst in de ESRF-atlas. Geen verhaal nodig.</span>
         </label>
         <label class="mode-option" data-mode="editorial" id="mode-editorial">
           <input type="radio" name="intake_mode" value="editorial">
-          <strong>Artikel / praktijkverhaal insturen</strong>
+          <strong>Praktijkverhaal delen</strong>
+          <em class="mode-tagline">Voor een mogelijk editorial of voorbeeld uit de praktijk.</em>
           <span>Stuur een kort artikel of praktijkverhaal in over samenwerking, een geleerde les of waardering voor mensen die erkenning verdienen.</span>
         </label>
         <label class="mode-option" data-mode="both" id="mode-both">
           <input type="radio" name="intake_mode" value="both">
           <strong>Beide</strong>
+          <em class="mode-tagline">Voor een organisatie én een praktijkverhaal in één keer.</em>
           <span>Aanmelden van je organisatie én een artikel of praktijkverhaal in één keer.</span>
         </label>
         <label class="mode-option" data-mode="change_request" id="mode-change">
           <input type="radio" name="intake_mode" value="change_request">
-          <strong>Bestaande vermelding wijzigen</strong>
+          <strong>Gegevens wijzigen</strong>
+          <em class="mode-tagline">Voor correctie van een bestaande vermelding.</em>
           <span>Vraag aan om een bestaande organisatievermelding aan te passen (bijv. naam, sector, beschrijving). De redactie controleert en past niets automatisch aan.</span>
         </label>
         <label class="mode-option" data-mode="hide_delete" id="mode-hide-delete">
           <input type="radio" name="intake_mode" value="hide_delete">
-          <strong>Vermelding laten verbergen / verwijderen</strong>
+          <strong>Verbergen / verwijderen</strong>
+          <em class="mode-tagline">Voor verzoeken om een bestaande vermelding niet langer te tonen.</em>
           <span>Vraag aan om een bestaande vermelding tijdelijk onzichtbaar te maken of helemaal te verwijderen. De redactie controleert eerst of je daartoe bevoegd bent.</span>
         </label>
       </div>
@@ -237,10 +264,11 @@
           placeholder="Bijv. Sanne de Vries" autocomplete="name">
       </div>
 
-      <div class="form-row">
-        <label for="sv-org">Organisatie <span class="req" aria-hidden="true">*</span></label>
+      <div class="form-row" id="sv-org-row">
+        <label for="sv-org">Organisatie <span class="req" id="sv-org-req" aria-hidden="true">*</span></label>
         <input type="text" id="sv-org" name="organisation" required maxlength="120"
           placeholder="Bijv. Veiligheidsregio Rotterdam-Rijnmond" autocomplete="organization">
+        <span class="hint" id="sv-org-hint">Verplicht bij aanmelden, praktijkverhaal of beide. Bij wijzigen of verbergen/verwijderen is dit veld optioneel — vul het alleen in als je organisatie naast je naam staat.</span>
       </div>
 
       <div class="form-row">
@@ -955,6 +983,22 @@
     sectionOrg.classList.toggle('is-active', showOrg);
     sectionEd.classList.toggle('is-active', showEd);
     if (sectionChange) sectionChange.classList.toggle('is-active', showChange);
+
+    // Organisation field is only verplicht voor org / editorial / both.
+    // Bij wijzigen of verbergen/verwijderen: optioneel — verberg de
+    // verplichte-indicator én haal het required-attribuut weg, zodat
+    // labels, sterretje en validatie consistent blijven.
+    const orgInput = document.getElementById('sv-org');
+    const orgReq = document.getElementById('sv-org-req');
+    const orgIsRequired = !showChange;
+    if (orgInput) {
+      if (orgIsRequired) orgInput.setAttribute('required', '');
+      else orgInput.removeAttribute('required');
+    }
+    if (orgReq) {
+      orgReq.hidden = !orgIsRequired;
+      orgReq.style.display = orgIsRequired ? '' : 'none';
+    }
 
     // For hide_delete mode, constrain the action select to hide/delete only.
     var actionSel = document.getElementById('sv-cr-action');
