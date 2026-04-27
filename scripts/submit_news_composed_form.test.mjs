@@ -31,13 +31,14 @@ function check(name, fn){
 
 const html = fs.readFileSync(path.join(repoRoot, 'submit-news.html'), 'utf8');
 
-// ── Mode labels (5 modes) ─────────────────────────────────────────────
+// ── Mode labels (6 modes) ─────────────────────────────────────────────
 const MODE_LABELS = [
   'Organisatie aanmelden',
   'Praktijkverhaal delen',
   'Beide',
   'Gegevens wijzigen',
   'Verbergen / verwijderen',
+  'Event aanmelden',
 ];
 for (const label of MODE_LABELS) {
   check(`submit-news.html contains mode label "${label}"`, () => {
@@ -46,7 +47,7 @@ for (const label of MODE_LABELS) {
 }
 
 // ── Mode radio values ─────────────────────────────────────────────────
-for (const v of ['org', 'editorial', 'both', 'change_request', 'hide_delete']) {
+for (const v of ['org', 'editorial', 'both', 'change_request', 'hide_delete', 'event']) {
   check(`submit-news.html has intake_mode radio value="${v}"`, () => {
     const re = new RegExp(`name="intake_mode"\\s+value="${v}"`);
     assert.match(html, re);
@@ -146,6 +147,86 @@ check('submit-news.html does NOT call /api/intake-test (LAB-only endpoint)', () 
 check('submit-news.html hero uses common.share_information data-i18n', () => {
   assert.match(html, /data-i18n="common\.share_information"/);
   assert.match(html, /Deel je informatie/);
+});
+
+// ── Event mode: dedicated section + fields ────────────────────────────
+check('submit-news.html has event section block (data-section="event")', () => {
+  assert.match(html, /data-section="event"/);
+  assert.match(html, /Event-gegevens/);
+});
+
+check('submit-news.html event section uses the agreed short explanation', () => {
+  assert.match(html, /Voor conferenties, bijeenkomsten, webinars of andere relevante activiteiten voor het ESRF-netwerk\./);
+});
+
+const EVENT_FIELDS = [
+  'event_name',
+  'event_organiser',
+  'event_date_start',
+  'event_date_end',
+  'event_time',
+  'event_location',
+  'event_country',
+  'event_description',
+  'event_audience',
+  'event_tags',
+  'event_website',
+  'event_contact_name',
+  'event_contact_email',
+  'event_publication_request',
+];
+for (const field of EVENT_FIELDS) {
+  check(`submit-news.html event section has field name="${field}"`, () => {
+    const re = new RegExp(`name="${field}"`);
+    assert.match(html, re);
+  });
+}
+
+check('submit-news.html event tags hint mentions comma separation', () => {
+  // Tags-help text — "Scheiden met komma's"
+  assert.match(html, /Scheiden met komma['’]s/);
+});
+
+check('submit-news.html event publication-request offers required options', () => {
+  assert.match(html, /value="agenda"[^>]*>\s*Plaatsing op de ESRF-agenda/i);
+  assert.match(html, /value="dispatch"/);
+  assert.match(html, /value="editorial"/);
+  assert.match(html, /value="fyi"/);
+});
+
+check('submit-news.html event section says nothing is automatically published', () => {
+  // No-auto-publication notice in event section
+  const ev = html.match(/data-section="event"[\s\S]*?<\/fieldset>/);
+  assert.ok(ev, 'event section block missing');
+  assert.match(ev[0], /niets\s+wordt\s+automatisch\s+gepubliceerd/i);
+  assert.match(ev[0], /redactie\s+controleert/i);
+});
+
+check('submit-news.html event mailto body carries event_intake fields', () => {
+  // Structured payload marker
+  assert.match(html, /EVENT_INTAKE/);
+  // Recordtype carried through
+  assert.match(html, /Recordtype:\s*'?event/i);
+  // Subject map includes event
+  assert.match(html, /event:\s*'Event aanmelden'/);
+});
+
+check('submit-news.html event mode submit button label', () => {
+  assert.match(html, /Meld je event aan/);
+});
+
+// ── safety: Directory_Master untouched / no internal validation links ─
+check('repo: Directory_Master not modified by this work (not present in repo)', () => {
+  // Directory_Master is the editorial master and must not exist in the public repo.
+  const candidates = [
+    'Directory_Master.json',
+    'Directory_Master.csv',
+    'directory_master.json',
+    'directory_master.csv',
+  ];
+  for (const c of candidates) {
+    assert.ok(!fs.existsSync(path.join(repoRoot, c)), `Directory_Master file ${c} must not exist in this repo`);
+  }
 });
 
 // ── i18n JSON parses ─────────────────────────────────────────────────

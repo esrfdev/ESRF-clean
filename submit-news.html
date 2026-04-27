@@ -264,6 +264,12 @@
           <em class="mode-tagline">Voor verzoeken om een bestaande vermelding niet langer te tonen.</em>
           <span>Vraag aan om een bestaande vermelding tijdelijk onzichtbaar te maken of helemaal te verwijderen. De redactie controleert eerst of je daartoe bevoegd bent.</span>
         </label>
+        <label class="mode-option" data-mode="event" id="mode-event">
+          <input type="radio" name="intake_mode" value="event">
+          <strong>Event aanmelden</strong>
+          <em class="mode-tagline">Voor opname op de ESRF-eventspagina na redactionele check.</em>
+          <span>Voor conferenties, bijeenkomsten, webinars of andere relevante activiteiten voor het ESRF-netwerk.</span>
+        </label>
       </div>
     </fieldset>
 
@@ -638,6 +644,116 @@
       </p>
     </fieldset>
 
+    <!-- ── 3E. Event aanmelden ── -->
+    <fieldset class="form-fieldset section-block" data-section="event">
+      <legend class="form-legend">3E. Event-gegevens</legend>
+      <p class="fieldset-intro">
+        Voor conferenties, bijeenkomsten, webinars of andere relevante activiteiten voor het ESRF-netwerk.
+        De ESRF-redactie controleert eventdetails handmatig — <strong>niets wordt automatisch gepubliceerd</strong> op de eventspagina.
+      </p>
+
+      <div class="form-row">
+        <label for="sv-ev-name">Eventnaam <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-ev-name" name="event_name" maxlength="200"
+          placeholder="Bijv. European Cyber Security Conference 2026">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-organiser">Organisator <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-ev-organiser" name="event_organiser" maxlength="200"
+          placeholder="Bijv. ENISA, NCSC, Veiligheidsregio Rotterdam">
+        <span class="hint">Volledige naam van de organisatie die het event organiseert of host.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-date-start">Datum start <span class="req" aria-hidden="true">*</span></label>
+        <input type="date" id="sv-ev-date-start" name="event_date_start">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-date-end">Datum einde (optioneel)</label>
+        <input type="date" id="sv-ev-date-end" name="event_date_end">
+        <span class="hint">Laat leeg voor eendaagse events.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-time">Tijd / tijdzone (optioneel)</label>
+        <input type="text" id="sv-ev-time" name="event_time" maxlength="80"
+          placeholder="Bijv. 09:00–17:00 CET">
+        <span class="hint">Optioneel maar handig voor bezoekers van de eventspagina.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-location">Locatie of online <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-ev-location" name="event_location" maxlength="200"
+          placeholder="Bijv. Brussels Expo / Online (Zoom) / Rotterdam Ahoy">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-country">Land / regio <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-ev-country" name="event_country" maxlength="120"
+          placeholder="Bijv. Nederland — Zuid-Holland, of Online">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-description">Korte omschrijving <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-ev-description" name="event_description" rows="4" minlength="20" maxlength="800"
+          placeholder="3–5 zinnen: waar gaat het event over, wie organiseert het, voor wie is het bedoeld?"></textarea>
+        <span class="hint">Minimaal 20 tekens — dit wordt door de redactie als basis gebruikt voor de eventsamenvatting.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-audience">Doelgroep</label>
+        <input type="text" id="sv-ev-audience" name="event_audience" maxlength="200"
+          placeholder="Bijv. veiligheidsregio's, CISO's, beleidsmakers, onderzoekers">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-tags">Thema's / tags</label>
+        <input type="text" id="sv-ev-tags" name="event_tags" maxlength="240"
+          placeholder="Bijv. cybersecurity, NIS2, kritieke infrastructuur, crisisbeheersing">
+        <span class="hint">Scheiden met komma's — helpt de redactie het event te categoriseren.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-website">Website / registratielink <span class="req" aria-hidden="true">*</span></label>
+        <input type="url" id="sv-ev-website" name="event_website" maxlength="400"
+          placeholder="https://event-website.eu" pattern="https?://.+">
+        <span class="hint">Officiële eventpagina of registratielink. Begint met https:// of http://</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-contact-name">Contactpersoon <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-ev-contact-name" name="event_contact_name" maxlength="120"
+          placeholder="Naam van de contactpersoon voor dit event">
+        <span class="hint">Mag dezelfde persoon zijn als bij stap 2.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-contact-email">Werkmail contactpersoon <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="sv-ev-contact-email" name="event_contact_email" maxlength="160"
+          placeholder="naam@organisatie.nl">
+        <span class="hint">Bij voorkeur een werkmailadres op het domein van de organisator.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-publication">Publicatieverzoek <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-ev-publication" name="event_publication_request">
+          <option value="">Kies wat je vraagt…</option>
+          <option value="agenda">Plaatsing op de ESRF-agenda / events-pagina</option>
+          <option value="dispatch">Vermelding in de Dispatch nieuwsbrief</option>
+          <option value="editorial">Mogelijk editorial / praktijkverhaal achteraf</option>
+          <option value="fyi">Alleen ter kennisname — geen publicatie nodig</option>
+        </select>
+        <span class="hint">Welke vorm van publicatie heb je in gedachten? De redactie beslist uiteindelijk.</span>
+      </div>
+
+      <p style="margin-top:12px;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft);line-height:1.6">
+        <strong>Geen automatische publicatie:</strong>
+        de ESRF-redactie controleert eventdetails handmatig. Niets wordt automatisch op de eventspagina, in Dispatch of als editorial gepubliceerd op basis van dit formulier.
+      </p>
+    </fieldset>
+
     <!-- ── 4. Privacy & verzending ── -->
     <fieldset class="form-fieldset">
       <legend class="form-legend">4. Privacy &amp; verzending</legend>
@@ -757,9 +873,10 @@
       else if (m === 'editorial' && sec === 'editorial') active = true;
       else if (m === 'both' && (sec === 'org' || sec === 'editorial')) active = true;
       else if ((m === 'change_request' || m === 'hide_delete') && sec === 'change') active = true;
+      else if (m === 'event' && sec === 'event') active = true;
       block.classList.toggle('is-active', active);
     });
-    /* org field: required for org/editorial/both; optional for change/hide */
+    /* org field: required for org/editorial/both; optional for change/hide/event */
     const requireOrg = (m === 'org' || m === 'editorial' || m === 'both');
     if (orgInput) {
       if (requireOrg) orgInput.setAttribute('required', '');
@@ -782,11 +899,22 @@
       else if (m === 'both') submitBtn.textContent = 'Deel je informatie en praktijkverhaal';
       else if (m === 'change_request') submitBtn.textContent = 'Deel je wijzigingsverzoek';
       else if (m === 'hide_delete') submitBtn.textContent = 'Deel je verberg- of verwijderverzoek';
+      else if (m === 'event') submitBtn.textContent = 'Meld je event aan';
       else submitBtn.textContent = 'Deel je informatie';
     }
   }
   radios.forEach(r => r.addEventListener('change', applyMode));
   applyMode();
+
+  /* ─── Event date end-min ─── */
+  const evStartEl = document.getElementById('sv-ev-date-start');
+  const evEndEl = document.getElementById('sv-ev-date-end');
+  if (evStartEl && evEndEl) {
+    evStartEl.addEventListener('change', function(){
+      evEndEl.min = this.value;
+      if (evEndEl.value && evEndEl.value < this.value) evEndEl.value = this.value;
+    });
+  }
 
   /* ─── Editorial summary counter ─── */
   if (summaryEl && summaryCounter) {
@@ -955,8 +1083,9 @@
 
   function validate(data, mode){
     const isChangeMode = (mode === 'change_request' || mode === 'hide_delete');
+    const isEventMode = (mode === 'event');
     if (!get(data, 'contact_name')) return 'Vul a.u.b. je naam in.';
-    if (!isChangeMode && !get(data, 'organisation')) return 'Vul a.u.b. je organisatie in.';
+    if (!isChangeMode && !isEventMode && !get(data, 'organisation')) return 'Vul a.u.b. je organisatie in.';
     if (!get(data, 'role')) return 'Vul a.u.b. je functie in.';
     const email = get(data, 'email');
     if (!email) return 'Vul a.u.b. je e-mailadres in.';
@@ -996,6 +1125,28 @@
       if (!aw) return 'Vul a.u.b. je werkmailadres in onder Bevoegdheid om wijziging aan te vragen.';
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(aw)) return 'Vul a.u.b. een geldig werkmailadres in onder Bevoegdheid.';
       if (!get(data, 'auth_relation')) return 'Kies a.u.b. je relatie met de organisatie onder Bevoegdheid.';
+    }
+
+    if (isEventMode) {
+      if (!get(data, 'event_name')) return 'Vul a.u.b. de eventnaam in.';
+      if (!get(data, 'event_organiser')) return 'Vul a.u.b. de organisator van het event in.';
+      if (!get(data, 'event_date_start')) return 'Vul a.u.b. de startdatum van het event in.';
+      const ds = get(data, 'event_date_start');
+      const de = get(data, 'event_date_end');
+      if (de && ds && de < ds) return 'De einddatum van het event mag niet vóór de startdatum liggen.';
+      if (!get(data, 'event_location')) return 'Vul a.u.b. de locatie of "online" in voor het event.';
+      if (!get(data, 'event_country')) return 'Vul a.u.b. het land of de regio van het event in.';
+      const desc = get(data, 'event_description');
+      if (!desc) return 'Vul a.u.b. een korte omschrijving van het event in.';
+      if (desc.length < 20) return 'De omschrijving van het event moet minstens 20 tekens zijn.';
+      const ew = get(data, 'event_website');
+      if (!ew) return 'Vul a.u.b. de website of registratielink van het event in.';
+      if (!/^https?:\/\//.test(ew)) return 'De event-URL moet beginnen met https:// of http://';
+      if (!get(data, 'event_contact_name')) return 'Vul a.u.b. de contactpersoon voor het event in.';
+      const ec = get(data, 'event_contact_email');
+      if (!ec) return 'Vul a.u.b. de werkmail van de event-contactpersoon in.';
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(ec)) return 'Vul a.u.b. een geldig werkmailadres in voor de event-contactpersoon.';
+      if (!get(data, 'event_publication_request')) return 'Kies a.u.b. een publicatieverzoek voor het event.';
     }
 
     if (!data.get('gdpr_consent')) return 'Geef a.u.b. toestemming voor het privacybeleid.';
@@ -1081,6 +1232,27 @@
         lines.push('');
       }
     }
+    if (mode === 'event') {
+      lines.push('▸ EVENT_INTAKE');
+      lines.push('  Eventnaam:     ' + get(data, 'event_name'));
+      lines.push('  Organisator:   ' + get(data, 'event_organiser'));
+      lines.push('  Datum start:   ' + get(data, 'event_date_start'));
+      if (get(data, 'event_date_end')) lines.push('  Datum einde:   ' + get(data, 'event_date_end'));
+      if (get(data, 'event_time')) lines.push('  Tijd/zone:     ' + get(data, 'event_time'));
+      lines.push('  Locatie:       ' + get(data, 'event_location'));
+      lines.push('  Land/regio:    ' + get(data, 'event_country'));
+      lines.push('  Omschrijving:');
+      lines.push('  ' + get(data, 'event_description'));
+      if (get(data, 'event_audience')) lines.push('  Doelgroep:     ' + get(data, 'event_audience'));
+      if (get(data, 'event_tags')) lines.push("  Thema's/tags:  " + get(data, 'event_tags'));
+      lines.push('  Website/regis: ' + get(data, 'event_website'));
+      lines.push('  Contactpers.:  ' + get(data, 'event_contact_name'));
+      lines.push('  Werkmail:      ' + get(data, 'event_contact_email'));
+      lines.push('  Publicatie:    ' + get(data, 'event_publication_request'));
+      lines.push('  Recordtype:    event');
+      lines.push('  Auto-publicatie: NEE — redactie controleert handmatig');
+      lines.push('');
+    }
     lines.push('▸ PRIVACY');
     lines.push('  GDPR-akkoord: JA');
     lines.push('');
@@ -1112,9 +1284,10 @@
         editorial: 'Praktijkverhaal',
         both: 'Organisatie + praktijkverhaal',
         change_request: 'Wijzigingsverzoek',
-        hide_delete: 'Verberg-/verwijderverzoek'
+        hide_delete: 'Verberg-/verwijderverzoek',
+        event: 'Event aanmelden'
       };
-      const who = get(data, 'organisation') || get(data, 'cr_target_name') || get(data, 'contact_name');
+      const who = get(data, 'event_name') || get(data, 'organisation') || get(data, 'cr_target_name') || get(data, 'contact_name');
       const subject = '[ESRF intake] ' + (subjMap[mode] || 'Inzending') + (who ? ' — ' + who : '');
       const mailto = 'mailto:intake@esrf.net'
         + '?subject=' + encodeURIComponent(subject)
