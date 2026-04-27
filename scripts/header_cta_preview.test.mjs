@@ -1,9 +1,11 @@
-// Test: header-cta-preview.html is a hidden internal artifact (round 3).
+// Test: header-cta-preview.html is a hidden internal artifact (round 4).
 //
-// Background — 2026-04-27:
-//   header-cta-preview.html now hosts THREE radically different header-CTA
-//   directions for Wouter plus a mobile treatment (round 3 — round 2 was
-//   rejected as "simply ugly", too many pill/slab iterations).
+// Background — 2026-04-27 (round 4):
+//   Wouter chose Variant A (command card) in round 3 and asked whether
+//   that form can also work on mobile. Round 4 carries Variant A through
+//   to mobile in a single unified design: same accent-rail / mono meta /
+//   serif italic action line, restructured into a full-width tappable
+//   bar below the header. No pill, generous tap area (>= 44px / WCAG).
 //   The preview is NOT public, NOT linked anywhere, and MUST NOT modify
 //   the production header.
 //
@@ -229,6 +231,69 @@ check('preview contains design rationale in Dutch', () => {
     assert.ok(previewHtml.includes(m),
       'expected Dutch rationale marker: ' + m);
   }
+});
+
+/* 14. Round 4 — Variant A has a mobile preview alongside its desktop preview. */
+check('Variant A includes a mobile preview (round 4 unified design)', () => {
+  // The unified showcase block carries data-mobile-preview="variant-a"
+  // and contains a dedicated mobile stage marked with data-variant-a-mobile.
+  assert.match(previewHtml, /data-mobile-preview=["']variant-a["']/,
+    'Variant A unified showcase missing data-mobile-preview="variant-a" hook');
+  assert.match(previewHtml, /data-variant-a-mobile/,
+    'Variant A mobile stage missing data-variant-a-mobile hook');
+  // The mobile stage is a real .mast.overlay nav with the variant-A
+  // identity carriers (accent rail + mono meta + serif italic line).
+  const mobileBlock = previewHtml.match(
+    /<div class="variant-stage v-a-mobile-stage[\s\S]*?<\/div>\s*<\/div>\s*<\/nav>\s*<\/div>/);
+  assert.ok(mobileBlock, 'mobile stage block for Variant A not found');
+  const m = mobileBlock[0];
+  assert.match(m, /class="mast overlay"/,    'mobile preview missing .mast.overlay nav');
+  assert.match(m, /class="v-a-rail"/,         'mobile preview missing v-a-rail (identity)');
+  assert.match(m, /class="v-a-meta"/,         'mobile preview missing v-a-meta (identity)');
+  assert.match(m, /class="v-a-line"/,         'mobile preview missing v-a-line (identity)');
+  assert.match(m, /Draag bij aan verbinding/, 'mobile preview missing NL action label');
+});
+
+/* 15. Round 4 — Variant A mobile honours min tap-area >= 44px (WCAG 2.2). */
+check('Variant A mobile enforces tap-area >= 44px (CSS or explicit note)', () => {
+  // We accept either: an enforced CSS min-height of >=44px on the mobile
+  // command card, OR an explicit textual note that documents the threshold.
+  const cssMatch = previewHtml.match(
+    /\.v-a-mobile-stage\s+\.mast-cta\s*\{[^}]*min-height\s*:\s*(\d+)px/);
+  const cssOk = cssMatch && Number(cssMatch[1]) >= 44;
+  const noteOk = /≥\s*44|>=\s*44|44\s*[×x]\s*44|44\s*px/.test(previewHtml);
+  assert.ok(cssOk || noteOk,
+    'no min tap-area enforcement found: expected min-height>=44px CSS on '
+    + '.v-a-mobile-stage .mast-cta, or an explicit "44px" / "≥44px" note');
+});
+
+/* 16. Round 4 — the live production header was not modified.
+       (Belt-and-braces alongside check #6 / #7: assert no preview-only
+       classes leaked into index.html.) */
+check('production index.html carries no preview-only Variant A markup', () => {
+  const idx = fs.readFileSync(path.join(repoRoot, 'index.html'), 'utf8');
+  const forbidden = [
+    'v-a-rail', 'v-a-meta', 'v-a-line', 'v-a-mobile-stage',
+    'v-a-unified', 'data-variant-a-mobile', 'data-mobile-preview',
+  ];
+  for (const tok of forbidden){
+    assert.ok(!idx.includes(tok),
+      'preview-only token leaked into live index.html: ' + tok);
+  }
+});
+
+/* 17. Round 4 — required leading labels remain present unchanged. */
+check('round-4 leading labels still match the agreed pair', () => {
+  // Required pair: NL "Draag bij aan verbinding" + EN "Share to connect".
+  // Make sure both appear inside the unified showcase block specifically,
+  // not just somewhere lower in the labels-overview table.
+  const showcase = previewHtml.match(
+    /v-a-unified[\s\S]*?<\/section>/);
+  assert.ok(showcase, 'unified Variant A showcase block not found');
+  assert.ok(showcase[0].includes('Draag bij aan verbinding'),
+    'NL label "Draag bij aan verbinding" missing from unified showcase');
+  assert.ok(showcase[0].includes('Share to connect'),
+    'EN label "Share to connect" missing from unified showcase');
 });
 
 if (failures > 0) {

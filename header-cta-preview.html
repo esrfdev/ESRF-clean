@@ -2,15 +2,15 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8" />
-<title>ESRF — Header CTA preview · ronde 3 (intern)</title>
+<title>ESRF — Header CTA preview · ronde 4 (intern)</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <!--
-  Hidden internal preview — ronde 3.
-  Wouter vond ronde 1 te krap en ronde 2 simpelweg lelijk:
-  te veel dezelfde pil/slab-vormen, te weinig eigen vorm.
-  Deze ronde mikt op drie radicaal verschillende richtingen,
-  geen pil-iteraties: een command card, een split-CTA en een
-  typografische rail-CTA. Plus een mobiele behandeling.
+  Hidden internal preview — ronde 4.
+  Wouter koos in ronde 3 voor Variant A (command card) en vroeg of die
+  vorm ook op mobiel kan werken. Deze ronde toont één unified ontwerp:
+  Variant A op desktop én op mobiel, met behoud van de command-card
+  identiteit (accent-rail, monospace meta, serif italic actiezin) —
+  geen pil, ruim raakvlak (≥44px), volle breedte onder de header.
   Niet gelinkt vanaf nav, footer, sitemap of welke productiepagina dan ook.
 -->
 <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
@@ -156,6 +156,113 @@
     font-size:14px;color:var(--accent);transition:transform .25s ease;
   }
   .v-a .mast-cta:hover .v-a-arrow{transform:translateX(4px);color:var(--accent-deep)}
+
+  /* ─── VARIANT A — MOBIELE BEHANDELING (ronde 4) ─────────────────────
+     Zelfde command-card identiteit als desktop: accent-rail links,
+     monospace meta, serif italic actiezin. Op mobiel groeit de kaart
+     naar een volle-breedte balk onder de logo-rij — geen pil, geen
+     oranje vlak. Minimum tap-area 56px hoog (>= WCAG 44px), padding
+     genereus, twee regels niet ingedrukt. */
+  .v-a-mobile-stage{
+    max-width:430px;margin:0 auto;
+    border-left:1px solid rgba(15,20,25,0.08);
+    border-right:1px solid rgba(15,20,25,0.08);
+    min-height:auto;padding:0;
+  }
+  .v-a-mobile-stage .mast.overlay{padding:0}
+  .v-a-mobile-stage .mast-inner{
+    flex-direction:column;align-items:stretch;gap:0;padding:18px 20px 0;
+  }
+  .v-a-mobile-stage .mast-row-top{
+    display:flex;justify-content:space-between;align-items:center;
+    padding-bottom:18px;
+  }
+  .v-a-mobile-stage .mast-burger-fake{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.22em;
+    text-transform:uppercase;color:var(--cream);
+    border:1px solid rgba(248,242,230,0.45);
+    padding:7px 14px;border-radius:3px;
+  }
+  .v-a-mobile-stage .mast-row-cta{
+    margin:0 -20px;
+    border-top:1px solid rgba(248,242,230,0.18);
+    border-bottom:1px solid rgba(248,242,230,0.18);
+  }
+  /* Mobiele command card — volle breedte, accent-rail links bewaard,
+     2-regel hierarchie identiek aan desktop. */
+  .v-a-mobile-stage .mast-cta{
+    display:grid;grid-template-columns:4px 1fr auto;gap:0;
+    padding:0;border-radius:0;
+    background:rgba(248,242,230,0.04);
+    border:0 !important;border-bottom:0 !important;
+    color:var(--cream) !important;
+    text-transform:none;letter-spacing:0;line-height:1;
+    /* Min tap-area 56px (>= WCAG AAA 44x44) — afgedwongen door min-height. */
+    min-height:56px;
+    transition:background .25s ease;
+  }
+  .v-a-mobile-stage .mast-cta:hover,
+  .v-a-mobile-stage .mast-cta:active{background:rgba(248,242,230,0.08)}
+  .v-a-mobile-stage .mast-cta .v-a-rail{
+    background:var(--accent);width:4px;height:100%;
+  }
+  .v-a-mobile-stage .mast-cta .v-a-body{
+    padding:14px 18px;display:flex;flex-direction:column;justify-content:center;gap:8px;
+  }
+  .v-a-mobile-stage .mast-cta .v-a-meta{
+    display:flex;align-items:center;gap:8px;margin:0;
+    font-family:'IBM Plex Mono',monospace;font-weight:500;
+    font-size:9.5px;letter-spacing:0.24em;text-transform:uppercase;
+    color:rgba(248,242,230,0.78);
+  }
+  .v-a-mobile-stage .mast-cta .v-a-meta-dot{
+    width:5px;height:5px;border-radius:999px;background:var(--accent);
+    box-shadow:0 0 0 3px rgba(210,75,31,0.18);
+  }
+  .v-a-mobile-stage .mast-cta .v-a-line{
+    font-family:'PT Serif',serif;font-style:italic;font-weight:400;
+    font-size:19px;letter-spacing:-0.005em;color:var(--cream);
+    line-height:1.15;
+  }
+  .v-a-mobile-stage .mast-cta .v-a-mobile-arrow{
+    align-self:center;padding:0 22px 0 8px;
+    font-family:'Archivo',sans-serif;font-weight:600;font-size:18px;
+    color:var(--accent);
+  }
+
+  /* Side-by-side showcase canvas. */
+  .v-a-showcase{
+    display:grid;grid-template-columns:1fr 0.55fr;gap:0;
+    background:transparent;
+  }
+  @media (max-width:900px){
+    .v-a-showcase{grid-template-columns:1fr}
+  }
+  .v-a-showcase .pane{
+    padding:24px;background:rgba(15,20,25,0.03);
+    border-right:1px solid rgba(15,20,25,0.08);
+    display:flex;flex-direction:column;gap:14px;
+  }
+  .v-a-showcase .pane:last-child{border-right:0}
+  @media (max-width:900px){
+    .v-a-showcase .pane{border-right:0;border-bottom:1px solid rgba(15,20,25,0.08)}
+  }
+  .v-a-showcase .pane-label{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.28em;
+    text-transform:uppercase;color:var(--ink-dim);
+  }
+  .v-a-showcase .pane-stage{
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(210,75,31,0.28), transparent 55%),
+      radial-gradient(ellipse at 85% 80%, rgba(32,78,122,0.30), transparent 60%),
+      linear-gradient(160deg, #1A1410 0%, #0F1419 60%, #0A0E12 100%);
+    border-radius:4px;overflow:hidden;
+  }
+  .v-a-showcase .lang-row{
+    display:flex;gap:8px;flex-wrap:wrap;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-dim);
+  }
+  .v-a-showcase .lang-row b{color:var(--ink)}
 
   /* ─── VARIANT B — SPLIT CTA ──────────────────────────────────────────
      Twee duidelijk gescheiden visuele blokken die samen één klikvlak
@@ -325,36 +432,166 @@
 <div class="preview-shell">
 
   <div class="preview-banner">
-    <strong>Interne preview — ronde 3.</strong>
-    Drie radicaal verschillende richtingen voor de header-CTA, plus een mobiele behandeling.
-    De live header is <em>niet</em> aangeraakt. Deze pagina is <code>noindex,nofollow</code>,
-    staat niet in <code>sitemap.xml</code>, en is niet gelinkt vanaf welke productiepagina dan ook.
-    Knoppen zijn klikbaar en wijzen naar echte intake-routes, zodat de volgflow getest kan worden.
+    <strong>Interne preview — ronde 4.</strong>
+    Variant&nbsp;A (command card) doorgetrokken naar mobiel. Eén unified ontwerp,
+    desktop en mobiel naast elkaar. De live header is <em>niet</em> aangeraakt. Deze pagina
+    is <code>noindex,nofollow</code>, staat niet in <code>sitemap.xml</code>, en is niet
+    gelinkt vanaf welke productiepagina dan ook. Knoppen zijn klikbaar en wijzen naar echte
+    intake-routes, zodat de volgflow getest kan worden.
   </div>
 
   <div class="preview-banner" style="background:#fdebe0;border-color:var(--accent-deep)">
-    <strong>Reset na ronde 2 — 2026-04-27.</strong>
-    Wouter vond ronde 2 simpelweg lelijk: te veel pil/slab-iteraties, te krap, te weinig eigen vorm.
-    Ronde 3 stopt met pillen pushen en verkent drie volledig andere visuele talen:
-    een <em>command card</em> aan de rand van de header, een <em>split-CTA</em> met label en
-    actiezin in twee blokken, en een <em>typografische rail-CTA</em> zonder vlak.
-    Allemaal met genereuze witruimte, verfijnde typografie en geen gepropte tekst.
-    Eerlijk: dit is een visuele keuze — Wouter moet kiezen wat <em>voelt</em> als ESRF.
+    <strong>Vervolg op ronde 3 — 2026-04-27.</strong>
+    Wouter koos in ronde 3 voor <em>Variant&nbsp;A</em> (command card) en vroeg of die vorm
+    ook op mobiel kan werken. Antwoord: ja — en zonder de identiteit te verliezen.
+    De command-card-DNA blijft staan: verticale accent-rail links, monospace meta-regel,
+    serif italic actiezin. Op mobiel groeit de kaart naar een volle-breedte balk net
+    onder de logo-rij — geen pil, geen oranje vlak, ruim raakvlak (≥56&nbsp;px hoog,
+    voldoet ruim aan WCAG-tikdoel van 44&nbsp;px). De drie eerdere alternatieven
+    (B/C/D) blijven onderaan staan ter referentie, maar zijn niet langer aanbevolen.
   </div>
 
-  <div class="preview-eyebrow">Header CTA · Ronde 3</div>
-  <h1 class="preview-h1">Geen pil meer. <i>Drie eigen vormen.</i></h1>
+  <div class="preview-eyebrow">Header CTA · Ronde 4 — unified</div>
+  <h1 class="preview-h1">Variant A. <i>Eén vorm voor alles.</i></h1>
   <p class="preview-deck">
-    Drie genuine alternatieven — geen variaties op hetzelfde knopje. Elk concept staat in
-    de echte donkere ESRF-masthead-context, met een eigen mobiele behandeling onderaan.
-    De labels mengen <em>“Share to connect”</em>, <em>“Draag bij aan verbinding”</em> en
-    een paar redactionele varianten zodat Wouter zowel vorm als microcopy kan wegen.
+    De command card werkt op desktop én mobiel — zelfde accent-rail, zelfde typografische
+    hiërarchie, alleen anders ingedeeld. Hieronder zie je beide naast elkaar in de echte
+    donkere ESRF-masthead-context, met de NL-labels <em>“Draag bij aan verbinding”</em> en
+    de EN-mirror <em>“Share to connect”</em>. Daaronder volgen ter referentie nog
+    Variant&nbsp;B en C uit ronde 3, plus de oude losse mobiele behandeling D.
   </p>
 
-  <!-- ─────────────────────── VARIANT A — COMMAND CARD ─────────────────────── -->
+  <!-- ─────────────────────── RONDE 4 — VARIANT A UNIFIED (DESKTOP + MOBIEL) ─────────────────────── -->
+  <section class="variant v-a v-a-unified" aria-labelledby="va-unified-title" data-mobile-preview="variant-a">
+    <div class="variant-meta">
+      <span class="variant-tag recommended">Aanbevolen · A — desktop + mobiel</span>
+      <span class="variant-title" id="va-unified-title">Variant A unified — command card op elke breedte</span>
+    </div>
+    <div class="v-a-showcase">
+      <!-- DESKTOP PANE -->
+      <div class="pane">
+        <span class="pane-label">Desktop · ≥ 900px</span>
+        <div class="variant-stage pane-stage">
+          <nav class="mast overlay" aria-label="Variant A unified — desktop">
+            <div class="mast-inner">
+              <a href="#" class="mast-logo" onclick="return false">ESRF.net</a>
+              <div class="mast-nav">
+                <a href="#" onclick="return false">Stichting</a>
+                <a href="#" onclick="return false">Directory</a>
+                <a href="#" onclick="return false">Atlas</a>
+                <a href="#" onclick="return false">Dispatch</a>
+                <a class="mast-cta" href="/submit-news?lang=nl" lang="nl"
+                   aria-label="Draag bij aan verbinding — open intake">
+                  <span class="v-a-rail" aria-hidden="true"></span>
+                  <span class="v-a-body">
+                    <span class="v-a-meta">
+                      <span class="v-a-meta-dot" aria-hidden="true"></span>
+                      Open intake · NL / EN
+                    </span>
+                    <span class="v-a-line">
+                      Draag bij aan verbinding
+                      <span class="v-a-arrow" aria-hidden="true">→</span>
+                    </span>
+                  </span>
+                </a>
+                <a href="#" class="mast-contribute" onclick="return false">Doneer</a>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <div class="lang-row">
+          <span><b>NL</b> Draag bij aan verbinding</span>
+          <span>·</span>
+          <span><b>EN</b> Share to connect</span>
+        </div>
+      </div>
+
+      <!-- MOBILE PANE -->
+      <div class="pane">
+        <span class="pane-label">Mobiel · &lt; 600px</span>
+        <div class="variant-stage v-a-mobile-stage" data-variant-a-mobile>
+          <nav class="mast overlay" aria-label="Variant A unified — mobiel">
+            <div class="mast-inner">
+              <div class="mast-row-top">
+                <a href="#" class="mast-logo" onclick="return false">ESRF.net</a>
+                <span class="mast-burger-fake" aria-hidden="true">Menu</span>
+              </div>
+              <div class="mast-row-cta">
+                <a class="mast-cta" href="/submit-news?lang=nl" lang="nl"
+                   aria-label="Draag bij aan verbinding — open intake"
+                   data-tap-area="56">
+                  <span class="v-a-rail" aria-hidden="true"></span>
+                  <span class="v-a-body">
+                    <span class="v-a-meta">
+                      <span class="v-a-meta-dot" aria-hidden="true"></span>
+                      Open intake · NL / EN
+                    </span>
+                    <span class="v-a-line">Draag bij aan verbinding</span>
+                  </span>
+                  <span class="v-a-mobile-arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <div class="lang-row">
+          <span><b>NL</b> Draag bij aan verbinding</span>
+          <span>·</span>
+          <span><b>EN</b> Share to connect</span>
+        </div>
+      </div>
+    </div>
+    <div class="variant-notes">
+      <strong>Hoe dit zich op mobiel gedraagt.</strong>
+      Onder ~600&nbsp;px herstructureert de header zich tot twee rijen. Boven blijven het
+      logo en de menu-trigger; daaronder schuift de command card door als een volle-breedte
+      balk binnen de header-context. De drie identiteitsdragers van Variant&nbsp;A blijven
+      intact: de verticale <em>accent-rail</em> links (4&nbsp;px op mobiel, was 3&nbsp;px op
+      desktop, voor optisch gewicht), de <em>monospace meta-regel</em>
+      (<em>“Open intake · NL/EN”</em>), en de <em>serif italic actiezin</em>
+      (<em>“Draag bij aan verbinding”</em>). Geen pil. Geen oranje vlak. Geen ingedrukte
+      tekst.
+      <ul>
+        <li><strong>Tap-area ≥ 56&nbsp;px.</strong> De CSS dwingt
+        <code>min-height:56px</code> af op <code>.v-a-mobile-stage .mast-cta</code>,
+        ruim boven het WCAG&nbsp;2.2 minimum van 44×44&nbsp;px en boven Apple HIG’s 44&nbsp;pt.
+        De volle breedte garandeert horizontaal raakvlak voor een dikke duim.</li>
+        <li><strong>Twee regels, niet ingedrukt.</strong> Padding 14&nbsp;px verticaal
+        binnen de body, 8&nbsp;px gap tussen meta en actiezin — dezelfde luchtigheid als
+        desktop, niet de gebruikelijke mobiele propperij.</li>
+        <li><strong>Pijl rechts uitgelijnd.</strong> De arrow staat aan de buitenrand
+        zodat duim-gestures (zwaaibewegingen vanaf de rand) intuïtief landen op het
+        actiepunt, niet op het label.</li>
+        <li><strong>Identiek register.</strong> Dezelfde meta-eyebrow + serif italic
+        actiezin op desktop én mobiel — gebruikers herkennen de CTA over breakpoints heen,
+        wat de rest-van-site nav ook doet.</li>
+      </ul>
+      <strong style="display:block;margin-top:18px">Waarom dit kan tegenvallen.</strong>
+      De tweede header-rij verbruikt verticale ruimte boven de fold — op zeer korte mobiele
+      schermen (oude iPhone&nbsp;SE: 320×568) blijft er minder hero over. Mitigatie:
+      collapsen op interne pagina’s of bij scroll, alleen op de homepage standaard tonen.
+      Verder is de balk relatief sober — een gebruiker die een knal-oranje knop verwacht,
+      ziet dit als een navigatie-item; voor ESRF’s register is dat juist gewenst, maar het
+      is een keuze.
+      <table class="label-table" aria-label="Labelvergelijking voor Variant A unified">
+        <thead><tr><th>Taal</th><th>Meta</th><th>Actiezin</th></tr></thead>
+        <tbody>
+          <tr class="win"><td>NL</td><td><em>Open intake · NL / EN</em></td><td><strong>Draag bij aan verbinding</strong></td></tr>
+          <tr class="win"><td>EN</td><td><em>Intake open · EN / NL</em></td><td><strong>Share to connect</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="destinations">
+        Bestemmingen:
+        <a href="/submit-news?lang=nl">/submit-news?lang=nl</a> ·
+        <a href="/submit-news?lang=en">/submit-news?lang=en</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── VARIANT A — COMMAND CARD (ronde 3, ter referentie) ─────────────────────── -->
   <section class="variant v-a" aria-labelledby="va-title">
     <div class="variant-meta">
-      <span class="variant-tag recommended">Aanbevolen · A</span>
+      <span class="variant-tag">Ronde 3 · A — referentie</span>
       <span class="variant-title" id="va-title">Command card — accent-rail, monospace meta, serif actiezin</span>
     </div>
     <div class="variant-stage">
@@ -652,10 +889,12 @@
     Voor variant&nbsp;A/B/C wordt ook één klein CSS-blok toegevoegd aan
     <code>style.css</code> — het preview-CSS staat hier inline en blijft scoped.
     <br><br>
-    <strong>Eerlijke aanbeveling:</strong> variant&nbsp;A (command card) is technisch
-    het sterkst voor de combinatie van klikgevoel + eigen vorm + premium register.
-    Maar dit blijft een <em>visuele</em> beslissing — Wouter zou alle drie naast elkaar
-    in de echte hero moeten zien voor de definitieve keuze.
+    <strong>Eerlijke aanbeveling (ronde 4):</strong> ga met Variant&nbsp;A unified —
+    één command-card-vorm voor desktop én mobiel. Het werkt: dezelfde drie
+    identiteitsdragers (accent-rail, mono-meta, serif italic) blijven herkenbaar over
+    breakpoints, het mobiele raakvlak is ruim (≥56&nbsp;px), en er is geen pil of oranje
+    vlak nodig om de actie te markeren. De varianten B/C en de oude losse mobiele D
+    blijven eronder staan als referentie, maar zijn niet langer aanbevolen.
   </div>
 
 </div>
