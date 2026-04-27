@@ -614,6 +614,18 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
     og_title = meta.get("og_title", title_nl)
     og_desc = meta.get("og_desc", desc_nl)
 
+    canonical_host = "https://esrf.net"
+    canonical_url = f"{canonical_host}/{filename}"
+    # Designed ESRF social preview image (canonical, used site-wide).
+    # Editorial-specific override allowed via `og_image` front-matter field —
+    # must be a path relative to repo root that resolves to an existing file.
+    og_image_rel = meta.get("og_image", "og-image-20260423-final.png").lstrip("/")
+    og_image_url = f"{canonical_host}/{og_image_rel}"
+    title_en_meta = meta.get("title_en", title_nl)
+    desc_en_meta = meta.get("description_en", desc_nl)
+    twitter_title = f"Editorial — {title_en_meta}"
+    twitter_desc = f"Editorial: {desc_en_meta}" if desc_en_meta else f"Editorial — {title_en_meta}"
+
     # Hero: split title at last space for the italic word
     words = title_nl.split()
     if len(words) > 1:
@@ -637,6 +649,31 @@ def build_html(meta: dict, body_html: list[str], refs: list[dict], i18n_prefix: 
 <meta property="og:title" content="{html.escape(og_title)}" />
 <meta property="og:description" content="{html.escape(og_desc)}" />
 <meta property="og:type" content="article" />
+<!-- ESRF-SEO:BEGIN -->
+<link rel="canonical" href="{canonical_url}" />
+<link rel="alternate" hreflang="x-default" href="{canonical_url}" />
+<link rel="alternate" hreflang="en" href="{canonical_url}" />
+<link rel="alternate" hreflang="nl" href="{canonical_url}?lang=nl" />
+<link rel="alternate" hreflang="de" href="{canonical_url}?lang=de" />
+<link rel="alternate" hreflang="fr" href="{canonical_url}?lang=fr" />
+<link rel="alternate" hreflang="es" href="{canonical_url}?lang=es" />
+<link rel="alternate" hreflang="it" href="{canonical_url}?lang=it" />
+<link rel="alternate" hreflang="pt" href="{canonical_url}?lang=pt" />
+<link rel="alternate" hreflang="pl" href="{canonical_url}?lang=pl" />
+<link rel="alternate" hreflang="sv" href="{canonical_url}?lang=sv" />
+<meta property="og:site_name" content="ESRF.net" />
+<meta property="og:locale" content="nl_NL" />
+<meta property="og:url" content="{canonical_url}" />
+<meta property="og:image" content="{og_image_url}" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="ESRF.net — European Security &amp; Resilience Community" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="{html.escape(twitter_title)}" data-count-template="{html.escape(twitter_title)}" />
+<meta name="twitter:description" content="{html.escape(twitter_desc)}" data-count-template="{html.escape(twitter_desc)}" />
+<meta name="twitter:image" content="{og_image_url}" />
+<!-- ESRF-SEO:END -->
+<script type="application/ld+json" data-esrf="1">{{"@context":"https://schema.org","@type":"Article","headline":"{html.escape(twitter_title)}","description":"{html.escape(twitter_desc)}","url":"{canonical_url}","publisher":{{"@type":"Organization","name":"ESRF.net","url":"{canonical_host}","logo":{{"@type":"ImageObject","url":"{canonical_host}/favicon.svg"}}}},"image":"{og_image_url}"}}</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1017,6 +1054,14 @@ def main():
         en_keys[f"{i18n_prefix}.tag_{i+1}"] = tag
 
     # 5. Generate HTML file
+    og_image_rel = meta.get("og_image", "og-image-20260423-final.png").lstrip("/")
+    og_image_path = os.path.join(ROOT, og_image_rel)
+    if not os.path.exists(og_image_path):
+        print(f"Error: og_image asset '{og_image_rel}' not found at {og_image_path}.")
+        print("       Place the designed ESRF social preview image in the repo root or")
+        print("       set 'og_image' in the front matter to an existing path.")
+        sys.exit(1)
+
     html_content = build_html(meta, body_html, refs, i18n_prefix, i18n_keys)
     out_path = os.path.join(ROOT, filename)
     with open(out_path, "w", encoding="utf-8") as f:

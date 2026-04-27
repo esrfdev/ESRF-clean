@@ -18,6 +18,7 @@ on:
       - 'index.html'
       - 'i18n/*.json'
       - 'scripts/validate_editorial_i18n.py'
+      - 'scripts/validate_editorial_social.py'
       - 'scripts/validate_featured_card.py'
       - '.github/workflows/validate-editorial-i18n.yml'
   pull_request:
@@ -27,6 +28,7 @@ on:
       - 'index.html'
       - 'i18n/*.json'
       - 'scripts/validate_editorial_i18n.py'
+      - 'scripts/validate_editorial_social.py'
       - 'scripts/validate_featured_card.py'
       - '.github/workflows/validate-editorial-i18n.yml'
   workflow_dispatch:
@@ -70,3 +72,11 @@ jobs:
       # the featured.* keys exist and are translated in every locale.
       - name: Featured-card i18n — gating
         run: python3 scripts/validate_featured_card.py
+
+      # Editorial social-share metadata: blocks PRs whose editorial
+      # pages are missing canonical, og:url, og:image or twitter:image,
+      # use the wrong host, or reference assets that don't exist.
+      # share.js builds share URLs from <link rel="canonical">, so a
+      # missing canonical is also a share-URL bug, not just an OG bug.
+      - name: Editorial social-share metadata — gating
+        run: python3 scripts/validate_editorial_social.py
