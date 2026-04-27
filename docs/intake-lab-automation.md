@@ -1,0 +1,410 @@
+# Intake lab automation — `/api/intake` (lab/preview)
+
+Lab/preview automation for the integrated organisation + editorial intake
+form (`submit-validation.html`). Lives on the
+`test/regional-editorial-contributor-intake` branch — **never** production.
+
+> **Operational mode (2026-04-26, 14:46 UTC) — periodic Sheet
+> monitoring:** decision event
+> `evt_sheet_monitoring_selected_20260426_1446`. For the current lab
+> phase the redactie monitors `LAB_Intake_Submissions`,
+> `LAB_Editorial_Intake` and `LAB_Workflow_Events` directly in the
+> Drive spreadsheet on a periodic cadence; the redactie monitor
+> procedure lives in the `LAB_Instructions` tab of the same
+> spreadsheet. **No automatic email is sent.** The user explicitly
+> confirmed this is acceptable as the operational mode. Automatic
+> email remains disabled until a minimal-rights Microsoft 365 Graph
+> send-only `Mail.Send` route (or equivalent authenticated SMTP /
+> mailrelay with SPF/DKIM/DMARC alignment) is approved and passes a
+> manually-delivered test under minimal-rights consent. See
+> [`intake-minimal-notification-design.md`](./intake-minimal-notification-design.md)
+> for the full decision record.
+>
+> **Security posture (2026-04-26):** *security-review-ready,
+> production-blocked. First lab-write activation is
+> SPREADSHEET-ONLY; mail notification is deferred to a separate,
+> later Apps Script deployment with its own OAuth consent
+> (`script.send_mail`).* Production activation is held until an
+> `office@esrf.net`-owned **spreadsheet-only** Apps Script webhook
+> and the Cloudflare Pages preview secrets are configured. See §0
+> below for the full security matrix and
+> [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md)
+> for the deferred mail route.
+>
+> **Why the split:** during an OAuth flow under `office@esrf.net`,
+> the consent screen surfaced the unwanted scope
+> `https://www.googleapis.com/auth/script.send_mail` because the
+> previous Apps Script reference contained `MailApp.sendEmail`. The
+> authorization was correctly stopped. The first-phase Apps Script
+> reference (`docs/apps-script-intake-webhook.gs`) is now
+> spreadsheet-only — no `MailApp` / `GmailApp` / `script.send_mail`
+> references — and pairs with `docs/appsscript.json` whose
+> `oauthScopes` is pinned to
+> `https://www.googleapis.com/auth/spreadsheets`.
+
+## 0. Security controls (security-review-ready)
+
+| Control | Status | Where enforced |
+|---|---|---|
+| LAB_*-only writes (no `Directory_Master`) | ✓ enforced | `functions/api/intake.js` `LAB_SPREADSHEET.forbidden_targets` + `assertLabPayloadSafe()` (defence-in-depth, runs before any network call). The Apps Script reference (`docs/apps-script-intake-webhook.gs`) also rejects on receipt. |
+| Shared secret on sheet webhook | ✓ enforced | Sent as `x-esrf-intake-secret` header **and** mirrored in the JSON body as `shared_secret` so the Apps Script `doPost` (which cannot read arbitrary headers) can verify either way. Apps Script accepts canonical `SHEETS_WEBHOOK_SECRET` and legacy `SHARED_SECRET` Script Property. |
+| Origin allowlist | ✓ enforced | `isAllowedOrigin()` — only `esrf.net`, `www.esrf.net`, and `*.esrf-clean.pages.dev` are allowed; anything else returns 403 (no body echo). |
+| POST-only endpoint | ✓ enforced | `onRequest()` returns 405 with `Allow: POST, OPTIONS` for any other method. |
+| `Content-Type: application/json` required | ✓ enforced | Returns 415 otherwise. |
+| Body size cap (64 KiB) | ✓ enforced | `MAX_BODY_BYTES`. Returns 413. |
+| Honeypot + min form-fill timer | ✓ enforced | `company_website_hp` (must be empty) and `form_duration_ms ≥ 2500`. |
+| Cloudflare Turnstile | TODO (runtime-dependent) | Honoured when `TURNSTILE_SECRET_KEY` is set; warning emitted otherwise. Lab posture leaves it disabled. |
+| Rate limiting | TODO (runtime-dependent) | Cloudflare Pages does not give Functions a built-in token bucket. Recommended path: add a Workers KV binding (`INTAKE_RATELIMIT`) and a per-IP counter, or front the route with a Cloudflare WAF rate-limit rule on `/api/intake`. Tracked in §6 of this doc. |
+| Input validation + sanitisation | ✓ enforced | Per-mode required fields, ISO-3166 country, email shape, mandatory editorial + GDPR consents. `sanitize` / `sanitizeLong` strip HTML and dangerous chars; `sanitizeUrl` rejects non-`http(s)`. Field length capped at 600 / 2000. |
+| Minimal notification (no PII / no editorial body) | ✓ enforced | `assertNotificationSafe()` runs on **both** the live and dry-run paths against `FORBIDDEN_NOTIFY_KEYS`. `notify_to_recipient` only appears when `INTAKE_NOTIFY_TO` is a valid email; otherwise omitted. |
+| No secrets in repo / response / logs | ✓ enforced | All secrets read from `env`. The shared-secret value is mirrored only on the wire (see above) and never logged. Upstream errors are flattened to `Sheet upstream <code>` / `Notify upstream <code>` / `GitHub upstream <code>` so script-side error bodies never reach the client. |
+| CORS handling | ✓ enforced | `onRequestOptions` answers preflight only for allowed origins. `Vary: origin` set on every response. |
+| Default-safe / dry-run | ✓ enforced | Without `INTAKE_SHEET_WEBHOOK_URL` the backend stays in `sheet_dry_run: true`; without `INTAKE_NOTIFY_WEBHOOK` notification stays in `dry_run_not_configured`. The Cloudflare backend never sends mail itself. |
+| First-phase Apps Script is spreadsheet-only (no MailApp / GmailApp / script.send_mail) | ✓ enforced | `docs/apps-script-intake-webhook.gs` contains no mail-API references; `docs/appsscript.json` pins `oauthScopes` to `https://www.googleapis.com/auth/spreadsheets`. Tests in `functions/api/intake.test.mjs` (`apps-script reference contains no MailApp/GmailApp/sendEmail/send_mail`, `apps-script reference does not require NOTIFY_TO`, `appsscript.json oauthScopes is spreadsheets-only`) enforce this on every run. |
+| Mail notification disabled in first lab-write activation | ✓ enforced | First-phase Apps Script returns `mail_notification_status: "pending_separate_deployment"`. Cloudflare backend keeps `INTAKE_NOTIFY_WEBHOOK` / `INTAKE_NOTIFY_TO` unset, so `notification_status` stays `dry_run_not_configured`. Activating mail requires the deferred separate Apps Script deployment in `docs/apps-script-mail-notification.future.md`. |
+| Generic error messages | ✓ enforced | 4xx/5xx responses contain only `{ ok: false, error: "<short>" }`; no stack trace, no env-var name, no upstream body. |
+| Official identity | ✓ enforced | `OFFICE_IDENTITY.official_recipient = "office@esrf.net"`. Surfaced in every successful response under `storage_architecture.official_identity`. The legacy `ai.agent.wm@gmail.com` is listed under `non_production_identities` and hard-blocked by the Apps Script's `FORBIDDEN_NOTIFY_RECIPIENTS` deny-list. |
+
+The same controls are exercised by `functions/api/intake.test.mjs` —
+relevant case names: `assertLabPayloadSafe REFUSES Directory_Master
+target`, `assertLabPayloadSafe REFUSES non-LAB_ target tabs`,
+`assertNotificationSafe rejects every forbidden PII / editorial key`,
+`OFFICE_IDENTITY exposes office@esrf.net as the official recipient`,
+`OFFICE_IDENTITY note explicitly forbids ai.agent.wm@gmail.com as
+production recipient`, `GET /api/intake returns 405 (POST-only)`, `POST
+from disallowed origin returns 403`, `POST with non-JSON content-type
+returns 415`, `POST with body > 64 KiB returns 413`, `POST with
+honeypot value returns 400 (bot)`, `POST with too-fast form fill
+returns 400`, `Default dry-run when no INTAKE_SHEET_WEBHOOK_URL
+configured`, `Editorial mode without edit_and_publish consent returns
+400`, `Missing gdpr_privacy_policy returns 400`, `Validation error
+message is generic, not stack/secrets`.
+
+### Production blockers
+
+Production cannot be flipped on until **all** of these are resolved:
+
+- [ ] **First-phase spreadsheet-only Apps Script project** created
+  / owned under `office@esrf.net`. OAuth consent must surface
+  **only** `https://www.googleapis.com/auth/spreadsheets`. If the
+  consent screen offers `script.send_mail` or any `gmail.*` scope,
+  STOP and re-check the source against
+  [`apps-script-intake-webhook.gs`](./apps-script-intake-webhook.gs).
+- [ ] Cloudflare Pages **preview** secrets configured:
+  `INTAKE_SHEET_WEBHOOK_URL`, `SHEETS_WEBHOOK_SECRET`. **Leave
+  `INTAKE_NOTIFY_WEBHOOK` and `INTAKE_NOTIFY_TO` unset** during the
+  spreadsheet-only first phase. Optional: `TURNSTILE_SECRET_KEY`.
+  (Production env stays unset until sign-off.)
+- [ ] Activation gate in `intake-lab-test-report-2026-04-25.md` §6b
+  ticked off by the redactie.
+- [ ] **Mail notification PREPARED, NOT ACTIVATED** — the Cloudflare
+  backend now dispatches a sanitized notification payload to
+  `INTAKE_NOTIFY_WEBHOOK` when (and only when) that env var is set.
+  The env var is intentionally unset on every Cloudflare Pages
+  environment until activation, so `notification_status` defaults to
+  `dry_run_not_configured`. The relay endpoint is a separate Apps
+  Script deployment with its own OAuth consent (`script.send_mail`);
+  source is checked in at
+  [`apps-script-mail-notification.gs`](./apps-script-mail-notification.gs)
+  with manifest
+  [`appsscript.mail-notification.json`](./appsscript.mail-notification.json),
+  activation checklist + rollback in
+  [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md).
+  Activating that deployment is a **separate** gate, not part of
+  the first lab-write activation. `/api/intake-test` never dispatches
+  notifications — the opt-in `notification_simulate: true` flag
+  returns `simulated_no_dispatch` without any fetch.
+- [ ] Optional: Workers KV binding for rate-limiting OR Cloudflare WAF
+  rate-limit rule on `/api/intake`.
+
+
+
+> **Latest dry-run evidence:** see
+> [`intake-lab-test-report-2026-04-25.md`](./intake-lab-test-report-2026-04-25.md)
+> for the end-to-end browser dry-run (submission `sub_moelllvt_i21b`),
+> the notification-contract verification, and the operational
+> readiness checklist for activating the Apps Script webhook —
+> including the **safe `wrangler pages secret` CLI route** (§6a),
+> the **decision gate before any real email is sent** (§6b), and
+> the **rollback procedure** (§6c).
+
+This document covers:
+
+1. The lab tabs and the SSoT contract
+2. Environment variables (priority order, dual naming)
+3. Backend response: workflow steps and notification contract
+4. End-to-end test steps in the preview environment
+5. Production-overgang (what changes when this graduates)
+
+---
+
+## 1. Lab tabs — the Google Sheet stays the single source of truth
+
+The Google Drive spreadsheet **`ESRF Directory CRM - actuele brondata
+2026-04-24`** (spreadsheet id
+`1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g`) is and remains the
+operational single source of truth.
+
+In lab/preview the backend writes **only** to the following tabs (the
+backend payload always carries `target_prefix: "LAB_"` and lists
+`Directory_Master` as a forbidden target):
+
+| Tab | Purpose | One row per |
+|---|---|---|
+| `LAB_Intake_Submissions` | Master submission register | submission |
+| `LAB_Editorial_Intake` | Editorial-bearing submissions only | editorial |
+| `LAB_Place_Candidates` | Unknown / requested place additions | place candidate |
+| `LAB_Backend_Log` | Every `/api/intake` request, success or error | request |
+| `LAB_Workflow_Events` | State-change events / status transitions | event |
+
+In addition, the spreadsheet contains a procedure tab that the
+backend never writes to:
+
+| Tab | Purpose | Read by |
+|---|---|---|
+| `LAB_Instructions` | Redactie monitor procedure: cadence, who-watches-which-tab, and how to acknowledge a row in the operational queue (`LAB_Intake_Submissions` + `LAB_Editorial_Intake` + `LAB_Workflow_Events`) while automatic email is disabled. | Redactie / operator (humans only). `/api/intake` never writes here, in the same way it never writes to `Directory_Master`. |
+
+The exact column headers are documented in
+[`docs/apps-script-intake-webhook.gs`](./apps-script-intake-webhook.gs)
+and matched by the row builders in `functions/api/intake.js`.
+
+`Directory_Master` is **never** automatically modified by this backend.
+The Apps Script reference rejects any payload that targets
+`Directory_Master` or omits the `LAB_` prefix.
+
+---
+
+## 2. Environment variables
+
+Set via Cloudflare Pages → Settings → Environment variables. Use the
+**Preview** environment for the lab branch; **Production** stays unset
+until the redactie signs off.
+
+| Name | Purpose | Notes |
+|---|---|---|
+| `INTAKE_SHEET_WEBHOOK_URL` | Apps Script webhook URL (preferred name) | Highest priority |
+| `SHEETS_WEBHOOK_URL` | Documented alias accepted by the backend | Used if the canonical name is absent |
+| `GOOGLE_SHEET_WEBHOOK_URL` | Legacy alias | Fallback only |
+| `SHEETS_WEBHOOK_SECRET` (alias `INTAKE_SHEET_WEBHOOK_SECRET`) | Optional shared secret; sent as `x-esrf-intake-secret` header | Apps Script must verify this |
+| `INTAKE_NOTIFY_WEBHOOK` | Optional **ESRF mailrelay-/notificatie-webhook** URL | Receives the minimal, PII-free notification payload. Generic relay (Apps Script, Pipedream, custom mailrelay, Slack-compatible endpoint, …). **Not** a Gmail-specific integration — ESRF.net does not run on Gmail. |
+| `INTAKE_NOTIFY_TO` | Optional operational recipient address | Documented default: `office@esrf.net`. Forwarded as `notify_to_recipient` metadata in the notification message. The Cloudflare backend never sends mail directly; the relay (e.g. the Apps Script's `NOTIFY_TO` Script Property) performs the actual `MailApp.sendEmail()` call. |
+| `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret | Without it, Turnstile is skipped (warning emitted) |
+| `GITHUB_TOKEN` + `INTAKE_REPO` | Optional: open a private intake issue as evidence record | `INTAKE_REPO` is `owner/repo` |
+
+**Priority order for the sheet webhook URL** (first non-empty wins):
+
+1. `INTAKE_SHEET_WEBHOOK_URL`
+2. `SHEETS_WEBHOOK_URL`
+3. `GOOGLE_SHEET_WEBHOOK_URL`
+
+Secrets are never returned to the client and never logged.
+
+### 2a. Apps Script — Script Properties (canonical names)
+
+The Apps Script that backs `INTAKE_SHEET_WEBHOOK_URL`
+(reference: `docs/apps-script-intake-webhook.gs`) is configured via
+*Apps Script → Project Settings → Script Properties*. New deployments
+must set the canonical property names below. Legacy aliases are
+accepted as a fallback so deployments that already use the old names
+keep working without manual reconfiguration; new deployments should
+leave the legacy names unset.
+
+| Property | Status | Purpose |
+|---|---|---|
+| `SHEETS_WEBHOOK_SECRET` | **canonical, required** | Must match the Cloudflare backend's `SHEETS_WEBHOOK_SECRET` (sent on inbound requests as the `x-esrf-intake-secret` header, or in the JSON body as `shared_secret`). |
+| `SHEET_ID` | **canonical, optional** | Spreadsheet id to write to. Optional: the script also resolves it from the inbound payload's `spreadsheet_id` and from the constant in the source. |
+| `SHARED_SECRET` | legacy alias (fallback) | Legacy alias for `SHEETS_WEBHOOK_SECRET`. Read only if the canonical name is unset. Do not set on new deployments. |
+| `SPREADSHEET_ID` | legacy alias (fallback) | Legacy alias for `SHEET_ID`. Read only if the canonical name is unset. Do not set on new deployments. |
+| `NOTIFY_TO` | **NOT used by first-phase webhook** | The first-phase spreadsheet-only Apps Script does not read this property at all (it contains no `MailApp` calls). Mail notification is handled by a SEPARATE later deployment — see [`apps-script-mail-notification.future.md`](./apps-script-mail-notification.future.md). If the property is left over from a previous attempt, clearing it has no effect on this script; clearing it is recommended for hygiene. |
+| `NOTIFY_FROM_NAME` | **NOT used by first-phase webhook** | Same as above. Belongs to the deferred mail-notification Apps Script project. |
+| `NOTIFY_SUBJECT_PREFIX` | **NOT used by first-phase webhook** | Same as above. Belongs to the deferred mail-notification Apps Script project. |
+
+`Directory_Master` is **never** auto-written. The Apps Script refuses
+any payload whose `target_prefix` is not `LAB_` or whose row map
+includes `Directory_Master`.
+
+---
+
+## 3. Backend response — workflow + notification contract
+
+Every successful `POST /api/intake` returns JSON with these top-level
+fields (and the existing `ok`, `mode`, `received_at`, etc.):
+
+```json
+{
+  "ok": true,
+  "submission_id": "sub_…",
+  "request_id": "req_…",
+  "dry_run": true,
+  "sheet_dry_run": true,
+  "issue_dry_run": true,
+  "workflow": {
+    "status": "dry_run | stored | error",
+    "next_required_action": "…human-readable string…",
+    "steps": [
+      { "step": "received",                       "status": "ok",      "at": "…", "detail": "…" },
+      { "step": "validated",                      "status": "ok",      "at": "…", "detail": "…" },
+      { "step": "stored_or_dry_run",              "status": "stored | dry_run | error", "at": "…", "detail": "…" },
+      { "step": "notification_prepared_or_sent",  "status": "sent | dry_run_not_configured | error", "at": "…", "detail": "…" },
+      { "step": "next_required_action",           "status": "…",        "at": "…", "detail": "…" }
+    ]
+  },
+  "sheet_webhook_payload_preview": { /* exact JSON the Apps Script would receive */ },
+  "notification_status": "sent | dry_run_not_configured | error",
+  "notification_message": { /* exact minimal message that would be POSTed */ },
+  "storage_architecture": {
+    "single_source_of_truth": "google_sheet",
+    "spreadsheet_id": "1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g",
+    "spreadsheet_label": "ESRF Directory CRM - actuele brondata 2026-04-24",
+    "target_prefix": "LAB_",
+    "lab_tabs": { "intake_submissions": "LAB_Intake_Submissions", "…": "…" },
+    "forbidden_targets": ["Directory_Master"]
+  },
+  "warnings": [ "…human-readable strings…" ]
+}
+```
+
+### Notification contract (minimal — no PII, no editorial body)
+
+The notification channel is the **ESRF mailnotificatie /
+operationele notificatie / mailrelay-webhook**. It is intentionally
+generic — any HTTP endpoint that knows how to deliver an email (Apps
+Script's `MailApp`, Pipedream, a custom mailrelay, a Slack-compatible
+incoming webhook, …) can be plugged in. ESRF.net does **not** run on
+Gmail and there is no Gmail-specific code path.
+
+The notification message contains **only**:
+
+```
+schema_version
+submission_id
+request_id
+environment
+mode
+type                  // org | editorial | org+editorial
+org_name
+country               // ISO-3166 alpha-2
+region
+workflow_status
+next_required_action
+related_sheet         // e.g. "LAB_Intake_Submissions"
+related_row           // sheet row id once known
+issue_url             // when GitHub evidence record is configured
+notification_channel  // always "esrf_mail_relay_or_webhook"
+notify_to_recipient   // OPTIONAL — operational ESRF inbox (e.g. office@esrf.net) — only present when INTAKE_NOTIFY_TO is set
+note
+```
+
+It MUST NOT contain `contact_email`, `contact_phone`, `contact_name`,
+`editorial.summary`, `editorial.regional_angle`, `editorial.lesson` or
+any other free-form editorial body. The
+`functions/api/intake.test.mjs` tests *"notification message excludes
+PII and editorial body"* and *"notification message exposes
+notify_to_recipient ONLY when configured + valid"* enforce this. The
+test *"workflow event row labels notification channel as ESRF mail
+relay/webhook (not Gmail)"* enforces the channel naming.
+
+If `INTAKE_NOTIFY_WEBHOOK` is unset, the response carries
+`notification_status: "dry_run_not_configured"` and the exact would-be
+message is returned in `notification_message` so the redactie can
+inspect it.
+
+#### Activating real mail delivery to `office@esrf.net`
+
+Two activation paths, depending on where you want the actual
+`MailApp.sendEmail()` call to live:
+
+1. **Apps Script (recommended for the lab — single deploy unit).**
+   On the Apps Script project that backs `INTAKE_SHEET_WEBHOOK_URL`,
+   open *Project Settings → Script Properties* and set the canonical
+   properties (see §2a):
+   - `SHEETS_WEBHOOK_SECRET` — required; must match the Cloudflare
+     `SHEETS_WEBHOOK_SECRET` env var.
+   - `SHEET_ID` — optional; the lab spreadsheet id.
+   Then, to enable mail notifications, **opt in** by adding
+   `NOTIFY_TO` (e.g. an ESRF inbox such as `office@esrf.net`). It is
+   unset by default — no email is sent until an operator sets it.
+   After the next successful intake write, the Apps Script sends a
+   minimal MailApp notification to that inbox. Clear the property to
+   disable. The Apps Script reference
+   (`docs/apps-script-intake-webhook.gs`) implements this with the
+   same allow-list / forbidden-fields guarantees as the backend
+   payload, so PII cannot leak into the email body. MailApp delivers
+   from the script-owner Workspace identity to the configured ESRF
+   inbox — this is **not** a Gmail-as-ESRF route.
+
+2. **External mailrelay / webhook (e.g. Pipedream, n8n,
+   internal SMTP relay).** Set `INTAKE_NOTIFY_WEBHOOK` on Cloudflare
+   Pages to the relay URL, and `INTAKE_NOTIFY_TO=office@esrf.net` so
+   the relay knows the operational recipient. The Cloudflare backend
+   POSTs the same minimal JSON to the relay; the relay translates it
+   to email.
+
+In both paths **the Cloudflare Pages Function never sends email
+itself**. No SMTP credentials live in Cloudflare. No real email is
+sent until the operator opts in by setting the relevant property /
+env var. The lab readiness checklist in
+[`intake-lab-test-report-2026-04-25.md`](./intake-lab-test-report-2026-04-25.md)
+documents the exact activation steps.
+
+---
+
+## 4. End-to-end test steps (preview environment)
+
+Test against the lab preview at
+<https://test-regional-editorial-cont.esrf-clean.pages.dev/submit-validation.html>.
+
+Initial state: no env vars set on the preview environment → full dry-run.
+
+1. Open the preview URL in a clean browser window.
+2. Fill in the **organisation** path with a fictitious org and submit.
+3. Click "Backend test — geen productieopslag tenzij validatiesecrets actief zijn".
+4. Verify the panel shows:
+   - `workflow.status: dry_run`
+   - `workflow.steps` with five entries (received, validated,
+     stored_or_dry_run=`dry_run`, notification_prepared_or_sent=`dry_run_not_configured`,
+     next_required_action)
+   - `Sheet-doel (lab)` lists the lab spreadsheet id, `target_prefix: LAB_`
+     and the five LAB_* tabs
+   - `Notificatie.status: dry_run_not_configured` and a preview message
+     with no `contact_email`, no `contact_name`, no editorial body
+   - `LAB-rijen (preview)` lists exactly the rows that would be appended
+     (one for `LAB_Intake_Submissions`, plus the log + workflow event)
+5. Repeat for the **editorial** path. Verify a `LAB_Editorial_Intake`
+   row appears in the preview.
+6. Repeat for the **both** path. Verify both rows appear.
+7. Repeat with an unknown place. Verify a `LAB_Place_Candidates` row
+   appears in the preview.
+8. (Optional) Set `INTAKE_SHEET_WEBHOOK_URL` to a deployed Apps Script
+   webhook (the example in `docs/apps-script-intake-webhook.gs`) and a
+   shared `SHEETS_WEBHOOK_SECRET`, then re-run step 7. The panel should
+   now show `workflow.status: stored` and a real row id from the sheet.
+
+The Node-only test suite covers the same dry-run paths without needing
+the deployed preview:
+
+```
+node functions/api/intake.test.mjs
+node functions/_middleware.test.mjs
+```
+
+---
+
+## 5. Productie-overgang
+
+This lab automation graduates only when:
+
+1. The redactie signs off on the contents of the lab tabs and the
+   workflow / notification copy.
+2. A canonical Apps Script (based on `apps-script-intake-webhook.gs`)
+   is deployed against the production tabs (without the `LAB_` prefix)
+   on a separate sheet. **Directory_Master remains read-only.**
+3. The Cloudflare Pages **Production** environment receives the
+   non-lab webhook URL and a fresh shared secret. The Preview
+   environment continues to point at the lab tabs.
+4. The 27-language i18n keys listed in `docs/intake-backend.md` are
+   authored.
+
+Until then the production form remains the existing
+`request-listing.html` and `submit-news.html`; the lab backend never
+publishes anything.

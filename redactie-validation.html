@@ -1,0 +1,2106 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="googlebot" content="noindex,nofollow" />
+<meta name="referrer" content="no-referrer" />
+<title>[Test] Redactieformulier — ESRF.net</title>
+<meta name="description" content="Testpagina voor de redactie. Niet openbaar. Op deze pagina wordt niets op de website gepubliceerd en de inzending van de indiener verandert niet." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<style>
+  .stage-bar{
+    background:var(--ink);color:var(--cream);
+    padding:8px 20px;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    text-align:center;border-bottom:2px solid var(--accent);
+  }
+  .stage-bar strong{color:var(--accent);font-weight:500;letter-spacing:0.18em}
+  .stage-bar a{color:var(--cream);text-decoration:underline;text-underline-offset:2px}
+
+  .rv-warn{
+    max-width:1180px;margin:14px auto 0;padding:14px 18px;
+    background:#fff3cd;border:2px solid #ffc107;color:#664d03;
+    border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.55;
+  }
+  .rv-warn strong{display:block;margin-bottom:4px;font-size:13px;letter-spacing:0.06em}
+  .rv-warn ul{margin:6px 0 0;padding-left:20px}
+
+  .rv-wrap{
+    max-width:1180px;margin:18px auto 60px;padding:0 18px;
+    font-family:'Archivo',system-ui,sans-serif;color:var(--ink, #0f172a);
+  }
+  .rv-head{
+    display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:18px;
+    margin:8px 0 14px;
+  }
+  .rv-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#b91c1c}
+  .rv-h1{font-family:'PT Serif',serif;font-size:30px;line-height:1.2;margin:4px 0 6px}
+  .rv-deck{font-size:14.5px;line-height:1.55;color:#374151;max-width:780px}
+
+  .rv-grid{display:grid;grid-template-columns:340px 1fr;gap:20px;margin-top:18px}
+  @media (max-width:880px){ .rv-grid{grid-template-columns:1fr} }
+
+  .rv-list{
+    border:1px solid #e2e8f0;border-radius:6px;background:#fff;
+    max-height:78vh;overflow:auto;
+  }
+  .rv-list-head{
+    padding:10px 14px;border-bottom:1px solid #e2e8f0;background:#f8fafc;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#475569;
+    display:flex;justify-content:space-between;align-items:center;gap:8px;
+  }
+  .rv-filter{
+    width:100%;padding:8px 10px;border:1px solid #e2e8f0;background:#fff;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;border-radius:4px;
+  }
+  .rv-list-filter{padding:10px 14px;border-bottom:1px solid #e2e8f0;background:#fff}
+  .rv-item{
+    padding:12px 14px;border-bottom:1px solid #eef2f7;cursor:pointer;
+    display:flex;flex-direction:column;gap:4px;
+  }
+  .rv-item:hover{background:#f8fafc}
+  .rv-item.active{background:#eef6ff;border-left:3px solid #2563eb;padding-left:11px}
+  .rv-item-title{font-family:'PT Serif',serif;font-size:15px;line-height:1.3;color:#0f172a}
+  .rv-item-line{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#64748b;letter-spacing:0.04em}
+  .rv-pill{
+    display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;
+    padding:2px 6px;border-radius:3px;text-transform:uppercase;
+  }
+  .rv-pill-org{background:#dbeafe;color:#1e40af}
+  .rv-pill-ed{background:#fef3c7;color:#92400e}
+  .rv-pill-cr{background:#fee2e2;color:#991b1b}
+
+  /* Change-request side-by-side panels */
+  .rv-cr-banner{
+    border-left:4px solid #b91c1c;background:#fef2f2;color:#7f1d1d;
+    padding:10px 12px;margin:10px 0 14px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.4;border-radius:3px;
+  }
+  .rv-cr-banner strong{display:block;font-size:13px;letter-spacing:0.04em;margin-bottom:3px;color:#7f1d1d}
+  .rv-cr-action-badge{
+    display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;
+    padding:3px 8px;border-radius:3px;text-transform:uppercase;background:#fee2e2;color:#991b1b;margin-right:6px;
+  }
+  .rv-cr-action-update{background:#dbeafe;color:#1e40af}
+  .rv-cr-action-hide{background:#fef3c7;color:#92400e}
+  .rv-cr-action-delete{background:#fee2e2;color:#991b1b}
+  .rv-cr-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 6px;
+  }
+  @media (max-width: 720px){ .rv-cr-grid{grid-template-columns:1fr} }
+  .rv-cr-panel{
+    border:1px solid #e2e8f0;border-radius:4px;padding:10px 12px;background:#fafafa;
+  }
+  .rv-cr-panel-existing{border-left:3px solid #64748b;background:#f8fafc}
+  .rv-cr-panel-requested{border-left:3px solid #b91c1c;background:#fff7f7}
+  .rv-cr-panel h4{
+    margin:0 0 6px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;color:#475569;text-transform:uppercase;
+  }
+  .rv-cr-panel-requested h4{color:#7f1d1d}
+  .rv-cr-panel pre{
+    white-space:pre-wrap;word-break:break-word;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#0f172a;margin:0;
+  }
+  .rv-cr-auth-yes{color:#15803d;font-weight:600}
+  .rv-cr-auth-no{color:#991b1b;font-weight:600}
+
+  .rv-detail{
+    border:1px solid #e2e8f0;border-radius:6px;background:#fff;padding:18px 22px;
+  }
+  .rv-detail h2{font-family:'PT Serif',serif;font-size:22px;line-height:1.25;margin:0 0 4px}
+  .rv-detail-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#64748b;letter-spacing:0.06em;margin-bottom:14px}
+
+  .rv-section{margin:14px 0;padding:12px 14px;border:1px solid #eef2f7;border-radius:5px;background:#fcfcfd}
+  .rv-section h3{margin:0 0 8px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#475569;font-family:'IBM Plex Mono',monospace}
+  .rv-row{display:grid;grid-template-columns:160px 1fr;gap:8px 14px;font-size:13.5px;line-height:1.5;margin:6px 0}
+  .rv-row dt{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#64748b;letter-spacing:0.04em;padding-top:2px}
+  .rv-row dd{margin:0;color:#0f172a;word-break:break-word}
+  .rv-summary{
+    font-family:'PT Serif',serif;font-size:15px;line-height:1.55;color:#1f2937;
+    background:#fff;border-left:3px solid #cbd5e1;padding:8px 12px;margin:6px 0;
+  }
+
+  .rv-form-row{display:grid;grid-template-columns:160px 1fr;gap:10px 14px;margin:10px 0}
+  .rv-form-row label{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#475569;letter-spacing:0.04em;padding-top:8px}
+  .rv-form-row input[type="text"],
+  .rv-form-row input[type="date"],
+  .rv-form-row select,
+  .rv-form-row textarea{
+    width:100%;padding:9px 10px;border:1px solid #cbd5e1;border-radius:4px;
+    font-family:'Archivo',system-ui,sans-serif;font-size:14px;background:#fff;color:#0f172a;
+  }
+  .rv-form-row textarea{min-height:90px;resize:vertical;font-family:'PT Serif',serif;line-height:1.5}
+
+  .rv-hidden-toggle{
+    display:flex;align-items:center;gap:8px;font-size:12px;color:#475569;
+    font-family:'IBM Plex Mono',monospace;margin:6px 0 10px;
+  }
+  .rv-contact{
+    background:#fef2f2;border:1px dashed #fca5a5;color:#7f1d1d;
+    padding:10px 12px;border-radius:4px;font-size:13px;line-height:1.5;
+  }
+  .rv-contact-mark{
+    display:inline-block;background:#fee2e2;color:#991b1b;
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+    padding:2px 6px;border-radius:3px;letter-spacing:0.06em;margin-right:6px;
+  }
+
+  .rv-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .rv-btn{
+    display:inline-block;padding:8px 14px;border:1px solid #cbd5e1;border-radius:4px;
+    background:#fff;color:#0f172a;font-family:'IBM Plex Mono',monospace;font-size:12.5px;
+    cursor:pointer;letter-spacing:0.04em;
+  }
+  .rv-btn-primary{background:#0f172a;color:#fff;border-color:#0f172a}
+  .rv-btn-warn{background:#fef3c7;color:#7c2d12;border-color:#fde68a}
+
+  .rv-export{
+    margin-top:14px;border:1px solid #e2e8f0;border-radius:5px;background:#0f172a;color:#e2e8f0;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.55;
+    padding:12px 14px;white-space:pre-wrap;word-break:break-word;max-height:380px;overflow:auto;
+  }
+  .rv-export-hint{font-size:11px;color:#64748b;font-family:'IBM Plex Mono',monospace;margin:8px 0 0}
+
+  .rv-section-original{background:#f8fafc;border-color:#cbd5e1}
+  .rv-section-original h3{color:#334155}
+  .rv-section-edit{background:#fffbeb;border-color:#fde68a}
+  .rv-section-edit h3{color:#92400e}
+  .rv-readonly-note{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:#475569;letter-spacing:0.04em;
+    background:#e2e8f0;color:#1e293b;padding:4px 8px;border-radius:3px;display:inline-block;margin-bottom:6px;
+  }
+  .rv-edit-note{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;
+    background:#fde68a;color:#7c2d12;padding:4px 8px;border-radius:3px;display:inline-block;margin-bottom:6px;
+  }
+  .rv-edit-warn{
+    background:#fff7ed;border:1px dashed #fb923c;color:#7c2d12;
+    padding:8px 12px;border-radius:4px;font-size:12.5px;line-height:1.5;margin:6px 0 12px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .rv-changes{
+    margin:8px 0;padding:8px 12px;border-radius:4px;
+    background:#ecfeff;border:1px solid #67e8f9;color:#155e75;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.55;
+  }
+  .rv-changes strong{color:#0e7490;letter-spacing:0.06em;text-transform:uppercase;font-size:11px}
+  .rv-changes ul{margin:4px 0 0;padding-left:18px}
+  .rv-changes li{margin:2px 0}
+  .rv-changes-empty{color:#475569;font-style:italic}
+  .rv-readonly{background:#f1f5f9 !important;color:#475569 !important}
+
+  .rv-foot{
+    margin-top:30px;padding-top:14px;border-top:1px solid #e2e8f0;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:#64748b;letter-spacing:0.04em;
+  }
+
+  .rv-access{
+    margin:14px 0;padding:12px 14px;border-radius:6px;
+    background:#f8fafc;border:1px solid #cbd5e1;
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.55;color:#0f172a;
+  }
+  .rv-access-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+  .rv-access-row label[for="rv-access-code"]{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;color:#0f172a;
+    flex:0 0 auto;
+  }
+  .rv-access input[type="password"],
+  .rv-access input[type="text"]{
+    padding:10px 12px;border:1px solid #94a3b8;border-radius:4px;
+    font-family:'IBM Plex Mono','SFMono-Regular',Menlo,Consolas,monospace;
+    font-size:14px;letter-spacing:0.04em;line-height:1.4;
+    background:#fff;color:#0f172a;
+    flex:1 1 360px;min-width:320px;width:100%;max-width:520px;
+    box-sizing:border-box;
+  }
+  .rv-access input#rv-access-code{
+    /* Generous sizing so the full access code (placeholder or typed)
+       remains visible on desktop and mobile. Monospaced so each char
+       takes the same width — easier to verify the code visually. */
+    font-size:15px;
+    padding:11px 14px;
+  }
+  .rv-access input#rv-access-code::placeholder{
+    color:#64748b;letter-spacing:0.02em;
+  }
+  @media (max-width: 640px){
+    .rv-access-row{align-items:stretch}
+    .rv-access input#rv-access-code{
+      flex:1 1 100%;min-width:0;max-width:100%;width:100%;
+    }
+  }
+  .rv-access-mode{
+    display:inline-block;padding:2px 8px;border-radius:3px;letter-spacing:0.06em;
+    font-size:11px;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;
+  }
+  .rv-mode-sample{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+  .rv-mode-lab{background:#dcfce7;color:#166534;border:1px solid #86efac}
+  .rv-access p{margin:6px 0 0}
+  .rv-access ul{margin:6px 0 0;padding-left:20px}
+  .rv-access-msg{margin-top:6px;color:#475569}
+  .rv-step-hint{
+    margin:6px 0;padding:8px 12px;border-radius:4px;
+    background:#eff6ff;border-left:3px solid #3b82f6;color:#1e3a8a;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.55;
+  }
+
+  /* Plain-language purpose / "Waar is dit formulier voor?" panel */
+  .rv-purpose{
+    margin:14px 0 18px;padding:16px 20px;border-radius:6px;
+    background:#eff6ff;border:1px solid #bfdbfe;color:#0f172a;
+    font-family:'Archivo',system-ui,sans-serif;font-size:14.5px;line-height:1.6;
+  }
+  .rv-purpose-h{
+    margin:0 0 6px;font-family:'PT Serif',serif;font-size:20px;color:#1e3a8a;
+  }
+  .rv-purpose-lede{margin:0 0 10px}
+  .rv-purpose-list{margin:0;padding-left:22px}
+  .rv-purpose-list li{margin:6px 0}
+
+  /* Inline field help under editable inputs (e.g. Sector / tags) */
+  .rv-field-help{
+    margin:4px 0 10px;font-size:12.5px;line-height:1.55;color:#475569;
+    font-family:'Archivo',system-ui,sans-serif;
+  }
+
+  /* Numbered workflow panel (1 → 5) */
+  .rv-workflow{
+    margin:18px 0 22px;padding:14px 18px;
+    background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;
+  }
+  .rv-workflow h2{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.10em;
+    text-transform:uppercase;color:#334155;margin:0 0 4px;
+  }
+  .rv-workflow-sub{
+    font-size:13px;line-height:1.5;color:#475569;margin:0 0 10px;
+  }
+  .rv-steps{
+    list-style:none;padding:0;margin:0;
+    display:grid;grid-template-columns:repeat(5,1fr);gap:8px;
+  }
+  @media (max-width:880px){ .rv-steps{grid-template-columns:1fr 1fr} }
+  .rv-step{
+    background:#fff;border:1px solid #e2e8f0;border-radius:5px;
+    padding:10px 12px;font-size:13px;line-height:1.4;color:#0f172a;
+  }
+  .rv-step-num{
+    display:inline-block;background:#0f172a;color:#fff;border-radius:3px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;
+    padding:1px 6px;margin-right:6px;letter-spacing:0.04em;
+  }
+  .rv-step-title{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+    letter-spacing:0.06em;text-transform:uppercase;color:#1e293b;
+    display:block;margin-bottom:4px;
+  }
+  .rv-step-do{font-size:12.5px;color:#334155;line-height:1.45}
+
+  /* Plain-language instruction block under each main action */
+  .rv-instruct{
+    margin:6px 0 0;padding:10px 12px;border-radius:5px;
+    background:#f1f5f9;border-left:3px solid #475569;
+    font-size:13px;line-height:1.55;color:#0f172a;
+    font-family:'Archivo',system-ui,sans-serif;
+  }
+  .rv-instruct strong{display:block;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#1e293b;margin-bottom:4px}
+  .rv-instruct ul{margin:4px 0 0;padding-left:18px}
+  .rv-instruct li{margin:2px 0}
+  .rv-instruct .rv-instruct-do{color:#0f172a}
+  .rv-instruct .rv-instruct-not{color:#7f1d1d}
+  .rv-instruct .rv-instruct-next{color:#1e3a8a}
+
+  /* Primary action area (visible role-based) */
+  .rv-primary-area{
+    margin:18px 0 6px;padding:14px 16px;
+    background:#fff;border:2px solid #0f172a;border-radius:6px;
+  }
+  .rv-primary-area .rv-btn-primary{font-size:13.5px;padding:10px 18px}
+  .rv-primary-mode-note{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;
+    color:#92400e;background:#fef3c7;border:1px solid #fde68a;
+    padding:3px 8px;border-radius:3px;display:inline-block;margin-bottom:8px;
+  }
+  .rv-primary-mode-note.is-lab{color:#166534;background:#dcfce7;border-color:#86efac}
+
+  /* Technical export details */
+  .rv-tech{
+    margin-top:18px;border:1px dashed #cbd5e1;border-radius:5px;
+    background:#fafafa;padding:6px 12px;
+  }
+  .rv-tech > summary{
+    cursor:pointer;padding:6px 0;font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:0.06em;color:#475569;
+  }
+  .rv-tech[open] > summary{color:#0f172a}
+  .rv-tech-warn{
+    margin:6px 0 8px;padding:6px 10px;border-radius:4px;
+    background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.5;
+  }
+
+  /* Save status banner shown after a /api/redactie-review-update call. */
+  .rv-save-banner{
+    margin:14px 0 8px;padding:10px 14px;border-radius:6px;
+    border:1px solid #cbd5e1;background:#f8fafc;color:#0f172a;
+    font-size:13.5px;line-height:1.55;
+  }
+  .rv-save-banner > strong{
+    display:block;font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;
+  }
+  .rv-save-banner .rv-save-msg{margin:0 0 6px}
+  .rv-save-banner .rv-save-list{margin:4px 0 0;padding-left:18px;font-size:12.5px}
+  .rv-save-banner .rv-save-block{
+    margin:6px 0 0;padding:6px 10px;border-radius:4px;
+    background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  }
+  .rv-save-saved{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}
+  .rv-save-saved > strong{color:#065f46}
+  .rv-save-failed{background:#fef2f2;border-color:#fecaca;color:#7f1d1d}
+  .rv-save-failed > strong{color:#7f1d1d}
+  .rv-save-not_saved{background:#f1f5f9;border-color:#cbd5e1;color:#334155}
+  .rv-save-not_saved > strong{color:#334155}
+
+  /* Editable-field warnings */
+  .rv-edit-rules{
+    margin:6px 0 12px;padding:10px 12px;
+    background:#fff1f2;border:1px solid #fecdd3;border-radius:5px;
+    font-size:12.5px;line-height:1.5;color:#7f1d1d;
+  }
+  .rv-edit-rules strong{display:block;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9f1239;margin-bottom:4px}
+  .rv-edit-rules ul{margin:2px 0 0;padding-left:18px}
+</style>
+</head>
+<body>
+
+<div class="stage-bar" role="status">
+  <strong>VALIDATIEOMGEVING</strong> &nbsp;·&nbsp; NIET PUBLIEK &nbsp;·&nbsp; testpagina voor de redactie &nbsp;·&nbsp;
+  <a href="validation-lab.html">Validation Lab</a>
+</div>
+
+<main class="rv-wrap">
+
+  <div class="rv-warn" role="alert">
+    <strong>⚠ Lees dit eerst — wat dit scherm wel en niet doet</strong>
+    Dit is een testomgeving voor de redactie. Niets op deze pagina komt op de website te staan.
+    <ul>
+      <li><strong>Dit is een test­omgeving.</strong> Niets wordt op de website gepubliceerd.</li>
+      <li><strong>De inzending van de indiener verandert niet.</strong> Wat de indiener heeft ingestuurd blijft staan zoals het was.</li>
+      <li><strong>De vaste hoofdtabel met organisaties verandert niet.</strong> Deze pagina raakt die tabel nooit aan.</li>
+      <li><strong>In teststand wordt niets opgeslagen.</strong> Je kunt rustig dingen uitproberen.</li>
+      <li><strong>Pas als beheer dit scherm activeert</strong> wordt jouw beoordeling opgeslagen in de redactietabel en wordt er een notitie in het activiteitenlogboek gezet. Er gaat dan nog steeds niets automatisch naar de website en er wordt geen e-mail gestuurd.</li>
+    </ul>
+    <details style="margin-top:8px">
+      <summary style="cursor:pointer;font-size:11.5px;color:#664d03">Voor beheer — technische details (tabellen en logboek)</summary>
+      <div style="margin-top:6px;font-size:12px;color:#664d03">
+        Niet publiceren — dit scherm publiceert nooit naar live, editorials of directory.
+        Directory_Master niet aanpassen — wijzigingen op deze pagina raken Directory_Master niet.
+        Preview pas na akkoord — een lab-draft of directory-candidate wordt pas gegenereerd nadat redactie de rij in de Sheet expliciet op approved zet.
+        Automatisch opslaan in LAB-mode — <em>Opslaan in redactietabel</em> schrijft append-only naar LAB_Redactie_Reviews + LAB_Workflow_Events. In sample-mode wordt niets opgeslagen.
+        Bewerkingen wijzigen alleen het publicatievoorstel — de originele inzending blijft als bron en audit-spoor bewaard; geen automatische live publicatie.
+        De redactietabel heet intern <code>LAB_Redactie_Reviews</code>; het activiteitenlogboek heet <code>LAB_Workflow_Events</code>; de bron-tabbladen heten <code>LAB_Intake_Submissions</code> en <code>LAB_Editorial_Intake</code>.
+      </div>
+    </details>
+  </div>
+
+  <div class="rv-head">
+    <div>
+      <p class="rv-kicker">§ Redactie · testomgeving</p>
+      <h1 class="rv-h1">Redactieformulier — beoordeel één inzending</h1>
+      <p class="rv-deck">Kies links een inzending, lees rustig wat er staat en vul rechts in wat de volgende stap is. Onderaan staat één duidelijke knop. Wat die knop doet, leggen we daar in het kort uit. De inzending van de indiener verandert niet en er wordt niets op de website gepubliceerd.</p>
+    </div>
+  </div>
+
+  <section class="rv-purpose" id="rv-purpose" aria-label="Waar is dit formulier voor?">
+    <h2 class="rv-purpose-h">Waar is dit formulier voor?</h2>
+    <p class="rv-purpose-lede">
+      Met dit formulier bekijk je één inzending van een bezoeker en leg je een redactiebesluit vast. In gewone taal:
+    </p>
+    <ol class="rv-purpose-list">
+      <li><strong>Je bekijkt een inzending.</strong> Links kies je een binnengekomen inzending; rechts zie je wat de bezoeker heeft ingestuurd.</li>
+      <li><strong>Je past de tekst aan waar nodig.</strong> Klik op <em>Bewerken</em> om een redactieversie van titel, samenvatting en publicatie­tekst te maken. De originele inzending blijft als bron staan.</li>
+      <li><strong>Je kiest de volgende stap of status.</strong> Onder <em>Procesgang</em> kies je waar deze inzending nu staat (bijvoorbeeld <em>In redactie</em>, <em>Controle nodig</em> of <em>Goedgekeurd voor concept</em>).</li>
+      <li><strong>Je slaat het redactiebesluit op.</strong> De knop onderaan slaat jouw beoordeling op in de redactietabel; de originele inzending verandert niet.</li>
+      <li><strong>Niets wordt automatisch gepubliceerd.</strong> Een collega van beheer maakt later, op basis van jouw besluit, een conceptartikel of conceptvermelding aan. Er gaat geen e-mail uit en de website verandert niet vanzelf.</li>
+    </ol>
+  </section>
+
+  <section class="rv-workflow" aria-label="Redactie-stappen">
+    <h2>De vijf stappen — kies welke nu past</h2>
+    <p class="rv-workflow-sub">Iedere inzending doorloopt deze stappen. Kies bij <em>Procesgang</em> rechts dezelfde stap als hieronder.</p>
+    <ol class="rv-steps">
+      <li class="rv-step">
+        <span class="rv-step-num">1</span>
+        <span class="rv-step-title">Ontvangen</span>
+        <span class="rv-step-do">Lees de inzending en controleer of alles begrijpelijk is.</span>
+      </li>
+      <li class="rv-step">
+        <span class="rv-step-num">2</span>
+        <span class="rv-step-title">In redactie</span>
+        <span class="rv-step-do">Pas alleen de tekst voor publicatie aan. De inzending van de indiener blijft staan.</span>
+      </li>
+      <li class="rv-step">
+        <span class="rv-step-num">3</span>
+        <span class="rv-step-title">Controle nodig</span>
+        <span class="rv-step-do">Vraag extra informatie of laat iemand meekijken voordat je verder gaat.</span>
+      </li>
+      <li class="rv-step">
+        <span class="rv-step-num">4</span>
+        <span class="rv-step-title">Goedgekeurd voor concept</span>
+        <span class="rv-step-do">De tekst mag naar een conceptartikel of conceptvermelding. Een collega van beheer maakt dat concept aan.</span>
+      </li>
+      <li class="rv-step">
+        <span class="rv-step-num">5</span>
+        <span class="rv-step-title">Afgewezen / geparkeerd</span>
+        <span class="rv-step-do">Doe voorlopig niets en noteer waarom in de review-notitie.</span>
+      </li>
+    </ol>
+  </section>
+
+  <div class="rv-access" id="rv-access" role="region" aria-label="Toegangscode (LAB-toegang)">
+    <strong>Toegangscode</strong>
+    &nbsp;·&nbsp;
+    <span id="rv-access-mode" class="rv-access-mode rv-mode-sample">Teststand</span>
+    &nbsp;·&nbsp;
+    <span>geen automatische publicatie · de hoofdtabel met organisaties (Directory_Master niet aanpassen) wordt niet aangeraakt</span>
+    <p>
+      Dit formulier staat standaard in <strong>teststand</strong>: je ziet voorbeeldinzendingen, geen echte gegevens. Echte inzendingen komen pas in beeld als je een geldige toegangscode invult <em>en</em> beheer dit scherm heeft geactiveerd. Tot die tijd verandert er niets in de echte gegevens.
+    </p>
+    <p style="margin-top:6px;font-size:12px;color:#475569">
+      De code blijft alleen in dit tabblad; hij wordt nergens onthouden, niet in een cookie en niet op je computer.
+    </p>
+    <div class="rv-access-row">
+      <label for="rv-access-code">Toegangscode:</label>
+      <input id="rv-access-code" type="password" autocomplete="off" spellcheck="false"
+        size="40" maxlength="64"
+        placeholder="vul alleen in als je een code hebt gekregen" aria-describedby="rv-access-msg rv-access-code-help" />
+      <button id="rv-access-load" class="rv-btn rv-btn-primary" type="button">Echte inzendingen laden</button>
+      <button id="rv-access-clear" class="rv-btn rv-btn-warn" type="button">Code wissen · terug naar teststand</button>
+    </div>
+    <p id="rv-access-code-help" style="margin:6px 0 0;font-size:12px;color:#475569">
+      Het invoerveld is breed genoeg voor de volledige toegangscode en gebruikt een vast lettertype zodat elke letter even breed is. De code blijft als gestippelde tekens zichtbaar voor je veiligheid; gebruik <em>Code wissen</em> om opnieuw te beginnen.
+    </p>
+    <p id="rv-access-msg" class="rv-access-msg" aria-live="polite">
+      Teststand actief. Je werkt nu met voorbeeldinzendingen; er wordt niets opgeslagen.
+    </p>
+    <div id="rv-access-activation" hidden></div>
+    <details style="margin-top:8px">
+      <summary style="cursor:pointer;font-size:11.5px;color:#475569">Voor beheer — technische activatie (sample-mode → LAB-mode)</summary>
+      <div style="margin-top:6px;font-size:12px;color:#475569;line-height:1.55">
+        Standaard draait deze pagina in sample-mode (lokale voorbeeldrijen, niets uit de echte LAB-Sheet). Met een geldige review-toegangscode én alle vier de Cloudflare Pages preview env vars (REDACTIE_REVIEW_ACCESS_CODE, REDACTIE_REVIEW_WEBHOOK_URL, REDACTIE_REVIEW_WEBHOOK_SECRET, REDACTIE_REVIEW_WRITE_ENABLED=true) schakelt de pagina over naar LAB-mode en leest echte LAB_Intake_Submissions / LAB_Editorial_Intake rijen via <code>/api/redactie-review</code>. De toegangscode wordt nooit lokaal opgeslagen (geen localStorage, geen cookie) en verlaat de browser alleen versleuteld via HTTPS. Productie krijgt deze env vars niet — Cloudflare Pages Functions geven 404 op productie.
+      </div>
+    </details>
+  </div>
+
+  <div class="rv-grid">
+
+    <aside class="rv-list" aria-label="Inzendingen">
+      <div class="rv-list-head">
+        <span>Inzendingen</span>
+        <span id="rv-count" aria-live="polite">0</span>
+      </div>
+      <div class="rv-list-filter">
+        <input id="rv-filter" class="rv-filter" type="text" placeholder="Zoek op titel, regio of soort…" aria-label="Zoek in inzendingen" />
+      </div>
+      <div id="rv-items" role="list"></div>
+    </aside>
+
+    <section class="rv-detail" id="rv-detail" aria-live="polite">
+      <p class="rv-detail-sub">Kies links een inzending om de inhoud en het beoordelingsformulier te zien.</p>
+    </section>
+
+  </div>
+
+  <p class="rv-foot">
+    De contactgegevens van de indiener staan standaard verborgen en zijn alleen voor intern gebruik. Ze worden niet meegestuurd in een download, tenzij je dat zelf aanzet.
+  </p>
+
+</main>
+
+<script>
+/* eslint-disable */
+(function(){
+  'use strict';
+
+  // ── Lokale voorbeeld-data (fictief, afgeleid van bestaande lab fixtures) ────
+  // Géén live Sheet-call. Géén PII van echte personen.
+  var SAMPLE = [
+    {
+      record_type: 'org',
+      submission_id: 'sub_lab_demo_001',
+      received_at: '2026-04-26T10:05:00Z',
+      environment: 'TEST/VALIDATIE',
+      source_tab: 'LAB_Intake_Submissions',
+      source_row_hint: 'rij 4',
+      title: 'ESRF Lab Test Voorbeeld Organisatie',
+      organization_name: 'ESRF Lab Test Voorbeeld Organisatie',
+      type_label: 'Organisatie-aanmelding',
+      type: 'org',
+      region: 'Utrecht',
+      country_code: 'NL',
+      country_name_local: 'Nederland',
+      sector_raw: 'Civil society / NGO',
+      summary: 'Fictieve lab-test organisatie ter validatie van het redactieformulier en de directory-candidate flow. Geen echte gegevens.',
+      website: 'https://example.org/lab-fixture',
+      contact: {
+        name: 'A. Voorbeeld',
+        email: 'a.voorbeeld@example.org',
+        role: 'Coördinator',
+        phone: ''
+      },
+      consent_publish: 'listing',
+      process_step: 'binnengekomen',
+      review_status: 'in_review',
+      reminder: 'Controleer of organisatie al voorkomt in Directory (org_id_match leeg).',
+      next_required_action: 'Controleer dubbel + ken sector toe',
+      assigned_to: 'redactie',
+      due_date: '2026-05-03',
+      review_notes_internal: ''
+    },
+    {
+      record_type: 'editorial',
+      submission_id: 'sub_lab_demo_002',
+      editorial_id: 'ed_lab_demo_002',
+      received_at: '2026-04-26T10:00:00Z',
+      environment: 'TEST/VALIDATIE',
+      source_tab: 'LAB_Editorial_Intake',
+      source_row_hint: 'rij 3',
+      title: 'Voorbeeld regionale leadership lesson — Rotterdam 2026',
+      organization_name: 'Stichting Voorbeeld Regionaal',
+      type_label: 'Editorial bijdrage',
+      type: 'regional_editorial',
+      region: 'Rotterdam-Rijnmond',
+      country_code: 'NL',
+      language: 'nl',
+      topic_tags: 'Leiderschap, Regio, Voorbeeld',
+      summary: 'Korte samenvatting van een regionale leadership lesson voor lab-redactietest. Inhoud is fictief.',
+      body_md_or_url: '## Inleiding\n\nFictieve regionale tekst.\n\n## Lesson\n\nGedeelde paraatheid versterkt regionale weerbaarheid.',
+      contact: {
+        name: 'R. Voorbeeld',
+        email: 'r.voorbeeld@example.org',
+        role: 'Schrijver',
+        phone: ''
+      },
+      consent_publish: 'yes',
+      process_step: 'in_review',
+      review_status: 'in_review',
+      reminder: 'Checkvraag: zit er een citeerbare bron of cijfer in dat redactie moet verifiëren?',
+      next_required_action: 'Verifieer feiten + kies publicatievenster',
+      assigned_to: 'redactie',
+      due_date: '2026-05-03',
+      review_notes_internal: ''
+    },
+    {
+      record_type: 'editorial',
+      submission_id: 'sub_lab_demo_003',
+      editorial_id: 'ed_lab_demo_003',
+      received_at: '2026-04-25T08:42:00Z',
+      environment: 'TEST/VALIDATIE',
+      source_tab: 'LAB_Editorial_Intake',
+      source_row_hint: 'rij 4',
+      title: 'In het zonnetje — vrijwilligersinitiatief Drenthe',
+      organization_name: 'Vrijwilligers Drenthe (fictief)',
+      type_label: 'Editorial bijdrage · in het zonnetje',
+      type: 'spotlight_editorial',
+      region: 'Drenthe',
+      country_code: 'NL',
+      language: 'nl',
+      topic_tags: 'Vrijwilligers, Regio',
+      summary: 'Fictief portret van een regionaal vrijwilligersinitiatief, ingediend ter validatie van de redactie-UX.',
+      body_md_or_url: '## Portret\n\nFictieve tekst voor lab-test.',
+      contact: {
+        name: 'J. Voorbeeld',
+        email: 'j.voorbeeld@example.org',
+        role: 'Voorzitter',
+        phone: ''
+      },
+      consent_publish: 'yes',
+      process_step: 'wachten_op_indiener',
+      review_status: 'pending_clarification',
+      reminder: 'Vraag om bron-link of een quote die we mogen publiceren.',
+      next_required_action: 'E-mail indiener voor bronbevestiging',
+      assigned_to: 'redactie',
+      due_date: '2026-05-05',
+      review_notes_internal: ''
+    },
+    {
+      record_type: 'change_request',
+      submission_id: 'sub_lab_demo_005',
+      change_request_id: 'chg_lab_demo_005',
+      received_at: '2026-04-26T11:30:00Z',
+      environment: 'TEST/VALIDATIE',
+      source_tab: 'LAB_Change_Requests',
+      source_row_hint: 'rij 2',
+      title: 'Wijzigingsverzoek — Stichting Voorbeeld Noord',
+      organization_name: 'Stichting Voorbeeld Noord (bestaande vermelding)',
+      type_label: 'Wijzigingsverzoek · bijwerken',
+      type: 'change_request',
+      sub_mode: 'change_request',
+      requested_action: 'update',
+      target_listing_name: 'Stichting Voorbeeld Noord',
+      target_listing_url: 'https://esrf.net/directory/voorbeeld-noord',
+      change_description: 'Het adres en de sector kloppen niet meer. Adres is per 2026-03-01 verhuisd naar Groningen; sector hoort "Crisisbeheersing" te zijn (was: "Beveiliging").',
+      change_description_existing: 'Stichting Voorbeeld Noord — sector: Beveiliging — locatie: Drenthe',
+      change_description_requested: 'Stichting Voorbeeld Noord — sector: Crisisbeheersing — locatie: Groningen',
+      reason: 'Organisatie is verhuisd en kerntaken zijn formeel verschoven. Verzoek namens directie.',
+      evidence_url: 'https://example.org/persbericht-verhuizing',
+      requester_authorization: 'authorized_representative',
+      authorization_confirmation: 'yes',
+      region: 'Groningen',
+      country_code: 'NL',
+      country_name_local: 'Nederland',
+      summary: 'Wijzigingsverzoek voor bestaande vermelding: adres en sector. Lab-fixture, fictieve gegevens.',
+      contact: {
+        name: 'D. Voorbeeld',
+        email: 'd.voorbeeld@example.org',
+        role: 'Directeur',
+        phone: ''
+      },
+      consent_publish: 'change_request_only',
+      process_step: 'binnengekomen',
+      review_status: 'in_review',
+      reminder: 'Controleer of indiener bevoegd is (authorization_confirmation=yes). Verifieer adreswijziging via persbericht. Directory_Master niet aanpassen — eerst redactiebesluit loggen.',
+      next_required_action: 'Verifieer bevoegdheid + bron, dan redactiebesluit',
+      assigned_to: 'redactie',
+      due_date: '2026-05-04',
+      review_notes_internal: '',
+      directory_master_touched: 'no',
+      automatic_publication: 'no'
+    },
+    {
+      record_type: 'change_request',
+      submission_id: 'sub_lab_demo_006',
+      change_request_id: 'chg_lab_demo_006',
+      received_at: '2026-04-26T12:05:00Z',
+      environment: 'TEST/VALIDATIE',
+      source_tab: 'LAB_Change_Requests',
+      source_row_hint: 'rij 3',
+      title: 'Verzoek tot verwijderen — Voorbeeld Coöperatie Oost',
+      organization_name: 'Voorbeeld Coöperatie Oost (bestaande vermelding)',
+      type_label: 'Wijzigingsverzoek · verwijderen',
+      type: 'change_request',
+      sub_mode: 'hide_delete',
+      requested_action: 'delete',
+      target_listing_name: 'Voorbeeld Coöperatie Oost',
+      target_listing_url: '',
+      change_description: 'Coöperatie is per 2026-04-01 ontbonden. Verzoek om de vermelding helemaal te verwijderen.',
+      reason: 'Organisatie bestaat niet meer.',
+      evidence_url: '',
+      requester_authorization: 'authorized_representative',
+      authorization_confirmation: 'yes',
+      region: 'Overijssel',
+      country_code: 'NL',
+      country_name_local: 'Nederland',
+      summary: 'Verzoek tot verwijdering van een bestaande vermelding wegens ontbinding. Lab-fixture.',
+      contact: {
+        name: 'L. Voorbeeld',
+        email: 'l.voorbeeld@example.org',
+        role: 'Voormalig bestuur',
+        phone: ''
+      },
+      consent_publish: 'change_request_only',
+      process_step: 'in_review',
+      review_status: 'pending_clarification',
+      reminder: 'Vraag bewijs van ontbinding (KvK) op voordat de vermelding wordt verwijderd. Directory_Master niet aanpassen voor redactiebesluit.',
+      next_required_action: 'Verzoek bewijsstuk; bij groen licht: redactie verwijdert handmatig',
+      assigned_to: 'redactie',
+      due_date: '2026-05-06',
+      review_notes_internal: '',
+      directory_master_touched: 'no',
+      automatic_publication: 'no'
+    },
+    {
+      record_type: 'org',
+      submission_id: 'sub_lab_demo_004',
+      received_at: '2026-04-24T14:11:00Z',
+      environment: 'TEST/VALIDATIE',
+      source_tab: 'LAB_Intake_Submissions',
+      source_row_hint: 'rij 5',
+      title: 'ESRF Lab Test Stichting Regio Zuid',
+      organization_name: 'ESRF Lab Test Stichting Regio Zuid',
+      type_label: 'Organisatie-aanmelding',
+      type: 'org',
+      region: 'Limburg',
+      country_code: 'NL',
+      country_name_local: 'Nederland',
+      sector_raw: 'Emergency / first response',
+      summary: 'Fictieve hulpdienst-organisatie als testrij. Geen echte gegevens. Voor lab UX validatie.',
+      website: 'https://example.org/lab-fixture-2',
+      contact: {
+        name: 'M. Voorbeeld',
+        email: 'm.voorbeeld@example.org',
+        role: 'Bestuur',
+        phone: ''
+      },
+      consent_publish: 'listing',
+      process_step: 'klaar_voor_akkoord',
+      review_status: 'approved_for_directory_candidate',
+      reminder: 'Klaar voor promote — controleer review_notes_internal voor je in Sheet zet.',
+      next_required_action: 'Promote naar directory-candidate JSON (handmatig)',
+      assigned_to: 'redactie',
+      due_date: '2026-05-02',
+      review_notes_internal: 'Redactie-pass 2026-04-25 — sector is consistent.'
+    }
+  ];
+
+  // Vaste keuzes — Dutch labels.
+  var PROCESS_STEPS = [
+    { v: 'binnengekomen',           t: 'Binnengekomen' },
+    { v: 'in_review',               t: 'In review' },
+    { v: 'wachten_op_indiener',     t: 'Wacht op indiener' },
+    { v: 'klaar_voor_akkoord',      t: 'Klaar voor akkoord' },
+    { v: 'akkoord_voor_promote',    t: 'Akkoord — gereed voor promote' },
+    { v: 'afgewezen',               t: 'Afgewezen' },
+    { v: 'gearchiveerd',            t: 'Gearchiveerd' }
+  ];
+  var REVIEW_STATUSES = [
+    { v: 'in_review',                          t: 'In review' },
+    { v: 'pending_clarification',              t: 'Vraagt verheldering' },
+    { v: 'approved_for_candidate',             t: 'Goedgekeurd — kandidaat' },
+    { v: 'approved_for_directory_candidate',   t: 'Goedgekeurd — directory-kandidaat' },
+    { v: 'approved_for_draft',                 t: 'Goedgekeurd — editorial draft' },
+    { v: 'approved_lab_promote',               t: 'Goedgekeurd — lab-promote' },
+    { v: 'rejected',                           t: 'Afgewezen' }
+  ];
+
+  // ── DOM helpers ─────────────────────────────────────────────────────────
+  function $(id){ return document.getElementById(id); }
+  function el(tag, attrs, kids){
+    var e = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function(k){
+      if (k === 'class') e.className = attrs[k];
+      else if (k === 'text') e.textContent = attrs[k];
+      else if (k === 'html') e.innerHTML = attrs[k];
+      else e.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function(k){ if (k != null) e.appendChild(typeof k === 'string' ? document.createTextNode(k) : k); });
+    return e;
+  }
+  function escapeHtml(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+    });
+  }
+
+  function stepReminderFor(stepKey){
+    var map = state.statusStepReminders || STATUS_STEP_REMINDERS_DEFAULT;
+    return map[stepKey] || '';
+  }
+
+  // ── Access panel + LAB read ─────────────────────────────────────────────
+  // Sends the access code to /api/redactie-review and replaces SAMPLE
+  // with real LAB rows when the server allows it. The code is held in
+  // memory (closure) only — never persisted.
+  function renderAccessPanel(){
+    var modeEl = $('rv-access-mode');
+    if (modeEl){
+      modeEl.textContent = state.accessMode === 'lab' ? 'Echte inzendingen — actief' : 'Teststand';
+      modeEl.className = 'rv-access-mode ' + (state.accessMode === 'lab' ? 'rv-mode-lab' : 'rv-mode-sample');
+    }
+    var msgEl = $('rv-access-msg');
+    if (msgEl){
+      msgEl.textContent = state.accessMessage || (state.accessMode === 'lab'
+        ? 'Je werkt nu met echte inzendingen. De vaste hoofdtabel met organisaties wordt niet aangeraakt.'
+        : 'Teststand actief. Je werkt met voorbeeldinzendingen; er wordt niets opgeslagen.');
+    }
+    var actEl = $('rv-access-activation');
+    if (actEl){
+      actEl.innerHTML = '';
+      if (state.accessActivation && state.accessActivation.length){
+        actEl.hidden = false;
+        var p = el('p', { text: 'Beheer moet hieronder eerst dit nog regelen voordat echte inzendingen geladen kunnen worden:' });
+        actEl.appendChild(p);
+        var ul = el('ul');
+        state.accessActivation.forEach(function(line){
+          ul.appendChild(el('li', { text: String(line) }));
+        });
+        actEl.appendChild(ul);
+      } else {
+        actEl.hidden = true;
+      }
+    }
+  }
+
+  async function loadLabData(accessCode){
+    var msgEl = $('rv-access-msg');
+    if (msgEl) msgEl.textContent = 'Even geduld — bezig met ophalen…';
+    try {
+      var res = await fetch('/api/redactie-review', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          access_code: accessCode || '',
+          include_contact: false
+        })
+      });
+      var data = null;
+      try { data = await res.json(); } catch(e){ data = null; }
+      if (!res.ok || !data || data.ok === false){
+        state.accessMode = 'sample';
+        state.accessMessage = (data && data.error) ? ('Het laden lukt niet (' + data.error + '). Je werkt nu in teststand — er wordt niets opgeslagen.') : 'Het laden van echte inzendingen lukt niet. Je werkt nu in teststand — er wordt niets opgeslagen.';
+        state.accessActivation = null;
+        state.accessCode = '';
+        state.records = SAMPLE.slice();
+      } else {
+        state.accessMode = data.mode === 'lab' ? 'lab' : 'sample';
+        state.accessMessage = (data.access && data.access.message) || '';
+        state.accessActivation = Array.isArray(data.activation_required) ? data.activation_required : null;
+        state.accessCode = (data.mode === 'lab') ? String(accessCode || '') : '';
+        state.statusStepReminders = (data.status_step_reminders && typeof data.status_step_reminders === 'object')
+          ? data.status_step_reminders : STATUS_STEP_REMINDERS_DEFAULT;
+        if (Array.isArray(data.records) && data.records.length){
+          state.records = data.records;
+        } else {
+          state.records = SAMPLE.slice();
+        }
+      }
+    } catch (e) {
+      state.accessMode = 'sample';
+      state.accessMessage = 'Geen verbinding. Je werkt nu in teststand — er wordt niets opgeslagen.';
+      state.accessActivation = null;
+      state.records = SAMPLE.slice();
+    }
+    state.activeId = state.records[0] && state.records[0].submission_id || null;
+    state.exportText = '';
+    renderAccessPanel();
+    renderAll();
+  }
+
+  // ── Edit mode ───────────────────────────────────────────────────────────
+  // Editable fields for the redactieversie / publicatievoorstel. The
+  // original SAMPLE record is never mutated; edits live in `editsById`.
+  // Export carries both `original_reference` (snapshot of submitted source)
+  // and `edited_publication_proposal` (redactie-edited version).
+  var EDIT_FIELDS = [
+    { key: 'edited_title',           sourceKey: 'title',             label: 'Titel / naam' },
+    { key: 'edited_organization',    sourceKey: 'organization_name', label: 'Organisatie' },
+    { key: 'edited_summary',         sourceKey: 'summary',           label: 'Samenvatting / omschrijving' },
+    { key: 'edited_region',          sourceKey: 'region',            label: 'Regio' },
+    { key: 'edited_sector_or_tags',  sourceKey: null,                label: 'Sector / tags',
+      fromSource: function(r){ return r.sector_raw || r.topic_tags || ''; },
+      help: "Scheid meerdere tags met komma's, bijvoorbeeld: Leiderschap, Regio, Zorg. Voor nu is dit een vrij invoerveld — er is nog geen vaste keuzelijst. De redactie mag bestaande termen hergebruiken of een nieuwe tag voorstellen; de definitieve tagset wordt later geharmoniseerd." },
+    { key: 'edited_public_body',     sourceKey: 'body_md_or_url',    label: 'Publicatie-veilige tekst (body)', textarea: true },
+    { key: 'editorial_note',         sourceKey: null,                label: 'Redactienotitie (publiek)', textarea: true,
+      fromSource: function(){ return ''; } },
+    { key: 'change_note',            sourceKey: null,                label: 'Wijzigingsnotitie (intern, waarom?)', textarea: true,
+      fromSource: function(){ return ''; } },
+    { key: 'edited_by',              sourceKey: null,                label: 'Bewerkt door (initialen / naam)',
+      fromSource: function(){ return ''; } }
+  ];
+
+  // ── Status → process step → reminder map ────────────────────────────────
+  // Mirrors the server-side STATUS_STEP_REMINDERS in
+  // functions/api/redactie-review.js. Source of truth is the server,
+  // but we keep a local copy so sample mode (no API call yet) still
+  // shows the reminder hint per step.
+  var STATUS_STEP_REMINDERS_DEFAULT = {
+    binnengekomen: 'Net binnengekomen — controleer of de organisatie/inzending al bestaat en wijs sector/tags toe voordat je in review zet.',
+    in_review: 'In review — controleer feiten, regio en bronnen; zet vervolgstap en deadline.',
+    wachten_op_indiener: 'Wacht op indiener — noteer welke verheldering nodig is en wie wanneer contact opneemt.',
+    klaar_voor_akkoord: 'Klaar voor akkoord — controleer review_notes_internal voordat je in de Sheet op approved zet.',
+    akkoord_voor_promote: 'Goedgekeurd — gereed voor handmatige lab-promotion via scripts/lab_promote/cli. Directory_Master niet aanpassen.',
+    afgewezen: 'Afgewezen — leg in review_notes_internal vast waarom; geen vervolgactie.',
+    gearchiveerd: 'Gearchiveerd — alleen leesbaar, geen verdere stappen.'
+  };
+
+  // ── List rendering ──────────────────────────────────────────────────────
+  var state = {
+    filter: '',
+    activeId: null,
+    showContact: false,
+    exportText: '',
+    editMode: false,
+    editsById: {}, // submission_id → { edited_title, edited_summary, ... }
+    // Access / LAB-mode state. The access code is held in memory only —
+    // never localStorage / sessionStorage / cookie. It is sent to the
+    // server on each load and discarded after use.
+    accessMode: 'sample',         // 'sample' | 'lab'
+    accessMessage: '',
+    accessActivation: null,
+    accessCode: '',               // last accepted code, in-memory only
+    statusStepReminders: STATUS_STEP_REMINDERS_DEFAULT,
+    records: SAMPLE.slice(),      // active record set — replaced on LAB load
+    saveState: null,              // { status, message, savedTo, blockedReason, error }
+    saveBusy: false               // disables primary button while a save is in flight
+  };
+
+  function originalValueFor(record, field){
+    if (typeof field.fromSource === 'function') return field.fromSource(record) || '';
+    if (field.sourceKey) return record[field.sourceKey] == null ? '' : String(record[field.sourceKey]);
+    return '';
+  }
+
+  function ensureEdits(record){
+    if (!record) return null;
+    var id = record.submission_id;
+    if (!state.editsById[id]){
+      var e = {};
+      EDIT_FIELDS.forEach(function(f){ e[f.key] = originalValueFor(record, f); });
+      state.editsById[id] = e;
+    }
+    return state.editsById[id];
+  }
+
+  function changedFieldKeys(record){
+    var edits = state.editsById[record.submission_id];
+    if (!edits) return [];
+    var changed = [];
+    EDIT_FIELDS.forEach(function(f){
+      var orig = originalValueFor(record, f);
+      var cur = edits[f.key] == null ? '' : String(edits[f.key]);
+      if (cur !== orig) changed.push(f.key);
+    });
+    return changed;
+  }
+
+  function filteredRecords(){
+    var pool = (state.records && state.records.length) ? state.records : SAMPLE;
+    var q = state.filter.trim().toLowerCase();
+    if (!q) return pool.slice();
+    return pool.filter(function(r){
+      var hay = [r.title, r.region, r.type_label, r.organization_name, r.country_code].join(' ').toLowerCase();
+      return hay.indexOf(q) !== -1;
+    });
+  }
+
+  function renderList(){
+    var box = $('rv-items');
+    box.innerHTML = '';
+    var rows = filteredRecords();
+    var pool = (state.records && state.records.length) ? state.records : SAMPLE;
+    $('rv-count').textContent = rows.length + ' / ' + pool.length;
+    rows.forEach(function(r){
+      var pillCls, pillTxt;
+      if (r.record_type === 'org'){ pillCls = 'rv-pill-org'; pillTxt = 'Organisatie'; }
+      else if (r.record_type === 'change_request'){
+        pillCls = 'rv-pill-cr';
+        if (r.requested_action === 'delete') pillTxt = 'Wijziging · verwijderen';
+        else if (r.requested_action === 'hide') pillTxt = 'Wijziging · verbergen';
+        else pillTxt = 'Wijziging · bijwerken';
+      }
+      else { pillCls = 'rv-pill-ed'; pillTxt = 'Editorial'; }
+      var item = el('div', { class: 'rv-item' + (state.activeId === r.submission_id ? ' active' : ''), role: 'listitem', tabindex: '0', 'data-id': r.submission_id }, [
+        el('div', { class: 'rv-item-line' }, [
+          el('span', { class: 'rv-pill ' + pillCls, text: pillTxt }),
+          ' · ' + escapeHtml(r.region || '—') + ' · ' + escapeHtml(r.country_code || '—')
+        ]),
+        el('div', { class: 'rv-item-title', text: r.title || '(zonder titel)' }),
+        el('div', { class: 'rv-item-line', text: r.source_tab + ' · ' + (r.source_row_hint || '') + ' · ' + (r.received_at || '').substring(0, 10) })
+      ]);
+      item.addEventListener('click', function(){ state.activeId = r.submission_id; state.exportText = ''; state.saveState = null; renderAll(); });
+      item.addEventListener('keydown', function(ev){
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); state.activeId = r.submission_id; state.exportText = ''; state.saveState = null; renderAll(); }
+      });
+      box.appendChild(item);
+    });
+  }
+
+  // ── Detail / review form ────────────────────────────────────────────────
+  function getActive(){
+    var pool = (state.records && state.records.length) ? state.records : SAMPLE;
+    return pool.filter(function(r){ return r.submission_id === state.activeId; })[0] || null;
+  }
+
+  // ── Change-request detail ────────────────────────────────────────────────
+  // Dedicated renderer for change/hide/delete requests. These records are
+  // strictly LAB-only: they live in LAB_Change_Requests, never in
+  // Directory_Master, and the redactie's job here is to record a decision
+  // (approve / reject / request_clarification) — NOT to publish or to mutate
+  // the canonical directory. The redactie still applies any approved changes
+  // by hand, in a separate step.
+  var REDACTIE_CR_DECISIONS = [
+    { v: '', t: '— Kies een besluit —' },
+    { v: 'approve', t: 'Akkoord — wijziging mag handmatig worden doorgevoerd' },
+    { v: 'reject', t: 'Niet akkoord — wijziging wordt niet doorgevoerd' },
+    { v: 'request_clarification', t: 'Verheldering nodig — vraag indiener om meer informatie' }
+  ];
+  var REQUESTER_AUTH_LABELS = {
+    authorized_representative: 'Bevoegd vertegenwoordiger van de organisatie',
+    employee: 'Medewerker / vrijwilliger zonder formele tekenbevoegdheid',
+    external_observer: 'Externe waarnemer (geen relatie met de organisatie)'
+  };
+  function changeActionLabel(a){
+    if (a === 'delete') return 'Verwijderen';
+    if (a === 'hide') return 'Verbergen';
+    if (a === 'update') return 'Bijwerken';
+    return a || '—';
+  }
+  function changeActionClass(a){
+    if (a === 'delete') return 'rv-cr-action-delete';
+    if (a === 'hide') return 'rv-cr-action-hide';
+    return 'rv-cr-action-update';
+  }
+
+  function renderChangeRequestDetail(d, r){
+    // Safety banner up top — non-removable, mirrors the same contract that
+    // the backend enforces (LAB-only, Directory_Master not touched, no auto
+    // publication).
+    var safety = el('div', { class: 'rv-cr-banner', role: 'note' });
+    safety.appendChild(el('strong', { text: 'Veiligheid van dit verzoek' }));
+    safety.appendChild(document.createTextNode(
+      'Dit is een wijzigings-, verberg- of verwijderverzoek voor een bestaande vermelding. ' +
+      'Geen automatische wijziging · de hoofdtabel met organisaties (Directory_Master) wordt niet aangeraakt · niets wordt gepubliceerd. ' +
+      'Een eventuele goedkeuring is alleen een redactiebesluit; het toepassen gebeurt later handmatig in een aparte stap.'
+    ));
+    d.appendChild(safety);
+
+    // Action + bestaande vermelding reference
+    var s1 = el('div', { class: 'rv-section' });
+    s1.appendChild(el('h3', { text: 'Bestaande vermelding waarop het verzoek slaat' }));
+    var actionLine = el('div');
+    actionLine.appendChild(el('span', {
+      class: 'rv-cr-action-badge ' + changeActionClass(r.requested_action),
+      text: changeActionLabel(r.requested_action)
+    }));
+    actionLine.appendChild(document.createTextNode(
+      r.sub_mode === 'hide_delete'
+        ? ' Verzoek tot verbergen of verwijderen.'
+        : ' Verzoek tot bijwerken.'
+    ));
+    s1.appendChild(actionLine);
+    s1.appendChild(rowDl('Naam vermelding', r.target_listing_name || '—'));
+    if (r.target_listing_url){
+      var urlLink = el('a', { href: r.target_listing_url, target: '_blank', rel: 'noopener noreferrer', text: r.target_listing_url });
+      s1.appendChild(rowDl('URL vermelding', urlLink));
+    } else {
+      s1.appendChild(rowDl('URL vermelding', '—'));
+    }
+    s1.appendChild(rowDl('Regio', r.region || '—'));
+    s1.appendChild(rowDl('Land', (r.country_name_local || r.country_code || '—')));
+    d.appendChild(s1);
+
+    // Side-by-side bestaand vs gevraagd
+    var s2 = el('div', { class: 'rv-section' });
+    s2.appendChild(el('h3', { text: 'Wat staat er nu, en wat wordt gevraagd?' }));
+    var grid = el('div', { class: 'rv-cr-grid' });
+    var existingPanel = el('div', { class: 'rv-cr-panel rv-cr-panel-existing' });
+    existingPanel.appendChild(el('h4', { text: 'Bestaand (zoals nu vermeld)' }));
+    existingPanel.appendChild(el('pre', { text: r.change_description_existing || (r.target_listing_name ? r.target_listing_name + (r.target_listing_url ? ' — ' + r.target_listing_url : '') : '(geen referentie meegegeven)') }));
+    grid.appendChild(existingPanel);
+    var requestedPanel = el('div', { class: 'rv-cr-panel rv-cr-panel-requested' });
+    requestedPanel.appendChild(el('h4', { text: 'Gevraagd (wat de indiener wil)' }));
+    requestedPanel.appendChild(el('pre', { text: r.change_description_requested || r.change_description || '(geen toelichting meegegeven)' }));
+    grid.appendChild(requestedPanel);
+    s2.appendChild(grid);
+    if (r.change_description && (r.change_description_existing || r.change_description_requested)){
+      s2.appendChild(rowDl('Volledige toelichting van indiener', r.change_description));
+    }
+    s2.appendChild(rowDl('Reden van het verzoek', r.reason || '—'));
+    if (r.evidence_url){
+      var ev = el('a', { href: r.evidence_url, target: '_blank', rel: 'noopener noreferrer', text: r.evidence_url });
+      s2.appendChild(rowDl('Onderbouwing / bewijs (URL)', ev));
+    } else {
+      s2.appendChild(rowDl('Onderbouwing / bewijs (URL)', '— (niet meegegeven)'));
+    }
+    d.appendChild(s2);
+
+    // Indiener + autorisatie
+    var s3 = el('div', { class: 'rv-section' });
+    s3.appendChild(el('h3', { text: 'Wie doet het verzoek, en namens wie?' }));
+    var authLabel = REQUESTER_AUTH_LABELS[r.requester_authorization] || (r.requester_authorization || '—');
+    s3.appendChild(rowDl('Rol van indiener', authLabel));
+    var authYes = String(r.authorization_confirmation || '').toLowerCase() === 'yes' || r.authorization_confirmation === true;
+    var authSpan = el('span', {
+      class: authYes ? 'rv-cr-auth-yes' : 'rv-cr-auth-no',
+      text: authYes ? 'JA — bevestigd door indiener' : 'NEE — niet bevestigd'
+    });
+    s3.appendChild(rowDl('Bevestiging dat indiener bevoegd is', authSpan));
+
+    // Submitter contact — hidden by default, opt-in checkbox
+    var toggleWrap = el('label', { class: 'rv-hidden-toggle' });
+    var cb = el('input', { type: 'checkbox', id: 'rv-show-contact' });
+    if (state.showContact) cb.checked = true;
+    cb.addEventListener('change', function(){ state.showContact = cb.checked; renderDetail(); });
+    toggleWrap.appendChild(cb);
+    toggleWrap.appendChild(document.createTextNode(' Laat contactgegevens van indiener zien (intern; niet meesturen in download tenzij je dat zelf aanzet)'));
+    s3.appendChild(toggleWrap);
+    var contactBox = el('div', { class: 'rv-contact' });
+    if (state.showContact){
+      // Live LAB rows expose contact_* flat columns (LAB_Intake_Submissions
+      // header order). Sample fixtures use a nested r.contact object. Both
+      // shapes are tolerated so the panel renders identically against
+      // sample/dry-run, lab-mode-without-contact, and lab-mode-with-contact.
+      var cName = (r.contact && r.contact.name) || r.contact_name || '—';
+      var cEmail = (r.contact && r.contact.email) || r.contact_email || '—';
+      var cRole = (r.contact && r.contact.role) || r.contact_role || '—';
+      contactBox.appendChild(el('span', { class: 'rv-contact-mark', text: 'INTERN' }));
+      contactBox.appendChild(document.createTextNode(cName + ' · ' + cEmail + ' · ' + cRole));
+    } else {
+      contactBox.appendChild(el('span', { class: 'rv-contact-mark', text: 'VERBORGEN' }));
+      contactBox.appendChild(document.createTextNode('Contactgegevens zijn verborgen om de pagina overzichtelijk te houden.'));
+    }
+    s3.appendChild(contactBox);
+    d.appendChild(s3);
+
+    // ── Bevoegdheid / verificatiestatus (uit submit-validation Bevoegdheid sectie) ──
+    // The submit form may attach an `authorization` block (and/or flat
+    // authorization_* columns when LAB rows flatten the payload). We render
+    // whatever is available so the redactie weet of extra controle nodig is.
+    var auth = r.authorization || (r.authorization_method ? {
+      requester_name: r.authorization_requester_name,
+      requester_role: r.authorization_requester_role,
+      work_email: r.authorization_work_email,
+      relation: r.authorization_relation,
+      confirmed_authorized: r.authorization_confirmed_authorized,
+      registration_code_provided: r.authorization_registration_code_provided,
+      email_domain: r.authorization_email_domain,
+      organisation_domain: r.authorization_organisation_domain,
+      email_domain_match: r.authorization_email_domain_match,
+      authorization_method: r.authorization_method,
+      authorization_status: r.authorization_status,
+      manual_verification_required: r.authorization_manual_verification_required
+    } : null);
+    if (auth){
+      var sAuth = el('div', { class: 'rv-section rv-cr-authorization' });
+      sAuth.appendChild(el('h3', { text: 'Bevoegdheid om wijziging aan te vragen — verificatiestatus' }));
+      sAuth.appendChild(el('p', { class: 'rv-detail-sub',
+        text: 'Deze velden zijn ingevuld door de aanvrager onder &ldquo;Bevoegdheid om wijziging aan te vragen&rdquo;. ESRF voert geen automatische goedkeuring uit op basis van deze gegevens — controleer ze handmatig.' }));
+      sAuth.appendChild(rowDl('Naam aanvrager (uit Bevoegdheid)', auth.requester_name || '—'));
+      sAuth.appendChild(rowDl('Functie / rol', auth.requester_role || '—'));
+      sAuth.appendChild(rowDl('Werkmailadres', auth.work_email || '—'));
+      sAuth.appendChild(rowDl('Relatie met organisatie', auth.relation || '—'));
+      var cAuthYes = !!auth.confirmed_authorized;
+      var cAuthSpan = el('span', {
+        class: cAuthYes ? 'rv-cr-auth-yes' : 'rv-cr-auth-no',
+        text: cAuthYes ? 'JA — bevestigd door aanvrager' : 'NEE — niet bevestigd'
+      });
+      sAuth.appendChild(rowDl('Bevestiging "ik ben bevoegd"', cAuthSpan));
+      var domainMatch = !!auth.email_domain_match;
+      var domainText;
+      if (auth.email_domain && auth.organisation_domain){
+        domainText = domainMatch
+          ? 'domein lijkt te kloppen — werkmail (' + auth.email_domain + ') komt overeen met organisatiewebsite (' + auth.organisation_domain + ').'
+          : 'redactie moet dit handmatig controleren — werkmail (' + auth.email_domain + ') komt niet overeen met organisatiewebsite (' + auth.organisation_domain + ').';
+      } else {
+        domainText = 'geen domein-vergelijking mogelijk — controleer handmatig.';
+      }
+      var domainSpan = el('span', {
+        class: domainMatch ? 'rv-cr-auth-yes' : 'rv-cr-auth-no',
+        text: domainText
+      });
+      sAuth.appendChild(rowDl('Domein-match (zachte controle)', domainSpan));
+      var codeProvided = !!auth.registration_code_provided;
+      sAuth.appendChild(rowDl('Registratiecode opgegeven',
+        codeProvided ? 'ja — registratiecode opgegeven; redactie controleert deze' : 'nee'));
+      sAuth.appendChild(rowDl('Verificatiemethode',
+        auth.authorization_method || (codeProvided ? 'registration_code' : (domainMatch ? 'work_email_domain_match' : 'manual_review'))));
+      sAuth.appendChild(rowDl('Verificatiestatus',
+        auth.authorization_status || 'manual_verification_required'));
+      var manualReq = auth.manual_verification_required !== false;
+      sAuth.appendChild(rowDl('Handmatige redactiecontrole',
+        manualReq ? 'verplicht — geen automatische goedkeuring' : 'optioneel'));
+      d.appendChild(sAuth);
+    }
+
+    // ── Bestaande publieke directorygegevens (prefilled door submit form) ──
+    var existingListing = r.existing_directory_listing || null;
+    if (existingListing && (existingListing.prefilled || existingListing.name || existingListing.website)){
+      var sEx = el('div', { class: 'rv-section rv-cr-existing-directory' });
+      sEx.appendChild(el('h3', { text: 'Bestaande publieke gegevens (Directory + Atlas)' }));
+      sEx.appendChild(el('p', { class: 'rv-detail-sub',
+        text: 'Deze gegevens zijn op het submit-formulier vooraf ingevuld vanuit de publieke directory. Het origineel blijft ongewijzigd; de aanvraag staat apart.' }));
+      if (existingListing.name) sEx.appendChild(rowDl('Organisatienaam', existingListing.name));
+      if (existingListing.website){
+        var aLink = el('a', { href: existingListing.website, target: '_blank', rel: 'noopener noreferrer', text: existingListing.website });
+        sEx.appendChild(rowDl('Website', aLink));
+      }
+      if (existingListing.country_name) sEx.appendChild(rowDl('Land', existingListing.country_name));
+      if (existingListing.city) sEx.appendChild(rowDl('Plaats', existingListing.city));
+      if (existingListing.sector) sEx.appendChild(rowDl('Sector', existingListing.sector));
+      if (existingListing.description) sEx.appendChild(rowDl('Beschrijving', existingListing.description));
+      sEx.appendChild(rowDl('Bron', existingListing.source || 'companies_extracted.json'));
+      d.appendChild(sEx);
+    }
+
+    // Redactie-besluit (the core form for CR records)
+    var s4 = el('div', { class: 'rv-section' });
+    s4.appendChild(el('h3', { text: 'Jouw redactiebesluit' }));
+    s4.appendChild(el('p', { class: 'rv-detail-sub',
+      text: 'Leg vast wat de redactie met dit verzoek doet. Het besluit wordt opgeslagen in LAB_Redactie_Reviews; de hoofdtabel met organisaties (Directory_Master) wordt niet aangeraakt.' }));
+
+    var processSelect = selectField('rv-process-step', PROCESS_STEPS, r.process_step);
+    s4.appendChild(formRow('Procesgang (welke stap?)', processSelect));
+    var stepHint = el('div', { class: 'rv-step-hint', id: 'rv-step-hint' }, [
+      stepReminderFor(r.process_step) || 'Bij deze stap hoort geen specifieke tip.'
+    ]);
+    s4.appendChild(stepHint);
+    processSelect.addEventListener('change', function(ev){
+      var hint = $('rv-step-hint');
+      if (hint) hint.textContent = stepReminderFor(ev.target.value) || 'Bij deze stap hoort geen specifieke tip.';
+    });
+    s4.appendChild(formRow('Status', selectField('rv-review-status', REVIEW_STATUSES, r.review_status)));
+    s4.appendChild(formRow('Redactiebesluit', selectField('rv-redactie-decision', REDACTIE_CR_DECISIONS, r.redactie_decision || '')));
+    s4.appendChild(formRow('Toelichting bij besluit (intern)', textareaField('rv-redactie-decision-reason', r.redactie_decision_reason || '')));
+    s4.appendChild(formRow('Korte tip voor jezelf', textField('rv-reminder', r.reminder || '')));
+    s4.appendChild(formRow('Wat moet er hierna gebeuren?', textField('rv-next-action', r.next_required_action || '')));
+    s4.appendChild(formRow('Wie pakt het op?', textField('rv-assigned-to', r.assigned_to || '')));
+    s4.appendChild(formRow('Wanneer uiterlijk?', dateField('rv-due-date', r.due_date || '')));
+    s4.appendChild(formRow('Notitie voor de redactie (intern)', textareaField('rv-review-notes', r.review_notes_internal || '')));
+    d.appendChild(s4);
+
+    // Primary save action — same wiring as renderDetail() but no edit-payload
+    var isSample = state.accessMode !== 'lab';
+    var primaryLabel = isSample
+      ? 'Maak testvoorbeeld — er wordt niets opgeslagen'
+      : 'Besluit opslaan in redactietabel';
+    var primaryArea = el('div', { class: 'rv-primary-area', 'aria-label': 'Hoofdknop' });
+    primaryArea.appendChild(el('span', {
+      class: 'rv-primary-mode-note' + (isSample ? '' : ' is-lab'),
+      text: isSample
+        ? 'Teststand · er wordt niets opgeslagen'
+        : 'Echte inzending · jouw besluit wordt opgeslagen in de redactietabel; de hoofdtabel met organisaties verandert niet'
+    }));
+    var btnPrimary = el('button', { class: 'rv-btn rv-btn-primary', type: 'button', id: 'rv-primary-action' },
+      [state.saveBusy ? 'Even geduld — bezig met opslaan…' : primaryLabel]);
+    if (state.saveBusy) btnPrimary.disabled = true;
+    btnPrimary.addEventListener('click', function(){
+      if (state.saveBusy) return;
+      if (isSample){ generateExport('text'); return; }
+      submitReviewUpdate();
+    });
+    primaryArea.appendChild(document.createElement('br'));
+    primaryArea.appendChild(btnPrimary);
+
+    var instr = el('div', { class: 'rv-instruct' });
+    instr.appendChild(el('strong', { text: 'Wat gebeurt er als ik klik?' }));
+    var instrUl = el('ul');
+    var liDo = el('li', { class: 'rv-instruct-do' });
+    liDo.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#0f172a">Wat er wel gebeurt:</strong> ' +
+      (isSample
+        ? 'Je ziet een leesbare samenvatting van jouw besluit. Er wordt niets opgeslagen.'
+        : 'Jouw besluit wordt opgeslagen in de redactietabel en er komt een notitie bij in het activiteitenlogboek.');
+    instrUl.appendChild(liDo);
+    var liNot = el('li', { class: 'rv-instruct-not' });
+    liNot.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#7f1d1d">Wat er níet gebeurt:</strong> ' +
+      'De vermelding zelf wordt niet automatisch aangepast, verborgen of verwijderd. De hoofdtabel met organisaties (Directory_Master) verandert niet. Er wordt geen e-mail gestuurd. Er komt niets op de website.';
+    instrUl.appendChild(liNot);
+    var liNext = el('li', { class: 'rv-instruct-next' });
+    liNext.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#1e3a8a">Wat jij hierna doet:</strong> ' +
+      'Bij goedkeuring: voer de wijziging handmatig door in de bron. Bij afwijzing: leg de reden vast in de toelichting hierboven.';
+    instrUl.appendChild(liNext);
+    instr.appendChild(instrUl);
+    primaryArea.appendChild(instr);
+
+    var btnReset = el('button', { class: 'rv-btn rv-btn-warn', type: 'button', id: 'rv-reset-preview' }, ['Voorbeeld wissen en opnieuw beginnen']);
+    btnReset.addEventListener('click', function(){
+      state.exportText = '';
+      state.saveState = null;
+      renderDetail();
+    });
+    primaryArea.appendChild(document.createTextNode(' '));
+    primaryArea.appendChild(btnReset);
+    d.appendChild(primaryArea);
+
+    // Save banner
+    if (state.saveState){
+      var ss = state.saveState;
+      var saveBanner = el('div', {
+        class: 'rv-save-banner rv-save-' + ss.status, id: 'rv-save-banner', role: 'status', 'aria-live': 'polite'
+      });
+      var bannerTitle;
+      if (ss.status === 'saved') bannerTitle = 'Besluit opgeslagen in de redactietabel';
+      else if (ss.status === 'failed') bannerTitle = 'Opslaan is niet gelukt';
+      else bannerTitle = 'Niet opgeslagen';
+      saveBanner.appendChild(el('strong', { text: bannerTitle }));
+      saveBanner.appendChild(el('p', { class: 'rv-save-msg', text: ss.message || '' }));
+      d.appendChild(saveBanner);
+    }
+
+    // Preview pane
+    var defaultPreview = isSample
+      ? '// Klik hierboven op de hoofdknop om jouw besluit te bekijken.\n// Er wordt niets opgeslagen, geen e-mail verstuurd en niets gepubliceerd.'
+      : '// "Besluit opslaan in redactietabel" doet het opslaan automatisch.\n// Het beheer-blok hieronder is alleen een noodoplossing.';
+    var exportBox = el('pre', { class: 'rv-export', id: 'rv-export-box' }, [ state.exportText || defaultPreview ]);
+    d.appendChild(exportBox);
+    d.appendChild(el('p', { class: 'rv-export-hint', text: isSample
+      ? 'Teststand: je ziet alleen een voorbeeld. Er wordt niets opgeslagen.'
+      : 'Het opslaan gebeurt automatisch zodra je op "Besluit opslaan in redactietabel" klikt. Het beheer-blok hieronder is alleen een noodoplossing.' }));
+
+    // Technische export — fallback for beheer
+    var tech = el('details', { class: 'rv-tech', id: 'rv-tech-details' });
+    tech.appendChild(el('summary', { text: 'Alleen voor beheer bij storing — Technische export voor beheer' }));
+    tech.appendChild(el('div', { class: 'rv-tech-warn',
+      text: 'Gebruik dit niet voor normaal redactiewerk. Met deze knoppen maak je een technisch bestand of een tekstblok dat alleen bedoeld is voor beheer.' }));
+    var techActions = el('div', { class: 'rv-actions' });
+    var btnTechCopyJson = el('button', { class: 'rv-btn', type: 'button', id: 'rv-tech-copy-json' }, ['Kopieer technische audit-export']);
+    btnTechCopyJson.addEventListener('click', function(){ generateExport('json'); copyExport(); });
+    var btnTechDownload = el('button', { class: 'rv-btn', type: 'button', id: 'rv-tech-download' }, ['Download auditbestand (JSON)']);
+    btnTechDownload.addEventListener('click', function(){ generateExport('json'); downloadAudit(); });
+    var btnTechCopyText = el('button', { class: 'rv-btn', type: 'button', id: 'rv-tech-copy-text' }, ['Kopieer tekstsamenvatting voor beheer']);
+    btnTechCopyText.addEventListener('click', function(){ generateExport('text'); copyExport(); });
+    techActions.appendChild(btnTechCopyJson);
+    techActions.appendChild(btnTechDownload);
+    techActions.appendChild(btnTechCopyText);
+    tech.appendChild(techActions);
+    d.appendChild(tech);
+  }
+
+  function renderDetail(){
+    var d = $('rv-detail');
+    d.innerHTML = '';
+    var r = getActive();
+    if (!r){
+      d.appendChild(el('p', { class: 'rv-detail-sub', text: 'Kies links een inzending om de inhoud en het beoordelingsformulier te zien.' }));
+      return;
+    }
+
+    d.appendChild(el('h2', { text: r.title || '(zonder titel)' }));
+    d.appendChild(el('div', { class: 'rv-detail-sub' }, [
+      escapeHtml(r.type_label || '') + ' · ' + escapeHtml(r.source_tab) + ' · ' + escapeHtml(r.source_row_hint || '') + ' · submission ' + escapeHtml(r.submission_id)
+    ]));
+
+    if (r.record_type === 'change_request'){
+      renderChangeRequestDetail(d, r);
+      return;
+    }
+
+    // Edit-mode toggle
+    var editToggleWrap = el('div', { class: 'rv-actions' });
+    var editToggleBtn = el('button', {
+      class: 'rv-btn' + (state.editMode ? ' rv-btn-primary' : ''),
+      type: 'button',
+      id: 'rv-edit-toggle',
+      'aria-pressed': state.editMode ? 'true' : 'false'
+    }, [ state.editMode ? 'Klaar met bewerken — sluit het bewerkvak' : 'Tekst voor publicatie aanpassen' ]);
+    editToggleBtn.addEventListener('click', function(){
+      state.editMode = !state.editMode;
+      if (state.editMode) ensureEdits(r);
+      state.exportText = '';
+      renderDetail();
+    });
+    editToggleWrap.appendChild(editToggleBtn);
+    if (state.editMode){
+      var editResetBtn = el('button', { class: 'rv-btn rv-btn-warn', type: 'button', id: 'rv-edit-reset' }, ['Mijn bewerkingen ongedaan maken']);
+      editResetBtn.addEventListener('click', function(){
+        delete state.editsById[r.submission_id];
+        ensureEdits(r);
+        state.exportText = '';
+        renderDetail();
+      });
+      editToggleWrap.appendChild(editResetBtn);
+    }
+    d.appendChild(editToggleWrap);
+
+    // Content section — header changes when edit mode active
+    var s1 = el('div', { class: 'rv-section rv-section-original' });
+    s1.appendChild(el('h3', { text: state.editMode ? 'Originele inzending — wat de indiener heeft gestuurd (kun je niet aanpassen)' : 'Inhoud van de inzending' }));
+    if (state.editMode){
+      s1.appendChild(el('span', { class: 'rv-readonly-note', text: 'BRON · NIET BEWERKBAAR · BEWAARD VOOR AUDIT' }));
+    }
+    s1.appendChild(rowDl('Organisatie', r.organization_name || '—'));
+    s1.appendChild(rowDl('Regio', r.region || '—'));
+    s1.appendChild(rowDl('Land', (r.country_name_local || r.country_code || '—')));
+    if (r.sector_raw) s1.appendChild(rowDl('Sector', r.sector_raw));
+    if (r.topic_tags) s1.appendChild(rowDl('Tags', r.topic_tags));
+    if (r.language) s1.appendChild(rowDl('Taal', r.language));
+    if (r.website) s1.appendChild(rowDl('Website', r.website));
+    s1.appendChild(rowDl('Type', r.type_label || r.type || '—'));
+    var sumWrap = el('div');
+    sumWrap.appendChild(el('div', { class: 'rv-summary', text: r.summary || '(geen samenvatting)' }));
+    s1.appendChild(rowDl('Samenvatting', sumWrap));
+    if (r.body_md_or_url){
+      var body = el('details');
+      body.appendChild(el('summary', { text: 'Volledige tekst van de inzending (klap uit om te lezen)' }));
+      body.appendChild(el('pre', { class: 'rv-export', text: r.body_md_or_url }));
+      s1.appendChild(body);
+    }
+    d.appendChild(s1);
+
+    // Edit / Redactieversie section — only when editMode is active
+    if (state.editMode){
+      var edits = ensureEdits(r);
+      var sEdit = el('div', { class: 'rv-section rv-section-edit' });
+      sEdit.appendChild(el('h3', { text: 'Tekst voor publicatie — Redactieversie / Publicatievoorstel' }));
+      sEdit.appendChild(el('span', { class: 'rv-edit-note', text: 'JOUW BEWERKING — DE OORSPRONKELIJKE INZENDING WORDT NIET OVERSCHREVEN' }));
+      sEdit.appendChild(el('div', { class: 'rv-edit-warn', text:
+        'Wat je hier verandert, is alleen de tekst die later voor publicatie wordt gebruikt. ' +
+        'De inzending van de indiener blijft staan zoals die was; die wordt nooit overschreven. ' +
+        'Er gaat niets automatisch naar de website. ' +
+        'Als beheer dit scherm heeft geactiveerd: bij "Opslaan in redactietabel" wordt jouw bewerking opgeslagen in de redactietabel en er komt een notitie bij in het activiteitenlogboek. ' +
+        'Technisch: schrijft "Opslaan in redactietabel" deze redactieversie automatisch weg in LAB_Redactie_Reviews + LAB_Workflow_Events; in sample-mode wordt niets opgeslagen. Technische export is alleen een fallback voor beheer.' }));
+
+      var rules = el('div', { class: 'rv-edit-rules', id: 'rv-edit-rules' });
+      rules.appendChild(el('strong', { text: 'Drie regels om te volgen' }));
+      var rulesUl = el('ul');
+      rulesUl.appendChild(el('li', { text: 'Wijzig hier alleen de redactieversie, niet de originele inzending.' }));
+      rulesUl.appendChild(el('li', { text: 'Gebruik geen persoonlijke contactgegevens in publicatietekst.' }));
+      rulesUl.appendChild(el('li', { text: 'Bij twijfel: zet de status op "Controle nodig" en laat een collega meelezen.' }));
+      rulesUl.appendChild(el('li', { text: "Bij Sector / tags: scheid meerdere tags met komma's. Vrij invoerveld — er is nog geen vaste keuzelijst. Hergebruik bestaande termen waar mogelijk; nieuwe tag voorstellen mag, definitieve tagset wordt later geharmoniseerd." }));
+      rules.appendChild(rulesUl);
+      sEdit.appendChild(rules);
+
+      EDIT_FIELDS.forEach(function(f){
+        var inputEl;
+        var origVal = originalValueFor(r, f);
+        if (f.textarea){
+          inputEl = el('textarea', { id: 'rv-edit-' + f.key, name: 'rv-edit-' + f.key, rows: '4' });
+          inputEl.value = edits[f.key] == null ? '' : edits[f.key];
+        } else {
+          inputEl = el('input', { id: 'rv-edit-' + f.key, name: 'rv-edit-' + f.key, type: 'text', value: edits[f.key] == null ? '' : edits[f.key] });
+        }
+        inputEl.addEventListener('input', function(ev){
+          state.editsById[r.submission_id][f.key] = ev.target.value;
+          // Re-render only the change-tracking block to keep focus.
+          updateChangeTracker(r);
+        });
+        var label = f.label + (origVal ? '' : ' (geen origineel)');
+        sEdit.appendChild(formRow(label, inputEl));
+
+        // Optional inline help line for fields that need extra clarification
+        // (e.g. Sector / tags: separator + free-input policy).
+        if (f.help){
+          var helpRow = el('p', {
+            class: 'rv-field-help',
+            id: 'rv-edit-' + f.key + '-help',
+            text: f.help
+          });
+          inputEl.setAttribute('aria-describedby', 'rv-edit-' + f.key + '-help');
+          sEdit.appendChild(helpRow);
+        }
+
+        // Inline read-only original snippet underneath when present.
+        if (origVal){
+          var origRow = el('div', { class: 'rv-form-row' });
+          origRow.appendChild(el('label', { text: 'Origineel', for: 'rv-edit-' + f.key }));
+          var origField;
+          if (f.textarea){
+            origField = el('textarea', { rows: '3', readonly: 'readonly', class: 'rv-readonly', 'aria-label': 'Origineel ' + f.label });
+            origField.value = origVal;
+          } else {
+            origField = el('input', { type: 'text', readonly: 'readonly', value: origVal, class: 'rv-readonly', 'aria-label': 'Origineel ' + f.label });
+          }
+          origRow.appendChild(origField);
+          sEdit.appendChild(origRow);
+        }
+      });
+
+      // Change tracker
+      var tracker = el('div', { class: 'rv-changes', id: 'rv-change-tracker' });
+      sEdit.appendChild(tracker);
+      d.appendChild(sEdit);
+      // Initial render of the change tracker.
+      // We append it first then fill it.
+      setTimeout(function(){ updateChangeTracker(r); }, 0);
+    }
+
+    // Submitter contact — hidden by default
+    var s2 = el('div', { class: 'rv-section' });
+    s2.appendChild(el('h3', { text: 'Contactgegevens van de indiener (intern)' }));
+    var toggleWrap = el('label', { class: 'rv-hidden-toggle' });
+    var cb = el('input', { type: 'checkbox', id: 'rv-show-contact' });
+    if (state.showContact) cb.checked = true;
+    cb.addEventListener('change', function(){ state.showContact = cb.checked; renderDetail(); });
+    toggleWrap.appendChild(cb);
+    toggleWrap.appendChild(document.createTextNode(' Laat contactgegevens zien (alleen voor intern gebruik; ze gaan niet mee in een download tenzij je dat zelf aanzet)'));
+    s2.appendChild(toggleWrap);
+    var contactBox = el('div', { class: 'rv-contact' });
+    if (state.showContact){
+      contactBox.appendChild(el('span', { class: 'rv-contact-mark', text: 'INTERN' }));
+      contactBox.appendChild(document.createTextNode(
+        (r.contact && r.contact.name ? r.contact.name : '—') + ' · ' +
+        (r.contact && r.contact.email ? r.contact.email : '—') + ' · ' +
+        (r.contact && r.contact.role ? r.contact.role : '—')
+      ));
+    } else {
+      contactBox.appendChild(el('span', { class: 'rv-contact-mark', text: 'VERBORGEN' }));
+      contactBox.appendChild(document.createTextNode('Contactgegevens zijn verborgen om de pagina overzichtelijk te houden. Ze worden niet meegestuurd in een download, tenzij je het vinkje hierboven aanzet.'));
+    }
+    s2.appendChild(contactBox);
+    d.appendChild(s2);
+
+    // Review form
+    var s3 = el('div', { class: 'rv-section' });
+    s3.appendChild(el('h3', { text: 'Jouw beoordeling' }));
+
+    var processSelect = selectField('rv-process-step', PROCESS_STEPS, r.process_step);
+    s3.appendChild(formRow('Procesgang (welke stap?)', processSelect));
+    var stepHint = el('div', { class: 'rv-step-hint', id: 'rv-step-hint' }, [
+      stepReminderFor(r.process_step) || 'Bij deze stap hoort geen specifieke tip.'
+    ]);
+    s3.appendChild(stepHint);
+    processSelect.addEventListener('change', function(ev){
+      var hint = $('rv-step-hint');
+      if (hint) hint.textContent = stepReminderFor(ev.target.value) || 'Bij deze stap hoort geen specifieke tip.';
+    });
+    s3.appendChild(formRow('Status', selectField('rv-review-status', REVIEW_STATUSES, r.review_status)));
+    s3.appendChild(formRow('Korte tip voor jezelf', textField('rv-reminder', r.reminder || '')));
+    s3.appendChild(formRow('Wat moet er hierna gebeuren?', textField('rv-next-action', r.next_required_action || '')));
+    s3.appendChild(formRow('Wie pakt het op?', textField('rv-assigned-to', r.assigned_to || '')));
+    s3.appendChild(formRow('Wanneer uiterlijk?', dateField('rv-due-date', r.due_date || '')));
+    s3.appendChild(formRow('Notitie voor de redactie (intern)', textareaField('rv-review-notes', r.review_notes_internal || '')));
+
+    d.appendChild(s3);
+
+    // ── Primary action area (role-based labels, mode-aware) ───────────────
+    // In LAB-mode the primary button calls /api/redactie-review-update and
+    // saves the review directly into LAB_Redactie_Reviews + LAB_Workflow_Events
+    // (append-only). In sample-mode (no access code, or webhook not yet
+    // activated) it only generates a local preview — nothing is written.
+    var isSample = state.accessMode !== 'lab';
+    var primaryLabel = isSample
+      ? 'Maak testvoorbeeld — er wordt niets opgeslagen'
+      : 'Opslaan in redactietabel';
+    var primaryArea = el('div', { class: 'rv-primary-area', 'aria-label': 'Hoofdknop' });
+    var modeNote = el('span', {
+      class: 'rv-primary-mode-note' + (isSample ? '' : ' is-lab'),
+      text: isSample
+        ? 'Teststand · er wordt niets opgeslagen'
+        : 'Echte inzending · jouw beoordeling wordt opgeslagen in de redactietabel; de inzending van de indiener blijft staan; de hoofdtabel met organisaties verandert niet'
+    });
+    primaryArea.appendChild(modeNote);
+
+    var btnPrimary = el('button', {
+      class: 'rv-btn rv-btn-primary',
+      type: 'button',
+      id: 'rv-primary-action'
+    }, [state.saveBusy ? 'Even geduld — bezig met opslaan…' : primaryLabel]);
+    if (state.saveBusy) btnPrimary.disabled = true;
+    btnPrimary.addEventListener('click', function(){
+      if (state.saveBusy) return;
+      if (isSample){
+        // Sample / no-webhook fallback: generate a local preview only.
+        generateExport('text');
+        return;
+      }
+      submitReviewUpdate();
+    });
+    primaryArea.appendChild(document.createElement('br'));
+    primaryArea.appendChild(btnPrimary);
+
+    // 'Wat gebeurt er na deze knop?' — explicit, role-based, plain Dutch.
+    var instr = el('div', { class: 'rv-instruct', id: 'rv-instruct-primary' });
+    instr.appendChild(el('strong', { text: 'Wat gebeurt er als ik klik?' }));
+    var instrUl = el('ul');
+    var liDo = el('li', { class: 'rv-instruct-do' });
+    liDo.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#0f172a">Wat er wel gebeurt:</strong> ' +
+      (isSample
+        ? 'Je ziet een leesbare samenvatting van jouw beoordeling. Er wordt niets opgeslagen.'
+        : 'Jouw beoordeling wordt opgeslagen in de redactietabel en er komt een notitie bij in het activiteitenlogboek.');
+    instrUl.appendChild(liDo);
+    var liNot = el('li', { class: 'rv-instruct-not' });
+    liNot.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#7f1d1d">Wat er níet gebeurt:</strong> ' +
+      'De inzending van de indiener blijft staan. De vaste hoofdtabel met organisaties verandert niet. Er wordt geen e-mail gestuurd. Er komt niets op de website.';
+    instrUl.appendChild(liNot);
+    var liNext = el('li', { class: 'rv-instruct-next' });
+    liNext.innerHTML = '<strong style="display:inline;letter-spacing:0;text-transform:none;font-size:13px;color:#1e3a8a">Wat jij hierna doet:</strong> ' +
+      (isSample
+        ? 'Lees de samenvatting. Echt opslaan kan pas als je een geldige toegangscode hebt én beheer dit scherm heeft geactiveerd.'
+        : 'Controleer de bevestiging die direct hieronder verschijnt. Je hoeft niets te kopiëren of te plakken.');
+    instrUl.appendChild(liNext);
+    instr.appendChild(instrUl);
+    primaryArea.appendChild(instr);
+
+    // Reset is non-destructive: only clears the preview pane / save banner,
+    // never sheet data.
+    var btnReset = el('button', { class: 'rv-btn rv-btn-warn', type: 'button', id: 'rv-reset-preview' }, ['Voorbeeld wissen en opnieuw beginnen']);
+    btnReset.addEventListener('click', function(){
+      state.exportText = '';
+      state.saveState = null;
+      renderDetail();
+    });
+    primaryArea.appendChild(document.createTextNode(' '));
+    primaryArea.appendChild(btnReset);
+
+    d.appendChild(primaryArea);
+
+    // Save status banner (saved / not_saved / failed) — rendered after a
+    // submitReviewUpdate() call. In sample mode this also shows when the
+    // user clicks the primary button: nothing was saved.
+    if (state.saveState){
+      var ss = state.saveState;
+      var saveBanner = el('div', {
+        class: 'rv-save-banner rv-save-' + ss.status,
+        id: 'rv-save-banner',
+        role: 'status',
+        'aria-live': 'polite'
+      });
+      var bannerTitle;
+      if (ss.status === 'saved') bannerTitle = 'Opgeslagen in de redactietabel';
+      else if (ss.status === 'failed') bannerTitle = 'Opslaan is niet gelukt';
+      else bannerTitle = 'Niet opgeslagen';
+      saveBanner.appendChild(el('strong', { text: bannerTitle }));
+      saveBanner.appendChild(el('p', { class: 'rv-save-msg', text: ss.message || '' }));
+      if (ss.status === 'saved' && ss.savedTo){
+        var saveUl = el('ul', { class: 'rv-save-list' });
+        saveUl.appendChild(el('li', { text: 'Opgeslagen in de redactietabel (intern: ' + (ss.savedTo.review_tab || 'LAB_Redactie_Reviews') + ').' }));
+        saveUl.appendChild(el('li', { text: 'Notitie geplaatst in het activiteitenlogboek (intern: ' + (ss.savedTo.events_tab || 'LAB_Workflow_Events') + ').' }));
+        if (ss.savedTo.review_id) saveUl.appendChild(el('li', { text: 'Kenmerk van deze beoordeling (review_id): ' + ss.savedTo.review_id }));
+        saveUl.appendChild(el('li', { text: 'De inzending van de indiener is niet veranderd. Originele inzending: ongewijzigd in bron-tab.' }));
+        saveUl.appendChild(el('li', { text: 'De vaste hoofdtabel met organisaties is niet aangeraakt. Directory_Master: niet aangeraakt.' }));
+        saveUl.appendChild(el('li', { text: 'Er is niets op de website gepubliceerd en er is geen e-mail verstuurd.' }));
+        saveBanner.appendChild(saveUl);
+      } else if (ss.status === 'not_saved' && ss.blockedReason){
+        saveBanner.appendChild(el('p', { class: 'rv-save-block', text: 'Reden: ' + ss.blockedReason }));
+      } else if (ss.status === 'failed' && ss.error){
+        saveBanner.appendChild(el('p', { class: 'rv-save-block', text: 'Technisch detail (voor beheer): ' + ss.error }));
+      }
+      d.appendChild(saveBanner);
+    }
+
+    // Preview / readable summary box (only in sample-mode; in LAB-mode the
+    // save banner above is the authoritative result).
+    var defaultPreview = isSample
+      ? '// Klik hierboven op de hoofdknop om jouw beoordeling te bekijken.\n// Er wordt niets opgeslagen, geen e-mail verstuurd en niets gepubliceerd.'
+      : '// "Opslaan in redactietabel" doet het opslaan automatisch.\n// Je hoeft niets te kopiëren of plakken. De technische export onderaan is alleen voor beheer.';
+    var exportBox = el('pre', { class: 'rv-export', id: 'rv-export-box' }, [
+      state.exportText || defaultPreview
+    ]);
+    d.appendChild(exportBox);
+    d.appendChild(el('p', { class: 'rv-export-hint', text: isSample
+      ? 'Teststand: je ziet alleen een voorbeeld. Er wordt niets opgeslagen.'
+      : 'Het opslaan gebeurt automatisch zodra je op "Opslaan in redactietabel" klikt. Het beheer-blok hieronder is alleen een noodoplossing.' }));
+
+    // ── Technische export voor beheer (collapsed by default, fallback) ────
+    // Only used when automatic save is unavailable AND beheer asks for the
+    // raw audit-export. The labels here are deliberately neutral / technical
+    // so a non-technical editor never mistakes them for the primary save
+    // action. This is the explicit "noodluik".
+    var tech = el('details', { class: 'rv-tech', id: 'rv-tech-details' });
+    tech.appendChild(el('summary', { text: 'Alleen voor beheer bij storing — Technische export voor beheer (Alleen gebruiken als beheer hierom vraagt)' }));
+    tech.appendChild(el('div', { class: 'rv-tech-warn',
+      text: 'Gebruik dit niet voor normaal redactiewerk.' }));
+    tech.appendChild(el('div', { class: 'rv-tech-warn', id: 'rv-tech-fallback-instruction',
+      text: 'Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.' }));
+    tech.appendChild(el('div', { class: 'rv-tech-warn',
+      text: 'Met deze knoppen maak je een technisch bestand of een tekstblok dat alleen bedoeld is voor beheer (bijvoorbeeld bij storing). Er wordt niets opgeslagen in de redactietabel, niets gemaild en niets gepubliceerd.' }));
+
+    var techActions = el('div', { class: 'rv-actions' });
+    var btnTechCopyJson = el('button', { class: 'rv-btn', type: 'button', id: 'rv-tech-copy-json' }, ['Kopieer technische audit-export']);
+    btnTechCopyJson.addEventListener('click', function(){ generateExport('json'); copyExport(); });
+    var btnTechDownload = el('button', { class: 'rv-btn', type: 'button', id: 'rv-tech-download' }, ['Download auditbestand (JSON)']);
+    btnTechDownload.addEventListener('click', function(){ generateExport('json'); downloadAudit(); });
+    var btnTechCopyText = el('button', { class: 'rv-btn', type: 'button', id: 'rv-tech-copy-text' }, ['Kopieer tekstsamenvatting voor beheer']);
+    btnTechCopyText.addEventListener('click', function(){ generateExport('text'); copyExport(); });
+    techActions.appendChild(btnTechCopyJson);
+    techActions.appendChild(btnTechDownload);
+    techActions.appendChild(btnTechCopyText);
+    tech.appendChild(techActions);
+
+    var techInstr = el('div', { class: 'rv-instruct' });
+    techInstr.appendChild(el('strong', { text: 'Wat doen deze knoppen?' }));
+    var techUl = el('ul');
+    techUl.appendChild(el('li', { class: 'rv-instruct-do', text: 'Wat er wel gebeurt: een technisch bestand of tekstblok komt op je klembord of in je downloadmap te staan.' }));
+    techUl.appendChild(el('li', { class: 'rv-instruct-not', text: 'Wat er níet gebeurt: er wordt niets opgeslagen in de redactietabel, geen e-mail verstuurd, niets gepubliceerd. De vaste hoofdtabel met organisaties wordt niet aangeraakt.' }));
+    techUl.appendChild(el('li', { class: 'rv-instruct-next', text: 'Wat jij hierna doet: alleen aan beheer geven als beheer er expliciet om vraagt. Gebruik dit niet voor normaal redactiewerk.' }));
+    techInstr.appendChild(techUl);
+    tech.appendChild(techInstr);
+
+    d.appendChild(tech);
+  }
+
+  // Local-only download of the audit JSON. Browser-only — no network.
+  function downloadAudit(){
+    if (!state.exportText) return;
+    try {
+      var blob = new Blob([state.exportText], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'redactie-audit-' + (state.activeId || 'export') + '.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+    } catch (e) { /* fail-silent: technical-only path */ }
+  }
+
+  function updateChangeTracker(record){
+    var tracker = $('rv-change-tracker');
+    if (!tracker || !record) return;
+    tracker.innerHTML = '';
+    var changed = changedFieldKeys(record);
+    if (changed.length === 0){
+      tracker.appendChild(el('span', { class: 'rv-changes-empty', text: 'Je hebt nog niets aangepast ten opzichte van de oorspronkelijke inzending.' }));
+      return;
+    }
+    tracker.appendChild(el('strong', { text: 'Velden die jij hebt aangepast (' + changed.length + ')' }));
+    var ul = el('ul');
+    changed.forEach(function(k){
+      var f = EDIT_FIELDS.filter(function(x){ return x.key === k; })[0];
+      ul.appendChild(el('li', { text: (f ? f.label : k) + ' — gewijzigd' }));
+    });
+    tracker.appendChild(ul);
+  }
+
+  function rowDl(label, value){
+    var dl = el('dl', { class: 'rv-row' });
+    dl.appendChild(el('dt', { text: label }));
+    var dd = el('dd');
+    if (typeof value === 'string') dd.textContent = value;
+    else dd.appendChild(value);
+    dl.appendChild(dd);
+    return dl;
+  }
+  function formRow(label, field){
+    var wrap = el('div', { class: 'rv-form-row' });
+    wrap.appendChild(el('label', { text: label, for: field.id }));
+    wrap.appendChild(field);
+    return wrap;
+  }
+  function selectField(id, options, val){
+    var s = el('select', { id: id, name: id });
+    options.forEach(function(o){
+      var opt = el('option', { value: o.v, text: o.t });
+      if (o.v === val) opt.selected = true;
+      s.appendChild(opt);
+    });
+    return s;
+  }
+  function textField(id, val){ return el('input', { id: id, name: id, type: 'text', value: val }); }
+  function dateField(id, val){ return el('input', { id: id, name: id, type: 'date', value: val }); }
+  function textareaField(id, val){
+    var t = el('textarea', { id: id, name: id, rows: '4' });
+    t.value = val;
+    return t;
+  }
+
+  // ── Export generation (PII-safe by default) ─────────────────────────────
+  function readForm(){
+    return {
+      process_step: ($('rv-process-step') || {}).value || '',
+      review_status: ($('rv-review-status') || {}).value || '',
+      reminder: ($('rv-reminder') || {}).value || '',
+      next_required_action: ($('rv-next-action') || {}).value || '',
+      assigned_to: ($('rv-assigned-to') || {}).value || '',
+      due_date: ($('rv-due-date') || {}).value || '',
+      review_notes_internal: ($('rv-review-notes') || {}).value || '',
+      redactie_decision: ($('rv-redactie-decision') || {}).value || '',
+      redactie_decision_reason: ($('rv-redactie-decision-reason') || {}).value || ''
+    };
+  }
+
+  function buildExportPayload(record, formValues, includeContact, edits){
+    if (!record) return null;
+    // Snapshot of the originally submitted source — never mutated by the
+    // editor. This block is always present so the audit trail survives
+    // editing.
+    var originalReference = {
+      submission_id: record.submission_id,
+      record_type: record.record_type,
+      source_tab: record.source_tab,
+      source_row_hint: record.source_row_hint || '',
+      received_at: record.received_at || '',
+      environment: record.environment || 'TEST/VALIDATIE',
+      title: record.title || '',
+      organization_name: record.organization_name || '',
+      region: record.region || '',
+      country_code: record.country_code || '',
+      sector_raw: record.sector_raw || '',
+      topic_tags: record.topic_tags || '',
+      language: record.language || '',
+      type: record.type || '',
+      summary: record.summary || '',
+      body_md_or_url: record.body_md_or_url || '',
+      website: record.website || ''
+    };
+
+    // Build edited publication proposal (redactieversie). When no edits
+    // were made the proposal mirrors the original, but the export keeps
+    // them as separate blocks so the audit trail is unambiguous.
+    var proposal = {};
+    var changedFields = [];
+    EDIT_FIELDS.forEach(function(f){
+      var orig = originalValueFor(record, f);
+      var cur = (edits && edits[f.key] != null) ? String(edits[f.key]) : orig;
+      proposal[f.key] = cur;
+      if (cur !== orig) changedFields.push(f.key);
+    });
+
+    var safe = {
+      submission_id: record.submission_id,
+      record_type: record.record_type,
+      source_tab: record.source_tab,
+      source_row_hint: record.source_row_hint || '',
+      environment: record.environment || 'TEST/VALIDATIE',
+      title: record.title,
+      organization_name: record.organization_name || '',
+      region: record.region || '',
+      country_code: record.country_code || '',
+      type: record.type || '',
+      original_reference: originalReference,
+      edited_publication_proposal: proposal,
+      changed_fields: changedFields,
+      change_note: proposal.change_note || '',
+      edited_by: proposal.edited_by || '',
+      edited_at: changedFields.length ? new Date().toISOString() : '',
+      review_update: {
+        process_step: formValues.process_step,
+        review_status: formValues.review_status,
+        reminder: formValues.reminder,
+        next_required_action: formValues.next_required_action,
+        assigned_to: formValues.assigned_to,
+        due_date: formValues.due_date,
+        review_notes_internal: formValues.review_notes_internal
+      },
+      review_generated_at: new Date().toISOString(),
+      generated_by: 'redactie-validation.html (lab, browser-only)',
+      warning: 'Validatie-only fallback-export voor beheer. Bewerkingen vormen alleen een publicatievoorstel — de originele inzending (original_reference) blijft de bron. Geen auto-publicatie. Normale werkflow: "Opslaan in redactietabel" schrijft automatisch naar LAB_Redactie_Reviews + LAB_Workflow_Events. Deze export alleen gebruiken als automatisch opslaan niet werkt en beheer hierom vraagt. Directory_Master niet aanpassen.'
+    };
+    // Strip any contact / PII keys unless caller explicitly opted in.
+    if (includeContact && record.contact){
+      safe.contact_internal = {
+        name: record.contact.name || '',
+        email: record.contact.email || '',
+        role: record.contact.role || ''
+      };
+      safe.contact_disclosed = true;
+    } else {
+      safe.contact_disclosed = false;
+    }
+    return safe;
+  }
+
+  // Exposed for tests.
+  window.__esrfRedactieReview = {
+    buildExportPayload: buildExportPayload,
+    SAMPLE: SAMPLE,
+    EDIT_FIELDS: EDIT_FIELDS,
+    originalValueFor: originalValueFor,
+    STATUS_STEP_REMINDERS: STATUS_STEP_REMINDERS_DEFAULT,
+    stepReminderFor: stepReminderFor,
+    loadLabData: loadLabData,
+    submitReviewUpdate: submitReviewUpdate,
+    state: state
+  };
+
+  function generateExport(kind){
+    var r = getActive();
+    if (!r) return;
+    var includeContact = state.showContact === true; // never include unless explicit toggle
+    var edits = state.editsById[r.submission_id] || null;
+    var payload = buildExportPayload(r, readForm(), includeContact, edits);
+    if (kind === 'json'){
+      state.exportText = JSON.stringify(payload, null, 2);
+    } else {
+      state.exportText = textSummary(payload);
+    }
+    renderDetail();
+  }
+
+  // Send the redactiebeslissing to /api/redactie-review-update. The endpoint
+  // is preview-only and gated by REDACTIE_REVIEW_ACCESS_CODE +
+  // REDACTIE_REVIEW_WRITE_ENABLED + webhook URL/secret. Contact details are
+  // never sent — include_contact is hard-coded false here AND on the server.
+  // Directory_Master is refused both client-side (target_tab) and server-side.
+  async function submitReviewUpdate(){
+    var r = getActive();
+    if (!r) return;
+    if (state.accessMode !== 'lab'){
+      // Defence-in-depth: never POST a save in sample mode.
+      state.saveState = {
+        status: 'not_saved',
+        message: 'Opslaan kan alleen als beheer dit scherm heeft geactiveerd én je een geldige toegangscode hebt ingevuld.',
+        blockedReason: 'Dit scherm staat nog in teststand.'
+      };
+      renderDetail();
+      return;
+    }
+    var edits = state.editsById[r.submission_id] || null;
+    // PII never crosses the network on a save: include_contact is hard-coded
+    // false here AND on the server. The buildExportPayload call below mirrors
+    // the audit-export shape without contact data.
+    var clientPayload = buildExportPayload(r, readForm(), false, edits);
+    if (!clientPayload) return;
+    var body = {
+      access_code: state.accessCode || '',
+      submission_id: clientPayload.submission_id,
+      record_type: clientPayload.record_type,
+      target_tab: 'LAB_Redactie_Reviews',
+      source_tab: clientPayload.source_tab,
+      review_update: clientPayload.review_update || {},
+      edited_publication_proposal: clientPayload.edited_publication_proposal || null,
+      original_reference: clientPayload.original_reference || null,
+      changed_fields: clientPayload.changed_fields || [],
+      change_note: clientPayload.change_note || '',
+      edited_by: clientPayload.edited_by || ''
+    };
+    // For change-request rows (wijzigingsverzoek op bestaande vermelding) the
+    // backend stores a separate change_request_review block alongside the
+    // review_update. We collect the dedicated CR decision fields and the
+    // identifying fields of the verzoek so the audit row is complete.
+    // Contact PII is never sent — neither the form nor the export pulls it
+    // into this body, and the backend strips it again as defence in depth.
+    if (r && r.record_type === 'change_request'){
+      var formVals = readForm();
+      body.change_request_review = {
+        redactie_decision: formVals.redactie_decision || '',
+        redactie_decision_reason: formVals.redactie_decision_reason || '',
+        requested_action: r.requested_action || '',
+        sub_mode: r.sub_mode || (r.requested_action === 'hide' || r.requested_action === 'delete' ? 'hide_delete' : 'change_request'),
+        target_listing_name: r.target_listing_name || '',
+        target_listing_url: r.target_listing_url || '',
+        change_description: r.change_description || '',
+        change_description_existing: r.change_description_existing || '',
+        change_description_requested: r.change_description_requested || '',
+        reason: r.reason || '',
+        evidence_url: r.evidence_url || '',
+        requester_authorization: r.requester_authorization || '',
+        authorization_confirmation: (String(r.authorization_confirmation || '').toLowerCase() === 'yes' || r.authorization_confirmation === true) ? 'yes' : (r.authorization_confirmation ? 'no' : '')
+      };
+    }
+    state.saveBusy = true;
+    state.saveState = null;
+    renderDetail();
+    var data = null;
+    var httpOk = false;
+    try {
+      var res = await fetch('/api/redactie-review-update', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      httpOk = !!(res && res.ok);
+      try { data = await res.json(); } catch(e){ data = null; }
+    } catch (e) {
+      data = null;
+    }
+    state.saveBusy = false;
+    if (data && data.save_status === 'saved'){
+      state.saveState = {
+        status: 'saved',
+        message: data.save_message || 'Jouw beoordeling is opgeslagen in de redactietabel en er is een notitie in het activiteitenlogboek gezet. De inzending van de indiener is niet veranderd; de hoofdtabel met organisaties is niet aangeraakt.',
+        savedTo: data.saved_to || { review_tab: 'LAB_Redactie_Reviews', events_tab: 'LAB_Workflow_Events' }
+      };
+    } else if (data && data.save_status === 'not_saved'){
+      state.saveState = {
+        status: 'not_saved',
+        message: data.save_message || 'Opslaan staat nog niet aan. Er is niets opgeslagen.',
+        blockedReason: data.live_write_blocked_reason || 'Onbekende reden — vraag beheer om te kijken.'
+      };
+    } else if (data && data.save_status === 'failed'){
+      state.saveState = {
+        status: 'failed',
+        message: data.save_message || 'Opslaan is niet gelukt. Er is niets opgeslagen.',
+        error: data.upstream_error || 'upstream_error'
+      };
+    } else {
+      state.saveState = {
+        status: 'failed',
+        message: 'Opslaan is niet gelukt. Er kwam geen duidelijk antwoord terug. Er is niets opgeslagen.',
+        error: httpOk ? 'invalid_response' : 'network_error'
+      };
+    }
+    renderDetail();
+  }
+
+  function textSummary(p){
+    if (!p) return '';
+    var u = p.review_update || {};
+    var prop = p.edited_publication_proposal || {};
+    var orig = p.original_reference || {};
+    var lines = [
+      '# Review-update — ' + (p.title || ''),
+      '# submission_id: ' + p.submission_id,
+      '# bron: ' + p.source_tab + ' (' + (p.source_row_hint || '') + ')',
+      '# omgeving: ' + p.environment,
+      '# gegenereerd: ' + p.review_generated_at,
+      '',
+      '## Originele inzending (bron, audit)',
+      'original.title             : ' + (orig.title || ''),
+      'original.organization_name : ' + (orig.organization_name || ''),
+      'original.region            : ' + (orig.region || ''),
+      'original.summary           : ' + (orig.summary || ''),
+      '',
+      '## Redactieversie / Publicatievoorstel',
+      'edited_title               : ' + (prop.edited_title || ''),
+      'edited_organization        : ' + (prop.edited_organization || ''),
+      'edited_summary             : ' + (prop.edited_summary || ''),
+      'edited_region              : ' + (prop.edited_region || ''),
+      'edited_sector_or_tags      : ' + (prop.edited_sector_or_tags || ''),
+      'edited_public_body         : ' + (prop.edited_public_body || ''),
+      'editorial_note             : ' + (prop.editorial_note || ''),
+      'change_note                : ' + (p.change_note || ''),
+      'edited_by                  : ' + (p.edited_by || ''),
+      'edited_at                  : ' + (p.edited_at || ''),
+      'changed_fields             : ' + ((p.changed_fields || []).join(', ') || '(geen wijzigingen)'),
+      '',
+      '## Review-status (procesgang)',
+      'process_step          : ' + u.process_step,
+      'review_status         : ' + u.review_status,
+      'reminder              : ' + u.reminder,
+      'next_required_action  : ' + u.next_required_action,
+      'assigned_to           : ' + u.assigned_to,
+      'due_date              : ' + u.due_date,
+      'review_notes_internal : ' + u.review_notes_internal,
+      '',
+      '⚠ ' + p.warning
+    ];
+    if (p.contact_disclosed) lines.push('contact_internal      : ' + JSON.stringify(p.contact_internal));
+    return lines.join('\n');
+  }
+
+  function copyExport(){
+    var box = $('rv-export-box');
+    if (!box || !state.exportText) return;
+    try {
+      navigator.clipboard.writeText(state.exportText);
+    } catch(e) {
+      // fallback select
+      var sel = window.getSelection();
+      var range = document.createRange();
+      range.selectNodeContents(box);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  }
+
+  // ── Boot ────────────────────────────────────────────────────────────────
+  function renderAll(){ renderList(); renderDetail(); }
+  document.addEventListener('DOMContentLoaded', function(){
+    $('rv-filter').addEventListener('input', function(ev){ state.filter = ev.target.value || ''; renderList(); });
+    state.activeId = SAMPLE[0] && SAMPLE[0].submission_id || null;
+
+    // Access panel handlers — code held in memory only, never stored.
+    var accessInput = $('rv-access-code');
+    var loadBtn = $('rv-access-load');
+    var clearBtn = $('rv-access-clear');
+    if (loadBtn){
+      loadBtn.addEventListener('click', function(){
+        var code = accessInput ? (accessInput.value || '') : '';
+        loadLabData(code);
+      });
+    }
+    if (accessInput){
+      accessInput.addEventListener('keydown', function(ev){
+        if (ev.key === 'Enter'){
+          ev.preventDefault();
+          loadLabData(accessInput.value || '');
+        }
+      });
+    }
+    if (clearBtn){
+      clearBtn.addEventListener('click', function(){
+        if (accessInput) accessInput.value = '';
+        state.accessMode = 'sample';
+        state.accessMessage = 'Teststand actief. Je werkt met voorbeeldinzendingen; er wordt niets opgeslagen.';
+        state.accessActivation = null;
+        state.accessCode = '';
+        state.records = SAMPLE.slice();
+        state.activeId = state.records[0] && state.records[0].submission_id || null;
+        state.exportText = '';
+        state.saveState = null;
+        renderAccessPanel();
+        renderAll();
+      });
+    }
+    // Initial probe — call the API with an empty access code so the
+    // server can tell us whether it is configured at all. The response
+    // updates the access panel mode/banner. We never auto-load real
+    // data — a valid code is required.
+    renderAccessPanel();
+    loadLabData('');
+  });
+
+})();
+</script>
+
+</body>
+</html>

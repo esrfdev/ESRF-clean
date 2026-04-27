@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="googlebot" content="noindex,nofollow" />
+<meta name="referrer" content="no-referrer" />
+<title>[TEST/VALIDATIE] ESRF.net Validation Lab — hidden</title>
+<meta name="description" content="Hidden internal validation environment for ESRF.net experiments. Not for public use. noindex/nofollow." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<style>
+  .vl-wrap { max-width: 920px; margin: 24px auto; padding: 0 20px; font-family: 'Archivo', system-ui, sans-serif; }
+  .vl-banner {
+    background:#fff3cd; border:2px solid #ffc107; color:#664d03;
+    padding:16px 20px; border-radius:6px; font-family:'IBM Plex Mono', monospace;
+    font-size:13px; line-height:1.55;
+  }
+  .vl-banner strong { display:block; font-size:14px; letter-spacing:0.05em; margin-bottom:6px; }
+  .vl-kicker { font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.08em; color:#b91c1c; margin:24px 0 4px; }
+  .vl-h1 { font-family:'PT Serif', serif; font-size:38px; line-height:1.15; margin:0 0 12px; }
+  .vl-deck { font-size:16px; line-height:1.6; color:#1f2937; max-width:680px; }
+  .vl-meta { background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:12px 16px; margin:18px 0; font-size:13px; font-family:'IBM Plex Mono', monospace; }
+  .vl-meta-line { margin:0; }
+  .vl-meta code { background:#0f172a; color:#e2e8f0; padding:2px 6px; border-radius:3px; font-size:12px; }
+  .vl-checklist { background:#f0f4f8; border-left:4px solid #2563eb; padding:14px 18px; margin:24px 0; border-radius:0 4px 4px 0; }
+  .vl-checklist h2 { margin:0 0 10px; font-size:14px; letter-spacing:0.04em; text-transform:uppercase; }
+  .vl-checklist ul { margin:0; padding-left:20px; font-size:14px; line-height:1.6; }
+  .vl-checklist li { margin:4px 0; }
+  .vl-modules-section h2 { margin:32px 0 12px; font-family:'PT Serif', serif; font-size:24px; }
+  .vl-visitor-instruction {
+    background:#ecfdf5; border-left:4px solid #059669; color:#064e3b;
+    padding:14px 18px; margin:18px 0 14px; border-radius:0 4px 4px 0;
+    font-size:14.5px; line-height:1.6;
+  }
+  .vl-visitor-instruction strong { display:block; margin-bottom:4px; font-size:14px; letter-spacing:0.02em; }
+  #vl-modules { display:grid; gap:18px; }
+  .vl-card { border:1px solid #e2e8f0; border-radius:6px; padding:18px 20px; background:#fff; }
+  .vl-card-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:8px; }
+  .vl-card-title { margin:0; font-family:'PT Serif', serif; font-size:20px; }
+  .vl-status { font-family:'IBM Plex Mono', monospace; font-size:11px; padding:4px 8px; border-radius:3px; letter-spacing:0.04em; white-space:nowrap; }
+  .vl-status-in-validation { background:#fef3c7; color:#92400e; }
+  .vl-status-planned { background:#e0e7ff; color:#3730a3; }
+  .vl-status-ready-for-review { background:#dbeafe; color:#1e40af; }
+  .vl-status-approved { background:#dcfce7; color:#166534; }
+  .vl-status-archived { background:#e5e7eb; color:#374151; }
+  .vl-card-purpose { margin:6px 0 12px; font-size:14px; line-height:1.55; color:#374151; }
+  .vl-card-meta { display:grid; grid-template-columns:auto 1fr; gap:4px 14px; margin:8px 0 12px; font-size:13px; }
+  .vl-card-meta dt { font-family:'IBM Plex Mono', monospace; color:#6b7280; font-size:12px; }
+  .vl-card-meta dd { margin:0; }
+  .vl-card-subtitle { margin:10px 0 4px; font-size:13px; letter-spacing:0.04em; text-transform:uppercase; color:#475569; }
+  .vl-criteria { margin:0; padding-left:20px; font-size:13px; line-height:1.55; }
+  .vl-card-actions { margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; }
+  .vl-btn { display:inline-block; padding:8px 14px; border:1px solid #cbd5e1; border-radius:4px; background:#fff; color:#0f172a; text-decoration:none; font-size:13px; font-family:'IBM Plex Mono', monospace; }
+  .vl-btn-primary { background:#0f172a; color:#fff; border-color:#0f172a; }
+  .vl-error { color:#991b1b; font-family:'IBM Plex Mono', monospace; font-size:13px; }
+  .vl-rules { margin:24px 0; font-size:14px; line-height:1.6; }
+  .vl-rules ol { padding-left:22px; }
+  .vl-foot { margin:40px 0 24px; padding-top:18px; border-top:1px solid #e2e8f0; font-size:12px; color:#6b7280; font-family:'IBM Plex Mono', monospace; }
+</style>
+</head>
+<body>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="index.html" class="mast-logo">ESRF.net</a>
+    <div class="mast-nav" id="primary-nav">
+      <span style="color:#b91c1c;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em">[VALIDATION LAB — NOT PUBLIC]</span>
+    </div>
+  </div>
+</nav>
+
+<main class="vl-wrap">
+
+  <div class="vl-banner" role="alert">
+    <strong>⚠ TEST &amp; VALIDATIE OMGEVING — NIET PUBLIEK</strong>
+    This is the hidden ESRF.net Validation Lab. Modules listed here are work-in-progress experiments running on a Cloudflare Pages branch preview.
+    Do <em>not</em> share these URLs publicly. Do <em>not</em> enter sensitive, confidential or operational data.
+    No content from this lab is sent to production systems.
+  </div>
+
+  <p class="vl-kicker">§ Validation Lab · hidden · noindex,nofollow</p>
+  <h1 class="vl-h1">ESRF.net Validation Lab</h1>
+  <p class="vl-deck">A reusable hidden environment for validating future ESRF.net pages, forms and features before they are promoted to the public site. Each module is owned, dated, and has explicit exit criteria.</p>
+
+  <div id="vl-meta" class="vl-meta"></div>
+
+  <section class="vl-rules" aria-labelledby="vl-rules-h">
+    <h2 id="vl-rules-h" style="font-family:'PT Serif',serif;font-size:20px;margin:24px 0 8px">Rules</h2>
+    <ol>
+      <li>Every module page carries <code>noindex,nofollow</code> meta tags for both general bots and Googlebot.</li>
+      <li>Modules are never linked from public navigation, footer, sitemap, robots.txt, news data, editorials list, index, or submit pages.</li>
+      <li>Test data only — no real sensitive or operational information.</li>
+      <li>Each module must have an owner, purpose, lastUpdated date, and exit criteria registered in <code>validation-lab.json</code>.</li>
+      <li>Promotion to <code>main</code> requires explicit reviewer approval on the draft PR. The test branch alone is never auto-merged.</li>
+    </ol>
+  </section>
+
+  <section class="vl-checklist" aria-labelledby="vl-checklist-h">
+    <h2 id="vl-checklist-h">Pre-promotion checklist</h2>
+    <ul>
+      <li>☐ <code>noindex,nofollow</code> present on every new module page</li>
+      <li>☐ No links from public pages, sitemap, robots, navigation or footer</li>
+      <li>☐ Test/validation banner visible on every module page</li>
+      <li>☐ Owner and exit criteria recorded in <code>validation-lab.json</code></li>
+      <li>☐ Test data only — no sensitive or operational data entered</li>
+      <li>☐ Reviewed on the Cloudflare branch preview, not on production</li>
+      <li>☐ Draft PR reviewed and explicitly approved before any promotion to <code>main</code></li>
+    </ul>
+  </section>
+
+  <section class="vl-modules-section" aria-labelledby="vl-modules-h">
+    <h2 id="vl-modules-h">Active modules</h2>
+    <div class="vl-visitor-instruction" id="vl-visitor-instruction" role="note">
+      <strong>Voor bezoekers en redactie — hoe gebruik je deze omgeving?</strong>
+      Kies wat je wilt opgeven en vul het samengestelde formulier hieronder in.
+      Wil je een organisatie aanmelden, gegevens wijzigen, een vermelding laten verbergen of een praktijkverhaal insturen? Open dan de module
+      <em>Bezoekersformulier &mdash; Deel je informatie</em> en gebruik daar het ene gecombineerde formulier.
+      Er wordt niets automatisch gepubliceerd; de redactie kijkt elke inzending na.
+    </div>
+    <div id="vl-modules">
+      <p>Loading modules from <code>validation-lab.json</code>…</p>
+    </div>
+  </section>
+
+  <p class="vl-foot">Hidden environment · Branch preview only · No production traffic · Contact: ESRF Editorial</p>
+
+</main>
+
+<script src="assets/js/validation-lab.js"></script>
+</body>
+</html>

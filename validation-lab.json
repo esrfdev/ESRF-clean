@@ -1,0 +1,942 @@
+{
+  "$schema": "https://esrf.net/schema/validation-lab.v1.json",
+  "name": "ESRF.net Validation Lab",
+  "description": "Hidden, non-indexed environment for validating future ESRF.net pages, forms and features against the Cloudflare Pages branch preview. Not for public traffic.",
+  "rules": [
+    "Every module page MUST include <meta name=\"robots\" content=\"noindex,nofollow\"> and <meta name=\"googlebot\" content=\"noindex,nofollow\">.",
+    "Modules MUST NOT be linked from public navigation, footer, sitemap.xml, robots.txt, news-data.json, editorials list, index.html or any submit page.",
+    "Modules MUST display a TEST/VALIDATIE banner. No real sensitive or operational data may be entered.",
+    "Every module MUST have an owner and exit criteria before being promoted to main.",
+    "Promotion to main requires explicit approval on the draft PR; the test branch alone is never auto-merged."
+  ],
+  "preview": {
+    "branch": "test/regional-editorial-contributor-intake",
+    "url": "https://test-regional-editorial-cont.esrf-clean.pages.dev",
+    "draftPullRequest": "https://github.com/esrfdev/ESRF-clean/pull/35"
+  },
+  "wouterReviewFeedback_2026_04_27": {
+    "reviewer": "Wouter",
+    "environment": "validatie (Cloudflare Pages Preview, branch test/regional-editorial-contributor-intake)",
+    "summary": "Reviewfeedback van Wouter op de validatieomgeving. Verwerkt in deze branch, niet naar main gemerged; productie onaangeraakt.",
+    "items": [
+      {
+        "page": "validation-lab.html",
+        "feedback": "Voeg voor de bezoeker/redacteur een duidelijke instructie toe: 'Kies wat je wilt opgeven en vul het samengestelde formulier hieronder in.'",
+        "resolution": "Een groen instructieblok (#vl-visitor-instruction) is toegevoegd boven de modulelijst met deze zin in gewone taal en een verwijzing naar het samengestelde bezoekersformulier."
+      },
+      {
+        "page": "esrf-simulated-site.html",
+        "feedback": "Verwijder verwarrende 'Nieuw' / 'Nieuw in validatie'-labels bij het formulier en de CTA. Bij de eerste verwijzing naar het formulier moet ook plaatsing in de Directory worden genoemd, niet alleen op de Atlas. NL en EN consistent: Directory én Atlas / Directory and Atlas.",
+        "resolution": "Pillen 'Nieuw' en 'Nieuw in validatie' bij JOIN-CTA, redactionele bijdragelead en footer-validatieblok zijn verwijderd. Join-sub vermeldt nu expliciet 'plek in de Directory én op de Atlas'; bijbehorende monospaced regel en footer-link noemen 'Directory and Atlas' parallel."
+      },
+      {
+        "page": "redactie-validation.html",
+        "feedback": "Het toegangscodeveld is niet leesbaar door veldgrootte; tekst loopt buiten beeld.",
+        "resolution": "Inputveld krijgt size=40, maxlength=64, breedte 320–520px, monospaced 15px met ruimere padding; mobiel volledig 100% breed; extra hulptekst rv-access-code-help legt het uit."
+      },
+      {
+        "page": "redactie-validation.html",
+        "feedback": "Geef meer uitleg wat de bedoeling is van het redactieformulier.",
+        "resolution": "Sectie #rv-purpose 'Waar is dit formulier voor?' met genummerde plain-Dutch lijst (bekijken, aanpassen, volgende stap of status kiezen, opslaan, niets wordt automatisch gepubliceerd)."
+      },
+      {
+        "page": "redactie-validation.html",
+        "feedback": "Bij Sector / tags uitleggen of scheidingstekens nodig zijn en of er een vaste lijst is.",
+        "resolution": "EDIT_FIELDS-entry 'edited_sector_or_tags' krijgt een help-veld; runtime rendert dit als .rv-field-help onder het inputveld; daarnaast verschijnt een vierde regel in het 'Regels bij bewerken'-blok zodat de uitleg ook in statische HTML staat. Tekst: scheid met komma’s, vrije invoer, redactie mag bestaande termen gebruiken of een nieuwe tag voorstellen, definitieve tagset wordt later geharmoniseerd."
+      }
+    ]
+  },
+  "translationWorkflowRule": {
+    "summary": "Listings and editorials are submitted in one source language. Nothing is auto-translated from the raw submission. Redactie first approves a master text in the source language, then creates or approves an English fallback master, then translates the approved master into the other ESRF languages, and only then publishes.",
+    "steps": [
+      "1 Goedkeuring brontaal eerst — redactie keurt eerst een master-tekst goed in de taal waarin de inzending is binnengekomen (Nederlands of Engels). Dit is het redactionele anker.",
+      "2 Engelse master maken/goedkeuren als de bron Nederlands was — redactie maakt of keurt daarna een Engelse master goed als vertaling van de goedgekeurde NL-master, niet van de originele inzending.",
+      "3 Pas dán vertalen naar overige ESRF-talen — andere talen worden afgeleid van de goedgekeurde master, niet van de ruwe indiening.",
+      "4 Pas daarna publiceren — pas met goedgekeurde master- en vertaalteksten gaat een vermelding of editorial naar Directory, Atlas of Editorial. Tot die stap blijft Directory_Master ongewijzigd."
+    ]
+  },
+  "modules": [
+    {
+      "id": "esrf-simulated-site",
+      "title": "Gesimuleerde ESRF.net home (validatie-bezoekersreis)",
+      "status": "in-validation",
+      "path": "/esrf-simulated-site.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Gesimuleerde ESRF.net-startpagina die qua header, hero, footer en typografie aansluit op productie (index.html, style.css). Een subtiele staging-bar bovenaan en kleine 'Nieuw in validatie'-pillen markeren alleen de vernieuwde routes (bezoekersformulier 'Deel je informatie', praktijkverhalen). Productie index.html is niet gewijzigd.",
+      "lastUpdated": "2026-04-26",
+      "visibility": "hidden",
+      "primaryCallToAction": "/submit-validation.html",
+      "primaryCallToActionLabel": {
+        "en": "Share your information",
+        "nl": "Deel je informatie"
+      },
+      "exitCriteria": [
+        "Look & feel volgt productie (mast, hero, foundation, sectors, featured editorial, join, foot); alleen subtiele staging-bar.",
+        "CTA's leiden naar submit-validation.html en gebruiken de brede labels 'Deel je informatie' (NL) / 'Share your information' (EN); smalle wording als 'Submit signal' of 'Meld organisatie aan' wordt in de validatie-CTA's vermeden.",
+        "Geen publieke navigatie, footer, sitemap of robots verwijst hierheen.",
+        "Redactie keurt copy en NL-teksten goed.",
+        "Reviewfeedback Wouter (2026-04-27) verwerkt: verwarrende 'Nieuw in validatie' / 'Nieuw'-labels rond formulier en CTA zijn verwijderd; bij de eerste verwijzing naar het bezoekersformulier wordt expliciet zowel plaatsing in de Directory als op de Atlas genoemd, in NL én EN consistent (Directory en Atlas / Directory and Atlas)."
+      ],
+      "wouterReviewFeedback": {
+        "date": "2026-04-27",
+        "items": [
+          "Verwijder 'Nieuw' / 'Nieuw in validatie'-pil bij het formulier en de CTA — leidt af van de inhoud.",
+          "Noem bij de eerste formulierverwijzing dat aanmeldingen in de Directory komen, niet alleen op de Atlas. NL en EN consistent: Directory én Atlas / Directory and Atlas."
+        ]
+      }
+    },
+    {
+      "id": "request-listing-validation",
+      "title": "Aanmeld- en wijzigpad — validatievariant (landing naar 'Deel je informatie'-formulier)",
+      "status": "in-validation",
+      "path": "/request-listing-validation.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Validatievariant van het klassieke opgavepad. Brede bezoekerslanding: leidt naar het ene formulier waar bezoekers een organisatie kunnen aanmelden, gegevens kunnen wijzigen, een vermelding kunnen laten verbergen of een praktijkverhaal kunnen insturen. De echte productiepagina request-listing.html blijft ongewijzigd.",
+      "lastUpdated": "2026-04-26",
+      "visibility": "hidden",
+      "basedOn": "/request-listing.html",
+      "primaryCallToAction": "/submit-validation.html",
+      "primaryCallToActionLabel": {
+        "en": "Share your information",
+        "nl": "Deel je informatie"
+      },
+      "exitCriteria": [
+        "Handmatige CTA werkt naar submit-validation.html en gebruikt de brede labels 'Deel je informatie' (NL) / 'Share your information' (EN).",
+        "TEST/VALIDATIE banner zichtbaar; geen wijziging aan productie request-listing.html.",
+        "Header en footer-wording vermijden smalle termen als 'Submit signal' of 'Opgavepad' — bezoekers zien dat dit pad ook voor wijzigen, verbergen of een praktijkverhaal is.",
+        "Geen publieke link naar deze pagina."
+      ]
+    },
+    {
+      "id": "regional-editorial-contributor-intake",
+      "title": "Regional Editorial Contributor Intake",
+      "status": "in-validation",
+      "path": "/contribute-editorial-test.html",
+      "thankYouPath": "/contribution-test-thank-you.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Validate the hidden contributor intake form for regional editorial submissions (Leadership Lessons, In het zonnetje, Regional Field Notes).",
+      "lastUpdated": "2026-04-25",
+      "visibility": "hidden",
+      "exitCriteria": [
+        "Form validates required fields and honeypot blocks bots.",
+        "Local preview JSON renders correctly without backend submission.",
+        "Editorial reviewers approve content of banner, workflow note and field labels."
+      ]
+    },
+    {
+      "id": "integrated-submit-with-editorial",
+      "title": "Bezoekersformulier 'Deel je informatie' / 'Share your information' — organisatie aanmelden, wijzigen, verbergen of een praktijkverhaal insturen",
+      "status": "in-validation",
+      "path": "/submit-validation.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Prototype: één breed bezoekersformulier voor de validatieomgeving waarin een bezoeker kan kiezen tussen een organisatie aanmelden, gegevens van een bestaande vermelding wijzigen, een vermelding laten verbergen of verwijderen, of een praktijkverhaal insturen. Header en submit-knop gebruiken de brede labels 'Deel je informatie' (NL) / 'Share your information' (EN); smalle termen als 'Submit signal' worden vermeden. Toont ook een aanbevolen architectuur voor veilige verwerking via Cloudflare Pages Function + private GitHub issue. Er gebeurt niets automatisch — de redactie kijkt elk verzoek na.",
+      "lastUpdated": "2026-04-26",
+      "visibility": "hidden",
+      "basedOn": "/request-listing.html",
+      "primaryCallToActionLabel": {
+        "en": "Share your information",
+        "nl": "Deel je informatie"
+      },
+      "visitorIntroDutch": "Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen.",
+      "labButton": {
+        "label": "LAB-opslag (preview-only) — POST /api/intake-test",
+        "purpose": "Knop in de previewstap die uitsluitend op preview-hostnames (*.esrf-clean.pages.dev / localhost) zichtbaar is en de payload met lab_test:true en het verplichte 'ESRF Lab Test'-prefix op contact.organisation én contact.name naar /api/intake-test stuurt. Notificatie is op deze route altijd uit; Directory_Master wordt nooit aangeraakt.",
+        "hostnameGate": "isLabPreviewHostname() in submit-validation.html: localhost, 127.0.0.1, 0.0.0.0, en *.esrf-clean.pages.dev",
+        "uiStatusMessages": [
+          "LAB-rij toegevoegd aan de spreadsheet (LAB_*) of LAB DRY-RUN melding bij ontbrekende secrets.",
+          "Geen notificatie verstuurd · Directory_Master beschermd.",
+          "Productie (404) en niet-bereikbaar zijn expliciet gemarkeerd in de UI."
+        ]
+      },
+      "exitCriteria": [
+        "Modus-keuze (organisatie / editorial / beide / wijzigen / verbergen-of-verwijderen) toont en valideert de juiste velden, incl. minimale lengte 20 op de korte editorial samenvatting.",
+        "Lokale preview rendert correct als JSON, tekst, en kopieerbare samenvatting; niets wordt verzonden.",
+        "Header, hero, submit-knop en CTA's gebruiken het brede label 'Deel je informatie' (NL) / 'Share your information' (EN); smalle wording als 'Submit signal' of 'Genereer testpreview' wordt vermeden in de zichtbare bezoekers-CTA's.",
+        "De Nederlandstalige uitleg boven het formulier zegt expliciet: 'Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen.'",
+        "Veiligheidskopie blijft staan: er verandert niets automatisch en Directory_Master wordt nooit aangeraakt.",
+        "Architectuurblok (Pages Function + Turnstile + private GitHub issue) is duidelijk en beoordeeld door redactie.",
+        "Wouter / redactie keurt de geïntegreerde UX en NL-teksten goed.",
+        "LAB-opslagknop is alleen zichtbaar op preview-hostnames; productie-bezoekers zien hem niet en de backend zou een eventuele directe POST hoe dan ook met 404 weigeren.",
+        "node functions/api/submit-validation-payload.test.mjs slaagt — bevestigt dat de buildLabBody-helper de juiste prefix, lab_test marker en payloadvelden produceert en dat /api/intake-test deze accepteert in org/editorial/both mode.",
+        "Stap 1 toont expliciete doorverwijzing naar stap 2 in eenvoudige Nederlandse taal: 'Kies eerst wat je wilt doen. Daarna ga je hieronder door naar stap 2 om de gegevens in te vullen.' — Wouter feedback 2026-04-27.",
+        "Bij modus change_request en hide_delete toont het formulier een Bevoegdheid-sectie en kan de bezoeker bestaande publieke directorygegevens prefilled tonen — Wouter feedback 2026-04-27."
+      ]
+    },
+    {
+      "id": "public-share-information-label",
+      "title": "Publieke navigatie/footer/zoek — brede label 'Deel je informatie' / 'Share your information'",
+      "status": "pr-ready-not-published",
+      "owner": "ESRF Editorial",
+      "purpose": "PR-ready publieke tekstvoorbereiding op branch test/regional-editorial-contributor-intake. De smalle wording 'Submit signal' in de footer-navigatie van de productiepagina's wordt vervangen door de brede route 'Deel je informatie' / 'Share your information' (NL/EN), die past bij organisatie aanmelden, gegevens wijzigen, een vermelding laten verbergen of een praktijkverhaal delen. De route blijft submit-news.html (productieformulier) — er wordt expliciet NIET vanaf productie naar een testpagina gerouteerd. Validatiepagina's blijven naar submit-validation.html linken.",
+      "lastUpdated": "2026-04-27",
+      "visibility": "branch-only",
+      "primaryCallToAction": "/submit-news.html",
+      "primaryCallToActionLabel": {
+        "en": "Share your information",
+        "nl": "Deel je informatie"
+      },
+      "i18nKeys": [
+        "common.share_information",
+        "common.share_information_cta",
+        "common.share_information_help"
+      ],
+      "publicHelperText": {
+        "en": "Use this form to submit an organisation, request an update or removal, or share a practice story.",
+        "nl": "Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal te delen."
+      },
+      "exitCriteria": [
+        "Footer-link op productie-HTMLs (about, analytics, directory, editorials, events, fund, index, news, privacy, request-listing, responsible-disclosure, sponsor, submit-event, submit-news, terms, plus de drie editorial-pagina's) toont 'Share your information' / 'Deel je informatie' via data-i18n=common.share_information.",
+        "Geen publieke productie-pagina linkt naar submit-validation.html, request-listing-validation.html, esrf-simulated-site.html of contribute-editorial-test.html.",
+        "Validatie/simulated pagina's mogen wél naar submit-validation.html linken — productie blijft via submit-news.html.",
+        "i18n keys common.share_information, common.share_information_cta en common.share_information_help bestaan in en.json en nl.json en parsen als geldige JSON.",
+        "Veiligheidsregels onveranderd: geen automatische publicatie, Directory_Master nooit automatisch aangepast, redactiecontrole blijft nodig.",
+        "Branch test/regional-editorial-contributor-intake: alleen committen en pushen, niet mergen naar main."
+      ]
+    },
+    {
+      "id": "intake-lab-automation",
+      "title": "Lab-automation voor /api/intake — workflow + LAB_* tabs + minimale notificatie",
+      "status": "sheet-monitoring-active-email-disabled",
+      "readinessNote": "Operational decision recorded 2026-04-26 14:46 UTC (event evt_sheet_monitoring_selected_20260426_1446): for the current lab phase, redactie notifications are handled by PERIODIC SHEET MONITORING of the Drive spreadsheet — NOT by automatic email. The user explicitly confirmed this is acceptable as the operational mode. The operational queue is the LAB_Intake_Submissions, LAB_Editorial_Intake and LAB_Workflow_Events tabs; the procedure for the redactie monitor is documented in the LAB_Instructions tab of the same Drive spreadsheet. Automatic email remains DISABLED until a minimal-rights Microsoft 365 Graph send-only Mail.Send route (or equivalent authenticated SMTP / mailrelay with SPF/DKIM/DMARC alignment) is approved and passes a manually-delivered test under minimal-rights consent. Backend, LAB_* tabs and dry-run flow verified end-to-end on 2026-04-25 (submission sub_moelllvt_i21b). First successful sheet-only LAB write via /api/intake-test on 2026-04-26 (sub-test_mofow7u5_4dzv → LAB_Intake_Submissions row 4, LAB_Editorial_Intake row 3). Sheet intake remains ACTIVE. Automatic minimal-notification route via Google Apps Script MailApp was tested on 2026-04-26 with operator probe submission sub_moftdrju_f8lk but delivery to office@esrf.net was NOT CONFIRMED; under rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401 the Cloudflare Pages Preview env vars INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO were removed/disabled. Later on 2026-04-26 (14:21) an attempt to authorize an Outlook / Microsoft 365 connector for office@esrf.net was REJECTED by the operator at the Microsoft consent screen because the connector requested broad / full mailbox access instead of a minimal send-only scope; this is recorded as decision event evt_outlook_broad_scope_rejected_20260426_1421. Refusing the broad consent is the correct security decision — the channel only needs Mail.Send. No Outlook connector was authorized; no env vars were set; no test emails were sent; production was not touched. The Google Apps Script MailApp route is therefore marked disabled / delivery-unconfirmed and is NOT a production route, AND the broad-scope Outlook connector path is REJECTED. The recommended next notification routes are minimal-rights only: (1) Microsoft Graph app registration with send-only Mail.Send as office@esrf.net (no Mail.Read / Mail.ReadWrite / full_access_as_app, mailbox-scoped via Exchange Online ApplicationAccessPolicy), (2) authenticated SMTP / mailrelay for office@esrf.net with SPF/DKIM/DMARC alignment, or (3) the manual Sheet-based notification fallback that is in effect today. Each must pass a manually-delivered test under minimal-rights consent before any env var is set. Until then INTAKE_NOTIFY_WEBHOOK / INTAKE_NOTIFY_TO stay unset on every environment and /api/intake keeps reporting notification_status=dry_run_not_configured. Automatic notifications stay disabled. The prepared Apps Script MailApp source remains in-tree as a reference artefact only (docs/apps-script-mail-notification.gs + docs/appsscript.mail-notification.json); see docs/apps-script-mail-notification.future.md and docs/intake-minimal-notification-design.md for the full rollback / decision records. Production was never enabled on this branch and is unchanged.",
+      "securityReview": {
+        "status": "ready",
+        "date": "2026-04-26",
+        "controls": {
+          "lab_only_writes": "enforced (assertLabPayloadSafe + Apps Script receive-side guard)",
+          "directory_master_blocked": "enforced (forbidden_targets + tab-prefix check on both ends)",
+          "shared_secret": "header x-esrf-intake-secret AND body shared_secret for Apps Script doPost",
+          "origin_allowlist": "enforced (esrf.net + *.esrf-clean.pages.dev)",
+          "method_handling": "POST-only; OPTIONS preflight; 405 for other verbs",
+          "content_type": "application/json required (415 otherwise)",
+          "body_size_cap": "64 KiB (413 otherwise)",
+          "honeypot": "company_website_hp must be empty",
+          "form_fill_timer": "form_duration_ms >= 2500ms",
+          "turnstile": "honoured when TURNSTILE_SECRET_KEY set; warning emitted otherwise (lab leaves it disabled)",
+          "rate_limit": "TODO — runtime-dependent (Workers KV binding or Cloudflare WAF rate-limit rule on /api/intake)",
+          "input_validation": "per-mode required fields, ISO-3166 country, email shape, mandatory editorial + GDPR consents; HTML/control-char strip; length caps 600 / 2000",
+          "minimal_notification": "assertNotificationSafe enforces FORBIDDEN_NOTIFY_KEYS on both live + dry-run paths",
+          "no_secrets_leak": "secrets read from env only; upstream errors flattened to status code; no stack traces in responses",
+          "cors": "Vary: origin on every response; preflight only for allowed origins",
+          "default_safe": "dry-run by default when sheet/notify webhooks unset",
+          "official_identity": "office@esrf.net surfaced as official production recipient via OFFICE_IDENTITY constant; ai.agent.wm@gmail.com listed as non-production and hard-blocked by Apps Script FORBIDDEN_NOTIFY_RECIPIENTS deny-list"
+        },
+        "productionBlockers": [
+          "Google Apps Script MailApp mailrelay route is DISABLED / DELIVERY-UNCONFIRMED as of 2026-04-26 (rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401, operator probe sub_moftdrju_f8lk). The route MUST NOT be re-enabled in its current form.",
+          "Outlook / Microsoft 365 connector authorization for office@esrf.net was REJECTED on 2026-04-26 at 14:21 because the consent screen requested broad / full mailbox access instead of a minimal send-only scope (decision event evt_outlook_broad_scope_rejected_20260426_1421). Refusing was the correct security decision. The broad-scope Outlook connector path MUST NOT be re-attempted; if Microsoft consent again surfaces only broad / full mailbox access, the Outlook connector route stays rejected.",
+          "Recommended next notification routes are minimal-rights only: (1) Microsoft Graph app registration with send-only Mail.Send for office@esrf.net (no Mail.Read / Mail.ReadWrite / full_access_as_app, narrowed via Exchange Online New-ApplicationAccessPolicy to office@esrf.net only), (2) authenticated SMTP / mailrelay for office@esrf.net with SPF/DKIM/DMARC alignment verified end-to-end, or (3) manual Sheet-based notification (current default). Each must pass a manually-delivered test under minimal-rights consent before INTAKE_NOTIFY_WEBHOOK / INTAKE_NOTIFY_TO are set on any Cloudflare Pages environment.",
+          "Cloudflare Pages preview secrets (INTAKE_SHEET_WEBHOOK_URL + SHEETS_WEBHOOK_SECRET) are configured for sheet intake; INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO are intentionally unset following the 2026-04-26 rollback (evt_unconfirmed_google_mailrelay_disabled_20260426_1401) and the same-day Outlook rejection (evt_outlook_broad_scope_rejected_20260426_1421).",
+          "INTAKE_NOTIFY_TO must be set to office@esrf.net (or another office@esrf.net-controlled inbox) and only together with INTAKE_NOTIFY_WEBHOOK pointing at a confirmed minimal-rights relay (Microsoft Graph send-only Mail.Send, OR authenticated SMTP with SPF/DKIM/DMARC alignment).",
+          "Redactie sign-off on activation gate in docs/intake-lab-test-report-2026-04-25.md §6b.",
+          "Optional: rate-limit (Workers KV binding INTAKE_RATELIMIT or Cloudflare WAF rule)."
+        ]
+      },
+      "mailRelayRollback": {
+        "rollbackEventId": "evt_unconfirmed_google_mailrelay_disabled_20260426_1401",
+        "date": "2026-04-26",
+        "operatorProbeSubmissionId": "sub_moftdrju_f8lk",
+        "testedRoute": "Google Apps Script MailApp.sendEmail deployment, hit via Cloudflare Pages Preview INTAKE_NOTIFY_WEBHOOK",
+        "intendedRecipient": "office@esrf.net",
+        "deliveryToOfficeEsrfNetConfirmed": false,
+        "actionsTaken": [
+          "Cloudflare Pages Preview env vars INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO removed / disabled.",
+          "Google Apps Script MailApp deployment treated as inert (no Cloudflare env var points at it).",
+          "Apps Script MailApp route marked disabled / delivery-unconfirmed in docs/apps-script-mail-notification.future.md, docs/intake-minimal-notification-design.md, docs/intake-backend.md and docs/validation-lab.md."
+        ],
+        "sheetIntakeImpact": "none — LAB_* rows continue to append on every successful submission via the spreadsheet-only Apps Script.",
+        "directoryMasterTouched": false,
+        "productionEnvVarsTouched": false,
+        "statusFlagAfterRollback": "minimal-notification-design-ready-not-enabled (unchanged — was never flipped to enabled because step 7 of the activation checklist, delivered email at office@esrf.net, was never reached).",
+        "recommendedNextRoute": {
+          "channel": "Minimal-rights only: Microsoft Graph app registration with send-only Mail.Send (no Mail.Read / Mail.ReadWrite / full_access_as_app, mailbox-scoped via Exchange Online New-ApplicationAccessPolicy) for office@esrf.net, OR authenticated SMTP / mailrelay for office@esrf.net with SPF/DKIM/DMARC alignment, OR manual Sheet-based notification (current default).",
+          "preconditionBeforeEnabling": "Operator must manually send a test message through the candidate minimal-rights relay and visually confirm it arrives at the office@esrf.net inbox AND that the consent scope is send-only (no broad mailbox access). Only after that delivered-test confirmation may INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO be set on the Cloudflare Pages Preview project. Production env vars stay untouched until a second delivered-test confirmation under production identity.",
+          "doNotReEnableGoogleMailApp": true,
+          "doNotAuthorizeBroadScopeOutlookConnector": true,
+          "outlookConnectorBroadScopeStatus": "REJECTED on 2026-04-26 (decision event evt_outlook_broad_scope_rejected_20260426_1421) — see outlookConnectorRejection block."
+        },
+        "documentation": [
+          "/docs/apps-script-mail-notification.future.md",
+          "/docs/intake-minimal-notification-design.md",
+          "/docs/intake-backend.md",
+          "/docs/validation-lab.md"
+        ]
+      },
+      "outlookConnectorRejection": {
+        "decisionEventId": "evt_outlook_broad_scope_rejected_20260426_1421",
+        "date": "2026-04-26",
+        "time": "14:21 local",
+        "routeUnderReview": "Outlook / Microsoft 365 connector for office@esrf.net",
+        "trigger": "Operator opened the Microsoft consent flow to authorize the connector.",
+        "consentScreenRequested": "Broad / full mailbox access (read mail / mailbox-wide permissions), not a minimal send-only scope.",
+        "operatorAction": "Authorization REJECTED at the consent screen. No tokens were issued. No connector was authorized. No client secret was stored anywhere (not in this repo, not in wrangler.toml, not in Cloudflare Pages env vars).",
+        "isCorrectSecurityDecision": true,
+        "securityRationale": "The notification channel only needs to send a single minimal, PII-free operational ping (the wire-level contract is defined in NOTIFICATION_CONTRACT in functions/api/intake.js and locked in docs/intake-minimal-notification-design.md). Granting broad / full mailbox access would let a relay compromise read the entire office@esrf.net mailbox (submitter correspondence, foundation mail, password-reset mails) — none of which the relay needs. Refusing the broad consent keeps the blast radius bounded to 'send one minimal mail' if the relay is ever compromised.",
+        "actionsTaken": [
+          "No Outlook connector was authorized.",
+          "No new Cloudflare Pages env var was created.",
+          "INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO remain disabled / unset on every environment (already unset after evt_unconfirmed_google_mailrelay_disabled_20260426_1401 earlier the same day).",
+          "No test emails were sent.",
+          "Decision recorded in docs/intake-minimal-notification-design.md, docs/apps-script-mail-notification.future.md, docs/intake-backend.md and docs/validation-lab.md."
+        ],
+        "directoryMasterTouched": false,
+        "productionEnvVarsTouched": false,
+        "productionDeploymentTouched": false,
+        "testEmailsSent": false,
+        "sheetIntakeImpact": "none — LAB_* rows continue to append on every successful submission via the spreadsheet-only Apps Script.",
+        "statusFlagAfterDecision": "minimal-notification-design-ready-not-enabled (unchanged). Automatic notifications stay disabled.",
+        "recommendedNextRoutes": [
+          {
+            "id": "ms-graph-mail-send-only",
+            "channel": "Microsoft Graph app registration with send-only Mail.Send as office@esrf.net.",
+            "consentScopeMustBe": "Mail.Send only — NOT Mail.Read, NOT Mail.ReadWrite, NOT Mail.ReadWrite.Shared, NOT full_access_as_app.",
+            "mailboxScopeNarrowing": "Exchange Online New-ApplicationAccessPolicy -AccessRight RestrictAccess -PolicyScopeGroupId office@esrf.net (so the app can only send AS office@esrf.net and cannot touch any other mailbox).",
+            "preconditionBeforeEnabling": "Operator must manually send a Graph sendMail call from the candidate app and visually confirm the test message arrives at office@esrf.net AND that the granted scope is exactly Mail.Send. If admin consent for Mail.Send cannot be granted in isolation, this route stays rejected.",
+            "cloudflareHoldsSecret": false
+          },
+          {
+            "id": "authenticated-smtp-with-alignment",
+            "channel": "Authenticated SMTP submission / mailrelay for office@esrf.net.",
+            "preconditionBeforeEnabling": "SPF, DKIM, and DMARC must be aligned for the From: office@esrf.net envelope. Verify with a manual test send and inspection of receiving mailbox headers (Authentication-Results: spf=pass dkim=pass dmarc=pass). Only after that delivered-and-aligned confirmation may INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO be set on Cloudflare Pages Preview.",
+            "cloudflareHoldsSecret": false
+          },
+          {
+            "id": "manual-sheet-based-notification",
+            "channel": "Manual Sheet-based notification — redactie monitors LAB_* tabs directly in the Drive spreadsheet.",
+            "preconditionBeforeEnabling": "Already in effect today. No automatic email channel; INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO stay unset. This is the default-safe state and the fallback if Microsoft Graph send-only and authenticated SMTP routes are not approved.",
+            "cloudflareHoldsSecret": false
+          }
+        ],
+        "doNotReAttemptIfBroadScope": true,
+        "doNotReEnableGoogleMailApp": true,
+        "automaticNotificationsDisabled": true,
+        "documentation": [
+          "/docs/intake-minimal-notification-design.md",
+          "/docs/apps-script-mail-notification.future.md",
+          "/docs/intake-backend.md",
+          "/docs/validation-lab.md"
+        ]
+      },
+      "sheetMonitoringDecision": {
+        "decisionEventId": "evt_sheet_monitoring_selected_20260426_1446",
+        "date": "2026-04-26",
+        "time": "14:46 UTC",
+        "selectedRoute": "Manual Sheet-based notification — redactie monitors the LAB_* tabs directly in the Drive spreadsheet on a periodic cadence.",
+        "userConfirmation": "User explicitly confirmed that periodic Sheet monitoring is acceptable as the operational notification mode for the current lab phase.",
+        "operationalQueue": [
+          "LAB_Intake_Submissions",
+          "LAB_Editorial_Intake",
+          "LAB_Workflow_Events"
+        ],
+        "procedureLocation": "LAB_Instructions tab in the same Drive spreadsheet (ESRF Directory CRM - actuele brondata 2026-04-24, id 1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g). Contains the redactie monitor procedure: cadence, who-watches-which-tab, and how to acknowledge a row.",
+        "automaticEmailStatus": "DISABLED. INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO remain unset on every Cloudflare Pages environment. /api/intake keeps reporting notification_status=dry_run_not_configured. MINIMAL_NOTIFICATION_DESIGN_STATUS stays minimal-notification-design-ready-not-enabled.",
+        "preconditionToReEnableAutomaticEmail": "A minimal-rights Microsoft 365 Graph send-only Mail.Send route (no Mail.Read / Mail.ReadWrite / full_access_as_app, mailbox-scoped via Exchange Online ApplicationAccessPolicy to office@esrf.net) — OR equivalent authenticated SMTP / mailrelay with SPF/DKIM/DMARC alignment — must be approved AND must pass a manually-delivered test under minimal-rights consent before any env var is set.",
+        "envVarsTouched": false,
+        "mailSent": false,
+        "productionTouched": false,
+        "directoryMasterTouched": false,
+        "mainBranchMerged": false,
+        "sheetIntakeImpact": "none — LAB_* rows continue to append on every successful submission via the spreadsheet-only Apps Script.",
+        "statusFlagAfterDecision": "minimal-notification-design-ready-not-enabled (unchanged). Automatic notifications stay disabled. Module status flipped to sheet-monitoring-active-email-disabled to reflect the operational mode.",
+        "supersedes": "Implements route (3) 'manual-sheet-based-notification' from outlookConnectorRejection.recommendedNextRoutes as the active operational mode for this lab phase.",
+        "documentation": [
+          "/docs/intake-minimal-notification-design.md",
+          "/docs/intake-lab-automation.md",
+          "/docs/validation-lab.md"
+        ]
+      },
+      "officialIdentity": {
+        "official_recipient": "office@esrf.net",
+        "official_owner": "ESRF foundation",
+        "non_production_identities": [
+          "ai.agent.wm@gmail.com"
+        ],
+        "note": "office@esrf.net is the only documented production recipient. ai.agent.wm@gmail.com may exist as a temporary / non-production context (e.g. legacy Google Sheets connector identity in agent tooling) but must never back the production webhook or be configured as INTAKE_NOTIFY_TO."
+      },
+      "path": "/submit-validation.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Lab-versie van de automatische intakeflow: backend POST /api/intake geeft een expliciete workflow (received → validated → stored_or_dry_run → notification_prepared_or_sent → next_required_action) terug, schrijft uitsluitend naar LAB_Intake_Submissions, LAB_Editorial_Intake, LAB_Place_Candidates, LAB_Backend_Log en LAB_Workflow_Events in de bestaande Drive-spreadsheet (id 1jGDFjTq5atrFSe3avjj4AflUo1SLPKAmkT_MIpH6z1g), en stuurt een PII-vrije notificatie. Directory_Master wordt nooit automatisch aangepast.",
+      "lastUpdated": "2026-04-26",
+      "visibility": "hidden",
+      "basedOn": "/submit-validation.html",
+      "previewTestRoute": {
+        "path": "/api/intake-test",
+        "status": "preview-test-route-ready-no-production-activation",
+        "purpose": "Preview-only single-write probe so ONE controlled lab-write can be validated end-to-end without re-opening /api/intake to general traffic. Production deploys short-circuit to 404 before any handler logic runs.",
+        "guardrails": [
+          "Preview-only: production environment (CF_PAGES_BRANCH=main or unset) returns 404.",
+          "POST-only; OPTIONS preflight; 405 for other verbs.",
+          "Required body marker lab_test === true (boolean).",
+          "Required prefix 'ESRF Lab Test' on contact.organisation AND contact.name (case-insensitive, prefix-only).",
+          "Forces meta.environment to 'TEST/VALIDATIE'; defence-in-depth re-check after sanitisation.",
+          "Live write requires BOTH INTAKE_SHEET_WEBHOOK_URL and SHEETS_WEBHOOK_SECRET; missing either flips to dry-run.",
+          "Notification disabled — INTAKE_NOTIFY_WEBHOOK / INTAKE_NOTIFY_TO are deliberately ignored on this route; notification_status is always 'disabled_for_intake_test' and notification_sent is always false.",
+          "Writes only to LAB_* tabs; Directory_Master forbidden via assertLabPayloadSafe + tab-prefix re-check.",
+          "Same payload validation, body-size cap (64 KiB), origin allowlist, and JSON-shape checks as /api/intake.",
+          "Generic JSON errors only — no upstream stack traces, no env-var names, no shared-secret reflection."
+        ],
+        "middlewareBypass": "/api/intake-test is on functions/_middleware.js BOT_FILTER_BYPASS_PATHS so an authorised operator can run a single curl POST against the Preview deploy without being 403'd by the UA filter. /api/intake itself is NOT bypassed; production HTML pages and the production intake remain fully protected.",
+        "tests": "/functions/api/intake-test.test.mjs (method handling, preview-only guard, production blocked, lab_test marker, ESRF Lab Test prefix, LAB-only targets, Directory_Master forbidden, notification disabled, secrets-missing dry-run, success path with mocked sheet upstream, generic error messages)."
+      },
+      "documentation": [
+        "/docs/intake-lab-automation.md",
+        "/docs/intake-lab-test-report-2026-04-25.md",
+        "/docs/apps-script-intake-webhook.gs",
+        "/docs/apps-script-mail-notification.gs",
+        "/docs/appsscript.mail-notification.json",
+        "/docs/apps-script-mail-notification.future.md",
+        "/docs/intake-minimal-notification-design.md",
+        "/docs/intake-backend.md"
+      ],
+      "testEvidence": {
+        "report": "/docs/intake-lab-test-report-2026-04-25.md",
+        "date": "2026-04-25",
+        "submissionId": "sub_moelllvt_i21b",
+        "requestId": "req_moelllvt_19wf",
+        "mode": "both",
+        "workflowStatus": "dry_run",
+        "notificationStatus": "dry_run_not_configured",
+        "directoryMasterTouched": false,
+        "labWriteEvidence": {
+          "date": "2026-04-26",
+          "submissionId": "sub-test_mofo28k4_ed8v",
+          "spreadsheetTab": "LAB_Intake_Submissions",
+          "row": 3,
+          "operatorIdentity": "office@esrf.net",
+          "directoryMasterTouched": false,
+          "notificationSent": false,
+          "note": "First successful sheet-only LAB write via /api/intake-test. Confirms end-to-end Apps Script path under office@esrf.net Workspace project. Directory_Master untouched; notification path remains disabled on this route."
+        },
+        "googleMailRelayProbeEvidence": {
+          "date": "2026-04-26",
+          "submissionId": "sub_moftdrju_f8lk",
+          "rollbackEventId": "evt_unconfirmed_google_mailrelay_disabled_20260426_1401",
+          "testedRoute": "Google Apps Script MailApp.sendEmail deployment via Cloudflare Pages Preview INTAKE_NOTIFY_WEBHOOK",
+          "intendedRecipient": "office@esrf.net",
+          "deliveryToOfficeEsrfNetConfirmed": false,
+          "actionTaken": "Removed/disabled INTAKE_NOTIFY_WEBHOOK and INTAKE_NOTIFY_TO on the Cloudflare Pages Preview project. Marked the Google Apps Script MailApp route as disabled / delivery-unconfirmed. Sheet intake remains active.",
+          "directoryMasterTouched": false,
+          "productionEnvVarsTouched": false,
+          "note": "Operator probe confirmed that the Cloudflare backend's notification dispatch reached the relay, but no message arrived in the office@esrf.net inbox during the verification window. Recommended next route is a minimal-rights route (Microsoft Graph send-only Mail.Send, OR authenticated SMTP with SPF/DKIM/DMARC alignment, OR manual Sheet-based notification), enabled only after a manually-delivered test message is confirmed under minimal-rights consent."
+        },
+        "outlookConnectorRejectionEvidence": {
+          "date": "2026-04-26",
+          "time": "14:21 local",
+          "decisionEventId": "evt_outlook_broad_scope_rejected_20260426_1421",
+          "routeUnderReview": "Outlook / Microsoft 365 connector for office@esrf.net",
+          "consentScreenRequested": "Broad / full mailbox access (read mail / mailbox-wide permissions), not a minimal send-only scope.",
+          "operatorAction": "Authorization REJECTED at the Microsoft consent screen.",
+          "isCorrectSecurityDecision": true,
+          "tokensIssued": false,
+          "connectorAuthorized": false,
+          "clientSecretStoredAnywhere": false,
+          "envVarsCreatedOrChanged": false,
+          "testEmailsSent": false,
+          "intendedRecipient": "office@esrf.net",
+          "directoryMasterTouched": false,
+          "productionEnvVarsTouched": false,
+          "productionDeploymentTouched": false,
+          "sheetIntakeImpact": "none — LAB_* rows continue to append on every successful submission via the spreadsheet-only Apps Script.",
+          "statusFlagAfterDecision": "minimal-notification-design-ready-not-enabled (unchanged). Automatic notifications stay disabled.",
+          "note": "Refusing broad / full mailbox consent is the correct security decision: the operational notification channel only needs Mail.Send. Granting full-mailbox access would expand a relay compromise to the entire office@esrf.net mailbox. Recommended next routes are minimal-rights only — see outlookConnectorRejection.recommendedNextRoutes for the canonical list (Microsoft Graph send-only Mail.Send, authenticated SMTP with SPF/DKIM/DMARC alignment, or manual Sheet-based notification)."
+        }
+      },
+      "labTabs": [
+        "LAB_Intake_Submissions",
+        "LAB_Editorial_Intake",
+        "LAB_Place_Candidates",
+        "LAB_Backend_Log",
+        "LAB_Workflow_Events",
+        "LAB_Instructions"
+      ],
+      "operationalQueue": {
+        "queueTabs": [
+          "LAB_Intake_Submissions",
+          "LAB_Editorial_Intake",
+          "LAB_Workflow_Events"
+        ],
+        "procedureTab": "LAB_Instructions",
+        "mode": "periodic-sheet-monitoring",
+        "automaticEmailEnabled": false,
+        "decisionEventId": "evt_sheet_monitoring_selected_20260426_1446",
+        "note": "While automatic email is disabled, the redactie watches the queue tabs on a periodic cadence and follows the procedure documented in LAB_Instructions. LAB_Instructions is a procedure tab (read by humans), not a write target of /api/intake — the backend never writes to it; it is excluded from the automatic write surface in the same way Directory_Master is excluded from automatic modification."
+      },
+      "envVars": [
+        "INTAKE_SHEET_WEBHOOK_URL (alias: SHEETS_WEBHOOK_URL, legacy: GOOGLE_SHEET_WEBHOOK_URL) — set on Preview, sheet intake active.",
+        "SHEETS_WEBHOOK_SECRET (alias: INTAKE_SHEET_WEBHOOK_SECRET) — set on Preview, sheet intake active.",
+        "INTAKE_NOTIFY_WEBHOOK — DISABLED / UNSET on every environment after rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401 and the same-day Outlook rejection (evt_outlook_broad_scope_rejected_20260426_1421). Future value must point at a MINIMAL-RIGHTS relay only: Microsoft Graph app registration with send-only Mail.Send for office@esrf.net (NOT Mail.Read / Mail.ReadWrite / full_access_as_app), OR authenticated SMTP / mailrelay for office@esrf.net with SPF/DKIM/DMARC alignment. NOT the Google Apps Script MailApp route. NOT Gmail. NOT a broad-scope Outlook / Microsoft 365 connector.",
+        "INTAKE_NOTIFY_TO — DISABLED / UNSET on every environment after rollback event evt_unconfirmed_google_mailrelay_disabled_20260426_1401 (and confirmed unchanged after evt_outlook_broad_scope_rejected_20260426_1421). Documented default when re-enabled (under a minimal-rights relay only): office@esrf.net.",
+        "TURNSTILE_SECRET_KEY",
+        "GITHUB_TOKEN + INTAKE_REPO"
+      ],
+      "exitCriteria": [
+        "Backend response bevat een complete workflow met steps + next_required_action.",
+        "Sheet payload draagt target_prefix=LAB_ en noemt Directory_Master als verboden target; assertLabPayloadSafe weigert elke afwijkende vorm vóór de fetch.",
+        "Notification message bevat geen PII en geen editorial body — verifieerbaar via assertNotificationSafe en de bijbehorende tests.",
+        "Notification channel is gedocumenteerd als ESRF mailnotificatie / mailrelay-webhook (geen Gmail-specifieke wording); recipient (indien gezet) is office@esrf.net.",
+        "Apps Script reference (docs/apps-script-intake-webhook.gs) weigert niet-LAB-targets en Directory_Master, heeft een opt-in MailApp-route (NOTIFY_TO) die alleen activeert wanneer expliciet ingesteld, en blokkeert ai.agent.wm@gmail.com via FORBIDDEN_NOTIFY_RECIPIENTS.",
+        "OFFICE_IDENTITY (official_recipient=office@esrf.net) is zichtbaar in storage_architecture en getest.",
+        "Productie blijft geblokkeerd zolang: (a) Apps Script niet onder office@esrf.net draait, (b) Cloudflare Pages preview secrets niet zijn gezet, (c) §6b activation gate niet is afgevinkt door de redactie.",
+        "node functions/api/intake.test.mjs slaagt voor alle dry-run, editorial-only, combined, place-candidate, recipient-metadata, no-Gmail-wording, security-gate (Directory_Master refusal, missing/invalid secret, dry-run default, minimal notification, office identity, POST-only, payload size, required consent) routes.",
+        "node functions/api/intake-test.test.mjs slaagt voor alle preview-only / production-blocked / lab_test-marker / ESRF Lab Test prefix / LAB-only / Directory_Master-forbidden / notification-disabled / secrets-missing dry-run / mocked success-path routes; node functions/_middleware.test.mjs bevestigt dat /api/intake-test wél en /api/intake niet op de bot-filter-bypass-lijst staan."
+      ]
+    },
+    {
+      "id": "redactie-validation-form",
+      "title": "Redactieformulier — leesbaar review-formulier boven de Sheet (preview-only) met edit-mode voor publicatievoorstel, LAB read API achter access-code en automatisch opslaan in LAB_Redactie_Reviews + LAB_Workflow_Events (geen kopiëren/plakken in de gewone werkflow). Live save voor org/editorial én change_request/hide_delete is bevestigd op Preview.",
+      "status": "in-validation",
+      "path": "/redactie-validation.html",
+      "owner": "ESRF Editorial",
+      "purpose": "Hidden, noindex redactie-UI die LAB_Intake_Submissions / LAB_Editorial_Intake-rijen één voor één toont als leesbare kaarten met procesgang, status, herinnering, volgende actie, deadline en review-notities. Naast review heeft de pagina een edit-mode waarmee redactie een Redactieversie / Publicatievoorstel opbouwt (edited_title, edited_organization, edited_summary, edited_region, edited_sector_or_tags, edited_public_body, editorial_note, change_note, edited_by) — de originele inzending blijft daarbij als read-only bron / audit-spoor staan en wordt meegenomen als original_reference in de payload. Bovenaan de pagina staat een zichtbare 5-stappen workflow (1 Ontvangen, 2 In redactie, 3 Controle nodig, 4 Goedgekeurd voor concept, 5 Afgewezen/geparkeerd). De hoofdactie onderaan is mode-aware: in sample-mode 'Maak testvoorbeeld — niets wordt opgeslagen' (geel) en in LAB-mode 'Opslaan in redactietabel' (groen) — die laatste POST't naar /api/redactie-review-update zodat de redactiebeslissing rechtstreeks wordt opgeslagen als nieuwe rij in LAB_Redactie_Reviews (append-only) met een gebeurtenis in LAB_Workflow_Events. De originele inzending blijft staan in de intake-tab; Directory_Master wordt nooit aangeraakt; er is geen automatische publicatie en geen e-mail. Kopiëren/plakken is geen onderdeel van de gewone werkflow meer. Onder elke hoofdactie staat een 'Wat gebeurt er na deze knop?'-blok in eenvoudig Nederlands en na opslaan een statusbanner ('Opgeslagen in redactietabel' / 'Niet opgeslagen' / 'Opslaan mislukt') met review_id, doel-tabs en bevestiging dat origineel + Directory_Master ongewijzigd zijn. Technische copy/download/export-knoppen (Kopieer technische audit-export, Download auditbestand (JSON), Kopieer tekstsamenvatting voor beheer) leven in een ingeklapt <details class='rv-tech'>-blok met de letterlijke instructie 'Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.' — uitsluitend een fallback. Twee preview-only Cloudflare Pages Functions ondersteunen de pagina: /api/redactie-review (read; gated achter REDACTIE_REVIEW_ACCESS_CODE; valt terug op sample-data wanneer code/webhook ontbreken) en /api/redactie-review-update (save; vier gates — toegangscode + REDACTIE_REVIEW_WEBHOOK_URL + REDACTIE_REVIEW_WEBHOOK_SECRET + REDACTIE_REVIEW_WRITE_ENABLED=true; weigert Directory_Master en niet-LAB_* targets; forceert include_contact=false; bij gate-fail blijft het endpoint dry-run met save_status=not_saved). Toegangscode wordt nooit lokaal opgeslagen — geen localStorage, geen sessionStorage, geen cookie.",
+      "uxRevision": {
+        "date": "2026-04-26",
+        "summary": "Geen kopiëren/plakken in de gewone werkflow. In LAB-mode slaat de hoofdknop 'Opslaan in redactietabel' de redactiebeslissing rechtstreeks op via /api/redactie-review-update — append-only naar LAB_Redactie_Reviews + LAB_Workflow_Events. In sample-mode blijft de oude testvoorbeeld-knop zichtbaar. Een statusbanner onder de actie bevestigt save (review_id + tabs) of meldt expliciet dat opslaan nog niet actief is en welke env var ontbreekt. Technische export is verplaatst naar een ingeklapt <details class='rv-tech'>-blok met de letterlijke instructie 'Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.' Geen wijziging aan safety-laag: originele inzending blijft staan, Directory_Master wordt nooit aangeraakt, geen mail, geen auto-publish.",
+        "plainLanguageRevision": {
+          "date": "2026-04-26",
+          "summary": "Alle zichtbare UI-teksten in redactie-validation.html zijn herschreven naar eenvoudig Nederlands zonder technische jargon. Zichtbaar voor de redacteur: 'testomgeving' in plaats van validatie-only, 'teststand' in plaats van sample-mode, 'redactietabel' / 'activiteitenlogboek' in plaats van LAB_Redactie_Reviews / LAB_Workflow_Events, 'beheer-blok' in plaats van technische export. Termen zoals append-only, webhook, JSON, payload, env var, server-side, API, dry-run, sample-mode, Directory_Master, LAB_Redactie_Reviews en LAB_Workflow_Events worden alleen nog binnen ingeklapte 'Voor beheer'-blokken getoond, gepaard met een eenvoudige uitleg.",
+          "topYellowSafetyBlock": [
+            "Dit is een testomgeving.",
+            "Niets wordt op de website gepubliceerd.",
+            "De inzending van de indiener verandert niet.",
+            "De vaste hoofdtabel met organisaties verandert niet.",
+            "In teststand wordt niets opgeslagen.",
+            "Pas als beheer dit scherm activeert wordt jouw beoordeling opgeslagen in de redactietabel en komt er een notitie in het activiteitenlogboek."
+          ],
+          "workflowStepsPlain": [
+            "1 Ontvangen — lees de inzending en controleer of alles begrijpelijk is.",
+            "2 In redactie — pas alleen de tekst voor publicatie aan.",
+            "3 Controle nodig — vraag extra informatie of laat iemand meekijken.",
+            "4 Goedgekeurd voor concept — de tekst mag naar een conceptartikel of conceptvermelding.",
+            "5 Afgewezen of geparkeerd — doe voorlopig niets en noteer waarom."
+          ],
+          "primaryActionInstructionHeading": "Wat gebeurt er als ik klik?",
+          "primaryActionLabelsPlain": {
+            "teststand": "Maak testvoorbeeld — er wordt niets opgeslagen.",
+            "actief": "Opslaan in redactietabel."
+          },
+          "technicalFallbackBlockSummary": "Alleen voor beheer bij storing — Technische export voor beheer (Alleen gebruiken als beheer hierom vraagt)",
+          "technicalFallbackUseWarning": "Gebruik dit niet voor normaal redactiewerk."
+        },
+        "primaryActionLabels": {
+          "sampleMode": "Maak testvoorbeeld — niets wordt opgeslagen",
+          "labMode": "Opslaan in redactietabel"
+        },
+        "labModeSaveTargets": [
+          "LAB_Redactie_Reviews",
+          "LAB_Workflow_Events"
+        ],
+        "technicalExportLabels": [
+          "Kopieer technische audit-export",
+          "Download auditbestand (JSON)",
+          "Kopieer tekstsamenvatting voor beheer"
+        ],
+        "technicalExportContainer": "<details class='rv-tech'> 'Technische export voor beheer (alleen openen als beheer hierom vraagt)'",
+        "technicalExportFallbackInstruction": "Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.",
+        "saveBannerStatuses": [
+          "saved",
+          "not_saved",
+          "failed"
+        ],
+        "noCopyPasteInNormalFlow": true,
+        "workflowSteps": [
+          "1 Ontvangen — alleen lezen en controleren",
+          "2 In redactie — tekst aanpassen in redactieversie",
+          "3 Controle nodig — bron/contact/inhoud laten controleren",
+          "4 Goedgekeurd voor concept — klaar om lab-draft/candidate te maken",
+          "5 Afgewezen / geparkeerd — niet verder verwerken"
+        ],
+        "editFieldWarnings": [
+          "Wijzig hier alleen de redactieversie, niet de originele inzending.",
+          "Gebruik geen persoonlijke contactgegevens in publicatietekst.",
+          "Bij twijfel: zet de status op 'Controle nodig' en laat een collega meelezen."
+        ]
+      },
+      "lastUpdated": "2026-04-26",
+      "visibility": "hidden",
+      "labOnly": true,
+      "automaticEmailEnabled": false,
+      "directoryMasterTouched": false,
+      "mainBranchMerged": false,
+      "documentation": [
+        "/docs/redactie-validation-form.md",
+        "/docs/apps-script-redactie-review-webhook.gs",
+        "/docs/appsscript.redactie-review.json"
+      ],
+      "endpoints": {
+        "read": "/api/redactie-review",
+        "update": "/api/redactie-review-update",
+        "previewOnly": true,
+        "liveWriteGated": true,
+        "liveWriteGates": [
+          "REDACTIE_REVIEW_ACCESS_CODE configured + valid access_code in body",
+          "REDACTIE_REVIEW_WEBHOOK_URL set",
+          "REDACTIE_REVIEW_WEBHOOK_SECRET set",
+          "REDACTIE_REVIEW_WRITE_ENABLED=true"
+        ],
+        "saveTargets": [
+          "LAB_Redactie_Reviews",
+          "LAB_Workflow_Events"
+        ],
+        "sampleFallback": true,
+        "appsScriptSource": "/docs/apps-script-redactie-review-webhook.gs",
+        "appsScriptManifest": "/docs/appsscript.redactie-review.json",
+        "appsScriptScopes": [
+          "https://www.googleapis.com/auth/spreadsheets"
+        ],
+        "appsScriptActions": [
+          "list_records",
+          "get_record",
+          "dry_run_update",
+          "submit_review_update"
+        ],
+        "appsScriptReadTabs": [
+          "LAB_Intake_Submissions",
+          "LAB_Editorial_Intake",
+          "LAB_Place_Candidates"
+        ],
+        "appsScriptWriteTabs": [
+          "LAB_Redactie_Reviews",
+          "LAB_Workflow_Events"
+        ],
+        "appsScriptForbiddenTargets": [
+          "Directory_Master"
+        ],
+        "appsScriptDeployed": true,
+        "appsScriptDeployedNote": "Apps Script Web App deployed under office@esrf.net and verified live on 2026-04-26 22:24 CEST via the first successful redactie review save (review_id rev_20260426202343218_224302; rows_written=2). Preview-only — production remains untouched.",
+        "appsScriptOwnerIdentity": "office@esrf.net"
+      },
+      "envVars": {
+        "REDACTIE_REVIEW_ACCESS_CODE": "Server-validated review access code; gates real-data reads AND live save. Without it the API returns sample/dry-run data and the UI shows SAMPLE-MODE. Status: set on Cloudflare Pages Preview only (verified live 2026-04-26 22:24 CEST). Production not set.",
+        "REDACTIE_REVIEW_WEBHOOK_URL": "Apps Script /exec URL for the LAB webhook (read + append-only review writes; bron docs/apps-script-redactie-review-webhook.gs). Required for live read and live save. Status: set on Cloudflare Pages Preview only (verified live 2026-04-26 22:24 CEST). Production not set.",
+        "REDACTIE_REVIEW_WEBHOOK_SECRET": "Shared secret in the request body to the Apps Script. Must equal the Apps Script script property of the same name. Required together with REDACTIE_REVIEW_WEBHOOK_URL. Status: set on Cloudflare Pages Preview only (verified live 2026-04-26 22:24 CEST). Production not set.",
+        "REDACTIE_REVIEW_WRITE_ENABLED": "Explicit toggle (=true) that enables live save via /api/redactie-review-update → Apps Script submit_review_update → append-only writes to LAB_Redactie_Reviews + LAB_Workflow_Events. Without this the endpoint stays dry-run with save_status=not_saved. Cloudflare-side Directory_Master deny-list and PII stripping remain active regardless. Status: enabled (=true) on Cloudflare Pages Preview only on 2026-04-26 22:24 CEST; one successful save-test recorded (review_id rev_20260426202343218_224302, rows_written=2). Production not set; production endpoint still returns 404."
+      },
+      "activationChecklist": [
+        "Apps Script under office@esrf.net deployed from docs/apps-script-redactie-review-webhook.gs with docs/appsscript.redactie-review.json manifest (spreadsheets-only OAuth scope).",
+        "Sheets-only shared secret set as Apps Script Script Property REDACTIE_REVIEW_WEBHOOK_SECRET (≥32 char random) plus SHEET_ID. No MAIL_*/NOTIFY_* properties.",
+        "__authorizeSpreadsheetAccessOnly executed; OAuth consent shows only https://www.googleapis.com/auth/spreadsheets.",
+        "__setupLabReviewTabsMaybe executed; LAB_Redactie_Reviews exists with safe column headers; LAB_Workflow_Events present.",
+        "Cloudflare Pages preview env vars set (NEVER on production): REDACTIE_REVIEW_ACCESS_CODE (16+ char), REDACTIE_REVIEW_WEBHOOK_URL (Apps Script /exec), REDACTIE_REVIEW_WEBHOOK_SECRET (matches Script Property), REDACTIE_REVIEW_WRITE_ENABLED=true.",
+        "One read-test on the preview returns mode=lab plus real LAB rows.",
+        "One save-test on the preview returns save_status=saved with a review_id; verify one new row in LAB_Redactie_Reviews and one in LAB_Workflow_Events; verify the original intake row and Directory_Master are unchanged; verify no email was sent."
+      ],
+      "safetyRules": [
+        "Production short-circuits to 404 before any handler logic; preview-only via ESRF_PREVIEW or non-main CF_PAGES_BRANCH.",
+        "Origin allowlist reused from /api/intake.",
+        "Forbidden response keys (raw_payload_json, *_TOKEN, SHEETS_*, REDACTIE_REVIEW_*) are stripped from every response and from the outbound webhook body.",
+        "Contact details are stripped by default; the live-save path forces include_contact=false regardless of caller input.",
+        "Update endpoint refuses any target_tab that is not LAB_Intake_Submissions / LAB_Editorial_Intake / LAB_Workflow_Events / LAB_Redactie_Reviews; Directory_Master is in forbidden_targets and refused both Cloudflare-side and in Apps Script.",
+        "Live save is gated behind four env vars; flipping REDACTIE_REVIEW_WRITE_ENABLED away from true disables live save instantly without a code deploy (incident kill-switch)."
+      ],
+      "tests": "/scripts/redactie_validation.test.mjs (noindex meta, safety copy, sample records both types render, export excludes contact email by default, edit-mode fields present, original kept read-only, export carries original_reference + edited_publication_proposal + change_note + edited_by, access panel rendered, status step reminders shipped, LAB-mode primary label is 'Opslaan in redactietabel' and copy/paste is no longer presented as the normal workflow, technical export includes the explicit fallback instruction); /functions/api/redactie-review.test.mjs (preview gate, access code gate, sample fallback when code missing, sample fallback when webhook missing, contact stripped by default, forbidden keys stripped, status_step_reminders surface in response, no Directory_Master in response); /functions/api/redactie-review-update.test.mjs (preview gate, target_tab must be LAB_*, Directory_Master forbidden, sanitised payload contains no contact, save_status=not_saved with explicit Dutch save_message when activation is incomplete, save_status=saved with saved_to {review_tab,events_tab,review_id} when all four gates pass and Apps Script accepts, save_status=failed on upstream error, outbound webhook body never contains contact PII or REDACTIE_REVIEW_* env keys).",
+      "testEvidence": {
+        "liveSaveEvidence": {
+          "date": "2026-04-26",
+          "time": "22:24 CEST",
+          "environment": "Cloudflare Pages Preview",
+          "previewBranch": "test/regional-editorial-contributor-intake",
+          "previewUrl": "https://test-regional-editorial-cont.esrf-clean.pages.dev/redactie-validation.html",
+          "accessCodeUsed": "ESRF-Redactie-D86E91",
+          "writeToggleEnabledOn": "Cloudflare Pages Preview only (REDACTIE_REVIEW_WRITE_ENABLED=true). Production was NOT touched.",
+          "readResult": {
+            "mode": "lab",
+            "recordsLoaded": 9,
+            "source": "real LAB rows (LAB_Intake_Submissions / LAB_Editorial_Intake)"
+          },
+          "saveResult": {
+            "submissionId": "sub_lab_20260425_1825_sheet",
+            "ok": true,
+            "mode": "lab",
+            "dry_run": false,
+            "live_write_ready": true,
+            "save_status": "saved",
+            "savedTo": {
+              "review_tab": "LAB_Redactie_Reviews",
+              "events_tab": "LAB_Workflow_Events",
+              "review_id": "rev_20260426202343218_224302"
+            },
+            "rowsWritten": 2,
+            "directoryMasterTouched": false,
+            "automaticPublication": false,
+            "uiBanner": "OPGESLAGEN IN DE REDACTIETABEL",
+            "originalSubmissionUnchanged": true,
+            "directoryMasterUnchanged": true,
+            "websitePublished": false,
+            "emailSent": false
+          },
+          "note": "First successful end-to-end live redactie review save via /api/redactie-review-update on the Cloudflare Pages Preview project. All four activation gates passed (REDACTIE_REVIEW_ACCESS_CODE valid + REDACTIE_REVIEW_WEBHOOK_URL set + REDACTIE_REVIEW_WEBHOOK_SECRET set + REDACTIE_REVIEW_WRITE_ENABLED=true). Apps Script appended one row to LAB_Redactie_Reviews and one row to LAB_Workflow_Events (rows_written=2). The original intake row stayed unchanged, Directory_Master was not touched, no website publication happened and no email was sent. REDACTIE_REVIEW_WRITE_ENABLED was enabled only on the Preview project; Production remains untouched and the Cloudflare Pages Function still returns 404 there."
+        },
+        "changeRequestSaveEvidence": {
+          "date": "2026-04-26",
+          "time": "23:41 CEST",
+          "environment": "Cloudflare Pages Preview",
+          "previewBranch": "test/regional-editorial-contributor-intake",
+          "previewUrl": "https://test-regional-editorial-cont.esrf-clean.pages.dev/redactie-validation.html",
+          "deployedCommit": "1142d908",
+          "appsScriptDeployment": "AKfycbyS0ECklA3tnaywmBaLXXusK5wVvDUd3rsCI4n5YJck443Ejv6g43EpHSCxl6arvbyx",
+          "appsScriptDeploymentVersion": 2,
+          "appsScriptRedeployTool": "clasp",
+          "headerMigration": {
+            "tab": "LAB_Redactie_Reviews",
+            "method": "manual",
+            "addedColumns": 13,
+            "addedColumnsLocation": "between mode and directory_master_touched",
+            "canonicalSource": "/docs/apps-script-redactie-review-webhook.gs (LAB_REDACTIE_REVIEWS_HEADERS)"
+          },
+          "saveResult": {
+            "submission_id": "sub-test_mog9779c_2njk",
+            "review_id": "rev_20260426214134991_201794",
+            "request_id": "req-redactie-update_mogamk77_4oju",
+            "record_type": "change_request",
+            "process_step": "klaar_voor_akkoord",
+            "review_status": "pending_clarification",
+            "cr_redactie_decision": "request_clarification",
+            "cr_requested_action": "update",
+            "cr_sub_mode": "change_request",
+            "cr_target_listing_name": "ESRF Lab Test Existing Listing",
+            "cr_target_listing_url": "https://www.esrf.net/directory.html#lab-test-existing-listing",
+            "saved_to": {
+              "review_tab": "LAB_Redactie_Reviews",
+              "events_tab": "LAB_Workflow_Events"
+            },
+            "rows_written": 2,
+            "directory_master_touched": false,
+            "automatic_publication": false,
+            "warning": "LAB only · live save · originele inzending ongewijzigd · Directory_Master niet aangeraakt · geen automatische publicatie",
+            "originalSubmissionUnchanged": true,
+            "directoryMasterUnchanged": true,
+            "websitePublished": false,
+            "emailSent": false
+          },
+          "note": "First successful change_request review save via /api/redactie-review-update on the Cloudflare Pages Preview. Cloudflare-side commit 1142d908 accepts change_request and hide_delete record types; Apps Script Web App was redeployed via clasp to version 2 on the same /exec deployment id and now projects the change_request_review block onto 13 cr_* columns in LAB_Redactie_Reviews. The header row of LAB_Redactie_Reviews was manually migrated to add those 13 cr_* columns between mode and directory_master_touched, matching LAB_REDACTIE_REVIEWS_HEADERS in the canonical Apps Script source. Result: one new row appended to LAB_Redactie_Reviews (with cr_* columns populated) and one to LAB_Workflow_Events (rows_written=2). Original intake row unchanged, Directory_Master untouched, no publication, no email. Production not touched; production endpoint still 404."
+        }
+      },
+      "exitCriteria": [
+        "Pagina bevat noindex,nofollow en validatie-banner met 'Niet publiceren', 'Directory_Master niet aanpassen', 'Preview pas na akkoord' en de edit-veiligheidsregel dat bewerkingen alleen het publicatievoorstel raken — niet de bron.",
+        "Linker lijst toont zowel organisatie-aanmelding als editorial bijdrage uit de lokale voorbeelddata; rechter paneel toont leesbare cards, een eenvoudig review-formulier met per-stap herinnering en — na klikken op Bewerken — een Redactieversie / Publicatievoorstel sectie met de bewerkbare velden.",
+        "Originele inzending wordt onder een eigen kop 'Originele inzending (read-only · bron / audit)' getoond en is niet bewerkbaar; per bewerkbaar veld is het corresponderende originele veld zichtbaar als read-only verwijzing.",
+        "Een lichtgewicht change-tracker toont realtime welke velden afwijken van de originele inzending; export-payload bevat changed_fields.",
+        "Export sluit standaard contact-e-mail en raw payload uit; alleen na expliciete toggle 'Toon contactgegevens' wordt contact_internal in de export opgenomen. Export bevat altijd original_reference en edited_publication_proposal naast elkaar zodat het audit-spoor ondubbelzinnig is.",
+        "Toegangspaneel toont SAMPLE-MODE bij ontbrekende REDACTIE_REVIEW_ACCESS_CODE en activation_required-lijst; LAB-MODE wordt pas getoond wanneer code geldig is en het Apps Script read-webhook geconfigureerd is. Code wordt nooit in localStorage / sessionStorage / cookies opgeslagen.",
+        "/api/redactie-review en /api/redactie-review-update geven beide 404 op productie (CF_PAGES_BRANCH=main of ESRF_PREVIEW niet preview); beide endpoints strippen contact en forbidden keys; update-endpoint weigert Directory_Master als target_tab.",
+        "Geen Google Sheets-write, GitHub- of e-mail-call rechtstreeks vanuit de browser; LAB-mode 'Opslaan in redactietabel' POST't naar /api/redactie-review-update zodat Apps Script append-only schrijft in LAB_Redactie_Reviews + LAB_Workflow_Events. Sample-mode slaat niets op. Technische export is alleen een fallback voor beheer wanneer automatisch opslaan niet werkt. Geen automatische live publicatie.",
+        "Geen publieke navigatie, footer-link of sitemap-vermelding; pagina is niet vanaf productie bereikbaar.",
+        "Hoofdactie onderaan is mode-aware: in sample-mode 'Maak testvoorbeeld — niets wordt opgeslagen' (geel TESTVOORBEELD-pil), in LAB-mode 'Opslaan in redactietabel' (groen LAB-MODE-banner) waarbij klikken rechtstreeks POST't naar /api/redactie-review-update en append-only opslaat in LAB_Redactie_Reviews + LAB_Workflow_Events. Geen kopiëren/plakken in de gewone werkflow.",
+        "Onder elke hoofdactie staat een 'Wat gebeurt er na deze knop?'-instructieblok met drie regels (wat wel gebeurt / wat níet gebeurt / wat de redacteur hierna doet) in eenvoudig Nederlands; na een save-actie verschijnt een statusbanner 'Opgeslagen in redactietabel' (saved), 'Niet opgeslagen' (sample/activatie incompleet) of 'Opslaan mislukt' (upstream-fout) met review_id, doel-tabs en bevestiging dat origineel + Directory_Master ongewijzigd zijn.",
+        "Technische copy/download/export-knoppen ('Kopieer technische audit-export', 'Download auditbestand (JSON)', 'Kopieer tekstsamenvatting voor beheer') leven in een ingeklapt <details class='rv-tech'>-blok 'Technische export voor beheer' met de letterlijke instructie 'Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.' — uitsluitend een fallback, geen onderdeel van de gewone werkflow.",
+        "Bovenaan de pagina staat een zichtbare 5-stappen workflow-panel: 1 Ontvangen, 2 In redactie, 3 Controle nodig, 4 Goedgekeurd voor concept, 5 Afgewezen/geparkeerd, met korte beschrijvingen die 1-op-1 matchen met de process_step / review_status keuzes.",
+        "Naast de bewerkbare velden in edit-mode staat een 'Regels bij bewerken'-blok met de zinnen 'Wijzig hier alleen de redactieversie, niet de originele inzending.' en 'Gebruik geen persoonlijke contactgegevens in publicatietekst.'.",
+        "Reviewfeedback Wouter (2026-04-27) verwerkt — toegangscodeveld is breed genoeg en gebruikt een vast (monospaced) lettertype zodat de placeholder en ingevoerde code volledig zichtbaar blijven op desktop en mobiel (CSS klasse .rv-access input#rv-access-code, size=40, maxlength=64, hulptekst rv-access-code-help).",
+        "Reviewfeedback Wouter (2026-04-27) verwerkt — bovenaan staat een eenvoudig 'Waar is dit formulier voor?'-blok (sectie #rv-purpose) dat in gewone taal uitlegt: je bekijkt een inzending, past tekst aan waar nodig, kiest de volgende stap of status, slaat het redactiebesluit op, en niets wordt automatisch gepubliceerd.",
+        "Reviewfeedback Wouter (2026-04-27) verwerkt — bij het veld 'Sector / tags' staat een hulptekst (rv-field-help, plus een regel in 'Regels bij bewerken') die uitlegt: scheid meerdere tags met komma’s, het is voor nu een vrij invoerveld zonder vaste keuzelijst; redactie mag bestaande termen hergebruiken of een nieuwe tag voorstellen, definitieve tagset wordt later geharmoniseerd.",
+        "redactie-validation.html toont bij change_request- en hide_delete-records de verificatiestatus van Bevoegdheid (naam aanvrager, werkmail, relatie, domein-match, registratiecode opgegeven, methode, status, handmatige check verplicht) plus de prefilled publieke directorygegevens — Wouter feedback 2026-04-27."
+      ],
+      "wouterReviewFeedback": {
+        "date": "2026-04-27",
+        "items": [
+          "Toegangscodeveld onleesbaar: maak het breed genoeg, gebruik vast lettertype, zorg dat placeholder en ingevoerde code volledig zichtbaar zijn op desktop en mobiel.",
+          "Leg in gewone taal uit waar het redactieformulier voor is: bekijken, aanpassen, volgende stap kiezen, opslaan, niets wordt automatisch gepubliceerd.",
+          "Leg bij Sector / tags uit: scheid met komma’s, vrije invoer (geen vaste lijst nu), redactie mag bestaande termen gebruiken of nieuwe tag voorstellen — definitieve tagset komt later."
+        ]
+      }
+    },
+    {
+      "id": "listing-change-or-delete-request",
+      "title": "Wijzigings- / verberg- / verwijderverzoek voor bestaande vermelding (LAB-only)",
+      "status": "in-validation",
+      "owner": "ESRF Editorial",
+      "purpose": "Geeft organisaties (en bevoegde vertegenwoordigers) een veilige LAB-only route om een bestaande vermelding bij te werken, te verbergen of te verwijderen. Verzoeken landen in LAB_Change_Requests (en als koppelrij in LAB_Intake_Submissions met submission_type 'change_request:<action>'). Directory_Master wordt nooit aangeraakt; goedkeuring is alleen een redactiebesluit dat de redactie daarna handmatig toepast.",
+      "lastUpdated": "2026-04-26",
+      "visibility": "hidden",
+      "labOnly": true,
+      "directoryMasterTouched": false,
+      "automaticPublication": false,
+      "submitPath": "/submit-validation.html",
+      "reviewPath": "/redactie-validation.html",
+      "modes": [
+        {
+          "key": "change_request",
+          "label": "Bestaande vermelding wijzigen",
+          "actions": [
+            "update",
+            "hide",
+            "delete"
+          ]
+        },
+        {
+          "key": "hide_delete",
+          "label": "Vermelding laten verbergen of verwijderen",
+          "actions": [
+            "hide",
+            "delete"
+          ]
+        }
+      ],
+      "labTabs": {
+        "primary": "LAB_Change_Requests",
+        "linked": "LAB_Intake_Submissions",
+        "redactieReviewTab": "LAB_Redactie_Reviews",
+        "workflowEventsTab": "LAB_Workflow_Events"
+      },
+      "payloadFields": [
+        "target_listing_name",
+        "target_listing_url",
+        "requested_action (update|hide|delete)",
+        "change_description",
+        "reason",
+        "evidence_url (optional)",
+        "requester_authorization (authorized_representative|employee|external_observer)",
+        "authorization_confirmation (yes/no)",
+        "sub_mode (change_request|hide_delete)",
+        "existing_directory_listing.{name,website,country_code,country_name,city,sector,description,prefilled,original_unchanged,source}",
+        "authorization.{requester_name,requester_role,work_email,relation,confirmed_authorized,registration_code_provided,email_domain,organisation_domain,email_domain_match,authorization_method,authorization_status,manual_verification_required}"
+      ],
+      "testEvidence": {
+        "redactieReviewSave": {
+          "date": "2026-04-26",
+          "time": "23:41 CEST",
+          "environment": "Cloudflare Pages Preview",
+          "submission_id": "sub-test_mog9779c_2njk",
+          "review_id": "rev_20260426214134991_201794",
+          "request_id": "req-redactie-update_mogamk77_4oju",
+          "record_type": "change_request",
+          "cr_redactie_decision": "request_clarification",
+          "cr_requested_action": "update",
+          "cr_sub_mode": "change_request",
+          "rows_written": 2,
+          "directory_master_touched": false,
+          "automatic_publication": false,
+          "deployedCommit": "1142d908",
+          "appsScriptDeployment": "AKfycbyS0ECklA3tnaywmBaLXXusK5wVvDUd3rsCI4n5YJck443Ejv6g43EpHSCxl6arvbyx",
+          "appsScriptDeploymentVersion": 2,
+          "headerMigrationApplied": true,
+          "crColumnsAdded": 13,
+          "note": "First successful end-to-end change_request review save into LAB_Redactie_Reviews + LAB_Workflow_Events on the Cloudflare Pages Preview. Cross-reference: validation-lab.json → redactie-validation-form → testEvidence.changeRequestSaveEvidence."
+        }
+      },
+      "exitCriteria": [
+        "submit-validation.html toont vijf top-level opties in eenvoudig Nederlands: organisatie, editorial, beide, bestaande vermelding wijzigen, vermelding verbergen/verwijderen.",
+        "In wijzig-/verbergmodus zijn alleen change-velden vereist; persoonlijke organisatie-aanmeldvelden zijn niet verplicht. URL-validatie blokkeert ongeldige target_listing_url en evidence_url.",
+        "Backend /api/intake schrijft change-/verwijderverzoeken alleen naar LAB_Change_Requests (canoniek) + LAB_Intake_Submissions (link). Directory_Master is opgenomen in forbidden_targets; assertLabPayloadSafe weigert iedere poging om Directory_Master te targeten.",
+        "redactie-validation.html toont een eigen 'Wijziging'-pil, side-by-side 'Bestaand' vs 'Gevraagd' panelen, het verzochte action (Bijwerken/Verbergen/Verwijderen), de autorisatie-status van de indiener, een evidence-URL en een redactiebesluit-formulier (akkoord / niet akkoord / verheldering nodig + toelichting).",
+        "Veiligheidsbanner staat altijd bovenaan het CR-detailpaneel: 'Geen automatische wijziging · Directory_Master wordt niet aangeraakt · niets wordt gepubliceerd'.",
+        "Notification-builder rapporteert messageType change_request:<action>, gebruikt target_listing_name/url als referentie en bevat geen contact-PII.",
+        "Tests in functions/api/intake.test.mjs dekken: change_request happy path, hide_delete actie-restrictie, missende target rejection, missende authorization rejection, en buildChangeRequestRow shape met directory_master_touched='no'.",
+        "Bezoekersformulier toont bij stap 1 een korte instructie 'Kies eerst wat je wilt doen. Daarna ga je hieronder door naar stap 2 om de gegevens in te vullen.' (Wouter feedback 2026-04-27).",
+        "submit-validation.html biedt bij change_request en hide_delete een zoekveld dat companies_extracted.json doorzoekt (Directory + Atlas) en bestaande publieke gegevens (naam, website, land, plaats, sector, beschrijving) toont in een aparte 'Bestaande publieke gegevens'-blok; origineel wordt niet overschreven (Wouter feedback 2026-04-27).",
+        "submit-validation.html bevat een Bevoegdheid-sectie (3D) met naam aanvrager, functie/rol, werkmail, relatie, bevestigingscheckbox en optionele registratiecode; zachte domeinmatch en registratiecode-status worden in payload.authorization opgeslagen (Wouter feedback 2026-04-27).",
+        "Geen woord 'password' of 'wachtwoord' in de UI; de organisatiecode heet 'registratiecode' / 'verificatiecode' (Wouter feedback 2026-04-27).",
+        "Geen automatische goedkeuring op basis van domeinmatch of registratiecode; manual_verification_required blijft true en Directory_Master_guard blijft (Wouter feedback 2026-04-27).",
+        "redactie-validation.html toont voor change_request- en hide_delete-records de verificatiestatus uit payload.authorization (rv-cr-authorization) en de bestaande publieke gegevens (rv-cr-existing-directory) (Wouter feedback 2026-04-27)."
+      ],
+      "wouterReviewFeedback_2026_04_27_round2": {
+        "reviewer": "Wouter",
+        "date": "2026-04-27",
+        "items": [
+          {
+            "feedback": "stap 1 instructie ontbreekt",
+            "resolution": "#sv-step1-next paragraph in submit-validation.html"
+          },
+          {
+            "feedback": "bestaande publieke directorygegevens niet vooraf ingevuld",
+            "resolution": "lookup + prefill via companies_extracted.json; payload.existing_directory_listing"
+          },
+          {
+            "feedback": "derden zouden zomaar gegevens kunnen wijzigen",
+            "resolution": "Bevoegdheid-sectie met zachte verificatie; payload.authorization; redactie controleert handmatig"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lab-promotion-pipeline",
+      "title": "Lab-only controlled promotion: approved LAB_* row → editorial draft / directory candidate",
+      "status": "lab-only-promotion-ready-no-production-activation",
+      "owner": "ESRF Editorial",
+      "purpose": "Convert redactie-approved rows from LAB_Editorial_Intake / LAB_Intake_Submissions / LAB_Place_Candidates into local repo artefacts (editorials/drafts/lab/<slug>.md and data/candidates/directory-candidates.lab.json) for review on the test/regional-editorial-contributor-intake branch via GitHub branch preview. Never writes Directory_Master, never runs on main, never sends notifications, never auto-publishes to live.",
+      "lastUpdated": "2026-04-26",
+      "visibility": "hidden",
+      "labOnly": true,
+      "automaticEmailEnabled": false,
+      "directoryMasterTouched": false,
+      "mainBranchMerged": false,
+      "documentation": [
+        "/docs/lab-promotion.md"
+      ],
+      "scripts": {
+        "package": "scripts/lab_promote/",
+        "cli": "python3 -m scripts.lab_promote.cli {editorial|directory} <rows.json> [--dry-run]",
+        "guards": "scripts/lab_promote/guards.py",
+        "transforms": "scripts/lab_promote/transforms.py",
+        "fixtures": [
+          "scripts/lab_promote/fixtures/editorial_approved.json",
+          "scripts/lab_promote/fixtures/intake_approved.json",
+          "scripts/lab_promote/fixtures/intake_unapproved.json"
+        ],
+        "tests": "scripts/lab_promote/tests/test_lab_promote.py"
+      },
+      "outputs": {
+        "editorialDraftsDir": "editorials/drafts/lab/",
+        "directoryCandidatesFile": "data/candidates/directory-candidates.lab.json",
+        "editorialFrontMatterFlags": {
+          "status": "lab-draft",
+          "auto_i18n": false,
+          "auto_publish": false,
+          "preview_only": true
+        },
+        "directoryCandidateFlags": {
+          "lab_status": "candidate-pending-review",
+          "auto_promote_to_directory_master": false
+        }
+      },
+      "guards": [
+        "ESRF_LAB_PROMOTE=1 must be set; otherwise refuse.",
+        "Current git branch (or ESRF_BRANCH override) must NOT be main / master / production / prod.",
+        "Source tab must be one of LAB_Intake_Submissions / LAB_Editorial_Intake / LAB_Place_Candidates.",
+        "Target name must not contain 'directory_master' (case-insensitive).",
+        "Intake row review_status must be in {approved_for_candidate, approved_for_directory_candidate, approved_lab_promote}; assigned_to and review_notes_internal must be non-empty.",
+        "Editorial row editorial_status must be in {approved_for_draft, approved_for_editorial_draft, approved_lab_promote}; review_notes_internal must be non-empty.",
+        "Output dict must not contain forbidden PII keys (contact_email, contact_phone, email, phone, raw_payload_json, shared_secret).",
+        "Filenames are slugified and refuse path-traversal sequences."
+      ],
+      "exitCriteria": [
+        "python3 -m unittest scripts.lab_promote.tests.test_lab_promote -v passes (26 tests) covering guards (lab flag, branch, Directory_Master refusal, source tab, status, required review fields, PII), transforms (PII strip, front-matter flags, slug safety, dedupe), and CLI happy path / refusal paths.",
+        "scripts.lab_promote.cli runs in dry-run mode against fixtures without any network or Sheet call.",
+        "Emitted draft markdown carries status=lab-draft, auto_i18n=false, auto_publish=false, preview_only=true and contains no contact_email / contact_name / contact_phone.",
+        "Directory candidate file carries auto_promote_to_directory_master=false and is written under data/candidates/, not Directory_Master.",
+        "docs/lab-promotion.md documents the controlled flow Form → LAB Sheet → redaction review → approved row → generated draft/candidate → GitHub branch/preview → human approval → main/live, plus the exact manual test procedure for one approved row."
+      ]
+    }
+  ],
+  "wouterReviewFeedback_2026_04_27_round2": {
+    "reviewer": "Wouter",
+    "date": "2026-04-27",
+    "topic": "Bezoekersformulier — stap 1 instructie, prefill van bestaande publieke directorygegevens, en bevoegdheidscontrole",
+    "summary": "Tweede feedbackronde van Wouter op het submit-validation formulier en het wijzigverzoekproces. Voegt een duidelijke stap-1 instructie toe, prefill van publieke directorygegevens bij wijzig/verwijder-route, en een Bevoegdheid-sectie met zachte verificatie. Geen automatische publicatie of goedkeuring.",
+    "items": [
+      {
+        "page": "/submit-validation.html",
+        "feedback": "Bij stap 1 was niet duidelijk dat je daarna naar stap 2 doorgaat.",
+        "resolution": "Korte instructiezin \"Kies eerst wat je wilt doen. Daarna ga je hieronder door naar stap 2 om de gegevens in te vullen.\" onder #sv-step1-next."
+      },
+      {
+        "page": "/submit-validation.html",
+        "feedback": "Bestaande publieke gegevens worden niet hergebruikt bij wijzig-/verbergverzoeken.",
+        "resolution": "Eenvoudig zoekveld + datalist op companies_extracted.json (Directory + Atlas). Bij selectie verschijnt een \"Bestaande publieke gegevens\"-paneel; cr_target_name en cr_target_url worden vooraf ingevuld. Origineel wordt niet overschreven; aanvraag staat apart in payload.existing_directory_listing."
+      },
+      {
+        "page": "/submit-validation.html",
+        "feedback": "Niet duidelijk hoe we voorkomen dat derden zomaar gegevens kunnen wijzigen.",
+        "resolution": "Nieuwe Bevoegdheid-sectie (3D) met naam, functie/rol, werkmail, relatie, bevestigingscheckbox en optionele registratiecode. Zachte controle: domeinmatch werkmail vs organisatiewebsite, plus check of registratiecode is opgegeven. Geen automatische goedkeuring; redactie controleert handmatig. Velden komen in payload.authorization (authorization_method, authorization_status, email_domain_match, registration_code_provided, manual_verification_required)."
+      },
+      {
+        "page": "/redactie-validation.html",
+        "feedback": "Redactie kan verificatiestatus van wijzigverzoeken niet zien.",
+        "resolution": "Nieuwe rv-cr-authorization sectie toont de verificatievelden (naam aanvrager, werkmail, relatie, domein-match, registratiecode opgegeven, methode, status, handmatige check verplicht). Plus rv-cr-existing-directory sectie voor de prefilled publieke gegevens."
+      },
+      {
+        "page": "/submit-validation.html (UI-copy)",
+        "feedback": "Geen wachtwoord-terminologie gebruiken voor de organisatiecode.",
+        "resolution": "Veld heet \"Registratiecode van de organisatie, als je die hebt\"; helptekst zegt \"geen wachtwoord\". Geen woord \"password\" of \"wachtwoord\" in de UI."
+      }
+    ]
+  }
+}

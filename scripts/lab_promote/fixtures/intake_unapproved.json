@@ -1,0 +1,13 @@
+[
+  {
+    "submission_id": "sub_lab_fixture_003",
+    "received_at": "2026-04-26T10:10:00Z",
+    "environment": "TEST/VALIDATIE",
+    "submission_type": "org",
+    "mode": "org",
+    "name": "Niet-goedgekeurde lab-rij",
+    "review_status": "new",
+    "review_notes_internal": "",
+    "assigned_to": ""
+  }
+]

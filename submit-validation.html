@@ -1,0 +1,2500 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<meta name="googlebot" content="noindex,nofollow" />
+<meta name="referrer" content="no-referrer" />
+<title>Deel je informatie — ESRF.net (validatie)</title>
+<meta name="description" content="Verborgen validatieprototype: één formulier voor bezoekers om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen. Niet voor publiek gebruik. noindex/nofollow." />
+<meta name="x-validation-en-label" content="Share your information" />
+<meta name="x-validation-nl-label" content="Deel je informatie" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+<style>
+  .stage-bar{
+    background:var(--ink);color:var(--cream);
+    padding:8px 20px;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    text-align:center;border-bottom:2px solid var(--accent);
+  }
+  .stage-bar strong{color:var(--accent);font-weight:500;letter-spacing:0.18em}
+  .stage-bar a{color:var(--cream);text-decoration:underline;text-underline-offset:2px}
+  .stage-bar a:hover{color:var(--accent)}
+
+  .new-pill{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--accent);border:1px solid var(--accent);
+    padding:3px 8px;border-radius:2px;
+    margin-left:8px;vertical-align:middle;
+    background:rgba(210,75,31,0.06);
+  }
+  .new-pill-soft{
+    color:var(--ink-soft);border-color:var(--ink-soft);background:transparent;
+  }
+
+  /* Mode picker — keep functionality but render in production tone */
+  .mode-switch{display:grid;grid-template-columns:1fr;gap:10px;margin:0 0 8px}
+  @media(min-width:720px){.mode-switch{grid-template-columns:repeat(3,1fr)}}
+  .mode-option{
+    border:1px solid var(--ink);background:var(--bg);
+    padding:16px 18px;cursor:pointer;display:block;
+    transition:background .15s,border-color .15s;
+  }
+  .mode-option:hover{background:var(--bg-warm)}
+  .mode-option input{margin-right:8px}
+  .mode-option strong{
+    font-family:'Archivo',sans-serif;font-weight:700;font-size:15px;
+    display:block;margin-bottom:4px;color:var(--ink);
+  }
+  .mode-option span{
+    font-family:'PT Serif',serif;font-size:14px;color:var(--ink-soft);line-height:1.5;
+  }
+  .mode-option em.mode-tagline{
+    display:block;margin:0 0 6px;
+    font-family:'IBM Plex Mono',monospace;font-style:normal;
+    font-size:12px;letter-spacing:0.04em;color:var(--accent);line-height:1.45;
+  }
+  .mode-option.is-selected{
+    background:var(--cream);
+    box-shadow:inset 0 0 0 2px var(--accent);
+  }
+
+  .section-block{display:none}
+  .section-block.is-active{display:block}
+
+  /* Plain-language review notice — sits at the very top of the form */
+  .sv-review-notice{
+    margin:0 0 22px;padding:14px 18px;
+    border-left:4px solid var(--accent);background:rgba(210,75,31,0.06);
+    font-family:'PT Serif',serif;font-size:15px;line-height:1.55;color:var(--ink);
+  }
+  .sv-review-notice strong{
+    display:block;font-family:'Archivo',sans-serif;font-weight:700;font-size:15px;
+    color:var(--ink);margin-bottom:4px;letter-spacing:0;text-transform:none;
+  }
+  .sv-review-notice span{color:var(--ink-soft);}
+
+  /* Subtle "Nieuw" callout sits above editorial fieldset */
+  .callout-new{
+    border-left:3px solid var(--accent);
+    padding:10px 16px;margin:0 0 18px;background:rgba(210,75,31,0.05);
+    font-family:'IBM Plex Mono',monospace;font-size:12px;
+    letter-spacing:0.04em;color:var(--ink-soft);line-height:1.55;
+  }
+  .callout-new strong{color:var(--accent);letter-spacing:0.1em}
+
+  /* ─── Existing-listing prefill panel + lookup (change/hide modes) ── */
+  .sv-cr-lookup-results{
+    border:1px solid var(--ink-faint, #d8d2c4);
+    margin-top:6px;background:var(--bg, #fff);
+    max-height:240px;overflow-y:auto;
+    font-family:'PT Serif',serif;font-size:14px;
+  }
+  .sv-cr-lookup-results .sv-cr-lookup-item{
+    display:block;padding:8px 12px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,0.05);
+  }
+  .sv-cr-lookup-results .sv-cr-lookup-item:hover,
+  .sv-cr-lookup-results .sv-cr-lookup-item:focus{background:rgba(210,75,31,0.06);outline:none}
+  .sv-cr-lookup-results .sv-cr-lookup-item small{
+    display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    color:var(--ink-soft);letter-spacing:0.04em;
+  }
+  .sv-cr-existing-panel{
+    border:1px solid var(--ink-faint, #d8d2c4);
+    border-left:3px solid #2563eb;
+    padding:14px 16px;margin:0 0 14px;background:rgba(37,99,235,0.04);
+  }
+  .sv-cr-existing-title{
+    margin:0 0 8px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.18em;text-transform:uppercase;color:#1e3a8a;
+  }
+  .sv-cr-existing-list{margin:0;display:grid;grid-template-columns:140px 1fr;gap:4px 12px;font-family:'PT Serif',serif;font-size:14px}
+  .sv-cr-existing-list dt{color:var(--ink-soft);font-weight:600}
+  .sv-cr-existing-list dd{margin:0;color:var(--ink, #2a2417)}
+  .sv-cr-existing-clear{
+    margin-top:10px;padding:6px 12px;border:1px solid var(--ink);
+    background:var(--bg);color:var(--ink);font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;
+  }
+  .sv-cr-existing-clear:hover{background:var(--ink);color:var(--cream)}
+
+  /* ─── Authorization (Bevoegdheid) feedback + status summary ─────── */
+  .sv-auth-feedback{
+    margin-top:6px;padding:6px 10px;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.06em;border-left:3px solid var(--ink-faint,#d8d2c4);
+    background:rgba(0,0,0,0.03);color:var(--ink-soft);
+  }
+  .sv-auth-feedback.is-match{border-left-color:#16a34a;background:rgba(22,163,74,0.06);color:#166534}
+  .sv-auth-feedback.is-mismatch{border-left-color:#d24b1f;background:rgba(210,75,31,0.06);color:#9a3412}
+  .sv-auth-feedback.is-info{border-left-color:#2563eb;background:rgba(37,99,235,0.05);color:#1e3a8a}
+  .sv-auth-status-summary{
+    margin:14px 0 4px;padding:10px 14px;
+    border:1px solid var(--ink-faint,#d8d2c4);background:rgba(0,0,0,0.02);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;
+    color:var(--ink-soft);line-height:1.55;
+  }
+  .sv-auth-status-summary span:not(.new-pill){
+    margin-left:8px;font-family:'PT Serif',serif;text-transform:none;letter-spacing:0;
+    font-size:13px;color:var(--ink-soft);
+  }
+
+  .preview-box{
+    background:var(--ink);color:var(--cream);padding:24px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;
+    white-space:pre-wrap;word-break:break-word;
+    max-height:560px;overflow-y:auto;margin-top:16px;border:1px solid var(--ink);
+  }
+  .preview-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .preview-actions button{
+    padding:10px 18px;border:1px solid var(--ink);background:var(--bg);
+    color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px;
+    letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;
+  }
+  .preview-actions button:hover{background:var(--ink);color:var(--cream)}
+  .preview-actions button.primary{background:var(--ink);color:var(--cream)}
+  .preview-actions button.primary:hover{background:var(--accent);border-color:var(--accent)}
+
+  .not-sent-tag{
+    display:inline-block;background:var(--accent);color:var(--cream);
+    padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.18em;text-transform:uppercase;margin-bottom:10px;
+  }
+
+  /* Compact tech disclosure — replaces the heavy ASCII architecture block */
+  .tech-disclosure{
+    margin:32px 0 8px;border-top:1px solid var(--ink);padding-top:22px;
+  }
+  .tech-disclosure summary{
+    cursor:pointer;list-style:none;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .tech-disclosure summary::-webkit-details-marker{display:none}
+  .tech-disclosure summary::before{content:"+ ";color:var(--accent)}
+  .tech-disclosure[open] summary::before{content:"− "}
+  .tech-disclosure-body{
+    margin-top:14px;font-family:'PT Serif',serif;font-size:15px;
+    line-height:1.6;color:var(--ink-soft);
+  }
+  .tech-disclosure-body a{color:var(--accent)}
+
+  .region-feedback{
+    margin-top:8px;padding:8px 12px;
+    border-left:3px solid var(--accent);background:rgba(210,75,31,0.06);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;
+    color:var(--ink-soft);line-height:1.5;
+  }
+  .region-feedback strong{color:var(--accent);letter-spacing:0.08em}
+  .region-feedback.is-warn{border-color:var(--ink);background:rgba(0,0,0,0.04)}
+  .region-feedback.is-warn strong{color:var(--ink)}
+  .region-feedback.is-unknown{border-color:#7a5b00;background:rgba(255,196,0,0.10)}
+  .region-feedback.is-unknown strong{color:#7a5b00}
+
+  .place-addition{
+    margin-top:10px;padding:10px 12px;
+    border:1px solid var(--rule);background:rgba(0,0,0,0.02);
+    font-family:'PT Serif',serif;font-size:14px;line-height:1.55;color:var(--ink);
+  }
+  .place-addition[hidden]{display:none}
+  .place-addition .pa-title{
+    display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);
+    margin-bottom:4px;
+  }
+  .place-addition label.pa-check{
+    display:flex;align-items:flex-start;gap:8px;cursor:pointer;
+    font-family:'PT Serif',serif;font-size:14px;color:var(--ink);
+    margin-top:6px;
+  }
+  .place-addition label.pa-check input{margin-top:4px}
+  .place-addition .pa-help{
+    display:block;font-size:12px;color:var(--ink-soft);margin-top:4px;
+    font-family:'PT Serif',serif;font-style:italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage-bar" role="status">
+  <strong>VALIDATIEOMGEVING</strong> &nbsp;·&nbsp; NIET PUBLIEK &nbsp;·&nbsp;
+  inzendingen worden niet verzonden &nbsp;·&nbsp;
+  <a href="validation-lab.html">Validation Lab</a>
+</div>
+
+<nav class="mast" aria-label="Primary">
+  <div class="mast-inner">
+    <a href="esrf-simulated-site.html" class="mast-logo">ESRF.net</a>
+    <button class="mast-burger" aria-label="Toggle navigation" aria-controls="primary-nav">≡</button>
+    <div class="mast-nav" id="primary-nav">
+      <a href="about.html">Foundation</a>
+      <a href="events.html">Events</a>
+      <a href="directory.html">Directory</a>
+      <a href="map.html">Atlas</a>
+      <a href="analytics.html">Analytics</a>
+      <a href="news.html">Dispatch</a>
+      <a href="editorials.html">Editorials</a>
+      <a href="fund.html" class="mast-contribute">Bijdragen</a>
+    </div>
+  </div>
+</nav>
+
+<section class="phero">
+  <div class="phero-inner">
+    <div class="kicker">§ Gemeenschap · Deel je informatie <span class="new-pill">Nieuw in validatie</span></div>
+    <h1 class="phero-title">Deel je<br><i>informatie</i>.</h1>
+    <p class="phero-deck" id="sv-intro-deck">
+      Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal in te sturen. Je kiest hieronder zelf wat past. Er gebeurt niets automatisch — de redactie kijkt elk verzoek na voordat er iets wordt aangepast.
+    </p>
+  </div>
+</section>
+
+<div class="form-wrap">
+
+  <aside id="sv-editorial-review-notice" class="sv-review-notice" role="note">
+    <strong>Na verzending kijkt de ESRF-redactie mee.</strong>
+    <span>Er wordt niets automatisch gepubliceerd of aangepast in de Directory of Atlas. De redactie beoordeelt elk verzoek handmatig.</span>
+  </aside>
+
+  <div id="form-error" class="form-error" hidden role="alert" aria-live="assertive"></div>
+
+  <form id="sv-form" class="form-grid" novalidate autocomplete="on">
+
+    <input type="text" name="company_website_hp" tabindex="-1" autocomplete="off"
+      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">1. Wat wil je doen?</legend>
+      <p class="fieldset-intro">
+        Kies wat van toepassing is. Beide kan ook — bijvoorbeeld als je organisatie nog niet in de atlas staat én je een praktijkverhaal hebt.
+      </p>
+
+      <p id="sv-step1-next" class="fieldset-intro" style="margin:6px 0 10px;font-style:italic;color:var(--ink-soft)">
+        Kies eerst wat je wilt doen. Daarna ga je hieronder door naar stap 2 om de gegevens in te vullen.
+      </p>
+
+      <div class="mode-switch" role="radiogroup" aria-label="Type opgave" id="mode-org">
+        <label class="mode-option" data-mode="org">
+          <input type="radio" name="intake_mode" value="org" checked>
+          <strong>Organisatie aanmelden</strong>
+          <em class="mode-tagline">Voor nieuwe opname in Directory en Atlas.</em>
+          <span>Plaats je organisatie voor het eerst in de ESRF-atlas. Geen verhaal nodig.</span>
+        </label>
+        <label class="mode-option" data-mode="editorial" id="mode-editorial">
+          <input type="radio" name="intake_mode" value="editorial">
+          <strong>Praktijkverhaal delen</strong>
+          <em class="mode-tagline">Voor een mogelijk editorial of voorbeeld uit de praktijk.</em>
+          <span>Stuur een kort artikel of praktijkverhaal in over samenwerking, een geleerde les of waardering voor mensen die erkenning verdienen.</span>
+        </label>
+        <label class="mode-option" data-mode="both" id="mode-both">
+          <input type="radio" name="intake_mode" value="both">
+          <strong>Beide</strong>
+          <em class="mode-tagline">Voor een organisatie én een praktijkverhaal in één keer.</em>
+          <span>Aanmelden van je organisatie én een artikel of praktijkverhaal in één keer.</span>
+        </label>
+        <label class="mode-option" data-mode="change_request" id="mode-change">
+          <input type="radio" name="intake_mode" value="change_request">
+          <strong>Gegevens wijzigen</strong>
+          <em class="mode-tagline">Voor correctie van een bestaande vermelding.</em>
+          <span>Vraag aan om een bestaande organisatievermelding aan te passen (bijv. naam, sector, beschrijving). De redactie controleert en past niets automatisch aan.</span>
+        </label>
+        <label class="mode-option" data-mode="hide_delete" id="mode-hide-delete">
+          <input type="radio" name="intake_mode" value="hide_delete">
+          <strong>Verbergen / verwijderen</strong>
+          <em class="mode-tagline">Voor verzoeken om een bestaande vermelding niet langer te tonen.</em>
+          <span>Vraag aan om een bestaande vermelding tijdelijk onzichtbaar te maken of helemaal te verwijderen. De redactie controleert eerst of je daartoe bevoegd bent.</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">2. Contact &amp; organisatie</legend>
+      <p class="fieldset-intro">Deze contactgegevens gebruiken we voor elk type verzoek — aanmelden, wijzigen, verbergen/verwijderen of een praktijkverhaal. Zo weet de redactie met wie ze contact kan opnemen.</p>
+
+      <div class="form-row">
+        <label for="sv-contact-name">Naam <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-contact-name" name="contact_name" required maxlength="80"
+          placeholder="Bijv. Sanne de Vries" autocomplete="name">
+      </div>
+
+      <div class="form-row" id="sv-org-row">
+        <label for="sv-org">Organisatie <span class="req" id="sv-org-req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-org" name="organisation" required maxlength="120"
+          placeholder="Bijv. Veiligheidsregio Rotterdam-Rijnmond" autocomplete="organization">
+        <span class="hint" id="sv-org-hint">Verplicht bij aanmelden, praktijkverhaal of beide. Bij wijzigen of verbergen/verwijderen is dit veld optioneel — vul het alleen in als je organisatie naast je naam staat.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-role">Functie <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-role" name="role" required maxlength="120"
+          placeholder="Bijv. teamleider crisisbeheersing" autocomplete="organization-title">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-email">E-mail <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="sv-email" name="email" required
+          placeholder="naam@organisatie.nl" autocomplete="email">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-phone">Telefoon (optioneel)</label>
+        <input type="tel" id="sv-phone" name="phone" maxlength="40"
+          placeholder="Alleen als je liever gebeld wordt" autocomplete="tel">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-country">Land <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-country" name="country" required>
+          <option value="">Kies een land…</option>
+          <optgroup label="EU lidstaten">
+            <option value="AT">Oostenrijk</option>
+            <option value="BE">België</option>
+            <option value="BG">Bulgarije</option>
+            <option value="HR">Kroatië</option>
+            <option value="CY">Cyprus</option>
+            <option value="CZ">Tsjechië</option>
+            <option value="DK">Denemarken</option>
+            <option value="EE">Estland</option>
+            <option value="FI">Finland</option>
+            <option value="FR">Frankrijk</option>
+            <option value="DE">Duitsland</option>
+            <option value="GR">Griekenland</option>
+            <option value="HU">Hongarije</option>
+            <option value="IE">Ierland</option>
+            <option value="IT">Italië</option>
+            <option value="LV">Letland</option>
+            <option value="LT">Litouwen</option>
+            <option value="LU">Luxemburg</option>
+            <option value="MT">Malta</option>
+            <option value="NL" selected>Nederland</option>
+            <option value="PL">Polen</option>
+            <option value="PT">Portugal</option>
+            <option value="RO">Roemenië</option>
+            <option value="SK">Slowakije</option>
+            <option value="SI">Slovenië</option>
+            <option value="ES">Spanje</option>
+            <option value="SE">Zweden</option>
+          </optgroup>
+          <optgroup label="Overig Europa">
+            <option value="IS">IJsland</option>
+            <option value="NO">Noorwegen</option>
+            <option value="UA">Oekraïne</option>
+            <option value="GB">Verenigd Koninkrijk</option>
+            <option value="CH">Zwitserland</option>
+            <option value="AL">Albanië</option>
+            <option value="BA">Bosnië en Herzegovina</option>
+            <option value="ME">Montenegro</option>
+            <option value="MK">Noord-Macedonië</option>
+            <option value="RS">Servië</option>
+            <option value="TR">Turkije</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-place">Plaats / gemeente</label>
+        <input type="text" id="sv-place" name="place" maxlength="120"
+          placeholder="Bijv. Rotterdam, Brussels, Berlin" autocomplete="address-level2"
+          list="sv-place-suggestions">
+        <datalist id="sv-place-suggestions"></datalist>
+        <span class="hint">Optioneel. Bekende plaatsnamen krijgen een regiovoorstel; staat een plaats er niet bij, dan kun je 'm voorstellen voor toevoeging.</span>
+        <div id="sv-place-feedback" class="region-feedback" hidden aria-live="polite"></div>
+        <div id="sv-place-addition" class="place-addition" hidden>
+          <span class="pa-title">Plaats voorstellen voor de redactionele lijst</span>
+          <p style="margin:0">Deze plaats staat nog niet in onze validatielijst. Je kunt 'm laten meelopen als kandidaat — de redactie controleert handmatig en kan de lijst later aanvullen.</p>
+          <label class="pa-check">
+            <input type="checkbox" id="sv-place-add-check" name="place_addition_requested" checked>
+            <span>Voorstellen voor toevoeging aan de regiolijst (<em id="sv-place-add-name"></em>).</span>
+          </label>
+          <span class="pa-help">Kies hieronder zelf het land en de regio; dit helpt de redactie de plaats later goed te koppelen. Geen automatische geocoding — dit is redactionele verrijking.</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-region">Regio / provincie</label>
+        <select id="sv-region-select" name="region">
+          <option value="">— eerst een land kiezen —</option>
+        </select>
+        <input type="text" id="sv-region-free" name="region_free" maxlength="120"
+          placeholder="Vul hier zelf een regio of provincie in" hidden>
+        <span class="hint">Regio helpt ESRF om bijdragen regionaal te ordenen; controleer automatische voorstellen altijd.</span>
+        <div style="margin-top:6px">
+          <label style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+            <input type="checkbox" id="sv-region-manual" name="region_manual_override" style="margin:0">
+            Handmatig invullen (override)
+          </label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-website">Website</label>
+        <input type="url" id="sv-website" name="website"
+          placeholder="https://voorbeeld.nl" autocomplete="url" pattern="https?://.+">
+        <span class="hint">Verplicht als je een organisatie aanmeldt (of "Beide" kiest). Voor wijzigen, verbergen/verwijderen of een praktijkverhaal: optioneel. Begint met https:// of http://</span>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset section-block" data-section="org">
+      <legend class="form-legend">3A. Organisatie-gegevens</legend>
+      <p class="fieldset-intro">Deze velden vullen we voor de directory/atlas. Alleen invullen als je organisatie aanmeldt of bijwerkt. (Bij modus <em>Beide</em>: stap 3A komt vóór stap 3B.)</p>
+
+      <div class="form-row">
+        <label for="sv-sector">Sector <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-sector" name="sector">
+          <option value="">Kies een sector…</option>
+          <option value="Emergency &amp; Crisis Response">Crisisbeheersing &amp; rampenbestrijding</option>
+          <option value="Security &amp; Protection">Beveiliging &amp; bescherming</option>
+          <option value="Risk &amp; Continuity Management">Risico- &amp; continuïteitsmanagement</option>
+          <option value="Digital Infrastructure &amp; Cybersecurity">Digitale infrastructuur &amp; cybersecurity</option>
+          <option value="Knowledge, Training &amp; Research">Kennis, training &amp; onderzoek</option>
+          <option value="Health &amp; Medical Manufacturing">Zorg &amp; medische productie</option>
+          <option value="Critical Infrastructure">Kritieke infrastructuur</option>
+          <option value="Dual-use Technology &amp; Manufacturing">Dual-use technologie &amp; productie</option>
+          <option value="Transport, Maritime &amp; Aerospace">Transport, maritiem &amp; lucht- en ruimtevaart</option>
+          <option value="Energy &amp; Grid Resilience">Energie &amp; netweerbaarheid</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-org-description">Korte beschrijving van de organisatie</label>
+        <textarea id="sv-org-description" name="org_description" maxlength="280"
+          placeholder="Eén of twee zinnen: wat doet de organisatie en welke regio bedient ze?"></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset section-block" data-section="editorial">
+      <legend class="form-legend">3B. Editorial bijdrage</legend>
+      <p class="fieldset-intro">Voor een kort artikel of praktijkverhaal. Schrijf zoals je het zou vertellen — de redactie helpt met framing en eindredactie. (Bij modus <em>Editorial</em> is dit de enige stap 3; bij modus <em>Beide</em> volgt 3B op 3A.)</p>
+
+      <div class="callout-new">
+        <strong>Editorial bijdrage</strong> · nieuw onderdeel in de validatieomgeving. Drie soorten verhalen passen: een geleerde les, iemand in het zonnetje, of een regionale praktijknotitie.
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-topic">Onderwerp / werktitel <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-ed-topic" name="ed_topic" maxlength="160"
+          placeholder="Bijv. Hoe Rotterdam en de havenpartners samen een havenoefening hebben opgezet">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-summary">Korte samenvatting <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-ed-summary" name="ed_summary" rows="4" minlength="20" maxlength="600"
+          aria-required="true"
+          placeholder="3–5 zinnen: wat is er gebeurd, waarom is het relevant, wat is de kern?"></textarea>
+        <div class="counter" id="sv-ed-summary-counter" aria-live="polite">0 / 600</div>
+        <span class="hint">Minimaal 20 tekens — dit is de samenvatting die de redactie als eerste leest. In modus <em>Beide</em> óók verplicht.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-audience">Voor wie is dit verhaal interessant?</label>
+        <input type="text" id="sv-ed-audience" name="ed_audience" maxlength="160"
+          placeholder="Bijv. veiligheidsregio's, havenautoriteiten, beleidsmakers">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-partners">Betrokken organisaties / sector</label>
+        <textarea id="sv-ed-partners" name="ed_partners" rows="2" maxlength="400"
+          placeholder="Welke partijen werkten samen? Welke sectoren raakte het?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-regional-angle">Regionale invalshoek <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-ed-regional-angle" name="ed_regional_angle" rows="3" maxlength="500"
+          placeholder="Wat maakt dit een regionaal verhaal? Welke regio, welke specifieke context?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-lesson">Geleerde les <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-ed-lesson" name="ed_lesson" rows="3" maxlength="500"
+          placeholder="Wat heb je geleerd? Wat zou je een collega in een andere regio meegeven?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-spotlight">In het zonnetje — wie verdient waardering?</label>
+        <textarea id="sv-ed-spotlight" name="ed_spotlight" rows="3" maxlength="400"
+          placeholder="Een persoon of team wiens werk vaak onzichtbaar is, maar verschil maakt. Naam, rol, organisatie — alleen als je toestemming hebt."></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-sources">Bron / controleerbare feiten</label>
+        <textarea id="sv-ed-sources" name="ed_sources" rows="3" maxlength="500"
+          placeholder="Links, datums, rapporten of contactpersonen die de redactie kan gebruiken om feiten na te trekken."></textarea>
+        <span class="hint">ESRF publiceert geen verhalen die niet te controleren zijn.</span>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-consent-edit" name="consent_edit" style="margin-top:4px">
+        <label for="sv-consent-edit" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          Ik ga akkoord dat de ESRF-redactie mijn tekst mag <strong>redigeren en publiceren</strong>, met behoud van de kern.
+        </label>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-consent-contact-ed" name="consent_contact_editorial" style="margin-top:4px">
+        <label for="sv-consent-contact-ed" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          De eindredactie mag <strong>contact</strong> met me opnemen voor afstemming, feiten en eindcheck vóór publicatie.
+        </label>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-consent-no-confid" name="consent_no_confidential" style="margin-top:4px">
+        <label for="sv-consent-no-confid" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          Mijn inzending bevat <strong>geen vertrouwelijke of operationeel gevoelige informatie</strong>.
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset section-block" data-section="change">
+      <legend class="form-legend">3C. Wat moet er aan de bestaande vermelding gebeuren?</legend>
+      <p class="fieldset-intro">
+        Vul deze stap alleen in als je een bestaande vermelding wilt laten <strong>wijzigen, verbergen of verwijderen</strong>.
+        De ESRF-redactie controleert je verzoek handmatig — er gebeurt <strong>niets automatisch</strong> en de directory wordt nooit zelf bijgewerkt door dit formulier.
+      </p>
+
+      <div class="callout-new">
+        <strong>Veilig pad</strong> · niets wordt direct aangepast. We loggen je verzoek in een aparte lab-tab en de redactie beslist daarna welke stappen passend zijn. Wijzigingen vinden alleen plaats na bevestiging dat jij daartoe bevoegd bent.
+      </div>
+
+      <div class="form-row" id="sv-cr-lookup-row">
+        <label for="sv-cr-lookup">Zoek de bestaande vermelding</label>
+        <input type="search" id="sv-cr-lookup" name="cr_lookup_query" maxlength="120"
+          placeholder="Typ de organisatienaam of plaatsnaam — bijv. Veiligheidsregio Rotterdam"
+          list="sv-cr-lookup-suggestions" autocomplete="off">
+        <datalist id="sv-cr-lookup-suggestions"></datalist>
+        <span class="hint">We doorzoeken de bestaande publieke directory (Directory + Atlas). Kies de juiste vermelding zodat we automatisch de huidige gegevens onder &ldquo;Bestaande publieke gegevens&rdquo; tonen. Geen automatische wijziging — we vergelijken alleen.</span>
+        <div id="sv-cr-lookup-results" class="sv-cr-lookup-results" hidden role="listbox" aria-label="Zoekresultaten bestaande vermeldingen"></div>
+        <p id="sv-cr-lookup-empty" class="hint" hidden style="font-style:italic">Geen automatische match gevonden. Vul hieronder zelf de naam en/of URL van de bestaande vermelding in.</p>
+      </div>
+
+      <div id="sv-cr-existing-panel" class="sv-cr-existing-panel" hidden aria-live="polite">
+        <h4 class="sv-cr-existing-title">Bestaande publieke gegevens</h4>
+        <p class="hint" style="margin:0 0 6px">Dit zijn de gegevens zoals ze nu in de openbare ESRF-directory staan. Ze worden niet overschreven — je verzoek komt apart bij de redactie binnen.</p>
+        <dl class="sv-cr-existing-list" id="sv-cr-existing-list"></dl>
+        <button type="button" id="sv-cr-existing-clear" class="sv-cr-existing-clear">Andere vermelding kiezen</button>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-target-name">Naam van de organisatie of vermelding <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-cr-target-name" name="cr_target_name" maxlength="200"
+          placeholder="Bijv. Veiligheidsregio Rotterdam-Rijnmond">
+        <span class="hint">Vul minstens één van: naam óf URL van de huidige vermelding. Wordt automatisch ingevuld als je hierboven een vermelding kiest.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-target-url">Of: URL van de bestaande vermelding</label>
+        <input type="url" id="sv-cr-target-url" name="cr_target_url" maxlength="400"
+          placeholder="https://esrf.net/directory/voorbeeld">
+        <span class="hint">Begint met https:// of http://. Helpt de redactie om de juiste vermelding te vinden.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-action">Wat wil je dat er gebeurt? <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-cr-action" name="cr_action">
+          <option value="update">Bijwerken / corrigeren</option>
+          <option value="hide">Tijdelijk verbergen (uit de atlas halen, maar bewaren)</option>
+          <option value="delete">Definitief verwijderen</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-description">Wat moet er precies veranderen? <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-cr-description" name="cr_description" rows="4" minlength="10" maxlength="1500"
+          placeholder="Bijv. 'Adres is verhuisd naar nieuwe locatie X' of 'Sector is gewijzigd van Y naar Z' of 'De vermelding klopt niet meer; graag verbergen'."></textarea>
+        <span class="hint">Schrijf in gewone taal — de redactie leest dit als eerste.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-reason">Waarom dit verzoek? <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-cr-reason" name="cr_reason" rows="3" minlength="10" maxlength="1000"
+          placeholder="Bijv. 'Organisatie is gefuseerd' of 'Informatie is verouderd' of 'Verzoek namens de directie'."></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-evidence">Bron of bewijs (optioneel)</label>
+        <input type="url" id="sv-cr-evidence" name="cr_evidence" maxlength="400"
+          placeholder="https://… (bijv. KvK-uittreksel, persbericht, officiële mededeling)">
+        <span class="hint">Optioneel. Een link maakt verificatie sneller. Geen vertrouwelijke documenten in dit veld.</span>
+      </div>
+
+      <p style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
+        <span class="new-pill new-pill-soft">Geen automatische wijziging</span>
+        <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
+          Dit verzoek komt in <code>LAB_Change_Requests</code>; de redactie beslist of, hoe en wanneer iets wordt aangepast in <code>Directory_Master</code>. Niets in deze workflow wijzigt de directory automatisch.
+        </span>
+      </p>
+    </fieldset>
+
+    <fieldset class="form-fieldset section-block" data-section="change" id="sv-authorization-fieldset">
+      <legend class="form-legend">3D. Bevoegdheid om wijziging aan te vragen</legend>
+      <p class="fieldset-intro">
+        Om te voorkomen dat derden zomaar gegevens kunnen wijzigen of verwijderen, vragen we kort om je relatie met de organisatie. De redactie controleert dit altijd handmatig — er gebeurt niets automatisch op basis van je antwoorden.
+      </p>
+
+      <div class="form-row">
+        <label for="sv-auth-name">Naam aanvrager <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-auth-name" name="auth_requester_name" maxlength="120"
+          placeholder="Bijv. Sanne de Vries" autocomplete="name">
+        <span class="hint">Mag dezelfde naam zijn als bij stap 2.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-auth-role">Functie / rol <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-auth-role" name="auth_requester_role" maxlength="120"
+          placeholder="Bijv. communicatieadviseur, bestuurssecretaris, woordvoerder">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-auth-email">Werkmailadres <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="sv-auth-email" name="auth_work_email" maxlength="160"
+          placeholder="naam@organisatie.nl" autocomplete="email">
+        <span class="hint">Bij voorkeur een e-mailadres op het domein van de organisatie. We vergelijken dit domein met de officiële website.</span>
+        <div id="sv-auth-domain-feedback" class="sv-auth-feedback" hidden aria-live="polite"></div>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-auth-relation">Relatie met de organisatie <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-auth-relation" name="auth_relation">
+          <option value="">Kies een relatie…</option>
+          <option value="employee">Medewerker</option>
+          <option value="board">Bestuurder</option>
+          <option value="communications">Communicatie / woordvoering</option>
+          <option value="contact">Contactpersoon van de organisatie</option>
+          <option value="other">Anders — toelichten in de toelichting hierboven</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-auth-registration-code">Registratiecode van de organisatie, als je die hebt</label>
+        <input type="text" id="sv-auth-registration-code" name="auth_registration_code" maxlength="64"
+          placeholder="Optioneel — alleen als je een registratie- of verificatiecode hebt ontvangen"
+          autocomplete="off" inputmode="text">
+        <span class="hint">Dit is geen inlogcode en geen toegangscode tot een account. Als je geen registratiecode of verificatiecode hebt ontvangen, laat dit veld leeg — de redactie controleert handmatig.</span>
+        <div id="sv-auth-code-feedback" class="sv-auth-feedback" hidden aria-live="polite"></div>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-auth-confirm-authorized" name="auth_confirm_authorized" style="margin-top:4px">
+        <label for="sv-auth-confirm-authorized" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          Ik bevestig dat ik <strong>bevoegd</strong> ben om namens deze organisatie een wijziging of verwijdering aan te vragen.
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-requester-auth">In welke hoedanigheid dien je dit verzoek in? <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-cr-requester-auth" name="cr_requester_auth">
+          <option value="authorized_representative">Bevoegd vertegenwoordiger / namens de organisatie</option>
+          <option value="employee">Medewerker van de organisatie</option>
+          <option value="external_observer">Extern (geen rol bij de organisatie — bijv. correctie als bezoeker)</option>
+        </select>
+        <span class="hint">De redactie weegt dit mee bij verificatie. Externe meldingen worden strenger gecheckt.</span>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-cr-auth-confirm" name="cr_auth_confirm" style="margin-top:4px">
+        <label for="sv-cr-auth-confirm" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          Ik bevestig aanvullend dat ik dit verzoek doe als bevoegd vertegenwoordiger, óf als externe melding waarbij de redactie eerst contact mag opnemen met de organisatie voordat er iets verandert.
+        </label>
+      </div>
+
+      <p id="sv-auth-status-summary" class="sv-auth-status-summary" aria-live="polite">
+        <span class="new-pill new-pill-soft">Verificatie</span>
+        <span id="sv-auth-status-text">Vul de gegevens in om de zachte controle te zien — de redactie controleert altijd handmatig.</span>
+      </p>
+
+      <p style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
+        <span class="new-pill new-pill-soft">Geen automatische goedkeuring</span>
+        <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
+          Een match op domein of registratiecode betekent niet dat een verzoek wordt goedgekeurd. De ESRF-redactie controleert iedere wijzigings- of verwijderaanvraag handmatig.
+        </span>
+      </p>
+    </fieldset>
+
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">4. Privacy &amp; verzending</legend>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-gdpr" name="gdpr_consent" required style="margin-top:4px">
+        <label for="sv-gdpr" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          Ik ga akkoord met het <a href="privacy.html">privacybeleid</a> en met opslag van deze gegevens voor redactionele beoordeling.
+        </label>
+      </div>
+
+      <div>
+        <button type="submit" class="form-submit" id="sv-submit-btn"
+          data-en-label="Share your information"
+          data-nl-label="Deel je informatie">
+          Deel je informatie
+        </button>
+        <p style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;color:var(--ink-dim);text-transform:uppercase">
+          <span class="new-pill new-pill-soft">Alleen testpreview</span>
+          niets wordt verzonden in deze validatieomgeving — er verandert niets automatisch
+        </p>
+      </div>
+    </fieldset>
+
+  </form>
+
+  <div id="form-success" class="form-success" hidden style="text-align:left;padding:40px 0">
+    <span class="not-sent-tag">TEST — niet verzonden</span>
+    <div class="kicker">§ Lokale preview</div>
+    <h2 style="margin:6px 0 8px;font-family:'Archivo',sans-serif">Samenvatting van je inzending</h2>
+    <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.6;color:var(--ink-soft);margin:0 0 12px">
+      Dit is wat de redactie zou ontvangen. Niets is verzonden. Je kunt het kopiëren of als JSON / tekstbestand downloaden.
+    </p>
+
+    <div class="preview-actions">
+      <button type="button" id="sv-copy-btn" class="primary">Kopieer naar klembord</button>
+      <button type="button" id="sv-json-btn">Download JSON</button>
+      <button type="button" id="sv-txt-btn">Download tekst</button>
+      <button type="button" id="sv-backend-btn">Backend test — geen productieopslag tenzij validatiesecrets actief zijn</button>
+      <button type="button" id="sv-lab-btn" hidden>LAB-opslag (preview-only) — POST /api/intake-test</button>
+      <button type="button" id="sv-back-btn">← terug naar formulier</button>
+    </div>
+
+    <p id="sv-backend-help" style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
+      <span class="new-pill new-pill-soft">Validation backend</span>
+      <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
+        Roept <code>POST /api/intake</code> aan op de Cloudflare Pages preview. Standaard staat deze in <strong>dry-run</strong>: er wordt niets weggeschreven tot productie-secrets actief zijn. <strong>De Google Drive intake-spreadsheet blijft single source of truth</strong> — de backend voegt daar in productie een rij aan toe, en vervangt de spreadsheet niet.
+      </span>
+    </p>
+
+    <p id="sv-lab-help" hidden style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
+      <span class="new-pill" style="background:rgba(210,75,31,0.06)">LAB-only</span>
+      <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
+        Verstuurt naar <code>POST /api/intake-test</code> met <code>lab_test:true</code>. Schrijft uitsluitend naar <code>LAB_*</code>-tabs, <strong>nooit</strong> naar <code>Directory_Master</code>. Geen notificatie, geen mail, geen publicatie. Naam en organisatie worden geprefixt met <code>ESRF Lab Test</code> zodat de backend deze als operatortest herkent. Productie-deploys (CF_PAGES_BRANCH=main) geven 404; deze knop is daarom alleen zichtbaar op preview-hostnames.
+      </span>
+    </p>
+
+    <p id="sv-notify-banner" hidden style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
+      <span class="new-pill" style="background:rgba(210,75,31,0.06)">Mailnotificatie</span>
+      <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
+        <strong>Automatische notificatieroute is voorbereid, op dit moment niet actief.</strong> De Cloudflare-backend bouwt na een succesvolle LAB sheet-write een PII-vrije payload volgens <code>NOTIFICATION_CONTRACT</code>. POST naar een aparte mailrelay gebeurt pas wanneer <code>INTAKE_NOTIFY_WEBHOOK</code> (en optioneel <code>INTAKE_NOTIFY_SECRET</code>) als environment variables zijn gezet en de aparte Apps Script-deployment uit <code>docs/apps-script-mail-notification.gs</code> live staat. Tot dan: <code>notification_status: dry_run_not_configured</code>. Op <code>/api/intake-test</code> kan een operator opt-in <code>notification_simulate:true</code> meesturen om alleen het wire-shape te valideren — er gaat dan nog steeds geen netwerkaanroep en geen mail uit.
+      </span>
+    </p>
+
+    <div id="sv-backend-result" class="preview-box" hidden aria-live="polite" style="margin-top:10px"></div>
+    <div id="sv-lab-result" class="preview-box" hidden aria-live="polite" style="margin-top:10px"></div>
+
+    <pre id="sv-preview" class="preview-box" aria-label="Preview van je inzending"></pre>
+  </div>
+
+  <details class="tech-disclosure">
+    <summary>Technische details voor de redactie / Validation Lab — bezoekers kunnen dit overslaan</summary>
+    <div class="tech-disclosure-body">
+      <p>Dit prototype kent twee paden naast elkaar: (1) <strong>lokale preview</strong> — niets verlaat de browser; (2) <strong>validatie-backend</strong> — een knop in de previewstap roept <code>POST /api/intake</code> aan op de Cloudflare Pages branch-preview. De endpoint valideert, sanitiseert, controleert honeypot/timer en (als ingesteld) Turnstile, en geeft een gestructureerd JSON-antwoord terug. Zonder productie-secrets blijft de endpoint in <em>dry-run</em>: er wordt niets weggeschreven en geen notificatie verstuurd.</p>
+
+      <p><strong>Single source of truth — de Google Drive intake-spreadsheet blijft leidend.</strong> De eerder op Drive geplaatste intake-spreadsheet is en blijft het operationele register: één regel per inzending, kolom voor status, redactiebesluit, en metadata. De backend <em>vervangt</em> deze spreadsheet niet — hij schríjft erin. In productie roept <code>/api/intake</code> een server-side Google Apps Script-webhook aan die een rij toevoegt aan precies dezelfde spreadsheet. De redactie blijft daar werken; de website is alleen het invoerkanaal.</p>
+
+      <p><strong>Hoe de drie opslagrollen zich verhouden:</strong></p>
+      <ol>
+        <li><strong>Spreadsheet (Google Drive) — single source of truth.</strong> Minimale gestructureerde rij met status, organisatie, contact, land/regio, modus en pointers naar het eventuele issue. Redactie beheert hier het besluit en de rapportage.</li>
+        <li><strong>Private GitHub issue — bewijs/werkstroom-record.</strong> Optioneel; bevat de volledige ruwe inzending (inclusief editorial-tekst). Voorkomt dat de spreadsheet vol komt te staan met lange teksten en biedt een onveranderlijk auditspoor. De spreadsheetrij linkt ernaar.</li>
+        <li><strong>ESRF mailnotificatie / mailrelay-webhook — automatische notificatieroute VOORBEREID, NIET ACTIEF.</strong> Stuurt geen PII, geen editorial-tekst, alleen modus/organisatie/land/regio + verwijzingen (sheet row id, issue url) zodat de redactie naar de spreadsheet kan springen. <strong>Status (2026-04-26):</strong> de Cloudflare-backend bouwt na een succesvolle LAB sheet-write een PII-vrije notification-payload volgens <code>NOTIFICATION_CONTRACT</code>; <strong>POST naar de mailrelay gebeurt alleen als <code>INTAKE_NOTIFY_WEBHOOK</code> én optioneel <code>INTAKE_NOTIFY_SECRET</code> als environment variables zijn gezet</strong>. Standaard (zoals nu) zijn die niet gezet, dus <code>notification_status: dry_run_not_configured</code> en er gaat niets de deur uit. De aparte Apps Script-broncode voor de mailrelay staat als prepared-not-activated stub in <code>docs/apps-script-mail-notification.gs</code> met manifest <code>docs/appsscript.mail-notification.json</code> (alleen scope <code>script.send_mail</code>); activatie volgt de checklist in <code>docs/apps-script-mail-notification.future.md</code>. De eerste lab-write Apps Script (<code>docs/apps-script-mail-notification.gs</code> staat <em>los</em> van) blijft bewust <em>spreadsheet-only</em> en heeft alleen OAuth-scope <code>auth/spreadsheets</code>. Receivers blijven generiek (Apps Script <code>MailApp</code>, Pipedream, interne SMTP-relay, Slack-compatibele endpoint, …) en leveren af op een operationele ESRF-inbox (aanbevolen: <code>office@esrf.net</code>). <strong>Geen Gmail-specifieke integratie</strong> — ESRF.net draait niet op Gmail. <strong>E-mail vervangt nooit de spreadsheet</strong> — het is hooguit een notificatie.</li>
+      </ol>
+
+      <p><strong>Onbekende plaatsnamen — werkwijze.</strong> Geeft een bezoeker een plaats op die niet in de validatielijst staat, dan blokkeert het formulier dat niet. De plaats blijft als vrije invoer staan, wordt zichtbaar gemarkeerd als nieuw, en gaat als kandidaat (<code>place_addition_candidate</code>) mee in de payload. De bezoeker kiest zelf land en regio. De redactie controleert de kandidaat handmatig in de spreadsheet; pas daarna kan de statische lookup-lijst worden uitgebreid via een GitHub-PR. Geen externe geocoding — dit is redactionele verrijking, geen automatische geodata.</p>
+
+      <p><strong>Productie-readiness — benodigde Cloudflare environment variables.</strong> De backend werkt in dry-run zonder configuratie. Voor echte productie-opslag stellen we in via Cloudflare Pages → Settings → Environment variables (Production):</p>
+      <ul>
+        <li><code>INTAKE_SHEET_WEBHOOK_URL</code> (alias: <code>SHEETS_WEBHOOK_URL</code>, legacy <code>GOOGLE_SHEET_WEBHOOK_URL</code>) — <strong>primair</strong>. URL van de Google Apps Script die als webhook is gepubliceerd op de bestaande intake-spreadsheet. In lab/preview schrijft de backend uitsluitend naar de <code>LAB_*</code>-tabs (<code>LAB_Intake_Submissions</code>, <code>LAB_Editorial_Intake</code>, <code>LAB_Place_Candidates</code>, <code>LAB_Backend_Log</code>, <code>LAB_Workflow_Events</code>). Zonder deze sleutel staat de spreadsheet-flow in dry-run en geeft de backend de exacte payload-preview terug. <strong>Directory_Master wordt nooit automatisch gewijzigd.</strong></li>
+        <li><code>SHEETS_WEBHOOK_SECRET</code> (alias <code>INTAKE_SHEET_WEBHOOK_SECRET</code>) — optionele shared secret. Wanneer ingesteld stuurt de backend een <code>x-esrf-intake-secret</code>-header mee zodat het Apps Script-script ongeautoriseerde aanroepen kan weigeren.</li>
+        <li><code>TURNSTILE_SECRET_KEY</code> — verplicht in productie. Zonder deze sleutel wordt Turnstile <em>overgeslagen</em> en geeft de backend dit terug als waarschuwing.</li>
+        <li><code>GITHUB_TOKEN</code> — fine-grained PAT met <em>issues: write</em> op de private intake-repo (alleen die ene repo). Optioneel; bewijsspoor.</li>
+        <li><code>INTAKE_REPO</code> — bijv. <code>esrfdev/esrf-intake-private</code>. Issues krijgen labels <code>intake</code>, <code>needs-review</code>, <code>regional</code>, <code>mode:&lt;org|editorial|both&gt;</code>.</li>
+        <li><code>INTAKE_NOTIFY_WEBHOOK</code> — <strong>blijft UNSET tijdens de spreadsheet-only eerste lab-write activatie</strong>. Wordt pas later, na een aparte Apps Script-deployment met <code>script.send_mail</code>-scope, op de mailrelay-/notificatie-webhook gezet. Receivers blijven generiek (Apps Script <code>MailApp</code>, Pipedream, interne SMTP-relay, Slack-compatibele endpoint, …); <strong>geen Gmail-specifieke integratie</strong>. <strong>Geen e-mailadres van indiener, geen telefoon, geen editorial-tekst.</strong></li>
+        <li><code>INTAKE_NOTIFY_TO</code> — <strong>blijft UNSET tijdens de spreadsheet-only eerste lab-write activatie</strong>. Operationele ontvanger (gedocumenteerde standaard: <code>office@esrf.net</code>) wordt pas geconfigureerd zodra de aparte mail-deployment live staat. De Cloudflare-backend stuurt zelf nooit mail.</li>
+      </ul>
+
+      <p><strong>Wat er níét gebeurt.</strong> Geen secrets in de frontend. Geen e-mail rechtstreeks vanuit de browser. Geen vervanging van de spreadsheet door alleen e-mail of alleen GitHub.</p>
+
+      <p><strong>Meertaligheid.</strong> Het formulier komt straks in alle 27 ESRF-talen beschikbaar. De backend zelf is taalonafhankelijk — alle labels (knoppen, foutmeldingen, statusteksten) verhuizen in een vervolgstap naar de bestaande i18n-JSON-bestanden onder <code>i18n/</code>. De voorbereide i18n-sleutels staan in <code>docs/intake-backend.md</code>. Voor nu blijft de UI Nederlands; backend-flow eerst valideren, dan vertaalslag (nl + en eerst, daarna de overige 25 EU/EER-talen).</p>
+      <p>Volledige architectuurnotitie en exit-criteria staan in het <a href="validation-lab.html">Validation Lab</a> en in <code>validation-lab.json</code>.</p>
+    </div>
+  </details>
+
+</div>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h3>ESRF.net</h3>
+      <p>ESRF.net — Europese veiligheid en weerbaarheid, gedragen door 2.083 organisaties in 30 landen.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Gemeenschap</h4>
+      <ul>
+        <li><a href="directory.html">Directory</a></li>
+        <li><a href="map.html">Atlas</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="news.html">Dispatch</a></li>
+        <li><a href="editorials.html">Editorials</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Stichting</h4>
+      <ul>
+        <li><a href="about.html">Over</a></li>
+        <li><a href="fund.html" class="foot-contribute">Bijdragen</a></li>
+        <li><a href="sponsor.html">Steun</a></li>
+        <li><a href="mailto:hello@esrf.net">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Validatie</h4>
+      <ul>
+        <li><a href="esrf-simulated-site.html">Simulatie-home</a></li>
+        <li><a href="submit-validation.html">Deel je informatie (formulier)</a></li>
+        <li><a href="request-listing-validation.html">Aanmeld- en wijzigpad (validatie)</a></li>
+        <li><a href="validation-lab.html">Validation Lab</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bar">
+    <div>&copy; 2026 Stichting ESRF European Security and Resilience Fund</div>
+    <div>Atlas of Organisations · validatieomgeving</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  window.__svFormLoadedAt = Date.now();
+
+  /* ─── Regional dataset ──────────────────────────────────────────────
+     Compact, extensible. Provinces/Bundesländer/regions per country.
+     For very large countries we pick NUTS-1 / top-level regions plus a
+     fallback "Other / nader te specificeren". This is a UX helper for
+     ESRF intake — not authoritative geocoding.
+  */
+  const REGIONS_BY_COUNTRY = {
+    NL: ['Drenthe','Flevoland','Friesland','Gelderland','Groningen','Limburg','Noord-Brabant','Noord-Holland','Overijssel','Utrecht','Zeeland','Zuid-Holland'],
+    BE: ['Brussels Hoofdstedelijk Gewest','Antwerpen','Limburg (BE)','Oost-Vlaanderen','West-Vlaanderen','Vlaams-Brabant','Henegouwen','Luik','Luxemburg (BE)','Namen','Waals-Brabant'],
+    DE: ['Baden-Württemberg','Bayern','Berlin','Brandenburg','Bremen','Hamburg','Hessen','Mecklenburg-Vorpommern','Niedersachsen','Nordrhein-Westfalen','Rheinland-Pfalz','Saarland','Sachsen','Sachsen-Anhalt','Schleswig-Holstein','Thüringen'],
+    FR: ['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d\u2019Azur'],
+    ES: ['Andalucía','Aragón','Asturias','Illes Balears','Canarias','Cantabria','Castilla-La Mancha','Castilla y León','Catalunya','Comunitat Valenciana','Extremadura','Galicia','La Rioja','Madrid','Murcia','Navarra','País Vasco','Ceuta','Melilla'],
+    IT: ['Abruzzo','Basilicata','Calabria','Campania','Emilia-Romagna','Friuli-Venezia Giulia','Lazio','Liguria','Lombardia','Marche','Molise','Piemonte','Puglia','Sardegna','Sicilia','Toscana','Trentino-Alto Adige','Umbria','Valle d\u2019Aosta','Veneto'],
+    PL: ['Dolnośląskie','Kujawsko-Pomorskie','Lubelskie','Lubuskie','Łódzkie','Małopolskie','Mazowieckie','Opolskie','Podkarpackie','Podlaskie','Pomorskie','Śląskie','Świętokrzyskie','Warmińsko-Mazurskie','Wielkopolskie','Zachodniopomorskie'],
+    DK: ['Hovedstaden','Sjælland','Syddanmark','Midtjylland','Nordjylland'],
+    SE: ['Stockholm','Uppsala','Södermanland','Östergötland','Jönköping','Kronoberg','Kalmar','Gotland','Blekinge','Skåne','Halland','Västra Götaland','Värmland','Örebro','Västmanland','Dalarna','Gävleborg','Västernorrland','Jämtland','Västerbotten','Norrbotten'],
+    NO: ['Agder','Innlandet','Møre og Romsdal','Nordland','Oslo','Rogaland','Troms og Finnmark','Trøndelag','Vestfold og Telemark','Vestland','Viken'],
+    FI: ['Uusimaa','Varsinais-Suomi','Satakunta','Kanta-Häme','Pirkanmaa','Päijät-Häme','Kymenlaakso','Etelä-Karjala','Etelä-Savo','Pohjois-Savo','Pohjois-Karjala','Keski-Suomi','Etelä-Pohjanmaa','Pohjanmaa','Keski-Pohjanmaa','Pohjois-Pohjanmaa','Kainuu','Lappi','Ahvenanmaa'],
+    EE: ['Harju','Hiiu','Ida-Viru','Jõgeva','Järva','Lääne','Lääne-Viru','Põlva','Pärnu','Rapla','Saare','Tartu','Valga','Viljandi','Võru'],
+    LV: ['Rīga','Pierīga','Vidzeme','Kurzeme','Zemgale','Latgale'],
+    LT: ['Alytus','Kaunas','Klaipėda','Marijampolė','Panevėžys','Šiauliai','Tauragė','Telšiai','Utena','Vilnius'],
+    IE: ['Connacht','Leinster','Munster','Ulster (IE)'],
+    PT: ['Norte','Centro','Lisboa','Alentejo','Algarve','Açores','Madeira'],
+    AT: ['Burgenland','Kärnten','Niederösterreich','Oberösterreich','Salzburg','Steiermark','Tirol','Vorarlberg','Wien'],
+    CZ: ['Praha','Středočeský','Jihočeský','Plzeňský','Karlovarský','Ústecký','Liberecký','Královéhradecký','Pardubický','Vysočina','Jihomoravský','Olomoucký','Zlínský','Moravskoslezský'],
+    SK: ['Bratislavský','Trnavský','Trenčiansky','Nitriansky','Žilinský','Banskobystrický','Prešovský','Košický'],
+    SI: ['Pomurska','Podravska','Koroška','Savinjska','Zasavska','Posavska','Jugovzhodna Slovenija','Osrednjeslovenska','Gorenjska','Primorsko-notranjska','Goriška','Obalno-kraška'],
+    HR: ['Grad Zagreb','Zagrebačka','Krapinsko-zagorska','Sisačko-moslavačka','Karlovačka','Varaždinska','Koprivničko-križevačka','Bjelovarsko-bilogorska','Primorsko-goranska','Ličko-senjska','Virovitičko-podravska','Požeško-slavonska','Brodsko-posavska','Zadarska','Osječko-baranjska','Šibensko-kninska','Vukovarsko-srijemska','Splitsko-dalmatinska','Istarska','Dubrovačko-neretvanska','Međimurska'],
+    HU: ['Budapest','Pest','Bács-Kiskun','Baranya','Békés','Borsod-Abaúj-Zemplén','Csongrád-Csanád','Fejér','Győr-Moson-Sopron','Hajdú-Bihar','Heves','Jász-Nagykun-Szolnok','Komárom-Esztergom','Nógrád','Somogy','Szabolcs-Szatmár-Bereg','Tolna','Vas','Veszprém','Zala'],
+    RO: ['Nord-Vest','Centru','Nord-Est','Sud-Est','Sud-Muntenia','București-Ilfov','Sud-Vest Oltenia','Vest'],
+    BG: ['Severozapaden','Severen tsentralen','Severoiztochen','Yugoiztochen','Yugozapaden','Yuzhen tsentralen'],
+    GR: ['Attica','Central Greece','Central Macedonia','Crete','East Macedonia & Thrace','Epirus','Ionian Islands','North Aegean','Peloponnese','South Aegean','Thessaly','Western Greece','Western Macedonia'],
+    MT: ['Malta','Gozo'],
+    IS: ['Höfuðborgarsvæðið','Suðurnes','Vesturland','Vestfirðir','Norðurland vestra','Norðurland eystra','Austurland','Suðurland'],
+    UA: ['Kyiv (city)','Kyiv oblast','Lviv','Odesa','Kharkiv','Dnipropetrovsk','Donetsk','Zaporizhzhia','Vinnytsia','Volyn','Zhytomyr','Ivano-Frankivsk','Kirovohrad','Luhansk','Mykolaiv','Poltava','Rivne','Sumy','Ternopil','Khmelnytskyi','Cherkasy','Chernivtsi','Chernihiv','Zakarpattia','Kherson']
+  };
+  /* Append a generic fallback for every list */
+  Object.keys(REGIONS_BY_COUNTRY).forEach(function(cc){
+    REGIONS_BY_COUNTRY[cc] = REGIONS_BY_COUNTRY[cc].slice();
+    REGIONS_BY_COUNTRY[cc].push('Anders / nader te specificeren');
+  });
+
+  /* City → { country, region } map. Lower-case keys; aliases included. */
+  const CITY_TO_REGION = {
+    /* Netherlands — major + regional ESRF-relevant */
+    'amsterdam':{country:'NL',region:'Noord-Holland'},
+    'haarlem':{country:'NL',region:'Noord-Holland'},
+    'almere':{country:'NL',region:'Flevoland'},
+    'lelystad':{country:'NL',region:'Flevoland'},
+    'rotterdam':{country:'NL',region:'Zuid-Holland'},
+    'den haag':{country:'NL',region:'Zuid-Holland'},
+    'the hague':{country:'NL',region:'Zuid-Holland'},
+    's-gravenhage':{country:'NL',region:'Zuid-Holland'},
+    'leiden':{country:'NL',region:'Zuid-Holland'},
+    'delft':{country:'NL',region:'Zuid-Holland'},
+    'dordrecht':{country:'NL',region:'Zuid-Holland'},
+    'hoek van holland':{country:'NL',region:'Zuid-Holland'},
+    'schiphol':{country:'NL',region:'Noord-Holland'},
+    'utrecht':{country:'NL',region:'Utrecht'},
+    'amersfoort':{country:'NL',region:'Utrecht'},
+    'eindhoven':{country:'NL',region:'Noord-Brabant'},
+    'tilburg':{country:'NL',region:'Noord-Brabant'},
+    'breda':{country:'NL',region:'Noord-Brabant'},
+    's-hertogenbosch':{country:'NL',region:'Noord-Brabant'},
+    'den bosch':{country:'NL',region:'Noord-Brabant'},
+    'maastricht':{country:'NL',region:'Limburg'},
+    'venlo':{country:'NL',region:'Limburg'},
+    'roermond':{country:'NL',region:'Limburg'},
+    'arnhem':{country:'NL',region:'Gelderland'},
+    'nijmegen':{country:'NL',region:'Gelderland'},
+    'apeldoorn':{country:'NL',region:'Gelderland'},
+    'zwolle':{country:'NL',region:'Overijssel'},
+    'enschede':{country:'NL',region:'Overijssel'},
+    'hengelo':{country:'NL',region:'Overijssel'},
+    'groningen':{country:'NL',region:'Groningen'},
+    'leeuwarden':{country:'NL',region:'Friesland'},
+    'assen':{country:'NL',region:'Drenthe'},
+    'emmen':{country:'NL',region:'Drenthe'},
+    'middelburg':{country:'NL',region:'Zeeland'},
+    'vlissingen':{country:'NL',region:'Zeeland'},
+
+    /* Belgium */
+    'brussels':{country:'BE',region:'Brussels Hoofdstedelijk Gewest'},
+    'brussel':{country:'BE',region:'Brussels Hoofdstedelijk Gewest'},
+    'bruxelles':{country:'BE',region:'Brussels Hoofdstedelijk Gewest'},
+    'antwerp':{country:'BE',region:'Antwerpen'},
+    'antwerpen':{country:'BE',region:'Antwerpen'},
+    'gent':{country:'BE',region:'Oost-Vlaanderen'},
+    'ghent':{country:'BE',region:'Oost-Vlaanderen'},
+    'brugge':{country:'BE',region:'West-Vlaanderen'},
+    'bruges':{country:'BE',region:'West-Vlaanderen'},
+    'leuven':{country:'BE',region:'Vlaams-Brabant'},
+    'hasselt':{country:'BE',region:'Limburg (BE)'},
+    'liège':{country:'BE',region:'Luik'},
+    'luik':{country:'BE',region:'Luik'},
+    'namur':{country:'BE',region:'Namen'},
+    'mons':{country:'BE',region:'Henegouwen'},
+    'charleroi':{country:'BE',region:'Henegouwen'},
+
+    /* Germany */
+    'berlin':{country:'DE',region:'Berlin'},
+    'hamburg':{country:'DE',region:'Hamburg'},
+    'munich':{country:'DE',region:'Bayern'},
+    'münchen':{country:'DE',region:'Bayern'},
+    'munchen':{country:'DE',region:'Bayern'},
+    'nuremberg':{country:'DE',region:'Bayern'},
+    'nürnberg':{country:'DE',region:'Bayern'},
+    'cologne':{country:'DE',region:'Nordrhein-Westfalen'},
+    'köln':{country:'DE',region:'Nordrhein-Westfalen'},
+    'düsseldorf':{country:'DE',region:'Nordrhein-Westfalen'},
+    'duesseldorf':{country:'DE',region:'Nordrhein-Westfalen'},
+    'essen':{country:'DE',region:'Nordrhein-Westfalen'},
+    'dortmund':{country:'DE',region:'Nordrhein-Westfalen'},
+    'frankfurt':{country:'DE',region:'Hessen'},
+    'wiesbaden':{country:'DE',region:'Hessen'},
+    'stuttgart':{country:'DE',region:'Baden-Württemberg'},
+    'karlsruhe':{country:'DE',region:'Baden-Württemberg'},
+    'bremen':{country:'DE',region:'Bremen'},
+    'leipzig':{country:'DE',region:'Sachsen'},
+    'dresden':{country:'DE',region:'Sachsen'},
+    'hannover':{country:'DE',region:'Niedersachsen'},
+    'hanover':{country:'DE',region:'Niedersachsen'},
+
+    /* France */
+    'paris':{country:'FR',region:'Île-de-France'},
+    'versailles':{country:'FR',region:'Île-de-France'},
+    'marseille':{country:'FR',region:'Provence-Alpes-Côte d\u2019Azur'},
+    'nice':{country:'FR',region:'Provence-Alpes-Côte d\u2019Azur'},
+    'lyon':{country:'FR',region:'Auvergne-Rhône-Alpes'},
+    'grenoble':{country:'FR',region:'Auvergne-Rhône-Alpes'},
+    'toulouse':{country:'FR',region:'Occitanie'},
+    'montpellier':{country:'FR',region:'Occitanie'},
+    'bordeaux':{country:'FR',region:'Nouvelle-Aquitaine'},
+    'nantes':{country:'FR',region:'Pays de la Loire'},
+    'rennes':{country:'FR',region:'Bretagne'},
+    'lille':{country:'FR',region:'Hauts-de-France'},
+    'strasbourg':{country:'FR',region:'Grand Est'},
+
+    /* Spain */
+    'madrid':{country:'ES',region:'Madrid'},
+    'barcelona':{country:'ES',region:'Catalunya'},
+    'valencia':{country:'ES',region:'Comunitat Valenciana'},
+    'sevilla':{country:'ES',region:'Andalucía'},
+    'seville':{country:'ES',region:'Andalucía'},
+    'bilbao':{country:'ES',region:'País Vasco'},
+    'zaragoza':{country:'ES',region:'Aragón'},
+
+    /* Italy */
+    'rome':{country:'IT',region:'Lazio'},
+    'roma':{country:'IT',region:'Lazio'},
+    'milan':{country:'IT',region:'Lombardia'},
+    'milano':{country:'IT',region:'Lombardia'},
+    'turin':{country:'IT',region:'Piemonte'},
+    'torino':{country:'IT',region:'Piemonte'},
+    'naples':{country:'IT',region:'Campania'},
+    'napoli':{country:'IT',region:'Campania'},
+    'florence':{country:'IT',region:'Toscana'},
+    'firenze':{country:'IT',region:'Toscana'},
+    'venice':{country:'IT',region:'Veneto'},
+    'venezia':{country:'IT',region:'Veneto'},
+    'bologna':{country:'IT',region:'Emilia-Romagna'},
+
+    /* Poland */
+    'warsaw':{country:'PL',region:'Mazowieckie'},
+    'warszawa':{country:'PL',region:'Mazowieckie'},
+    'gdansk':{country:'PL',region:'Pomorskie'},
+    'gdańsk':{country:'PL',region:'Pomorskie'},
+    'krakow':{country:'PL',region:'Małopolskie'},
+    'kraków':{country:'PL',region:'Małopolskie'},
+    'poznan':{country:'PL',region:'Wielkopolskie'},
+    'poznań':{country:'PL',region:'Wielkopolskie'},
+    'wroclaw':{country:'PL',region:'Dolnośląskie'},
+    'wrocław':{country:'PL',region:'Dolnośląskie'},
+
+    /* Nordics */
+    'copenhagen':{country:'DK',region:'Hovedstaden'},
+    'københavn':{country:'DK',region:'Hovedstaden'},
+    'aarhus':{country:'DK',region:'Midtjylland'},
+    'stockholm':{country:'SE',region:'Stockholm'},
+    'gothenburg':{country:'SE',region:'Västra Götaland'},
+    'göteborg':{country:'SE',region:'Västra Götaland'},
+    'malmö':{country:'SE',region:'Skåne'},
+    'malmo':{country:'SE',region:'Skåne'},
+    'oslo':{country:'NO',region:'Oslo'},
+    'bergen':{country:'NO',region:'Vestland'},
+    'helsinki':{country:'FI',region:'Uusimaa'},
+    'tampere':{country:'FI',region:'Pirkanmaa'},
+    'turku':{country:'FI',region:'Varsinais-Suomi'},
+
+    /* Baltics */
+    'tallinn':{country:'EE',region:'Harju'},
+    'tartu':{country:'EE',region:'Tartu'},
+    'riga':{country:'LV',region:'Rīga'},
+    'rīga':{country:'LV',region:'Rīga'},
+    'vilnius':{country:'LT',region:'Vilnius'},
+    'kaunas':{country:'LT',region:'Kaunas'},
+
+    /* Other Europe */
+    'dublin':{country:'IE',region:'Leinster'},
+    'cork':{country:'IE',region:'Munster'},
+    'lisbon':{country:'PT',region:'Lisboa'},
+    'lisboa':{country:'PT',region:'Lisboa'},
+    'porto':{country:'PT',region:'Norte'},
+    'vienna':{country:'AT',region:'Wien'},
+    'wien':{country:'AT',region:'Wien'},
+    'salzburg':{country:'AT',region:'Salzburg'},
+    'graz':{country:'AT',region:'Steiermark'},
+    'prague':{country:'CZ',region:'Praha'},
+    'praha':{country:'CZ',region:'Praha'},
+    'brno':{country:'CZ',region:'Jihomoravský'},
+    'bratislava':{country:'SK',region:'Bratislavský'},
+    'ljubljana':{country:'SI',region:'Osrednjeslovenska'},
+    'zagreb':{country:'HR',region:'Grad Zagreb'},
+    'split':{country:'HR',region:'Splitsko-dalmatinska'},
+    'budapest':{country:'HU',region:'Budapest'},
+    'bucharest':{country:'RO',region:'București-Ilfov'},
+    'bucurești':{country:'RO',region:'București-Ilfov'},
+    'sofia':{country:'BG',region:'Yugozapaden'},
+    'athens':{country:'GR',region:'Attica'},
+    'thessaloniki':{country:'GR',region:'Central Macedonia'},
+    'valletta':{country:'MT',region:'Malta'},
+    'reykjavik':{country:'IS',region:'Höfuðborgarsvæðið'},
+    'reykjavík':{country:'IS',region:'Höfuðborgarsvæðið'},
+    'kyiv':{country:'UA',region:'Kyiv (city)'},
+    'kiev':{country:'UA',region:'Kyiv (city)'},
+    'odesa':{country:'UA',region:'Odesa'},
+    'odessa':{country:'UA',region:'Odesa'},
+    'lviv':{country:'UA',region:'Lviv'},
+    'kharkiv':{country:'UA',region:'Kharkiv'}
+  };
+
+  function normalisePlace(s){
+    return (s || '').toString().trim().toLowerCase()
+      .replace(/^the\s+/, '')
+      .replace(/[.,]/g, '')
+      .replace(/\s+/g, ' ');
+  }
+
+  const form = document.getElementById('sv-form');
+  const errorBox = document.getElementById('form-error');
+  const successBox = document.getElementById('form-success');
+  const previewBox = document.getElementById('sv-preview');
+  const submitBtn = document.getElementById('sv-submit-btn');
+
+  const modeRadios = form.querySelectorAll('input[name="intake_mode"]');
+  const sectionOrg = form.querySelector('[data-section="org"]');
+  const sectionEd = form.querySelector('[data-section="editorial"]');
+  const sectionChangeAll = form.querySelectorAll('[data-section="change"]');
+  const sectionChange = sectionChangeAll[0] || null;
+  const modeOptions = form.querySelectorAll('.mode-option');
+
+  function currentMode(){
+    const r = form.querySelector('input[name="intake_mode"]:checked');
+    return r ? r.value : 'org';
+  }
+
+  function applyMode(){
+    const m = currentMode();
+    const showOrg = (m === 'org' || m === 'both');
+    const showEd = (m === 'editorial' || m === 'both');
+    const showChange = (m === 'change_request' || m === 'hide_delete');
+    sectionOrg.classList.toggle('is-active', showOrg);
+    sectionEd.classList.toggle('is-active', showEd);
+    sectionChangeAll.forEach(function(s){ s.classList.toggle('is-active', showChange); });
+
+    // Organisation field is only verplicht voor org / editorial / both.
+    // Bij wijzigen of verbergen/verwijderen: optioneel — verberg de
+    // verplichte-indicator én haal het required-attribuut weg, zodat
+    // labels, sterretje en validatie consistent blijven.
+    const orgInput = document.getElementById('sv-org');
+    const orgReq = document.getElementById('sv-org-req');
+    const orgIsRequired = !showChange;
+    if (orgInput) {
+      if (orgIsRequired) orgInput.setAttribute('required', '');
+      else orgInput.removeAttribute('required');
+    }
+    if (orgReq) {
+      orgReq.hidden = !orgIsRequired;
+      orgReq.style.display = orgIsRequired ? '' : 'none';
+    }
+
+    // For hide_delete mode, constrain the action select to hide/delete only.
+    var actionSel = document.getElementById('sv-cr-action');
+    if (actionSel) {
+      var updateOpt = actionSel.querySelector('option[value="update"]');
+      if (m === 'hide_delete') {
+        if (updateOpt) updateOpt.disabled = true;
+        if (actionSel.value === 'update' || !actionSel.value) actionSel.value = 'hide';
+      } else if (m === 'change_request') {
+        if (updateOpt) updateOpt.disabled = false;
+        if (!actionSel.value || actionSel.value === '') actionSel.value = 'update';
+      }
+    }
+
+    modeOptions.forEach(opt => {
+      opt.classList.toggle('is-selected', opt.dataset.mode === m);
+    });
+    if (m === 'editorial') submitBtn.textContent = 'Deel je praktijkverhaal';
+    else if (m === 'both') submitBtn.textContent = 'Deel je informatie en praktijkverhaal';
+    else if (m === 'change_request') submitBtn.textContent = 'Deel je wijzigingsverzoek';
+    else if (m === 'hide_delete') submitBtn.textContent = 'Deel je verberg- of verwijderverzoek';
+    else submitBtn.textContent = 'Deel je informatie';
+  }
+  modeRadios.forEach(r => r.addEventListener('change', applyMode));
+
+  /* Honour deep-link hash to pre-select a mode (e.g. #mode-editorial / #mode-both) */
+  (function preselectFromHash(){
+    const h = (window.location.hash || '').toLowerCase();
+    let target = null;
+    if (h === '#mode-editorial') target = 'editorial';
+    else if (h === '#mode-both') target = 'both';
+    else if (h === '#mode-org') target = 'org';
+    if (target) {
+      const r = form.querySelector('input[name="intake_mode"][value="' + target + '"]');
+      if (r) r.checked = true;
+    }
+  })();
+
+  applyMode();
+
+  /* ─── Existing-listing prefill (Directory + Atlas lookup) ─────────── */
+  // The dataset companies_extracted.json is the publieke directory data
+  // (Directory + Atlas). We load it lazily only when the visitor opens
+  // change_request / hide_delete and starts typing — no extra cost for
+  // org / editorial visitors. The original is never overwritten; the
+  // request is stored apart in the payload.
+  let __directoryData = null;
+  let __directoryLoaded = false;
+  let __directoryLoadingPromise = null;
+  function loadDirectoryData(){
+    if (__directoryLoaded) return Promise.resolve(__directoryData);
+    if (__directoryLoadingPromise) return __directoryLoadingPromise;
+    __directoryLoadingPromise = fetch('companies_extracted.json', { credentials:'omit' })
+      .then(function(r){ return r.ok ? r.json() : []; })
+      .then(function(arr){
+        __directoryData = Array.isArray(arr) ? arr : [];
+        __directoryLoaded = true;
+        return __directoryData;
+      })
+      .catch(function(){ __directoryData = []; __directoryLoaded = true; return __directoryData; });
+    return __directoryLoadingPromise;
+  }
+
+  function searchDirectory(query, max){
+    var q = (query || '').trim().toLowerCase();
+    if (!q || q.length < 2 || !__directoryData) return [];
+    var limit = max || 8;
+    var hits = [];
+    for (var i = 0; i < __directoryData.length && hits.length < limit; i++){
+      var rec = __directoryData[i];
+      if (!rec || !rec.name) continue;
+      var name = String(rec.name).toLowerCase();
+      var city = String(rec.city || '').toLowerCase();
+      if (name.indexOf(q) !== -1 || city.indexOf(q) !== -1){
+        hits.push(rec);
+      }
+    }
+    return hits;
+  }
+
+  var crLookup = document.getElementById('sv-cr-lookup');
+  var crLookupResults = document.getElementById('sv-cr-lookup-results');
+  var crLookupEmpty = document.getElementById('sv-cr-lookup-empty');
+  var crExistingPanel = document.getElementById('sv-cr-existing-panel');
+  var crExistingList = document.getElementById('sv-cr-existing-list');
+  var crExistingClear = document.getElementById('sv-cr-existing-clear');
+  var crTargetName = document.getElementById('sv-cr-target-name');
+  var crTargetUrl = document.getElementById('sv-cr-target-url');
+
+  // The currently selected existing listing (or null) — never mutated;
+  // becomes part of the payload as existing_directory_listing.
+  var selectedExistingListing = null;
+
+  function renderLookupResults(items){
+    if (!crLookupResults) return;
+    crLookupResults.innerHTML = '';
+    if (!items.length){
+      crLookupResults.hidden = true;
+      if (crLookupEmpty) crLookupEmpty.hidden = false;
+      return;
+    }
+    if (crLookupEmpty) crLookupEmpty.hidden = true;
+    items.forEach(function(rec){
+      var row = document.createElement('button');
+      row.type = 'button';
+      row.className = 'sv-cr-lookup-item';
+      row.setAttribute('role','option');
+      var label = document.createElement('strong');
+      label.textContent = rec.name;
+      var sub = document.createElement('small');
+      var parts = [];
+      if (rec.city) parts.push(rec.city);
+      if (rec.country_name_local || rec.country_name_en) parts.push(rec.country_name_local || rec.country_name_en);
+      if (rec.sector_normalized) parts.push(rec.sector_normalized);
+      sub.textContent = parts.join(' · ');
+      row.appendChild(label);
+      row.appendChild(sub);
+      row.addEventListener('click', function(){ selectExistingListing(rec); });
+      crLookupResults.appendChild(row);
+    });
+    crLookupResults.hidden = false;
+  }
+
+  function selectExistingListing(rec){
+    selectedExistingListing = rec;
+    if (crLookupResults){ crLookupResults.hidden = true; crLookupResults.innerHTML = ''; }
+    if (crLookupEmpty) crLookupEmpty.hidden = true;
+    if (crLookup) crLookup.value = rec.name || '';
+    if (crTargetName && !crTargetName.value) crTargetName.value = rec.name || '';
+    if (crTargetUrl && !crTargetUrl.value && rec.website) crTargetUrl.value = rec.website;
+    renderExistingPanel(rec);
+    // Re-evaluate domain match — the official org website may now be known.
+    updateAuthFeedback();
+  }
+
+  function renderExistingPanel(rec){
+    if (!crExistingPanel || !crExistingList) return;
+    crExistingList.innerHTML = '';
+    var fields = [
+      ['Organisatienaam', rec.name],
+      ['Website',         rec.website],
+      ['Land',            rec.country_name_local || rec.country_name_en || rec.country],
+      ['Plaats',          rec.city],
+      ['Sector',          rec.sector_normalized],
+      ['Beschrijving',    rec.description_en]
+    ];
+    fields.forEach(function(p){
+      if (!p[1]) return;
+      var dt = document.createElement('dt');
+      dt.textContent = p[0];
+      var dd = document.createElement('dd');
+      if (p[0] === 'Website'){
+        var a = document.createElement('a');
+        a.href = p[1]; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.textContent = p[1];
+        dd.appendChild(a);
+      } else {
+        dd.textContent = p[1];
+      }
+      crExistingList.appendChild(dt);
+      crExistingList.appendChild(dd);
+    });
+    crExistingPanel.hidden = false;
+  }
+
+  function clearExistingListing(){
+    selectedExistingListing = null;
+    if (crExistingPanel) crExistingPanel.hidden = true;
+    if (crExistingList) crExistingList.innerHTML = '';
+    if (crLookup) crLookup.value = '';
+    if (crLookupResults){ crLookupResults.hidden = true; crLookupResults.innerHTML = ''; }
+    updateAuthFeedback();
+  }
+
+  if (crLookup){
+    var lookupTimer = null;
+    crLookup.addEventListener('input', function(){
+      clearTimeout(lookupTimer);
+      var q = crLookup.value.trim();
+      if (!q || q.length < 2){
+        if (crLookupResults){ crLookupResults.hidden = true; crLookupResults.innerHTML=''; }
+        if (crLookupEmpty) crLookupEmpty.hidden = true;
+        return;
+      }
+      lookupTimer = setTimeout(function(){
+        loadDirectoryData().then(function(){
+          var hits = searchDirectory(q, 8);
+          renderLookupResults(hits);
+        });
+      }, 120);
+    });
+  }
+  if (crExistingClear) crExistingClear.addEventListener('click', clearExistingListing);
+
+  /* ─── Authorization (Bevoegdheid) — soft domain + code checks ─────── */
+  // Pure helpers, exported so tests can reach them via window.__svAuth.*
+  function extractDomain(input){
+    if (!input) return '';
+    var s = String(input).trim().toLowerCase();
+    // Strip protocol + path for URLs.
+    s = s.replace(/^[a-z]+:\/\//, '').replace(/\/.*/, '');
+    // For email addresses, take the right-hand side.
+    var at = s.indexOf('@');
+    if (at !== -1) s = s.slice(at + 1);
+    s = s.replace(/^www\./, '');
+    return s;
+  }
+  function rootDomain(host){
+    if (!host) return '';
+    var parts = host.split('.').filter(Boolean);
+    if (parts.length <= 2) return parts.join('.');
+    // crude eTLD heuristic: "co.uk", "org.uk" etc. — fall back to last 2 parts
+    var lastTwo = parts.slice(-2).join('.');
+    var multi = /^(co|org|gov|ac|net|edu)\.[a-z]{2}$/.test(lastTwo);
+    if (multi && parts.length >= 3) return parts.slice(-3).join('.');
+    return lastTwo;
+  }
+  function domainsMatch(emailDomain, websiteDomain){
+    if (!emailDomain || !websiteDomain) return false;
+    return rootDomain(emailDomain) === rootDomain(websiteDomain);
+  }
+
+  var authEmailEl = document.getElementById('sv-auth-email');
+  var authCodeEl = document.getElementById('sv-auth-registration-code');
+  var authDomainFb = document.getElementById('sv-auth-domain-feedback');
+  var authCodeFb = document.getElementById('sv-auth-code-feedback');
+  var authStatusText = document.getElementById('sv-auth-status-text');
+  var websiteEl = document.getElementById('sv-website');
+
+  function getOrgWebsiteForAuth(){
+    if (selectedExistingListing && selectedExistingListing.website) return selectedExistingListing.website;
+    if (websiteEl && websiteEl.value) return websiteEl.value;
+    if (crTargetUrl && crTargetUrl.value) return crTargetUrl.value;
+    return '';
+  }
+
+  function updateAuthFeedback(){
+    var email = authEmailEl ? authEmailEl.value.trim() : '';
+    var code = authCodeEl ? authCodeEl.value.trim() : '';
+    var emailDomain = extractDomain(email);
+    var orgUrl = getOrgWebsiteForAuth();
+    var orgDomain = extractDomain(orgUrl);
+    var match = email && orgDomain && domainsMatch(emailDomain, orgDomain);
+
+    if (authDomainFb){
+      authDomainFb.classList.remove('is-match','is-mismatch','is-info');
+      if (!email || !orgDomain){
+        authDomainFb.hidden = true;
+        authDomainFb.textContent = '';
+      } else if (match){
+        authDomainFb.hidden = false;
+        authDomainFb.classList.add('is-match');
+        authDomainFb.textContent = 'domein lijkt te kloppen — werkmail (' + emailDomain + ') komt overeen met organisatiewebsite (' + orgDomain + ').';
+      } else {
+        authDomainFb.hidden = false;
+        authDomainFb.classList.add('is-mismatch');
+        authDomainFb.textContent = 'redactie moet dit handmatig controleren — werkmail (' + emailDomain + ') komt niet overeen met organisatiewebsite (' + orgDomain + ').';
+      }
+    }
+    if (authCodeFb){
+      authCodeFb.classList.remove('is-match','is-mismatch','is-info');
+      if (!code){
+        authCodeFb.hidden = true;
+        authCodeFb.textContent = '';
+      } else {
+        authCodeFb.hidden = false;
+        authCodeFb.classList.add('is-info');
+        authCodeFb.textContent = 'registratiecode opgegeven; redactie controleert deze.';
+      }
+    }
+    if (authStatusText){
+      var bits = [];
+      if (email && orgDomain){
+        bits.push(match ? 'domein-match: ja' : 'domein-match: nee — handmatige controle');
+      }
+      if (code) bits.push('registratiecode opgegeven');
+      if (!bits.length){
+        authStatusText.textContent = 'Vul de gegevens in om de zachte controle te zien — de redactie controleert altijd handmatig.';
+      } else {
+        authStatusText.textContent = bits.join(' · ') + '. Geen automatische goedkeuring; redactie verifieert handmatig.';
+      }
+    }
+  }
+
+  if (authEmailEl) authEmailEl.addEventListener('input', updateAuthFeedback);
+  if (authCodeEl) authCodeEl.addEventListener('input', updateAuthFeedback);
+  if (websiteEl) websiteEl.addEventListener('input', updateAuthFeedback);
+  if (crTargetUrl) crTargetUrl.addEventListener('input', updateAuthFeedback);
+  updateAuthFeedback();
+
+  // Expose pure helpers for tests (no DOM coupling).
+  window.__svAuth = {
+    extractDomain: extractDomain,
+    rootDomain: rootDomain,
+    domainsMatch: domainsMatch
+  };
+
+  /* ─── Country / Region / Place helper ─────────────────────────────── */
+  const countryEl = document.getElementById('sv-country');
+  const regionSelect = document.getElementById('sv-region-select');
+  const regionFree = document.getElementById('sv-region-free');
+  const regionManual = document.getElementById('sv-region-manual');
+  const placeEl = document.getElementById('sv-place');
+  const placeFeedback = document.getElementById('sv-place-feedback');
+  const placeDatalist = document.getElementById('sv-place-suggestions');
+  const placeAddition = document.getElementById('sv-place-addition');
+  const placeAddCheck = document.getElementById('sv-place-add-check');
+  const placeAddName = document.getElementById('sv-place-add-name');
+
+  /* Track the last reason a region was set, for the payload */
+  let regionSuggestionSource = null;   /* 'autoselect-from-place' | 'manual-select' | 'manual-free' | null */
+  let autoSuggestedRegion = null;
+  let placeKnown = true;   /* false when user types a place not in CITY_TO_REGION */
+
+  function populateRegionOptions(cc, preserveValue){
+    const list = REGIONS_BY_COUNTRY[cc];
+    const prev = preserveValue ? regionSelect.value : '';
+    regionSelect.innerHTML = '';
+    if (!list) {
+      const opt = document.createElement('option');
+      opt.value = '';
+      opt.textContent = '— geen voorgedefinieerde regio\'s, gebruik handmatige invoer —';
+      regionSelect.appendChild(opt);
+      regionSelect.disabled = true;
+      return;
+    }
+    regionSelect.disabled = false;
+    const ph = document.createElement('option');
+    ph.value = '';
+    ph.textContent = 'Kies een regio…';
+    regionSelect.appendChild(ph);
+    list.forEach(function(name){
+      const o = document.createElement('option');
+      o.value = name;
+      o.textContent = name;
+      regionSelect.appendChild(o);
+    });
+    if (prev && list.indexOf(prev) !== -1) regionSelect.value = prev;
+  }
+
+  function setManualOverride(on){
+    if (on) {
+      regionSelect.hidden = true;
+      regionSelect.disabled = true;
+      regionFree.hidden = false;
+      regionFree.required = false;
+    } else {
+      regionSelect.hidden = false;
+      regionFree.hidden = true;
+      regionFree.value = '';
+      const cc = countryEl.value;
+      regionSelect.disabled = !REGIONS_BY_COUNTRY[cc];
+    }
+  }
+
+  function showPlaceFeedback(html, warn, tone){
+    if (!html) {
+      placeFeedback.hidden = true;
+      placeFeedback.innerHTML = '';
+      placeFeedback.classList.remove('is-warn');
+      placeFeedback.classList.remove('is-unknown');
+      return;
+    }
+    placeFeedback.innerHTML = html;
+    placeFeedback.hidden = false;
+    placeFeedback.classList.toggle('is-warn', !!warn);
+    placeFeedback.classList.toggle('is-unknown', tone === 'unknown');
+  }
+
+  function rebuildPlaceSuggestions(cc){
+    placeDatalist.innerHTML = '';
+    Object.keys(CITY_TO_REGION).forEach(function(key){
+      const e = CITY_TO_REGION[key];
+      if (cc && e.country !== cc) return;
+      const o = document.createElement('option');
+      o.value = key.replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+      placeDatalist.appendChild(o);
+    });
+  }
+
+  countryEl.addEventListener('change', function(){
+    const cc = countryEl.value;
+    populateRegionOptions(cc, false);
+    rebuildPlaceSuggestions(cc);
+    /* Clear previous suggestion state on country change */
+    regionSuggestionSource = null;
+    autoSuggestedRegion = null;
+    showPlaceFeedback('', false);
+    /* Re-evaluate place if user already typed one */
+    if (placeEl.value) handlePlaceInput(true);
+  });
+
+  regionSelect.addEventListener('change', function(){
+    if (regionSelect.value) {
+      regionSuggestionSource = 'manual-select';
+      autoSuggestedRegion = null;
+    }
+  });
+
+  regionManual.addEventListener('change', function(){
+    setManualOverride(this.checked);
+    if (this.checked) {
+      regionSuggestionSource = 'manual-free';
+      autoSuggestedRegion = null;
+    } else {
+      regionSuggestionSource = regionSelect.value ? 'manual-select' : null;
+    }
+  });
+
+  function setPlaceUnknown(rawLabel){
+    placeKnown = false;
+    if (placeAddName) placeAddName.textContent = rawLabel;
+    if (placeAddition) placeAddition.hidden = false;
+    showPlaceFeedback(
+      '<strong>Onbekende plaats:</strong> "' + escapeHtml(rawLabel) +
+      '" staat nog niet in de validatielijst. De redactie kan deze na controle toevoegen. ' +
+      'Kies hieronder zelf de regio; dit helpt de redactie de plaats later goed te koppelen.',
+      false,
+      'unknown'
+    );
+    /* Don't auto-select region — user picks. Clear any prior auto suggestion. */
+    autoSuggestedRegion = null;
+    if (regionSuggestionSource === 'autoselect-from-place') {
+      regionSuggestionSource = null;
+    }
+  }
+
+  function clearPlaceUnknown(){
+    placeKnown = true;
+    if (placeAddition) placeAddition.hidden = true;
+    if (placeAddName) placeAddName.textContent = '';
+  }
+
+  function handlePlaceInput(silentForCountryChange){
+    const raw = placeEl.value;
+    const key = normalisePlace(raw);
+    if (!key) {
+      clearPlaceUnknown();
+      showPlaceFeedback('', false);
+      return;
+    }
+    const match = CITY_TO_REGION[key];
+    if (!match) {
+      setPlaceUnknown(raw.trim());
+      return;
+    }
+    clearPlaceUnknown();
+    const currentCountry = countryEl.value;
+    if (currentCountry && currentCountry !== match.country) {
+      /* Conflict: don't aggressively change the country.
+         Show a soft suggestion and let the user accept or ignore. */
+      const countryOpt = countryEl.querySelector('option[value="' + match.country + '"]');
+      const countryName = countryOpt ? countryOpt.textContent : match.country;
+      showPlaceFeedback(
+        '<strong>Suggestie:</strong> "' + escapeHtml(raw) + '" lijkt te liggen in ' +
+        escapeHtml(countryName) + ' (regio: ' + escapeHtml(match.region) + '). ' +
+        'Het gekozen land is anders — controleer of dat klopt. ' +
+        '<a href="#" id="sv-accept-country-suggest">Land aanpassen naar ' + escapeHtml(countryName) + '</a>',
+        true
+      );
+      const link = document.getElementById('sv-accept-country-suggest');
+      if (link) {
+        link.addEventListener('click', function(ev){
+          ev.preventDefault();
+          countryEl.value = match.country;
+          populateRegionOptions(match.country, false);
+          rebuildPlaceSuggestions(match.country);
+          applyAutoselectRegion(match.region, raw);
+        });
+      }
+      return;
+    }
+    if (!currentCountry) {
+      /* Auto-pick country if user hasn't chosen one — clearly a strong match */
+      countryEl.value = match.country;
+      populateRegionOptions(match.country, false);
+      rebuildPlaceSuggestions(match.country);
+    }
+    if (regionManual.checked) {
+      /* User is in manual mode — only show a soft hint */
+      showPlaceFeedback(
+        '<strong>Suggestie:</strong> regio voor ' + escapeHtml(raw) + ' is meestal <em>' +
+        escapeHtml(match.region) + '</em>. Handmatige invoer staat aan; pas zo nodig zelf aan.',
+        false
+      );
+      return;
+    }
+    applyAutoselectRegion(match.region, raw);
+  }
+
+  function applyAutoselectRegion(regionName, placeLabel){
+    const cc = countryEl.value;
+    const list = REGIONS_BY_COUNTRY[cc] || [];
+    if (list.indexOf(regionName) === -1) {
+      /* Region not in our dataset for this country — soft hint only */
+      showPlaceFeedback(
+        '<strong>Suggestie:</strong> regio voor ' + escapeHtml(placeLabel) +
+        ' is meestal <em>' + escapeHtml(regionName) + '</em>. Niet in de lijst — ' +
+        'gebruik eventueel "Handmatig invullen".',
+        false
+      );
+      return;
+    }
+    regionSelect.value = regionName;
+    regionSuggestionSource = 'autoselect-from-place';
+    autoSuggestedRegion = regionName;
+    showPlaceFeedback(
+      'Regio voorgesteld op basis van plaatsnaam — controleer dit. ' +
+      '<strong>' + escapeHtml(regionName) + '</strong> ingevuld voor "' +
+      escapeHtml(placeLabel) + '".',
+      false
+    );
+  }
+
+  function escapeHtml(s){
+    return (s == null ? '' : String(s))
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  let placeDebounce;
+  placeEl.addEventListener('input', function(){
+    clearTimeout(placeDebounce);
+    placeDebounce = setTimeout(function(){ handlePlaceInput(false); }, 150);
+  });
+  placeEl.addEventListener('change', function(){ handlePlaceInput(false); });
+
+  /* Initial population — country defaults to NL */
+  populateRegionOptions(countryEl.value, false);
+  rebuildPlaceSuggestions(countryEl.value);
+
+  const summaryEl = document.getElementById('sv-ed-summary');
+  const summaryCounter = document.getElementById('sv-ed-summary-counter');
+  if (summaryEl && summaryCounter) {
+    summaryEl.addEventListener('input', function(){
+      summaryCounter.textContent = this.value.length + ' / 600';
+    });
+  }
+
+  function showError(msg){
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
+    errorBox.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  function hideError(){
+    errorBox.hidden = true;
+    errorBox.textContent = '';
+  }
+
+  function get(data, k){ return (data.get(k) || '').toString().trim(); }
+
+  function validate(data, mode){
+    const isChangeMode = (mode === 'change_request' || mode === 'hide_delete');
+    const sharedRequired = [
+      ['contact_name', 'naam'],
+      ['role', 'functie'],
+      ['email', 'e-mail'],
+      ['country', 'land']
+    ];
+    if (!isChangeMode) {
+      sharedRequired.splice(1, 0, ['organisation', 'organisatie']);
+    }
+    for (const [k, label] of sharedRequired) {
+      if (!get(data, k)) return 'Vul a.u.b. in: ' + label + '.';
+    }
+    const email = get(data, 'email');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return 'Vul a.u.b. een geldig e-mailadres in.';
+
+    if (isChangeMode) {
+      const targetName = get(data, 'cr_target_name');
+      const targetUrl = get(data, 'cr_target_url');
+      if (!targetName && !targetUrl) {
+        return 'Vul a.u.b. minstens de naam óf de URL in van de bestaande vermelding.';
+      }
+      if (targetUrl && !/^https?:\/\//.test(targetUrl)) {
+        return 'De URL van de bestaande vermelding moet beginnen met https:// of http://';
+      }
+      let action = (get(data, 'cr_action') || '').toLowerCase();
+      if (mode === 'hide_delete') {
+        if (!action) action = 'hide';
+        if (action !== 'hide' && action !== 'delete') {
+          return 'Bij verberg/verwijder kies je "verbergen" of "verwijderen".';
+        }
+      } else {
+        if (!action) action = 'update';
+        if (action !== 'update' && action !== 'hide' && action !== 'delete') {
+          return 'Kies a.u.b. een geldige actie (bijwerken, verbergen of verwijderen).';
+        }
+      }
+      const desc = get(data, 'cr_description');
+      if (!desc) return 'Vul a.u.b. in wat er precies moet veranderen.';
+      if (desc.length < 10) return 'De beschrijving van de wijziging moet minstens 10 tekens zijn.';
+      if (!get(data, 'cr_reason')) return 'Vul a.u.b. de reden van het verzoek in.';
+      const evidence = get(data, 'cr_evidence');
+      if (evidence && !/^https?:\/\//.test(evidence)) {
+        return 'De bron-URL moet beginnen met https:// of http://';
+      }
+      if (!data.get('cr_auth_confirm')) {
+        return 'Bevestig a.u.b. dat je bevoegd bent (of dat dit een externe melding is) — anders kan de redactie het verzoek niet beoordelen.';
+      }
+
+      // Bevoegdheid (authorization) section — required for change/hide modes.
+      if (!get(data, 'auth_requester_name')) {
+        return 'Vul a.u.b. je naam in onder Bevoegdheid om wijziging aan te vragen.';
+      }
+      if (!get(data, 'auth_requester_role')) {
+        return 'Vul a.u.b. je functie/rol in onder Bevoegdheid om wijziging aan te vragen.';
+      }
+      const authEmailV = get(data, 'auth_work_email');
+      if (!authEmailV) return 'Vul a.u.b. je werkmailadres in onder Bevoegdheid om wijziging aan te vragen.';
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(authEmailV)) {
+        return 'Vul a.u.b. een geldig werkmailadres in onder Bevoegdheid.';
+      }
+      if (!get(data, 'auth_relation')) {
+        return 'Kies a.u.b. je relatie met de organisatie onder Bevoegdheid om wijziging aan te vragen.';
+      }
+      if (!data.get('auth_confirm_authorized')) {
+        return 'Bevestig a.u.b. dat je bevoegd bent om namens deze organisatie een wijziging of verwijdering aan te vragen.';
+      }
+    }
+
+    if (mode === 'org' || mode === 'both') {
+      if (!get(data, 'website')) return 'Voor organisatie-opgave: vul a.u.b. een website in.';
+      if (!/^https?:\/\/.+/.test(get(data, 'website'))) return 'De website moet beginnen met https:// of http://';
+      if (!get(data, 'sector')) return 'Voor organisatie-opgave: kies a.u.b. een sector.';
+    }
+    if (mode === 'editorial' || mode === 'both') {
+      const edRequired = [
+        ['ed_topic', 'onderwerp/werktitel'],
+        ['ed_summary', 'korte samenvatting'],
+        ['ed_regional_angle', 'regionale invalshoek'],
+        ['ed_lesson', 'geleerde les']
+      ];
+      for (const [k, label] of edRequired) {
+        if (!get(data, k)) return 'Voor editorial bijdrage: vul a.u.b. in: ' + label + '.';
+      }
+      const summary = get(data, 'ed_summary');
+      if (summary.length < 20) {
+        return 'Voor editorial bijdrage: de korte samenvatting moet minimaal 20 tekens zijn (3–5 zinnen).';
+      }
+      if (summary.length > 600) {
+        return 'Voor editorial bijdrage: de korte samenvatting mag maximaal 600 tekens zijn.';
+      }
+      if (!data.get('consent_edit')) return 'Bevestig a.u.b. de toestemming voor redactie en publicatie.';
+      if (!data.get('consent_contact_editorial')) return 'Bevestig a.u.b. dat de eindredactie contact mag opnemen.';
+      if (!data.get('consent_no_confidential')) return 'Bevestig a.u.b. dat de inzending geen vertrouwelijke informatie bevat.';
+    }
+    if (!data.get('gdpr_consent')) return 'Accepteer a.u.b. het privacybeleid om door te gaan.';
+    return null;
+  }
+
+  function buildPayload(data, mode){
+    const countryLabel = (form.querySelector('#sv-country option:checked') || {}).textContent || '';
+    const sectorLabel = (form.querySelector('#sv-sector option:checked') || {}).textContent || '';
+    const manualOverride = !!data.get('region_manual_override');
+    const regionValue = manualOverride
+      ? get(data, 'region_free')
+      : get(data, 'region');
+    const placeRaw = get(data, 'place');
+    const additionRequested = !!(placeRaw && !placeKnown && placeAddCheck && placeAddCheck.checked);
+    const payload = {
+      meta: {
+        environment: 'TEST/VALIDATIE',
+        prototype: 'submit-validation.html (integrated org + editorial)',
+        generated_at: new Date().toISOString(),
+        not_sent: true
+      },
+      intake_mode: mode,
+      contact: {
+        name: get(data, 'contact_name'),
+        organisation: get(data, 'organisation'),
+        role: get(data, 'role'),
+        email: get(data, 'email'),
+        phone: get(data, 'phone'),
+        country_code: get(data, 'country'),
+        country_label: countryLabel,
+        place: placeRaw,
+        place_known: !placeRaw ? null : placeKnown,
+        place_addition_requested: additionRequested,
+        place_addition_candidate: additionRequested ? placeRaw : '',
+        place_addition_country: additionRequested ? get(data, 'country') : '',
+        place_addition_region: additionRequested ? regionValue : '',
+        region: regionValue,
+        region_manual_override: manualOverride,
+        region_suggestion_source: regionSuggestionSource,
+        auto_suggested_region: autoSuggestedRegion,
+        website: get(data, 'website')
+      }
+    };
+    if (mode === 'org' || mode === 'both') {
+      payload.organisation_listing = {
+        sector: get(data, 'sector'),
+        sector_label: sectorLabel,
+        city: get(data, 'place'),
+        description: get(data, 'org_description')
+      };
+    }
+    if (mode === 'change_request' || mode === 'hide_delete') {
+      let action = (get(data, 'cr_action') || '').toLowerCase();
+      if (mode === 'hide_delete' && action !== 'delete') action = 'hide';
+      if (mode === 'change_request' && !action) action = 'update';
+      payload.change_request = {
+        target_listing_name: get(data, 'cr_target_name'),
+        target_listing_url: get(data, 'cr_target_url'),
+        requested_action: action,
+        change_description: get(data, 'cr_description'),
+        reason: get(data, 'cr_reason'),
+        evidence_url: get(data, 'cr_evidence'),
+        requester_authorization: get(data, 'cr_requester_auth') || 'authorized_representative',
+        authorization_confirmation: !!data.get('cr_auth_confirm'),
+        sub_mode: mode
+      };
+
+      // Existing-directory listing reference (prefilled, never overwritten).
+      if (selectedExistingListing){
+        payload.existing_directory_listing = {
+          source: 'companies_extracted.json',
+          name: selectedExistingListing.name || '',
+          website: selectedExistingListing.website || '',
+          country_code: selectedExistingListing.country || '',
+          country_name: selectedExistingListing.country_name_local || selectedExistingListing.country_name_en || '',
+          city: selectedExistingListing.city || '',
+          sector: selectedExistingListing.sector_normalized || '',
+          description: selectedExistingListing.description_en || '',
+          prefilled: true,
+          original_unchanged: true
+        };
+      } else {
+        payload.existing_directory_listing = {
+          source: 'manual_fallback',
+          prefilled: false,
+          original_unchanged: true
+        };
+      }
+
+      // Authorization (Bevoegdheid) — pure data; redactie verifieert handmatig.
+      var authEmailVal = get(data, 'auth_work_email') || get(data, 'email');
+      var authEmailDomain = extractDomain(authEmailVal);
+      var orgWebsite = (selectedExistingListing && selectedExistingListing.website)
+        ? selectedExistingListing.website
+        : (get(data, 'website') || get(data, 'cr_target_url'));
+      var orgDomain = extractDomain(orgWebsite);
+      var hasMatch = !!(authEmailDomain && orgDomain && domainsMatch(authEmailDomain, orgDomain));
+      var hasCode = !!(get(data, 'auth_registration_code') || '').trim();
+      payload.authorization = {
+        requester_name: get(data, 'auth_requester_name'),
+        requester_role: get(data, 'auth_requester_role'),
+        work_email: authEmailVal,
+        relation: get(data, 'auth_relation'),
+        confirmed_authorized: !!data.get('auth_confirm_authorized'),
+        registration_code_provided: hasCode,
+        email_domain: authEmailDomain,
+        organisation_domain: orgDomain,
+        email_domain_match: hasMatch,
+        authorization_method: hasCode ? 'registration_code'
+          : (hasMatch ? 'work_email_domain_match' : 'manual_review'),
+        authorization_status: hasCode
+          ? 'registration_code_pending_redactie_verification'
+          : (hasMatch ? 'soft_domain_match_pending_redactie_verification' : 'manual_verification_required'),
+        manual_verification_required: true
+      };
+    }
+    if (mode === 'editorial' || mode === 'both') {
+      payload.editorial_contribution = {
+        topic: get(data, 'ed_topic'),
+        summary: get(data, 'ed_summary'),
+        audience: get(data, 'ed_audience'),
+        partners_sector: get(data, 'ed_partners'),
+        regional_angle: get(data, 'ed_regional_angle'),
+        lesson: get(data, 'ed_lesson'),
+        spotlight: get(data, 'ed_spotlight'),
+        sources: get(data, 'ed_sources'),
+        consent: {
+          edit_and_publish: !!data.get('consent_edit'),
+          editorial_may_contact: !!data.get('consent_contact_editorial'),
+          no_confidential_information: !!data.get('consent_no_confidential')
+        }
+      };
+    }
+    payload.privacy = {
+      gdpr_privacy_policy: !!data.get('gdpr_consent')
+    };
+    return payload;
+  }
+
+  function indent(s){ if (!s) return ''; return s.split('\n').map(l => '    ' + l).join('\n'); }
+
+  function renderText(p){
+    const lines = [];
+    lines.push('═══════════════════════════════════════════');
+    lines.push('ESRF.net — GEÏNTEGREERDE OPGAVE (TEST)');
+    lines.push('Modus: ' + p.intake_mode.toUpperCase());
+    lines.push('Gegenereerd: ' + p.meta.generated_at);
+    lines.push('═══════════════════════════════════════════');
+    lines.push('');
+    lines.push('▸ CONTACT & ORGANISATIE');
+    lines.push('  Naam:           ' + p.contact.name);
+    lines.push('  Organisatie:    ' + p.contact.organisation);
+    lines.push('  Functie:        ' + p.contact.role);
+    lines.push('  E-mail:         ' + p.contact.email);
+    if (p.contact.phone) lines.push('  Telefoon:       ' + p.contact.phone);
+    lines.push('  Land:           ' + p.contact.country_label + ' (' + p.contact.country_code + ')');
+    if (p.contact.place) {
+      let placeLine = '  Plaats:         ' + p.contact.place;
+      if (p.contact.place_known === false) placeLine += '   [onbekend — kandidaat voor lijst]';
+      lines.push(placeLine);
+    }
+    if (p.contact.place_addition_requested) {
+      lines.push('                  └─ Voorgesteld voor toevoeging aan regiolijst');
+      if (p.contact.place_addition_country || p.contact.place_addition_region) {
+        lines.push('                     land: ' + (p.contact.place_addition_country || '—') +
+                   ' · regio: ' + (p.contact.place_addition_region || '—'));
+      }
+      lines.push('                     (redactie controleert handmatig — geen automatische geodata)');
+    }
+    if (p.contact.region) {
+      let regionLine = '  Regio:          ' + p.contact.region;
+      if (p.contact.region_suggestion_source) {
+        regionLine += '   [bron: ' + p.contact.region_suggestion_source + ']';
+      }
+      lines.push(regionLine);
+      if (p.contact.auto_suggested_region) {
+        lines.push('                  (auto-voorstel op basis van plaatsnaam — controleer)');
+      }
+    }
+    if (p.contact.website) lines.push('  Website:        ' + p.contact.website);
+    lines.push('');
+
+    if (p.change_request) {
+      const cr = p.change_request;
+      lines.push('▸ WIJZIGINGS- / VERBERG- / VERWIJDERVERZOEK');
+      lines.push('  Sub-modus:      ' + (cr.sub_mode || p.intake_mode));
+      lines.push('  Gevraagde actie: ' + cr.requested_action);
+      if (cr.target_listing_name) lines.push('  Doelvermelding: ' + cr.target_listing_name);
+      if (cr.target_listing_url) lines.push('  Doel-URL:       ' + cr.target_listing_url);
+      lines.push('  Toelichting:');
+      lines.push(indent(cr.change_description));
+      lines.push('  Reden:');
+      lines.push(indent(cr.reason));
+      if (cr.evidence_url) lines.push('  Bron / bewijs:  ' + cr.evidence_url);
+      lines.push('  Hoedanigheid:   ' + cr.requester_authorization);
+      lines.push('  Bevestigd bevoegd: ' + (cr.authorization_confirmation ? 'JA' : 'nee'));
+      lines.push('');
+      if (p.existing_directory_listing && p.existing_directory_listing.prefilled){
+        const ex = p.existing_directory_listing;
+        lines.push('  Bestaande publieke gegevens (directory):');
+        if (ex.name) lines.push('    Naam:        ' + ex.name);
+        if (ex.website) lines.push('    Website:     ' + ex.website);
+        if (ex.country_name) lines.push('    Land:        ' + ex.country_name);
+        if (ex.city) lines.push('    Plaats:      ' + ex.city);
+        if (ex.sector) lines.push('    Sector:      ' + ex.sector);
+        if (ex.description) {
+          lines.push('    Beschrijving:');
+          lines.push(indent(ex.description));
+        }
+        lines.push('    (Origineel blijft ongewijzigd; aanvraag staat apart.)');
+        lines.push('');
+      }
+      if (p.authorization){
+        const a = p.authorization;
+        lines.push('  Bevoegdheid om wijziging aan te vragen:');
+        lines.push('    Naam aanvrager:        ' + (a.requester_name || '—'));
+        lines.push('    Functie / rol:         ' + (a.requester_role || '—'));
+        lines.push('    Werkmail:              ' + (a.work_email || '—'));
+        lines.push('    Relatie:               ' + (a.relation || '—'));
+        lines.push('    Bevestigd bevoegd:     ' + (a.confirmed_authorized ? 'JA' : 'nee'));
+        lines.push('    Registratiecode:       ' + (a.registration_code_provided ? 'opgegeven (redactie controleert)' : 'niet opgegeven'));
+        lines.push('    Domein-match:          ' + (a.email_domain_match ? 'ja — domein lijkt te kloppen' : 'nee — redactie moet handmatig controleren'));
+        lines.push('    Methode:               ' + (a.authorization_method || '—'));
+        lines.push('    Status:                ' + (a.authorization_status || '—'));
+        lines.push('    Handmatige check:      ' + (a.manual_verification_required ? 'verplicht' : 'optioneel'));
+        lines.push('');
+      }
+      lines.push('  ⓘ De redactie controleert dit verzoek handmatig in LAB_Change_Requests.');
+      lines.push('     Directory_Master wordt nooit automatisch gewijzigd.');
+      lines.push('');
+    }
+
+    if (p.organisation_listing) {
+      lines.push('▸ ORGANISATIE-OPGAVE');
+      lines.push('  Sector:         ' + p.organisation_listing.sector_label);
+      if (p.organisation_listing.description) {
+        lines.push('  Beschrijving:');
+        lines.push(indent(p.organisation_listing.description));
+      }
+      lines.push('');
+    }
+
+    if (p.editorial_contribution) {
+      const e = p.editorial_contribution;
+      lines.push('▸ EDITORIAL BIJDRAGE');
+      lines.push('  Onderwerp:      ' + e.topic);
+      lines.push('  Samenvatting:');
+      lines.push(indent(e.summary));
+      if (e.audience) lines.push('  Doelgroep:      ' + e.audience);
+      if (e.partners_sector) {
+        lines.push('  Partners/sector:');
+        lines.push(indent(e.partners_sector));
+      }
+      lines.push('  Regionale invalshoek:');
+      lines.push(indent(e.regional_angle));
+      lines.push('  Geleerde les:');
+      lines.push(indent(e.lesson));
+      if (e.spotlight) {
+        lines.push('  In het zonnetje:');
+        lines.push(indent(e.spotlight));
+      }
+      if (e.sources) {
+        lines.push('  Bron / feiten:');
+        lines.push(indent(e.sources));
+      }
+      lines.push('');
+      lines.push('  Toestemmingen:');
+      lines.push('    Redactie + publicatie:        ' + (e.consent.edit_and_publish ? 'JA' : 'nee'));
+      lines.push('    Eindredactie mag contact:     ' + (e.consent.editorial_may_contact ? 'JA' : 'nee'));
+      lines.push('    Geen vertrouwelijke info:     ' + (e.consent.no_confidential_information ? 'JA' : 'nee'));
+      lines.push('');
+    }
+
+    lines.push('▸ PRIVACY');
+    lines.push('  GDPR / privacybeleid: ' + (p.privacy.gdpr_privacy_policy ? 'JA' : 'nee'));
+    lines.push('');
+    lines.push('═══════════════════════════════════════════');
+    lines.push('TEST — NIET VERZONDEN. Alleen lokale preview.');
+    lines.push('═══════════════════════════════════════════');
+    return lines.join('\n');
+  }
+
+  let lastPayload = null;
+  let lastText = '';
+
+  function download(filename, content, mime){
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    hideError();
+    const data = new FormData(form);
+
+    if (data.get('company_website_hp')) return;
+
+    const elapsed = Date.now() - (window.__svFormLoadedAt || 0);
+    if (elapsed < 2500) {
+      showError('Neem even de tijd om het formulier te bekijken voordat je het indient.');
+      return;
+    }
+
+    const mode = currentMode();
+    const err = validate(data, mode);
+    if (err) { showError(err); return; }
+
+    lastPayload = buildPayload(data, mode);
+    lastText = renderText(lastPayload);
+    previewBox.textContent = lastText;
+
+    form.hidden = true;
+    successBox.hidden = false;
+    successBox.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  document.getElementById('sv-copy-btn').addEventListener('click', async function(){
+    if (!lastText) return;
+    try {
+      await navigator.clipboard.writeText(lastText);
+      this.textContent = 'Gekopieerd ✓';
+      setTimeout(() => { this.textContent = 'Kopieer naar klembord'; }, 1800);
+    } catch(err) {
+      this.textContent = 'Kopiëren mislukt — selecteer tekst handmatig';
+    }
+  });
+
+  document.getElementById('sv-json-btn').addEventListener('click', function(){
+    if (!lastPayload) return;
+    download('esrf-submit-validation-test.json', JSON.stringify(lastPayload, null, 2), 'application/json');
+  });
+
+  document.getElementById('sv-txt-btn').addEventListener('click', function(){
+    if (!lastText) return;
+    download('esrf-submit-validation-test.txt', lastText, 'text/plain');
+  });
+
+  document.getElementById('sv-back-btn').addEventListener('click', function(){
+    successBox.hidden = true;
+    form.hidden = false;
+    form.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  /* ─── Validation backend test (POST /api/intake) ─────────────────────
+     Dry-run by default; only creates a real intake issue if the Cloudflare
+     env vars (GITHUB_TOKEN + INTAKE_REPO) are set. The backend echoes
+     warnings about missing config so the redactie can verify state. */
+  const backendBtn = document.getElementById('sv-backend-btn');
+  const backendResult = document.getElementById('sv-backend-result');
+
+  function showBackend(html){ backendResult.hidden = false; backendResult.innerHTML = html; }
+
+  backendBtn.addEventListener('click', async function(){
+    if (!lastPayload) {
+      showBackend('<strong>Geen payload.</strong> Genereer eerst de testpreview.');
+      return;
+    }
+    backendBtn.disabled = true;
+    const original = backendBtn.textContent;
+    backendBtn.textContent = 'Bezig…';
+    showBackend('<em>Verzoek naar /api/intake…</em>');
+
+    const body = Object.assign({}, lastPayload, {
+      form_duration_ms: Date.now() - (window.__svFormLoadedAt || 0),
+      company_website_hp: ''
+    });
+
+    let res, data;
+    try {
+      res = await fetch('/api/intake', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } catch(err) {
+      showBackend('<strong>Backend niet bereikbaar.</strong> Mogelijk is dit een statische preview zonder Pages Functions. Controleer de Cloudflare Pages branch-deploy. (' + escapeHtml(err.message) + ')');
+      backendBtn.disabled = false; backendBtn.textContent = original;
+      return;
+    }
+    try { data = await res.json(); } catch { data = null; }
+
+    if (!res.ok || !data || !data.ok) {
+      const msg = (data && data.error) ? data.error : ('HTTP ' + res.status);
+      showBackend('<strong>Backend gaf een fout terug:</strong> ' + escapeHtml(msg));
+      backendBtn.disabled = false; backendBtn.textContent = original;
+      return;
+    }
+
+    const lines = [];
+    const wf = data.workflow || {};
+    const arch = data.storage_architecture || {};
+    const labTabs = arch.lab_tabs || {};
+    const sw = data.sheet_webhook_payload_preview || {};
+    const swRows = (sw && sw.rows) ? sw.rows : {};
+    // Top-level dry_run reflects the spreadsheet (single source of truth).
+    lines.push('<strong>' + (data.sheet_dry_run ? 'DRY-RUN — geen rij in de lab-spreadsheet geschreven' : 'Rijen toegevoegd aan de lab-spreadsheet (LAB_*)') + '</strong>');
+    lines.push('Submission id: ' + escapeHtml(String(data.submission_id || '')));
+    lines.push('Request id: ' + escapeHtml(String(data.request_id || '')));
+    lines.push('Modus: ' + escapeHtml(String(data.mode || '')));
+    lines.push('Ontvangen: ' + escapeHtml(String(data.received_at || '')));
+    lines.push('Omgeving: ' + escapeHtml(String(data.environment || '')));
+    lines.push('');
+    lines.push('<strong>Workflow:</strong>');
+    lines.push(' • status: ' + escapeHtml(String(wf.status || '')));
+    lines.push(' • next_required_action: ' + escapeHtml(String(wf.next_required_action || '')));
+    if (Array.isArray(wf.steps)) {
+      lines.push(' • stappen:');
+      wf.steps.forEach(function(s){
+        lines.push('     - ' + escapeHtml(String(s.step)) + ' [' + escapeHtml(String(s.status)) + ']'
+          + (s.detail ? ' — ' + escapeHtml(String(s.detail)) : ''));
+      });
+    }
+    lines.push('');
+    lines.push('<strong>Sheet-doel (lab):</strong>');
+    lines.push(' • spreadsheet: ' + escapeHtml(String(arch.spreadsheet_label || '')) + ' (id ' + escapeHtml(String(arch.spreadsheet_id || '')) + ')');
+    lines.push(' • target_prefix: ' + escapeHtml(String(arch.target_prefix || 'LAB_')));
+    if (labTabs && Object.keys(labTabs).length) {
+      lines.push(' • lab tabs: ' + escapeHtml(Object.values(labTabs).join(', ')));
+    }
+    lines.push(' • verboden tabs: ' + escapeHtml((arch.forbidden_targets || []).join(', ') || 'Directory_Master'));
+    lines.push('');
+    lines.push('<strong>Notificatie:</strong>');
+    lines.push(' • status: ' + escapeHtml(String(data.notification_status || '')));
+    lines.push(' • design-vlag: ' + escapeHtml(String(data.minimal_notification_design_status || '')));
+    if (data.notification_message) {
+      lines.push(' • bericht (preview, zonder PII / zonder editorial body):');
+      Object.keys(data.notification_message).forEach(function(k){
+        lines.push('     - ' + k + ': ' + escapeHtml(String(data.notification_message[k])));
+      });
+    }
+    if (data.notification_contract) {
+      var nc = data.notification_contract;
+      lines.push(' • contract:');
+      lines.push('     - status: ' + escapeHtml(String(nc.status || '')));
+      lines.push('     - kanaal: ' + escapeHtml(String(nc.channel || '')));
+      lines.push('     - toegestane velden: ' + escapeHtml((nc.allowed_keys || []).join(', ')));
+      lines.push('     - verboden velden (PII / editorial / secrets): ' + escapeHtml((nc.forbidden_keys || []).join(', ')));
+      lines.push('     - verboden ontvangers: ' + escapeHtml((nc.forbidden_recipients || []).join(', ')));
+      lines.push('     - spec: ' + escapeHtml(String(nc.spec_doc || '')));
+      lines.push('     - future-route: ' + escapeHtml(String(nc.future_mail_relay_doc || '')));
+      if (Array.isArray(nc.activation_checklist) && nc.activation_checklist.length) {
+        lines.push('     - activatie-checklist (handmatig, vereist sign-off):');
+        nc.activation_checklist.forEach(function(step, i){
+          lines.push('         ' + (i + 1) + '. ' + escapeHtml(String(step)));
+        });
+      }
+    }
+    lines.push('');
+    lines.push('<strong>Wat moet de redactie doen?</strong>');
+    lines.push(' • ' + escapeHtml(String(wf.next_required_action || '–')));
+    lines.push(' • Open: ' + escapeHtml(String(arch.spreadsheet_label || ''))
+      + ' → tab <code>' + escapeHtml(String(labTabs.intake_submissions || 'LAB_Intake_Submissions')) + '</code>');
+
+    if (data.warnings && data.warnings.length) {
+      lines.push('');
+      lines.push('<strong>Waarschuwingen:</strong>');
+      data.warnings.forEach(function(w){ lines.push(' • ' + escapeHtml(w)); });
+    }
+
+    if (data.sheet_dry_run && swRows) {
+      lines.push('');
+      lines.push('<strong>LAB-rijen (preview, zouden worden toegevoegd):</strong>');
+      Object.keys(swRows).forEach(function(tab){
+        lines.push('  [' + escapeHtml(tab) + ']');
+        var row = swRows[tab] || {};
+        Object.keys(row).forEach(function(k){
+          var v = row[k];
+          if (v == null || v === '') return;
+          lines.push('     ' + k + ': ' + escapeHtml(String(v)));
+        });
+      });
+      if (sw.workflow_event) {
+        lines.push('  [' + escapeHtml(String(labTabs.workflow_events || 'LAB_Workflow_Events')) + ']');
+        Object.keys(sw.workflow_event).forEach(function(k){
+          var v = sw.workflow_event[k];
+          if (v == null || v === '') return;
+          lines.push('     ' + k + ': ' + escapeHtml(String(v)));
+        });
+      }
+      if (sw.log) {
+        lines.push('  [' + escapeHtml(String(labTabs.backend_log || 'LAB_Backend_Log')) + ']');
+        Object.keys(sw.log).forEach(function(k){
+          var v = sw.log[k];
+          if (v == null || v === '') return;
+          lines.push('     ' + k + ': ' + escapeHtml(String(v)));
+        });
+      }
+    }
+    if (data.issue_dry_run && data.issue_preview) {
+      lines.push('');
+      lines.push('Issue-preview (zou worden aangemaakt):');
+      lines.push('Titel: ' + escapeHtml(data.issue_preview.title));
+      lines.push('Labels: ' + escapeHtml((data.issue_preview.labels || []).join(', ')));
+    }
+    showBackend(lines.join('\n'));
+    backendBtn.disabled = false;
+    backendBtn.textContent = 'Opnieuw versturen naar validatie-backend';
+  });
+
+  /* ─── LAB-opslag flow (POST /api/intake-test) ────────────────────────
+     Preview-only knop. Alleen zichtbaar op:
+       *.esrf-clean.pages.dev   (Cloudflare Pages branch preview)
+       localhost / 127.0.0.1    (lokale dev)
+     Voegt automatisch het verplichte ESRF-Lab-Test-prefix toe aan
+     contact.organisation én contact.name zodat de backend de POST als
+     operatortest herkent en uitsluitend naar LAB_* tabs schrijft.
+     Notificaties zijn op deze route altijd uit; Directory_Master wordt
+     nooit aangeraakt.
+  */
+  const labBtn = document.getElementById('sv-lab-btn');
+  const labResult = document.getElementById('sv-lab-result');
+  const labHelp = document.getElementById('sv-lab-help');
+  const notifyBanner = document.getElementById('sv-notify-banner');
+
+  function isLabPreviewHostname(hostname){
+    var h = String(hostname || '').toLowerCase();
+    if (!h) return false;
+    if (h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0') return true;
+    if (h.endsWith('.esrf-clean.pages.dev')) return true;
+    return false;
+  }
+
+  if (isLabPreviewHostname(window.location.hostname)) {
+    labBtn.hidden = false;
+    labHelp.hidden = false;
+    if (notifyBanner) notifyBanner.hidden = false;
+  }
+
+  function showLab(html){ labResult.hidden = false; labResult.innerHTML = html; }
+
+  // Wrap a payload (built by buildPayload) into the exact shape /api/intake-test
+  // expects: lab_test:true, ESRF Lab Test prefixes on contact.name AND
+  // contact.organisation. We do NOT mutate the user's preview payload — the
+  // lab body is a clone with the marker fields injected.
+  function buildLabBody(basePayload){
+    if (!basePayload || typeof basePayload !== 'object') return null;
+    var clone = JSON.parse(JSON.stringify(basePayload));
+    var contact = clone.contact || (clone.contact = {});
+    var origOrg = String(contact.organisation || '').trim();
+    var origName = String(contact.name || '').trim();
+    function withPrefix(v){
+      var prefix = 'ESRF Lab Test';
+      if (!v) return prefix + ' (anoniem)';
+      if (v.toLowerCase().indexOf(prefix.toLowerCase()) === 0) return v;
+      return prefix + ' — ' + v;
+    }
+    contact.organisation = withPrefix(origOrg);
+    contact.name = withPrefix(origName);
+    // Mirror the prefix into organisation_listing.city/description? No —
+    // those are not the prefix anchor. We leave place enrichment intact.
+    clone.lab_test = true;
+    clone.lab_marker_explicit = true;
+    clone.meta = clone.meta || {};
+    clone.meta.environment = 'TEST/VALIDATIE';
+    clone.meta.lab_test = true;
+    clone.meta.source = 'submit-validation.html#lab-button';
+    clone.meta.original_organisation_redacted = origOrg ? origOrg.slice(0, 80) : '';
+    clone.meta.original_name_redacted = origName ? origName.slice(0, 80) : '';
+    // Honeypot + form-fill timer fields are NOT validated by /api/intake-test
+    // but we forward them anyway for parity with /api/intake.
+    clone.company_website_hp = '';
+    clone.form_duration_ms = Date.now() - (window.__svFormLoadedAt || 0);
+    return clone;
+  }
+
+  // Expose for unit-tests (no DOM/network).
+  window.__svBuildLabBody = buildLabBody;
+  window.__svBuildPayload = function(formData, mode){ return buildPayload(formData, mode); };
+  window.__svValidate = function(formData, mode){ return validate(formData, mode); };
+  window.__svIsLabPreviewHostname = isLabPreviewHostname;
+
+  labBtn.addEventListener('click', async function(){
+    if (!lastPayload) {
+      showLab('<strong>Geen payload.</strong> Genereer eerst de testpreview.');
+      return;
+    }
+    if (!isLabPreviewHostname(window.location.hostname)) {
+      showLab('<strong>Niet beschikbaar.</strong> LAB-opslag is alleen toegestaan op de Cloudflare Pages preview-host of localhost.');
+      return;
+    }
+    labBtn.disabled = true;
+    var original = labBtn.textContent;
+    labBtn.textContent = 'Bezig…';
+    showLab('<em>Verzoek naar /api/intake-test (LAB-opslag, geen notificatie)…</em>');
+
+    var labBody = buildLabBody(lastPayload);
+
+    var res, data;
+    try {
+      res = await fetch('/api/intake-test', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(labBody)
+      });
+    } catch(err) {
+      showLab('<strong>Backend niet bereikbaar.</strong> /api/intake-test werkt alleen op de Cloudflare Pages preview-build (functions zijn lokaal niet actief tenzij wrangler draait). (' + escapeHtml(err.message) + ')');
+      labBtn.disabled = false; labBtn.textContent = original;
+      return;
+    }
+    try { data = await res.json(); } catch { data = null; }
+
+    if (res.status === 404) {
+      showLab('<strong>Route niet beschikbaar (404).</strong> Dit lijkt een productie-deploy of de Pages-functie is niet gepubliceerd. /api/intake-test is met opzet alleen actief op preview-deploys.');
+      labBtn.disabled = false; labBtn.textContent = original;
+      return;
+    }
+
+    if (!res.ok || !data || !data.ok) {
+      var msg = (data && data.error) ? data.error : ('HTTP ' + res.status);
+      showLab('<strong>LAB-backend gaf een fout terug:</strong> ' + escapeHtml(msg));
+      labBtn.disabled = false; labBtn.textContent = original;
+      return;
+    }
+
+    var lines = [];
+    var arch = data.storage_architecture || {};
+    var labTabs = arch.lab_tabs || {};
+    var sw = data.sheet_webhook_payload_preview || {};
+    var swRows = (sw && sw.rows) ? sw.rows : {};
+    var wf = data.workflow || {};
+    lines.push('<strong>' + (data.sheet_dry_run ? 'LAB DRY-RUN — geen rij geschreven (preview secrets ontbreken)' : 'LAB-rij toegevoegd aan de spreadsheet (LAB_*)') + '</strong>');
+    lines.push('<strong>Geen notificatie verstuurd · Directory_Master beschermd</strong>');
+    lines.push('Submission id: ' + escapeHtml(String(data.submission_id || '')));
+    lines.push('Request id: ' + escapeHtml(String(data.request_id || '')));
+    lines.push('Modus: ' + escapeHtml(String(data.mode || '')));
+    lines.push('Ontvangen: ' + escapeHtml(String(data.received_at || '')));
+    lines.push('Omgeving: ' + escapeHtml(String(data.environment || '')));
+    lines.push('Route: ' + escapeHtml(String(data.route || '/api/intake-test')));
+    lines.push('lab_test markering: ' + escapeHtml(String(data.lab_test || false)));
+    lines.push('');
+    lines.push('<strong>Workflow:</strong>');
+    lines.push(' • status: ' + escapeHtml(String(wf.status || '')));
+    lines.push(' • next_required_action: ' + escapeHtml(String(wf.next_required_action || '')));
+    lines.push('');
+    lines.push('<strong>Sheet-doel (lab):</strong>');
+    lines.push(' • spreadsheet: ' + escapeHtml(String(arch.spreadsheet_label || '')) + ' (id ' + escapeHtml(String(arch.spreadsheet_id || '')) + ')');
+    lines.push(' • target_prefix: ' + escapeHtml(String(arch.target_prefix || 'LAB_')));
+    if (labTabs && Object.keys(labTabs).length) {
+      lines.push(' • lab tabs: ' + escapeHtml(Object.values(labTabs).join(', ')));
+    }
+    lines.push(' • verboden tabs: ' + escapeHtml((arch.forbidden_targets || []).join(', ') || 'Directory_Master'));
+    if (data.sheet && data.sheet.row_id) {
+      lines.push(' • geschreven row_id: ' + escapeHtml(String(data.sheet.row_id)));
+    }
+    lines.push('');
+    lines.push('<strong>Notificatie:</strong>');
+    lines.push(' • status: ' + escapeHtml(String(data.notification_status || 'disabled_for_intake_test')));
+    lines.push(' • verstuurd: ' + escapeHtml(String(data.notification_sent === true ? 'JA' : 'NEE')));
+    lines.push(' • design-vlag: ' + escapeHtml(String(data.minimal_notification_design_status || '')));
+    lines.push(' • opmerking: notificaties zijn op /api/intake-test ALTIJD uitgeschakeld.');
+    if (data.notification_message_preview) {
+      lines.push(' • bericht (preview, zonder PII / zonder editorial body):');
+      Object.keys(data.notification_message_preview).forEach(function(k){
+        lines.push('     - ' + k + ': ' + escapeHtml(String(data.notification_message_preview[k])));
+      });
+    }
+    if (data.notification_contract) {
+      var nc2 = data.notification_contract;
+      lines.push(' • contract:');
+      lines.push('     - status: ' + escapeHtml(String(nc2.status || '')));
+      lines.push('     - toegestane velden: ' + escapeHtml((nc2.allowed_keys || []).join(', ')));
+      lines.push('     - verboden velden: ' + escapeHtml((nc2.forbidden_keys || []).join(', ')));
+      lines.push('     - spec: ' + escapeHtml(String(nc2.spec_doc || '')));
+    }
+    lines.push('');
+    lines.push('<strong>Payload-injectie (markering):</strong>');
+    lines.push(' • contact.organisation start met "ESRF Lab Test" (vereist door de backend).');
+    lines.push(' • contact.name start met "ESRF Lab Test" (vereist door de backend).');
+    lines.push(' • lab_test:true en meta.environment=TEST/VALIDATIE.');
+    lines.push('');
+    lines.push('<strong>Wat is er NIET gebeurd?</strong>');
+    lines.push(' • Geen schrijven naar Directory_Master.');
+    lines.push(' • Geen e-mail / mailrelay-aanroep.');
+    lines.push(' • Geen publicatie van editorial-tekst.');
+    lines.push(' • Geen wijziging aan productie-data.');
+
+    if (data.warnings && data.warnings.length) {
+      lines.push('');
+      lines.push('<strong>Waarschuwingen:</strong>');
+      data.warnings.forEach(function(w){ lines.push(' • ' + escapeHtml(w)); });
+    }
+
+    if (data.sheet_dry_run && swRows) {
+      lines.push('');
+      lines.push('<strong>LAB-rijen (preview, zouden worden toegevoegd):</strong>');
+      Object.keys(swRows).forEach(function(tab){
+        lines.push('  [' + escapeHtml(tab) + ']');
+        var row = swRows[tab] || {};
+        Object.keys(row).forEach(function(k){
+          var v = row[k];
+          if (v == null || v === '') return;
+          lines.push('     ' + k + ': ' + escapeHtml(String(v)));
+        });
+      });
+    }
+    showLab(lines.join('\n'));
+    labBtn.disabled = false;
+    labBtn.textContent = 'Opnieuw versturen naar LAB-opslag';
+  });
+})();
+</script>
+</body>
+</html>

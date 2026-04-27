@@ -1,0 +1,29 @@
+[
+  {
+    "editorial_id": "ed_lab_fixture_001",
+    "received_at": "2026-04-26T10:00:00Z",
+    "environment": "TEST/VALIDATIE",
+    "submission_id": "sub_lab_fixture_001",
+    "org_id_match": "",
+    "organization_name": "Stichting Voorbeeld Regionaal",
+    "title": "Voorbeeld regionale leadership lesson — Rotterdam 2026",
+    "type": "regional_editorial",
+    "language": "nl",
+    "summary": "Korte samenvatting van een regionale leadership lesson voor lab-promotietest.",
+    "body_md_or_url": "## Inleiding\n\nDit is een fictieve regionale tekst met genoeg lengte om de lab-promotie te valideren.\n\n## Lesson\n\nGedeelde paraatheid versterkt regionale weerbaarheid.",
+    "topic_tags": "Leiderschap, Regio, Voorbeeld",
+    "region": "Rotterdam-Rijnmond",
+    "country_code": "NL",
+    "contact_name": "REDACTED",
+    "contact_email": "REDACTED",
+    "consent_publish": "yes",
+    "editorial_status": "approved_for_draft",
+    "next_required_action": "Promote to lab draft markdown",
+    "assigned_to": "redactie",
+    "due_date": "2026-05-03",
+    "publication_url": "",
+    "notification_status": "pending",
+    "review_notes_internal": "Review pass 2026-04-26 — content is fictitious lab-test only.",
+    "issue_url": ""
+  }
+]
