@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Event aanmelden — ga naar Deel je informatie · ESRF.net</title>
-<meta name="description" content="Events aanmelden gaat nu via Deel je informatie. Klik door naar het gecombineerde aanmeldformulier op submit-news.html — kies “Event aanmelden”." />
+<meta name="description" content="Events aanmelden gaat nu via Deel je informatie. Klik door naar het gecombineerde aanmeldformulier op /submit-news?mode=event — kies “Event aanmelden”." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,6 +61,29 @@
 <meta name="twitter:image" content="https://esrf.net/og-image-20260423-final.png" />
 <!-- ESRF-SEO:END -->
 <script type="application/ld+json" data-esrf="1">{"@context":"https://schema.org","@type":"WebPage","name":"Submit an event — ESRF.net","url":"https://esrf.net/submit-event.html"}</script>
+<script>
+  /* Detect runtime language so the on-page signpost CTA links to the
+     combined intake with the correct ?lang= preserved. Mirrors the
+     detection used elsewhere on the site (URL → localStorage → browser). */
+  (function(){
+    function detect(){
+      try {
+        var p = new URLSearchParams(window.location.search);
+        var u = p.get('lang');
+        if (u) return u.toLowerCase();
+      } catch(e){}
+      try {
+        var s = localStorage.getItem('esrfnetLang');
+        if (s) return s.toLowerCase();
+      } catch(e){}
+      var b = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
+      return b || 'en';
+    }
+    var lang = detect();
+    window.__esrfPageLang = lang;
+    try { document.documentElement.setAttribute('lang', lang === 'nl' ? 'nl' : 'en'); } catch(e){}
+  })();
+</script>
 </head>
 <body>
 
@@ -89,235 +112,88 @@
   </div>
 </nav>
 
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PUBLIC SIGNPOST — single, unambiguous redirect to the combined intake.
+     The legacy standalone event form was retired (2026-04-27): it created
+     a parallel intake path with no editorial review, duplicated fields
+     already present in submit-news.html, and shipped only in English even
+     when visitors arrived in a Dutch context.
+     The signpost below is bilingual: NL on top (canonical for the .nl
+     audience), EN below as a courtesy. Both CTA buttons preserve the
+     visitor's runtime language and add mode=event so the combined intake
+     opens with the Event-aanmelden radio preselected.
+     ═══════════════════════════════════════════════════════════════════ -->
 <section class="phero" style="border-bottom:2px solid var(--accent,#c8102e)">
   <div class="phero-inner">
-    <div class="kicker">§ Events · Aanmelden</div>
-    <h1 class="phero-title" style="margin-bottom:8px">Events aanmelden gaat nu via<br><i>Deel je informatie</i>.</h1>
-    <p class="phero-deck" style="font-size:1.1em;font-weight:500">
+    <div class="kicker">§ Events · Aanmelden / Submit</div>
+    <h1 class="phero-title" style="margin-bottom:8px" data-signpost-title-nl>Events aanmelden gaat nu via<br><i>Deel je informatie</i>.</h1>
+    <h1 class="phero-title" style="margin-bottom:8px;display:none" data-signpost-title-en>Submitting an event now goes via<br><i>Share your information</i>.</h1>
+
+    <p class="phero-deck" style="font-size:1.1em;font-weight:500" data-signpost-deck-nl>
       Het aanmelden van een conferentie, training, oefening of expo loopt voortaan via het gecombineerde intakeformulier <strong>“Deel je informatie”</strong>. Kies daar de optie <strong>“Event aanmelden”</strong> — je verzoek komt direct bij de ESRF-redactie terecht.
     </p>
-    <p class="phero-deck" style="margin-top:8px;color:var(--ink-soft);font-size:.95em">
-      <em>Submitting a security &amp; resilience event now goes via our combined intake — pick “Submit an event” on the next page (the form follows your selected language).</em>
+    <p class="phero-deck" style="font-size:1.1em;font-weight:500;display:none" data-signpost-deck-en>
+      Submitting a conference, training, exercise or expo now goes via the combined intake form <strong>“Share your information”</strong>. Pick the <strong>“Submit an event”</strong> option — your request reaches the ESRF editorial team directly.
     </p>
+
     <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-      <a href="submit-news.html?mode=event" class="btn" style="background:var(--accent,#c8102e);color:#fff;padding:14px 28px;font-weight:700;text-decoration:none;border-radius:4px;display:inline-block;font-size:1.05em">
-        → Ga naar “Deel je informatie”
-      </a>
-      <a href="submit-news.html?mode=event" style="color:var(--ink-soft);text-decoration:underline;font-size:.92em">
-        Continue to the unified intake form
+      <a id="signpost-cta-primary"
+         href="/submit-news?mode=event"
+         data-signpost-cta
+         class="btn"
+         style="background:var(--accent,#c8102e);color:#fff;padding:14px 28px;font-weight:700;text-decoration:none;border-radius:4px;display:inline-block;font-size:1.05em">
+        <span data-signpost-cta-nl>→ Ga naar “Deel je informatie”</span>
+        <span data-signpost-cta-en style="display:none">→ Open “Share your information”</span>
       </a>
     </div>
-    <p class="phero-deck" style="margin-top:18px;font-size:.88em;color:var(--ink-soft)">
-      De oude pagina blijft hieronder voorlopig beschikbaar voor wie liever het losse formulier gebruikt — alle inzendingen worden door dezelfde redactie nagekeken.
+
+    <p class="phero-deck" style="margin-top:18px;font-size:.88em;color:var(--ink-soft)" data-signpost-foot-nl>
+      Alle inzendingen worden door de ESRF-redactie nagekeken. Er wordt nooit iets automatisch gepubliceerd.
+    </p>
+    <p class="phero-deck" style="margin-top:18px;font-size:.88em;color:var(--ink-soft);display:none" data-signpost-foot-en>
+      All submissions are reviewed by the ESRF editorial team. Nothing is ever published automatically.
     </p>
   </div>
 </section>
 
-<section style="background:#fffbe6;border-bottom:1px solid #e6d8a0;padding:14px 0">
-  <div style="max-width:880px;margin:0 auto;padding:0 24px;font-size:.95em;color:#5a4a00">
-    <strong>Let op:</strong> de voorkeursroute voor het aanmelden van events is nu <a href="submit-news.html?mode=event" style="color:#5a4a00;font-weight:700;text-decoration:underline">submit-news.html → “Event aanmelden”</a>. Het formulier hieronder werkt nog wel.
+<!-- SEO-friendly content describing what an event submission is. No form. -->
+<section class="form-wrap" aria-label="Submit an event — context">
+  <div style="max-width:760px;margin:0 auto;padding:36px 24px 56px;font-family:'PT Serif',serif;color:var(--ink);line-height:1.65">
+    <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.01em;margin-bottom:14px" data-signpost-h2-nl>Wat kun je via dit kanaal aanmelden?</h2>
+    <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.01em;margin-bottom:14px;display:none" data-signpost-h2-en>What can you submit here?</h2>
+    <ul style="margin:0 0 20px 22px" data-signpost-list-nl>
+      <li>Conferenties en symposia rond Europese veiligheid en weerbaarheid</li>
+      <li>Trainingen, workshops, opleidingen</li>
+      <li>Oefeningen en drills (inclusief tabletop-exercises)</li>
+      <li>Webinars en online evenementen</li>
+      <li>Expo&rsquo;s, beurzen en netwerkbijeenkomsten</li>
+    </ul>
+    <ul style="margin:0 0 20px 22px;display:none" data-signpost-list-en>
+      <li>Conferences and symposia on European security and resilience</li>
+      <li>Training, workshops and courses</li>
+      <li>Exercises and drills (including tabletop)</li>
+      <li>Webinars and online events</li>
+      <li>Expos, trade shows and networking gatherings</li>
+    </ul>
+    <p style="margin-bottom:18px" data-signpost-text-nl>
+      Vul het gecombineerde formulier in op <a href="/submit-news?mode=event"><strong>/submit-news?mode=event</strong></a>. De optie <em>Event aanmelden</em> is daar al voor je geselecteerd.
+    </p>
+    <p style="margin-bottom:18px;display:none" data-signpost-text-en>
+      Fill in the combined form at <a href="/submit-news?lang=en&amp;mode=event"><strong>/submit-news?lang=en&amp;mode=event</strong></a>. The <em>Submit an event</em> option is preselected for you.
+    </p>
+
+    <div style="margin-top:28px">
+      <a id="signpost-cta-secondary"
+         href="/submit-news?mode=event"
+         data-signpost-cta
+         class="btn outline"
+         style="display:inline-block">
+        <span data-signpost-cta-nl>Ga naar het aanmeldformulier →</span>
+        <span data-signpost-cta-en style="display:none">Open the submission form →</span>
+      </a>
+    </div>
   </div>
 </section>
-
-<div class="form-wrap">
-
-  <!-- Error state -->
-  <div id="form-error" class="form-error" hidden role="alert" aria-live="assertive"></div>
-
-  <!-- Form -->
-  <form id="event-form" class="form-grid" novalidate autocomplete="on">
-
-    <!-- Honeypot -->
-    <input type="text" name="company_website_hp" tabindex="-1" autocomplete="off"
-      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
-
-    <!-- ── Section: Event details ── -->
-    <fieldset class="form-fieldset">
-      <legend class="form-legend">Event details</legend>
-
-      <div class="form-row">
-        <label for="ev-name">Event name <span class="req" aria-hidden="true">*</span></label>
-        <input type="text" id="ev-name" name="event_name" required maxlength="160"
-          placeholder="European Cyber Security Conference 2026" />
-      </div>
-
-      <div class="form-row">
-        <label for="ev-type">Event type <span class="req" aria-hidden="true">*</span></label>
-        <select id="ev-type" name="event_type" required>
-          <option value="">Select a type…</option>
-          <option value="Conference">Conference</option>
-          <option value="Expo">Expo / Exhibition</option>
-          <option value="Training">Training / Workshop</option>
-          <option value="Exercise">Exercise / Drill</option>
-          <option value="Webinar">Webinar / Online event</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-
-      <div class="form-row form-row-pair">
-        <div class="form-row">
-          <label for="ev-date-start">Start date <span class="req" aria-hidden="true">*</span></label>
-          <input type="date" id="ev-date-start" name="date_start" required />
-        </div>
-        <div class="form-row">
-          <label for="ev-date-end">End date</label>
-          <input type="date" id="ev-date-end" name="date_end" />
-          <span class="hint">Leave blank for single-day events</span>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <label for="ev-description">Short description <span class="req" aria-hidden="true">*</span></label>
-        <textarea id="ev-description" name="description" required maxlength="500"
-          placeholder="Brief description of the event, its scope and expected audience…"></textarea>
-        <div class="counter" id="desc-counter" aria-live="polite">0 / 500</div>
-      </div>
-
-      <div class="form-row">
-        <label for="ev-topics">Topics / Keywords</label>
-        <input type="text" id="ev-topics" name="topics" maxlength="200"
-          placeholder="e.g. cybersecurity, NIS2, critical infrastructure, crisis management" />
-        <span class="hint">Comma-separated — helps us categorise and verify relevance</span>
-      </div>
-    </fieldset>
-
-    <!-- ── Section: Venue & location ── -->
-    <fieldset class="form-fieldset">
-      <legend class="form-legend">Venue &amp; location</legend>
-
-      <div class="form-row form-row-pair">
-        <div class="form-row">
-          <label for="ev-city">City <span class="req" aria-hidden="true">*</span></label>
-          <input type="text" id="ev-city" name="city" required maxlength="80"
-            placeholder="Brussels" autocomplete="address-level2" />
-        </div>
-        <div class="form-row">
-          <label for="ev-country">Country <span class="req" aria-hidden="true">*</span></label>
-          <select id="ev-country" name="country" required>
-            <option value="">Select a country…</option>
-            <optgroup label="EU Member States">
-              <option value="AT">Austria</option><option value="BE">Belgium</option>
-              <option value="BG">Bulgaria</option><option value="HR">Croatia</option>
-              <option value="CY">Cyprus</option><option value="CZ">Czech Republic</option>
-              <option value="DK">Denmark</option><option value="EE">Estonia</option>
-              <option value="FI">Finland</option><option value="FR">France</option>
-              <option value="DE">Germany</option><option value="GR">Greece</option>
-              <option value="HU">Hungary</option><option value="IE">Ireland</option>
-              <option value="IT">Italy</option><option value="LV">Latvia</option>
-              <option value="LT">Lithuania</option><option value="LU">Luxembourg</option>
-              <option value="MT">Malta</option><option value="NL">Netherlands</option>
-              <option value="PL">Poland</option><option value="PT">Portugal</option>
-              <option value="RO">Romania</option><option value="SK">Slovakia</option>
-              <option value="SI">Slovenia</option><option value="ES">Spain</option>
-              <option value="SE">Sweden</option>
-            </optgroup>
-            <optgroup label="Other European Countries">
-              <option value="IS">Iceland</option><option value="NO">Norway</option>
-              <option value="UA">Ukraine</option><option value="GB">United Kingdom</option>
-              <option value="CH">Switzerland</option><option value="AL">Albania</option>
-              <option value="BA">Bosnia and Herzegovina</option>
-              <option value="ME">Montenegro</option><option value="MK">North Macedonia</option>
-              <option value="RS">Serbia</option><option value="TR">Turkey</option>
-            </optgroup>
-            <optgroup label="Virtual">
-              <option value="ONLINE">Online / Virtual</option>
-            </optgroup>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <label for="ev-venue">Venue name</label>
-        <input type="text" id="ev-venue" name="venue" maxlength="120"
-          placeholder="Brussels Expo, Palais 12" />
-      </div>
-    </fieldset>
-
-    <!-- ── Section: Verification ── -->
-    <fieldset class="form-fieldset">
-      <legend class="form-legend">Verification</legend>
-      <p class="fieldset-intro">To ensure the quality and authenticity of our events dashboard, we ask for verifiable sources. This helps our editorial team confirm that events are genuine and open to the relevant community.</p>
-
-      <div class="form-row">
-        <label for="ev-website">Official event website <span class="req" aria-hidden="true">*</span></label>
-        <input type="url" id="ev-website" name="event_website" required
-          placeholder="https://event-website.eu" pattern="https?://.+" />
-        <span class="hint">The official event page or registration link — must begin with https:// or http://</span>
-      </div>
-
-      <div class="form-row">
-        <label for="ev-organiser">Organising body <span class="req" aria-hidden="true">*</span></label>
-        <input type="text" id="ev-organiser" name="organiser" required maxlength="160"
-          placeholder="e.g. ENISA, NCSC, Fraunhofer AISEC, NATO CCDCOE" />
-        <span class="hint">Full name of the organisation hosting or organising this event</span>
-      </div>
-
-      <div class="form-row">
-        <label for="ev-organiser-url">Organiser website</label>
-        <input type="url" id="ev-organiser-url" name="organiser_website"
-          placeholder="https://organiser-website.eu" pattern="https?://.+" />
-        <span class="hint">Helps us verify the organiser — particularly useful for lesser-known organisations</span>
-      </div>
-
-      <div class="form-row">
-        <label for="ev-source">Additional source or press release</label>
-        <input type="url" id="ev-source" name="source_url"
-          placeholder="https://press-release-or-announcement.eu" pattern="https?://.+" />
-        <span class="hint">Link to a press release, news article or social media announcement confirming this event</span>
-      </div>
-    </fieldset>
-
-    <!-- ── Section: Your details ── -->
-    <fieldset class="form-fieldset">
-      <legend class="form-legend">Your details</legend>
-      <p class="fieldset-intro">We need your contact information to follow up on the submission. Your details will not be published.</p>
-
-      <div class="form-row">
-        <label for="ev-contact-name">Your name <span class="req" aria-hidden="true">*</span></label>
-        <input type="text" id="ev-contact-name" name="contact_name" required maxlength="80"
-          placeholder="Your full name" autocomplete="name" />
-      </div>
-
-      <div class="form-row">
-        <label for="ev-contact-email">Your email <span class="req" aria-hidden="true">*</span></label>
-        <input type="email" id="ev-contact-email" name="contact_email" required
-          placeholder="you@organisation.eu" autocomplete="email" />
-        <span class="hint">Use your professional email — submissions from personal accounts require additional verification</span>
-      </div>
-
-      <div class="form-row">
-        <label for="ev-contact-role">Your role / affiliation</label>
-        <input type="text" id="ev-contact-role" name="contact_role" maxlength="120"
-          placeholder="e.g. Communications Officer at ENISA" />
-        <span class="hint">Helps us verify your connection to the event or organiser</span>
-      </div>
-    </fieldset>
-
-    <!-- ── Consent ── -->
-    <div class="form-check">
-      <input type="checkbox" id="ev-gdpr" name="gdpr_consent" required>
-      <label for="ev-gdpr">
-        I agree to the <a href="privacy.html">privacy policy</a> and consent to the storage of this data for event review purposes. I confirm that the information provided is accurate to the best of my knowledge.
-      </label>
-    </div>
-
-    <div>
-      <button type="submit" class="form-submit" id="submit-btn">
-        Submit event for review
-      </button>
-    </div>
-
-  </form>
-
-  <!-- Success state -->
-  <div id="form-success" class="form-success" hidden>
-    <div class="kicker">§ Received</div>
-    <h2>Submission received.</h2>
-    <p style="color:var(--ink-soft);max-width:480px;margin:0 auto;line-height:1.6">Thank you. The ESRF.net editorial team will verify your event and, if approved, add it to the <a href="events.html" style="color:var(--accent)">events dashboard</a> within five working days. You will receive a confirmation at the email address provided.</p>
-    <a href="events.html" class="btn outline" style="margin-top:32px">Back to events →</a>
-  </div>
-
-</div>
 
 <footer class="foot">
   <div class="foot-inner">
@@ -367,153 +243,53 @@
 <script src="app.js"></script>
 <script src="search.js" defer></script>
 <script>
+/* ───────────────────────────────────────────────────────────────────────
+   Signpost behaviour (no form on this page).
+   Two responsibilities:
+     1. Show the correct language variant (NL by default, EN when the
+        runtime language is not Dutch).
+     2. Build the CTA href so it preserves ?lang= and always carries
+        mode=event. The combined intake (submit-news.html) reads mode
+        from the URL and preselects the "Event aanmelden" radio for the
+        matching language form.
+   ─────────────────────────────────────────────────────────────────── */
 (function(){
-  window.__formLoadedAt = Date.now();
+  var lang = (window.__esrfPageLang || 'en').toLowerCase();
+  var isNl = (lang === 'nl');
 
-  // Description counter
-  const descEl = document.getElementById('ev-description');
-  const counter = document.getElementById('desc-counter');
-  if (descEl && counter) {
-    descEl.addEventListener('input', function(){
-      counter.textContent = this.value.length + ' / 500';
-    });
+  /* Toggle language variants. */
+  function showVariant(suffixToShow, suffixToHide){
+    document.querySelectorAll('[data-signpost-' + suffixToShow + ']')
+      .forEach(function(el){ el.style.display = ''; });
+    document.querySelectorAll('[data-signpost-' + suffixToHide + ']')
+      .forEach(function(el){ el.style.display = 'none'; });
+  }
+  if (isNl) {
+    showVariant('title-nl','title-en');
+    showVariant('deck-nl','deck-en');
+    showVariant('foot-nl','foot-en');
+    showVariant('h2-nl','h2-en');
+    showVariant('list-nl','list-en');
+    showVariant('text-nl','text-en');
+    showVariant('cta-nl','cta-en');
+  } else {
+    showVariant('title-en','title-nl');
+    showVariant('deck-en','deck-nl');
+    showVariant('foot-en','foot-nl');
+    showVariant('h2-en','h2-nl');
+    showVariant('list-en','list-nl');
+    showVariant('text-en','text-nl');
+    showVariant('cta-en','cta-nl');
   }
 
-  // End date must be >= start date
-  const startEl = document.getElementById('ev-date-start');
-  const endEl = document.getElementById('ev-date-end');
-  if (startEl && endEl) {
-    startEl.addEventListener('change', function(){
-      endEl.min = this.value;
-      if (endEl.value && endEl.value < this.value) endEl.value = this.value;
-    });
-  }
-
-  // Form submit → mailto:event@esrf.net
-  const form = document.getElementById('event-form');
-  const errorBox = document.getElementById('form-error');
-  const successBox = document.getElementById('form-success');
-  const submitBtn = document.getElementById('submit-btn');
-
-  function showError(msg) {
-    errorBox.textContent = msg;
-    errorBox.hidden = false;
-    errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-  function hideError() {
-    errorBox.hidden = true;
-    errorBox.textContent = '';
-  }
-
-  if (form) {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      hideError();
-
-      const data = new FormData(form);
-
-      // Honeypot
-      if (data.get('company_website_hp')) return;
-
-      // Timer
-      const elapsed = Date.now() - (window.__formLoadedAt || 0);
-      if (elapsed < 3000) {
-        showError('Please take a moment to review the form before submitting.');
-        return;
-      }
-
-      // Required fields
-      const eventName = data.get('event_name') || '';
-      const eventType = data.get('event_type') || '';
-      const dateStart = data.get('date_start') || '';
-      const description = data.get('description') || '';
-      const city = data.get('city') || '';
-      const country = data.get('country') || '';
-      const eventWebsite = data.get('event_website') || '';
-      const organiser = data.get('organiser') || '';
-      const contactName = data.get('contact_name') || '';
-      const contactEmail = data.get('contact_email') || '';
-      const gdpr = data.get('gdpr_consent');
-
-      if (!eventName || !eventType || !dateStart || !description || !city || !country || !eventWebsite || !organiser || !contactName || !contactEmail) {
-        showError('Please fill in all required fields.');
-        return;
-      }
-      if (!gdpr) {
-        showError('Please accept the privacy policy to continue.');
-        return;
-      }
-      if (!/^https?:\/\/.+/.test(eventWebsite)) {
-        showError('Please enter a valid event website URL starting with https:// or http://');
-        return;
-      }
-      if (!/^[^@]+@[^@]+\.[^@]+$/.test(contactEmail)) {
-        showError('Please enter a valid email address.');
-        return;
-      }
-
-      // Build mailto body
-      const dateEnd = data.get('date_end') || '';
-      const venue = data.get('venue') || '';
-      const topics = data.get('topics') || '';
-      const organiserUrl = data.get('organiser_website') || '';
-      const sourceUrl = data.get('source_url') || '';
-      const contactRole = data.get('contact_role') || '';
-
-      const countryLabel = document.querySelector('#ev-country option:checked')?.textContent || country;
-      const typeLabel = document.querySelector('#ev-type option:checked')?.textContent || eventType;
-
-      const lines = [
-        '═══════════════════════════════════════',
-        'EVENT SUBMISSION — ESRF.net',
-        '═══════════════════════════════════════',
-        '',
-        '▸ EVENT DETAILS',
-        '  Name:          ' + eventName,
-        '  Type:          ' + typeLabel,
-        '  Date:          ' + dateStart + (dateEnd ? ' → ' + dateEnd : ''),
-        '  Description:   ' + description,
-        topics ? '  Topics:        ' + topics : '',
-        '',
-        '▸ VENUE & LOCATION',
-        '  City:          ' + city,
-        '  Country:       ' + countryLabel,
-        venue ? '  Venue:         ' + venue : '',
-        '',
-        '▸ VERIFICATION',
-        '  Event URL:     ' + eventWebsite,
-        '  Organiser:     ' + organiser,
-        organiserUrl ? '  Organiser URL: ' + organiserUrl : '',
-        sourceUrl ? '  Source/Press:  ' + sourceUrl : '',
-        '',
-        '▸ SUBMITTED BY',
-        '  Name:          ' + contactName,
-        '  Email:         ' + contactEmail,
-        contactRole ? '  Role:          ' + contactRole : '',
-        '',
-        '═══════════════════════════════════════',
-        'Submitted via ESRF.net/submit-event',
-        'Time: ' + new Date().toISOString(),
-        '═══════════════════════════════════════',
-      ].filter(l => l !== '').join('\n');
-
-      const subject = 'Event submission: ' + eventName + ' — ' + city + ', ' + countryLabel;
-
-      // Open mailto
-      const mailtoUrl = 'mailto:event@esrf.net'
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(lines);
-
-      window.location.href = mailtoUrl;
-
-      // Show success after short delay (mail client will have opened)
-      setTimeout(function(){
-        form.hidden = true;
-        successBox.hidden = false;
-        successBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 500);
-    });
-  }
+  /* Build the final CTA href: always /submit-news?lang=<lang>&mode=event.
+     Done in JS so server-side caching of static HTML cannot serve the
+     wrong-language link to a Dutch-context visitor and vice versa. */
+  var ctaLang = isNl ? 'nl' : 'en';
+  var ctaHref = '/submit-news?lang=' + ctaLang + '&mode=event';
+  document.querySelectorAll('[data-signpost-cta]').forEach(function(a){
+    a.setAttribute('href', ctaHref);
+  });
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "52897243139b402dacc6d5d564320f8b"}'></script><!-- End Cloudflare Web Analytics -->

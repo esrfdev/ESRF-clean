@@ -556,7 +556,7 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
       <span class="ev-submit-kicker">Community</span>
       <span class="ev-submit-headline">Know of an event?</span>
     </div>
-    <a href="submit-event.html" class="ev-submit-btn">Submit an event →</a>
+    <a href="/submit-news?mode=event" class="ev-submit-btn" data-event-cta>Submit an event →</a>
   </div>
 </div>
 
@@ -590,7 +590,7 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
     <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.02em;margin-bottom:8px;color:var(--ink)">About this page</h2>
     <p style="font-size:14px;line-height:1.65;color:var(--ink-soft);margin-bottom:12px">This dashboard aggregates publicly announced events from organisations within the ESRF.net network, including EU agencies (ENISA, ECCC), national cybersecurity centres (NCSC, BSI, ANSSI), industry bodies, and academic institutions. Events are collected from official websites, press releases, and community submissions.</p>
     <p style="font-size:14px;line-height:1.65;color:var(--ink-soft);margin-bottom:12px">The timeline, map, and charts are interactive and cross-linked: filtering by type, country, or search term updates all panels simultaneously. Use the time slider to animate events appearing on the map chronologically. Click any marker to jump to the corresponding event card.</p>
-    <p style="font-size:13px;line-height:1.6;color:var(--ink-dim);font-style:italic">Dates, venues, and descriptions reflect information available at the time of collection and may be subject to change by the organiser. Events marked "TBC" have been announced but not yet confirmed in full. ESRF.net is not an organiser of these events — always verify details on the official event website before making travel arrangements. Missing an event? <a href="submit-event.html" style="color:var(--accent);text-decoration:underline">Submit it here</a>.</p>
+    <p style="font-size:13px;line-height:1.6;color:var(--ink-dim);font-style:italic">Dates, venues, and descriptions reflect information available at the time of collection and may be subject to change by the organiser. Events marked "TBC" have been announced but not yet confirmed in full. ESRF.net is not an organiser of these events — always verify details on the official event website before making travel arrangements. Missing an event? <a href="/submit-news?mode=event" style="color:var(--accent);text-decoration:underline" data-event-cta>Submit it here</a>.</p>
   </div>
 </aside>
 
@@ -1050,6 +1050,35 @@ mark.ev-hl{background:rgba(201,108,59,0.18);color:inherit;padding:0 1px;border-r
 
   /* ═══ Init ═══ */
   fullUpdate();
+})();
+</script>
+<script>
+/* Rewrite every [data-event-cta] anchor so it preserves the visitor's
+   runtime language when sending them to the combined intake form.
+   The static href is /submit-news?mode=event (always carries the mode);
+   here we tack on ?lang=<detected> so an English-context visitor lands
+   on the EN form variant and a Dutch-context visitor on the NL one.
+   This is the fix for the 2026-04-27 issue where an EN visitor clicking
+   "Submit an event" landed on the Dutch hero/form. */
+(function(){
+  function detect(){
+    try {
+      var p = new URLSearchParams(window.location.search);
+      var u = p.get('lang');
+      if (u) return u.toLowerCase();
+    } catch(e){}
+    try {
+      var s = localStorage.getItem('esrfnetLang');
+      if (s) return s.toLowerCase();
+    } catch(e){}
+    var b = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
+    return b || 'en';
+  }
+  var lang = detect();
+  var ctaLang = (lang === 'nl') ? 'nl' : 'en';
+  document.querySelectorAll('[data-event-cta]').forEach(function(a){
+    a.setAttribute('href', '/submit-news?lang=' + ctaLang + '&mode=event');
+  });
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "52897243139b402dacc6d5d564320f8b"}'></script><!-- End Cloudflare Web Analytics -->

@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="assets/navigator.css?v=20260426-2" />
 <link rel="stylesheet" href="assets/share.css" />
 <script src="consent.js" defer></script>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script>(adsbygoogle = window.adsbygoogle || []).pauseAdRequests = 1;</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9792236154813874" crossorigin="anonymous"></script>
 <!-- Google Analytics (GA4) with Consent Mode v2 -->
@@ -63,6 +62,29 @@
 <meta name="twitter:image" content="https://esrf.net/og-image-20260423-final.png" />
 <!-- ESRF-SEO:END -->
 <script type="application/ld+json" data-esrf="1">{"@context":"https://schema.org","@type":"WebPage","name":"Request a listing — ESRF.net","url":"https://esrf.net/request-listing.html"}</script>
+<script>
+  /* Detect runtime language (URL → localStorage → browser) so the
+     signpost CTA preserves ?lang= when sending visitors to the
+     combined intake form. */
+  (function(){
+    function detect(){
+      try {
+        var p = new URLSearchParams(window.location.search);
+        var u = p.get('lang');
+        if (u) return u.toLowerCase();
+      } catch(e){}
+      try {
+        var s = localStorage.getItem('esrfnetLang');
+        if (s) return s.toLowerCase();
+      } catch(e){}
+      var b = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
+      return b || 'en';
+    }
+    var lang = detect();
+    window.__esrfPageLang = lang;
+    try { document.documentElement.setAttribute('lang', lang === 'nl' ? 'nl' : 'en'); } catch(e){}
+  })();
+</script>
 </head>
 <body>
 
@@ -91,162 +113,83 @@
   </div>
 </nav>
 
+<!-- ═══════════════════════════════════════════════════════════════════════
+     PUBLIC SIGNPOST — single, unambiguous redirect to the combined intake.
+     The legacy standalone listing form was retired (2026-04-27): it
+     duplicated fields already present in submit-news.html, ran a
+     parallel /api/submit-listing path with no editorial review, and
+     ignored the visitor's runtime language. The signpost below routes
+     every public listing-related request through the combined intake.
+     ═══════════════════════════════════════════════════════════════════ -->
 <section class="phero">
   <div class="phero-inner">
-    <div class="kicker" data-i18n="form.kicker">§ Community · Listing request</div>
-    <h1 class="phero-title"><span data-i18n="form.hero_title">Update or verify<br>a <i>listing</i>.</span></h1>
-    <p class="phero-deck" data-i18n="form.hero_deck">Any organisation whose work strengthens European security and resilience is welcome in the ESRF.net community. Submissions are reviewed by the editorial team within three working days. Listing is free — we ask only that your work genuinely contributes to one of our ten vital sectors.</p>
-    <div data-esrf-share data-kind="page" data-label="Share page" style="margin-top:18px"></div>
+    <div class="kicker">§ Community · Listing</div>
+    <h1 class="phero-title" style="margin-bottom:8px" data-signpost-title-nl>Vermelding aanvragen, wijzigen of verifiëren gaat via<br><i>Deel je informatie</i>.</h1>
+    <h1 class="phero-title" style="margin-bottom:8px;display:none" data-signpost-title-en>Add, update or verify a listing now goes via<br><i>Share your information</i>.</h1>
+
+    <p class="phero-deck" data-signpost-deck-nl>
+      Iedere organisatie wier werk de Europese veiligheid en weerbaarheid versterkt is welkom in de ESRF.net-community. Inzendingen worden beoordeeld door de redactie binnen drie werkdagen. Vermelding is gratis — we vragen alleen dat je werk daadwerkelijk bijdraagt aan een van onze tien vitale sectoren.
+    </p>
+    <p class="phero-deck" style="display:none" data-signpost-deck-en>
+      Any organisation whose work strengthens European security and resilience is welcome in the ESRF.net community. Submissions are reviewed by the editorial team within three working days. Listing is free — we ask only that your work genuinely contributes to one of our ten vital sectors.
+    </p>
+
+    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <a id="signpost-cta-add"
+         href="/submit-news?mode=org"
+         data-signpost-cta-add
+         class="btn"
+         style="background:var(--accent,#c8102e);color:#fff;padding:14px 28px;font-weight:700;text-decoration:none;border-radius:4px;display:inline-block;font-size:1.05em">
+        <span data-signpost-cta-add-nl>→ Nieuwe vermelding aanvragen</span>
+        <span data-signpost-cta-add-en style="display:none">→ Request a new listing</span>
+      </a>
+      <a id="signpost-cta-change"
+         href="/submit-news?mode=change_request"
+         data-signpost-cta-change
+         data-mast-cta-listing
+         class="btn outline"
+         style="display:inline-block">
+        <span data-signpost-cta-change-nl>Vermelding wijzigen of verifiëren →</span>
+        <span data-signpost-cta-change-en style="display:none">Update or verify a listing →</span>
+      </a>
+    </div>
+
+    <p class="phero-deck" style="margin-top:18px;font-size:.88em;color:var(--ink-soft)" data-signpost-foot-nl>
+      Alle inzendingen worden door de ESRF-redactie nagekeken. Er wordt nooit iets automatisch gepubliceerd of gewijzigd.
+    </p>
+    <p class="phero-deck" style="margin-top:18px;font-size:.88em;color:var(--ink-soft);display:none" data-signpost-foot-en>
+      All submissions are reviewed by the ESRF editorial team. Nothing is ever published or changed automatically.
+    </p>
   </div>
 </section>
 
-<div class="form-wrap">
-
-  <!-- Error state -->
-  <div id="form-error" class="form-error" hidden role="alert" aria-live="assertive"></div>
-
-  <!-- Form -->
-  <form id="listing-form" class="form-grid" novalidate autocomplete="on">
-
-    <!-- Honeypot (hidden from real users, visible to bots) -->
-    <input type="text" name="company_website_hp" tabindex="-1" autocomplete="off"
-      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
-
-    <div class="form-row">
-      <label for="name" data-i18n="form.label_name">Organisation name <span class="req" aria-hidden="true">*</span></label>
-      <input type="text" id="name" name="name" required maxlength="120"
-        placeholder="My organisation" autocomplete="organization" data-i18n-placeholder="form.placeholder_name" />
-    </div>
-
-    <div class="form-row">
-      <label for="country" data-i18n="form.label_country">Country <span class="req" aria-hidden="true">*</span></label>
-      <select id="country" name="country" required>
-        <option value="" data-i18n="form.select_country">Select a country…</option>
-        <optgroup label="EU Member States" data-i18n-label="form.optgroup_eu">
-          <option value="AT" data-i18n="country.austria">Austria</option>
-          <option value="BE" data-i18n="country.belgium">Belgium</option>
-          <option value="BG" data-i18n="country.bulgaria">Bulgaria</option>
-          <option value="HR" data-i18n="country.croatia">Croatia</option>
-          <option value="CY" data-i18n="country.cyprus">Cyprus</option>
-          <option value="CZ" data-i18n="country.czech_republic">Czech Republic</option>
-          <option value="DK" data-i18n="country.denmark">Denmark</option>
-          <option value="EE" data-i18n="country.estonia">Estonia</option>
-          <option value="FI" data-i18n="country.finland">Finland</option>
-          <option value="FR" data-i18n="country.france">France</option>
-          <option value="DE" data-i18n="country.germany">Germany</option>
-          <option value="GR" data-i18n="country.greece">Greece</option>
-          <option value="HU" data-i18n="country.hungary">Hungary</option>
-          <option value="IE" data-i18n="country.ireland">Ireland</option>
-          <option value="IT" data-i18n="country.italy">Italy</option>
-          <option value="LV" data-i18n="country.latvia">Latvia</option>
-          <option value="LT" data-i18n="country.lithuania">Lithuania</option>
-          <option value="LU" data-i18n="country.luxembourg">Luxembourg</option>
-          <option value="MT" data-i18n="country.malta">Malta</option>
-          <option value="NL" data-i18n="country.netherlands">Netherlands</option>
-          <option value="PL" data-i18n="country.poland">Poland</option>
-          <option value="PT" data-i18n="country.portugal">Portugal</option>
-          <option value="RO" data-i18n="country.romania">Romania</option>
-          <option value="SK" data-i18n="country.slovakia">Slovakia</option>
-          <option value="SI" data-i18n="country.slovenia">Slovenia</option>
-          <option value="ES" data-i18n="country.spain">Spain</option>
-          <option value="SE" data-i18n="country.sweden">Sweden</option>
-        </optgroup>
-        <optgroup label="Other European Countries" data-i18n-label="form.optgroup_other">
-          <option value="IS" data-i18n="country.iceland">Iceland</option>
-          <option value="NO" data-i18n="country.norway">Norway</option>
-          <option value="UA" data-i18n="country.ukraine">Ukraine</option>
-          <option value="GB" data-i18n="country.united_kingdom">United Kingdom</option>
-          <option value="CH" data-i18n="country.switzerland">Switzerland</option>
-          <option value="AL" data-i18n="country.albania">Albania</option>
-          <option value="BA" data-i18n="country.bosnia_herzegovina">Bosnia and Herzegovina</option>
-          <option value="ME" data-i18n="country.montenegro">Montenegro</option>
-          <option value="MK" data-i18n="country.north_macedonia">North Macedonia</option>
-          <option value="RS" data-i18n="country.serbia">Serbia</option>
-          <option value="TR" data-i18n="country.turkey">Turkey</option>
-        </optgroup>
-      </select>
-    </div>
-
-    <div class="form-row">
-      <label for="city" data-i18n="form.label_city">City</label>
-      <input type="text" id="city" name="city" maxlength="80"
-        placeholder="Amsterdam" autocomplete="address-level2" data-i18n-placeholder="form.placeholder_city" />
-    </div>
-
-    <div class="form-row">
-      <label for="website" data-i18n="form.label_website">Website <span class="req" aria-hidden="true">*</span></label>
-      <input type="url" id="website" name="website" required
-        placeholder="https://example.com" autocomplete="url" pattern="https?://.+"
-        data-i18n-placeholder="form.placeholder_website" />
-      <span class="hint" data-i18n="form.hint_website">Must begin with https:// or http://</span>
-    </div>
-
-    <div class="form-row">
-      <label for="sector" data-i18n="form.label_sector">Sector <span class="req" aria-hidden="true">*</span></label>
-      <select id="sector" name="sector" required>
-        <option value="" data-i18n="form.select_sector">Select a sector…</option>
-        <option value="Emergency &amp; Crisis Response" data-i18n="sector.emergency">Emergency &amp; Crisis Response</option>
-        <option value="Security &amp; Protection" data-i18n="sector.security">Security &amp; Protection</option>
-        <option value="Risk &amp; Continuity Management" data-i18n="sector.risk">Risk &amp; Continuity Management</option>
-        <option value="Digital Infrastructure &amp; Cybersecurity" data-i18n="sector.digital">Digital Infrastructure &amp; Cybersecurity</option>
-        <option value="Knowledge, Training &amp; Research" data-i18n="sector.knowledge">Knowledge, Training &amp; Research</option>
-        <option value="Health &amp; Medical Manufacturing" data-i18n="sector.health">Health &amp; Medical Manufacturing</option>
-        <option value="Critical Infrastructure" data-i18n="sector.critical">Critical Infrastructure</option>
-        <option value="Dual-use Technology &amp; Manufacturing" data-i18n="sector.dual_use">Dual-use Technology &amp; Manufacturing</option>
-        <option value="Transport, Maritime &amp; Aerospace" data-i18n="sector.transport">Transport, Maritime &amp; Aerospace</option>
-        <option value="Energy &amp; Grid Resilience" data-i18n="sector.energy">Energy &amp; Grid Resilience</option>
-      </select>
-    </div>
-
-    <div class="form-row">
-      <label for="contact_name" data-i18n="form.label_contact_name">Contact name <span class="req" aria-hidden="true">*</span></label>
-      <input type="text" id="contact_name" name="contact_name" required maxlength="80"
-        placeholder="Jane Smith" autocomplete="name" data-i18n-placeholder="form.placeholder_contact_name" />
-    </div>
-
-    <div class="form-row">
-      <label for="contact_email" data-i18n="form.label_contact_email">Contact email <span class="req" aria-hidden="true">*</span></label>
-      <input type="email" id="contact_email" name="contact_email" required
-        placeholder="jane@example.com" autocomplete="email" data-i18n-placeholder="form.placeholder_contact_email" />
-    </div>
-
-    <div class="form-row">
-      <label for="description" data-i18n="form.label_description">Short description</label>
-      <textarea id="description" name="description" maxlength="280"
-        placeholder="One or two sentences describing what your organisation does…"
-        data-i18n-placeholder="form.placeholder_description"></textarea>
-      <div class="counter" id="desc-counter" aria-live="polite">0 / 280</div>
-    </div>
-
-    <div class="form-row">
-      <!-- Cloudflare Turnstile -->
-      <div class="cf-turnstile" data-sitekey="0x4AAAAAAAWILL_BE_REPLACED" data-theme="light"></div>
-    </div>
-
-    <div class="form-check">
-      <input type="checkbox" id="gdpr_consent" name="gdpr_consent" required>
-      <label for="gdpr_consent" data-i18n="form.label_gdpr">
-        I agree to the <a href="privacy.html" data-i18n="form.privacy_link">privacy policy</a> and consent to the storage of this data for listing review purposes.
-      </label>
-    </div>
-
-    <div>
-      <button type="submit" class="form-submit" id="submit-btn" data-i18n="form.submit">
-        Submit request
-      </button>
-    </div>
-
-  </form>
-
-  <!-- Success state (hidden by default) -->
-  <div id="form-success" class="form-success" hidden>
-    <div class="kicker" data-i18n="form.success_kicker">§ Received</div>
-    <h2 data-i18n="form.success_title">Request received.</h2>
-    <p data-i18n="form.success_body">Thank you for your submission. The ESRF.net editorial team will review your listing within three working days. You will receive a confirmation at the email address provided.</p>
-    <a href="directory.html" class="btn outline" style="margin-top:32px" data-i18n="cta.browse_directory">Browse the directory →</a>
+<!-- SEO-friendly explanatory content. No form. -->
+<section class="form-wrap" aria-label="Listing signpost — context">
+  <div style="max-width:760px;margin:0 auto;padding:36px 24px 56px;font-family:'PT Serif',serif;color:var(--ink);line-height:1.65">
+    <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.01em;margin-bottom:14px" data-signpost-h2-nl>Wat kun je via dit kanaal regelen?</h2>
+    <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.01em;margin-bottom:14px;display:none" data-signpost-h2-en>What can you do via this channel?</h2>
+    <ul style="margin:0 0 20px 22px" data-signpost-list-nl>
+      <li>Een nieuwe organisatie aanmelden voor de directory</li>
+      <li>Bestaande gegevens van je organisatie laten wijzigen of verifiëren</li>
+      <li>Een vermelding tijdelijk laten verbergen of laten verwijderen</li>
+      <li>Een redactionele bijdrage of praktijkverhaal aandragen</li>
+      <li>Een event aanmelden (kies daar de optie <em>Event aanmelden</em>)</li>
+    </ul>
+    <ul style="margin:0 0 20px 22px;display:none" data-signpost-list-en>
+      <li>Add a new organisation to the directory</li>
+      <li>Have an existing listing updated or verified</li>
+      <li>Have a listing temporarily hidden or removed</li>
+      <li>Contribute an editorial or practitioner story</li>
+      <li>Submit an event (choose the <em>Submit an event</em> option)</li>
+    </ul>
+    <p style="margin-bottom:18px" data-signpost-text-nl>
+      Vul het gecombineerde formulier in op <a href="/submit-news"><strong>/submit-news</strong></a> en kies bovenaan de gewenste optie. Je verzoek komt direct bij de ESRF-redactie terecht.
+    </p>
+    <p style="margin-bottom:18px;display:none" data-signpost-text-en>
+      Fill in the combined form at <a href="/submit-news?lang=en"><strong>/submit-news</strong></a> and pick the option you need at the top. Your request reaches the ESRF editorial team directly.
+    </p>
   </div>
-
-</div>
+</section>
 
 <footer class="foot">
   <div class="foot-inner">
@@ -297,130 +240,46 @@
 <script src="search.js" defer></script>
 <script src="assets/share.js" defer></script>
 <script>
+/* Signpost behaviour (no form on this page).
+   Toggle NL/EN variants and rebuild CTA hrefs so they always carry the
+   visitor's runtime ?lang= and the appropriate mode= for the combined
+   intake. The intake reads mode from the URL and preselects the matching
+   radio for both the NL and EN forms. */
 (function(){
-  // Timer: record page load time for bot detection
-  window.__formLoadedAt = Date.now();
+  var lang = (window.__esrfPageLang || 'en').toLowerCase();
+  var isNl = (lang === 'nl');
 
-  // Description counter
-  const descEl = document.getElementById('description');
-  const counter = document.getElementById('desc-counter');
-  if (descEl && counter) {
-    descEl.addEventListener('input', function(){
-      counter.textContent = this.value.length + ' / 280';
-    });
+  function showVariant(suffixToShow, suffixToHide){
+    document.querySelectorAll('[data-signpost-' + suffixToShow + ']')
+      .forEach(function(el){ el.style.display = ''; });
+    document.querySelectorAll('[data-signpost-' + suffixToHide + ']')
+      .forEach(function(el){ el.style.display = 'none'; });
+  }
+  if (isNl) {
+    showVariant('title-nl','title-en');
+    showVariant('deck-nl','deck-en');
+    showVariant('foot-nl','foot-en');
+    showVariant('h2-nl','h2-en');
+    showVariant('list-nl','list-en');
+    showVariant('text-nl','text-en');
+    showVariant('cta-add-nl','cta-add-en');
+    showVariant('cta-change-nl','cta-change-en');
+  } else {
+    showVariant('title-en','title-nl');
+    showVariant('deck-en','deck-nl');
+    showVariant('foot-en','foot-nl');
+    showVariant('h2-en','h2-nl');
+    showVariant('list-en','list-nl');
+    showVariant('text-en','text-nl');
+    showVariant('cta-add-en','cta-add-nl');
+    showVariant('cta-change-en','cta-change-nl');
   }
 
-  // Form submit
-  const form = document.getElementById('listing-form');
-  const errorBox = document.getElementById('form-error');
-  const successBox = document.getElementById('form-success');
-  const submitBtn = document.getElementById('submit-btn');
-
-  function showError(msg) {
-    errorBox.textContent = msg;
-    errorBox.hidden = false;
-    errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  function hideError() {
-    errorBox.hidden = true;
-    errorBox.textContent = '';
-  }
-
-  if (form) {
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      hideError();
-
-      const data = new FormData(form);
-
-      // Honeypot check
-      if (data.get('company_website_hp')) {
-        return; // silently drop
-      }
-
-      // Timer check
-      const elapsed = Date.now() - (window.__formLoadedAt || 0);
-      if (elapsed < 3000) {
-        showError(window.t ? t('form.err_too_fast') : 'Please take a moment to review the form before submitting.');
-        return;
-      }
-
-      // Required fields check
-      const name = data.get('name') || '';
-      const country = data.get('country') || '';
-      const website = data.get('website') || '';
-      const sector = data.get('sector') || '';
-      const contact_name = data.get('contact_name') || '';
-      const contact_email = data.get('contact_email') || '';
-      const gdpr = data.get('gdpr_consent');
-
-      if (!name || !country || !website || !sector || !contact_name || !contact_email) {
-        showError(window.t ? t('form.err_required') : 'Please fill in all required fields.');
-        return;
-      }
-      if (!gdpr) {
-        showError(window.t ? t('form.err_gdpr') : 'Please accept the privacy policy to continue.');
-        return;
-      }
-      if (!/^https?:\/\/.+/.test(website)) {
-        showError(window.t ? t('form.err_url') : 'Please enter a valid website URL starting with https:// or http://');
-        return;
-      }
-      if (!/^[^@]+@[^@]+\.[^@]+$/.test(contact_email)) {
-        showError(window.t ? t('form.err_email') : 'Please enter a valid email address.');
-        return;
-      }
-
-      // Get Turnstile token (if present)
-      let turnstile_token = '';
-      try {
-        const tsWidget = form.querySelector('[name="cf-turnstile-response"]');
-        if (tsWidget) turnstile_token = tsWidget.value || '';
-      } catch(ex) {}
-
-      // Disable button
-      submitBtn.disabled = true;
-      submitBtn.textContent = (window.t ? t('form.submitting') : 'Submitting…');
-
-      const payload = {
-        name,
-        country,
-        city: data.get('city') || '',
-        website,
-        sector,
-        contact_name,
-        contact_email,
-        description: data.get('description') || '',
-        gdpr_consent: true,
-        company_website_hp: data.get('company_website_hp') || '',
-        turnstile_token,
-        form_duration_ms: elapsed,
-      };
-
-      try {
-        const resp = await fetch('/api/submit-listing', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        const result = await resp.json();
-        if (result.ok) {
-          form.hidden = true;
-          successBox.hidden = false;
-          successBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          showError(result.error || (window.t ? t('form.err_generic') : 'An error occurred. Please try again.'));
-          submitBtn.disabled = false;
-          submitBtn.textContent = (window.t ? t('form.submit') : 'Submit request');
-        }
-      } catch(err) {
-        showError(window.t ? t('form.err_network') : 'Network error — please check your connection and try again.');
-        submitBtn.disabled = false;
-        submitBtn.textContent = (window.t ? t('form.submit') : 'Submit request');
-      }
-    });
-  }
+  var ctaLang = isNl ? 'nl' : 'en';
+  var addCta = document.getElementById('signpost-cta-add');
+  if (addCta) addCta.setAttribute('href', '/submit-news?lang=' + ctaLang + '&mode=org');
+  var changeCta = document.getElementById('signpost-cta-change');
+  if (changeCta) changeCta.setAttribute('href', '/submit-news?lang=' + ctaLang + '&mode=change_request');
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "52897243139b402dacc6d5d564320f8b"}'></script><!-- End Cloudflare Web Analytics -->
