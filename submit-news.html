@@ -848,14 +848,32 @@
           Deel je informatie
         </button>
         <p style="margin-top:10px;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft);line-height:1.6">
-          Bij verzending opent je e-mailprogramma met een net opgemaakte samenvatting voor <code>intake@esrf.net</code>. De redactie kijkt elk verzoek handmatig na — er wordt niets automatisch gepubliceerd of aangepast in de Directory of Atlas.
+          Je inzending wordt veilig naar de redactie-intake gestuurd. Werkt dat tijdelijk niet, dan opent je e-mailprogramma met een nette samenvatting voor <code>intake@esrf.net</code> als reservepad. De redactie kijkt elk verzoek handmatig na — er wordt niets automatisch gepubliceerd of aangepast in de Directory of Atlas.
+        </p>
+        <p style="margin-top:6px;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft);line-height:1.6">
+          <button type="button" id="sv-mailto-fallback" class="btn outline" style="font-size:13px;padding:6px 12px">
+            Liever via e-mail versturen
+          </button>
         </p>
       </div>
     </fieldset>
 
   </form>
 
-  <!-- Success state -->
+  <!-- Auto-submit success (API path) -->
+  <div id="form-success-auto" class="form-success" hidden style="text-align:center;padding:40px 20px">
+    <div class="kicker">§ Ontvangen</div>
+    <h2 style="margin:6px 0 8px;font-family:'Archivo',sans-serif">Ontvangen door ESRF-redactie</h2>
+    <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.6;color:var(--ink-soft);margin:0 auto;max-width:560px">
+      Je inzending staat in de redactie-intake. Er wordt <strong>niets automatisch gepubliceerd</strong> en de Directory wordt niet automatisch aangepast — de ESRF-redactie beoordeelt elk verzoek handmatig.
+    </p>
+    <p style="font-family:'PT Serif',serif;font-size:14px;line-height:1.6;color:var(--ink-soft);margin:18px auto 0;max-width:560px">
+      <em>Received by the ESRF editorial team. Nothing is published automatically; every submission is reviewed manually.</em>
+    </p>
+    <a href="/" class="btn outline" style="margin-top:24px">← Terug naar ESRF.net</a>
+  </div>
+
+  <!-- Mailto fallback success -->
   <div id="form-success" class="form-success" hidden style="text-align:center;padding:40px 20px">
     <div class="kicker">§ Bedankt</div>
     <h2 style="margin:6px 0 8px;font-family:'Archivo',sans-serif">Je e-mailprogramma is geopend</h2>
@@ -1354,8 +1372,184 @@
     return lines.join('\n');
   }
 
+  /* ─── Build structured JSON payload for /api/intake ─── */
+  function buildJsonPayload(data, mode){
+    const elapsed = Date.now() - (window.__formLoadedAt || 0);
+    const country = get(data, 'country');
+    const countryCode = (function(){
+      const v = country.toUpperCase();
+      if (/^[A-Z]{2}$/.test(v)) return v;
+      // Best-effort fallback from select option text — the redactie still verifies.
+      const sel = form.querySelector('select[name="country"]');
+      if (sel && sel.options && sel.selectedIndex >= 0) {
+        const opt = sel.options[sel.selectedIndex];
+        const dataCode = opt && (opt.dataset && (opt.dataset.code || opt.dataset.countryCode));
+        if (dataCode && /^[A-Z]{2}$/.test(String(dataCode).toUpperCase())) {
+          return String(dataCode).toUpperCase();
+        }
+        if (opt && /^[A-Z]{2}$/.test(String(opt.value || '').toUpperCase())) {
+          return String(opt.value).toUpperCase();
+        }
+      }
+      return '';
+    })();
+
+    const sectorPrimary = get(data, 'sector') || get(data, 'ed_nis2_sector') || get(data, 'cr_nis2_sector') || get(data, 'event_nis2_sector');
+    const additionalTagsPrimary = get(data, 'additional_tags') || get(data, 'ed_additional_tags') || get(data, 'cr_additional_tags') || get(data, 'event_tags');
+
+    const payload = {
+      intake_mode: mode,
+      form_duration_ms: elapsed,
+      company_website_hp: get(data, 'company_website_hp'),
+      sector: sectorPrimary,
+      sector_label: sectorPrimary,
+      additional_tags: additionalTagsPrimary,
+      contact: {
+        name: get(data, 'contact_name'),
+        organisation: get(data, 'organisation'),
+        role: get(data, 'role'),
+        email: get(data, 'email'),
+        phone: get(data, 'phone'),
+        country_code: countryCode,
+        country_label: country,
+        place: get(data, 'place'),
+        region: get(data, 'region'),
+        website: get(data, 'website')
+      },
+      privacy: { gdpr_privacy_policy: !!data.get('gdpr_consent') },
+      no_auto_publication: true,
+      directory_master_touched: false
+    };
+
+    if (mode === 'org' || mode === 'both') {
+      payload.organisation_listing = {
+        sector: sectorPrimary,
+        sector_label: sectorPrimary,
+        city: get(data, 'place'),
+        description: get(data, 'org_description')
+      };
+    }
+    if (mode === 'editorial' || mode === 'both') {
+      payload.editorial_contribution = {
+        topic: get(data, 'ed_topic'),
+        summary: get(data, 'ed_summary'),
+        audience: get(data, 'ed_audience'),
+        partners_sector: get(data, 'ed_partners'),
+        regional_angle: get(data, 'ed_regional_angle'),
+        lesson: get(data, 'ed_lesson'),
+        spotlight: get(data, 'ed_spotlight'),
+        sources: get(data, 'ed_sources'),
+        sector: get(data, 'ed_nis2_sector') || sectorPrimary,
+        additional_tags: get(data, 'ed_additional_tags') || additionalTagsPrimary,
+        consent: {
+          edit_and_publish: !!data.get('consent_edit'),
+          editorial_may_contact: !!data.get('consent_contact_editorial'),
+          no_confidential_information: !!data.get('consent_no_confidential')
+        }
+      };
+    }
+    if (mode === 'change_request' || mode === 'hide_delete') {
+      payload.change_request = {
+        target_listing_name: get(data, 'cr_target_name'),
+        target_listing_url: get(data, 'cr_target_url'),
+        requested_action: get(data, 'cr_action') || (mode === 'hide_delete' ? 'hide' : 'update'),
+        change_description: get(data, 'cr_description'),
+        reason: get(data, 'cr_reason'),
+        evidence_url: get(data, 'cr_evidence'),
+        requester_authorization: get(data, 'auth_relation') || get(data, 'cr_requester_auth') || 'authorized_representative',
+        authorization_confirmation: !!data.get('cr_auth_confirm'),
+        sector: get(data, 'cr_nis2_sector') || sectorPrimary,
+        additional_tags: get(data, 'cr_additional_tags') || additionalTagsPrimary
+      };
+      payload.authorization = {
+        requester_name: get(data, 'auth_requester_name'),
+        requester_role: get(data, 'auth_requester_role'),
+        work_email: get(data, 'auth_work_email'),
+        relation: get(data, 'auth_relation'),
+        confirmed_authorized: !!data.get('auth_confirm_authorized')
+      };
+    }
+    if (mode === 'event') {
+      payload.event_intake = {
+        event_name: get(data, 'event_name'),
+        organiser: get(data, 'event_organiser'),
+        date_start: get(data, 'event_date_start'),
+        date_end: get(data, 'event_date_end'),
+        time_zone: get(data, 'event_time'),
+        location: get(data, 'event_location'),
+        country: get(data, 'event_country'),
+        description: get(data, 'event_description'),
+        audience: get(data, 'event_audience'),
+        website: get(data, 'event_website'),
+        contact_name: get(data, 'event_contact_name'),
+        contact_email: get(data, 'event_contact_email'),
+        publication_request: get(data, 'event_publication_request'),
+        sector: get(data, 'event_nis2_sector') || sectorPrimary,
+        additional_tags: get(data, 'event_tags') || additionalTagsPrimary
+      };
+    }
+    return payload;
+  }
+
+  /* ─── Mailto fallback (kept as backup path) ─── */
+  function mailtoFor(data, mode){
+    const body = buildBody(data, mode);
+    const subjMap = {
+      org: 'Organisatie aanmelden',
+      editorial: 'Praktijkverhaal',
+      both: 'Organisatie + praktijkverhaal',
+      change_request: 'Wijzigingsverzoek',
+      hide_delete: 'Verberg-/verwijderverzoek',
+      event: 'Event aanmelden'
+    };
+    const who = get(data, 'event_name') || get(data, 'organisation') || get(data, 'cr_target_name') || get(data, 'contact_name');
+    const subject = '[ESRF intake] ' + (subjMap[mode] || 'Inzending') + (who ? ' — ' + who : '');
+    return 'mailto:intake@esrf.net'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+  }
+
+  function showAutoSuccess(){
+    const autoBox = document.getElementById('form-success-auto');
+    form.hidden = true;
+    if (autoBox) {
+      autoBox.hidden = false;
+      autoBox.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+  }
+  function showMailtoSuccess(){
+    form.hidden = true;
+    successBox.hidden = false;
+    successBox.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  function setSubmitting(isSubmitting){
+    if (!submitBtn) return;
+    submitBtn.disabled = isSubmitting;
+    if (isSubmitting) {
+      submitBtn.dataset.prevLabel = submitBtn.dataset.prevLabel || submitBtn.textContent;
+      submitBtn.textContent = 'Versturen…';
+    } else if (submitBtn.dataset.prevLabel) {
+      submitBtn.textContent = submitBtn.dataset.prevLabel;
+    }
+  }
+
+  /* Manual mailto fallback button */
+  const mailtoBtn = document.getElementById('sv-mailto-fallback');
+  if (mailtoBtn) {
+    mailtoBtn.addEventListener('click', function(){
+      hideError();
+      const data = new FormData(form);
+      const mode = currentMode();
+      const err = validate(data, mode);
+      if (err) { showError(err); return; }
+      window.location.href = mailtoFor(data, mode);
+      setTimeout(showMailtoSuccess, 500);
+    });
+  }
+
   if (form) {
-    form.addEventListener('submit', function(e){
+    form.addEventListener('submit', async function(e){
       e.preventDefault();
       hideError();
       const data = new FormData(form);
@@ -1369,26 +1563,47 @@
       const err = validate(data, mode);
       if (err) { showError(err); return; }
 
-      const body = buildBody(data, mode);
-      const subjMap = {
-        org: 'Organisatie aanmelden',
-        editorial: 'Praktijkverhaal',
-        both: 'Organisatie + praktijkverhaal',
-        change_request: 'Wijzigingsverzoek',
-        hide_delete: 'Verberg-/verwijderverzoek',
-        event: 'Event aanmelden'
-      };
-      const who = get(data, 'event_name') || get(data, 'organisation') || get(data, 'cr_target_name') || get(data, 'contact_name');
-      const subject = '[ESRF intake] ' + (subjMap[mode] || 'Inzending') + (who ? ' — ' + who : '');
-      const mailto = 'mailto:intake@esrf.net'
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(body);
-      window.location.href = mailto;
-      setTimeout(function(){
-        form.hidden = true;
-        successBox.hidden = false;
-        successBox.scrollIntoView({ behavior:'smooth', block:'start' });
-      }, 500);
+      setSubmitting(true);
+      const payload = buildJsonPayload(data, mode);
+      let apiOk = false;
+      let apiUnavailable = false;
+      try {
+        const res = await fetch('/api/intake', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(payload),
+          credentials: 'omit'
+        });
+        let json = null;
+        try { json = await res.json(); } catch(_e) { json = null; }
+        if (res.ok && json && json.ok) {
+          apiOk = true;
+        } else if (json && json.auto_submit_unavailable) {
+          apiUnavailable = true;
+        } else if (res.status >= 500) {
+          apiUnavailable = true;
+        } else if (json && json.error) {
+          // Validation rejected — surface the message and don't fall back.
+          setSubmitting(false);
+          showError('De redactie-intake kon dit verzoek niet accepteren: ' + json.error + ' Probeer eventueel via e-mail.');
+          return;
+        } else {
+          apiUnavailable = true;
+        }
+      } catch (_e) {
+        apiUnavailable = true;
+      }
+      setSubmitting(false);
+
+      if (apiOk) { showAutoSuccess(); return; }
+
+      if (apiUnavailable) {
+        showError('Automatische verzending is tijdelijk niet beschikbaar. Je e-mailprogramma wordt nu geopend met een nette samenvatting voor intake@esrf.net — verstuur de mail om je inzending alsnog bij de redactie te krijgen.');
+        setTimeout(function(){
+          window.location.href = mailtoFor(data, mode);
+          setTimeout(showMailtoSuccess, 600);
+        }, 400);
+      }
     });
   }
 })();
