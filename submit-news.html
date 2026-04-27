@@ -271,7 +271,7 @@
       <a href="analytics.html" data-i18n="nav.analytics">Analytics</a>
       <a href="news.html" data-i18n="nav.dispatch">Dispatch</a>
       <a href="editorials.html" data-i18n="nav.editorials">Editorials</a>
-      <button type="button" class="mast-cta" data-open-modal="listing" data-i18n="nav.request_listing">Claim your listing</button>
+      <a class="mast-cta" href="/submit-news?mode=change_request" data-i18n="nav.request_listing" data-mast-cta-listing>Update or verify a listing</a>
       <a href="fund.html" class="mast-contribute" data-i18n="nav.fund">Contribute</a>
     </div>
     <div class="lang-switch">
@@ -1765,6 +1765,19 @@
     }
   }
   radios.forEach(r => r.addEventListener('change', applyMode));
+
+  /* ─── Preselect mode from ?mode= URL param ─── */
+  (function preselectModeFromUrl(){
+    try {
+      const VALID = ['org','editorial','both','change_request','hide_delete','event'];
+      const requested = (new URLSearchParams(window.location.search).get('mode') || '').toLowerCase();
+      if (!VALID.includes(requested)) return;
+      const target = form.querySelector('input[name="intake_mode"][value="' + requested + '"]');
+      if (target) {
+        radios.forEach(r => { r.checked = (r === target); });
+      }
+    } catch(e) {}
+  })();
   applyMode();
 
   /* ─── Event date end-min ─── */
@@ -2449,6 +2462,19 @@
     }
   }
   radios.forEach(r => r.addEventListener('change', applyMode));
+
+  /* Preselect mode from ?mode= URL param */
+  (function preselectModeFromUrl(){
+    try {
+      const VALID = ['org','editorial','both','change_request','hide_delete','event'];
+      const requested = (new URLSearchParams(window.location.search).get('mode') || '').toLowerCase();
+      if (!VALID.includes(requested)) return;
+      const target = form.querySelector('input[name="intake_mode"][value="' + requested + '"]');
+      if (target) {
+        radios.forEach(r => { r.checked = (r === target); });
+      }
+    } catch(e) {}
+  })();
   applyMode();
 
   /* End-date min */

@@ -6,7 +6,7 @@
     "analytics": "Analyse",
     "dispatch": "Dispatch",
     "editorials": "Editorials",
-    "request_listing": "Claim je vermelding",
+    "request_listing": "Vermelding wijzigen of verifiëren",
     "support": "Ondersteunen",
     "fund": "Bijdragen"
   },
@@ -37,7 +37,7 @@
     "share_information": "Deel je informatie",
     "share_information_cta": "Deel je informatie →",
     "share_information_help": "Gebruik dit formulier om een organisatie aan te melden, gegevens te wijzigen, een vermelding te laten verbergen of een praktijkverhaal te delen.",
-    "request_listing_cta": "Claim je vermelding →",
+    "request_listing_cta": "Vermelding wijzigen of verifiëren →",
     "visit_website": "Bezoek website ↗",
     "close_panel": "✕ Sluiten",
     "plotted": "· zichtbaar",
@@ -80,7 +80,7 @@
     "crisis_response": "Crisisrespons"
   },
   "cta": {
-    "request_listing": "Claim je vermelding →",
+    "request_listing": "Vermelding wijzigen of verifiëren →",
     "browse_directory": "Bekijk de directory →",
     "see_analytics": "Bekijk analyses →",
     "open_atlas": "Open de volledige atlas →",

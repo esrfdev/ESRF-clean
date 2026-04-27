@@ -477,6 +477,41 @@ function wireModalForm() {
 
 document.addEventListener('DOMContentLoaded', injectListingModal);
 
+// ── Update-or-verify CTA: append current lang to href so users land on the
+// matching language variant of the combined submit form. The mode=change_request
+// query param is already on the href; this only adds &lang=<current>. ──
+function syncListingCtaLang() {
+  function pickLang() {
+    try {
+      const u = new URLSearchParams(window.location.search).get('lang');
+      if (u) return u.toLowerCase();
+    } catch (e) {}
+    if (window.esrfI18n && typeof window.esrfI18n.getCurrentLang === 'function') {
+      const l = window.esrfI18n.getCurrentLang();
+      if (l) return l;
+    }
+    try {
+      const stored = localStorage.getItem('esrfnetLang');
+      if (stored) return stored;
+    } catch (e) {}
+    return (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
+  }
+  function apply() {
+    const lang = pickLang();
+    document.querySelectorAll('[data-mast-cta-listing]').forEach(function(a) {
+      try {
+        const url = new URL(a.getAttribute('href') || '/submit-news?mode=change_request', window.location.origin);
+        url.searchParams.set('mode', 'change_request');
+        url.searchParams.set('lang', lang);
+        a.setAttribute('href', url.pathname + '?' + url.searchParams.toString());
+      } catch (e) {}
+    });
+  }
+  apply();
+  window.addEventListener('esrf:langchange', apply);
+}
+document.addEventListener('DOMContentLoaded', syncListingCtaLang);
+
 // ── Sponsor slot renderer ──
 function renderSponsorSlot(slot, placeholder) {
   if (slot.name && slot.logo) {

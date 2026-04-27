@@ -6,7 +6,7 @@
     "analytics": "Analytics",
     "dispatch": "Dispatch",
     "editorials": "Editorials",
-    "request_listing": "Claim your listing",
+    "request_listing": "Update or verify a listing",
     "support": "Support",
     "fund": "Contribute"
   },
@@ -64,7 +64,7 @@
     "share_information": "Share your information",
     "share_information_cta": "Share your information →",
     "share_information_help": "Use this form to submit an organisation, request an update or removal, or share a practice story.",
-    "request_listing_cta": "Claim your listing →",
+    "request_listing_cta": "Update or verify a listing →",
     "visit_website": "Visit website ↗",
     "close_panel": "✕ Close",
     "plotted": "· plotted",
@@ -107,7 +107,7 @@
     "crisis_response": "Crisis response"
   },
   "cta": {
-    "request_listing": "Claim your listing →",
+    "request_listing": "Update or verify a listing →",
     "browse_directory": "Browse the directory →",
     "see_analytics": "See analytics →",
     "open_atlas": "Open the full atlas →",
@@ -148,7 +148,7 @@
     "dispatch_kicker": "§ 06 · Dispatch",
     "dispatch_title": "From the continent.",
     "join_title": "Does your organisation contribute to a Europe that holds?",
-    "join_sub": "Claim a listing and take your place on the atlas. Joining the ESRF.net community is free for organisations whose work strengthens European security and resilience.",
+    "join_sub": "Add or update a listing and take your place on the atlas. Joining the ESRF.net community is free for organisations whose work strengthens European security and resilience.",
     "hero_deck_html": "Where governments set policy and international bodies coordinate, <strong>ESRF.net</strong> unites the businesses, institutions and citizens whose daily work quietly sustains our shared life — a decentralised framework powered by the organisations that drive the economy.",
     "hero_fig_caption": "A community of practitioners, spanning thirty nations, bound by five moral principles.",
     "foundation_title_1": "Leadership",
@@ -375,7 +375,7 @@
   "form": {
     "page_title": "Request a listing — ESRF.net",
     "kicker": "§ Community · Listing request",
-    "hero_title": "Claim your listing.",
+    "hero_title": "Update or verify a listing.",
     "hero_deck": "Any organisation whose work strengthens European security and resilience is welcome in the ESRF.net community. Submissions are reviewed by the editorial team within three working days. Listing is free — we ask only that your work genuinely contributes to one of our ten vital sectors.",
     "label_name": "Organisation name",
     "label_country": "Country",
@@ -413,7 +413,7 @@
   },
   "modal": {
     "kicker": "§ Community · Listing request",
-    "title": "Claim your listing",
+    "title": "Update or verify a listing",
     "intro": "Any organisation whose work strengthens European security and resilience is welcome. Listing is free. Submissions are reviewed within three working days.",
     "full_form_link": "Open the full form →"
   },

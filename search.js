@@ -25,7 +25,7 @@
     { title: 'Events',              url: 'events.html',       kind: 'page' },
     { title: 'Contribute',          url: 'fund.html',         kind: 'page', i18n: 'nav.fund' },
     { title: 'Sponsor',             url: 'sponsor.html',      kind: 'page' },
-    { title: 'Claim your listing',  url: 'request-listing.html', kind: 'page', i18n: 'nav.request_listing' },
+    { title: 'Update or verify a listing',  url: 'request-listing.html', kind: 'page', i18n: 'nav.request_listing' },
     { title: 'Submit an event',     url: 'submit-event.html', kind: 'page' },
     { title: 'Share your information', url: 'submit-news.html', kind: 'page', i18n: 'common.share_information' },
     { title: 'Submit a signal',     url: 'submit-news.html',  kind: 'page' },
