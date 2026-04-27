@@ -98,12 +98,13 @@
 
   /* ─── Variant-specific styling — preview-only, never touches production. ─── */
 
-  /* VARIANT A — Editorial slab.
-     Two lines: monospace eyebrow ("BIJDRAGEN") + Archivo label.
-     Generous padding, cream-on-dark contrast, sharp inset separator. */
+  /* VARIANT A — Editorial slab, refined for Wouter's "Share to connect".
+     Two lines: monospace eyebrow ("DELEN") + Archivo label.
+     Extra horizontal padding (28px) so the two-word label has room
+     to breathe — never cramped, premium feel. */
   .v-a .mast-cta{
     display:inline-flex;flex-direction:column;align-items:flex-start;
-    gap:2px;padding:10px 22px 10px 22px;border-radius:4px;
+    gap:3px;padding:12px 28px;border-radius:4px;
     background:var(--cream);color:var(--ink) !important;
     border:1px solid var(--cream) !important;
     border-bottom:1px solid var(--cream) !important;
@@ -267,6 +268,17 @@
     Knoppen zijn klikbaar en wijzen naar echte intake-routes, zodat het volgflow getest kan worden.
   </div>
 
+  <div class="preview-banner" style="background:#fdebe0;border-color:var(--accent-deep)">
+    <strong>Verfijning Wouter — 2026-04-27.</strong>
+    Wouter geeft de voorkeur aan <em>“Share to connect”</em> boven <em>“Share information”</em>
+    als leidend Engels concept. Variant&nbsp;A is bijgewerkt zodat de hoofd-label nu
+    <em>“Share to connect”</em> is, met als aanbevolen Nederlandse tegenhanger
+    <em>“Delen verbindt.”</em> — kort, declaratief, geen calque-gevoel,
+    past bij de stichtingstoon. De pil heeft ruime padding meegekregen zodat de
+    twee-woord-zin premium en niet krap leest. De atlas-richting blijft als
+    secundair label zichtbaar voor vergelijking met ronde 1.
+  </div>
+
   <div class="preview-eyebrow">Header CTA · Ronde 2</div>
   <h1 class="preview-h1">Groter, ruimer, <i>met meer lef</i>.</h1>
   <p class="preview-deck">
@@ -282,7 +294,7 @@
   <section class="variant v-a" aria-labelledby="va-title">
     <div class="variant-meta">
       <span class="variant-tag recommended">Aanbevolen · A</span>
-      <span class="variant-title" id="va-title">“Werk mee aan de atlas” — redactionele slab met kicker</span>
+      <span class="variant-title" id="va-title">“Share to connect / Delen verbindt” — redactionele slab met kicker</span>
     </div>
     <div class="variant-stage">
       <nav class="mast overlay" aria-label="Variant A — primaire navigatie">
@@ -294,9 +306,9 @@
             <a href="#" onclick="return false">Atlas</a>
             <a href="#" onclick="return false">Dispatch</a>
             <a class="mast-cta" href="/submit-news?lang=nl" lang="nl"
-               aria-label="Werk mee aan de atlas — open intake">
-              <span class="cta-eyebrow">Bijdragen</span>
-              <span class="cta-label">Werk mee aan de atlas</span>
+               aria-label="Delen verbindt — open intake">
+              <span class="cta-eyebrow">Delen</span>
+              <span class="cta-label">Delen verbindt.</span>
             </a>
             <a href="#" class="mast-contribute" onclick="return false">Doneer</a>
           </div>
@@ -305,25 +317,46 @@
     </div>
     <div class="variant-notes">
       <strong>Waarom dit de aanbevolen richting is.</strong>
-      Een tweelaags label — een kleine monospace kicker (<em>Bijdragen</em>)
-      boven een Archivo-zin (<em>Werk mee aan de atlas</em>) — geeft de knop
-      voor het eerst een <em>eigen vorm</em> in plaats van een generiek pilletje.
-      De cream-op-donker-contrast zet de CTA visueel los van de rest van de nav,
-      zonder de overlay-toon te breken. De zachte schaduw plus 1&nbsp;px-bodemlijn
-      geven net genoeg <em>diepte</em> om premium aan te voelen, niet promotioneel.
+      Wouter koos <em>“Share to connect”</em> boven <em>“Share information”</em>
+      als leidend Engels concept — de actie wordt geframed als verbinding,
+      niet als formulierwerk. De Nederlandse tegenhanger is
+      <em>“Delen verbindt.”</em>: twee woorden, declaratief, geen calque,
+      past als stille manifest-zin bij de stichtingstoon. De redactionele
+      slab krijgt 28&nbsp;px horizontale padding plus 12&nbsp;px verticaal,
+      zodat de twee-woord-zin premium leest en de knop nooit krap aanvoelt
+      tussen de navigatie-items. De cream-op-donker-contrast geeft eigen vorm
+      zonder de overlay-toon te breken; de kicker
+      (<em>Delen</em>&nbsp;/&nbsp;<em>Share</em>) blijft als monospace anker.
       <ul>
-        <li>Groter raakvlak (~44 px hoog) — voldoet aan WCAG-tikdoel.</li>
-        <li>De kicker maakt expliciet wat het is: <em>bijdragen</em>, geen abonnement, geen claim.</li>
-        <li>De label “Werk mee aan de atlas” verbindt de actie aan de inhoud (de Atlas-pagina) en past bij de stichtingstoon.</li>
+        <li>Groter raakvlak (~48 px hoog) — voldoet ruim aan WCAG-tikdoel.</li>
+        <li>De label is een uitspraak, geen instructie — past bij premium register.</li>
+        <li>Geen overlap met <em>Doneer</em> in toon of kleur — de twee acties blijven duidelijk gescheiden.</li>
         <li>Bij hover keert de knop om naar accent: zelfvertrouwen, geen agressie.</li>
       </ul>
       <table class="label-table" aria-label="Labelvergelijking voor variant A">
-        <thead><tr><th>Taal</th><th>Kicker</th><th>Label</th></tr></thead>
+        <thead><tr><th>Taal</th><th>Kicker</th><th>Label (aanbevolen)</th><th>Eerder voorstel</th></tr></thead>
         <tbody>
-          <tr class="win"><td>NL</td><td><em>Bijdragen</em></td><td>Werk mee aan de atlas</td></tr>
-          <tr><td>EN</td><td><em>Contribute</em></td><td>Help build the atlas</td></tr>
+          <tr class="win"><td>NL</td><td><em>Delen</em></td><td><strong>Delen verbindt.</strong></td><td>Werk mee aan de atlas</td></tr>
+          <tr class="win"><td>EN</td><td><em>Share</em></td><td><strong>Share to connect</strong></td><td>Help build the atlas</td></tr>
         </tbody>
       </table>
+
+      <strong style="display:block;margin-top:18px">Nederlandse opties die we tegen elkaar hielden.</strong>
+      <ul>
+        <li><strong>Delen verbindt.</strong> &nbsp;<em>(aanbevolen — “sharing connects”)</em>
+          Twee woorden, declaratief, geen calque-gevoel. Spiegelt het ritme van
+          <em>Share to connect</em> en leest als een stil manifest. Past bij ESRF’s ernstige register.</li>
+        <li><strong>Deel om te verbinden.</strong> &nbsp;<em>(letterlijke calque)</em>
+          Grammaticaal correct, maar <em>“om te + infinitief”</em> klinkt instructief in nav-tekst.
+          Aanvaardbaar als werkwoord-vorm gewenst is voor pariteit met EN.</li>
+        <li><strong>Verbind door te delen.</strong> &nbsp;<em>(omgekeerd, werkwoord-eerst)</em>
+          Actief en helder, maar vier woorden — duwt de knop breder dan z’n EN-tegenhanger
+          en riskeert het “krappe” gevoel dat Wouter expliciet wilde vermijden.</li>
+        <li><strong>Deel mee.</strong> &nbsp;<em>(kort, idiomatisch)</em>
+          Twee lettergrepen, zeer natuurlijk, sluit aan bij <em>Doneer</em>.
+          Laat het “verbinden”-frame los; alleen kiezen als de kortst mogelijke NL-label
+          gewenst is.</li>
+      </ul>
       <div class="destinations">
         Bestemmingen:
         <a href="/submit-news?lang=nl">/submit-news?lang=nl</a> ·
@@ -487,9 +520,14 @@
         </thead>
         <tbody>
           <tr class="win">
+            <td><strong>Delen verbindt.</strong></td>
+            <td><strong>Share to connect</strong></td>
+            <td>Aanbevolen (variant A, na verfijning Wouter). Premium, kort, geen instructie — actie als verbinding, niet als formulier.</td>
+          </tr>
+          <tr>
             <td><em>Werk mee aan de atlas</em></td>
             <td><em>Help build the atlas</em></td>
-            <td>Aanbevolen (variant A). Gemeenschappelijk, redactioneel, verbindt aan inhoud.</td>
+            <td>Eerder voorstel ronde 2. Gemeenschappelijk, redactioneel, verbindt aan inhoud — bewaard als alternatief.</td>
           </tr>
           <tr>
             <td><em>Draag bij aan ESRF</em></td>
