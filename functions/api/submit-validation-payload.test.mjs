@@ -445,6 +445,91 @@ check('validation-lab.json: request-listing-validation renamed away from "Opgave
   assert.ok(mod.primaryCallToActionLabel && mod.primaryCallToActionLabel.nl === 'Deel je informatie');
 });
 
+// ─── Mode-option selection buttons must not carry a "NIEUW"/"NEW" badge ─
+// Confusing per visitor feedback on the test deploy: every mode card except
+// the default "org" one used to be tagged with a <span class="new-pill">Nieuw</span>
+// inside its <strong> label. Strip them so the choice options read neutral.
+// Allowed staging context (e.g. the "VALIDATIEOMGEVING" stage bar or the
+// page-level kicker "Nieuw in validatie") is untouched.
+
+function extractModeOptionsBlock(src){
+  const start = src.indexOf('<div class="mode-switch"');
+  assert.ok(start > 0, 'expected mode-switch container in submit-validation.html');
+  const end = src.indexOf('</div>', start);
+  assert.ok(end > start, 'expected closing </div> for mode-switch');
+  return src.slice(start, end + '</div>'.length);
+}
+
+check('submit-validation.html: mode-option selection buttons carry no "Nieuw" badge', () => {
+  const block = extractModeOptionsBlock(html);
+  // No new-pill spans inside any mode-option row.
+  assert.ok(!/<span[^>]*class="[^"]*new-pill[^"]*"[^>]*>/i.test(block),
+    'mode-option block must not contain any <span class="new-pill"> — selection buttons must read neutral');
+  // No literal Nieuw badge text wrapped in <strong> (defensive — catches a
+  // future rewrite that swaps span for another tag).
+  assert.ok(!/<strong[^>]*>[^<]*\bNieuw\b[^<]*<\/strong>/.test(block),
+    'mode-option <strong> labels must not contain a "Nieuw" duiding');
+  // No English "NEW" badge variant either.
+  assert.ok(!/\bNEW\b/.test(block),
+    'mode-option block must not contain an English "NEW" badge');
+});
+
+check('submit-validation.html: each known mode (org/editorial/both/change_request/hide_delete) has no Nieuw/NEW duiding on its label', () => {
+  const block = extractModeOptionsBlock(html);
+  for (const mode of ['org', 'editorial', 'both', 'change_request', 'hide_delete']){
+    const re = new RegExp('data-mode="' + mode + '"[\\s\\S]*?</label>');
+    const m = block.match(re);
+    assert.ok(m, 'expected mode-option for data-mode="' + mode + '"');
+    const opt = m[0];
+    assert.ok(!/\bNieuw\b/.test(opt),
+      'mode-option "' + mode + '" must not display a "Nieuw" duiding');
+    assert.ok(!/\bNEW\b/.test(opt),
+      'mode-option "' + mode + '" must not display an English "NEW" duiding');
+    assert.ok(!/class="[^"]*new-pill[^"]*"/.test(opt),
+      'mode-option "' + mode + '" must not contain a new-pill badge');
+  }
+});
+
+check('submit-validation.html: conditional editorial / change-request fieldset legends carry no "Nieuw" badge', () => {
+  // 3B (editorial) and 3C (change/hide-delete) legends used to carry
+  // <span class="new-pill">Nieuw</span> badges next to their headings.
+  // Those follow directly from the mode pick and were equally confusing.
+  const legendMatches = html.match(/<legend\s+class="form-legend">[^<]*(?:<span[^>]*>[^<]*<\/span>)?[^<]*<\/legend>/g) || [];
+  for (const l of legendMatches){
+    if (/3B\.|3C\./.test(l)){
+      assert.ok(!/new-pill|Nieuw/.test(l),
+        'conditional fieldset legend must not carry a "Nieuw" badge: ' + l);
+    }
+  }
+});
+
+check('submit-validation.html: fieldset-1 intro no longer pitches editorial as "Nieuwe optie"', () => {
+  // The intro paragraph above the radiogroup used to end with
+  // <span class="new-pill new-pill-soft">Nieuwe optie: editorial bijdrage</span>
+  // — that is annotation on a single mode option and was equally confusing.
+  const idx = html.indexOf('<legend class="form-legend">1. Wat wil je doen?');
+  assert.ok(idx > 0, 'expected fieldset 1 legend');
+  const slice = html.slice(idx, idx + 1200);
+  assert.ok(!/Nieuwe optie:\s*editorial bijdrage/.test(slice),
+    'fieldset-1 intro must not pitch editorial bijdrage as "Nieuwe optie"');
+});
+
+check('submit-validation.html: legitimate staging context (VALIDATIEOMGEVING / niet publiek / testpreview) is preserved', () => {
+  // We only stripped confusing "NIEUW" duiding from selection buttons.
+  // Staging warnings must still appear so visitors know they are on the
+  // validation environment.
+  assert.ok(/VALIDATIEOMGEVING/.test(html), 'expected VALIDATIEOMGEVING staging marker on submit-validation.html');
+  assert.ok(/NIET PUBLIEK/.test(html), 'expected "NIET PUBLIEK" stage-bar copy on submit-validation.html');
+  assert.ok(/testpreview/i.test(html), 'expected "testpreview" copy on submit-validation.html');
+});
+
+check('request-listing-validation.html: page kicker keeps the staging "Nieuw in validatie" context (regression guard)', () => {
+  // The validation kicker above the hero is allowed — it's staging context,
+  // not a selection-button duiding.
+  assert.ok(/<span[^>]*class="[^"]*new-pill[^"]*"[^>]*>\s*Nieuw in validatie\s*</.test(rlv),
+    'expected the "Nieuw in validatie" kicker pill to remain on request-listing-validation.html');
+});
+
 if (failures) {
   console.log('\n' + failures + ' test(s) FAILED');
   process.exit(1);
