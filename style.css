@@ -83,6 +83,11 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   position:static;line-height:1;
 }
 .mast-nav{display:flex;gap:28px;align-items:center}
+/* Desktop visual order: keep CTA before Contribute even though the DOM now
+   places CTA last so it can sit at the bottom of the mobile drawer. Flex
+   `order` only applies inside the row, so this is a desktop-only swap. */
+.mast-nav .mast-cta{order:1}
+.mast-nav .mast-contribute{order:2}
 .mast-nav a{
   font-family:'IBM Plex Mono',monospace;font-weight:500;
   font-size:12px;letter-spacing:0.18em;text-transform:uppercase;
@@ -1107,24 +1112,28 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
     background:var(--ink);color:var(--cream);border-color:var(--cream);
   }
   .mast.nav-open .mast-burger{background:var(--ink);color:var(--cream);border-color:var(--cream)}
-  /* Variant A on mobile — keep the command card visible inside the open
-     drawer as a full-width row, with the same identity dragers
-     (rail + mono meta + serif italic line). Min-height 56px = ≥ WCAG 2.2
-     tap target. The card sits in the menu rather than the closed header
-     to avoid eating fold space; users still see it the moment they open
-     the burger. */
+  /* Variant A on mobile — anchored as the LAST item in the open drawer.
+     DOM order already puts the CTA after every nav link and after the
+     Contribute link, so we reset the desktop `order` flip here and let
+     the natural source order place the CTA at the bottom. The card is
+     a full-width block (no overlap with prior items, no absolute
+     positioning) with min-height 56px = ≥ WCAG 2.2 tap target. */
+  .mast-nav .mast-cta,
+  .mast-nav .mast-contribute{order:0}
   .mast-cta{
+    position:relative;
     display:grid;grid-template-columns:4px 1fr auto;gap:0;
     width:100%;min-width:0;min-height:56px;border-radius:0;
-    margin-top:18px;padding:0;
+    margin-top:24px;margin-bottom:8px;padding:0;
+    border-bottom:1px solid rgba(15,20,25,0.18) !important;
   }
   .mast-cta-rail{width:4px}
   .mast-cta-body{padding:14px 18px;gap:8px}
   .mast-cta-line{font-size:18px}
   .mast-cta-arrow{align-self:center;padding:0 22px 0 8px;font-size:18px}
   .mast-contribute{
-    display:inline-block;margin-top:24px;
-    font-size:14px;letter-spacing:0.14em;
+    display:block;width:100%;margin-top:0;
+    padding:16px 0;font-size:14px;letter-spacing:0.14em;
   }
   .lang-switch{
     position:fixed;top:14px;right:calc(var(--pad-x) + 52px);
