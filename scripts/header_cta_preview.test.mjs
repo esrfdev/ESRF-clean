@@ -1,8 +1,9 @@
-// Test: header-cta-preview.html is a hidden internal artifact (round 2).
+// Test: header-cta-preview.html is a hidden internal artifact (round 3).
 //
 // Background — 2026-04-27:
-//   header-cta-preview.html now hosts FOUR candidate header-CTA directions
-//   for Wouter (round 2 — round 1 was rejected as too cramped/frugal).
+//   header-cta-preview.html now hosts THREE radically different header-CTA
+//   directions for Wouter plus a mobile treatment (round 3 — round 2 was
+//   rejected as "simply ugly", too many pill/slab iterations).
 //   The preview is NOT public, NOT linked anywhere, and MUST NOT modify
 //   the production header.
 //
@@ -14,12 +15,15 @@
 //   5. No production HTML/JS/JSON/XML/TXT links to it.
 //   6. The live overlay masthead in index.html still uses the current
 //      "Update or verify a listing" CTA — i.e. the preview did not leak.
-//   7. The preview presents exactly four labelled variants, each rendered
-//      inside a real .mast.overlay nav.
+//   7. The preview presents the three concept variants plus a mobile
+//      treatment (v-a, v-b, v-c, v-d), each rendered inside a real
+//      .mast.overlay nav.
 //   8. Exactly one variant is marked as recommended.
 //   9. The preview never uses the retired "Claim your listing" wording.
 //  10. The preview includes both Dutch and English candidate labels.
 //  11. A mobile/compact variant is present.
+//  12. The required new label paradigm is present:
+//      "Share to connect" (EN) and "Draag bij aan verbinding" (NL).
 //
 // Run with: node scripts/header_cta_preview.test.mjs
 
@@ -127,8 +131,8 @@ check('production CTA still points at ?mode=change_request', () => {
     'production CTA href no longer carries mode=change_request: ' + href);
 });
 
-/* 7. Four variants, each inside a .mast.overlay nav. */
-check('preview presents exactly four variants (.variant.v-a/.v-b/.v-c/.v-d)', () => {
+/* 7. Three concepts + mobile treatment, each inside a .mast.overlay nav. */
+check('preview presents three concepts + mobile (.variant.v-a/.v-b/.v-c/.v-d)', () => {
   for (const slug of ['v-a','v-b','v-c','v-d']){
     const re = new RegExp('class=["\']variant ' + slug + '["\']');
     assert.match(previewHtml, re, 'variant block missing: ' + slug);
@@ -180,6 +184,15 @@ check('preview shows both Dutch and English candidate labels', () => {
   }
 });
 
+/* 11b. Required round-3 leading labels are present:
+        "Share to connect" (EN) and "Draag bij aan verbinding" (NL). */
+check('preview includes required round-3 leading labels', () => {
+  assert.ok(previewHtml.includes('Share to connect'),
+    'required EN label "Share to connect" missing from preview');
+  assert.ok(previewHtml.includes('Draag bij aan verbinding'),
+    'required NL label "Draag bij aan verbinding" missing from preview');
+});
+
 /* 11. Mobile / compact variant present. */
 check('preview includes a mobile/compact variant (variant D)', () => {
   // The mobile variant uses a stacked .mast-row-cta block — no other variant does.
@@ -208,9 +221,9 @@ check('every variant links to /submit-news (real intake route)', () => {
 check('preview contains design rationale in Dutch', () => {
   // Heuristic: look for a few unmistakably Dutch rationale markers.
   const dutchMarkers = [
-    'Waarom dit de aanbevolen richting is',
-    'Wanneer kies je dit',
-    'ronde 2',
+    'Waarom dit werkt',
+    'Waarom dit kan tegenvallen',
+    'ronde 3',
   ];
   for (const m of dutchMarkers){
     assert.ok(previewHtml.includes(m),

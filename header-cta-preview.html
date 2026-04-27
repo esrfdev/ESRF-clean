@@ -2,13 +2,15 @@
 <html lang="nl">
 <head>
 <meta charset="utf-8" />
-<title>ESRF — Header CTA preview · ronde 2 (intern)</title>
+<title>ESRF — Header CTA preview · ronde 3 (intern)</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <!--
-  Hidden internal preview — ronde 2.
-  Wouter vond ronde 1 te krap, te zuinig, te veel van hetzelfde.
-  Deze ronde mikt op: groter raakvlak, meer witruimte,
-  eigen vorm, subtiele diepte, redactioneel zelfvertrouwen.
+  Hidden internal preview — ronde 3.
+  Wouter vond ronde 1 te krap en ronde 2 simpelweg lelijk:
+  te veel dezelfde pil/slab-vormen, te weinig eigen vorm.
+  Deze ronde mikt op drie radicaal verschillende richtingen,
+  geen pil-iteraties: een command card, een split-CTA en een
+  typografische rail-CTA. Plus een mobiele behandeling.
   Niet gelinkt vanaf nav, footer, sitemap of welke productiepagina dan ook.
 -->
 <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
@@ -18,238 +20,300 @@
 <link rel="stylesheet" href="style.css" />
 <style>
   /* ─── Preview-only chrome — raakt productie-CSS niet aan. ─── */
-  .preview-shell{max-width:1240px;margin:0 auto;padding:56px 32px 160px}
+  .preview-shell{max-width:1280px;margin:0 auto;padding:64px 40px 200px}
   .preview-banner{
     background:#fff5e0;border:1px solid var(--accent);
-    padding:16px 20px;border-radius:6px;margin-bottom:40px;
-    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.7;
+    padding:18px 22px;border-radius:4px;margin-bottom:28px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.75;
     color:var(--ink);
   }
   .preview-banner strong{color:var(--accent-deep)}
   .preview-eyebrow{
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.28em;
-    text-transform:uppercase;color:var(--accent);margin-bottom:14px;
-    padding-bottom:10px;border-bottom:2px solid var(--accent);width:fit-content;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.32em;
+    text-transform:uppercase;color:var(--accent);margin:32px 0 18px;
+    padding-bottom:12px;border-bottom:2px solid var(--accent);width:fit-content;
   }
   .preview-h1{
     font-family:'Archivo',sans-serif;font-weight:800;
-    font-size:44px;letter-spacing:-0.025em;margin:0 0 12px;line-height:1.05;
+    font-size:52px;letter-spacing:-0.03em;margin:0 0 16px;line-height:1.02;
   }
   .preview-h1 i{
     font-family:'PT Serif',serif;font-style:italic;font-weight:400;
     color:var(--accent);letter-spacing:-0.01em;
   }
   .preview-deck{
-    font-family:'PT Serif',serif;font-size:18px;line-height:1.6;
-    color:var(--ink-soft);margin-bottom:48px;max-width:780px;
+    font-family:'PT Serif',serif;font-size:19px;line-height:1.65;
+    color:var(--ink-soft);margin-bottom:64px;max-width:820px;
   }
 
   .variant{
     background:var(--cream);border:1px solid rgba(15,20,25,0.12);
-    border-radius:10px;padding:0;margin-bottom:64px;overflow:hidden;
-    box-shadow:0 1px 0 rgba(15,20,25,0.04), 0 12px 40px -24px rgba(15,20,25,0.18);
+    border-radius:6px;padding:0;margin-bottom:80px;overflow:hidden;
+    box-shadow:0 1px 0 rgba(15,20,25,0.04), 0 18px 50px -28px rgba(15,20,25,0.22);
   }
   .variant-meta{
-    padding:22px 26px;border-bottom:1px solid rgba(15,20,25,0.1);
-    display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;
+    padding:28px 32px;border-bottom:1px solid rgba(15,20,25,0.1);
+    display:flex;flex-wrap:wrap;gap:18px;align-items:baseline;
     background:#fff;
   }
   .variant-tag{
-    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.24em;
     text-transform:uppercase;color:var(--accent);
-    border:1px solid var(--accent);padding:4px 10px;border-radius:999px;
+    border:1px solid var(--accent);padding:5px 12px;border-radius:999px;
   }
   .variant-tag.recommended{background:var(--accent);color:var(--cream)}
   .variant-tag.compact{
     color:var(--ink-soft);border-color:rgba(15,20,25,0.4);
   }
   .variant-title{
-    font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;
-    letter-spacing:-0.015em;
+    font-family:'Archivo',sans-serif;font-weight:800;font-size:24px;
+    letter-spacing:-0.02em;
   }
   .variant-stage{
-    /* Mimic real dark hero — overlay masthead reads correctly. */
+    /* Donker ESRF masthead — overlay-context voor accurate review. */
     background:
-      linear-gradient(135deg, rgba(210,75,31,0.88), rgba(32,78,122,0.78)),
-      radial-gradient(circle at 30% 40%, #D24B1F, transparent 60%),
-      radial-gradient(circle at 70% 70%, #204E7A, transparent 60%),
-      #2A2018;
-    padding:0;position:relative;min-height:200px;
-    filter:contrast(1.05) saturate(1.05);
+      radial-gradient(ellipse at 20% 20%, rgba(210,75,31,0.28), transparent 55%),
+      radial-gradient(ellipse at 85% 80%, rgba(32,78,122,0.30), transparent 60%),
+      linear-gradient(160deg, #1A1410 0%, #0F1419 60%, #0A0E12 100%);
+    padding:0;position:relative;min-height:240px;
   }
-  .variant-stage .mast.overlay{position:relative}
-  .variant-stage.compact{min-height:240px;padding:24px 0}
+  .variant-stage::before{
+    /* Heel subtiele textuur — voorkomt platte gradient-look. */
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      repeating-linear-gradient(0deg, rgba(248,242,230,0.012) 0 1px, transparent 1px 3px);
+    mix-blend-mode:overlay;
+  }
+  .variant-stage.compact{min-height:280px;padding:32px 0}
+  .variant-stage .mast.overlay{position:relative;z-index:2}
   .variant-notes{
-    padding:24px 26px;border-top:1px solid rgba(15,20,25,0.1);
-    font-family:'PT Serif',serif;font-size:15.5px;line-height:1.7;color:var(--ink-soft);
+    padding:32px 36px;border-top:1px solid rgba(15,20,25,0.1);
+    font-family:'PT Serif',serif;font-size:16px;line-height:1.75;color:var(--ink-soft);
   }
   .variant-notes strong{color:var(--ink)}
-  .variant-notes ul{margin:10px 0 0 22px}
-  .variant-notes ul li{margin-bottom:4px}
+  .variant-notes ul{margin:12px 0 0 24px}
+  .variant-notes ul li{margin-bottom:6px}
   .variant-notes code{
     font-family:'IBM Plex Mono',monospace;font-size:12px;
     background:rgba(15,20,25,0.06);padding:1px 6px;border-radius:3px;
   }
   .destinations{
-    margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:11px;
-    letter-spacing:0.06em;color:var(--ink-dim);
+    margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.08em;color:var(--ink-dim);
   }
   .destinations a{color:var(--accent);text-decoration:underline}
 
-  /* ─── Variant-specific styling — preview-only, never touches production. ─── */
+  /* Geef alle preview-mast-balken iets meer ademruimte dan productie. */
+  .variant-stage .mast-inner{padding:22px 36px;gap:36px}
+  .variant-stage .mast-nav{gap:34px}
 
-  /* VARIANT A — Editorial slab, refined for Wouter's "Share to connect".
-     Two lines: monospace eyebrow ("DELEN") + Archivo label.
-     Extra horizontal padding (28px) so the two-word label has room
-     to breathe — never cramped, premium feel. */
+  /* ─── VARIANT A — COMMAND CARD ──────────────────────────────────────
+     Een klein, rechtopstaand kaartje aan de rechterkant van de header.
+     Géén pil. Twee regels: monospace meta-regel ("Open intake · NL/EN"),
+     daaronder een serif-italic actiezin. Hairline divider tussen beide.
+     Subtiele glas/blur-laag op de donkere masthead, accent-streep links
+     als visueel anker. Voelt als een colofon-tegel of dispatch-cartouche,
+     niet als een knop. Premium door rust en typografische hiërarchie. */
   .v-a .mast-cta{
-    display:inline-flex;flex-direction:column;align-items:flex-start;
-    gap:3px;padding:12px 28px;border-radius:4px;
-    background:var(--cream);color:var(--ink) !important;
-    border:1px solid var(--cream) !important;
-    border-bottom:1px solid var(--cream) !important;
-    line-height:1;text-transform:none;letter-spacing:0;
-    box-shadow:0 1px 0 rgba(15,20,25,0.15), 0 8px 24px -10px rgba(15,20,25,0.45);
-    transition:transform .15s ease, box-shadow .15s ease, background .2s;
+    display:grid;grid-template-columns:3px 1fr;gap:0;
+    padding:0;border-radius:3px;
+    background:rgba(248,242,230,0.04);
+    border:1px solid rgba(248,242,230,0.22) !important;
+    border-bottom:1px solid rgba(248,242,230,0.22) !important;
+    color:var(--cream) !important;
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    transition:background .25s ease, border-color .25s ease, transform .15s ease;
+    overflow:hidden;line-height:1;text-transform:none;letter-spacing:0;
+    min-width:230px;
   }
   .v-a .mast-cta:hover{
-    background:var(--accent);color:var(--cream) !important;
-    border-color:var(--accent) !important;
+    background:var(--cream);border-color:var(--cream) !important;
     transform:translateY(-1px);
-    box-shadow:0 2px 0 rgba(15,20,25,0.25), 0 14px 32px -10px rgba(15,20,25,0.55);
   }
-  .v-a .mast-cta .cta-eyebrow{
+  .v-a .mast-cta:hover .v-a-rail{background:var(--accent-deep)}
+  .v-a .mast-cta:hover .v-a-meta,
+  .v-a .mast-cta:hover .v-a-line{color:var(--ink)}
+  .v-a .mast-cta:hover .v-a-meta-dot{background:var(--accent-deep)}
+  .v-a-rail{background:var(--accent);width:3px;height:100%;transition:background .25s}
+  .v-a-body{padding:14px 22px 16px}
+  .v-a-meta{
+    display:flex;align-items:center;gap:8px;
     font-family:'IBM Plex Mono',monospace;font-weight:500;
-    font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;
-    color:var(--accent);
+    font-size:9.5px;letter-spacing:0.24em;text-transform:uppercase;
+    color:rgba(248,242,230,0.78);margin-bottom:8px;
   }
-  .v-a .mast-cta:hover .cta-eyebrow{color:var(--cream);opacity:0.9}
-  .v-a .mast-cta .cta-label{
-    font-family:'Archivo',sans-serif;font-weight:700;
-    font-size:14px;letter-spacing:-0.005em;
+  .v-a-meta-dot{
+    width:5px;height:5px;border-radius:999px;background:var(--accent);
+    box-shadow:0 0 0 3px rgba(210,75,31,0.18);
   }
-  .v-a .mast-nav{gap:32px}
+  .v-a-line{
+    font-family:'PT Serif',serif;font-style:italic;font-weight:400;
+    font-size:18px;letter-spacing:-0.005em;color:var(--cream);
+    line-height:1.15;display:flex;align-items:baseline;gap:10px;
+  }
+  .v-a-line .v-a-arrow{
+    font-style:normal;font-family:'Archivo',sans-serif;font-weight:600;
+    font-size:14px;color:var(--accent);transition:transform .25s ease;
+  }
+  .v-a .mast-cta:hover .v-a-arrow{transform:translateX(4px);color:var(--accent-deep)}
 
-  /* VARIANT B — Sharp accent slab.
-     Solid accent, square corners, two-line, all-caps tracking,
-     no rounded pill. Reads like a press / dispatch button. */
+  /* ─── VARIANT B — SPLIT CTA ──────────────────────────────────────────
+     Twee duidelijk gescheiden visuele blokken die samen één klikvlak
+     vormen: links een mono-uppercase mini-label op een hairline-frame
+     ("BIJDRAGEN"), rechts de sterke actie-zin in Archivo, met een
+     subtiele cream onderstreping als accent. Geen achtergrond-vlak —
+     het werkt als een redactionele kop in plaats van een knop. */
   .v-b .mast-cta{
+    display:inline-flex;align-items:stretch;
+    padding:0;border-radius:0;background:transparent;
+    border:0 !important;border-bottom:0 !important;
+    color:var(--cream) !important;
+    text-transform:none;letter-spacing:0;line-height:1;
+    transition:transform .15s ease;
+  }
+  .v-b .mast-cta:hover{transform:translateY(-1px)}
+  .v-b-tag{
+    display:inline-flex;align-items:center;
+    padding:0 14px;border:1px solid rgba(248,242,230,0.5);
+    border-right:0;
+    font-family:'IBM Plex Mono',monospace;font-weight:500;
+    font-size:10px;letter-spacing:0.28em;text-transform:uppercase;
+    color:rgba(248,242,230,0.85);
+    transition:background .25s, color .25s, border-color .25s;
+  }
+  .v-b-action{
     display:inline-flex;align-items:center;gap:14px;
-    padding:12px 22px;border-radius:0;
-    background:var(--accent);color:var(--cream) !important;
-    border:1px solid var(--accent) !important;
-    border-bottom:1px solid var(--accent) !important;
-    box-shadow:
-      inset 0 -2px 0 rgba(15,20,25,0.25),
-      0 10px 30px -10px rgba(210,75,31,0.55);
-    transition:background .2s, box-shadow .2s, transform .15s;
+    padding:14px 22px;
+    border:1px solid rgba(248,242,230,0.5);
+    background:transparent;
+    transition:background .25s, color .25s, border-color .25s;
   }
-  .v-b .mast-cta:hover{
-    background:var(--accent-deep);
-    border-color:var(--accent-deep) !important;
-    transform:translateY(-1px);
+  .v-b-text{
+    font-family:'Archivo',sans-serif;font-weight:700;
+    font-size:15px;letter-spacing:-0.01em;
+    border-bottom:1px solid var(--accent);padding-bottom:1px;
+    transition:border-color .25s;
   }
-  .v-b .mast-cta .cta-label{
-    font-family:'Archivo',sans-serif;font-weight:800;
-    font-size:13px;letter-spacing:0.04em;text-transform:uppercase;
+  .v-b-arrow{
+    width:22px;height:1px;background:var(--cream);position:relative;display:inline-block;
+    transition:background .25s, width .25s ease;
   }
-  .v-b .mast-cta .cta-arrow{
-    width:18px;height:1px;background:currentColor;position:relative;display:inline-block;
-  }
-  .v-b .mast-cta .cta-arrow::after{
+  .v-b-arrow::after{
     content:"";position:absolute;right:0;top:-3px;
     width:7px;height:7px;border-top:1px solid currentColor;
     border-right:1px solid currentColor;transform:rotate(45deg);
   }
+  .v-b .mast-cta:hover .v-b-tag{
+    background:var(--accent);color:var(--cream);border-color:var(--accent);
+  }
+  .v-b .mast-cta:hover .v-b-action{
+    background:var(--cream);border-color:var(--cream);color:var(--ink);
+  }
+  .v-b .mast-cta:hover .v-b-text{border-bottom-color:var(--accent-deep)}
+  .v-b .mast-cta:hover .v-b-arrow{background:var(--ink);width:30px}
 
-  /* VARIANT C — Status-framed pill.
-     Cream pill, generous padding, live "intake open" green dot,
-     monospace status eyebrow before label. Institutional. */
+  /* ─── VARIANT C — UNDERLINE RAIL ─────────────────────────────────────
+     Geen knop, geen vlak — een puur typografische CTA met een
+     dubbele "rail" onderlijn die motion suggereert via gestapelde
+     statische CSS-lagen (een dunne cream-lijn, een korte accent-lijn
+     eronder die bij hover doorrolt). De zin staat in serif italic,
+     met een mono-eyebrow erboven. Voelt als een museum-plaat of
+     tijdschrift-kicker, niet als een marketingknop. Maximale
+     redactionele rust, sterkste merk-handtekening. */
   .v-c .mast-cta{
-    display:inline-flex;align-items:center;gap:12px;
-    padding:9px 20px;border-radius:999px;
-    background:rgba(248,242,230,0.06);
-    border:1px solid var(--cream) !important;
-    border-bottom:1px solid var(--cream) !important;
+    display:inline-flex;flex-direction:column;align-items:flex-start;gap:6px;
+    padding:6px 2px 4px;border-radius:0;
+    background:transparent;border:0 !important;border-bottom:0 !important;
     color:var(--cream) !important;
-    backdrop-filter:blur(2px);
-    transition:background .2s;
+    text-transform:none;letter-spacing:0;line-height:1;
+    position:relative;
   }
-  .v-c .mast-cta:hover{background:var(--cream);color:var(--ink) !important}
-  .v-c .mast-cta:hover .cta-status{color:var(--accent-deep)}
-  .v-c .mast-cta:hover .cta-dot{background:var(--accent-deep);box-shadow:none}
-  .v-c .mast-cta .cta-dot{
-    width:7px;height:7px;border-radius:999px;background:#7BC47F;
-    box-shadow:0 0 0 3px rgba(123,196,127,0.18);flex:0 0 7px;
-  }
-  .v-c .mast-cta .cta-status{
+  .v-c-eyebrow{
     font-family:'IBM Plex Mono',monospace;font-weight:500;
-    font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
-    color:#A6E3A6;border-right:1px solid rgba(248,242,230,0.3);padding-right:12px;
+    font-size:10px;letter-spacing:0.32em;text-transform:uppercase;
+    color:var(--accent);
   }
-  .v-c .mast-cta .cta-label{
-    font-family:'Archivo',sans-serif;font-weight:700;font-size:13.5px;
-    letter-spacing:-0.005em;
+  .v-c-line{
+    font-family:'PT Serif',serif;font-style:italic;font-weight:400;
+    font-size:21px;letter-spacing:-0.01em;color:var(--cream);
+    line-height:1.1;padding-bottom:10px;position:relative;
   }
+  /* Twee gestapelde rails: een lange cream hairline, daaronder een
+     korte accent-streep die bij hover over de volle breedte rolt. */
+  .v-c-line::before{
+    content:"";position:absolute;left:0;right:0;bottom:4px;height:1px;
+    background:rgba(248,242,230,0.45);
+  }
+  .v-c-line::after{
+    content:"";position:absolute;left:0;bottom:4px;height:1px;
+    width:28px;background:var(--accent);
+    transition:width .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .v-c .mast-cta:hover .v-c-line{color:var(--accent)}
+  .v-c .mast-cta:hover .v-c-line::after{width:100%}
+  .v-c .mast-cta:hover .v-c-eyebrow{color:var(--cream)}
 
-  /* VARIANT D — Mobile / compact.
-     Two stacked rows on narrow viewport: top = logo + burger,
-     bottom = full-width accent CTA bar with arrow. */
+  /* ─── VARIANT D — MOBIELE BEHANDELING ────────────────────────────────
+     Twee rijen op smal scherm: logo + menu-trigger boven, daaronder
+     een volle CTA-strook met zelfde rail-aesthetic als variant C.
+     Geen pil, geen oranje vlak — wel een eerlijk groot raakvlak. */
   .v-d .mast.overlay{padding:0}
   .v-d .mast-inner{
-    flex-direction:column;align-items:stretch;gap:0;padding:14px 24px 0;
+    flex-direction:column;align-items:stretch;gap:0;padding:18px 28px 0;
   }
   .v-d .mast-row-top{
     display:flex;justify-content:space-between;align-items:center;
-    padding-bottom:14px;
+    padding-bottom:18px;
   }
   .v-d .mast-row-top .mast-burger-fake{
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.22em;
     text-transform:uppercase;color:var(--cream);
     border:1px solid rgba(248,242,230,0.45);
-    padding:6px 12px;border-radius:4px;
+    padding:7px 14px;border-radius:3px;
   }
   .v-d .mast-row-cta{
-    margin:6px -24px 0;padding:0;
+    margin:0 -28px;padding:0;
     border-top:1px solid rgba(248,242,230,0.18);
     border-bottom:1px solid rgba(248,242,230,0.18);
   }
   .v-d .mast-cta{
     display:flex;justify-content:space-between;align-items:center;
-    padding:18px 24px;border-radius:0;
+    padding:22px 28px;border-radius:0;
     background:transparent;
     border:0 !important;border-bottom:0 !important;
     color:var(--cream) !important;
-    transition:background .2s;
+    transition:background .25s;
+    text-transform:none;letter-spacing:0;
   }
-  .v-d .mast-cta:hover{background:rgba(210,75,31,0.18)}
-  .v-d .mast-cta .cta-left{display:flex;flex-direction:column;gap:3px}
+  .v-d .mast-cta:hover{background:rgba(248,242,230,0.05)}
+  .v-d .mast-cta .cta-left{display:flex;flex-direction:column;gap:6px}
   .v-d .mast-cta .cta-eyebrow{
     font-family:'IBM Plex Mono',monospace;font-weight:500;
-    font-size:10px;letter-spacing:0.22em;text-transform:uppercase;
+    font-size:10px;letter-spacing:0.28em;text-transform:uppercase;
     color:var(--accent);
   }
   .v-d .mast-cta .cta-label{
-    font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;
-    letter-spacing:-0.015em;
+    font-family:'PT Serif',serif;font-style:italic;font-weight:400;
+    font-size:20px;letter-spacing:-0.01em;line-height:1.1;
   }
   .v-d .mast-cta .cta-arrow{
-    font-family:'PT Serif',serif;font-style:italic;font-size:24px;
-    color:var(--accent);
+    font-family:'Archivo',sans-serif;font-weight:600;font-size:18px;
+    color:var(--accent);transition:transform .25s ease;
   }
+  .v-d .mast-cta:hover .cta-arrow{transform:translateX(6px)}
 
-  /* ─── Label vergelijking — kleine vergelijktabel onderaan. ─── */
+  /* ─── Label vergelijktabel onderaan. ─── */
   .label-table{
-    margin-top:24px;width:100%;border-collapse:collapse;
-    font-family:'PT Serif',serif;font-size:14.5px;
+    margin-top:28px;width:100%;border-collapse:collapse;
+    font-family:'PT Serif',serif;font-size:15px;
   }
   .label-table th, .label-table td{
-    text-align:left;padding:10px 14px;
+    text-align:left;padding:12px 16px;
     border-bottom:1px solid rgba(15,20,25,0.08);vertical-align:top;
   }
   .label-table th{
     font-family:'IBM Plex Mono',monospace;font-size:10px;
-    letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-dim);
+    letter-spacing:0.22em;text-transform:uppercase;color:var(--ink-dim);
     background:rgba(15,20,25,0.03);font-weight:500;
   }
   .label-table td em{color:var(--accent);font-style:italic}
@@ -261,40 +325,37 @@
 <div class="preview-shell">
 
   <div class="preview-banner">
-    <strong>Interne preview — ronde 2.</strong>
-    Vier nieuwe header-CTA-richtingen voor Wouter. De live header is niet aangeraakt.
-    Deze pagina is <code>noindex,nofollow</code>, staat niet in <code>sitemap.xml</code>,
-    en is niet gelinkt vanaf welke productiepagina dan ook.
-    Knoppen zijn klikbaar en wijzen naar echte intake-routes, zodat het volgflow getest kan worden.
+    <strong>Interne preview — ronde 3.</strong>
+    Drie radicaal verschillende richtingen voor de header-CTA, plus een mobiele behandeling.
+    De live header is <em>niet</em> aangeraakt. Deze pagina is <code>noindex,nofollow</code>,
+    staat niet in <code>sitemap.xml</code>, en is niet gelinkt vanaf welke productiepagina dan ook.
+    Knoppen zijn klikbaar en wijzen naar echte intake-routes, zodat de volgflow getest kan worden.
   </div>
 
   <div class="preview-banner" style="background:#fdebe0;border-color:var(--accent-deep)">
-    <strong>Verfijning Wouter — 2026-04-27.</strong>
-    Wouter geeft de voorkeur aan <em>“Share to connect”</em> boven <em>“Share information”</em>
-    als leidend Engels concept. Variant&nbsp;A is bijgewerkt zodat de hoofd-label nu
-    <em>“Share to connect”</em> is, met als aanbevolen Nederlandse tegenhanger
-    <em>“Delen verbindt.”</em> — kort, declaratief, geen calque-gevoel,
-    past bij de stichtingstoon. De pil heeft ruime padding meegekregen zodat de
-    twee-woord-zin premium en niet krap leest. De atlas-richting blijft als
-    secundair label zichtbaar voor vergelijking met ronde 1.
+    <strong>Reset na ronde 2 — 2026-04-27.</strong>
+    Wouter vond ronde 2 simpelweg lelijk: te veel pil/slab-iteraties, te krap, te weinig eigen vorm.
+    Ronde 3 stopt met pillen pushen en verkent drie volledig andere visuele talen:
+    een <em>command card</em> aan de rand van de header, een <em>split-CTA</em> met label en
+    actiezin in twee blokken, en een <em>typografische rail-CTA</em> zonder vlak.
+    Allemaal met genereuze witruimte, verfijnde typografie en geen gepropte tekst.
+    Eerlijk: dit is een visuele keuze — Wouter moet kiezen wat <em>voelt</em> als ESRF.
   </div>
 
-  <div class="preview-eyebrow">Header CTA · Ronde 2</div>
-  <h1 class="preview-h1">Groter, ruimer, <i>met meer lef</i>.</h1>
+  <div class="preview-eyebrow">Header CTA · Ronde 3</div>
+  <h1 class="preview-h1">Geen pil meer. <i>Drie eigen vormen.</i></h1>
   <p class="preview-deck">
-    Ronde 1 was te krap en te zuinig — meer van hetzelfde grijze pilletje.
-    Deze ronde verkent vier eigen vormen: een redactionele slab met kicker,
-    een scherpe accent-actieknop, een institutioneel statuslabel met
-    “intake open”-indicator, en een volwaardige mobiele CTA-balk.
-    Allemaal nog steeds binnen ESRF’s ernstige toon — geen marketinglawaai,
-    wel zelfvertrouwen en ruimte.
+    Drie genuine alternatieven — geen variaties op hetzelfde knopje. Elk concept staat in
+    de echte donkere ESRF-masthead-context, met een eigen mobiele behandeling onderaan.
+    De labels mengen <em>“Share to connect”</em>, <em>“Draag bij aan verbinding”</em> en
+    een paar redactionele varianten zodat Wouter zowel vorm als microcopy kan wegen.
   </p>
 
-  <!-- ─────────────────────── VARIANT A — Recommended ─────────────────────── -->
+  <!-- ─────────────────────── VARIANT A — COMMAND CARD ─────────────────────── -->
   <section class="variant v-a" aria-labelledby="va-title">
     <div class="variant-meta">
       <span class="variant-tag recommended">Aanbevolen · A</span>
-      <span class="variant-title" id="va-title">“Share to connect / Delen verbindt” — redactionele slab met kicker</span>
+      <span class="variant-title" id="va-title">Command card — accent-rail, monospace meta, serif actiezin</span>
     </div>
     <div class="variant-stage">
       <nav class="mast overlay" aria-label="Variant A — primaire navigatie">
@@ -306,9 +367,18 @@
             <a href="#" onclick="return false">Atlas</a>
             <a href="#" onclick="return false">Dispatch</a>
             <a class="mast-cta" href="/submit-news?lang=nl" lang="nl"
-               aria-label="Delen verbindt — open intake">
-              <span class="cta-eyebrow">Delen</span>
-              <span class="cta-label">Delen verbindt.</span>
+               aria-label="Draag bij aan verbinding — open intake">
+              <span class="v-a-rail" aria-hidden="true"></span>
+              <span class="v-a-body">
+                <span class="v-a-meta">
+                  <span class="v-a-meta-dot" aria-hidden="true"></span>
+                  Open intake · NL / EN
+                </span>
+                <span class="v-a-line">
+                  Draag bij aan verbinding
+                  <span class="v-a-arrow" aria-hidden="true">→</span>
+                </span>
+              </span>
             </a>
             <a href="#" class="mast-contribute" onclick="return false">Doneer</a>
           </div>
@@ -316,47 +386,33 @@
       </nav>
     </div>
     <div class="variant-notes">
-      <strong>Waarom dit de aanbevolen richting is.</strong>
-      Wouter koos <em>“Share to connect”</em> boven <em>“Share information”</em>
-      als leidend Engels concept — de actie wordt geframed als verbinding,
-      niet als formulierwerk. De Nederlandse tegenhanger is
-      <em>“Delen verbindt.”</em>: twee woorden, declaratief, geen calque,
-      past als stille manifest-zin bij de stichtingstoon. De redactionele
-      slab krijgt 28&nbsp;px horizontale padding plus 12&nbsp;px verticaal,
-      zodat de twee-woord-zin premium leest en de knop nooit krap aanvoelt
-      tussen de navigatie-items. De cream-op-donker-contrast geeft eigen vorm
-      zonder de overlay-toon te breken; de kicker
-      (<em>Delen</em>&nbsp;/&nbsp;<em>Share</em>) blijft als monospace anker.
+      <strong>Waarom dit werkt.</strong>
+      Dit is een <em>command card</em>, geen knop: een klein rechtopstaand kaartje aan
+      de rand van de header, met een verticale accent-rail links als visueel anker,
+      een monospace meta-regel (<em>“Open intake · NL/EN”</em>) en daaronder de actiezin
+      in serif italic. De drie elementen hebben elk hun eigen typografische rol — geen
+      gepropte tekst meer, geen pil-vorm. De subtiele blur-laag op het donkere masthead
+      geeft glas-diepte zonder marketing-gradient. Bij hover keert de kaart om naar cream:
+      rustig, zelfverzekerd, geen flash. Past bij ESRF’s ernstige institutionele toon en
+      voelt als een dispatch-cartouche, niet als een marketingvlag.
       <ul>
-        <li>Groter raakvlak (~48 px hoog) — voldoet ruim aan WCAG-tikdoel.</li>
-        <li>De label is een uitspraak, geen instructie — past bij premium register.</li>
-        <li>Geen overlap met <em>Doneer</em> in toon of kleur — de twee acties blijven duidelijk gescheiden.</li>
-        <li>Bij hover keert de knop om naar accent: zelfvertrouwen, geen agressie.</li>
+        <li>Groter raakvlak (ruim 60&nbsp;px hoog) — voldoet ruim aan WCAG-tikdoel.</li>
+        <li>De accent-rail links is stille branding — verwijst naar de oranje pillar zonder full-bleed kleur.</li>
+        <li>De serif italic actiezin is geen instructie maar een uitspraak — past bij premium register.</li>
+        <li>Geen kleur-botsing met <em>Doneer</em>: de twee acties hebben verschillende vormen, niet dezelfde kleur.</li>
       </ul>
+      <strong style="display:block;margin-top:18px">Waarom dit kan tegenvallen.</strong>
+      De command card is breder dan een gewone CTA-pil (~230&nbsp;px); op smalle desktops
+      duwt dat de nav-items dichter naar het logo. Op zeer drukke pagina’s kan de extra
+      visuele complexiteit ook wegvallen tegen de overige overlay-content. Beste check:
+      bekijken in de echte donkere hero op <code>index.html</code>.
       <table class="label-table" aria-label="Labelvergelijking voor variant A">
-        <thead><tr><th>Taal</th><th>Kicker</th><th>Label (aanbevolen)</th><th>Eerder voorstel</th></tr></thead>
+        <thead><tr><th>Taal</th><th>Meta</th><th>Actiezin</th></tr></thead>
         <tbody>
-          <tr class="win"><td>NL</td><td><em>Delen</em></td><td><strong>Delen verbindt.</strong></td><td>Werk mee aan de atlas</td></tr>
-          <tr class="win"><td>EN</td><td><em>Share</em></td><td><strong>Share to connect</strong></td><td>Help build the atlas</td></tr>
+          <tr class="win"><td>NL</td><td><em>Open intake · NL / EN</em></td><td><strong>Draag bij aan verbinding</strong></td></tr>
+          <tr class="win"><td>EN</td><td><em>Intake open · EN / NL</em></td><td><strong>Share to connect</strong></td></tr>
         </tbody>
       </table>
-
-      <strong style="display:block;margin-top:18px">Nederlandse opties die we tegen elkaar hielden.</strong>
-      <ul>
-        <li><strong>Delen verbindt.</strong> &nbsp;<em>(aanbevolen — “sharing connects”)</em>
-          Twee woorden, declaratief, geen calque-gevoel. Spiegelt het ritme van
-          <em>Share to connect</em> en leest als een stil manifest. Past bij ESRF’s ernstige register.</li>
-        <li><strong>Deel om te verbinden.</strong> &nbsp;<em>(letterlijke calque)</em>
-          Grammaticaal correct, maar <em>“om te + infinitief”</em> klinkt instructief in nav-tekst.
-          Aanvaardbaar als werkwoord-vorm gewenst is voor pariteit met EN.</li>
-        <li><strong>Verbind door te delen.</strong> &nbsp;<em>(omgekeerd, werkwoord-eerst)</em>
-          Actief en helder, maar vier woorden — duwt de knop breder dan z’n EN-tegenhanger
-          en riskeert het “krappe” gevoel dat Wouter expliciet wilde vermijden.</li>
-        <li><strong>Deel mee.</strong> &nbsp;<em>(kort, idiomatisch)</em>
-          Twee lettergrepen, zeer natuurlijk, sluit aan bij <em>Doneer</em>.
-          Laat het “verbinden”-frame los; alleen kiezen als de kortst mogelijke NL-label
-          gewenst is.</li>
-      </ul>
       <div class="destinations">
         Bestemmingen:
         <a href="/submit-news?lang=nl">/submit-news?lang=nl</a> ·
@@ -365,11 +421,11 @@
     </div>
   </section>
 
-  <!-- ─────────────────────── VARIANT B — Sharp accent slab ─────────────────────── -->
+  <!-- ─────────────────────── VARIANT B — SPLIT CTA ─────────────────────── -->
   <section class="variant v-b" aria-labelledby="vb-title">
     <div class="variant-meta">
       <span class="variant-tag">Alternatief · B</span>
-      <span class="variant-title" id="vb-title">“Draag bij aan ESRF” — scherpe accent-slab met pijl</span>
+      <span class="variant-title" id="vb-title">Split CTA — mono-label naast actiezin met hairline-frame</span>
     </div>
     <div class="variant-stage">
       <nav class="mast overlay" aria-label="Variant B">
@@ -380,9 +436,13 @@
             <a href="#" onclick="return false">Directory</a>
             <a href="#" onclick="return false">Atlas</a>
             <a href="#" onclick="return false">Dispatch</a>
-            <a class="mast-cta" href="/submit-news?lang=nl" lang="nl">
-              <span class="cta-label">Draag bij aan ESRF</span>
-              <span class="cta-arrow" aria-hidden="true"></span>
+            <a class="mast-cta" href="/submit-news?lang=en" lang="en"
+               aria-label="Share to connect — open intake">
+              <span class="v-b-tag">Share</span>
+              <span class="v-b-action">
+                <span class="v-b-text">Share to connect</span>
+                <span class="v-b-arrow" aria-hidden="true"></span>
+              </span>
             </a>
             <a href="#" class="mast-contribute" onclick="return false">Doneer</a>
           </div>
@@ -390,30 +450,38 @@
       </nav>
     </div>
     <div class="variant-notes">
-      <strong>Wanneer kies je dit.</strong>
-      Hoogste klikgevoel: massieve accent-vlak, scherpe hoeken, eigen pijl.
-      De binnen-schaduw onderaan geeft tactiele diepte — alsof de knop ingedrukt
-      kan worden — zonder web 2.0-glans. Past goed bij momenten waarin we
-      de bijdrage-flow actief willen pushen (bijv. tijdens een crisis-dispatch).
-      Risico: botst met het oranje van <em>Doneer</em>; dat kan opgelost door
-      Doneer naar onderlijn-only te brengen (zoals nu eigenlijk al).
+      <strong>Waarom dit werkt.</strong>
+      Het label en de actiezin staan in twee duidelijk gescheiden visuele blokken die
+      samen één klikvlak vormen. Links een mono-uppercase mini-label
+      (<em>“Share”</em> / <em>“Delen”</em>) op een hairline-frame, rechts de
+      actiezin in Archivo met een dunne accent-onderstreping. Geen achtergrond-vlak,
+      geen amateur-gradient — alleen typografische hiërarchie en hairlines. Bij hover
+      vult het tag-blok zich met accent-oranje en kantelt het rechter blok naar cream,
+      wat een tactiel “snap”-moment geeft zonder flash. Deze richting communiceert
+      het sterkst dat dit een <em>actie</em> is, niet alleen een navigatie-link.
       <ul>
-        <li><strong>NL:</strong> <em>Draag bij aan ESRF</em></li>
-        <li><strong>EN:</strong> <em>Contribute to ESRF</em></li>
+        <li><strong>EN:</strong> tag <em>“Share”</em> + actie <em>“Share to connect”</em></li>
+        <li><strong>NL:</strong> tag <em>“Delen”</em> + actie <em>“Draag bij aan verbinding”</em></li>
       </ul>
+      <strong style="display:block;margin-top:18px">Waarom dit kan tegenvallen.</strong>
+      De split-vorm is breder dan een traditionele CTA en heeft twee separate visuele
+      elementen — voor sommige redacteuren kan dat als drukker overkomen dan de
+      command card. Het tag-blok herhaalt ook deels het werkwoord uit de actiezin
+      (“Share” + “Share to connect”), wat met opzet is gedaan voor ritme, maar niet
+      iedereen prettig vindt.
       <div class="destinations">
-        Bestemming:
+        Bestemmingen:
         <a href="/submit-news?lang=nl">/submit-news?lang=nl</a> ·
         <a href="/submit-news?lang=en">/submit-news?lang=en</a>
       </div>
     </div>
   </section>
 
-  <!-- ─────────────────────── VARIANT C — Status-framed ─────────────────────── -->
+  <!-- ─────────────────────── VARIANT C — UNDERLINE RAIL ─────────────────────── -->
   <section class="variant v-c" aria-labelledby="vc-title">
     <div class="variant-meta">
-      <span class="variant-tag">Institutioneel · C</span>
-      <span class="variant-title" id="vc-title">“Update de atlas” — pill met live <em>intake open</em>-indicator</span>
+      <span class="variant-tag">Puur typografisch · C</span>
+      <span class="variant-title" id="vc-title">Underline rail — serif italic met dubbele rail-onderlijn</span>
     </div>
     <div class="variant-stage">
       <nav class="mast overlay" aria-label="Variant C">
@@ -424,11 +492,10 @@
             <a href="#" onclick="return false">Directory</a>
             <a href="#" onclick="return false">Atlas</a>
             <a href="#" onclick="return false">Dispatch</a>
-            <a class="mast-cta" href="/submit-news?lang=nl&amp;mode=change_request" lang="nl"
-               aria-label="Update de atlas — intake is open">
-              <span class="cta-dot" aria-hidden="true"></span>
-              <span class="cta-status">Intake open</span>
-              <span class="cta-label">Update de atlas</span>
+            <a class="mast-cta" href="/submit-news?lang=nl" lang="nl"
+               aria-label="Draag bij aan verbinding — open intake">
+              <span class="v-c-eyebrow">Bijdragen · NL / EN</span>
+              <span class="v-c-line">Draag bij aan verbinding</span>
             </a>
             <a href="#" class="mast-contribute" onclick="return false">Doneer</a>
           </div>
@@ -436,31 +503,37 @@
       </nav>
     </div>
     <div class="variant-notes">
-      <strong>Wanneer kies je dit.</strong>
-      Het meest institutionele register: een <em>statuslabel</em>
-      (groen puntje + “Intake open”) gevolgd door de actiezin.
-      Werkt als een echte service-indicator — vergelijkbaar met overheids-
-      en SOC-dashboards. Communiceert dat de redactie reageert <em>nu</em>,
-      niet ergens-een-keer. De label past bij directory-onderhoud, niet bij
-      eerste melding. Mogelijk te druk voor een sticky overlay; goed te testen
-      naast variant&nbsp;A.
+      <strong>Waarom dit werkt.</strong>
+      Geen knop, geen vlak — een puur typografische CTA. De zin staat in serif italic
+      met een mono-eyebrow erboven en een dubbele “rail”-onderlijn: een dunne cream
+      hairline over de volle breedte, daaronder een korte accent-streep die bij hover
+      over de volledige zin doorrolt. Statische CSS, geen animatie-bibliotheek, maar
+      het oog leest het als beweging. Dit is de meest redactionele richting — het voelt
+      als een museum-plaat of tijdschrift-kicker, niet als een marketingknop. Sterkste
+      merk-handtekening en de stilste tegelijk.
       <ul>
-        <li><strong>NL:</strong> <em>Update de atlas</em> (status: <em>Intake open</em>)</li>
-        <li><strong>EN:</strong> <em>Update the atlas</em> (status: <em>Intake open</em>)</li>
+        <li><strong>NL:</strong> eyebrow <em>“Bijdragen · NL / EN”</em> + actie <em>“Draag bij aan verbinding”</em></li>
+        <li><strong>EN:</strong> eyebrow <em>“Contribute · EN / NL”</em> + actie <em>“Share to connect”</em></li>
       </ul>
+      <strong style="display:block;margin-top:18px">Waarom dit kan tegenvallen.</strong>
+      Dit is de stilste variant — gebruikers die een duidelijk knop-signaal verwachten
+      kunnen het missen. Voor ESRF’s publiek (journalisten, NGO-medewerkers,
+      onderzoekers) is dat eerder kracht dan zwakte, maar voor pure consumer-traffic
+      zou het te ingehouden zijn. De rail-animatie is bewust kort (28&nbsp;px → 100%);
+      langer voelt al snel speels.
       <div class="destinations">
-        Bestemming:
-        <a href="/submit-news?lang=nl&amp;mode=change_request">/submit-news?lang=nl&amp;mode=change_request</a> ·
-        <a href="/submit-news?lang=en&amp;mode=change_request">/submit-news?lang=en&amp;mode=change_request</a>
+        Bestemmingen:
+        <a href="/submit-news?lang=nl">/submit-news?lang=nl</a> ·
+        <a href="/submit-news?lang=en">/submit-news?lang=en</a>
       </div>
     </div>
   </section>
 
-  <!-- ─────────────────────── VARIANT D — Mobile / compact ─────────────────────── -->
+  <!-- ─────────────────────── VARIANT D — MOBIELE BEHANDELING ─────────────────────── -->
   <section class="variant v-d" aria-labelledby="vd-title">
     <div class="variant-meta">
       <span class="variant-tag compact">Mobiel · D</span>
-      <span class="variant-title" id="vd-title">“Start je bijdrage” — full-bleed CTA-balk onder de logo-rij</span>
+      <span class="variant-title" id="vd-title">Mobiele behandeling — full-bleed strook onder de logo-rij</span>
     </div>
     <div class="variant-stage compact" style="max-width:430px;margin:0 auto;border-left:1px solid rgba(15,20,25,0.08);border-right:1px solid rgba(15,20,25,0.08)">
       <nav class="mast overlay" aria-label="Variant D — mobiel">
@@ -471,10 +544,10 @@
           </div>
           <div class="mast-row-cta">
             <a class="mast-cta" href="/submit-news?lang=nl" lang="nl"
-               aria-label="Start je bijdrage — open intake">
+               aria-label="Draag bij aan verbinding — open intake">
               <span class="cta-left">
-                <span class="cta-eyebrow">Bijdragen</span>
-                <span class="cta-label">Start je bijdrage</span>
+                <span class="cta-eyebrow">Open intake · NL / EN</span>
+                <span class="cta-label">Draag bij aan verbinding</span>
               </span>
               <span class="cta-arrow" aria-hidden="true">→</span>
             </a>
@@ -483,17 +556,21 @@
       </nav>
     </div>
     <div class="variant-notes">
-      <strong>Wanneer kies je dit.</strong>
-      Op mobiel raakt de huidige CTA verstopt achter de hamburger.
-      Variant&nbsp;D promoveert de bijdrage tot een <em>tweede rij</em> in de header:
-      logo + menu boven, een volle CTA-balk eronder. Geen drukke pillen,
-      geen oranje-botsing — gewoon een ruime, klikbare strook met kicker,
-      label en serif-pijl als redactioneel accent. Duidelijk waar je heen klikt,
-      ook met dikke duim.
+      <strong>Waarom dit werkt.</strong>
+      Op mobiel verdwijnt de huidige CTA achter de hamburger. Variant&nbsp;D promoveert
+      de bijdrage tot een volledige tweede rij in de header: logo + menu boven, daaronder
+      een ruime klikbare strook met dezelfde rust als de desktop-rail-CTA. Geen pil,
+      geen oranje vlak — wel eerlijk groot raakvlak voor een dikke duim, en dezelfde
+      mono-eyebrow + serif italic combinatie als variant A en C zodat de mobiele
+      behandeling zich gedraagt als een eerlijke voortzetting, niet als een aparte vorm.
       <ul>
-        <li><strong>NL:</strong> <em>Start je bijdrage</em></li>
-        <li><strong>EN:</strong> <em>Start your contribution</em></li>
+        <li><strong>NL:</strong> eyebrow <em>“Open intake · NL / EN”</em> + actie <em>“Draag bij aan verbinding”</em></li>
+        <li><strong>EN:</strong> eyebrow <em>“Intake open · EN / NL”</em> + actie <em>“Share to connect”</em></li>
       </ul>
+      <strong style="display:block;margin-top:18px">Waarom dit kan tegenvallen.</strong>
+      Een tweede rij in de header verbruikt verticale ruimte boven de fold — op zeer
+      korte mobiele schermen (oude iPhone SE) blijft er minder hero over. Alternatief
+      is de strook alleen op de homepage tonen en op interne pagina’s collapsen.
       <div class="destinations">
         Bestemming:
         <a href="/submit-news?lang=nl">/submit-news?lang=nl</a> ·
@@ -506,13 +583,14 @@
   <section class="variant" aria-labelledby="labels-title">
     <div class="variant-meta">
       <span class="variant-tag">Labels · overzicht</span>
-      <span class="variant-title" id="labels-title">Microcopy-keuzes &amp; waarom</span>
+      <span class="variant-title" id="labels-title">Microcopy — kandidaten naast elkaar</span>
     </div>
     <div class="variant-notes">
       <p>
-        Wouter wilde labels verkennen voorbij <em>Deel informatie</em>.
-        Onderstaande korte lijst legt de toon van elke kandidaat uit.
-        Alle labels vermijden bewust de oude “claim”-frasering — die toon is sitewide al uitgefaseerd.
+        Wouter wilde labels verkennen voorbij <em>“Deel informatie”</em>. Onderstaand
+        de kandidaten die in deze ronde rondvliegen, met hun toon en aanbevolen
+        gebruik. Allemaal vermijden bewust de oude “claim”-frasering — die toon is
+        sitewide al uitgefaseerd.
       </p>
       <table class="label-table" aria-label="Microcopy-overzicht NL en EN">
         <thead>
@@ -520,29 +598,34 @@
         </thead>
         <tbody>
           <tr class="win">
-            <td><strong>Delen verbindt.</strong></td>
+            <td><strong>Draag bij aan verbinding</strong></td>
             <td><strong>Share to connect</strong></td>
-            <td>Aanbevolen (variant A, na verfijning Wouter). Premium, kort, geen instructie — actie als verbinding, niet als formulier.</td>
+            <td>Aanbevolen leidende paar (variant&nbsp;A en C). Premium, declaratief, framet de actie als verbinding — niet als formulierwerk.</td>
+          </tr>
+          <tr>
+            <td><em>Delen verbindt.</em></td>
+            <td><em>Sharing connects.</em></td>
+            <td>Korter alternatief — manifest-toon, twee woorden NL. Bewaard als reserve.</td>
           </tr>
           <tr>
             <td><em>Werk mee aan de atlas</em></td>
             <td><em>Help build the atlas</em></td>
-            <td>Eerder voorstel ronde 2. Gemeenschappelijk, redactioneel, verbindt aan inhoud — bewaard als alternatief.</td>
+            <td>Eerder voorstel ronde 2. Gemeenschappelijk en redactioneel — verbindt expliciet aan inhoud, niet aan abstract verbinden.</td>
           </tr>
           <tr>
             <td><em>Draag bij aan ESRF</em></td>
             <td><em>Contribute to ESRF</em></td>
-            <td>Variant B. Direct, krachtig — past bij actieve push-momenten.</td>
+            <td>Direct, krachtig — past bij actieve push-momenten (crisis-dispatch).</td>
           </tr>
           <tr>
             <td><em>Update de atlas</em></td>
             <td><em>Update the atlas</em></td>
-            <td>Variant C. Onderhoud-toon, voor bestaande organisaties.</td>
+            <td>Onderhoud-toon, voor bestaande organisaties.</td>
           </tr>
           <tr>
             <td><em>Start je bijdrage</em></td>
             <td><em>Start your contribution</em></td>
-            <td>Variant D, mobiel. Persoonlijk, duidelijk eerste-stap-frame.</td>
+            <td>Persoonlijk, duidelijk eerste-stap-frame — bewaard als mobiele alternatieve label.</td>
           </tr>
           <tr>
             <td>Deel informatie</td>
@@ -554,11 +637,6 @@
             <td>Contribute or update</td>
             <td>Vorige ronde — accuraat maar bureaucratisch en lang.</td>
           </tr>
-          <tr>
-            <td>Informatie doorgeven</td>
-            <td>Submit information</td>
-            <td>Vorige ronde — formeel, voelt als overheidsformulier.</td>
-          </tr>
         </tbody>
       </table>
     </div>
@@ -567,12 +645,17 @@
   <div class="preview-banner" style="margin-top:48px">
     <strong>Reviewer note.</strong>
     Geen productie-bestand is gewijzigd. De live CTA
-    (“Update or verify a listing” → <code>?mode=change_request</code>) staat nog op alle pagina’s.
-    Zodra Wouter een variant kiest, kan een vervolg-PR de label sitewide
-    omzetten via <code>i18n/{en,nl}.json</code> (<code>nav.request_listing</code>)
+    (<em>“Update or verify a listing”</em> → <code>?mode=change_request</code>) staat
+    nog op alle pagina’s. Zodra Wouter een variant kiest, zet een vervolg-PR de label
+    sitewide om via <code>i18n/{en,nl}.json</code> (<code>nav.request_listing</code>)
     en de inline-fallback in <code>index.html</code>, <code>about.html</code> et al.
-    Voor variant&nbsp;A/D wordt ook één klein CSS-blok toegevoegd aan
-    <code>style.css</code> (eyebrow + label binnen <code>.mast-cta</code>).
+    Voor variant&nbsp;A/B/C wordt ook één klein CSS-blok toegevoegd aan
+    <code>style.css</code> — het preview-CSS staat hier inline en blijft scoped.
+    <br><br>
+    <strong>Eerlijke aanbeveling:</strong> variant&nbsp;A (command card) is technisch
+    het sterkst voor de combinatie van klikgevoel + eigen vorm + premium register.
+    Maar dit blijft een <em>visuele</em> beslissing — Wouter zou alle drie naast elkaar
+    in de echte hero moeten zien voor de definitieve keuze.
   </div>
 
 </div>
