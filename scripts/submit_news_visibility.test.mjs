@@ -149,7 +149,9 @@ function effectivelyVisible(env, lang){
   const css = style ? (style.textContent || '') : '';
   // The injected stylesheet is a single rule of the form
   //   [data-form-lang="X"]{display:none!important}
-  const m = css.match(/\[data-form-lang="(nl|en)"\]\{display:none/);
+  // or, since the hero-variant fix shipped together with this one,
+  //   [data-form-lang="X"],[data-hero-lang="X"]{display:none!important}
+  const m = css.match(/\[data-form-lang="(nl|en)"\][^{]*\{display:none/);
   if (m && m[1] === lang) return false;
   return true;
 }
@@ -220,7 +222,9 @@ check('pre-paint script injects #sv-form-lang-style', () => {
   const env = runPrePaint({ search: '?lang=en' });
   const s = env.headById['sv-form-lang-style'];
   assert.ok(s, 'style tag must be appended to head');
-  assert.match(s.textContent, /\[data-form-lang="nl"\]\{display:none!important\}/);
+  // The injected rule may include the hero-variant selector too; use a
+  // tolerant matcher so this test passes for both shapes.
+  assert.match(s.textContent, /\[data-form-lang="nl"\][^{]*\{display:none!important\}/);
 });
 
 if (failures > 0) {

@@ -53,10 +53,19 @@ check('submit-news.html has data-form-lang="en" container', () => {
 check('submit-news.html resolves form lang BEFORE first paint', () => {
   // Inline script in <head> that sets window.__esrfFormLang and injects
   // a CSS rule so non-NL visitors never see Dutch labels flashing.
+  // The injected rule covers BOTH form variants (data-form-lang) and
+  // hero header variants (data-hero-lang) in a single declaration so
+  // first-paint state is correct on /submit-news?lang=en too.
   assert.match(html, /window\.__esrfFormLang/);
   assert.match(html, /sv-form-lang-style/);
-  assert.match(html, /\[data-form-lang="en"\]\{display:none!important\}/);
-  assert.match(html, /\[data-form-lang="nl"\]\{display:none!important\}/);
+  // EN-hide rule selector (covers form + hero in one declaration).
+  assert.match(html, /\[data-form-lang="en"\][^{]*\{display:none!important\}/);
+  // NL-hide rule selector (covers form + hero in one declaration).
+  assert.match(html, /\[data-form-lang="nl"\][^{]*\{display:none!important\}/);
+  // Hero variants must be in the same display:none rule so the EN
+  // hero is hidden for Dutch visitors and vice versa.
+  assert.match(html, /\[data-hero-lang="en"\][^{]*\{display:none!important\}/);
+  assert.match(html, /\[data-hero-lang="nl"\][^{]*\{display:none!important\}/);
 });
 
 /* ── NL form: Dutch labels and the six modes ─────────────────────── */

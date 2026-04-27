@@ -63,19 +63,30 @@
 <script type="application/ld+json" data-esrf="1">{"@context":"https://schema.org","@type":"WebPage","name":"Deel je informatie — ESRF.net","url":"https://esrf.net/submit-news.html"}</script>
 
 <script>
-  /* ── Pre-render language detection for the submit form ──
-     Decides which form variant (nl / en) is shown BEFORE the body
-     paints, so non-Dutch visitors never see Dutch labels flashing.
-     Order matches i18n.js detectLang(): URL ?lang= → localStorage
-     → browser → fallback. The NL form is shown only when the resolved
-     language is "nl"; every other language renders the EN form.
+  /* ── Pre-render language detection for the submit page ──
+     Decides which language variant (nl / en) is shown BEFORE the body
+     paints, so non-Dutch visitors never see Dutch labels, hero text or
+     <title> flashing — even if i18n.js is slow, blocked, or the page
+     was served from a stale CDN cache.
 
-     Defence in depth: the EN container also carries a `hidden` HTML
-     attribute as a no-JS safety net. We strip it here as soon as the
-     resolved language is non-Dutch, so the EN form is actually visible.
-     A DOMContentLoaded fallback re-applies the same logic in case the
-     containers had not yet been parsed when this script ran (very small
-     window, but eliminates a class of races). */
+     The detect() order matches i18n.js detectLang():
+       URL ?lang= → localStorage('esrfnetLang') → browser → 'en'.
+
+     IMPORTANT: this script must work for BOTH /submit-news.html?lang=…
+     AND the extensionless /submit-news?lang=… that Cloudflare Pages
+     serves from the same asset. window.location.search is identical on
+     both, so URL ?lang= detection is URL-form-agnostic. The NL variant
+     is shown only when the resolved language is exactly "nl"; every
+     other language ('en','de','fr',…) renders the EN variant.
+
+     Defence in depth: in addition to injecting a CSS rule that hides
+     the wrong variant, we also toggle the `hidden` HTML attribute on
+     the variant containers. The `hidden` attribute does not lose to
+     normal author CSS (it is a UA `display:none`) but the explicit
+     toggle here is symmetric and means the correct variant is also
+     correct in the DOM tree, not only via injected style. A
+     DOMContentLoaded fallback re-runs the toggle for the rare case
+     where this script ran before the variant containers were parsed. */
   (function(){
     function detect(){
       try {
@@ -91,23 +102,48 @@
       return b || 'en';
     }
     var lang = detect();
-    window.__esrfFormLang = lang;
     var isNl = (lang === 'nl');
-    /* Inject CSS so the right variant is visible from first paint. */
+    window.__esrfFormLang = lang;
+    window.__esrfPageLang = lang;
+
+    /* Inject CSS so the right variant is visible from first paint.
+       Covers BOTH the form variants (data-form-lang) AND the hero
+       header variants (data-hero-lang). Single <style> element keeps
+       the rules co-located so a future audit only has one place to
+       look. */
     var css = isNl
-      ? '[data-form-lang="en"]{display:none!important}'
-      : '[data-form-lang="nl"]{display:none!important}';
+      ? '[data-form-lang="en"],[data-hero-lang="en"]{display:none!important}'
+      : '[data-form-lang="nl"],[data-hero-lang="nl"]{display:none!important}';
     var style = document.createElement('style');
     style.id = 'sv-form-lang-style';
     style.textContent = css;
     document.head.appendChild(style);
-    /* Strip/apply the `hidden` attribute on the variant containers so
-       the right one is actually visible regardless of CSS specificity. */
+
+    /* Set <html lang> immediately so the browser, screen-readers and
+       Google all see the correct page language without waiting for
+       i18n.js. i18n.js will refresh this on init, but doing it here
+       makes the first-paint state correct. */
+    try { document.documentElement.setAttribute('lang', isNl ? 'nl' : 'en'); } catch(e){}
+
+    /* Swap <title> to the EN equivalent for non-Dutch visitors. The
+       NL <title> is the static default (correct for Dutch + crawlers
+       hitting the canonical URL without ?lang=). */
+    if (!isNl) {
+      try { document.title = 'Share your information — ESRF.net'; } catch(e){}
+    }
+
+    /* Defence-in-depth `hidden` toggle on form + hero containers. */
     function applyHidden(){
-      var nl = document.querySelector('[data-form-lang="nl"]');
-      var en = document.querySelector('[data-form-lang="en"]');
-      if (nl) { if (isNl) nl.removeAttribute('hidden'); else nl.setAttribute('hidden',''); }
-      if (en) { if (isNl) en.setAttribute('hidden',''); else en.removeAttribute('hidden'); }
+      var sels = [
+        ['[data-form-lang="nl"]', '[data-form-lang="en"]'],
+        ['[data-hero-lang="nl"]', '[data-hero-lang="en"]'],
+      ];
+      for (var i = 0; i < sels.length; i++) {
+        var nlEl = document.querySelector(sels[i][0]);
+        var enEl = document.querySelector(sels[i][1]);
+        if (nlEl) { if (isNl) nlEl.removeAttribute('hidden'); else nlEl.setAttribute('hidden',''); }
+        if (enEl) { if (isNl) enEl.setAttribute('hidden',''); else enEl.removeAttribute('hidden'); }
+      }
     }
     applyHidden();
     if (document.readyState === 'loading') {
@@ -248,7 +284,14 @@
   </div>
 </nav>
 
-<section class="phero">
+<!-- ══════════════════════════════════════════════════════════════════
+     Page hero — bilingual variants.
+     Two sibling <section>s, one per language. The pre-render script in
+     <head> hides the wrong one via injected CSS BEFORE first paint, so
+     non-Dutch visitors at /submit-news?lang=en (or .html?lang=en) never
+     see Dutch hero text — regardless of whether i18n.js has loaded yet.
+     ══════════════════════════════════════════════════════════════════ -->
+<section class="phero" data-hero-lang="nl">
   <div class="phero-inner">
     <div class="kicker">§ ESRF.net · <span data-i18n="common.share_information">Deel je informatie</span></div>
     <h1 class="phero-title" data-i18n="common.share_information">Deel je informatie.</h1>
@@ -256,6 +299,18 @@
     <p class="phero-deck" style="margin-top:12px;font-size:.95em;color:var(--ink-soft)">
       Alle inzendingen worden door de redactie van ESRF.net beoordeeld. Niets wordt automatisch gepubliceerd. ·
       <em>All submissions are reviewed by the ESRF.net editorial team. Nothing is published automatically.</em>
+    </p>
+  </div>
+</section>
+
+<section class="phero" data-hero-lang="en">
+  <div class="phero-inner">
+    <div class="kicker">§ ESRF.net · <span>Share your information</span></div>
+    <h1 class="phero-title">Share your information.</h1>
+    <p class="phero-deck">Use this form to submit an organisation, request an update or removal, or share a practice story.</p>
+    <p class="phero-deck" style="margin-top:12px;font-size:.95em;color:var(--ink-soft)">
+      All submissions are reviewed by the ESRF.net editorial team. Nothing is published automatically. ·
+      <em>Alle inzendingen worden door de redactie van ESRF.net beoordeeld. Niets wordt automatisch gepubliceerd.</em>
     </p>
   </div>
 </section>
@@ -2648,16 +2703,18 @@
 
 /* ── Live language-switch swap ──
    When the user picks a different language in the global lang dropdown,
-   i18n.js dispatches "esrf:langchange". Update __esrfFormLang and the
-   variant style so the right form is shown without a page reload. */
+   i18n.js dispatches "esrf:langchange". Update __esrfFormLang/PageLang
+   and the variant style so the right form AND hero are shown without
+   a page reload. Mirrors the pre-render selectors exactly. */
 (function(){
   function applyVariant(lang){
     const code = (lang || 'en').toLowerCase();
     const isNl = (code === 'nl');
     window.__esrfFormLang = code;
+    window.__esrfPageLang = code;
     const css = isNl
-      ? '[data-form-lang="en"]{display:none!important}'
-      : '[data-form-lang="nl"]{display:none!important}';
+      ? '[data-form-lang="en"],[data-hero-lang="en"]{display:none!important}'
+      : '[data-form-lang="nl"],[data-hero-lang="nl"]{display:none!important}';
     let style = document.getElementById('sv-form-lang-style');
     if (!style) {
       style = document.createElement('style');
@@ -2665,10 +2722,16 @@
       document.head.appendChild(style);
     }
     style.textContent = css;
-    const nl = document.querySelector('[data-form-lang="nl"]');
-    const en = document.querySelector('[data-form-lang="en"]');
-    if (nl) { if (isNl) nl.removeAttribute('hidden'); else nl.setAttribute('hidden',''); }
-    if (en) { if (isNl) en.setAttribute('hidden',''); else en.removeAttribute('hidden'); }
+    try { document.documentElement.setAttribute('lang', isNl ? 'nl' : 'en'); } catch(e){}
+    try { document.title = isNl ? 'Deel je informatie — ESRF.net' : 'Share your information — ESRF.net'; } catch(e){}
+    /* Defence-in-depth: also toggle the `hidden` attr on form + hero. */
+    [['[data-form-lang="nl"]','[data-form-lang="en"]'],
+     ['[data-hero-lang="nl"]','[data-hero-lang="en"]']].forEach(function(pair){
+      const nlEl = document.querySelector(pair[0]);
+      const enEl = document.querySelector(pair[1]);
+      if (nlEl) { if (isNl) nlEl.removeAttribute('hidden'); else nlEl.setAttribute('hidden',''); }
+      if (enEl) { if (isNl) enEl.setAttribute('hidden',''); else enEl.removeAttribute('hidden'); }
+    });
   }
   window.addEventListener('esrf:langchange', function(e){
     const lang = (e && e.detail && e.detail.lang) || 'en';
