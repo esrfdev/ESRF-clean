@@ -204,11 +204,34 @@
     font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.55;color:#0f172a;
   }
   .rv-access-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+  .rv-access-row label[for="rv-access-code"]{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;color:#0f172a;
+    flex:0 0 auto;
+  }
   .rv-access input[type="password"],
   .rv-access input[type="text"]{
-    padding:8px 10px;border:1px solid #cbd5e1;border-radius:4px;
-    font-family:'IBM Plex Mono',monospace;font-size:12.5px;background:#fff;color:#0f172a;
-    min-width:220px;
+    padding:10px 12px;border:1px solid #94a3b8;border-radius:4px;
+    font-family:'IBM Plex Mono','SFMono-Regular',Menlo,Consolas,monospace;
+    font-size:14px;letter-spacing:0.04em;line-height:1.4;
+    background:#fff;color:#0f172a;
+    flex:1 1 360px;min-width:320px;width:100%;max-width:520px;
+    box-sizing:border-box;
+  }
+  .rv-access input#rv-access-code{
+    /* Generous sizing so the full access code (placeholder or typed)
+       remains visible on desktop and mobile. Monospaced so each char
+       takes the same width — easier to verify the code visually. */
+    font-size:15px;
+    padding:11px 14px;
+  }
+  .rv-access input#rv-access-code::placeholder{
+    color:#64748b;letter-spacing:0.02em;
+  }
+  @media (max-width: 640px){
+    .rv-access-row{align-items:stretch}
+    .rv-access input#rv-access-code{
+      flex:1 1 100%;min-width:0;max-width:100%;width:100%;
+    }
   }
   .rv-access-mode{
     display:inline-block;padding:2px 8px;border-radius:3px;letter-spacing:0.06em;
@@ -223,6 +246,25 @@
     margin:6px 0;padding:8px 12px;border-radius:4px;
     background:#eff6ff;border-left:3px solid #3b82f6;color:#1e3a8a;
     font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.55;
+  }
+
+  /* Plain-language purpose / "Waar is dit formulier voor?" panel */
+  .rv-purpose{
+    margin:14px 0 18px;padding:16px 20px;border-radius:6px;
+    background:#eff6ff;border:1px solid #bfdbfe;color:#0f172a;
+    font-family:'Archivo',system-ui,sans-serif;font-size:14.5px;line-height:1.6;
+  }
+  .rv-purpose-h{
+    margin:0 0 6px;font-family:'PT Serif',serif;font-size:20px;color:#1e3a8a;
+  }
+  .rv-purpose-lede{margin:0 0 10px}
+  .rv-purpose-list{margin:0;padding-left:22px}
+  .rv-purpose-list li{margin:6px 0}
+
+  /* Inline field help under editable inputs (e.g. Sector / tags) */
+  .rv-field-help{
+    margin:4px 0 10px;font-size:12.5px;line-height:1.55;color:#475569;
+    font-family:'Archivo',system-ui,sans-serif;
   }
 
   /* Numbered workflow panel (1 → 5) */
@@ -377,6 +419,20 @@
     </div>
   </div>
 
+  <section class="rv-purpose" id="rv-purpose" aria-label="Waar is dit formulier voor?">
+    <h2 class="rv-purpose-h">Waar is dit formulier voor?</h2>
+    <p class="rv-purpose-lede">
+      Met dit formulier bekijk je één inzending van een bezoeker en leg je een redactiebesluit vast. In gewone taal:
+    </p>
+    <ol class="rv-purpose-list">
+      <li><strong>Je bekijkt een inzending.</strong> Links kies je een binnengekomen inzending; rechts zie je wat de bezoeker heeft ingestuurd.</li>
+      <li><strong>Je past de tekst aan waar nodig.</strong> Klik op <em>Bewerken</em> om een redactieversie van titel, samenvatting en publicatie­tekst te maken. De originele inzending blijft als bron staan.</li>
+      <li><strong>Je kiest de volgende stap of status.</strong> Onder <em>Procesgang</em> kies je waar deze inzending nu staat (bijvoorbeeld <em>In redactie</em>, <em>Controle nodig</em> of <em>Goedgekeurd voor concept</em>).</li>
+      <li><strong>Je slaat het redactiebesluit op.</strong> De knop onderaan slaat jouw beoordeling op in de redactietabel; de originele inzending verandert niet.</li>
+      <li><strong>Niets wordt automatisch gepubliceerd.</strong> Een collega van beheer maakt later, op basis van jouw besluit, een conceptartikel of conceptvermelding aan. Er gaat geen e-mail uit en de website verandert niet vanzelf.</li>
+    </ol>
+  </section>
+
   <section class="rv-workflow" aria-label="Redactie-stappen">
     <h2>De vijf stappen — kies welke nu past</h2>
     <p class="rv-workflow-sub">Iedere inzending doorloopt deze stappen. Kies bij <em>Procesgang</em> rechts dezelfde stap als hieronder.</p>
@@ -424,10 +480,14 @@
     <div class="rv-access-row">
       <label for="rv-access-code">Toegangscode:</label>
       <input id="rv-access-code" type="password" autocomplete="off" spellcheck="false"
-        placeholder="vul alleen in als je een code hebt gekregen" aria-describedby="rv-access-msg" />
+        size="40" maxlength="64"
+        placeholder="vul alleen in als je een code hebt gekregen" aria-describedby="rv-access-msg rv-access-code-help" />
       <button id="rv-access-load" class="rv-btn rv-btn-primary" type="button">Echte inzendingen laden</button>
       <button id="rv-access-clear" class="rv-btn rv-btn-warn" type="button">Code wissen · terug naar teststand</button>
     </div>
+    <p id="rv-access-code-help" style="margin:6px 0 0;font-size:12px;color:#475569">
+      Het invoerveld is breed genoeg voor de volledige toegangscode en gebruikt een vast lettertype zodat elke letter even breed is. De code blijft als gestippelde tekens zichtbaar voor je veiligheid; gebruik <em>Code wissen</em> om opnieuw te beginnen.
+    </p>
     <p id="rv-access-msg" class="rv-access-msg" aria-live="polite">
       Teststand actief. Je werkt nu met voorbeeldinzendingen; er wordt niets opgeslagen.
     </p>
@@ -825,7 +885,8 @@
     { key: 'edited_summary',         sourceKey: 'summary',           label: 'Samenvatting / omschrijving' },
     { key: 'edited_region',          sourceKey: 'region',            label: 'Regio' },
     { key: 'edited_sector_or_tags',  sourceKey: null,                label: 'Sector / tags',
-      fromSource: function(r){ return r.sector_raw || r.topic_tags || ''; } },
+      fromSource: function(r){ return r.sector_raw || r.topic_tags || ''; },
+      help: "Scheid meerdere tags met komma's, bijvoorbeeld: Leiderschap, Regio, Zorg. Voor nu is dit een vrij invoerveld — er is nog geen vaste keuzelijst. De redactie mag bestaande termen hergebruiken of een nieuwe tag voorstellen; de definitieve tagset wordt later geharmoniseerd." },
     { key: 'edited_public_body',     sourceKey: 'body_md_or_url',    label: 'Publicatie-veilige tekst (body)', textarea: true },
     { key: 'editorial_note',         sourceKey: null,                label: 'Redactienotitie (publiek)', textarea: true,
       fromSource: function(){ return ''; } },
@@ -1292,6 +1353,7 @@
       rulesUl.appendChild(el('li', { text: 'Wijzig hier alleen de redactieversie, niet de originele inzending.' }));
       rulesUl.appendChild(el('li', { text: 'Gebruik geen persoonlijke contactgegevens in publicatietekst.' }));
       rulesUl.appendChild(el('li', { text: 'Bij twijfel: zet de status op "Controle nodig" en laat een collega meelezen.' }));
+      rulesUl.appendChild(el('li', { text: "Bij Sector / tags: scheid meerdere tags met komma's. Vrij invoerveld — er is nog geen vaste keuzelijst. Hergebruik bestaande termen waar mogelijk; nieuwe tag voorstellen mag, definitieve tagset wordt later geharmoniseerd." }));
       rules.appendChild(rulesUl);
       sEdit.appendChild(rules);
 
@@ -1311,6 +1373,18 @@
         });
         var label = f.label + (origVal ? '' : ' (geen origineel)');
         sEdit.appendChild(formRow(label, inputEl));
+
+        // Optional inline help line for fields that need extra clarification
+        // (e.g. Sector / tags: separator + free-input policy).
+        if (f.help){
+          var helpRow = el('p', {
+            class: 'rv-field-help',
+            id: 'rv-edit-' + f.key + '-help',
+            text: f.help
+          });
+          inputEl.setAttribute('aria-describedby', 'rv-edit-' + f.key + '-help');
+          sEdit.appendChild(helpRow);
+        }
 
         // Inline read-only original snippet underneath when present.
         if (origVal){

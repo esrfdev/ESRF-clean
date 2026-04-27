@@ -14,6 +14,38 @@
     "url": "https://test-regional-editorial-cont.esrf-clean.pages.dev",
     "draftPullRequest": "https://github.com/esrfdev/ESRF-clean/pull/35"
   },
+  "wouterReviewFeedback_2026_04_27": {
+    "reviewer": "Wouter",
+    "environment": "validatie (Cloudflare Pages Preview, branch test/regional-editorial-contributor-intake)",
+    "summary": "Reviewfeedback van Wouter op de validatieomgeving. Verwerkt in deze branch, niet naar main gemerged; productie onaangeraakt.",
+    "items": [
+      {
+        "page": "validation-lab.html",
+        "feedback": "Voeg voor de bezoeker/redacteur een duidelijke instructie toe: 'Kies wat je wilt opgeven en vul het samengestelde formulier hieronder in.'",
+        "resolution": "Een groen instructieblok (#vl-visitor-instruction) is toegevoegd boven de modulelijst met deze zin in gewone taal en een verwijzing naar het samengestelde bezoekersformulier."
+      },
+      {
+        "page": "esrf-simulated-site.html",
+        "feedback": "Verwijder verwarrende 'Nieuw' / 'Nieuw in validatie'-labels bij het formulier en de CTA. Bij de eerste verwijzing naar het formulier moet ook plaatsing in de Directory worden genoemd, niet alleen op de Atlas. NL en EN consistent: Directory én Atlas / Directory and Atlas.",
+        "resolution": "Pillen 'Nieuw' en 'Nieuw in validatie' bij JOIN-CTA, redactionele bijdragelead en footer-validatieblok zijn verwijderd. Join-sub vermeldt nu expliciet 'plek in de Directory én op de Atlas'; bijbehorende monospaced regel en footer-link noemen 'Directory and Atlas' parallel."
+      },
+      {
+        "page": "redactie-validation.html",
+        "feedback": "Het toegangscodeveld is niet leesbaar door veldgrootte; tekst loopt buiten beeld.",
+        "resolution": "Inputveld krijgt size=40, maxlength=64, breedte 320–520px, monospaced 15px met ruimere padding; mobiel volledig 100% breed; extra hulptekst rv-access-code-help legt het uit."
+      },
+      {
+        "page": "redactie-validation.html",
+        "feedback": "Geef meer uitleg wat de bedoeling is van het redactieformulier.",
+        "resolution": "Sectie #rv-purpose 'Waar is dit formulier voor?' met genummerde plain-Dutch lijst (bekijken, aanpassen, volgende stap of status kiezen, opslaan, niets wordt automatisch gepubliceerd)."
+      },
+      {
+        "page": "redactie-validation.html",
+        "feedback": "Bij Sector / tags uitleggen of scheidingstekens nodig zijn en of er een vaste lijst is.",
+        "resolution": "EDIT_FIELDS-entry 'edited_sector_or_tags' krijgt een help-veld; runtime rendert dit als .rv-field-help onder het inputveld; daarnaast verschijnt een vierde regel in het 'Regels bij bewerken'-blok zodat de uitleg ook in statische HTML staat. Tekst: scheid met komma\u2019s, vrije invoer, redactie mag bestaande termen gebruiken of een nieuwe tag voorstellen, definitieve tagset wordt later geharmoniseerd."
+      }
+    ]
+  },
   "translationWorkflowRule": {
     "summary": "Listings and editorials are submitted in one source language. Nothing is auto-translated from the raw submission. Redactie first approves a master text in the source language, then creates or approves an English fallback master, then translates the approved master into the other ESRF languages, and only then publishes.",
     "steps": [
@@ -39,11 +71,19 @@
         "nl": "Deel je informatie"
       },
       "exitCriteria": [
-        "Look & feel volgt productie (mast, hero, foundation, sectors, featured editorial, join, foot); alleen subtiele staging-bar en 'Nieuw in validatie'-pillen.",
+        "Look & feel volgt productie (mast, hero, foundation, sectors, featured editorial, join, foot); alleen subtiele staging-bar.",
         "CTA's leiden naar submit-validation.html en gebruiken de brede labels 'Deel je informatie' (NL) / 'Share your information' (EN); smalle wording als 'Submit signal' of 'Meld organisatie aan' wordt in de validatie-CTA's vermeden.",
         "Geen publieke navigatie, footer, sitemap of robots verwijst hierheen.",
-        "Redactie keurt copy en NL-teksten goed."
-      ]
+        "Redactie keurt copy en NL-teksten goed.",
+        "Reviewfeedback Wouter (2026-04-27) verwerkt: verwarrende 'Nieuw in validatie' / 'Nieuw'-labels rond formulier en CTA zijn verwijderd; bij de eerste verwijzing naar het bezoekersformulier wordt expliciet zowel plaatsing in de Directory als op de Atlas genoemd, in NL én EN consistent (Directory en Atlas / Directory and Atlas)."
+      ],
+      "wouterReviewFeedback": {
+        "date": "2026-04-27",
+        "items": [
+          "Verwijder 'Nieuw' / 'Nieuw in validatie'-pil bij het formulier en de CTA — leidt af van de inhoud.",
+          "Noem bij de eerste formulierverwijzing dat aanmeldingen in de Directory komen, niet alleen op de Atlas. NL en EN consistent: Directory én Atlas / Directory and Atlas."
+        ]
+      }
     },
     {
       "id": "request-listing-validation",
@@ -653,8 +693,19 @@
         "Onder elke hoofdactie staat een 'Wat gebeurt er na deze knop?'-instructieblok met drie regels (wat wel gebeurt / wat níet gebeurt / wat de redacteur hierna doet) in eenvoudig Nederlands; na een save-actie verschijnt een statusbanner 'Opgeslagen in redactietabel' (saved), 'Niet opgeslagen' (sample/activatie incompleet) of 'Opslaan mislukt' (upstream-fout) met review_id, doel-tabs en bevestiging dat origineel + Directory_Master ongewijzigd zijn.",
         "Technische copy/download/export-knoppen ('Kopieer technische audit-export', 'Download auditbestand (JSON)', 'Kopieer tekstsamenvatting voor beheer') leven in een ingeklapt <details class='rv-tech'>-blok 'Technische export voor beheer' met de letterlijke instructie 'Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.' — uitsluitend een fallback, geen onderdeel van de gewone werkflow.",
         "Bovenaan de pagina staat een zichtbare 5-stappen workflow-panel: 1 Ontvangen, 2 In redactie, 3 Controle nodig, 4 Goedgekeurd voor concept, 5 Afgewezen/geparkeerd, met korte beschrijvingen die 1-op-1 matchen met de process_step / review_status keuzes.",
-        "Naast de bewerkbare velden in edit-mode staat een 'Regels bij bewerken'-blok met de zinnen 'Wijzig hier alleen de redactieversie, niet de originele inzending.' en 'Gebruik geen persoonlijke contactgegevens in publicatietekst.'."
-      ]
+        "Naast de bewerkbare velden in edit-mode staat een 'Regels bij bewerken'-blok met de zinnen 'Wijzig hier alleen de redactieversie, niet de originele inzending.' en 'Gebruik geen persoonlijke contactgegevens in publicatietekst.'.",
+        "Reviewfeedback Wouter (2026-04-27) verwerkt — toegangscodeveld is breed genoeg en gebruikt een vast (monospaced) lettertype zodat de placeholder en ingevoerde code volledig zichtbaar blijven op desktop en mobiel (CSS klasse .rv-access input#rv-access-code, size=40, maxlength=64, hulptekst rv-access-code-help).",
+        "Reviewfeedback Wouter (2026-04-27) verwerkt — bovenaan staat een eenvoudig 'Waar is dit formulier voor?'-blok (sectie #rv-purpose) dat in gewone taal uitlegt: je bekijkt een inzending, past tekst aan waar nodig, kiest de volgende stap of status, slaat het redactiebesluit op, en niets wordt automatisch gepubliceerd.",
+        "Reviewfeedback Wouter (2026-04-27) verwerkt — bij het veld 'Sector / tags' staat een hulptekst (rv-field-help, plus een regel in 'Regels bij bewerken') die uitlegt: scheid meerdere tags met komma\u2019s, het is voor nu een vrij invoerveld zonder vaste keuzelijst; redactie mag bestaande termen hergebruiken of een nieuwe tag voorstellen, definitieve tagset wordt later geharmoniseerd."
+      ],
+      "wouterReviewFeedback": {
+        "date": "2026-04-27",
+        "items": [
+          "Toegangscodeveld onleesbaar: maak het breed genoeg, gebruik vast lettertype, zorg dat placeholder en ingevoerde code volledig zichtbaar zijn op desktop en mobiel.",
+          "Leg in gewone taal uit waar het redactieformulier voor is: bekijken, aanpassen, volgende stap kiezen, opslaan, niets wordt automatisch gepubliceerd.",
+          "Leg bij Sector / tags uit: scheid met komma\u2019s, vrije invoer (geen vaste lijst nu), redactie mag bestaande termen gebruiken of nieuwe tag voorstellen — definitieve tagset komt later."
+        ]
+      }
     },
     {
       "id": "listing-change-or-delete-request",
