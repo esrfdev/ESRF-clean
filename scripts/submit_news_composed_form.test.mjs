@@ -357,6 +357,18 @@ check('submit-news.html event mode submit button label', () => {
   assert.match(html, /Meld je event aan/);
 });
 
+// ── Mailto header: Recordtype line emitted for all 6 modes ────────────
+check('submit-news.html buildBody emits a Recordtype: header line for every mode', () => {
+  // The header must carry an explicit recordtype so eindredactie can route
+  // an inzending without parsing the Modus: line.
+  assert.match(html, /Recordtype:\s*'\s*\+\s*\(recordtypeMap\[mode\]\s*\|\|\s*mode\)/);
+  // recordtypeMap covers the 6 intake modes
+  for (const m of ['org', 'editorial', 'both', 'change_request', 'hide_delete', 'event']) {
+    const re = new RegExp(`${m}:\\s*'[^']+'`);
+    assert.match(html, re, `recordtypeMap should map ${m} to a recordtype label`);
+  }
+});
+
 // ── safety: Directory_Master untouched / no internal validation links ─
 check('repo: Directory_Master not modified by this work (not present in repo)', () => {
   // Directory_Master is the editorial master and must not exist in the public repo.

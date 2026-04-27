@@ -1234,8 +1234,17 @@
     lines.push('═══════════════════════════════════════');
     lines.push('ESRF.net — Deel je informatie');
     lines.push('═══════════════════════════════════════');
-    lines.push('Modus: ' + mode);
-    lines.push('Tijd:  ' + new Date().toISOString());
+    const recordtypeMap = {
+      org: 'organisation',
+      editorial: 'editorial',
+      both: 'organisation+editorial',
+      change_request: 'change_request',
+      hide_delete: 'hide_delete',
+      event: 'event'
+    };
+    lines.push('Modus:      ' + mode);
+    lines.push('Recordtype: ' + (recordtypeMap[mode] || mode));
+    lines.push('Tijd:       ' + new Date().toISOString());
     lines.push('');
     lines.push('▸ CONTACT');
     lines.push('  Naam:         ' + get(data, 'contact_name'));
