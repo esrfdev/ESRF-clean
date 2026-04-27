@@ -1085,12 +1085,26 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   .mast.nav-open{background:var(--bg)!important;position:relative}
   .mast.overlay.nav-open{background:var(--ink)!important}
   .mast.overlay.nav-open .mast-logo{color:var(--cream)}
+  /* Mobile drawer: must scroll vertically when content (search trigger +
+     nav links + Contribute + Variant A command card) exceeds the visible
+     viewport, especially on short phones / iOS Safari with the address
+     bar visible. We pin top/bottom AND set max-height to the dynamic
+     viewport (100dvh, falling back to 100vh) so the panel never grows
+     taller than the visible area, then enable native scrolling with
+     `-webkit-overflow-scrolling:touch` and isolate scroll chaining with
+     `overscroll-behavior:contain` (otherwise scroll attempts inside the
+     drawer can bubble to <body>, which is locked to overflow:hidden by
+     wireBurger() — the result is a drawer that LOOKS un-scrollable). */
   .mast-nav{
     display:none;position:fixed;top:0;left:0;right:0;bottom:0;
     background:var(--bg);z-index:1100;
     flex-direction:column;align-items:flex-start;
-    padding:80px var(--pad-x) 40px;gap:0;
+    padding:80px var(--pad-x) 96px;gap:0;
+    max-height:100vh;
+    max-height:100dvh;
     overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
   }
   .mast-nav.open{display:flex}
   .mast.overlay .mast-nav.open{background:var(--ink)}
@@ -1124,8 +1138,8 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
     position:relative;
     display:grid;grid-template-columns:4px 1fr auto;gap:0;
     width:100%;min-width:0;min-height:56px;border-radius:0;
-    margin-top:24px;margin-bottom:8px;padding:0;
-    border-bottom:1px solid rgba(15,20,25,0.18) !important;
+    margin-top:24px;margin-bottom:0;padding:0;
+    flex-shrink:0;
   }
   .mast-cta-rail{width:4px}
   .mast-cta-body{padding:14px 18px;gap:8px}
