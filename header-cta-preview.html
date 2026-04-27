@@ -425,6 +425,82 @@
   }
   .label-table td em{color:var(--accent);font-style:italic}
   .label-table td.win{background:rgba(210,75,31,0.06)}
+
+  /* ─── RONDE 5 — TRANSLATIES ALLE TALEN ─────────────────────────────────
+     Tabel met Variant A actiezin in alle 27 ESRF-talen. Bedoeld voor
+     interne review door native speakers; geen sitewide rollout zonder
+     finale lokale check. */
+  .translations-table{
+    margin-top:18px;width:100%;border-collapse:collapse;
+    font-family:'PT Serif',serif;font-size:15px;
+  }
+  .translations-table th, .translations-table td{
+    text-align:left;padding:10px 14px;
+    border-bottom:1px solid rgba(15,20,25,0.08);vertical-align:top;
+  }
+  .translations-table th{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:0.22em;text-transform:uppercase;color:var(--ink-dim);
+    background:rgba(15,20,25,0.03);font-weight:500;
+  }
+  .translations-table td.lang-code{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);
+    width:64px;
+  }
+  .translations-table td.lang-name{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;
+    color:var(--ink-soft);width:140px;
+  }
+  .translations-table td.translation{
+    font-family:'PT Serif',serif;font-style:italic;font-size:17px;
+    color:var(--ink);
+  }
+  .translations-table td.gloss{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    color:var(--ink-dim);
+  }
+  .translations-table tr.anchor{background:rgba(210,75,31,0.06)}
+  .translations-table tr.anchor td.translation{font-weight:600}
+
+  .translations-stage-grid{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;margin-top:24px;
+  }
+  @media (max-width:760px){
+    .translations-stage-grid{grid-template-columns:1fr}
+  }
+  .translations-stage-grid .mini{
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(210,75,31,0.22), transparent 55%),
+      radial-gradient(ellipse at 85% 80%, rgba(32,78,122,0.24), transparent 60%),
+      linear-gradient(160deg, #1A1410 0%, #0F1419 60%, #0A0E12 100%);
+    border-radius:4px;padding:14px 16px;
+    display:grid;grid-template-columns:3px 1fr;gap:0;align-items:stretch;
+    overflow:hidden;
+  }
+  .translations-stage-grid .mini .v-a-rail{background:var(--accent);width:3px;height:auto}
+  .translations-stage-grid .mini .v-a-body{padding:6px 12px 8px}
+  .translations-stage-grid .mini .v-a-meta{
+    display:flex;align-items:center;gap:6px;margin-bottom:6px;
+    font-family:'IBM Plex Mono',monospace;font-weight:500;
+    font-size:9px;letter-spacing:0.22em;text-transform:uppercase;
+    color:rgba(248,242,230,0.78);
+  }
+  .translations-stage-grid .mini .v-a-meta-dot{
+    width:4px;height:4px;border-radius:999px;background:var(--accent);
+  }
+  .translations-stage-grid .mini .v-a-line{
+    font-family:'PT Serif',serif;font-style:italic;font-weight:400;
+    font-size:15px;letter-spacing:-0.005em;color:var(--cream);
+    line-height:1.18;
+  }
+  .translations-stage-grid .mini .lang-tag{
+    margin-top:6px;
+    font-family:'IBM Plex Mono',monospace;font-size:9px;
+    letter-spacing:0.22em;text-transform:uppercase;
+    color:rgba(248,242,230,0.55);
+  }
 </style>
 </head>
 <body>
@@ -438,6 +514,15 @@
     is <code>noindex,nofollow</code>, staat niet in <code>sitemap.xml</code>, en is niet
     gelinkt vanaf welke productiepagina dan ook. Knoppen zijn klikbaar en wijzen naar echte
     intake-routes, zodat de volgflow getest kan worden.
+  </div>
+
+  <div class="preview-banner" style="background:#eef2f7;border-color:#204e7a">
+    <strong>Update — ronde 5 (2026-04-27): meertalige tabel toegevoegd.</strong>
+    Onderaan deze pagina staat nu de gekozen Variant&nbsp;A actiezin
+    (<em>“Draag bij aan verbinding”</em> / <em>“Share to connect”</em>) in alle 27&nbsp;ESRF-talen
+    — idiomatisch, kort genoeg voor een header-CTA, met korte glos per regel. Dit is een
+    eerste interne pas; finale lokale review per taal komt nog. Het live header-element
+    is opnieuw <em>niet</em> aangeraakt.
   </div>
 
   <div class="preview-banner" style="background:#fdebe0;border-color:var(--accent-deep)">
@@ -876,6 +961,265 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- ─────────────────────── RONDE 5 — TRANSLATIES ALLE 27 ESRF-TALEN ─────────────────────── -->
+  <section class="variant" aria-labelledby="translations-title" data-translations-table>
+    <div class="variant-meta">
+      <span class="variant-tag">Translations · alle 27 ESRF-talen</span>
+      <span class="variant-title" id="translations-title">Variant A actiezin — meertalige tabel</span>
+    </div>
+    <div class="variant-notes">
+      <p>
+        Onderstaande tabel laat de gekozen Variant A actiezin
+        (<em>“Draag bij aan verbinding”</em> / <em>“Share to connect”</em>) zien in alle
+        27&nbsp;talen die op de ESRF-site worden gebruikt. De vertalingen zijn idiomatisch
+        en zo kort gehouden dat ze in een header-CTA passen — soms iets vrijer dan letterlijk
+        omdat een platte vertaling van <em>“share to connect”</em> in veel talen óf te lang
+        wordt óf vreemd klinkt. De Engelse fallback wordt niet gebruikt: voor elke taal
+        staat een native frasering klaar.
+      </p>
+      <p>
+        <strong>Belangrijke noot.</strong> Dit is een <em>eerste interne pas</em> bedoeld
+        voor review. Voor finale rollout vragen we per taal een korte check door een native
+        speaker (idealiter iemand uit de redactie of een vrijwilliger uit het betreffende
+        land) — een paar van deze formuleringen zijn bewust een tikkeltje vrij, en lokale
+        nuance kan ze nog scherper maken. Pas na die ronde gaan ze sitewide door
+        <code>i18n/{lang}.json</code>.
+      </p>
+      <table class="translations-table" aria-label="Variant A actiezin in alle 27 ESRF-talen" data-translations>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Taal</th>
+            <th>Actiezin</th>
+            <th>Toelichting / glos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="anchor" data-lang="nl">
+            <td class="lang-code">nl</td>
+            <td class="lang-name">Nederlands</td>
+            <td class="translation" lang="nl">Draag bij aan verbinding</td>
+            <td class="gloss">Anker NL — gekozen in ronde 3.</td>
+          </tr>
+          <tr class="anchor" data-lang="en">
+            <td class="lang-code">en</td>
+            <td class="lang-name">English</td>
+            <td class="translation" lang="en">Share to connect</td>
+            <td class="gloss">Anker EN — gekozen in ronde 3.</td>
+          </tr>
+          <tr data-lang="bg">
+            <td class="lang-code">bg</td>
+            <td class="lang-name">Български</td>
+            <td class="translation" lang="bg">Споделете, за да свържем</td>
+            <td class="gloss">“Share, so we connect.” Inclusief wij-vorm.</td>
+          </tr>
+          <tr data-lang="cs">
+            <td class="lang-code">cs</td>
+            <td class="lang-name">Čeština</td>
+            <td class="translation" lang="cs">Sdílejte, propojme se</td>
+            <td class="gloss">“Share, let's connect.” Imperatief + cohortatief.</td>
+          </tr>
+          <tr data-lang="da">
+            <td class="lang-code">da</td>
+            <td class="lang-name">Dansk</td>
+            <td class="translation" lang="da">Del og skab forbindelse</td>
+            <td class="gloss">“Share and create connection.” Idiomatisch DA.</td>
+          </tr>
+          <tr data-lang="de">
+            <td class="lang-code">de</td>
+            <td class="lang-name">Deutsch</td>
+            <td class="translation" lang="de">Teilen, was verbindet</td>
+            <td class="gloss">“Share what connects.” Editorialer DE-toon.</td>
+          </tr>
+          <tr data-lang="el">
+            <td class="lang-code">el</td>
+            <td class="lang-name">Ελληνικά</td>
+            <td class="translation" lang="el">Μοιραστείτε για να συνδεθούμε</td>
+            <td class="gloss">“Share so we connect.”</td>
+          </tr>
+          <tr data-lang="es">
+            <td class="lang-code">es</td>
+            <td class="lang-name">Español</td>
+            <td class="translation" lang="es">Comparte y conecta</td>
+            <td class="gloss">“Share and connect.” Tutoiement (consistent met site).</td>
+          </tr>
+          <tr data-lang="et">
+            <td class="lang-code">et</td>
+            <td class="lang-name">Eesti</td>
+            <td class="translation" lang="et">Jaga ja ühenda</td>
+            <td class="gloss">“Share and connect.”</td>
+          </tr>
+          <tr data-lang="fi">
+            <td class="lang-code">fi</td>
+            <td class="lang-name">Suomi</td>
+            <td class="translation" lang="fi">Jaa ja yhdistä</td>
+            <td class="gloss">“Share and connect.”</td>
+          </tr>
+          <tr data-lang="fr">
+            <td class="lang-code">fr</td>
+            <td class="lang-name">Français</td>
+            <td class="translation" lang="fr">Partagez, reliez</td>
+            <td class="gloss">“Share, link.” Twee imperatieven, ritmisch.</td>
+          </tr>
+          <tr data-lang="ga">
+            <td class="lang-code">ga</td>
+            <td class="lang-name">Gaeilge</td>
+            <td class="translation" lang="ga">Roinn chun nascadh</td>
+            <td class="gloss">“Share to connect.”</td>
+          </tr>
+          <tr data-lang="hr">
+            <td class="lang-code">hr</td>
+            <td class="lang-name">Hrvatski</td>
+            <td class="translation" lang="hr">Podijelite i povežite</td>
+            <td class="gloss">“Share and connect.”</td>
+          </tr>
+          <tr data-lang="hu">
+            <td class="lang-code">hu</td>
+            <td class="lang-name">Magyar</td>
+            <td class="translation" lang="hu">Ossza meg, kapcsoljon össze</td>
+            <td class="gloss">“Share, connect together.” Beleefdheidsvorm (Ön).</td>
+          </tr>
+          <tr data-lang="is">
+            <td class="lang-code">is</td>
+            <td class="lang-name">Íslenska</td>
+            <td class="translation" lang="is">Deildu og tengdu</td>
+            <td class="gloss">“Share and connect.”</td>
+          </tr>
+          <tr data-lang="it">
+            <td class="lang-code">it</td>
+            <td class="lang-name">Italiano</td>
+            <td class="translation" lang="it">Condividi per connettere</td>
+            <td class="gloss">“Share to connect.” Letterlijke spiegeling.</td>
+          </tr>
+          <tr data-lang="lt">
+            <td class="lang-code">lt</td>
+            <td class="lang-name">Lietuvių</td>
+            <td class="translation" lang="lt">Dalinkitės ir junkime</td>
+            <td class="gloss">“Share, and let's connect.”</td>
+          </tr>
+          <tr data-lang="lv">
+            <td class="lang-code">lv</td>
+            <td class="lang-name">Latviešu</td>
+            <td class="translation" lang="lv">Dalieties, lai savienotu</td>
+            <td class="gloss">“Share to connect.”</td>
+          </tr>
+          <tr data-lang="mt">
+            <td class="lang-code">mt</td>
+            <td class="lang-name">Malti</td>
+            <td class="translation" lang="mt">Aqsam biex tgħaqqad</td>
+            <td class="gloss">“Share to bring together.”</td>
+          </tr>
+          <tr data-lang="no">
+            <td class="lang-code">no</td>
+            <td class="lang-name">Norsk</td>
+            <td class="translation" lang="no">Del og knytt sammen</td>
+            <td class="gloss">“Share and tie together.” Idiomatisch NO.</td>
+          </tr>
+          <tr data-lang="pl">
+            <td class="lang-code">pl</td>
+            <td class="lang-name">Polski</td>
+            <td class="translation" lang="pl">Dziel się, łącz</td>
+            <td class="gloss">“Share, connect.” Twee imperatieven, kort.</td>
+          </tr>
+          <tr data-lang="pt">
+            <td class="lang-code">pt</td>
+            <td class="lang-name">Português</td>
+            <td class="translation" lang="pt">Partilhe para conectar</td>
+            <td class="gloss">“Share to connect.” PT-PT (PT-BR: <em>Compartilhe para conectar</em>).</td>
+          </tr>
+          <tr data-lang="ro">
+            <td class="lang-code">ro</td>
+            <td class="lang-name">Română</td>
+            <td class="translation" lang="ro">Împărtășiți și conectați</td>
+            <td class="gloss">“Share and connect.”</td>
+          </tr>
+          <tr data-lang="sk">
+            <td class="lang-code">sk</td>
+            <td class="lang-name">Slovenčina</td>
+            <td class="translation" lang="sk">Zdieľajte, prepojme sa</td>
+            <td class="gloss">“Share, let's connect.”</td>
+          </tr>
+          <tr data-lang="sl">
+            <td class="lang-code">sl</td>
+            <td class="lang-name">Slovenščina</td>
+            <td class="translation" lang="sl">Delite in povežite</td>
+            <td class="gloss">“Share and connect.”</td>
+          </tr>
+          <tr data-lang="sv">
+            <td class="lang-code">sv</td>
+            <td class="lang-name">Svenska</td>
+            <td class="translation" lang="sv">Dela och förbind</td>
+            <td class="gloss">“Share and connect.”</td>
+          </tr>
+          <tr data-lang="uk">
+            <td class="lang-code">uk</td>
+            <td class="lang-name">Українська</td>
+            <td class="translation" lang="uk">Діліться, щоб об'єднувати</td>
+            <td class="gloss">“Share to unite.” Cohesie-toon, past bij ESRF-register.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <strong style="display:block;margin-top:24px">Hoe dit zich gedraagt in de command card.</strong>
+      Een kleine selectie hieronder rendert de actiezin in de daadwerkelijke Variant A
+      command-card-vorm — om te checken dat de tekst-lengte niet uit de hand loopt op
+      een smalle masthead. Voor de meeste talen blijft de zin onder de twee regels;
+      Hongaars en Oekraïens zijn de langste en kunnen op zeer smalle desktops doorbreken
+      naar twee regels — geen bug, gewoon de natuur van die talen.
+
+      <div class="translations-stage-grid" aria-label="Variant A render in een selectie talen">
+        <div class="mini">
+          <span class="v-a-rail" aria-hidden="true"></span>
+          <span class="v-a-body">
+            <span class="v-a-meta"><span class="v-a-meta-dot" aria-hidden="true"></span>Open intake</span>
+            <span class="v-a-line" lang="de">Teilen, was verbindet</span>
+            <span class="lang-tag">DE · Deutsch</span>
+          </span>
+        </div>
+        <div class="mini">
+          <span class="v-a-rail" aria-hidden="true"></span>
+          <span class="v-a-body">
+            <span class="v-a-meta"><span class="v-a-meta-dot" aria-hidden="true"></span>Open intake</span>
+            <span class="v-a-line" lang="fr">Partagez, reliez</span>
+            <span class="lang-tag">FR · Français</span>
+          </span>
+        </div>
+        <div class="mini">
+          <span class="v-a-rail" aria-hidden="true"></span>
+          <span class="v-a-body">
+            <span class="v-a-meta"><span class="v-a-meta-dot" aria-hidden="true"></span>Open intake</span>
+            <span class="v-a-line" lang="es">Comparte y conecta</span>
+            <span class="lang-tag">ES · Español</span>
+          </span>
+        </div>
+        <div class="mini">
+          <span class="v-a-rail" aria-hidden="true"></span>
+          <span class="v-a-body">
+            <span class="v-a-meta"><span class="v-a-meta-dot" aria-hidden="true"></span>Open intake</span>
+            <span class="v-a-line" lang="pl">Dziel się, łącz</span>
+            <span class="lang-tag">PL · Polski</span>
+          </span>
+        </div>
+        <div class="mini">
+          <span class="v-a-rail" aria-hidden="true"></span>
+          <span class="v-a-body">
+            <span class="v-a-meta"><span class="v-a-meta-dot" aria-hidden="true"></span>Open intake</span>
+            <span class="v-a-line" lang="el">Μοιραστείτε για να συνδεθούμε</span>
+            <span class="lang-tag">EL · Ελληνικά</span>
+          </span>
+        </div>
+        <div class="mini">
+          <span class="v-a-rail" aria-hidden="true"></span>
+          <span class="v-a-body">
+            <span class="v-a-meta"><span class="v-a-meta-dot" aria-hidden="true"></span>Open intake</span>
+            <span class="v-a-line" lang="uk">Діліться, щоб об'єднувати</span>
+            <span class="lang-tag">UK · Українська</span>
+          </span>
+        </div>
+      </div>
     </div>
   </section>
 
