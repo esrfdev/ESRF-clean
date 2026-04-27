@@ -132,6 +132,49 @@ function t(key, fallback) {
   return key;
 }
 
+/* ── Propagate ?lang= to internal navigation links ──
+   Ensures the donation/fund button (and any other internal nav link)
+   carries the user's current locale into the next page, even before
+   localStorage hydrates (fresh tab, shared link, in-app browsers with
+   localStorage blocked). Only same-origin .html anchors are touched;
+   mailto/tel/external/javascript/anchor-only links and language-switcher
+   buttons are left alone. Anchors already pinned to a different lang
+   are respected. */
+function propagateLangToInternalLinks() {
+  const lang = _currentLang || 'en';
+  document.querySelectorAll('a[href]').forEach(a => {
+    const raw = a.getAttribute('href');
+    if (!raw) return;
+    if (/^(?:mailto:|tel:|javascript:|#|data:)/i.test(raw)) return;
+    if (/^https?:\/\//i.test(raw) && !/^https?:\/\/(?:[^/]*\.)?esrf\.net(?:[/:?#]|$)/i.test(raw)) return;
+    if (!/\.html(?:[?#]|$)/i.test(raw)) return;
+    if (a.closest('.lang-menu') || a.closest('.lang-current')) return;
+    try {
+      const url = new URL(raw, window.location.href);
+      if (url.origin !== window.location.origin && !/(?:^|\.)esrf\.net$/i.test(url.hostname)) return;
+      const existing = url.searchParams.get('lang');
+      if (existing && existing !== lang) return;
+      if (lang === 'en') {
+        url.searchParams.delete('lang');
+      } else {
+        url.searchParams.set('lang', lang);
+      }
+      const isAbsolute = /^(?:https?:)?\/\//i.test(raw) || raw.startsWith('/');
+      let rebuilt;
+      if (isAbsolute) {
+        rebuilt = url.toString();
+      } else {
+        const here = window.location.pathname.replace(/[^/]*$/, '');
+        let p = url.pathname;
+        if (p.startsWith(here)) p = p.slice(here.length);
+        else p = p.replace(/^\//, '');
+        rebuilt = p + (url.search || '') + (url.hash || '');
+      }
+      if (rebuilt && rebuilt !== raw) a.setAttribute('href', rebuilt);
+    } catch (e) { /* malformed — ignore */ }
+  });
+}
+
 /* ── Apply translations to DOM ── */
 function applyTranslations() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -201,6 +244,11 @@ function applyTranslations() {
       }
     }
   } catch (e) { /* swallow — counters are non-critical */ }
+
+  // Append ?lang= to internal nav links so the donation button (and
+  // every other internal anchor) keeps the user's locale across pages,
+  // even when localStorage is blocked or unhydrated.
+  try { propagateLangToInternalLinks(); } catch (e) { /* non-critical */ }
 }
 
 /* ── Update lang current display ── */
