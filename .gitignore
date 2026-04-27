@@ -21,3 +21,10 @@ scripts/patch_translations.py
 scripts/patch_html_tags.py
 scripts/add_missing_translations.py
 scripts/translate_source.json
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
