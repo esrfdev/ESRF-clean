@@ -62,6 +62,39 @@
 <!-- ESRF-SEO:END -->
 <script type="application/ld+json" data-esrf="1">{"@context":"https://schema.org","@type":"WebPage","name":"Deel je informatie — ESRF.net","url":"https://esrf.net/submit-news.html"}</script>
 
+<script>
+  /* ── Pre-render language detection for the submit form ──
+     Decides which form variant (nl / en) is shown BEFORE the body
+     paints, so non-Dutch visitors never see Dutch labels flashing.
+     Order matches i18n.js detectLang(): URL ?lang= → localStorage
+     → browser → fallback. The NL form is shown only when the resolved
+     language is "nl"; every other language renders the EN form. */
+  (function(){
+    function detect(){
+      try {
+        var p = new URLSearchParams(window.location.search);
+        var u = p.get('lang');
+        if (u) return u.toLowerCase();
+      } catch(e){}
+      try {
+        var s = localStorage.getItem('esrfnetLang');
+        if (s) return s.toLowerCase();
+      } catch(e){}
+      var b = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
+      return b || 'en';
+    }
+    window.__esrfFormLang = detect();
+    /* Inject CSS so the right variant is visible from first paint. */
+    var css = (window.__esrfFormLang === 'nl')
+      ? '[data-form-lang="en"]{display:none!important}'
+      : '[data-form-lang="nl"]{display:none!important}';
+    var style = document.createElement('style');
+    style.id = 'sv-form-lang-style';
+    style.textContent = css;
+    document.head.appendChild(style);
+  })();
+</script>
+
 <style>
   /* Mode picker */
   .mode-switch{display:grid;grid-template-columns:1fr;gap:10px;margin:0 0 8px}
@@ -207,6 +240,12 @@
 </section>
 
 <div class="form-wrap">
+
+<!-- ══════════════════════════════════════════════════════════════════
+     NL form (data-form-lang="nl") — full Dutch composed visitor form.
+     Shown when language=nl. Can attempt /api/intake (Dutch-only).
+     ══════════════════════════════════════════════════════════════════ -->
+<div data-form-lang="nl" class="sv-form-variant">
 
   <aside id="sv-editorial-review-notice" class="sv-review-notice" role="note">
     <strong>Na verzending kijkt de ESRF-redactie mee.</strong>
@@ -886,7 +925,650 @@
     <a href="/" class="btn outline" style="margin-top:24px">← Terug naar ESRF.net</a>
   </div>
 
-</div>
+</div><!-- /data-form-lang="nl" -->
+
+<!-- ══════════════════════════════════════════════════════════════════
+     EN form (data-form-lang="en") — full English mirror of the NL form.
+     Shown for every non-Dutch language. Mailto-only: never calls
+     /api/intake (the sheet route is Dutch-only for now). Same six modes,
+     same ten ESRF sectors, English authority/verification wording.
+     ══════════════════════════════════════════════════════════════════ -->
+<div data-form-lang="en" class="sv-form-variant" hidden>
+
+  <aside class="sv-review-notice" role="note">
+    <strong>After you submit, the ESRF editorial team takes a look.</strong>
+    <span>Nothing is automatically published or changed in the Directory or Atlas. Every request is reviewed manually by the editors.</span>
+  </aside>
+
+  <!-- Error state -->
+  <div id="form-error-en" class="form-error" hidden role="alert" aria-live="assertive"></div>
+
+  <!-- Form -->
+  <form id="sv-form-en" class="form-grid" novalidate autocomplete="on">
+
+    <!-- Honeypot -->
+    <input type="text" name="company_website_hp" tabindex="-1" autocomplete="off"
+      style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
+
+    <!-- ── Step 1: What do you want to do? ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">1. What would you like to do?</legend>
+      <p class="fieldset-intro">
+        Pick whatever applies. You can pick both — for example, if your organisation isn't yet in the atlas <em>and</em> you have a story from practice to share.
+      </p>
+      <p class="fieldset-intro" style="margin:6px 0 10px;font-style:italic;color:var(--ink-soft)">
+        First choose what you want to do. Then continue to step 2 below to fill in the details.
+      </p>
+
+      <div class="mode-switch" role="radiogroup" aria-label="Submission type">
+        <label class="mode-option" data-mode="org">
+          <input type="radio" name="intake_mode" value="org" checked>
+          <strong>List an organisation</strong>
+          <em class="mode-tagline">For a new entry in the Directory and Atlas.</em>
+          <span>Add your organisation to the ESRF atlas for the first time. No story required.</span>
+        </label>
+        <label class="mode-option" data-mode="editorial">
+          <input type="radio" name="intake_mode" value="editorial">
+          <strong>Share a story from practice</strong>
+          <em class="mode-tagline">For a possible editorial or real-world example.</em>
+          <span>Send in a short article or story about cooperation, a lesson learned, or recognition for people whose work deserves it.</span>
+        </label>
+        <label class="mode-option" data-mode="both">
+          <input type="radio" name="intake_mode" value="both">
+          <strong>Both</strong>
+          <em class="mode-tagline">For an organisation and a story in one go.</em>
+          <span>List your organisation and submit an article or story from practice in a single submission.</span>
+        </label>
+        <label class="mode-option" data-mode="change_request">
+          <input type="radio" name="intake_mode" value="change_request">
+          <strong>Change details</strong>
+          <em class="mode-tagline">For correcting an existing listing.</em>
+          <span>Request that an existing organisation listing be updated (e.g. name, sector, description). The editors verify and never change anything automatically.</span>
+        </label>
+        <label class="mode-option" data-mode="hide_delete">
+          <input type="radio" name="intake_mode" value="hide_delete">
+          <strong>Hide / delete</strong>
+          <em class="mode-tagline">For requests to no longer show an existing listing.</em>
+          <span>Request that an existing listing be temporarily hidden or removed entirely. The editors first verify that you are authorised to ask for this.</span>
+        </label>
+        <label class="mode-option" data-mode="event">
+          <input type="radio" name="intake_mode" value="event">
+          <strong>Submit an event</strong>
+          <em class="mode-tagline">For inclusion on the ESRF events page after editorial review.</em>
+          <span>For conferences, gatherings, webinars or other activities relevant to the ESRF network.</span>
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- ── Step 2: Contact & organisation ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">2. Contact &amp; organisation</legend>
+      <p class="fieldset-intro">We use these contact details for every type of request — listing, change, hide/delete, story or event. So the editors know who to reach.</p>
+
+      <div class="form-row">
+        <label for="sv-en-contact-name">Name <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-contact-name" name="contact_name" required maxlength="80"
+          placeholder="e.g. Sarah Davies" autocomplete="name">
+      </div>
+
+      <div class="form-row" id="sv-en-org-row">
+        <label for="sv-en-org">Organisation <span class="req" id="sv-en-org-req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-org" name="organisation" required maxlength="120"
+          placeholder="e.g. Port Authority of Rotterdam" autocomplete="organization">
+        <span class="hint" id="sv-en-org-hint">Required for listing, story or both. For change, hide/delete, or event submissions this field is optional — only fill it in if your organisation should appear next to your name.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-role">Role <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-role" name="role" required maxlength="120"
+          placeholder="e.g. crisis management team lead" autocomplete="organization-title">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-email">Email <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="sv-en-email" name="email" required
+          placeholder="name@organisation.org" autocomplete="email">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-phone">Phone (optional)</label>
+        <input type="tel" id="sv-en-phone" name="phone" maxlength="40"
+          placeholder="Only if you'd rather we called you" autocomplete="tel">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-country">Country <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-en-country" name="country" required>
+          <option value="">Choose a country…</option>
+          <optgroup label="EU member states">
+            <option value="AT">Austria</option>
+            <option value="BE">Belgium</option>
+            <option value="BG">Bulgaria</option>
+            <option value="HR">Croatia</option>
+            <option value="CY">Cyprus</option>
+            <option value="CZ">Czechia</option>
+            <option value="DK">Denmark</option>
+            <option value="EE">Estonia</option>
+            <option value="FI">Finland</option>
+            <option value="FR">France</option>
+            <option value="DE">Germany</option>
+            <option value="GR">Greece</option>
+            <option value="HU">Hungary</option>
+            <option value="IE">Ireland</option>
+            <option value="IT">Italy</option>
+            <option value="LV">Latvia</option>
+            <option value="LT">Lithuania</option>
+            <option value="LU">Luxembourg</option>
+            <option value="MT">Malta</option>
+            <option value="NL">Netherlands</option>
+            <option value="PL">Poland</option>
+            <option value="PT">Portugal</option>
+            <option value="RO">Romania</option>
+            <option value="SK">Slovakia</option>
+            <option value="SI">Slovenia</option>
+            <option value="ES">Spain</option>
+            <option value="SE">Sweden</option>
+          </optgroup>
+          <optgroup label="Other Europe">
+            <option value="IS">Iceland</option>
+            <option value="NO">Norway</option>
+            <option value="UA">Ukraine</option>
+            <option value="GB">United Kingdom</option>
+            <option value="CH">Switzerland</option>
+            <option value="AL">Albania</option>
+            <option value="BA">Bosnia and Herzegovina</option>
+            <option value="ME">Montenegro</option>
+            <option value="MK">North Macedonia</option>
+            <option value="RS">Serbia</option>
+            <option value="TR">Türkiye</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-place">City / town</label>
+        <input type="text" id="sv-en-place" name="place" maxlength="120"
+          placeholder="e.g. Rotterdam, Brussels, Berlin" autocomplete="address-level2">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-region">Region / province (optional)</label>
+        <input type="text" id="sv-en-region" name="region" maxlength="120"
+          placeholder="e.g. South Holland, Flanders, Bavaria">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-website">Website</label>
+        <input type="url" id="sv-en-website" name="website"
+          placeholder="https://example.org" autocomplete="url" pattern="https?://.+">
+        <span class="hint">Required when listing an organisation (or "Both"). For change, hide/delete or a story: optional. Must start with https:// or http://</span>
+      </div>
+    </fieldset>
+
+    <!-- ── 3A. Organisation details ── -->
+    <fieldset class="form-fieldset section-block" data-section="org">
+      <legend class="form-legend">3A. Organisation details</legend>
+      <p class="fieldset-intro">These fields populate the directory/atlas listing. Fill in only when listing or updating your organisation. (In <em>Both</em> mode, step 3A precedes 3B.)</p>
+
+      <div class="form-row">
+        <label for="sv-en-sector">ESRF sector / primary category <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-en-sector" name="sector" data-esrf-sector="org">
+          <option value="">Choose an ESRF sector…</option>
+          <option value="noodhulp-crisisrespons">Emergency Response &amp; Crisis Response</option>
+          <option value="beveiliging-bescherming">Security &amp; Protection</option>
+          <option value="risico-continuiteit">Risk &amp; Continuity Management</option>
+          <option value="digitale-infrastructuur-cybersecurity">Digital Infrastructure &amp; Cybersecurity</option>
+          <option value="kennis-training-onderzoek">Knowledge, Training &amp; Research</option>
+          <option value="gezondheid-medische-productie">Health &amp; Medical Production</option>
+          <option value="kritieke-infrastructuur">Critical Infrastructure</option>
+          <option value="dual-use-technologie-productie">Dual-use Technology &amp; Production</option>
+          <option value="transport-maritiem-luchtvaart">Transport, Maritime &amp; Aviation</option>
+          <option value="energie-netwerkweerbaarheid">Energy &amp; Network Resilience</option>
+        </select>
+        <span class="hint">First pick the ESRF primary category (10 vital sectors, matching Directory/Atlas). Use additional tags for NIS2 framing or extra keywords.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-org-additional-tags">Additional tags</label>
+        <input type="text" id="sv-en-org-additional-tags" name="additional_tags" maxlength="240"
+          placeholder="e.g. crisis communication, port, cybersecurity, NIS2-energy">
+        <span class="hint">Use commas between tags, for example: crisis communication, port, cybersecurity. Add NIS2 framing here too.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-org-description">Short description of the organisation</label>
+        <textarea id="sv-en-org-description" name="org_description" maxlength="280"
+          placeholder="One or two sentences: what does the organisation do and which region does it serve?"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- ── 3B. Editorial contribution ── -->
+    <fieldset class="form-fieldset section-block" data-section="editorial">
+      <legend class="form-legend">3B. Editorial contribution</legend>
+      <p class="fieldset-intro">For a short article or story from practice. Write it as you'd tell it — the editors help with framing and final edits. (In <em>Editorial</em> mode this is the only step 3; in <em>Both</em> mode 3B follows 3A.)</p>
+
+      <div class="form-row">
+        <label for="sv-en-ed-topic">Topic / working title <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-ed-topic" name="ed_topic" maxlength="160"
+          placeholder="e.g. How Rotterdam and its port partners ran a joint port exercise">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ed-summary">Short summary <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-en-ed-summary" name="ed_summary" rows="4" minlength="20" maxlength="600"
+          aria-required="true"
+          placeholder="3–5 sentences: what happened, why is it relevant, what is the core?"></textarea>
+        <div class="counter" id="sv-en-ed-summary-counter" aria-live="polite">0 / 600</div>
+        <span class="hint">At least 20 characters — this is the summary the editors read first.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ed-audience">Who is this story interesting for?</label>
+        <input type="text" id="sv-en-ed-audience" name="ed_audience" maxlength="160"
+          placeholder="e.g. safety regions, port authorities, policy makers">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ed-partners">Organisations involved</label>
+        <textarea id="sv-en-ed-partners" name="ed_partners" rows="2" maxlength="400"
+          placeholder="Which parties worked together?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ed-nis2-sector">ESRF sector / primary category</label>
+        <select id="sv-en-ed-nis2-sector" name="ed_nis2_sector" data-esrf-sector="editorial">
+          <option value="">Choose an ESRF sector…</option>
+          <option value="noodhulp-crisisrespons">Emergency Response &amp; Crisis Response</option>
+          <option value="beveiliging-bescherming">Security &amp; Protection</option>
+          <option value="risico-continuiteit">Risk &amp; Continuity Management</option>
+          <option value="digitale-infrastructuur-cybersecurity">Digital Infrastructure &amp; Cybersecurity</option>
+          <option value="kennis-training-onderzoek">Knowledge, Training &amp; Research</option>
+          <option value="gezondheid-medische-productie">Health &amp; Medical Production</option>
+          <option value="kritieke-infrastructuur">Critical Infrastructure</option>
+          <option value="dual-use-technologie-productie">Dual-use Technology &amp; Production</option>
+          <option value="transport-maritiem-luchtvaart">Transport, Maritime &amp; Aviation</option>
+          <option value="energie-netwerkweerbaarheid">Energy &amp; Network Resilience</option>
+        </select>
+        <span class="hint">Pick the ESRF primary category the story relates to. Use additional tags for NIS2 framing or extra keywords.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ed-additional-tags">Additional tags</label>
+        <input type="text" id="sv-en-ed-additional-tags" name="ed_additional_tags" maxlength="240"
+          placeholder="e.g. crisis communication, port, cybersecurity">
+        <span class="hint">Use commas between tags, for example: crisis communication, port, cybersecurity.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ed-regional-angle">Regional angle</label>
+        <textarea id="sv-en-ed-regional-angle" name="ed_regional_angle" rows="3" maxlength="500"
+          placeholder="What makes this a regional story? Which region, which specific context?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ed-lesson">Lesson learned</label>
+        <textarea id="sv-en-ed-lesson" name="ed_lesson" rows="3" maxlength="500"
+          placeholder="What did you learn? What would you pass on to a colleague in another region?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ed-spotlight">In the spotlight — who deserves recognition?</label>
+        <textarea id="sv-en-ed-spotlight" name="ed_spotlight" rows="3" maxlength="400"
+          placeholder="A person or team whose work is often invisible but makes a difference. Name, role, organisation — only if you have permission."></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ed-sources">Source / verifiable facts</label>
+        <textarea id="sv-en-ed-sources" name="ed_sources" rows="3" maxlength="500"
+          placeholder="Links, dates, reports or contacts the editors can use to verify facts."></textarea>
+        <span class="hint">ESRF does not publish stories that cannot be verified.</span>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-en-consent-edit" name="consent_edit" style="margin-top:4px">
+        <label for="sv-en-consent-edit" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          I agree that the ESRF editorial team may <strong>edit and publish</strong> my text, preserving its core.
+        </label>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-en-consent-contact-ed" name="consent_contact_editorial" style="margin-top:4px">
+        <label for="sv-en-consent-contact-ed" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          The editors may <strong>contact</strong> me to align, fact-check and finalise before publication.
+        </label>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-en-consent-no-confid" name="consent_no_confidential" style="margin-top:4px">
+        <label for="sv-en-consent-no-confid" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          My submission contains <strong>no confidential or operationally sensitive information</strong>.
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- ── 3C. Change / hide / delete request ── -->
+    <fieldset class="form-fieldset section-block" data-section="change">
+      <legend class="form-legend">3C. What should happen to the existing listing?</legend>
+      <p class="fieldset-intro">
+        Only fill in this step if you want an existing listing to be <strong>changed, hidden or deleted</strong>.
+        The ESRF editors verify your request manually — <strong>nothing happens automatically</strong> and the directory is never updated by this form alone.
+      </p>
+
+      <div class="form-row">
+        <label for="sv-en-cr-target-name">Name of the organisation or listing <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-cr-target-name" name="cr_target_name" maxlength="200"
+          placeholder="e.g. Port Authority of Rotterdam">
+        <span class="hint">Provide at least the name <em>or</em> URL of the current listing.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-cr-target-url">Or: URL of the existing listing</label>
+        <input type="url" id="sv-en-cr-target-url" name="cr_target_url" maxlength="400"
+          placeholder="https://esrf.net/directory/example">
+        <span class="hint">Must start with https:// or http://. Helps the editors find the right listing.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-cr-action">What should happen? <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-en-cr-action" name="cr_action">
+          <option value="update">Update / correct</option>
+          <option value="hide">Temporarily hide (remove from atlas, keep on file)</option>
+          <option value="delete">Delete permanently</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-cr-description">What exactly needs to change? <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-en-cr-description" name="cr_description" rows="4" minlength="10" maxlength="1500"
+          placeholder="e.g. 'Address has moved to new location X' or 'Sector changed from Y to Z' or 'Listing is no longer accurate; please hide'."></textarea>
+        <span class="hint">Write in plain language — the editors read this first.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-cr-reason">Why this request? <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-en-cr-reason" name="cr_reason" rows="3" minlength="10" maxlength="1000"
+          placeholder="e.g. 'Organisation has merged' or 'Information is outdated' or 'Request on behalf of management'."></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-cr-evidence">Source or evidence (optional)</label>
+        <input type="url" id="sv-en-cr-evidence" name="cr_evidence" maxlength="400"
+          placeholder="https://… (e.g. registry extract, press release, official notice)">
+        <span class="hint">Optional. A link makes verification faster. No confidential documents in this field.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-cr-nis2-sector">ESRF sector / primary category (optional)</label>
+        <select id="sv-en-cr-nis2-sector" name="cr_nis2_sector" data-esrf-sector="change">
+          <option value="">Choose an ESRF sector…</option>
+          <option value="noodhulp-crisisrespons">Emergency Response &amp; Crisis Response</option>
+          <option value="beveiliging-bescherming">Security &amp; Protection</option>
+          <option value="risico-continuiteit">Risk &amp; Continuity Management</option>
+          <option value="digitale-infrastructuur-cybersecurity">Digital Infrastructure &amp; Cybersecurity</option>
+          <option value="kennis-training-onderzoek">Knowledge, Training &amp; Research</option>
+          <option value="gezondheid-medische-productie">Health &amp; Medical Production</option>
+          <option value="kritieke-infrastructuur">Critical Infrastructure</option>
+          <option value="dual-use-technologie-productie">Dual-use Technology &amp; Production</option>
+          <option value="transport-maritiem-luchtvaart">Transport, Maritime &amp; Aviation</option>
+          <option value="energie-netwerkweerbaarheid">Energy &amp; Network Resilience</option>
+        </select>
+        <span class="hint">Only fill in if the change concerns a sector. Use additional tags for NIS2 framing.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-cr-additional-tags">Additional tags (optional)</label>
+        <input type="text" id="sv-en-cr-additional-tags" name="cr_additional_tags" maxlength="240"
+          placeholder="e.g. crisis communication, port, cybersecurity">
+        <span class="hint">Use commas between tags, for example: crisis communication, port, cybersecurity.</span>
+      </div>
+
+      <p style="margin-top:12px;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft);line-height:1.6">
+        <strong>No automatic change:</strong>
+        the editors decide whether, how and when something is updated in the Directory or Atlas. Nothing in this workflow changes the directory automatically.
+      </p>
+    </fieldset>
+
+    <!-- ── 3D. Authority to request a change ── -->
+    <fieldset class="form-fieldset section-block" data-section="change">
+      <legend class="form-legend">3D. Authority to request this change</legend>
+      <p class="fieldset-intro">
+        To prevent third parties from changing or deleting data without permission, we ask briefly about your relationship with the organisation. The editors always verify this manually — nothing happens automatically based on your answers.
+      </p>
+
+      <div class="form-row">
+        <label for="sv-en-auth-name">Requester name <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-auth-name" name="auth_requester_name" maxlength="120"
+          placeholder="e.g. Sarah Davies" autocomplete="name">
+        <span class="hint">May be the same name as in step 2.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-auth-role">Role / position <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-auth-role" name="auth_requester_role" maxlength="120"
+          placeholder="e.g. communications adviser, board secretary, spokesperson">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-auth-email">Work email address <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="sv-en-auth-email" name="auth_work_email" maxlength="160"
+          placeholder="name@organisation.org" autocomplete="email">
+        <span class="hint">Preferably an email on the organisation's domain. We compare this domain with the official website.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-auth-relation">Relationship to the organisation <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-en-auth-relation" name="auth_relation">
+          <option value="">Choose a relationship…</option>
+          <option value="employee">Employee</option>
+          <option value="board">Board member</option>
+          <option value="communications">Communications / spokesperson</option>
+          <option value="contact">Contact person of the organisation</option>
+          <option value="other">Other — explain in the description above</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-auth-registration-code">Organisation registration code, if you have one</label>
+        <input type="text" id="sv-en-auth-registration-code" name="auth_registration_code" maxlength="64"
+          placeholder="Optional — only if you received a registration or verification code"
+          autocomplete="off" inputmode="text">
+        <span class="hint">This is not a login or account access code. If you don't have a registration or verification code, leave this field empty — the editors verify manually.</span>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-en-auth-confirm-authorized" name="auth_confirm_authorized" style="margin-top:4px">
+        <label for="sv-en-auth-confirm-authorized" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          I confirm that I am <strong>authorised</strong> to request a change or deletion on behalf of this organisation.
+        </label>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-cr-requester-auth">In what capacity are you submitting this request? <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-en-cr-requester-auth" name="cr_requester_auth">
+          <option value="authorized_representative">Authorised representative / on behalf of the organisation</option>
+          <option value="employee">Employee of the organisation</option>
+          <option value="external_observer">External (no role at the organisation — e.g. correction as a visitor)</option>
+        </select>
+        <span class="hint">The editors weigh this in their verification. External reports are checked more strictly.</span>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-en-cr-auth-confirm" name="cr_auth_confirm" style="margin-top:4px">
+        <label for="sv-en-cr-auth-confirm" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          I additionally confirm that I am submitting this either as an authorised representative, or as an external report where the editors may first contact the organisation before anything is changed.
+        </label>
+      </div>
+
+      <p style="margin-top:12px;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft);line-height:1.6">
+        <strong>No automatic approval:</strong>
+        a domain or registration code match does not mean a request is approved. The ESRF editorial team verifies every change or deletion request manually.
+      </p>
+    </fieldset>
+
+    <!-- ── 3E. Submit an event ── -->
+    <fieldset class="form-fieldset section-block" data-section="event">
+      <legend class="form-legend">3E. Event details</legend>
+      <p class="fieldset-intro">
+        For conferences, gatherings, webinars or other activities relevant to the ESRF network.
+        The ESRF editors verify event details manually — <strong>nothing is published automatically</strong> on the events page.
+      </p>
+
+      <div class="form-row">
+        <label for="sv-en-ev-name">Event name <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-ev-name" name="event_name" maxlength="200"
+          placeholder="e.g. European Cyber Security Conference 2026">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-organiser">Organiser <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-ev-organiser" name="event_organiser" maxlength="200"
+          placeholder="e.g. ENISA, NCSC, Port Authority of Rotterdam">
+        <span class="hint">Full name of the organisation hosting or organising the event.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-date-start">Start date <span class="req" aria-hidden="true">*</span></label>
+        <input type="date" id="sv-en-ev-date-start" name="event_date_start">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-date-end">End date (optional)</label>
+        <input type="date" id="sv-en-ev-date-end" name="event_date_end">
+        <span class="hint">Leave empty for one-day events.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-time">Time / time zone (optional)</label>
+        <input type="text" id="sv-en-ev-time" name="event_time" maxlength="80"
+          placeholder="e.g. 09:00–17:00 CET">
+        <span class="hint">Optional but useful for visitors of the events page.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-location">Location or online <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-ev-location" name="event_location" maxlength="200"
+          placeholder="e.g. Brussels Expo / Online (Zoom) / Rotterdam Ahoy">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-country">Country / region <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-ev-country" name="event_country" maxlength="120"
+          placeholder="e.g. Netherlands — South Holland, or Online">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-description">Short description <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="sv-en-ev-description" name="event_description" rows="4" minlength="20" maxlength="800"
+          placeholder="3–5 sentences: what is the event about, who organises it, who is it for?"></textarea>
+        <span class="hint">At least 20 characters — the editors use this as the basis for the event summary.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-audience">Audience</label>
+        <input type="text" id="sv-en-ev-audience" name="event_audience" maxlength="200"
+          placeholder="e.g. safety regions, CISOs, policy makers, researchers">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-nis2-sector">ESRF sector / primary category</label>
+        <select id="sv-en-ev-nis2-sector" name="event_nis2_sector" data-esrf-sector="event">
+          <option value="">Choose an ESRF sector…</option>
+          <option value="noodhulp-crisisrespons">Emergency Response &amp; Crisis Response</option>
+          <option value="beveiliging-bescherming">Security &amp; Protection</option>
+          <option value="risico-continuiteit">Risk &amp; Continuity Management</option>
+          <option value="digitale-infrastructuur-cybersecurity">Digital Infrastructure &amp; Cybersecurity</option>
+          <option value="kennis-training-onderzoek">Knowledge, Training &amp; Research</option>
+          <option value="gezondheid-medische-productie">Health &amp; Medical Production</option>
+          <option value="kritieke-infrastructuur">Critical Infrastructure</option>
+          <option value="dual-use-technologie-productie">Dual-use Technology &amp; Production</option>
+          <option value="transport-maritiem-luchtvaart">Transport, Maritime &amp; Aviation</option>
+          <option value="energie-netwerkweerbaarheid">Energy &amp; Network Resilience</option>
+        </select>
+        <span class="hint">Pick the ESRF primary category the event relates to. Use additional tags for NIS2 framing or extra keywords.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-tags">Additional tags</label>
+        <input type="text" id="sv-en-ev-tags" name="event_tags" maxlength="240"
+          placeholder="e.g. crisis communication, port, cybersecurity">
+        <span class="hint">Use commas between tags, for example: crisis communication, port, cybersecurity. Comma-separated values help the editors categorise the event.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-website">Website / registration link <span class="req" aria-hidden="true">*</span></label>
+        <input type="url" id="sv-en-ev-website" name="event_website" maxlength="400"
+          placeholder="https://event-website.eu" pattern="https?://.+">
+        <span class="hint">Official event page or registration link. Must start with https:// or http://</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-contact-name">Contact person <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-en-ev-contact-name" name="event_contact_name" maxlength="120"
+          placeholder="Name of the contact person for this event">
+        <span class="hint">May be the same person as in step 2.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-contact-email">Work email of contact person <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="sv-en-ev-contact-email" name="event_contact_email" maxlength="160"
+          placeholder="name@organisation.org">
+        <span class="hint">Preferably a work email on the organiser's domain.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-en-ev-publication">Publication request <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-en-ev-publication" name="event_publication_request">
+          <option value="">Choose what you'd like…</option>
+          <option value="agenda">Listing on the ESRF agenda / events page</option>
+          <option value="dispatch">Mention in the Dispatch newsletter</option>
+          <option value="editorial">Possible editorial / story afterwards</option>
+          <option value="fyi">For information only — no publication needed</option>
+        </select>
+        <span class="hint">Which form of publication do you have in mind? The editors decide ultimately.</span>
+      </div>
+
+      <p style="margin-top:12px;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft);line-height:1.6">
+        <strong>No automatic publication:</strong>
+        the ESRF editors verify event details manually. Nothing is automatically published on the events page, in Dispatch, or as an editorial based on this form.
+      </p>
+    </fieldset>
+
+    <!-- ── 4. Privacy &amp; submit ── -->
+    <fieldset class="form-fieldset">
+      <legend class="form-legend">4. Privacy &amp; submit</legend>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-en-gdpr" name="gdpr_consent" required style="margin-top:4px">
+        <label for="sv-en-gdpr" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          I agree to the <a href="privacy.html">privacy policy</a> and to storage of these details for editorial review.
+        </label>
+      </div>
+
+      <div>
+        <button type="submit" class="form-submit" id="sv-en-submit-btn">
+          Share your information
+        </button>
+        <p style="margin-top:10px;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft);line-height:1.6">
+          Your submission is sent to the ESRF editorial intake by email. Your mail client will open with a clean summary addressed to <code>intake@esrf.net</code>. The editors review every request manually — nothing is published or changed automatically in the Directory or Atlas.
+        </p>
+      </div>
+    </fieldset>
+
+  </form>
+
+  <!-- Mailto fallback success (EN) -->
+  <div id="form-success-en" class="form-success" hidden style="text-align:center;padding:40px 20px">
+    <div class="kicker">§ Thank you</div>
+    <h2 style="margin:6px 0 8px;font-family:'Archivo',sans-serif">Your mail client has opened</h2>
+    <p style="font-family:'PT Serif',serif;font-size:16px;line-height:1.6;color:var(--ink-soft);margin:0 auto;max-width:560px">
+      We've opened your mail client with a summary of your submission to <code>intake@esrf.net</code>. Please send the email to reach the ESRF editorial team. The editors review every request manually — nothing is published or changed automatically.
+    </p>
+    <a href="/" class="btn outline" style="margin-top:24px">← Back to ESRF.net</a>
+  </div>
+
+</div><!-- /data-form-lang="en" -->
+
+</div><!-- /form-wrap -->
 
 <footer class="foot">
   <div class="foot-inner">
@@ -1567,6 +2249,15 @@
       const payload = buildJsonPayload(data, mode);
       let apiOk = false;
       let apiUnavailable = false;
+      /* Defence in depth: /api/intake is currently Dutch-only.
+         If the page is rendered in any non-NL language, never call the
+         API — fall straight through to the mailto fallback path below. */
+      if ((window.__esrfFormLang || 'nl') !== 'nl') {
+        setSubmitting(false);
+        window.location.href = mailtoFor(data, mode);
+        setTimeout(showMailtoSuccess, 500);
+        return;
+      }
       try {
         const res = await fetch('/api/intake', {
           method: 'POST',
@@ -1608,6 +2299,349 @@
   }
 })();
 </script>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     EN form behaviour — mirrors the NL handler but is mailto-only.
+     Never calls /api/intake (the sheet route is Dutch-only for now).
+     ══════════════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  const form = document.getElementById('sv-form-en');
+  if (!form) return;
+  window.__formLoadedAtEn = Date.now();
+
+  const errorBox = document.getElementById('form-error-en');
+  const successBox = document.getElementById('form-success-en');
+  const submitBtn = document.getElementById('sv-en-submit-btn');
+  const radios = form.querySelectorAll('input[name="intake_mode"]');
+  const sectionBlocks = form.querySelectorAll('.section-block');
+  const orgInput = document.getElementById('sv-en-org');
+  const orgReq = document.getElementById('sv-en-org-req');
+  const summaryEl = document.getElementById('sv-en-ed-summary');
+  const summaryCounter = document.getElementById('sv-en-ed-summary-counter');
+
+  function currentMode(){
+    const r = form.querySelector('input[name="intake_mode"]:checked');
+    return r ? r.value : 'org';
+  }
+  function applyMode(){
+    const m = currentMode();
+    form.querySelectorAll('.mode-option').forEach(el => {
+      el.classList.toggle('is-selected', el.dataset.mode === m);
+    });
+    sectionBlocks.forEach(block => {
+      const sec = block.dataset.section;
+      let active = false;
+      if (m === 'org' && sec === 'org') active = true;
+      else if (m === 'editorial' && sec === 'editorial') active = true;
+      else if (m === 'both' && (sec === 'org' || sec === 'editorial')) active = true;
+      else if ((m === 'change_request' || m === 'hide_delete') && sec === 'change') active = true;
+      else if (m === 'event' && sec === 'event') active = true;
+      block.classList.toggle('is-active', active);
+    });
+    const requireOrg = (m === 'org' || m === 'editorial' || m === 'both');
+    if (orgInput) {
+      if (requireOrg) orgInput.setAttribute('required', '');
+      else orgInput.removeAttribute('required');
+    }
+    if (orgReq) orgReq.style.display = requireOrg ? '' : 'none';
+    const actionSel = document.getElementById('sv-en-cr-action');
+    if (actionSel) {
+      const opts = actionSel.querySelectorAll('option');
+      opts.forEach(o => { o.disabled = false; o.hidden = false; });
+      if (m === 'hide_delete') {
+        opts.forEach(o => { if (o.value === 'update') { o.disabled = true; o.hidden = true; }});
+        if (actionSel.value === 'update') actionSel.value = 'hide';
+      }
+    }
+    if (submitBtn) {
+      if (m === 'editorial') submitBtn.textContent = 'Share your story';
+      else if (m === 'both') submitBtn.textContent = 'Share your information and story';
+      else if (m === 'change_request') submitBtn.textContent = 'Send your change request';
+      else if (m === 'hide_delete') submitBtn.textContent = 'Send your hide or delete request';
+      else if (m === 'event') submitBtn.textContent = 'Submit your event';
+      else submitBtn.textContent = 'Share your information';
+    }
+  }
+  radios.forEach(r => r.addEventListener('change', applyMode));
+  applyMode();
+
+  /* End-date min */
+  const evStartEl = document.getElementById('sv-en-ev-date-start');
+  const evEndEl = document.getElementById('sv-en-ev-date-end');
+  if (evStartEl && evEndEl) {
+    evStartEl.addEventListener('change', function(){
+      evEndEl.min = this.value;
+      if (evEndEl.value && evEndEl.value < this.value) evEndEl.value = this.value;
+    });
+  }
+
+  if (summaryEl && summaryCounter) {
+    summaryEl.addEventListener('input', function(){
+      summaryCounter.textContent = this.value.length + ' / 600';
+    });
+  }
+
+  function showError(msg){
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
+    errorBox.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  function hideError(){ errorBox.hidden = true; errorBox.textContent = ''; }
+  function get(data, k){ return (data.get(k) || '').toString().trim(); }
+
+  function validate(data, mode){
+    const isChangeMode = (mode === 'change_request' || mode === 'hide_delete');
+    const isEventMode = (mode === 'event');
+    if (!get(data, 'contact_name')) return 'Please enter your name.';
+    if (!isChangeMode && !isEventMode && !get(data, 'organisation')) return 'Please enter your organisation.';
+    if (!get(data, 'role')) return 'Please enter your role.';
+    const email = get(data, 'email');
+    if (!email) return 'Please enter your email address.';
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return 'Please enter a valid email address.';
+    if (!get(data, 'country')) return 'Please choose a country.';
+
+    if (mode === 'org' || mode === 'both') {
+      if (!get(data, 'sector')) return 'Please choose an ESRF sector.';
+      const w = get(data, 'website');
+      if (!w) return "Please enter the organisation's website.";
+      if (!/^https?:\/\//.test(w)) return 'The website URL must start with https:// or http://';
+    }
+    if (mode === 'editorial' || mode === 'both') {
+      if (!get(data, 'ed_topic')) return 'Please enter a topic / working title for the story.';
+      const sum = get(data, 'ed_summary');
+      if (!sum) return 'Please enter a short summary for the story.';
+      if (sum.length < 20) return 'The summary must be at least 20 characters.';
+    }
+    if (isChangeMode) {
+      const tn = get(data, 'cr_target_name');
+      const tu = get(data, 'cr_target_url');
+      if (!tn && !tu) return 'Please enter at least the name or URL of the existing listing.';
+      if (tu && !/^https?:\/\//.test(tu)) return 'The listing URL must start with https:// or http://';
+      let action = (get(data, 'cr_action') || '').toLowerCase();
+      if (mode === 'hide_delete') {
+        if (action !== 'hide' && action !== 'delete') return 'For hide/delete, choose "hide" or "delete".';
+      }
+      if (!get(data, 'cr_description')) return 'Please describe what should change.';
+      if (get(data, 'cr_description').length < 10) return 'The change description must be at least 10 characters.';
+      if (!get(data, 'cr_reason')) return 'Please explain the reason for this request.';
+      const ev = get(data, 'cr_evidence');
+      if (ev && !/^https?:\/\//.test(ev)) return 'The evidence URL must start with https:// or http://';
+      if (!data.get('cr_auth_confirm')) return 'Please confirm that you are authorised (or that this is an external report).';
+      if (!get(data, 'auth_requester_name')) return 'Please enter your name under "Authority to request this change".';
+      if (!get(data, 'auth_requester_role')) return 'Please enter your role under "Authority to request this change".';
+      const aw = get(data, 'auth_work_email');
+      if (!aw) return 'Please enter your work email under "Authority to request this change".';
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(aw)) return 'Please enter a valid work email.';
+      if (!get(data, 'auth_relation')) return 'Please choose your relationship to the organisation.';
+    }
+
+    if (isEventMode) {
+      if (!get(data, 'event_name')) return 'Please enter the event name.';
+      if (!get(data, 'event_organiser')) return 'Please enter the organiser of the event.';
+      if (!get(data, 'event_date_start')) return 'Please enter the start date of the event.';
+      const ds = get(data, 'event_date_start');
+      const de = get(data, 'event_date_end');
+      if (de && ds && de < ds) return 'The end date may not be before the start date.';
+      if (!get(data, 'event_location')) return 'Please enter the location or "online".';
+      if (!get(data, 'event_country')) return 'Please enter the country or region of the event.';
+      const desc = get(data, 'event_description');
+      if (!desc) return 'Please enter a short description of the event.';
+      if (desc.length < 20) return 'The event description must be at least 20 characters.';
+      const ew = get(data, 'event_website');
+      if (!ew) return 'Please enter the event website or registration link.';
+      if (!/^https?:\/\//.test(ew)) return 'The event URL must start with https:// or http://';
+      if (!get(data, 'event_contact_name')) return 'Please enter the contact person for the event.';
+      const ec = get(data, 'event_contact_email');
+      if (!ec) return 'Please enter the work email of the contact person.';
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(ec)) return 'Please enter a valid work email for the contact person.';
+      if (!get(data, 'event_publication_request')) return 'Please choose a publication request.';
+    }
+
+    if (!data.get('gdpr_consent')) return 'Please consent to the privacy policy.';
+    return null;
+  }
+
+  function buildBody(data, mode){
+    const lines = [];
+    lines.push('═══════════════════════════════════════');
+    lines.push('ESRF.net — Share your information');
+    lines.push('═══════════════════════════════════════');
+    const recordtypeMap = {
+      org: 'organisation',
+      editorial: 'editorial',
+      both: 'organisation+editorial',
+      change_request: 'change_request',
+      hide_delete: 'hide_delete',
+      event: 'event'
+    };
+    lines.push('Mode:       ' + mode);
+    lines.push('Recordtype: ' + (recordtypeMap[mode] || mode));
+    lines.push('Time:       ' + new Date().toISOString());
+    lines.push('Language:   en');
+    lines.push('');
+    lines.push('▸ CONTACT');
+    lines.push('  Name:         ' + get(data, 'contact_name'));
+    if (get(data, 'organisation')) lines.push('  Organisation: ' + get(data, 'organisation'));
+    lines.push('  Role:         ' + get(data, 'role'));
+    lines.push('  Email:        ' + get(data, 'email'));
+    if (get(data, 'phone')) lines.push('  Phone:        ' + get(data, 'phone'));
+    lines.push('  Country:      ' + get(data, 'country'));
+    if (get(data, 'place')) lines.push('  City:         ' + get(data, 'place'));
+    if (get(data, 'region')) lines.push('  Region:       ' + get(data, 'region'));
+    if (get(data, 'website')) lines.push('  Website:      ' + get(data, 'website'));
+    lines.push('');
+
+    if (mode === 'org' || mode === 'both') {
+      lines.push('▸ ORGANISATION');
+      lines.push('  ESRF sector:      ' + get(data, 'sector'));
+      if (get(data, 'additional_tags')) lines.push('  Additional tags:  ' + get(data, 'additional_tags'));
+      if (get(data, 'org_description')) lines.push('  Description:      ' + get(data, 'org_description'));
+      lines.push('');
+    }
+    if (mode === 'editorial' || mode === 'both') {
+      lines.push('▸ EDITORIAL CONTRIBUTION');
+      lines.push('  Topic:        ' + get(data, 'ed_topic'));
+      lines.push('  Summary:');
+      lines.push('  ' + get(data, 'ed_summary'));
+      if (get(data, 'ed_audience')) lines.push('  Audience:     ' + get(data, 'ed_audience'));
+      if (get(data, 'ed_partners')) lines.push('  Partners:     ' + get(data, 'ed_partners'));
+      if (get(data, 'ed_nis2_sector')) lines.push('  ESRF sector:      ' + get(data, 'ed_nis2_sector'));
+      if (get(data, 'ed_additional_tags')) lines.push('  Additional tags:  ' + get(data, 'ed_additional_tags'));
+      if (get(data, 'ed_regional_angle')) lines.push('  Regional angle: ' + get(data, 'ed_regional_angle'));
+      if (get(data, 'ed_lesson')) lines.push('  Lesson learned: ' + get(data, 'ed_lesson'));
+      if (get(data, 'ed_spotlight')) lines.push('  Spotlight:     ' + get(data, 'ed_spotlight'));
+      if (get(data, 'ed_sources')) lines.push('  Sources:       ' + get(data, 'ed_sources'));
+      lines.push('  Consent edit/publish: ' + (data.get('consent_edit') ? 'YES' : 'no'));
+      lines.push('  Consent contact:      ' + (data.get('consent_contact_editorial') ? 'YES' : 'no'));
+      lines.push('  No confidential info: ' + (data.get('consent_no_confidential') ? 'YES' : 'no'));
+      lines.push('');
+    }
+    if (mode === 'change_request' || mode === 'hide_delete') {
+      lines.push('▸ CHANGE REQUEST');
+      lines.push('  Target name:  ' + get(data, 'cr_target_name'));
+      if (get(data, 'cr_target_url')) lines.push('  Target URL:   ' + get(data, 'cr_target_url'));
+      lines.push('  Action:       ' + get(data, 'cr_action'));
+      lines.push('  Change:');
+      lines.push('  ' + get(data, 'cr_description'));
+      lines.push('  Reason:');
+      lines.push('  ' + get(data, 'cr_reason'));
+      if (get(data, 'cr_evidence')) lines.push('  Evidence:     ' + get(data, 'cr_evidence'));
+      if (get(data, 'cr_nis2_sector')) lines.push('  ESRF sector:      ' + get(data, 'cr_nis2_sector'));
+      if (get(data, 'cr_additional_tags')) lines.push('  Additional tags:  ' + get(data, 'cr_additional_tags'));
+      lines.push('  Capacity:     ' + get(data, 'cr_requester_auth'));
+      lines.push('  Auth confirmed: ' + (data.get('cr_auth_confirm') ? 'YES' : 'no'));
+      lines.push('');
+      lines.push('▸ AUTHORITY');
+      lines.push('  Name:         ' + get(data, 'auth_requester_name'));
+      lines.push('  Role:         ' + get(data, 'auth_requester_role'));
+      lines.push('  Work email:   ' + get(data, 'auth_work_email'));
+      lines.push('  Relation:     ' + get(data, 'auth_relation'));
+      if (get(data, 'auth_registration_code')) lines.push('  Registration code: (provided — editors verify manually)');
+      lines.push('  Authorised confirmed: ' + (data.get('auth_confirm_authorized') ? 'YES' : 'no'));
+      lines.push('  Manual editorial verification: required');
+      lines.push('');
+    }
+    if (mode === 'event') {
+      lines.push('▸ EVENT_INTAKE');
+      lines.push('  Event name:    ' + get(data, 'event_name'));
+      lines.push('  Organiser:     ' + get(data, 'event_organiser'));
+      lines.push('  Start date:    ' + get(data, 'event_date_start'));
+      if (get(data, 'event_date_end')) lines.push('  End date:      ' + get(data, 'event_date_end'));
+      if (get(data, 'event_time')) lines.push('  Time/zone:     ' + get(data, 'event_time'));
+      lines.push('  Location:      ' + get(data, 'event_location'));
+      lines.push('  Country/reg.:  ' + get(data, 'event_country'));
+      lines.push('  Description:');
+      lines.push('  ' + get(data, 'event_description'));
+      if (get(data, 'event_audience')) lines.push('  Audience:      ' + get(data, 'event_audience'));
+      if (get(data, 'event_nis2_sector')) lines.push('  ESRF sector:      ' + get(data, 'event_nis2_sector'));
+      if (get(data, 'event_tags')) lines.push('  Additional tags:  ' + get(data, 'event_tags'));
+      lines.push('  Website/regis: ' + get(data, 'event_website'));
+      lines.push('  Contact:       ' + get(data, 'event_contact_name'));
+      lines.push('  Work email:    ' + get(data, 'event_contact_email'));
+      lines.push('  Publication:   ' + get(data, 'event_publication_request'));
+      lines.push('  Recordtype:    event');
+      lines.push('  Auto-publication: NO — editors verify manually');
+      lines.push('');
+    }
+    lines.push('▸ PRIVACY');
+    lines.push('  GDPR consent: YES');
+    lines.push('');
+    lines.push('───────────────────────────────────────');
+    lines.push('Submitted via https://esrf.net/submit-news.html');
+    lines.push('The ESRF editorial team verifies manually. Nothing is published or changed automatically.');
+    lines.push('───────────────────────────────────────');
+    return lines.join('\n');
+  }
+
+  function mailtoFor(data, mode){
+    const body = buildBody(data, mode);
+    const subjMap = {
+      org: 'List an organisation',
+      editorial: 'Story from practice',
+      both: 'Organisation + story',
+      change_request: 'Change request',
+      hide_delete: 'Hide / delete request',
+      event: 'Event submission'
+    };
+    const who = get(data, 'event_name') || get(data, 'organisation') || get(data, 'cr_target_name') || get(data, 'contact_name');
+    const subject = '[ESRF intake] ' + (subjMap[mode] || 'Submission') + (who ? ' — ' + who : '');
+    return 'mailto:intake@esrf.net'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+  }
+
+  function showMailtoSuccess(){
+    form.hidden = true;
+    successBox.hidden = false;
+    successBox.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    hideError();
+    const data = new FormData(form);
+    if (data.get('company_website_hp')) return;
+    const elapsed = Date.now() - (window.__formLoadedAtEn || 0);
+    if (elapsed < 3000) {
+      showError('Please take a moment to read through the form before submitting.');
+      return;
+    }
+    const mode = currentMode();
+    const err = validate(data, mode);
+    if (err) { showError(err); return; }
+    /* English form is mailto-only — never call /api/intake. */
+    window.location.href = mailtoFor(data, mode);
+    setTimeout(showMailtoSuccess, 500);
+  });
+})();
+
+/* ── Live language-switch swap ──
+   When the user picks a different language in the global lang dropdown,
+   i18n.js dispatches "esrf:langchange". Update __esrfFormLang and the
+   variant style so the right form is shown without a page reload. */
+(function(){
+  function applyVariant(lang){
+    const code = (lang || 'en').toLowerCase();
+    window.__esrfFormLang = code;
+    const css = (code === 'nl')
+      ? '[data-form-lang="en"]{display:none!important}'
+      : '[data-form-lang="nl"]{display:none!important}';
+    let style = document.getElementById('sv-form-lang-style');
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'sv-form-lang-style';
+      document.head.appendChild(style);
+    }
+    style.textContent = css;
+  }
+  window.addEventListener('esrf:langchange', function(e){
+    const lang = (e && e.detail && e.detail.lang) || 'en';
+    applyVariant(lang);
+  });
+})();
+</script>
+
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "52897243139b402dacc6d5d564320f8b"}'></script><!-- End Cloudflare Web Analytics -->
   <script src="/counters.js?v=5" defer></script>
 <script src="assets/navigator.js?v=20260426-2" defer></script>
