@@ -995,3 +995,35 @@ en herstel handmatig — niet doorzetten.
   webhook secret, write-enabled toggle). Eén ervan wegnemen schakelt
   live save direct uit zonder code-deploy.
 - Cloudflare Pages Functions returneren 404 in productie — preview-only.
+
+## Bevoegdheid (Wouter feedback 2026-04-27, round 2)
+
+Voor `change_request`- en `hide_delete`-records leest het redactiepaneel
+extra velden uit `payload.authorization` (of de afgeplatte
+`authorization_*`-kolommen op LAB-rijen) en toont ze in de sectie
+**"Bevoegdheid om wijziging aan te vragen — verificatiestatus"**:
+
+- `requester_name`, `requester_role`, `work_email`, `relation`
+- `confirmed_authorized` — checkbox "Ik bevestig dat ik bevoegd ben…"
+- `email_domain_match` — zachte controle: domein van werkmail vs
+  organisatiewebsite (uit `existing_directory_listing.website` of het
+  ingevulde `cr_target_url` / `website`).
+- `registration_code_provided` — boolean (de code zelf staat **niet**
+  in payload.authorization; hij wordt enkel als "opgegeven ja/nee"
+  meegestuurd zodat de redactie weet of er een code is, en de echte
+  controle handmatig kan doen).
+- `authorization_method` — `registration_code`,
+  `work_email_domain_match` of `manual_review`.
+- `authorization_status` — bijv.
+  `registration_code_pending_redactie_verification`,
+  `soft_domain_match_pending_redactie_verification`,
+  `manual_verification_required`.
+- `manual_verification_required` — altijd `true` (de redactie
+  controleert iedere wijzig- of verwijderaanvraag handmatig; geen
+  automatische goedkeuring op basis van domeinmatch of code).
+
+Naast de Bevoegdheid-sectie toont het paneel ook
+**"Bestaande publieke gegevens (Directory + Atlas)"** met de prefilled
+velden uit `payload.existing_directory_listing` (naam, website, land,
+plaats, sector, beschrijving). Het origineel in de publieke directory
+blijft ongewijzigd; de aanvraag staat apart in `LAB_Change_Requests`.

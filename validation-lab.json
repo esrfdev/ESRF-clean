@@ -42,7 +42,7 @@
       {
         "page": "redactie-validation.html",
         "feedback": "Bij Sector / tags uitleggen of scheidingstekens nodig zijn en of er een vaste lijst is.",
-        "resolution": "EDIT_FIELDS-entry 'edited_sector_or_tags' krijgt een help-veld; runtime rendert dit als .rv-field-help onder het inputveld; daarnaast verschijnt een vierde regel in het 'Regels bij bewerken'-blok zodat de uitleg ook in statische HTML staat. Tekst: scheid met komma\u2019s, vrije invoer, redactie mag bestaande termen gebruiken of een nieuwe tag voorstellen, definitieve tagset wordt later geharmoniseerd."
+        "resolution": "EDIT_FIELDS-entry 'edited_sector_or_tags' krijgt een help-veld; runtime rendert dit als .rv-field-help onder het inputveld; daarnaast verschijnt een vierde regel in het 'Regels bij bewerken'-blok zodat de uitleg ook in statische HTML staat. Tekst: scheid met komma’s, vrije invoer, redactie mag bestaande termen gebruiken of een nieuwe tag voorstellen, definitieve tagset wordt later geharmoniseerd."
       }
     ]
   },
@@ -157,7 +157,9 @@
         "Architectuurblok (Pages Function + Turnstile + private GitHub issue) is duidelijk en beoordeeld door redactie.",
         "Wouter / redactie keurt de geïntegreerde UX en NL-teksten goed.",
         "LAB-opslagknop is alleen zichtbaar op preview-hostnames; productie-bezoekers zien hem niet en de backend zou een eventuele directe POST hoe dan ook met 404 weigeren.",
-        "node functions/api/submit-validation-payload.test.mjs slaagt — bevestigt dat de buildLabBody-helper de juiste prefix, lab_test marker en payloadvelden produceert en dat /api/intake-test deze accepteert in org/editorial/both mode."
+        "node functions/api/submit-validation-payload.test.mjs slaagt — bevestigt dat de buildLabBody-helper de juiste prefix, lab_test marker en payloadvelden produceert en dat /api/intake-test deze accepteert in org/editorial/both mode.",
+        "Stap 1 toont expliciete doorverwijzing naar stap 2 in eenvoudige Nederlandse taal: 'Kies eerst wat je wilt doen. Daarna ga je hieronder door naar stap 2 om de gegevens in te vullen.' — Wouter feedback 2026-04-27.",
+        "Bij modus change_request en hide_delete toont het formulier een Bevoegdheid-sectie en kan de bezoeker bestaande publieke directorygegevens prefilled tonen — Wouter feedback 2026-04-27."
       ]
     },
     {
@@ -344,7 +346,9 @@
       "officialIdentity": {
         "official_recipient": "office@esrf.net",
         "official_owner": "ESRF foundation",
-        "non_production_identities": ["ai.agent.wm@gmail.com"],
+        "non_production_identities": [
+          "ai.agent.wm@gmail.com"
+        ],
         "note": "office@esrf.net is the only documented production recipient. ai.agent.wm@gmail.com may exist as a temporary / non-production context (e.g. legacy Google Sheets connector identity in agent tooling) but must never back the production webhook or be configured as INTAKE_NOTIFY_TO."
       },
       "path": "/submit-validation.html",
@@ -515,7 +519,10 @@
           "sampleMode": "Maak testvoorbeeld — niets wordt opgeslagen",
           "labMode": "Opslaan in redactietabel"
         },
-        "labModeSaveTargets": ["LAB_Redactie_Reviews", "LAB_Workflow_Events"],
+        "labModeSaveTargets": [
+          "LAB_Redactie_Reviews",
+          "LAB_Workflow_Events"
+        ],
         "technicalExportLabels": [
           "Kopieer technische audit-export",
           "Download auditbestand (JSON)",
@@ -523,7 +530,11 @@
         ],
         "technicalExportContainer": "<details class='rv-tech'> 'Technische export voor beheer (alleen openen als beheer hierom vraagt)'",
         "technicalExportFallbackInstruction": "Gebruik de technische export alleen als automatisch opslaan niet werkt en beheer hierom vraagt.",
-        "saveBannerStatuses": ["saved", "not_saved", "failed"],
+        "saveBannerStatuses": [
+          "saved",
+          "not_saved",
+          "failed"
+        ],
         "noCopyPasteInNormalFlow": true,
         "workflowSteps": [
           "1 Ontvangen — alleen lezen en controleren",
@@ -560,15 +571,34 @@
           "REDACTIE_REVIEW_WEBHOOK_SECRET set",
           "REDACTIE_REVIEW_WRITE_ENABLED=true"
         ],
-        "saveTargets": ["LAB_Redactie_Reviews", "LAB_Workflow_Events"],
+        "saveTargets": [
+          "LAB_Redactie_Reviews",
+          "LAB_Workflow_Events"
+        ],
         "sampleFallback": true,
         "appsScriptSource": "/docs/apps-script-redactie-review-webhook.gs",
         "appsScriptManifest": "/docs/appsscript.redactie-review.json",
-        "appsScriptScopes": ["https://www.googleapis.com/auth/spreadsheets"],
-        "appsScriptActions": ["list_records", "get_record", "dry_run_update", "submit_review_update"],
-        "appsScriptReadTabs": ["LAB_Intake_Submissions", "LAB_Editorial_Intake", "LAB_Place_Candidates"],
-        "appsScriptWriteTabs": ["LAB_Redactie_Reviews", "LAB_Workflow_Events"],
-        "appsScriptForbiddenTargets": ["Directory_Master"],
+        "appsScriptScopes": [
+          "https://www.googleapis.com/auth/spreadsheets"
+        ],
+        "appsScriptActions": [
+          "list_records",
+          "get_record",
+          "dry_run_update",
+          "submit_review_update"
+        ],
+        "appsScriptReadTabs": [
+          "LAB_Intake_Submissions",
+          "LAB_Editorial_Intake",
+          "LAB_Place_Candidates"
+        ],
+        "appsScriptWriteTabs": [
+          "LAB_Redactie_Reviews",
+          "LAB_Workflow_Events"
+        ],
+        "appsScriptForbiddenTargets": [
+          "Directory_Master"
+        ],
         "appsScriptDeployed": true,
         "appsScriptDeployedNote": "Apps Script Web App deployed under office@esrf.net and verified live on 2026-04-26 22:24 CEST via the first successful redactie review save (review_id rev_20260426202343218_224302; rows_written=2). Preview-only — production remains untouched.",
         "appsScriptOwnerIdentity": "office@esrf.net"
@@ -696,14 +726,15 @@
         "Naast de bewerkbare velden in edit-mode staat een 'Regels bij bewerken'-blok met de zinnen 'Wijzig hier alleen de redactieversie, niet de originele inzending.' en 'Gebruik geen persoonlijke contactgegevens in publicatietekst.'.",
         "Reviewfeedback Wouter (2026-04-27) verwerkt — toegangscodeveld is breed genoeg en gebruikt een vast (monospaced) lettertype zodat de placeholder en ingevoerde code volledig zichtbaar blijven op desktop en mobiel (CSS klasse .rv-access input#rv-access-code, size=40, maxlength=64, hulptekst rv-access-code-help).",
         "Reviewfeedback Wouter (2026-04-27) verwerkt — bovenaan staat een eenvoudig 'Waar is dit formulier voor?'-blok (sectie #rv-purpose) dat in gewone taal uitlegt: je bekijkt een inzending, past tekst aan waar nodig, kiest de volgende stap of status, slaat het redactiebesluit op, en niets wordt automatisch gepubliceerd.",
-        "Reviewfeedback Wouter (2026-04-27) verwerkt — bij het veld 'Sector / tags' staat een hulptekst (rv-field-help, plus een regel in 'Regels bij bewerken') die uitlegt: scheid meerdere tags met komma\u2019s, het is voor nu een vrij invoerveld zonder vaste keuzelijst; redactie mag bestaande termen hergebruiken of een nieuwe tag voorstellen, definitieve tagset wordt later geharmoniseerd."
+        "Reviewfeedback Wouter (2026-04-27) verwerkt — bij het veld 'Sector / tags' staat een hulptekst (rv-field-help, plus een regel in 'Regels bij bewerken') die uitlegt: scheid meerdere tags met komma’s, het is voor nu een vrij invoerveld zonder vaste keuzelijst; redactie mag bestaande termen hergebruiken of een nieuwe tag voorstellen, definitieve tagset wordt later geharmoniseerd.",
+        "redactie-validation.html toont bij change_request- en hide_delete-records de verificatiestatus van Bevoegdheid (naam aanvrager, werkmail, relatie, domein-match, registratiecode opgegeven, methode, status, handmatige check verplicht) plus de prefilled publieke directorygegevens — Wouter feedback 2026-04-27."
       ],
       "wouterReviewFeedback": {
         "date": "2026-04-27",
         "items": [
           "Toegangscodeveld onleesbaar: maak het breed genoeg, gebruik vast lettertype, zorg dat placeholder en ingevoerde code volledig zichtbaar zijn op desktop en mobiel.",
           "Leg in gewone taal uit waar het redactieformulier voor is: bekijken, aanpassen, volgende stap kiezen, opslaan, niets wordt automatisch gepubliceerd.",
-          "Leg bij Sector / tags uit: scheid met komma\u2019s, vrije invoer (geen vaste lijst nu), redactie mag bestaande termen gebruiken of nieuwe tag voorstellen — definitieve tagset komt later."
+          "Leg bij Sector / tags uit: scheid met komma’s, vrije invoer (geen vaste lijst nu), redactie mag bestaande termen gebruiken of nieuwe tag voorstellen — definitieve tagset komt later."
         ]
       }
     },
@@ -721,8 +752,23 @@
       "submitPath": "/submit-validation.html",
       "reviewPath": "/redactie-validation.html",
       "modes": [
-        { "key": "change_request", "label": "Bestaande vermelding wijzigen", "actions": ["update", "hide", "delete"] },
-        { "key": "hide_delete", "label": "Vermelding laten verbergen of verwijderen", "actions": ["hide", "delete"] }
+        {
+          "key": "change_request",
+          "label": "Bestaande vermelding wijzigen",
+          "actions": [
+            "update",
+            "hide",
+            "delete"
+          ]
+        },
+        {
+          "key": "hide_delete",
+          "label": "Vermelding laten verbergen of verwijderen",
+          "actions": [
+            "hide",
+            "delete"
+          ]
+        }
       ],
       "labTabs": {
         "primary": "LAB_Change_Requests",
@@ -739,7 +785,9 @@
         "evidence_url (optional)",
         "requester_authorization (authorized_representative|employee|external_observer)",
         "authorization_confirmation (yes/no)",
-        "sub_mode (change_request|hide_delete)"
+        "sub_mode (change_request|hide_delete)",
+        "existing_directory_listing.{name,website,country_code,country_name,city,sector,description,prefilled,original_unchanged,source}",
+        "authorization.{requester_name,requester_role,work_email,relation,confirmed_authorized,registration_code_provided,email_domain,organisation_domain,email_domain_match,authorization_method,authorization_status,manual_verification_required}"
       ],
       "testEvidence": {
         "redactieReviewSave": {
@@ -771,8 +819,32 @@
         "redactie-validation.html toont een eigen 'Wijziging'-pil, side-by-side 'Bestaand' vs 'Gevraagd' panelen, het verzochte action (Bijwerken/Verbergen/Verwijderen), de autorisatie-status van de indiener, een evidence-URL en een redactiebesluit-formulier (akkoord / niet akkoord / verheldering nodig + toelichting).",
         "Veiligheidsbanner staat altijd bovenaan het CR-detailpaneel: 'Geen automatische wijziging · Directory_Master wordt niet aangeraakt · niets wordt gepubliceerd'.",
         "Notification-builder rapporteert messageType change_request:<action>, gebruikt target_listing_name/url als referentie en bevat geen contact-PII.",
-        "Tests in functions/api/intake.test.mjs dekken: change_request happy path, hide_delete actie-restrictie, missende target rejection, missende authorization rejection, en buildChangeRequestRow shape met directory_master_touched='no'."
-      ]
+        "Tests in functions/api/intake.test.mjs dekken: change_request happy path, hide_delete actie-restrictie, missende target rejection, missende authorization rejection, en buildChangeRequestRow shape met directory_master_touched='no'.",
+        "Bezoekersformulier toont bij stap 1 een korte instructie 'Kies eerst wat je wilt doen. Daarna ga je hieronder door naar stap 2 om de gegevens in te vullen.' (Wouter feedback 2026-04-27).",
+        "submit-validation.html biedt bij change_request en hide_delete een zoekveld dat companies_extracted.json doorzoekt (Directory + Atlas) en bestaande publieke gegevens (naam, website, land, plaats, sector, beschrijving) toont in een aparte 'Bestaande publieke gegevens'-blok; origineel wordt niet overschreven (Wouter feedback 2026-04-27).",
+        "submit-validation.html bevat een Bevoegdheid-sectie (3D) met naam aanvrager, functie/rol, werkmail, relatie, bevestigingscheckbox en optionele registratiecode; zachte domeinmatch en registratiecode-status worden in payload.authorization opgeslagen (Wouter feedback 2026-04-27).",
+        "Geen woord 'password' of 'wachtwoord' in de UI; de organisatiecode heet 'registratiecode' / 'verificatiecode' (Wouter feedback 2026-04-27).",
+        "Geen automatische goedkeuring op basis van domeinmatch of registratiecode; manual_verification_required blijft true en Directory_Master_guard blijft (Wouter feedback 2026-04-27).",
+        "redactie-validation.html toont voor change_request- en hide_delete-records de verificatiestatus uit payload.authorization (rv-cr-authorization) en de bestaande publieke gegevens (rv-cr-existing-directory) (Wouter feedback 2026-04-27)."
+      ],
+      "wouterReviewFeedback_2026_04_27_round2": {
+        "reviewer": "Wouter",
+        "date": "2026-04-27",
+        "items": [
+          {
+            "feedback": "stap 1 instructie ontbreekt",
+            "resolution": "#sv-step1-next paragraph in submit-validation.html"
+          },
+          {
+            "feedback": "bestaande publieke directorygegevens niet vooraf ingevuld",
+            "resolution": "lookup + prefill via companies_extracted.json; payload.existing_directory_listing"
+          },
+          {
+            "feedback": "derden zouden zomaar gegevens kunnen wijzigen",
+            "resolution": "Bevoegdheid-sectie met zachte verificatie; payload.authorization; redactie controleert handmatig"
+          }
+        ]
+      }
     },
     {
       "id": "lab-promotion-pipeline",
@@ -833,5 +905,38 @@
         "docs/lab-promotion.md documents the controlled flow Form → LAB Sheet → redaction review → approved row → generated draft/candidate → GitHub branch/preview → human approval → main/live, plus the exact manual test procedure for one approved row."
       ]
     }
-  ]
+  ],
+  "wouterReviewFeedback_2026_04_27_round2": {
+    "reviewer": "Wouter",
+    "date": "2026-04-27",
+    "topic": "Bezoekersformulier — stap 1 instructie, prefill van bestaande publieke directorygegevens, en bevoegdheidscontrole",
+    "summary": "Tweede feedbackronde van Wouter op het submit-validation formulier en het wijzigverzoekproces. Voegt een duidelijke stap-1 instructie toe, prefill van publieke directorygegevens bij wijzig/verwijder-route, en een Bevoegdheid-sectie met zachte verificatie. Geen automatische publicatie of goedkeuring.",
+    "items": [
+      {
+        "page": "/submit-validation.html",
+        "feedback": "Bij stap 1 was niet duidelijk dat je daarna naar stap 2 doorgaat.",
+        "resolution": "Korte instructiezin \"Kies eerst wat je wilt doen. Daarna ga je hieronder door naar stap 2 om de gegevens in te vullen.\" onder #sv-step1-next."
+      },
+      {
+        "page": "/submit-validation.html",
+        "feedback": "Bestaande publieke gegevens worden niet hergebruikt bij wijzig-/verbergverzoeken.",
+        "resolution": "Eenvoudig zoekveld + datalist op companies_extracted.json (Directory + Atlas). Bij selectie verschijnt een \"Bestaande publieke gegevens\"-paneel; cr_target_name en cr_target_url worden vooraf ingevuld. Origineel wordt niet overschreven; aanvraag staat apart in payload.existing_directory_listing."
+      },
+      {
+        "page": "/submit-validation.html",
+        "feedback": "Niet duidelijk hoe we voorkomen dat derden zomaar gegevens kunnen wijzigen.",
+        "resolution": "Nieuwe Bevoegdheid-sectie (3D) met naam, functie/rol, werkmail, relatie, bevestigingscheckbox en optionele registratiecode. Zachte controle: domeinmatch werkmail vs organisatiewebsite, plus check of registratiecode is opgegeven. Geen automatische goedkeuring; redactie controleert handmatig. Velden komen in payload.authorization (authorization_method, authorization_status, email_domain_match, registration_code_provided, manual_verification_required)."
+      },
+      {
+        "page": "/redactie-validation.html",
+        "feedback": "Redactie kan verificatiestatus van wijzigverzoeken niet zien.",
+        "resolution": "Nieuwe rv-cr-authorization sectie toont de verificatievelden (naam aanvrager, werkmail, relatie, domein-match, registratiecode opgegeven, methode, status, handmatige check verplicht). Plus rv-cr-existing-directory sectie voor de prefilled publieke gegevens."
+      },
+      {
+        "page": "/submit-validation.html (UI-copy)",
+        "feedback": "Geen wachtwoord-terminologie gebruiken voor de organisatiecode.",
+        "resolution": "Veld heet \"Registratiecode van de organisatie, als je die hebt\"; helptekst zegt \"geen wachtwoord\". Geen woord \"password\" of \"wachtwoord\" in de UI."
+      }
+    ]
+  }
 }

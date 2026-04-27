@@ -1140,6 +1140,86 @@
     s3.appendChild(contactBox);
     d.appendChild(s3);
 
+    // ── Bevoegdheid / verificatiestatus (uit submit-validation Bevoegdheid sectie) ──
+    // The submit form may attach an `authorization` block (and/or flat
+    // authorization_* columns when LAB rows flatten the payload). We render
+    // whatever is available so the redactie weet of extra controle nodig is.
+    var auth = r.authorization || (r.authorization_method ? {
+      requester_name: r.authorization_requester_name,
+      requester_role: r.authorization_requester_role,
+      work_email: r.authorization_work_email,
+      relation: r.authorization_relation,
+      confirmed_authorized: r.authorization_confirmed_authorized,
+      registration_code_provided: r.authorization_registration_code_provided,
+      email_domain: r.authorization_email_domain,
+      organisation_domain: r.authorization_organisation_domain,
+      email_domain_match: r.authorization_email_domain_match,
+      authorization_method: r.authorization_method,
+      authorization_status: r.authorization_status,
+      manual_verification_required: r.authorization_manual_verification_required
+    } : null);
+    if (auth){
+      var sAuth = el('div', { class: 'rv-section rv-cr-authorization' });
+      sAuth.appendChild(el('h3', { text: 'Bevoegdheid om wijziging aan te vragen — verificatiestatus' }));
+      sAuth.appendChild(el('p', { class: 'rv-detail-sub',
+        text: 'Deze velden zijn ingevuld door de aanvrager onder &ldquo;Bevoegdheid om wijziging aan te vragen&rdquo;. ESRF voert geen automatische goedkeuring uit op basis van deze gegevens — controleer ze handmatig.' }));
+      sAuth.appendChild(rowDl('Naam aanvrager (uit Bevoegdheid)', auth.requester_name || '—'));
+      sAuth.appendChild(rowDl('Functie / rol', auth.requester_role || '—'));
+      sAuth.appendChild(rowDl('Werkmailadres', auth.work_email || '—'));
+      sAuth.appendChild(rowDl('Relatie met organisatie', auth.relation || '—'));
+      var cAuthYes = !!auth.confirmed_authorized;
+      var cAuthSpan = el('span', {
+        class: cAuthYes ? 'rv-cr-auth-yes' : 'rv-cr-auth-no',
+        text: cAuthYes ? 'JA — bevestigd door aanvrager' : 'NEE — niet bevestigd'
+      });
+      sAuth.appendChild(rowDl('Bevestiging "ik ben bevoegd"', cAuthSpan));
+      var domainMatch = !!auth.email_domain_match;
+      var domainText;
+      if (auth.email_domain && auth.organisation_domain){
+        domainText = domainMatch
+          ? 'domein lijkt te kloppen — werkmail (' + auth.email_domain + ') komt overeen met organisatiewebsite (' + auth.organisation_domain + ').'
+          : 'redactie moet dit handmatig controleren — werkmail (' + auth.email_domain + ') komt niet overeen met organisatiewebsite (' + auth.organisation_domain + ').';
+      } else {
+        domainText = 'geen domein-vergelijking mogelijk — controleer handmatig.';
+      }
+      var domainSpan = el('span', {
+        class: domainMatch ? 'rv-cr-auth-yes' : 'rv-cr-auth-no',
+        text: domainText
+      });
+      sAuth.appendChild(rowDl('Domein-match (zachte controle)', domainSpan));
+      var codeProvided = !!auth.registration_code_provided;
+      sAuth.appendChild(rowDl('Registratiecode opgegeven',
+        codeProvided ? 'ja — registratiecode opgegeven; redactie controleert deze' : 'nee'));
+      sAuth.appendChild(rowDl('Verificatiemethode',
+        auth.authorization_method || (codeProvided ? 'registration_code' : (domainMatch ? 'work_email_domain_match' : 'manual_review'))));
+      sAuth.appendChild(rowDl('Verificatiestatus',
+        auth.authorization_status || 'manual_verification_required'));
+      var manualReq = auth.manual_verification_required !== false;
+      sAuth.appendChild(rowDl('Handmatige redactiecontrole',
+        manualReq ? 'verplicht — geen automatische goedkeuring' : 'optioneel'));
+      d.appendChild(sAuth);
+    }
+
+    // ── Bestaande publieke directorygegevens (prefilled door submit form) ──
+    var existingListing = r.existing_directory_listing || null;
+    if (existingListing && (existingListing.prefilled || existingListing.name || existingListing.website)){
+      var sEx = el('div', { class: 'rv-section rv-cr-existing-directory' });
+      sEx.appendChild(el('h3', { text: 'Bestaande publieke gegevens (Directory + Atlas)' }));
+      sEx.appendChild(el('p', { class: 'rv-detail-sub',
+        text: 'Deze gegevens zijn op het submit-formulier vooraf ingevuld vanuit de publieke directory. Het origineel blijft ongewijzigd; de aanvraag staat apart.' }));
+      if (existingListing.name) sEx.appendChild(rowDl('Organisatienaam', existingListing.name));
+      if (existingListing.website){
+        var aLink = el('a', { href: existingListing.website, target: '_blank', rel: 'noopener noreferrer', text: existingListing.website });
+        sEx.appendChild(rowDl('Website', aLink));
+      }
+      if (existingListing.country_name) sEx.appendChild(rowDl('Land', existingListing.country_name));
+      if (existingListing.city) sEx.appendChild(rowDl('Plaats', existingListing.city));
+      if (existingListing.sector) sEx.appendChild(rowDl('Sector', existingListing.sector));
+      if (existingListing.description) sEx.appendChild(rowDl('Beschrijving', existingListing.description));
+      sEx.appendChild(rowDl('Bron', existingListing.source || 'companies_extracted.json'));
+      d.appendChild(sEx);
+    }
+
     // Redactie-besluit (the core form for CR records)
     var s4 = el('div', { class: 'rv-section' });
     s4.appendChild(el('h3', { text: 'Jouw redactiebesluit' }));

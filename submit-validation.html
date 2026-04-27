@@ -90,6 +90,61 @@
   }
   .callout-new strong{color:var(--accent);letter-spacing:0.1em}
 
+  /* ─── Existing-listing prefill panel + lookup (change/hide modes) ── */
+  .sv-cr-lookup-results{
+    border:1px solid var(--ink-faint, #d8d2c4);
+    margin-top:6px;background:var(--bg, #fff);
+    max-height:240px;overflow-y:auto;
+    font-family:'PT Serif',serif;font-size:14px;
+  }
+  .sv-cr-lookup-results .sv-cr-lookup-item{
+    display:block;padding:8px 12px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,0.05);
+  }
+  .sv-cr-lookup-results .sv-cr-lookup-item:hover,
+  .sv-cr-lookup-results .sv-cr-lookup-item:focus{background:rgba(210,75,31,0.06);outline:none}
+  .sv-cr-lookup-results .sv-cr-lookup-item small{
+    display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    color:var(--ink-soft);letter-spacing:0.04em;
+  }
+  .sv-cr-existing-panel{
+    border:1px solid var(--ink-faint, #d8d2c4);
+    border-left:3px solid #2563eb;
+    padding:14px 16px;margin:0 0 14px;background:rgba(37,99,235,0.04);
+  }
+  .sv-cr-existing-title{
+    margin:0 0 8px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:0.18em;text-transform:uppercase;color:#1e3a8a;
+  }
+  .sv-cr-existing-list{margin:0;display:grid;grid-template-columns:140px 1fr;gap:4px 12px;font-family:'PT Serif',serif;font-size:14px}
+  .sv-cr-existing-list dt{color:var(--ink-soft);font-weight:600}
+  .sv-cr-existing-list dd{margin:0;color:var(--ink, #2a2417)}
+  .sv-cr-existing-clear{
+    margin-top:10px;padding:6px 12px;border:1px solid var(--ink);
+    background:var(--bg);color:var(--ink);font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;
+  }
+  .sv-cr-existing-clear:hover{background:var(--ink);color:var(--cream)}
+
+  /* ─── Authorization (Bevoegdheid) feedback + status summary ─────── */
+  .sv-auth-feedback{
+    margin-top:6px;padding:6px 10px;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:0.06em;border-left:3px solid var(--ink-faint,#d8d2c4);
+    background:rgba(0,0,0,0.03);color:var(--ink-soft);
+  }
+  .sv-auth-feedback.is-match{border-left-color:#16a34a;background:rgba(22,163,74,0.06);color:#166534}
+  .sv-auth-feedback.is-mismatch{border-left-color:#d24b1f;background:rgba(210,75,31,0.06);color:#9a3412}
+  .sv-auth-feedback.is-info{border-left-color:#2563eb;background:rgba(37,99,235,0.05);color:#1e3a8a}
+  .sv-auth-status-summary{
+    margin:14px 0 4px;padding:10px 14px;
+    border:1px solid var(--ink-faint,#d8d2c4);background:rgba(0,0,0,0.02);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;
+    color:var(--ink-soft);line-height:1.55;
+  }
+  .sv-auth-status-summary span:not(.new-pill){
+    margin-left:8px;font-family:'PT Serif',serif;text-transform:none;letter-spacing:0;
+    font-size:13px;color:var(--ink-soft);
+  }
+
   .preview-box{
     background:var(--ink);color:var(--cream);padding:24px;
     font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;
@@ -218,6 +273,10 @@
       <legend class="form-legend">1. Wat wil je doen?</legend>
       <p class="fieldset-intro">
         Kies wat van toepassing is. Beide kan ook — bijvoorbeeld als je organisatie nog niet in de atlas staat én je een praktijkverhaal hebt.
+      </p>
+
+      <p id="sv-step1-next" class="fieldset-intro" style="margin:6px 0 10px;font-style:italic;color:var(--ink-soft)">
+        Kies eerst wat je wilt doen. Daarna ga je hieronder door naar stap 2 om de gegevens in te vullen.
       </p>
 
       <div class="mode-switch" role="radiogroup" aria-label="Type opgave" id="mode-org">
@@ -502,11 +561,29 @@
         <strong>Veilig pad</strong> · niets wordt direct aangepast. We loggen je verzoek in een aparte lab-tab en de redactie beslist daarna welke stappen passend zijn. Wijzigingen vinden alleen plaats na bevestiging dat jij daartoe bevoegd bent.
       </div>
 
+      <div class="form-row" id="sv-cr-lookup-row">
+        <label for="sv-cr-lookup">Zoek de bestaande vermelding</label>
+        <input type="search" id="sv-cr-lookup" name="cr_lookup_query" maxlength="120"
+          placeholder="Typ de organisatienaam of plaatsnaam — bijv. Veiligheidsregio Rotterdam"
+          list="sv-cr-lookup-suggestions" autocomplete="off">
+        <datalist id="sv-cr-lookup-suggestions"></datalist>
+        <span class="hint">We doorzoeken de bestaande publieke directory (Directory + Atlas). Kies de juiste vermelding zodat we automatisch de huidige gegevens onder &ldquo;Bestaande publieke gegevens&rdquo; tonen. Geen automatische wijziging — we vergelijken alleen.</span>
+        <div id="sv-cr-lookup-results" class="sv-cr-lookup-results" hidden role="listbox" aria-label="Zoekresultaten bestaande vermeldingen"></div>
+        <p id="sv-cr-lookup-empty" class="hint" hidden style="font-style:italic">Geen automatische match gevonden. Vul hieronder zelf de naam en/of URL van de bestaande vermelding in.</p>
+      </div>
+
+      <div id="sv-cr-existing-panel" class="sv-cr-existing-panel" hidden aria-live="polite">
+        <h4 class="sv-cr-existing-title">Bestaande publieke gegevens</h4>
+        <p class="hint" style="margin:0 0 6px">Dit zijn de gegevens zoals ze nu in de openbare ESRF-directory staan. Ze worden niet overschreven — je verzoek komt apart bij de redactie binnen.</p>
+        <dl class="sv-cr-existing-list" id="sv-cr-existing-list"></dl>
+        <button type="button" id="sv-cr-existing-clear" class="sv-cr-existing-clear">Andere vermelding kiezen</button>
+      </div>
+
       <div class="form-row">
         <label for="sv-cr-target-name">Naam van de organisatie of vermelding <span class="req" aria-hidden="true">*</span></label>
         <input type="text" id="sv-cr-target-name" name="cr_target_name" maxlength="200"
           placeholder="Bijv. Veiligheidsregio Rotterdam-Rijnmond">
-        <span class="hint">Vul minstens één van: naam óf URL van de huidige vermelding.</span>
+        <span class="hint">Vul minstens één van: naam óf URL van de huidige vermelding. Wordt automatisch ingevuld als je hierboven een vermelding kiest.</span>
       </div>
 
       <div class="form-row">
@@ -545,6 +622,69 @@
         <span class="hint">Optioneel. Een link maakt verificatie sneller. Geen vertrouwelijke documenten in dit veld.</span>
       </div>
 
+      <p style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
+        <span class="new-pill new-pill-soft">Geen automatische wijziging</span>
+        <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
+          Dit verzoek komt in <code>LAB_Change_Requests</code>; de redactie beslist of, hoe en wanneer iets wordt aangepast in <code>Directory_Master</code>. Niets in deze workflow wijzigt de directory automatisch.
+        </span>
+      </p>
+    </fieldset>
+
+    <fieldset class="form-fieldset section-block" data-section="change" id="sv-authorization-fieldset">
+      <legend class="form-legend">3D. Bevoegdheid om wijziging aan te vragen</legend>
+      <p class="fieldset-intro">
+        Om te voorkomen dat derden zomaar gegevens kunnen wijzigen of verwijderen, vragen we kort om je relatie met de organisatie. De redactie controleert dit altijd handmatig — er gebeurt niets automatisch op basis van je antwoorden.
+      </p>
+
+      <div class="form-row">
+        <label for="sv-auth-name">Naam aanvrager <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-auth-name" name="auth_requester_name" maxlength="120"
+          placeholder="Bijv. Sanne de Vries" autocomplete="name">
+        <span class="hint">Mag dezelfde naam zijn als bij stap 2.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-auth-role">Functie / rol <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="sv-auth-role" name="auth_requester_role" maxlength="120"
+          placeholder="Bijv. communicatieadviseur, bestuurssecretaris, woordvoerder">
+      </div>
+
+      <div class="form-row">
+        <label for="sv-auth-email">Werkmailadres <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="sv-auth-email" name="auth_work_email" maxlength="160"
+          placeholder="naam@organisatie.nl" autocomplete="email">
+        <span class="hint">Bij voorkeur een e-mailadres op het domein van de organisatie. We vergelijken dit domein met de officiële website.</span>
+        <div id="sv-auth-domain-feedback" class="sv-auth-feedback" hidden aria-live="polite"></div>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-auth-relation">Relatie met de organisatie <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-auth-relation" name="auth_relation">
+          <option value="">Kies een relatie…</option>
+          <option value="employee">Medewerker</option>
+          <option value="board">Bestuurder</option>
+          <option value="communications">Communicatie / woordvoering</option>
+          <option value="contact">Contactpersoon van de organisatie</option>
+          <option value="other">Anders — toelichten in de toelichting hierboven</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-auth-registration-code">Registratiecode van de organisatie, als je die hebt</label>
+        <input type="text" id="sv-auth-registration-code" name="auth_registration_code" maxlength="64"
+          placeholder="Optioneel — alleen als je een registratie- of verificatiecode hebt ontvangen"
+          autocomplete="off" inputmode="text">
+        <span class="hint">Dit is geen inlogcode en geen toegangscode tot een account. Als je geen registratiecode of verificatiecode hebt ontvangen, laat dit veld leeg — de redactie controleert handmatig.</span>
+        <div id="sv-auth-code-feedback" class="sv-auth-feedback" hidden aria-live="polite"></div>
+      </div>
+
+      <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
+        <input type="checkbox" id="sv-auth-confirm-authorized" name="auth_confirm_authorized" style="margin-top:4px">
+        <label for="sv-auth-confirm-authorized" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
+          Ik bevestig dat ik <strong>bevoegd</strong> ben om namens deze organisatie een wijziging of verwijdering aan te vragen.
+        </label>
+      </div>
+
       <div class="form-row">
         <label for="sv-cr-requester-auth">In welke hoedanigheid dien je dit verzoek in? <span class="req" aria-hidden="true">*</span></label>
         <select id="sv-cr-requester-auth" name="cr_requester_auth">
@@ -558,14 +698,19 @@
       <div class="form-row" style="flex-direction:row;align-items:flex-start;gap:10px">
         <input type="checkbox" id="sv-cr-auth-confirm" name="cr_auth_confirm" style="margin-top:4px">
         <label for="sv-cr-auth-confirm" style="font-family:'PT Serif',serif;font-size:14px;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.5">
-          Ik bevestig dat ik <strong>bevoegd</strong> ben om dit verzoek in te dienen, of dat ik dit als externe melding doe en dat de redactie eerst contact mag opnemen met de organisatie voordat er iets verandert.
+          Ik bevestig aanvullend dat ik dit verzoek doe als bevoegd vertegenwoordiger, óf als externe melding waarbij de redactie eerst contact mag opnemen met de organisatie voordat er iets verandert.
         </label>
       </div>
 
+      <p id="sv-auth-status-summary" class="sv-auth-status-summary" aria-live="polite">
+        <span class="new-pill new-pill-soft">Verificatie</span>
+        <span id="sv-auth-status-text">Vul de gegevens in om de zachte controle te zien — de redactie controleert altijd handmatig.</span>
+      </p>
+
       <p style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:var(--ink-dim);text-transform:uppercase">
-        <span class="new-pill new-pill-soft">Geen automatische wijziging</span>
+        <span class="new-pill new-pill-soft">Geen automatische goedkeuring</span>
         <span style="margin-left:8px;text-transform:none;letter-spacing:0;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft)">
-          Dit verzoek komt in <code>LAB_Change_Requests</code>; de redactie beslist of, hoe en wanneer iets wordt aangepast in <code>Directory_Master</code>. Niets in deze workflow wijzigt de directory automatisch.
+          Een match op domein of registratiecode betekent niet dat een verzoek wordt goedgekeurd. De ESRF-redactie controleert iedere wijzigings- of verwijderaanvraag handmatig.
         </span>
       </p>
     </fieldset>
@@ -967,7 +1112,8 @@
   const modeRadios = form.querySelectorAll('input[name="intake_mode"]');
   const sectionOrg = form.querySelector('[data-section="org"]');
   const sectionEd = form.querySelector('[data-section="editorial"]');
-  const sectionChange = form.querySelector('[data-section="change"]');
+  const sectionChangeAll = form.querySelectorAll('[data-section="change"]');
+  const sectionChange = sectionChangeAll[0] || null;
   const modeOptions = form.querySelectorAll('.mode-option');
 
   function currentMode(){
@@ -982,7 +1128,7 @@
     const showChange = (m === 'change_request' || m === 'hide_delete');
     sectionOrg.classList.toggle('is-active', showOrg);
     sectionEd.classList.toggle('is-active', showEd);
-    if (sectionChange) sectionChange.classList.toggle('is-active', showChange);
+    sectionChangeAll.forEach(function(s){ s.classList.toggle('is-active', showChange); });
 
     // Organisation field is only verplicht voor org / editorial / both.
     // Bij wijzigen of verbergen/verwijderen: optioneel — verberg de
@@ -1038,6 +1184,263 @@
   })();
 
   applyMode();
+
+  /* ─── Existing-listing prefill (Directory + Atlas lookup) ─────────── */
+  // The dataset companies_extracted.json is the publieke directory data
+  // (Directory + Atlas). We load it lazily only when the visitor opens
+  // change_request / hide_delete and starts typing — no extra cost for
+  // org / editorial visitors. The original is never overwritten; the
+  // request is stored apart in the payload.
+  let __directoryData = null;
+  let __directoryLoaded = false;
+  let __directoryLoadingPromise = null;
+  function loadDirectoryData(){
+    if (__directoryLoaded) return Promise.resolve(__directoryData);
+    if (__directoryLoadingPromise) return __directoryLoadingPromise;
+    __directoryLoadingPromise = fetch('companies_extracted.json', { credentials:'omit' })
+      .then(function(r){ return r.ok ? r.json() : []; })
+      .then(function(arr){
+        __directoryData = Array.isArray(arr) ? arr : [];
+        __directoryLoaded = true;
+        return __directoryData;
+      })
+      .catch(function(){ __directoryData = []; __directoryLoaded = true; return __directoryData; });
+    return __directoryLoadingPromise;
+  }
+
+  function searchDirectory(query, max){
+    var q = (query || '').trim().toLowerCase();
+    if (!q || q.length < 2 || !__directoryData) return [];
+    var limit = max || 8;
+    var hits = [];
+    for (var i = 0; i < __directoryData.length && hits.length < limit; i++){
+      var rec = __directoryData[i];
+      if (!rec || !rec.name) continue;
+      var name = String(rec.name).toLowerCase();
+      var city = String(rec.city || '').toLowerCase();
+      if (name.indexOf(q) !== -1 || city.indexOf(q) !== -1){
+        hits.push(rec);
+      }
+    }
+    return hits;
+  }
+
+  var crLookup = document.getElementById('sv-cr-lookup');
+  var crLookupResults = document.getElementById('sv-cr-lookup-results');
+  var crLookupEmpty = document.getElementById('sv-cr-lookup-empty');
+  var crExistingPanel = document.getElementById('sv-cr-existing-panel');
+  var crExistingList = document.getElementById('sv-cr-existing-list');
+  var crExistingClear = document.getElementById('sv-cr-existing-clear');
+  var crTargetName = document.getElementById('sv-cr-target-name');
+  var crTargetUrl = document.getElementById('sv-cr-target-url');
+
+  // The currently selected existing listing (or null) — never mutated;
+  // becomes part of the payload as existing_directory_listing.
+  var selectedExistingListing = null;
+
+  function renderLookupResults(items){
+    if (!crLookupResults) return;
+    crLookupResults.innerHTML = '';
+    if (!items.length){
+      crLookupResults.hidden = true;
+      if (crLookupEmpty) crLookupEmpty.hidden = false;
+      return;
+    }
+    if (crLookupEmpty) crLookupEmpty.hidden = true;
+    items.forEach(function(rec){
+      var row = document.createElement('button');
+      row.type = 'button';
+      row.className = 'sv-cr-lookup-item';
+      row.setAttribute('role','option');
+      var label = document.createElement('strong');
+      label.textContent = rec.name;
+      var sub = document.createElement('small');
+      var parts = [];
+      if (rec.city) parts.push(rec.city);
+      if (rec.country_name_local || rec.country_name_en) parts.push(rec.country_name_local || rec.country_name_en);
+      if (rec.sector_normalized) parts.push(rec.sector_normalized);
+      sub.textContent = parts.join(' · ');
+      row.appendChild(label);
+      row.appendChild(sub);
+      row.addEventListener('click', function(){ selectExistingListing(rec); });
+      crLookupResults.appendChild(row);
+    });
+    crLookupResults.hidden = false;
+  }
+
+  function selectExistingListing(rec){
+    selectedExistingListing = rec;
+    if (crLookupResults){ crLookupResults.hidden = true; crLookupResults.innerHTML = ''; }
+    if (crLookupEmpty) crLookupEmpty.hidden = true;
+    if (crLookup) crLookup.value = rec.name || '';
+    if (crTargetName && !crTargetName.value) crTargetName.value = rec.name || '';
+    if (crTargetUrl && !crTargetUrl.value && rec.website) crTargetUrl.value = rec.website;
+    renderExistingPanel(rec);
+    // Re-evaluate domain match — the official org website may now be known.
+    updateAuthFeedback();
+  }
+
+  function renderExistingPanel(rec){
+    if (!crExistingPanel || !crExistingList) return;
+    crExistingList.innerHTML = '';
+    var fields = [
+      ['Organisatienaam', rec.name],
+      ['Website',         rec.website],
+      ['Land',            rec.country_name_local || rec.country_name_en || rec.country],
+      ['Plaats',          rec.city],
+      ['Sector',          rec.sector_normalized],
+      ['Beschrijving',    rec.description_en]
+    ];
+    fields.forEach(function(p){
+      if (!p[1]) return;
+      var dt = document.createElement('dt');
+      dt.textContent = p[0];
+      var dd = document.createElement('dd');
+      if (p[0] === 'Website'){
+        var a = document.createElement('a');
+        a.href = p[1]; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.textContent = p[1];
+        dd.appendChild(a);
+      } else {
+        dd.textContent = p[1];
+      }
+      crExistingList.appendChild(dt);
+      crExistingList.appendChild(dd);
+    });
+    crExistingPanel.hidden = false;
+  }
+
+  function clearExistingListing(){
+    selectedExistingListing = null;
+    if (crExistingPanel) crExistingPanel.hidden = true;
+    if (crExistingList) crExistingList.innerHTML = '';
+    if (crLookup) crLookup.value = '';
+    if (crLookupResults){ crLookupResults.hidden = true; crLookupResults.innerHTML = ''; }
+    updateAuthFeedback();
+  }
+
+  if (crLookup){
+    var lookupTimer = null;
+    crLookup.addEventListener('input', function(){
+      clearTimeout(lookupTimer);
+      var q = crLookup.value.trim();
+      if (!q || q.length < 2){
+        if (crLookupResults){ crLookupResults.hidden = true; crLookupResults.innerHTML=''; }
+        if (crLookupEmpty) crLookupEmpty.hidden = true;
+        return;
+      }
+      lookupTimer = setTimeout(function(){
+        loadDirectoryData().then(function(){
+          var hits = searchDirectory(q, 8);
+          renderLookupResults(hits);
+        });
+      }, 120);
+    });
+  }
+  if (crExistingClear) crExistingClear.addEventListener('click', clearExistingListing);
+
+  /* ─── Authorization (Bevoegdheid) — soft domain + code checks ─────── */
+  // Pure helpers, exported so tests can reach them via window.__svAuth.*
+  function extractDomain(input){
+    if (!input) return '';
+    var s = String(input).trim().toLowerCase();
+    // Strip protocol + path for URLs.
+    s = s.replace(/^[a-z]+:\/\//, '').replace(/\/.*/, '');
+    // For email addresses, take the right-hand side.
+    var at = s.indexOf('@');
+    if (at !== -1) s = s.slice(at + 1);
+    s = s.replace(/^www\./, '');
+    return s;
+  }
+  function rootDomain(host){
+    if (!host) return '';
+    var parts = host.split('.').filter(Boolean);
+    if (parts.length <= 2) return parts.join('.');
+    // crude eTLD heuristic: "co.uk", "org.uk" etc. — fall back to last 2 parts
+    var lastTwo = parts.slice(-2).join('.');
+    var multi = /^(co|org|gov|ac|net|edu)\.[a-z]{2}$/.test(lastTwo);
+    if (multi && parts.length >= 3) return parts.slice(-3).join('.');
+    return lastTwo;
+  }
+  function domainsMatch(emailDomain, websiteDomain){
+    if (!emailDomain || !websiteDomain) return false;
+    return rootDomain(emailDomain) === rootDomain(websiteDomain);
+  }
+
+  var authEmailEl = document.getElementById('sv-auth-email');
+  var authCodeEl = document.getElementById('sv-auth-registration-code');
+  var authDomainFb = document.getElementById('sv-auth-domain-feedback');
+  var authCodeFb = document.getElementById('sv-auth-code-feedback');
+  var authStatusText = document.getElementById('sv-auth-status-text');
+  var websiteEl = document.getElementById('sv-website');
+
+  function getOrgWebsiteForAuth(){
+    if (selectedExistingListing && selectedExistingListing.website) return selectedExistingListing.website;
+    if (websiteEl && websiteEl.value) return websiteEl.value;
+    if (crTargetUrl && crTargetUrl.value) return crTargetUrl.value;
+    return '';
+  }
+
+  function updateAuthFeedback(){
+    var email = authEmailEl ? authEmailEl.value.trim() : '';
+    var code = authCodeEl ? authCodeEl.value.trim() : '';
+    var emailDomain = extractDomain(email);
+    var orgUrl = getOrgWebsiteForAuth();
+    var orgDomain = extractDomain(orgUrl);
+    var match = email && orgDomain && domainsMatch(emailDomain, orgDomain);
+
+    if (authDomainFb){
+      authDomainFb.classList.remove('is-match','is-mismatch','is-info');
+      if (!email || !orgDomain){
+        authDomainFb.hidden = true;
+        authDomainFb.textContent = '';
+      } else if (match){
+        authDomainFb.hidden = false;
+        authDomainFb.classList.add('is-match');
+        authDomainFb.textContent = 'domein lijkt te kloppen — werkmail (' + emailDomain + ') komt overeen met organisatiewebsite (' + orgDomain + ').';
+      } else {
+        authDomainFb.hidden = false;
+        authDomainFb.classList.add('is-mismatch');
+        authDomainFb.textContent = 'redactie moet dit handmatig controleren — werkmail (' + emailDomain + ') komt niet overeen met organisatiewebsite (' + orgDomain + ').';
+      }
+    }
+    if (authCodeFb){
+      authCodeFb.classList.remove('is-match','is-mismatch','is-info');
+      if (!code){
+        authCodeFb.hidden = true;
+        authCodeFb.textContent = '';
+      } else {
+        authCodeFb.hidden = false;
+        authCodeFb.classList.add('is-info');
+        authCodeFb.textContent = 'registratiecode opgegeven; redactie controleert deze.';
+      }
+    }
+    if (authStatusText){
+      var bits = [];
+      if (email && orgDomain){
+        bits.push(match ? 'domein-match: ja' : 'domein-match: nee — handmatige controle');
+      }
+      if (code) bits.push('registratiecode opgegeven');
+      if (!bits.length){
+        authStatusText.textContent = 'Vul de gegevens in om de zachte controle te zien — de redactie controleert altijd handmatig.';
+      } else {
+        authStatusText.textContent = bits.join(' · ') + '. Geen automatische goedkeuring; redactie verifieert handmatig.';
+      }
+    }
+  }
+
+  if (authEmailEl) authEmailEl.addEventListener('input', updateAuthFeedback);
+  if (authCodeEl) authCodeEl.addEventListener('input', updateAuthFeedback);
+  if (websiteEl) websiteEl.addEventListener('input', updateAuthFeedback);
+  if (crTargetUrl) crTargetUrl.addEventListener('input', updateAuthFeedback);
+  updateAuthFeedback();
+
+  // Expose pure helpers for tests (no DOM coupling).
+  window.__svAuth = {
+    extractDomain: extractDomain,
+    rootDomain: rootDomain,
+    domainsMatch: domainsMatch
+  };
 
   /* ─── Country / Region / Place helper ─────────────────────────────── */
   const countryEl = document.getElementById('sv-country');
@@ -1342,6 +1745,25 @@
       if (!data.get('cr_auth_confirm')) {
         return 'Bevestig a.u.b. dat je bevoegd bent (of dat dit een externe melding is) — anders kan de redactie het verzoek niet beoordelen.';
       }
+
+      // Bevoegdheid (authorization) section — required for change/hide modes.
+      if (!get(data, 'auth_requester_name')) {
+        return 'Vul a.u.b. je naam in onder Bevoegdheid om wijziging aan te vragen.';
+      }
+      if (!get(data, 'auth_requester_role')) {
+        return 'Vul a.u.b. je functie/rol in onder Bevoegdheid om wijziging aan te vragen.';
+      }
+      const authEmailV = get(data, 'auth_work_email');
+      if (!authEmailV) return 'Vul a.u.b. je werkmailadres in onder Bevoegdheid om wijziging aan te vragen.';
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(authEmailV)) {
+        return 'Vul a.u.b. een geldig werkmailadres in onder Bevoegdheid.';
+      }
+      if (!get(data, 'auth_relation')) {
+        return 'Kies a.u.b. je relatie met de organisatie onder Bevoegdheid om wijziging aan te vragen.';
+      }
+      if (!data.get('auth_confirm_authorized')) {
+        return 'Bevestig a.u.b. dat je bevoegd bent om namens deze organisatie een wijziging of verwijdering aan te vragen.';
+      }
     }
 
     if (mode === 'org' || mode === 'both') {
@@ -1435,6 +1857,55 @@
         authorization_confirmation: !!data.get('cr_auth_confirm'),
         sub_mode: mode
       };
+
+      // Existing-directory listing reference (prefilled, never overwritten).
+      if (selectedExistingListing){
+        payload.existing_directory_listing = {
+          source: 'companies_extracted.json',
+          name: selectedExistingListing.name || '',
+          website: selectedExistingListing.website || '',
+          country_code: selectedExistingListing.country || '',
+          country_name: selectedExistingListing.country_name_local || selectedExistingListing.country_name_en || '',
+          city: selectedExistingListing.city || '',
+          sector: selectedExistingListing.sector_normalized || '',
+          description: selectedExistingListing.description_en || '',
+          prefilled: true,
+          original_unchanged: true
+        };
+      } else {
+        payload.existing_directory_listing = {
+          source: 'manual_fallback',
+          prefilled: false,
+          original_unchanged: true
+        };
+      }
+
+      // Authorization (Bevoegdheid) — pure data; redactie verifieert handmatig.
+      var authEmailVal = get(data, 'auth_work_email') || get(data, 'email');
+      var authEmailDomain = extractDomain(authEmailVal);
+      var orgWebsite = (selectedExistingListing && selectedExistingListing.website)
+        ? selectedExistingListing.website
+        : (get(data, 'website') || get(data, 'cr_target_url'));
+      var orgDomain = extractDomain(orgWebsite);
+      var hasMatch = !!(authEmailDomain && orgDomain && domainsMatch(authEmailDomain, orgDomain));
+      var hasCode = !!(get(data, 'auth_registration_code') || '').trim();
+      payload.authorization = {
+        requester_name: get(data, 'auth_requester_name'),
+        requester_role: get(data, 'auth_requester_role'),
+        work_email: authEmailVal,
+        relation: get(data, 'auth_relation'),
+        confirmed_authorized: !!data.get('auth_confirm_authorized'),
+        registration_code_provided: hasCode,
+        email_domain: authEmailDomain,
+        organisation_domain: orgDomain,
+        email_domain_match: hasMatch,
+        authorization_method: hasCode ? 'registration_code'
+          : (hasMatch ? 'work_email_domain_match' : 'manual_review'),
+        authorization_status: hasCode
+          ? 'registration_code_pending_redactie_verification'
+          : (hasMatch ? 'soft_domain_match_pending_redactie_verification' : 'manual_verification_required'),
+        manual_verification_required: true
+      };
     }
     if (mode === 'editorial' || mode === 'both') {
       payload.editorial_contribution = {
@@ -1517,6 +1988,36 @@
       lines.push('  Hoedanigheid:   ' + cr.requester_authorization);
       lines.push('  Bevestigd bevoegd: ' + (cr.authorization_confirmation ? 'JA' : 'nee'));
       lines.push('');
+      if (p.existing_directory_listing && p.existing_directory_listing.prefilled){
+        const ex = p.existing_directory_listing;
+        lines.push('  Bestaande publieke gegevens (directory):');
+        if (ex.name) lines.push('    Naam:        ' + ex.name);
+        if (ex.website) lines.push('    Website:     ' + ex.website);
+        if (ex.country_name) lines.push('    Land:        ' + ex.country_name);
+        if (ex.city) lines.push('    Plaats:      ' + ex.city);
+        if (ex.sector) lines.push('    Sector:      ' + ex.sector);
+        if (ex.description) {
+          lines.push('    Beschrijving:');
+          lines.push(indent(ex.description));
+        }
+        lines.push('    (Origineel blijft ongewijzigd; aanvraag staat apart.)');
+        lines.push('');
+      }
+      if (p.authorization){
+        const a = p.authorization;
+        lines.push('  Bevoegdheid om wijziging aan te vragen:');
+        lines.push('    Naam aanvrager:        ' + (a.requester_name || '—'));
+        lines.push('    Functie / rol:         ' + (a.requester_role || '—'));
+        lines.push('    Werkmail:              ' + (a.work_email || '—'));
+        lines.push('    Relatie:               ' + (a.relation || '—'));
+        lines.push('    Bevestigd bevoegd:     ' + (a.confirmed_authorized ? 'JA' : 'nee'));
+        lines.push('    Registratiecode:       ' + (a.registration_code_provided ? 'opgegeven (redactie controleert)' : 'niet opgegeven'));
+        lines.push('    Domein-match:          ' + (a.email_domain_match ? 'ja — domein lijkt te kloppen' : 'nee — redactie moet handmatig controleren'));
+        lines.push('    Methode:               ' + (a.authorization_method || '—'));
+        lines.push('    Status:                ' + (a.authorization_status || '—'));
+        lines.push('    Handmatige check:      ' + (a.manual_verification_required ? 'verplicht' : 'optioneel'));
+        lines.push('');
+      }
       lines.push('  ⓘ De redactie controleert dit verzoek handmatig in LAB_Change_Requests.');
       lines.push('     Directory_Master wordt nooit automatisch gewijzigd.');
       lines.push('');
