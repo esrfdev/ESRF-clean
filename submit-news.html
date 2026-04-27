@@ -68,7 +68,14 @@
      paints, so non-Dutch visitors never see Dutch labels flashing.
      Order matches i18n.js detectLang(): URL ?lang= → localStorage
      → browser → fallback. The NL form is shown only when the resolved
-     language is "nl"; every other language renders the EN form. */
+     language is "nl"; every other language renders the EN form.
+
+     Defence in depth: the EN container also carries a `hidden` HTML
+     attribute as a no-JS safety net. We strip it here as soon as the
+     resolved language is non-Dutch, so the EN form is actually visible.
+     A DOMContentLoaded fallback re-applies the same logic in case the
+     containers had not yet been parsed when this script ran (very small
+     window, but eliminates a class of races). */
   (function(){
     function detect(){
       try {
@@ -83,15 +90,29 @@
       var b = (navigator.language || navigator.userLanguage || 'en').split('-')[0].toLowerCase();
       return b || 'en';
     }
-    window.__esrfFormLang = detect();
+    var lang = detect();
+    window.__esrfFormLang = lang;
+    var isNl = (lang === 'nl');
     /* Inject CSS so the right variant is visible from first paint. */
-    var css = (window.__esrfFormLang === 'nl')
+    var css = isNl
       ? '[data-form-lang="en"]{display:none!important}'
       : '[data-form-lang="nl"]{display:none!important}';
     var style = document.createElement('style');
     style.id = 'sv-form-lang-style';
     style.textContent = css;
     document.head.appendChild(style);
+    /* Strip/apply the `hidden` attribute on the variant containers so
+       the right one is actually visible regardless of CSS specificity. */
+    function applyHidden(){
+      var nl = document.querySelector('[data-form-lang="nl"]');
+      var en = document.querySelector('[data-form-lang="en"]');
+      if (nl) { if (isNl) nl.removeAttribute('hidden'); else nl.setAttribute('hidden',''); }
+      if (en) { if (isNl) en.setAttribute('hidden',''); else en.removeAttribute('hidden'); }
+    }
+    applyHidden();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', applyHidden, { once: true });
+    }
   })();
 </script>
 
@@ -240,6 +261,15 @@
 </section>
 
 <div class="form-wrap">
+
+<!-- Visible manual language fallback. Always renders, even before
+     i18n.js has loaded, so a visitor can force the variant via plain
+     query string if anything else fails. -->
+<p id="sv-lang-fallback" class="sv-lang-fallback" style="margin:0 0 18px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;color:var(--ink-soft);text-transform:uppercase">
+  <span>Language:</span>
+  <a href="?lang=nl" hreflang="nl">NL</a> ·
+  <a href="?lang=en" hreflang="en">EN</a>
+</p>
 
 <!-- ══════════════════════════════════════════════════════════════════
      NL form (data-form-lang="nl") — full Dutch composed visitor form.
@@ -933,7 +963,7 @@
      /api/intake (the sheet route is Dutch-only for now). Same six modes,
      same ten ESRF sectors, English authority/verification wording.
      ══════════════════════════════════════════════════════════════════ -->
-<div data-form-lang="en" class="sv-form-variant" hidden>
+<div data-form-lang="en" class="sv-form-variant">
 
   <aside class="sv-review-notice" role="note">
     <strong>After you submit, the ESRF editorial team takes a look.</strong>
@@ -2623,8 +2653,9 @@
 (function(){
   function applyVariant(lang){
     const code = (lang || 'en').toLowerCase();
+    const isNl = (code === 'nl');
     window.__esrfFormLang = code;
-    const css = (code === 'nl')
+    const css = isNl
       ? '[data-form-lang="en"]{display:none!important}'
       : '[data-form-lang="nl"]{display:none!important}';
     let style = document.getElementById('sv-form-lang-style');
@@ -2634,6 +2665,10 @@
       document.head.appendChild(style);
     }
     style.textContent = css;
+    const nl = document.querySelector('[data-form-lang="nl"]');
+    const en = document.querySelector('[data-form-lang="en"]');
+    if (nl) { if (isNl) nl.removeAttribute('hidden'); else nl.setAttribute('hidden',''); }
+    if (en) { if (isNl) en.setAttribute('hidden',''); else en.removeAttribute('hidden'); }
   }
   window.addEventListener('esrf:langchange', function(e){
     const lang = (e && e.detail && e.detail.lang) || 'en';
