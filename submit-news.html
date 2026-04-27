@@ -384,20 +384,37 @@
       <p class="fieldset-intro">Deze velden vullen we voor de directory/atlas. Alleen invullen als je organisatie aanmeldt of bijwerkt. (Bij modus <em>Beide</em>: stap 3A komt vóór stap 3B.)</p>
 
       <div class="form-row">
-        <label for="sv-sector">Sector <span class="req" aria-hidden="true">*</span></label>
-        <select id="sv-sector" name="sector">
-          <option value="">Kies een sector…</option>
-          <option value="Emergency &amp; Crisis Response">Crisisbeheersing &amp; rampenbestrijding</option>
-          <option value="Security &amp; Protection">Beveiliging &amp; bescherming</option>
-          <option value="Risk &amp; Continuity Management">Risico- &amp; continuïteitsmanagement</option>
-          <option value="Digital Infrastructure &amp; Cybersecurity">Digitale infrastructuur &amp; cybersecurity</option>
-          <option value="Knowledge, Training &amp; Research">Kennis, training &amp; onderzoek</option>
-          <option value="Health &amp; Medical Manufacturing">Zorg &amp; medische productie</option>
-          <option value="Critical Infrastructure">Kritieke infrastructuur</option>
-          <option value="Dual-use Technology &amp; Manufacturing">Dual-use technologie &amp; productie</option>
-          <option value="Transport, Maritime &amp; Aerospace">Transport, maritiem &amp; lucht- en ruimtevaart</option>
-          <option value="Energy &amp; Grid Resilience">Energie &amp; netweerbaarheid</option>
+        <label for="sv-sector">NIS2-sector / hoofdsector <span class="req" aria-hidden="true">*</span></label>
+        <select id="sv-sector" name="sector" data-nis2-sector="org">
+          <option value="">Kies een NIS2-sector…</option>
+          <option value="energie">Energie</option>
+          <option value="vervoer">Vervoer</option>
+          <option value="bankwezen">Bankwezen</option>
+          <option value="financiele-marktinfrastructuur">Financiële marktinfrastructuur</option>
+          <option value="gezondheidszorg">Gezondheidszorg</option>
+          <option value="drinkwater">Drinkwater</option>
+          <option value="afvalwater">Afvalwater</option>
+          <option value="digitale-infrastructuur">Digitale infrastructuur</option>
+          <option value="ict-dienstverlening-b2b">ICT-dienstverlening B2B</option>
+          <option value="overheidsdiensten">Overheidsdiensten</option>
+          <option value="ruimtevaart">Ruimtevaart</option>
+          <option value="post-en-koeriersdiensten">Post- en koeriersdiensten</option>
+          <option value="afvalbeheer">Afvalbeheer</option>
+          <option value="chemische-stoffen">Chemische stoffen</option>
+          <option value="voedsel">Voedsel</option>
+          <option value="maakindustrie">Maakindustrie</option>
+          <option value="digitale-aanbieders">Digitale aanbieders</option>
+          <option value="onderzoek">Onderzoek</option>
+          <option value="anders-meerdere">Anders / meerdere sectoren</option>
         </select>
+        <span class="hint">Kies de hoofdsector volgens het NIS2-kader (Annex I &amp; II). Twijfel je? Kies “Anders / meerdere sectoren” en licht toe in de aanvullende tags.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-org-additional-tags">Aanvullende tags</label>
+        <input type="text" id="sv-org-additional-tags" name="additional_tags" maxlength="240"
+          placeholder="bijvoorbeeld: crisiscommunicatie, haven, cybersecurity">
+        <span class="hint">Gebruik komma’s tussen tags, bijvoorbeeld: crisiscommunicatie, haven, cybersecurity.</span>
       </div>
 
       <div class="form-row">
@@ -434,9 +451,43 @@
       </div>
 
       <div class="form-row">
-        <label for="sv-ed-partners">Betrokken organisaties / sector</label>
+        <label for="sv-ed-partners">Betrokken organisaties</label>
         <textarea id="sv-ed-partners" name="ed_partners" rows="2" maxlength="400"
-          placeholder="Welke partijen werkten samen? Welke sectoren raakte het?"></textarea>
+          placeholder="Welke partijen werkten samen?"></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-nis2-sector">NIS2-sector / hoofdsector</label>
+        <select id="sv-ed-nis2-sector" name="ed_nis2_sector" data-nis2-sector="editorial">
+          <option value="">Kies een NIS2-sector…</option>
+          <option value="energie">Energie</option>
+          <option value="vervoer">Vervoer</option>
+          <option value="bankwezen">Bankwezen</option>
+          <option value="financiele-marktinfrastructuur">Financiële marktinfrastructuur</option>
+          <option value="gezondheidszorg">Gezondheidszorg</option>
+          <option value="drinkwater">Drinkwater</option>
+          <option value="afvalwater">Afvalwater</option>
+          <option value="digitale-infrastructuur">Digitale infrastructuur</option>
+          <option value="ict-dienstverlening-b2b">ICT-dienstverlening B2B</option>
+          <option value="overheidsdiensten">Overheidsdiensten</option>
+          <option value="ruimtevaart">Ruimtevaart</option>
+          <option value="post-en-koeriersdiensten">Post- en koeriersdiensten</option>
+          <option value="afvalbeheer">Afvalbeheer</option>
+          <option value="chemische-stoffen">Chemische stoffen</option>
+          <option value="voedsel">Voedsel</option>
+          <option value="maakindustrie">Maakindustrie</option>
+          <option value="digitale-aanbieders">Digitale aanbieders</option>
+          <option value="onderzoek">Onderzoek</option>
+          <option value="anders-meerdere">Anders / meerdere sectoren</option>
+        </select>
+        <span class="hint">De hoofdsector volgens het NIS2-kader die het verhaal raakt.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ed-additional-tags">Aanvullende tags</label>
+        <input type="text" id="sv-ed-additional-tags" name="ed_additional_tags" maxlength="240"
+          placeholder="bijvoorbeeld: crisiscommunicatie, haven, cybersecurity">
+        <span class="hint">Gebruik komma’s tussen tags, bijvoorbeeld: crisiscommunicatie, haven, cybersecurity.</span>
       </div>
 
       <div class="form-row">
@@ -553,6 +604,40 @@
         <input type="url" id="sv-cr-evidence" name="cr_evidence" maxlength="400"
           placeholder="https://… (bijv. KvK-uittreksel, persbericht, officiële mededeling)">
         <span class="hint">Optioneel. Een link maakt verificatie sneller. Geen vertrouwelijke documenten in dit veld.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-nis2-sector">NIS2-sector / hoofdsector (optioneel)</label>
+        <select id="sv-cr-nis2-sector" name="cr_nis2_sector" data-nis2-sector="change">
+          <option value="">Kies een NIS2-sector…</option>
+          <option value="energie">Energie</option>
+          <option value="vervoer">Vervoer</option>
+          <option value="bankwezen">Bankwezen</option>
+          <option value="financiele-marktinfrastructuur">Financiële marktinfrastructuur</option>
+          <option value="gezondheidszorg">Gezondheidszorg</option>
+          <option value="drinkwater">Drinkwater</option>
+          <option value="afvalwater">Afvalwater</option>
+          <option value="digitale-infrastructuur">Digitale infrastructuur</option>
+          <option value="ict-dienstverlening-b2b">ICT-dienstverlening B2B</option>
+          <option value="overheidsdiensten">Overheidsdiensten</option>
+          <option value="ruimtevaart">Ruimtevaart</option>
+          <option value="post-en-koeriersdiensten">Post- en koeriersdiensten</option>
+          <option value="afvalbeheer">Afvalbeheer</option>
+          <option value="chemische-stoffen">Chemische stoffen</option>
+          <option value="voedsel">Voedsel</option>
+          <option value="maakindustrie">Maakindustrie</option>
+          <option value="digitale-aanbieders">Digitale aanbieders</option>
+          <option value="onderzoek">Onderzoek</option>
+          <option value="anders-meerdere">Anders / meerdere sectoren</option>
+        </select>
+        <span class="hint">Alleen invullen als de wijziging een sector betreft.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-cr-additional-tags">Aanvullende tags (optioneel)</label>
+        <input type="text" id="sv-cr-additional-tags" name="cr_additional_tags" maxlength="240"
+          placeholder="bijvoorbeeld: crisiscommunicatie, haven, cybersecurity">
+        <span class="hint">Gebruik komma’s tussen tags, bijvoorbeeld: crisiscommunicatie, haven, cybersecurity.</span>
       </div>
 
       <p style="margin-top:12px;font-family:'PT Serif',serif;font-size:13px;color:var(--ink-soft);line-height:1.6">
@@ -709,10 +794,37 @@
       </div>
 
       <div class="form-row">
-        <label for="sv-ev-tags">Thema's / tags</label>
+        <label for="sv-ev-nis2-sector">NIS2-sector / hoofdsector</label>
+        <select id="sv-ev-nis2-sector" name="event_nis2_sector" data-nis2-sector="event">
+          <option value="">Kies een NIS2-sector…</option>
+          <option value="energie">Energie</option>
+          <option value="vervoer">Vervoer</option>
+          <option value="bankwezen">Bankwezen</option>
+          <option value="financiele-marktinfrastructuur">Financiële marktinfrastructuur</option>
+          <option value="gezondheidszorg">Gezondheidszorg</option>
+          <option value="drinkwater">Drinkwater</option>
+          <option value="afvalwater">Afvalwater</option>
+          <option value="digitale-infrastructuur">Digitale infrastructuur</option>
+          <option value="ict-dienstverlening-b2b">ICT-dienstverlening B2B</option>
+          <option value="overheidsdiensten">Overheidsdiensten</option>
+          <option value="ruimtevaart">Ruimtevaart</option>
+          <option value="post-en-koeriersdiensten">Post- en koeriersdiensten</option>
+          <option value="afvalbeheer">Afvalbeheer</option>
+          <option value="chemische-stoffen">Chemische stoffen</option>
+          <option value="voedsel">Voedsel</option>
+          <option value="maakindustrie">Maakindustrie</option>
+          <option value="digitale-aanbieders">Digitale aanbieders</option>
+          <option value="onderzoek">Onderzoek</option>
+          <option value="anders-meerdere">Anders / meerdere sectoren</option>
+        </select>
+        <span class="hint">De hoofdsector volgens het NIS2-kader die het event raakt.</span>
+      </div>
+
+      <div class="form-row">
+        <label for="sv-ev-tags">Aanvullende tags</label>
         <input type="text" id="sv-ev-tags" name="event_tags" maxlength="240"
-          placeholder="Bijv. cybersecurity, NIS2, kritieke infrastructuur, crisisbeheersing">
-        <span class="hint">Scheiden met komma's — helpt de redactie het event te categoriseren.</span>
+          placeholder="bijvoorbeeld: crisiscommunicatie, haven, cybersecurity">
+        <span class="hint">Gebruik komma’s tussen tags, bijvoorbeeld: crisiscommunicatie, haven, cybersecurity. Scheiden met komma's helpt de redactie het event te categoriseren.</span>
       </div>
 
       <div class="form-row">
@@ -1175,8 +1287,9 @@
 
     if (mode === 'org' || mode === 'both') {
       lines.push('▸ ORGANISATIE');
-      lines.push('  Sector:       ' + get(data, 'sector'));
-      if (get(data, 'org_description')) lines.push('  Beschrijving: ' + get(data, 'org_description'));
+      lines.push('  NIS2-sector:      ' + get(data, 'sector'));
+      if (get(data, 'additional_tags')) lines.push('  Aanvullende tags: ' + get(data, 'additional_tags'));
+      if (get(data, 'org_description')) lines.push('  Beschrijving:     ' + get(data, 'org_description'));
       lines.push('');
     }
     if (mode === 'editorial' || mode === 'both') {
@@ -1186,6 +1299,8 @@
       lines.push('  ' + get(data, 'ed_summary'));
       if (get(data, 'ed_audience')) lines.push('  Doelgroep:    ' + get(data, 'ed_audience'));
       if (get(data, 'ed_partners')) lines.push('  Partners:     ' + get(data, 'ed_partners'));
+      if (get(data, 'ed_nis2_sector')) lines.push('  NIS2-sector:      ' + get(data, 'ed_nis2_sector'));
+      if (get(data, 'ed_additional_tags')) lines.push('  Aanvullende tags: ' + get(data, 'ed_additional_tags'));
       if (get(data, 'ed_regional_angle')) lines.push('  Regionale invalshoek: ' + get(data, 'ed_regional_angle'));
       if (get(data, 'ed_lesson')) lines.push('  Geleerde les: ' + get(data, 'ed_lesson'));
       if (get(data, 'ed_spotlight')) lines.push('  In het zonnetje: ' + get(data, 'ed_spotlight'));
@@ -1205,6 +1320,8 @@
       lines.push('  Reden:');
       lines.push('  ' + get(data, 'cr_reason'));
       if (get(data, 'cr_evidence')) lines.push('  Bewijs:       ' + get(data, 'cr_evidence'));
+      if (get(data, 'cr_nis2_sector')) lines.push('  NIS2-sector:      ' + get(data, 'cr_nis2_sector'));
+      if (get(data, 'cr_additional_tags')) lines.push('  Aanvullende tags: ' + get(data, 'cr_additional_tags'));
       lines.push('  Hoedanigheid: ' + get(data, 'cr_requester_auth'));
       lines.push('  Bevestigd bevoegd: ' + (data.get('cr_auth_confirm') ? 'JA' : 'nee'));
       lines.push('');
@@ -1244,7 +1361,8 @@
       lines.push('  Omschrijving:');
       lines.push('  ' + get(data, 'event_description'));
       if (get(data, 'event_audience')) lines.push('  Doelgroep:     ' + get(data, 'event_audience'));
-      if (get(data, 'event_tags')) lines.push("  Thema's/tags:  " + get(data, 'event_tags'));
+      if (get(data, 'event_nis2_sector')) lines.push('  NIS2-sector:      ' + get(data, 'event_nis2_sector'));
+      if (get(data, 'event_tags')) lines.push('  Aanvullende tags: ' + get(data, 'event_tags'));
       lines.push('  Website/regis: ' + get(data, 'event_website'));
       lines.push('  Contactpers.:  ' + get(data, 'event_contact_name'));
       lines.push('  Werkmail:      ' + get(data, 'event_contact_email'));

@@ -187,6 +187,95 @@ check('submit-news.html event tags hint mentions comma separation', () => {
   assert.match(html, /Scheiden met komma['’]s/);
 });
 
+// ── NIS2-sector dropdown: 19 options on every relevant section ────────
+const NIS2_OPTIONS = [
+  ['energie', 'Energie'],
+  ['vervoer', 'Vervoer'],
+  ['bankwezen', 'Bankwezen'],
+  ['financiele-marktinfrastructuur', 'Financiële marktinfrastructuur'],
+  ['gezondheidszorg', 'Gezondheidszorg'],
+  ['drinkwater', 'Drinkwater'],
+  ['afvalwater', 'Afvalwater'],
+  ['digitale-infrastructuur', 'Digitale infrastructuur'],
+  ['ict-dienstverlening-b2b', 'ICT-dienstverlening B2B'],
+  ['overheidsdiensten', 'Overheidsdiensten'],
+  ['ruimtevaart', 'Ruimtevaart'],
+  ['post-en-koeriersdiensten', 'Post- en koeriersdiensten'],
+  ['afvalbeheer', 'Afvalbeheer'],
+  ['chemische-stoffen', 'Chemische stoffen'],
+  ['voedsel', 'Voedsel'],
+  ['maakindustrie', 'Maakindustrie'],
+  ['digitale-aanbieders', 'Digitale aanbieders'],
+  ['onderzoek', 'Onderzoek'],
+  ['anders-meerdere', 'Anders / meerdere sectoren'],
+];
+
+for (const [val, label] of NIS2_OPTIONS) {
+  check(`submit-news.html NIS2 dropdown has option value="${val}" → ${label}`, () => {
+    const re = new RegExp(`value="${val}"[^>]*>\\s*${label.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}`);
+    assert.match(html, re);
+  });
+}
+
+check('submit-news.html org NIS2-sector dropdown is labelled "NIS2-sector / hoofdsector"', () => {
+  assert.match(html, /<label[^>]*for="sv-sector"[^>]*>\s*NIS2-sector\s*\/\s*hoofdsector/);
+  assert.match(html, /id="sv-sector"\s+name="sector"\s+data-nis2-sector="org"/);
+});
+
+check('submit-news.html editorial section has NIS2-sector + Aanvullende tags fields', () => {
+  assert.match(html, /name="ed_nis2_sector"/);
+  assert.match(html, /name="ed_additional_tags"/);
+  assert.match(html, /<label[^>]*for="sv-ed-nis2-sector"[^>]*>\s*NIS2-sector\s*\/\s*hoofdsector/);
+});
+
+check('submit-news.html change-request section has NIS2-sector + Aanvullende tags fields', () => {
+  assert.match(html, /name="cr_nis2_sector"/);
+  assert.match(html, /name="cr_additional_tags"/);
+});
+
+check('submit-news.html event section has event_nis2_sector dropdown', () => {
+  assert.match(html, /name="event_nis2_sector"/);
+  assert.match(html, /<label[^>]*for="sv-ev-nis2-sector"[^>]*>\s*NIS2-sector\s*\/\s*hoofdsector/);
+});
+
+check('submit-news.html org section has additional_tags input', () => {
+  assert.match(html, /name="additional_tags"/);
+});
+
+// ── Aanvullende tags helper text mentions komma's ────────────────────
+check('submit-news.html aanvullende tags helper mentions komma\'s and example tags', () => {
+  // Common helper phrasing across sections
+  const re = /Gebruik\s+komma['’]s\s+tussen\s+tags,\s+bijvoorbeeld:\s*crisiscommunicatie,\s*haven,\s*cybersecurity/;
+  const matches = html.match(new RegExp(re, 'g')) || [];
+  assert.ok(matches.length >= 3, `expected ≥3 occurrences of the aanvullende-tags helper, got ${matches.length}`);
+});
+
+// ── Mailto/body: NIS2-sector + Aanvullende tags as separate lines ────
+check('submit-news.html buildBody includes NIS2-sector line for org/both', () => {
+  assert.match(html, /'\s*NIS2-sector:\s*'\s*\+\s*get\(data,\s*'sector'\)/);
+});
+
+check('submit-news.html buildBody includes Aanvullende tags line for org/both', () => {
+  assert.match(html, /'\s*Aanvullende tags:\s*'\s*\+\s*get\(data,\s*'additional_tags'\)/);
+});
+
+check('submit-news.html buildBody includes editorial NIS2-sector + Aanvullende tags', () => {
+  assert.match(html, /get\(data,\s*'ed_nis2_sector'\)/);
+  assert.match(html, /get\(data,\s*'ed_additional_tags'\)/);
+});
+
+check('submit-news.html buildBody includes change-request NIS2-sector + Aanvullende tags', () => {
+  assert.match(html, /get\(data,\s*'cr_nis2_sector'\)/);
+  assert.match(html, /get\(data,\s*'cr_additional_tags'\)/);
+});
+
+check('submit-news.html buildBody event branch has NIS2-sector and Aanvullende tags as separate lines', () => {
+  const ev = html.match(/EVENT_INTAKE[\s\S]*?Auto-publicatie/);
+  assert.ok(ev, 'event mailto block missing');
+  assert.match(ev[0], /NIS2-sector:.*event_nis2_sector/);
+  assert.match(ev[0], /Aanvullende tags:.*event_tags/);
+});
+
 check('submit-news.html event publication-request offers required options', () => {
   assert.match(html, /value="agenda"[^>]*>\s*Plaatsing op de ESRF-agenda/i);
   assert.match(html, /value="dispatch"/);
