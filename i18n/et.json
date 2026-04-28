@@ -254,7 +254,22 @@
     "join_step_1_html": "<strong>Küsi kirjet.</strong> Täida <a href=\"request-listing.html\" style=\"color:var(--accent)\">registreerimisvorm</a> organisatsiooni nime, lühikirjelduse ja peamise tegevusvaldkonnaga.",
     "join_step_2_html": "<strong>Ühine põhikirjaga.</strong> Iga loetletud organisatsioon liitub ESRF.net-i hartaga — viie moraalse põhimõttega.",
     "join_step_3_html": "<strong>Ilmu atlasele.</strong> Sinu kirje avaldatakse kataloogis, kaardil ja — olenevalt sektorist — analüütikas.",
-    "join_body_2": "Panused sihtasutusele — rahalised või mitterahalised — on teretulnud, kuid mitte kunagi nõutavad. ESRF.net ei müü kirjeid ega reklaami."
+    "join_body_2": "Panused sihtasutusele — rahalised või mitterahalised — on teretulnud, kuid mitte kunagi nõutavad. ESRF.net ei müü kirjeid ega reklaami.",
+    "governance_kicker": "§ 03 · Kuidas see toimib",
+    "governance_title_1": "Läbipaistev",
+    "governance_title_2": "juba",
+    "governance_title_3": "kavandilt",
+    "governance_sub": "Juhtimine, metoodika, valik — kõik avalik.",
+    "gov_entity_title": "Juriidiline isik",
+    "gov_entity_body": "ESRF.netti haldab Stichting ESRF European Security and Resilience Fund, mittetulunduslik sihtasutus, mis on registreeritud Madalmaades (KvK). Sihtasutus — mida nimetatakse ESRF.netiks, kui see toimib kogukonna toetajana — eksisteerib üksnes selleks, et hoida raamistikku, rahastada toimetuse tööd ja kaitsta kataloogi sõltumatust.",
+    "gov_methodology_title": "Metoodika",
+    "gov_methodology_body_html": "Organisatsioonid liigitatakse <strong>kümnesse elutähtsasse sektorisse</strong> kooskõlas EL NIS2 direktiivi ja kriitiliste üksuste vastupidavusvõime direktiiviga (CER). Iga kanne vaadatakse toimetuses läbi kolme kriteeriumi alusel: (1) organisatsiooni töö peab tõendatavalt panustama Euroopa julgeolekusse või vastupidavusse, (2) ta peab tegutsema või teenindama vähemalt üht {countries} hõlmatud riigist ning (3) tal peab olema tõendatav avalik kohalolek (veebisait, äriregistri kanne vms).",
+    "gov_selection_title": "Valikukriteeriumid",
+    "gov_selection_body": "ESRF.net ei müü kandeid, ei reasta oma liikmeid ega võta tellimustasusid. Organisatsioonid võivad taotleda kandmist või olla tuvastatud avatud lähteandmete põhjal. Iga kannet vaatab toimetus läbi sektoritaksonoomia ja eespool nimetatud kolme kriteeriumi alusel. Kanded, mis enam kriteeriumidele ei vasta, arhiveeritakse — neid ei kustutata; läbipaistvus kehtib mõlemas suunas.",
+    "gov_stichting_title": "Sihtasutus vs võrgustik",
+    "gov_stichting_body": "Sihtasutus (Stichting ESRF European Security and Resilience Fund) on juriidiline isik. Võrgustik on {total} organisatsiooni kogukond. Sihtasutus ei oma, kontrolli ega esinda loetletud organisatsioone — ta kureerib kataloogi, hoiab atlast, annab välja dispatchi ja suunab panuseid algatustesse, mis võrgustikku kasvatavad ja tugevdavad. Organisatsioonid ise on suveräänsed; kataloog on avalik hüve.",
+    "gov_contact_title": "Kontakt",
+    "gov_contact_body_html": "Stichting ESRF European Security and Resilience Fund · Madalmaad<br>Üldised päringud: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Privaatsusküsimused: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
   },
   "privacy": {
     "title": "Privaatsus — ESRF.net",

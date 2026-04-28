@@ -254,7 +254,22 @@
     "join_step_1_html": "<strong>Iarr liostú.</strong> Líon isteach an <a href=\"request-listing.html\" style=\"color:var(--accent)\">fhoirm iarratais</a> le hainm d’eagraíochta, tuairisc aon alt amháin agus príomhearnáil do chleachtais.",
     "join_step_2_html": "<strong>Ailínigh leis an gcairt.</strong> Ligeann gach eagraíocht liostaithe le cairt ESRF.net — na cúig phrionsabal mhorálta.",
     "join_step_3_html": "<strong>Tar le feiceáil ar an atlas.</strong> Téann do liostú beo ar an eolaire, an léarscáil agus — i gcás ábhartha — anailísíocht.",
-    "join_body_2": "Tá ranníocaíochtaí leis an bhfondúireacht — airgeadais nó in-cineáil — fáilteach ach ní riachtanach riamh. Ní dhíolann ESRF.net liostuithe agus ní fhógraíonn sé."
+    "join_body_2": "Tá ranníocaíochtaí leis an bhfondúireacht — airgeadais nó in-cineáil — fáilteach ach ní riachtanach riamh. Ní dhíolann ESRF.net liostuithe agus ní fhógraíonn sé.",
+    "governance_kicker": "§ 03 · Conas a oibríonn sé",
+    "governance_title_1": "Trédhearcach",
+    "governance_title_2": "ó",
+    "governance_title_3": "dhearadh",
+    "governance_sub": "Rialachas, modheolaíocht, roghnúchán — ar fad os comhair an phobail.",
+    "gov_entity_title": "Eintiteas dlíthiúil",
+    "gov_entity_body": "Tá ESRF.net á reáchtáil ag Stichting ESRF European Security and Resilience Fund, fondúireacht neamhbhrabúis atá cláraithe san Ísiltír (KvK). Níl an fhondúireacht — dá ngairtear ESRF.net nuair a fheidhmíonn sí mar éascaitheoir pobail — ann ach chun an creat a chothú, an obair eagarthóireachta a mhaoiniú agus neamhspleáchas an eolaire a chosaint.",
+    "gov_methodology_title": "Modheolaíocht",
+    "gov_methodology_body_html": "Aicmítear eagraíochtaí ar fud <strong>deich bpríomhearnáil</strong> ag teacht le Treoir AE NIS2 agus an Treoir um Athléimneacht Eintiteas Criticiúil (CER). Déantar gach iontráil a athbhreithniú go heagarthóireachta de réir trí critéar: (1) ní mór go gcuirfeadh obair na heagraíochta go follasach le slándáil nó athléimneacht na hEorpa, (2) caithfidh sí oibriú nó freastal ar cheann amháin ar a laghad de na {countries} dtír atá clúdaithe, agus (3) ní mór go mbeadh láithreacht phoiblí infhíoraithe aici (suíomh gréasáin, clárú leis an gcomhlacht trádála nó comhionann).",
+    "gov_selection_title": "Critéir roghnúcháin",
+    "gov_selection_body": "Ní dhíolann ESRF.net iontrálacha, ní rangaíonn sé a bhaill agus ní ghearrann sé táillí síntiúis. Is féidir le heagraíochtaí iontráil a iarraidh nó iad a aithint trí fhaisnéis foinse oscailte. Déanann an fhoireann eagarthóireachta gach iontráil a athbhreithniú de réir an taicseolaíocht earnála agus na trí critéar thuas. Cuirtear iontrálacha nach gcomhlíonann na critéir a thuilleadh i gcartlann — ní scriostar iad — baineann trédhearcacht leis an dá threo.",
+    "gov_stichting_title": "Fondúireacht vs líonra",
+    "gov_stichting_body": "Is í an fhondúireacht (Stichting ESRF European Security and Resilience Fund) an t-eintiteas dlíthiúil. Is é an líonra pobal de {total} eagraíocht. Ní hé an fhondúireacht úinéir, ní rialaíonn sí ná ní ionadaíonn sí na heagraíochtaí a liostálann sí — coimeádann sí an t-eolaire, cothaíonn sí an t-atlas, foilsíonn sí an dispatch agus díríonn sí ranníocaíochtaí chuig tionscnaimh a chuireann an líonra ag fás agus a neartaíonn é. Tá na heagraíochtaí féin ceannasach; is maitheas poiblí an t-eolaire.",
+    "gov_contact_title": "Teagmháil",
+    "gov_contact_body_html": "Stichting ESRF European Security and Resilience Fund · An Ísiltír<br>Fiosrúcháin ghinearálta: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Ceisteanna príobháideachais: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
   },
   "privacy": {
     "title": "Príobháideacht — ESRF.net",

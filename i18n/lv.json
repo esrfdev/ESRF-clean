@@ -254,7 +254,22 @@
     "join_step_1_html": "<strong>Pieprasīt ierakstu.</strong> Aizpildiet <a href=\"request-listing.html\" style=\"color:var(--accent)\">pieteikuma veidlapu</a> ar organizācijas nosaukumu, viena rindkopas aprakstu un galveno darbības nozari.",
     "join_step_2_html": "<strong>Pievienojieties hartai.</strong> Katra uzskaitītā organizācija paraksta ESRF.net hartu — piecus morālos principus.",
     "join_step_3_html": "<strong>Parādieties kartē.</strong> Jūsu ieraksts tiek publicēts katalogā, kartē un — atkarībā no nozares — analītikā.",
-    "join_body_2": "Ieguldījumi fondā — finansiāli vai natūrā — ir laipni gaidīti, bet nekad nav obligāti. ESRF.net nepārdod ierakstus un nereklamē."
+    "join_body_2": "Ieguldījumi fondā — finansiāli vai natūrā — ir laipni gaidīti, bet nekad nav obligāti. ESRF.net nepārdod ierakstus un nereklamē.",
+    "governance_kicker": "§ 03 · Kā tas darbojas",
+    "governance_title_1": "Caurspīdīgi",
+    "governance_title_2": "pēc",
+    "governance_title_3": "dizaina",
+    "governance_sub": "Pārvaldība, metodoloģija, atlase — viss atklāti.",
+    "gov_entity_title": "Juridiskā persona",
+    "gov_entity_body": "ESRF.net pārvalda Stichting ESRF European Security and Resilience Fund, bezpeļņas nodibinājums, kas reģistrēts Nīderlandē (KvK). Nodibinājums — saukts par ESRF.net, kad darbojas kā kopienas veicinātājs — pastāv vienīgi tāpēc, lai uzturētu ietvaru, finansētu redakcijas darbu un aizsargātu kataloga neatkarību.",
+    "gov_methodology_title": "Metodoloģija",
+    "gov_methodology_body_html": "Organizācijas tiek klasificētas <strong>desmit vitāli svarīgās nozarēs</strong> saskaņā ar ES NIS2 direktīvu un Kritisko vienību noturības direktīvu (CER). Katrs ieraksts tiek pārskatīts redakcionāli pēc trim kritērijiem: (1) organizācijas darbam ir jāpierāda, ka tas veicina Eiropas drošību vai noturību, (2) tai jādarbojas vai jāsniedz pakalpojumi vismaz vienā no {countries} iekļautajām valstīm, un (3) tai jābūt pārbaudāmai publiskai klātbūtnei (mājaslapa, komercreģistra ieraksts vai līdzvērtīgi).",
+    "gov_selection_title": "Atlases kritēriji",
+    "gov_selection_body": "ESRF.net nepārdod ierakstus, neranžē savus dalībniekus un neiekasē abonēšanas maksas. Organizācijas var lūgt iekļaušanu vai tikt identificētas, izmantojot atvērtā koda izlūkdatus. Katru ierakstu pārskata redakcijas komanda saskaņā ar nozaru taksonomiju un iepriekš minētajiem trim kritērijiem. Ieraksti, kas vairs neatbilst kritērijiem, tiek arhivēti, nevis dzēsti — caurspīdīgums attiecas abos virzienos.",
+    "gov_stichting_title": "Nodibinājums pret tīklu",
+    "gov_stichting_body": "Nodibinājums (Stichting ESRF European Security and Resilience Fund) ir juridiskā persona. Tīkls ir {total} organizāciju kopiena. Nodibinājums nepieder, nekontrolē un nepārstāv tās organizācijas, kuras tas iekļauj sarakstā — tas kūrē katalogu, uztur atlantu, izdod dispatch un virza ziedojumus iniciatīvās, kas paplašina tīklu un padara to noturīgāku. Pašas organizācijas ir suverēnas; katalogs ir publisks labums.",
+    "gov_contact_title": "Kontakti",
+    "gov_contact_body_html": "Stichting ESRF European Security and Resilience Fund · Nīderlande<br>Vispārīgi jautājumi: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Privātuma jautājumi: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
   },
   "privacy": {
     "title": "Privātums — ESRF.net",

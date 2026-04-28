@@ -254,7 +254,22 @@
     "join_step_1_html": "<strong>Itlob dħul fil-lista.</strong> Imla l-<a href=\"request-listing.html\" style=\"color:var(--accent)\">formola tal-applikazzjoni</a> bl-isem tal-organizzazzjoni tiegħek, deskrizzjoni ta’ paragrafu u s-settur prinċipali tal-prattika tiegħek.",
     "join_step_2_html": "<strong>Allinja mal-karta.</strong> Kull organizzazzjoni elencata tissieħeb mal-karta ta' ESRF.net — il-ħames prinċipji morali.",
     "join_step_3_html": "<strong>Idher fuq l-atlas.</strong> Il-lista tiegħek tidher fuq id-direttorju, il-mappa u — fejn rilevanti — l-analitika.",
-    "join_body_2": "Kontribuzzjonijiet lill-fondazzjoni — finanzjarji jew in natura — huma milqugħa iżda qatt meħtieġa. ESRF.net ma jbiegħx lista u ma jaffarjax reklamar."
+    "join_body_2": "Kontribuzzjonijiet lill-fondazzjoni — finanzjarji jew in natura — huma milqugħa iżda qatt meħtieġa. ESRF.net ma jbiegħx lista u ma jaffarjax reklamar.",
+    "governance_kicker": "§ 03 · Kif jaħdem",
+    "governance_title_1": "Trasparenti",
+    "governance_title_2": "mid-",
+    "governance_title_3": "disinn",
+    "governance_sub": "Governanza, metodoloġija, għażla — kollox fil-miftuħ.",
+    "gov_entity_title": "Entità legali",
+    "gov_entity_body": "ESRF.net hu mħaddem mill-Stichting ESRF European Security and Resilience Fund, fondazzjoni mingħajr skop ta' qligħ irreġistrata fl-Olanda (KvK). Il-fondazzjoni — imsejħa ESRF.net meta taġixxi bħala faċilitatur tal-komunità — teżisti biss biex iżżomm il-qafas, tiffinanzja l-operazzjoni editorjali u tipproteġi l-indipendenza tad-direttorju.",
+    "gov_methodology_title": "Metodoloġija",
+    "gov_methodology_body_html": "L-organizzazzjonijiet huma klassifikati f'<strong>għaxar setturi vitali</strong> allinjati mad-Direttiva tal-UE NIS2 u d-Direttiva dwar ir-Reżiljenza tal-Entitajiet Kritiċi (CER). Kull elenkar jiġi rivedut editorjalment skont tliet kriterji: (1) ix-xogħol tal-organizzazzjoni għandu jikkontribwixxi b'mod dimostrabbli għas-sigurtà jew ir-reżiljenza Ewropea, (2) għandha topera fi jew tservi tal-anqas waħda mill-{countries} pajjiżi koperti, u (3) għandu jkollha preżenza pubblika verifikabbli (sit web, reġistrazzjoni mal-kamra tal-kummerċ jew ekwivalenti).",
+    "gov_selection_title": "Kriterji tal-għażla",
+    "gov_selection_body": "ESRF.net ma jbigħx elenkar, ma jikkalassifikax lill-membri tiegħu u ma jitlobx ħlasijiet ta' abbonament. L-organizzazzjonijiet jistgħu jitolbu elenkar jew jiġu identifikati permezz ta' intelliġenza minn sorsi miftuħa. Kull elenkar jiġi rivedut mit-tim editorjali skont it-tassonomija settorjali u t-tliet kriterji ta' hawn fuq. Elenkar li ma jissodisfax aktar il-kriterji jiġi arkivjat, mhux imħassar — it-trasparenza tapplika fiż-żewġ direzzjonijiet.",
+    "gov_stichting_title": "Fondazzjoni vs network",
+    "gov_stichting_body": "Il-fondazzjoni (Stichting ESRF European Security and Resilience Fund) hi l-entità legali. In-network hu l-komunità ta' {total} organizzazzjonijiet. Il-fondazzjoni ma tippossjedix, ma tikkontrollax u ma tirrappreżentax l-organizzazzjonijiet li telenka — hi tikkura d-direttorju, iżżomm l-atlas, tippubblika d-dispatch u tikkanalizza l-kontribuzzjonijiet f'inizjattivi li jkabbru u jsaħħu n-network. L-organizzazzjonijiet infushom huma sovrani; id-direttorju hu ġid pubbliku.",
+    "gov_contact_title": "Kuntatt",
+    "gov_contact_body_html": "Stichting ESRF European Security and Resilience Fund · l-Olanda<br>Mistoqsijiet ġenerali: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Kwistjonijiet ta' privatezza: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
   },
   "privacy": {
     "title": "Privatezza — ESRF.net",

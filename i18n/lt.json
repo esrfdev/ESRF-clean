@@ -254,7 +254,22 @@
     "join_step_1_html": "<strong>Prašykite įrašo.</strong> Užpildykite <a href=\"request-listing.html\" style=\"color:var(--accent)\">registracijos formą</a> nurodydami organizacijos pavadinimą, vienos pastraipos aprašymą ir pagrindinį veiklos sektorių.",
     "join_step_2_html": "<strong>Prisijunkite prie chartijos.</strong> Kiekviena išvardyta organizacija prisijungia prie ESRF.net chartijos — penkių moralinių principų.",
     "join_step_3_html": "<strong>Pasirodykite atlase.</strong> Jūsų įrašas patalpinamas kataloge, žemėlapyje ir — priklausomai nuo sektoriaus — analizėje.",
-    "join_body_2": "Fondui skirti įnašai — finansiniai ar natūra — yra laukiami, tačiau niekada nereikalingi. ESRF.net neparduoda įrašų ir neskelbia reklamų."
+    "join_body_2": "Fondui skirti įnašai — finansiniai ar natūra — yra laukiami, tačiau niekada nereikalingi. ESRF.net neparduoda įrašų ir neskelbia reklamų.",
+    "governance_kicker": "§ 03 · Kaip tai veikia",
+    "governance_title_1": "Skaidru",
+    "governance_title_2": "iš",
+    "governance_title_3": "esmės",
+    "governance_sub": "Valdymas, metodologija, atranka — viskas atvirai.",
+    "gov_entity_title": "Juridinis asmuo",
+    "gov_entity_body": "ESRF.net valdo Stichting ESRF European Security and Resilience Fund — pelno nesiekiantis fondas, registruotas Nyderlanduose (KvK). Fondas — vadinamas ESRF.net, kai veikia kaip bendruomenės įgalintojas — egzistuoja tik tam, kad palaikytų sistemą, finansuotų redakcinę veiklą ir apsaugotų katalogo nepriklausomumą.",
+    "gov_methodology_title": "Metodologija",
+    "gov_methodology_body_html": "Organizacijos klasifikuojamos į <strong>dešimt gyvybiškai svarbių sektorių</strong> pagal ES NIS2 direktyvą ir Kritinių subjektų atsparumo direktyvą (CER). Kiekvienas įrašas redakciškai peržiūrimas pagal tris kriterijus: (1) organizacijos darbas turi įrodomai prisidėti prie Europos saugumo ar atsparumo, (2) ji turi veikti ar teikti paslaugas bent vienoje iš {countries} apimamų šalių ir (3) ji turi turėti patikrinamą viešą buvimą (svetainė, įmonių registro įrašas ar lygiavertis).",
+    "gov_selection_title": "Atrankos kriterijai",
+    "gov_selection_body": "ESRF.net neparduoda įrašų, nereitinguoja savo narių ir neima prenumeratos mokesčių. Organizacijos gali prašyti įtraukimo arba būti identifikuotos pagal atvirojo kodo žvalgybą. Kiekvieną įrašą redakcinė komanda peržiūri pagal sektorinę taksonomiją ir tris pirmiau nurodytus kriterijus. Įrašai, nebeatitinkantys kriterijų, archyvuojami, o ne ištrinami — skaidrumas galioja abiem kryptimis.",
+    "gov_stichting_title": "Fondas ir tinklas",
+    "gov_stichting_body": "Fondas (Stichting ESRF European Security and Resilience Fund) yra juridinis asmuo. Tinklas — tai {total} organizacijų bendruomenė. Fondas neturi, nekontroliuoja ir neatstovauja į katalogą įtrauktoms organizacijoms — jis rūpinasi katalogu, palaiko atlasą, leidžia dispatch ir nukreipia įnašus į iniciatyvas, kurios didina tinklą ir daro jį atsparesnį. Pačios organizacijos yra suverenios; katalogas yra viešas turtas.",
+    "gov_contact_title": "Kontaktai",
+    "gov_contact_body_html": "Stichting ESRF European Security and Resilience Fund · Nyderlandai<br>Bendrieji klausimai: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Privatumo klausimai: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
   },
   "privacy": {
     "title": "Privatumas — ESRF.net",

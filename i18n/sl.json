@@ -254,7 +254,22 @@
     "join_step_1_html": "<strong>Zahtevaj vpis.</strong> Izpolnite <a href=\"request-listing.html\" style=\"color:var(--accent)\">prijavni obrazec</a> z imenom vaše organizacije, enostavčnim opisom in vašim primarnim sektorjem prakse.",
     "join_step_2_html": "<strong>Uskladite se z listino.</strong> Vsaka vpisana organizacija se naroči na listino ESRF.net — ena stran, brez drobnega tiska.",
     "join_step_3_html": "<strong>Pojavite se na atlasu.</strong> Vaš vpis se aktivira v imeniku, na zemljevidu in, kjer je relevantno, v biltenu.",
-    "join_body_2": "Prispevki fundaciji — finančni ali v naravi — so dobrodošli, a nikoli zahtevani. ESRF.net ne prodaja vpisov, ne razvršča svojih članov in ne zaračunava naročnin."
+    "join_body_2": "Prispevki fundaciji — finančni ali v naravi — so dobrodošli, a nikoli zahtevani. ESRF.net ne prodaja vpisov, ne razvršča svojih članov in ne zaračunava naročnin.",
+    "governance_kicker": "§ 03 · Kako deluje",
+    "governance_title_1": "Pregledno",
+    "governance_title_2": "po",
+    "governance_title_3": "zasnovi",
+    "governance_sub": "Upravljanje, metodologija, izbor — vse na ogled.",
+    "gov_entity_title": "Pravna oseba",
+    "gov_entity_body": "ESRF.net upravlja Stichting ESRF European Security and Resilience Fund, neprofitna ustanova, registrirana na Nizozemskem (KvK). Ustanova — naslovljena kot ESRF.net, kadar deluje kot pospeševalec skupnosti — obstaja izključno za ohranjanje okvira, financiranje uredniškega dela in varovanje neodvisnosti imenika.",
+    "gov_methodology_title": "Metodologija",
+    "gov_methodology_body_html": "Organizacije so razvrščene v <strong>deset ključnih sektorjev</strong>, usklajenih z direktivo EU NIS2 in direktivo o odpornosti kritičnih subjektov (CER). Vsaka navedba je uredniško pregledana po treh merilih: (1) delo organizacije mora izkazljivo prispevati k evropski varnosti ali odpornosti, (2) delovati mora ali zagotavljati storitve vsaj v eni od {countries} zajetih držav in (3) imeti mora preverljivo javno prisotnost (spletna stran, vpis v sodni register ali enakovredno).",
+    "gov_selection_title": "Merila izbora",
+    "gov_selection_body": "ESRF.net ne prodaja navedb, svojih članov ne razvršča in ne zaračunava naročnin. Organizacije lahko zaprosijo za vpis ali so prepoznane na podlagi obveščevalnih podatkov iz odprtih virov. Vsako navedbo pregleda uredniška ekipa skladno s sektorsko taksonomijo in zgornjimi tremi merili. Navedbe, ki ne ustrezajo več merilom, so arhivirane, ne izbrisane — preglednost velja v obe smeri.",
+    "gov_stichting_title": "Ustanova in mreža",
+    "gov_stichting_body": "Ustanova (Stichting ESRF European Security and Resilience Fund) je pravna oseba. Mreža je skupnost {total} organizacij. Ustanova navedenih organizacij ne lasti, ne nadzoruje in ne zastopa — skrbi za imenik, vzdržuje atlas, izdaja dispatch in usmerja prispevke v pobude, ki povečujejo in krepijo mrežo. Same organizacije so suverene; imenik je javno dobro.",
+    "gov_contact_title": "Stik",
+    "gov_contact_body_html": "Stichting ESRF European Security and Resilience Fund · Nizozemska<br>Splošna vprašanja: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Vprašanja o zasebnosti: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
   },
   "privacy": {
     "title": "Zasebnost — ESRF.net",

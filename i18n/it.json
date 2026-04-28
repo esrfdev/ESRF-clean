@@ -254,7 +254,22 @@
     "join_step_1_html": "<strong>Richiedete un inserimento.</strong> Compilate il <a href=\"request-listing.html\" style=\"color:var(--accent)\">modulo di richiesta</a> con il nome della vostra organizzazione, una descrizione di un paragrafo e il vostro settore principale di attività.",
     "join_step_2_html": "<strong>Allineate con la carta.</strong> Ogni organizzazione inserita sottoscrive la carta di ESRF.net — una pagina, senza clausole in piccolo.",
     "join_step_3_html": "<strong>Comparite nell’atlante.</strong> Il vostro inserimento va online nell’elenco, sulla mappa e, dove pertinente, nel dispatch.",
-    "join_body_2": "I contributi alla fondazione — finanziari o in natura — sono benvenuti ma mai richiesti. ESRF.net non vende inserimenti, non classifica i propri membri né addebita quote di abbonamento."
+    "join_body_2": "I contributi alla fondazione — finanziari o in natura — sono benvenuti ma mai richiesti. ESRF.net non vende inserimenti, non classifica i propri membri né addebita quote di abbonamento.",
+    "governance_kicker": "§ 03 · Come funziona",
+    "governance_title_1": "Trasparente",
+    "governance_title_2": "per",
+    "governance_title_3": "design",
+    "governance_sub": "Governance, metodologia, selezione — tutto allo scoperto.",
+    "gov_entity_title": "Soggetto giuridico",
+    "gov_entity_body": "ESRF.net è gestito dalla Stichting ESRF European Security and Resilience Fund, una fondazione senza scopo di lucro registrata nei Paesi Bassi (KvK). La fondazione — chiamata ESRF.net quando agisce come facilitatore della comunità — esiste unicamente per mantenere il quadro, finanziare l'operazione editoriale e proteggere l'indipendenza della directory.",
+    "gov_methodology_title": "Metodologia",
+    "gov_methodology_body_html": "Le organizzazioni sono classificate in <strong>dieci settori vitali</strong> in linea con la Direttiva UE NIS2 e la Direttiva sulla resilienza dei soggetti critici (CER). Ogni iscrizione è esaminata editorialmente in base a tre criteri: (1) il lavoro dell'organizzazione deve contribuire in modo dimostrabile alla sicurezza o alla resilienza europea, (2) deve operare o servire almeno uno dei {countries} paesi coperti, e (3) deve avere una presenza pubblica verificabile (sito web, registrazione presso la camera di commercio o equivalente).",
+    "gov_selection_title": "Criteri di selezione",
+    "gov_selection_body": "ESRF.net non vende iscrizioni, non classifica i suoi membri e non addebita quote di abbonamento. Le organizzazioni possono richiedere un'iscrizione o essere identificate tramite intelligence open source. Ogni iscrizione è rivista dal team editoriale secondo la tassonomia settoriale e i tre criteri sopra indicati. Le iscrizioni che non soddisfano più i criteri sono archiviate, non eliminate — la trasparenza si applica in entrambe le direzioni.",
+    "gov_stichting_title": "Fondazione e rete",
+    "gov_stichting_body": "La fondazione (Stichting ESRF European Security and Resilience Fund) è il soggetto giuridico. La rete è la comunità di {total} organizzazioni. La fondazione non possiede, controlla o rappresenta le organizzazioni che elenca — cura la directory, mantiene l'atlante, pubblica il dispatch e indirizza i contributi verso iniziative che fanno crescere e rendono più solida la rete. Le organizzazioni stesse sono sovrane; la directory è un bene pubblico.",
+    "gov_contact_title": "Contatti",
+    "gov_contact_body_html": "Stichting ESRF European Security and Resilience Fund · Paesi Bassi<br>Richieste generali: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Questioni di privacy: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
   },
   "privacy": {
     "title": "Privacy — ESRF.net",

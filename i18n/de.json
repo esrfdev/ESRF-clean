@@ -254,7 +254,22 @@
     "join_step_1_html": "<strong>Eintrag anfragen.</strong> Füllen Sie das <a href=\"request-listing.html\" style=\"color:var(--accent)\">Anmeldeformular</a> mit dem Namen Ihrer Organisation, einer Kurzbeschreibung und Ihrem Haupttätigkeitssektor aus.",
     "join_step_2_html": "<strong>Mit der Charta übereinstimmen.</strong> Jede gelistete Organisation zeichnet die ESRF.net-Charta — eine Seite, kein Kleingedrucktes.",
     "join_step_3_html": "<strong>Im Atlas erscheinen.</strong> Ihr Eintrag wird im Verzeichnis, auf der Karte und, wo relevant, im Dispatch veröffentlicht.",
-    "join_body_2": "Beiträge zur Stiftung — finanziell oder in Form von Sachleistungen — sind willkommen, aber nie erforderlich. ESRF.net verkauft keine Einträge, stuft seine Mitglieder nicht ein und erhebt keine Abonnementgebühren."
+    "join_body_2": "Beiträge zur Stiftung — finanziell oder in Form von Sachleistungen — sind willkommen, aber nie erforderlich. ESRF.net verkauft keine Einträge, stuft seine Mitglieder nicht ein und erhebt keine Abonnementgebühren.",
+    "governance_kicker": "§ 03 · Wie es funktioniert",
+    "governance_title_1": "Transparent",
+    "governance_title_2": "im",
+    "governance_title_3": "Design",
+    "governance_sub": "Governance, Methodik, Auswahl — alles offengelegt.",
+    "gov_entity_title": "Rechtsträger",
+    "gov_entity_body": "ESRF.net wird von der Stichting ESRF European Security and Resilience Fund betrieben, einer in den Niederlanden (KvK) eingetragenen gemeinnützigen Stiftung. Die Stiftung — als ESRF.net bezeichnet, wenn sie als Gemeinschaftsförderer auftritt — existiert ausschließlich, um den Rahmen zu pflegen, die redaktionelle Arbeit zu finanzieren und die Unabhängigkeit des Verzeichnisses zu sichern.",
+    "gov_methodology_title": "Methodik",
+    "gov_methodology_body_html": "Organisationen werden in <strong>zehn lebenswichtige Sektoren</strong> klassifiziert, in Übereinstimmung mit der EU-NIS2-Richtlinie und der Richtlinie über die Resilienz kritischer Einrichtungen (CER). Jeder Eintrag wird redaktionell anhand von drei Kriterien geprüft: (1) die Arbeit der Organisation muss nachweislich zur europäischen Sicherheit oder Resilienz beitragen, (2) sie muss in mindestens einem der {countries} abgedeckten Länder tätig sein oder dort dienen, und (3) sie muss eine überprüfbare öffentliche Präsenz haben (Website, Handelsregistereintrag oder gleichwertig).",
+    "gov_selection_title": "Auswahlkriterien",
+    "gov_selection_body": "ESRF.net verkauft keine Einträge, bewertet seine Mitglieder nicht und erhebt keine Abonnementgebühren. Organisationen können einen Eintrag beantragen oder über Open-Source-Recherche identifiziert werden. Jeder Eintrag wird vom Redaktionsteam anhand der Sektorentaxonomie und der drei genannten Kriterien geprüft. Einträge, die die Kriterien nicht mehr erfüllen, werden archiviert, nicht gelöscht — Transparenz gilt in beide Richtungen.",
+    "gov_stichting_title": "Stiftung vs. Netzwerk",
+    "gov_stichting_body": "Die Stiftung (Stichting ESRF European Security and Resilience Fund) ist der Rechtsträger. Das Netzwerk ist die Gemeinschaft von {total} Organisationen. Die Stiftung besitzt, kontrolliert oder vertritt die gelisteten Organisationen nicht — sie kuratiert das Verzeichnis, pflegt den Atlas, gibt den Dispatch heraus und leitet Beiträge in Initiativen, die das Netzwerk wachsen und robuster werden lassen. Die Organisationen selbst sind souverän; das Verzeichnis ist ein öffentliches Gut.",
+    "gov_contact_title": "Kontakt",
+    "gov_contact_body_html": "Stichting ESRF European Security and Resilience Fund · Niederlande<br>Allgemeine Anfragen: <a href=\"mailto:hello@esrf.net\" style=\"color:var(--accent)\">hello@esrf.net</a><br>Datenschutzfragen: <a href=\"mailto:privacy@esrf.net\" style=\"color:var(--accent)\">privacy@esrf.net</a>"
   },
   "privacy": {
     "title": "Datenschutz — ESRF.net",
