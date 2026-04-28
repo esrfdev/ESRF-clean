@@ -63,3 +63,11 @@
   Cache-Control: public, max-age=0, must-revalidate
 /countries/index.html
   Cache-Control: public, max-age=0, must-revalidate
+
+# Internal redactie-validation form. noindex header keeps it out of
+# search engines even if the page-level <meta name="robots"> is
+# stripped by an intermediary cache. Force revalidation so we can
+# iterate on the workflow UI.
+/redactie-validation.html
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noindex, nofollow, noarchive

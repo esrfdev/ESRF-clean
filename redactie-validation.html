@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Redactie-validatie — ESRF.net (intern)</title>
+<meta name="description" content="Intern formulier voor de ESRF-redactie: validatie, beoordeling en redactionele toevoegingen. Niet bestemd voor externe inzendingen." />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="canonical" href="https://esrf.net/redactie-validation.html" />
+<style>
+  :root {
+    --bg: #f7f7f4;
+    --ink: #1a1a1a;
+    --ink-soft: #555;
+    --line: #d8d6cf;
+    --accent: #b03a2e;
+    --accent-dark: #841f15;
+    --warn-bg: #fff8e1;
+    --warn-border: #f0c060;
+    --ok-bg: #e6f4ea;
+    --ok-border: #88c195;
+    --err-bg: #fce8e8;
+    --err-border: #d28a8a;
+    --internal-bg: #1f1f1f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Archivo', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+  }
+  .internal-banner {
+    background: var(--internal-bg);
+    color: #fff;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    letter-spacing: 0.02em;
+  }
+  .internal-banner strong { color: #ffd967; }
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+  h1 {
+    font-family: 'PT Serif', Georgia, serif;
+    font-size: 28px;
+    margin: 0 0 6px;
+  }
+  h2 {
+    font-family: 'PT Serif', Georgia, serif;
+    font-size: 20px;
+    margin: 28px 0 8px;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+  }
+  .lede {
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+  .help-box {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 16px 0 20px;
+    font-size: 14px;
+  }
+  .help-box strong { color: var(--accent-dark); }
+  label {
+    display: block;
+    margin-top: 14px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  label .req { color: var(--accent); }
+  .hint {
+    display: block;
+    color: var(--ink-soft);
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  input[type="text"],
+  input[type="url"],
+  input[type="email"],
+  textarea,
+  select {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 8px 10px;
+    font: inherit;
+    background: #fff;
+    margin-top: 4px;
+  }
+  textarea { min-height: 88px; resize: vertical; }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 540px) { .grid-2 { grid-template-columns: 1fr; } }
+  .checkbox {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 16px;
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .checkbox input { margin-top: 4px; }
+  .checkbox label { margin: 0; font-weight: 500; }
+  .actions {
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  button.primary {
+    background: var(--accent);
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    padding: 10px 18px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.primary:disabled { opacity: 0.6; cursor: progress; }
+  button.secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font: inherit;
+    cursor: pointer;
+  }
+  .feedback { margin-top: 18px; font-size: 14px; }
+  .feedback .ok {
+    background: var(--ok-bg);
+    border: 1px solid var(--ok-border);
+    padding: 12px 14px;
+    border-radius: 4px;
+  }
+  .feedback .err {
+    background: var(--err-bg);
+    border: 1px solid var(--err-border);
+    padding: 12px 14px;
+    border-radius: 4px;
+  }
+  .feedback .warn {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    padding: 12px 14px;
+    border-radius: 4px;
+  }
+  .hp { position: absolute; left: -10000px; opacity: 0; pointer-events: none; }
+  .hidden { display: none; }
+  .meta-list { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 12px; }
+  .governance {
+    margin-top: 22px;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .governance strong { color: var(--ink); }
+  details { margin-top: 14px; }
+  summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="internal-banner">
+  <strong>INTERN — ESRF-redactie.</strong>
+  Niet bestemd voor publieke inzendingen. Gebruik
+  <a href="/submit-news.html" style="color:#9ec1ff">submit-news.html</a>
+  voor publieke meldingen.
+</div>
+
+<main>
+  <h1 id="page-title">Redactie-validatie</h1>
+  <p class="lede" id="lede">Modus laden…</p>
+
+  <!-- ════════════ Mode: editorial_add_org ════════════ -->
+  <section id="mode-editorial-add-org" class="hidden">
+    <h2>Redactionele toevoeging — nieuwe organisatie</h2>
+
+    <div class="help-box">
+      <strong>Belangrijk.</strong> Dit is een <em>redactionele toevoeging</em>:
+      jij voegt — als redacteur — een organisatie toe op basis van publieke
+      bronnen. De organisatie zelf heeft <strong>niet</strong> ingediend.
+      Doe je nooit voor als de organisatie. De rij gaat naar
+      <code>LAB_Intake_Submissions</code> + <code>LAB_Redactie_Reviews</code>
+      met status <code>nieuw</code>; <code>Directory_Master</code> wordt
+      niet automatisch gewijzigd. Publicatie vereist redactiebesluit,
+      preview en akkoord van Wouter vóór rollout.
+    </div>
+
+    <form id="form-editorial-add-org" autocomplete="off" novalidate>
+
+      <h2 style="margin-top:8px;border:0;padding:0">Organisatie</h2>
+      <label for="organisation_name">Officiële naam <span class="req">*</span>
+        <span class="hint">Volledige juridische of formele naam zoals op de website.</span>
+        <input type="text" id="organisation_name" name="organisation_name" required maxlength="200" />
+      </label>
+
+      <label for="alternate_name">Alternatieve / merknaam
+        <span class="hint">Bijv. afkorting of veelgebruikte korte naam.</span>
+        <input type="text" id="alternate_name" name="alternate_name" maxlength="200" />
+      </label>
+
+      <div class="grid-2">
+        <label for="website">Website <span class="req">*</span>
+          <span class="hint">Beginnend met https://</span>
+          <input type="url" id="website" name="website" required placeholder="https://" maxlength="400" />
+        </label>
+        <label for="source_url">Bron-URL <span class="req">*</span>
+          <span class="hint">Publieke bron op basis waarvan je toevoegt (officiële site, krant, register).</span>
+          <input type="url" id="source_url" name="source_url" required placeholder="https://" maxlength="400" />
+        </label>
+      </div>
+
+      <h2>Locatie</h2>
+      <div class="grid-2">
+        <label for="country">Land <span class="req">*</span>
+          <input type="text" id="country" name="country" required maxlength="80" />
+        </label>
+        <label for="country_code">Landcode (ISO-3166 alpha-2)
+          <span class="hint">Bijv. NL, BE, DE. Twee letters; laat leeg als je twijfelt.</span>
+          <input type="text" id="country_code" name="country_code" maxlength="2" pattern="[A-Za-z]{2}" />
+        </label>
+      </div>
+      <label for="city">Stad
+        <input type="text" id="city" name="city" maxlength="120" />
+      </label>
+
+      <h2>Sector + classificatie</h2>
+      <div class="grid-2">
+        <label for="sector">Sector <span class="req">*</span>
+          <span class="hint">Bijv. kritieke-infrastructuur, overheid, gezondheidszorg.</span>
+          <input type="text" id="sector" name="sector" required maxlength="120" />
+        </label>
+        <label for="nace_code">NACE-code
+          <span class="hint">NACE Rev.2, bijv. 84.25 of M.71.1.</span>
+          <input type="text" id="nace_code" name="nace_code" maxlength="20" />
+        </label>
+      </div>
+
+      <label for="additional_tags">Secundaire tags
+        <span class="hint">Komma-gescheiden, bijv. "weerbaarheid, opleiding, NL-Z".</span>
+        <input type="text" id="additional_tags" name="additional_tags" maxlength="400" />
+      </label>
+
+      <h2>Korte Engelse omschrijving</h2>
+      <label for="description_en">Description (EN) <span class="req">*</span>
+        <span class="hint">Minimaal 20 tekens. Eén of twee zinnen, neutraal beschrijvend.</span>
+        <textarea id="description_en" name="description_en" required minlength="20" maxlength="1500"></textarea>
+      </label>
+
+      <h2>Optioneel</h2>
+      <label for="contact_email">Publiek contact e-mail (optioneel)
+        <span class="hint">Alleen als bekend uit publieke bron. Géén privé-adressen.</span>
+        <input type="email" id="contact_email" name="contact_email" maxlength="200" />
+      </label>
+
+      <label for="internal_note">Interne redactienotitie (optioneel)
+        <span class="hint">Voor het redactieteam. Niet zichtbaar op de website.</span>
+        <textarea id="internal_note" name="internal_note" maxlength="1500"></textarea>
+      </label>
+
+      <h2>Redacteur</h2>
+      <div class="grid-2">
+        <label for="editor_name">Naam redacteur <span class="req">*</span>
+          <input type="text" id="editor_name" name="editor_name" required maxlength="120" />
+        </label>
+        <label for="editor_email">E-mail redacteur <span class="req">*</span>
+          <input type="email" id="editor_email" name="editor_email" required maxlength="200" />
+        </label>
+      </div>
+
+      <div class="checkbox">
+        <input type="checkbox" id="editorial_acknowledgement" name="editorial_acknowledgement" required />
+        <label for="editorial_acknowledgement">
+          <strong>Bevestiging:</strong> dit is een redactionele toevoeging op
+          basis van publieke bronnen. De organisatie heeft niet zelf
+          ingediend. Ik doe me <em>niet</em> voor als de organisatie.
+          <span class="req">*</span>
+        </label>
+      </div>
+
+      <!-- Honeypot -->
+      <input class="hp" type="text" name="company_website_hp" tabindex="-1" autocomplete="off" />
+
+      <div class="governance">
+        <strong>Governance.</strong> Deze inzending komt in
+        <code>LAB_Intake_Submissions</code> en
+        <code>LAB_Redactie_Reviews</code> met status <code>nieuw</code>.
+        <code>Directory_Master</code> wordt nooit automatisch geraakt.
+        Publicatie volgt na: redactiebesluit
+        (<code>klaar voor akkoord</code>) → preview → akkoord van Wouter
+        (<code>goedgekeurd voor websitevoorstel</code>) → rollout
+        (<code>gepubliceerd</code>).
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="primary" id="submit-btn">Opslaan in LAB-queue</button>
+        <button type="button" class="secondary" id="reset-btn">Leegmaken</button>
+      </div>
+
+      <div class="feedback" id="feedback"></div>
+
+      <details>
+        <summary>Statussen in LAB_Redactie_Reviews</summary>
+        <ul class="meta-list">
+          <li>nieuw</li>
+          <li>in beoordeling</li>
+          <li>verduidelijking nodig</li>
+          <li>klaar voor akkoord</li>
+          <li>goedgekeurd voor websitevoorstel</li>
+          <li>afgewezen</li>
+          <li>gepubliceerd</li>
+        </ul>
+      </details>
+    </form>
+  </section>
+
+  <!-- Unknown mode -->
+  <section id="mode-unknown" class="hidden">
+    <h2>Onbekende modus</h2>
+    <p>Geef een geldige <code>?mode=…</code> mee. Beschikbaar:</p>
+    <ul>
+      <li><a href="?mode=editorial_add_org"><code>editorial_add_org</code></a> — nieuwe organisatie toevoegen op basis van publieke bron</li>
+    </ul>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  const FORM_LOADED_AT = Date.now();
+  const params = new URLSearchParams(location.search);
+  const mode = (params.get('mode') || 'editorial_add_org').toLowerCase();
+
+  const titleEl = document.getElementById('page-title');
+  const ledeEl = document.getElementById('lede');
+
+  if (mode === 'editorial_add_org') {
+    document.getElementById('mode-editorial-add-org').classList.remove('hidden');
+    titleEl.textContent = 'Redactie-validatie — nieuwe organisatie toevoegen';
+    ledeEl.innerHTML = 'Modus: <code>editorial_add_org</code>. Voor redacteuren die een nieuwe organisatie toevoegen op basis van publieke bronnen. Niets wordt automatisch gepubliceerd.';
+    wireEditorialAddOrg();
+  } else {
+    document.getElementById('mode-unknown').classList.remove('hidden');
+    titleEl.textContent = 'Redactie-validatie';
+    ledeEl.textContent = 'Onbekende modus.';
+  }
+
+  function wireEditorialAddOrg(){
+    const form = document.getElementById('form-editorial-add-org');
+    const fb = document.getElementById('feedback');
+    const btn = document.getElementById('submit-btn');
+    document.getElementById('reset-btn').addEventListener('click', function(){
+      form.reset();
+      fb.innerHTML = '';
+    });
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      fb.innerHTML = '';
+      if (form.company_website_hp && form.company_website_hp.value) return;
+
+      const elapsed = Date.now() - FORM_LOADED_AT;
+      if (elapsed < 1500) {
+        showErr('Neem even de tijd om het formulier door te lopen voor je verzendt.');
+        return;
+      }
+
+      const data = new FormData(form);
+      const payload = {
+        intake_mode: 'editorial_add_org',
+        form_duration_ms: elapsed,
+        company_website_hp: data.get('company_website_hp') || '',
+        editor: {
+          name: (data.get('editor_name') || '').toString().trim(),
+          email: (data.get('editor_email') || '').toString().trim(),
+        },
+        editorial_add_org: {
+          organisation_name: (data.get('organisation_name') || '').toString().trim(),
+          alternate_name: (data.get('alternate_name') || '').toString().trim(),
+          website: (data.get('website') || '').toString().trim(),
+          source_url: (data.get('source_url') || '').toString().trim(),
+          country: (data.get('country') || '').toString().trim(),
+          country_code: (data.get('country_code') || '').toString().trim().toUpperCase(),
+          city: (data.get('city') || '').toString().trim(),
+          sector: (data.get('sector') || '').toString().trim(),
+          nace_code: (data.get('nace_code') || '').toString().trim(),
+          description_en: (data.get('description_en') || '').toString().trim(),
+          additional_tags: (data.get('additional_tags') || '').toString().trim(),
+          contact_email: (data.get('contact_email') || '').toString().trim(),
+          internal_note: (data.get('internal_note') || '').toString().trim(),
+          editorial_acknowledgement: !!data.get('editorial_acknowledgement'),
+          impersonation_disclaimer: true,
+        },
+      };
+
+      // Soft duplicate check against the public companies list (best-effort).
+      try {
+        const matches = await findLikelyDuplicates(
+          payload.editorial_add_org.organisation_name,
+          payload.editorial_add_org.website
+        );
+        if (matches.length) {
+          payload.existing_matches = matches.slice(0, 5);
+          const proceed = confirm(
+            'Mogelijk duplicaat — deze treffers komen voor in de bestaande directory:\n\n' +
+            matches.slice(0, 5).map(m => '• ' + m.name + (m.website ? ' (' + m.website + ')' : '')).join('\n') +
+            '\n\nWil je toch doorgaan met opslaan in LAB_Intake_Submissions?'
+          );
+          if (!proceed) {
+            showWarn('Niet verzonden. De redactie kan een dubbele inzending eerst handmatig samenvoegen.');
+            return;
+          }
+        }
+      } catch(_e) { /* duplicate check is best-effort */ }
+
+      btn.disabled = true;
+      btn.textContent = 'Opslaan…';
+      try {
+        const res = await fetch('/api/lab-intake', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(payload),
+          credentials: 'omit',
+        });
+        let json = null;
+        try { json = await res.json(); } catch(_e) { json = null; }
+        if (res.ok && json && json.ok) {
+          showOk(
+            'Opgeslagen in <code>LAB_Intake_Submissions</code> + <code>LAB_Redactie_Reviews</code> ' +
+            'met status <code>nieuw</code>. ' +
+            (json.submission_id ? '<br><span class="meta-list">submission_id: ' + json.submission_id + '</span>' : '') +
+            '<br><strong>Vervolg:</strong> redactie reviewt; preview + akkoord van Wouter vóór Directory_Master-rollout.'
+          );
+          form.reset();
+        } else if (json && json.auto_submit_unavailable) {
+          showWarn('Lab-intake backend is niet bereikbaar. Geef de inzending door aan de coördinator.');
+        } else if (json && json.error) {
+          showErr('Backend weigerde de inzending: ' + escapeHtml(json.error));
+        } else {
+          showErr('Onbekende fout (' + res.status + ').');
+        }
+      } catch(_e) {
+        showErr('Verzending mislukt — netwerkprobleem.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Opslaan in LAB-queue';
+      }
+    });
+  }
+
+  async function findLikelyDuplicates(name, website){
+    if (!name && !website) return [];
+    try {
+      const res = await fetch('/companies_extracted.json', { credentials: 'omit' });
+      if (!res.ok) return [];
+      const data = await res.json();
+      const list = Array.isArray(data) ? data : (data && Array.isArray(data.companies) ? data.companies : []);
+      const nameKey = normName(name);
+      const hostKey = hostnameOf(website);
+      const matches = [];
+      for (const row of list) {
+        const rName = String((row && (row.name || row.title || row.organisation)) || '');
+        const rWeb = String((row && (row.website || row.url)) || '');
+        const rNameKey = normName(rName);
+        const rHostKey = hostnameOf(rWeb);
+        const nameHit = nameKey && rNameKey && (rNameKey === nameKey || rNameKey.includes(nameKey) || nameKey.includes(rNameKey));
+        const hostHit = hostKey && rHostKey && rHostKey === hostKey;
+        if (nameHit || hostHit) {
+          matches.push({ name: rName, website: rWeb, source: 'companies_extracted.json' });
+          if (matches.length >= 8) break;
+        }
+      }
+      return matches;
+    } catch(_e) { return []; }
+  }
+
+  function normName(s){
+    return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+  function hostnameOf(u){
+    if (!u) return '';
+    try { return new URL(u).hostname.toLowerCase().replace(/^www\./, ''); }
+    catch(_e) { return ''; }
+  }
+  function escapeHtml(s){
+    return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function showOk(html){
+    document.getElementById('feedback').innerHTML = '<div class="ok">' + html + '</div>';
+  }
+  function showErr(html){
+    document.getElementById('feedback').innerHTML = '<div class="err">' + html + '</div>';
+  }
+  function showWarn(html){
+    document.getElementById('feedback').innerHTML = '<div class="warn">' + html + '</div>';
+  }
+})();
+</script>
+
+</body>
+</html>
