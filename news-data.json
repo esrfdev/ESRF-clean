@@ -1,10 +1,12 @@
 {
-  "generated": "2026-04-28T05:00:24.509419+00:00",
+  "generated": "2026-04-28T05:01:36.818242+00:00",
   "article_count": 159,
   "org_count": 29,
   "focus": "European resilience & regional strengthening",
-  "status": "ok",
-  "unavailable_sources": [],
+  "status": "degraded",
+  "unavailable_sources": [
+    "EURACTIV"
+  ],
   "lang_counts": {
     "eu": 38,
     "fi": 11,
