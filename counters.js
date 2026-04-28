@@ -28,11 +28,11 @@
   // never render as "0 organisaties in 0 landen" on slow or flaky
   // mobile connections. Update alongside the source data.
   const FALLBACK = {
-    total: 2083,
+    total: 2084,
     countries: 30,
     sectors: 10,
     bySector: {
-      "Emergency & Crisis Response": 456,
+      "Emergency & Crisis Response": 457,
       "Security & Protection": 343,
       "Risk & Continuity Management": 310,
       "Knowledge, Training & Research": 247,

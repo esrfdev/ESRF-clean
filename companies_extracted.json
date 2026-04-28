@@ -31368,5 +31368,23 @@
       "Shelter & evacuation",
       "Crisis response"
     ]
+  },
+  {
+    "name": "Veiligheidsregio Haaglanden",
+    "sector_normalized": "Emergency & Crisis Response",
+    "city": "Den Haag",
+    "country": "NL",
+    "country_name_en": "Netherlands",
+    "country_name_local": "Nederland",
+    "country_name_fr": "Pays-Bas",
+    "description_en": "Regional safety organization for the Haaglanden region, responsible for fire services, medical incident coordination, disaster and crisis preparedness, and public safety information for residents, workers, and visitors.",
+    "website": "https://haaglandenveilig.nl/contact",
+    "lat": 52.0705,
+    "lon": 4.3007,
+    "nace_code": "84.25",
+    "secondary_tags": [
+      "Civil protection",
+      "Crisis response"
+    ]
   }
 ]
