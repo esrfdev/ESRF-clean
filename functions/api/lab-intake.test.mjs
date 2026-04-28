@@ -284,21 +284,101 @@ check('assertLabSheetPayloadSafe accepts a well-formed payload', () => {
 });
 
 // ── End-to-end POST handler behaviour ────────────────────────────────────
-function makeRequest({ origin = 'https://esrf.net', body, contentType = 'application/json' } = {}) {
+// All authorised tests below pass an x-esrf-intake-secret matching
+// LAB_INTAKE_SHEET_WEBHOOK_SECRET (server-to-server path). The unauth
+// path is exercised separately further down.
+const AUTH_SECRET = 's3cret';
+function makeRequest({
+  origin = 'https://esrf.net',
+  body,
+  contentType = 'application/json',
+  authorized = true,
+} = {}) {
+  const headers = { origin, 'content-type': contentType };
+  if (authorized) headers['x-esrf-intake-secret'] = AUTH_SECRET;
   return new Request('https://esrf.net/api/lab-intake', {
     method: 'POST',
-    headers: { origin, 'content-type': contentType },
+    headers,
     body: typeof body === 'string' ? body : JSON.stringify(body || {}),
   });
 }
 
 await checkAsync('POST without webhook env returns 503 + auto_submit_unavailable', async () => {
   const req = makeRequest({ body: validBody() });
-  const res = await api.onRequest({ request: req, env: {} });
+  // Auth s2s secret still must match an env entry, so configure it as the
+  // LAB_INTAKE_SHEET_WEBHOOK_SECRET. URL is intentionally absent — that's
+  // what triggers the 503 path.
+  const res = await api.onRequest({
+    request: req,
+    env: { LAB_INTAKE_SHEET_WEBHOOK_SECRET: AUTH_SECRET },
+  });
   assert.equal(res.status, 503);
   const j = await res.json();
   assert.equal(j.ok, false);
   assert.equal(j.auto_submit_unavailable, true);
+});
+
+await checkAsync('POST without auth (no Access JWT, no cookie, no s2s secret) returns 401', async () => {
+  const req = makeRequest({ body: validBody(), authorized: false });
+  const res = await api.onRequest({
+    request: req,
+    env: { LAB_INTAKE_SHEET_WEBHOOK_URL: 'https://script.google.test/exec', LAB_INTAKE_SHEET_WEBHOOK_SECRET: AUTH_SECRET },
+  });
+  assert.equal(res.status, 401);
+  const j = await res.json();
+  assert.equal(j.ok, false);
+  assert.equal(j.error, 'unauthorized');
+});
+
+await checkAsync('POST with wrong s2s secret returns 401', async () => {
+  const req = new Request('https://esrf.net/api/lab-intake', {
+    method: 'POST',
+    headers: {
+      origin: 'https://esrf.net',
+      'content-type': 'application/json',
+      'x-esrf-intake-secret': 'wrong-token',
+    },
+    body: JSON.stringify(validBody()),
+  });
+  const res = await api.onRequest({
+    request: req,
+    env: { LAB_INTAKE_SHEET_WEBHOOK_URL: 'https://script.google.test/exec', LAB_INTAKE_SHEET_WEBHOOK_SECRET: AUTH_SECRET },
+  });
+  assert.equal(res.status, 401);
+});
+
+await checkAsync('POST with Cf-Access-Jwt-Assertion is accepted', async () => {
+  // Build a structurally-valid JWT with non-expired exp claim. Signature
+  // is not verified server-side; presence of the header is what Cloudflare
+  // Access guarantees by virtue of being in front of the deploy.
+  const header = Buffer.from(JSON.stringify({ alg: 'RS256', kid: 'fake' })).toString('base64url');
+  const payload = Buffer.from(JSON.stringify({
+    exp: Math.floor(Date.now() / 1000) + 600,
+    aud: 'editorial',
+    email: 'eva@esrf.net',
+  })).toString('base64url');
+  const fakeSig = Buffer.from('sig').toString('base64url');
+  const jwt = `${header}.${payload}.${fakeSig}`;
+
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({ ok: true }), { status: 200 });
+  try {
+    const req = new Request('https://esrf.net/api/lab-intake', {
+      method: 'POST',
+      headers: {
+        origin: 'https://esrf.net',
+        'content-type': 'application/json',
+        'cf-access-jwt-assertion': jwt,
+        'cf-access-authenticated-user-email': 'eva@esrf.net',
+      },
+      body: JSON.stringify(validBody()),
+    });
+    const res = await api.onRequest({
+      request: req,
+      env: { LAB_INTAKE_SHEET_WEBHOOK_URL: 'https://script.google.test/exec' },
+    });
+    assert.equal(res.status, 200);
+  } finally { globalThis.fetch = realFetch; }
 });
 
 await checkAsync('POST with webhook env writes successfully (mocked fetch) and uses LAB_ tabs only', async () => {
@@ -348,7 +428,7 @@ await checkAsync('POST returns 502 + auto_submit_unavailable when sheet upstream
     const req = makeRequest({ body: validBody() });
     const res = await api.onRequest({
       request: req,
-      env: { LAB_INTAKE_SHEET_WEBHOOK_URL: 'https://script.google.test/exec' },
+      env: { LAB_INTAKE_SHEET_WEBHOOK_URL: 'https://script.google.test/exec', LAB_INTAKE_SHEET_WEBHOOK_SECRET: AUTH_SECRET },
     });
     assert.equal(res.status, 502);
     const j = await res.json();
@@ -362,7 +442,10 @@ await checkAsync('POST honeypot triggers 400', async () => {
   const body = validBody();
   body.company_website_hp = 'spam';
   const req = makeRequest({ body });
-  const res = await api.onRequest({ request: req, env: {} });
+  const res = await api.onRequest({
+    request: req,
+    env: { LAB_INTAKE_SHEET_WEBHOOK_SECRET: AUTH_SECRET },
+  });
   assert.equal(res.status, 400);
 });
 
@@ -370,13 +453,19 @@ await checkAsync('POST too-fast timer triggers 400', async () => {
   const body = validBody();
   body.form_duration_ms = 100;
   const req = makeRequest({ body });
-  const res = await api.onRequest({ request: req, env: {} });
+  const res = await api.onRequest({
+    request: req,
+    env: { LAB_INTAKE_SHEET_WEBHOOK_SECRET: AUTH_SECRET },
+  });
   assert.equal(res.status, 400);
 });
 
 await checkAsync('POST forbidden origin -> 403', async () => {
   const req = makeRequest({ origin: 'https://evil.example', body: validBody() });
-  const res = await api.onRequest({ request: req, env: {} });
+  const res = await api.onRequest({
+    request: req,
+    env: { LAB_INTAKE_SHEET_WEBHOOK_SECRET: AUTH_SECRET },
+  });
   assert.equal(res.status, 403);
 });
 
@@ -393,7 +482,10 @@ await checkAsync('POST without editorial_acknowledgement returns 400', async () 
   const body = validBody();
   body.editorial_add_org.editorial_acknowledgement = false;
   const req = makeRequest({ body });
-  const res = await api.onRequest({ request: req, env: {} });
+  const res = await api.onRequest({
+    request: req,
+    env: { LAB_INTAKE_SHEET_WEBHOOK_SECRET: AUTH_SECRET },
+  });
   assert.equal(res.status, 400);
 });
 

@@ -35,6 +35,27 @@
 // not configured the backend returns 503 with an explicit
 // `auto_submit_unavailable: true` flag so the editor UI can show a
 // clear "queue niet bereikbaar" message. No partial state is written.
+//
+// Authentication
+// --------------
+// The endpoint requires ONE of:
+//   1. A Cloudflare Access assertion (Cf-Access-Jwt-Assertion).
+//   2. A valid editorial session cookie (HMAC-signed timestamp issued by
+//      /redactie/login).
+//   3. An `x-esrf-intake-secret` header matching one of the configured
+//      webhook secrets (preserves the existing server-to-server flow used
+//      by trusted scripted callers).
+//
+// Without one of these the endpoint returns 401 — even a perfectly valid
+// payload from an allowed origin is rejected. The auth check runs BEFORE
+// any sheet write and BEFORE the body is parsed past the size check, so an
+// unauthenticated caller cannot trigger any side effects.
+
+import {
+  isEditorialAuthorized,
+  hasServerToServerSecret,
+  buildApiAuthChallenge,
+} from '../_editorial_auth.js';
 
 const ALLOWED_ORIGINS = [
   'https://www.esrf.net',
@@ -106,6 +127,15 @@ export async function onRequestPost(context) {
 
   if (!isAllowedOrigin(origin)) {
     return cors(jsonErr('Forbidden origin', 403), origin);
+  }
+
+  // Auth gate: require an editorial session OR a server-to-server secret.
+  // This runs BEFORE any body parse / sheet write so unauthenticated
+  // callers cannot trigger side effects.
+  const editorialAuth = await isEditorialAuthorized(request, env);
+  const s2s = hasServerToServerSecret(request, env);
+  if (!editorialAuth.authorized && !s2s) {
+    return cors(buildApiAuthChallenge(), origin);
   }
 
   const contentType = (request.headers.get('content-type') || '').toLowerCase();

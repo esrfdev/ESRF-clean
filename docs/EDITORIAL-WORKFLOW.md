@@ -1,19 +1,110 @@
 # Redactionele toevoeging — workflow
 
 Dit document beschrijft hoe de ESRF-redactie een nieuwe organisatie kan
-toevoegen via het interne formulier `redactie-validation.html`, en hoe
-de governance rond `Directory_Master` is geborgd.
+toevoegen via het beveiligde interne formulier `redactie-validation.html`,
+en hoe de governance rond `Directory_Master` is geborgd.
 
-## URL
+## URL's
 
 | Omgeving       | URL                                                                                        |
 |----------------|--------------------------------------------------------------------------------------------|
-| Lab / preview  | `https://test-regional-editorial-cont.esrf-clean.pages.dev/redactie-validation.html?mode=editorial_add_org` |
-| Productie      | `https://esrf.net/redactie-validation.html?mode=editorial_add_org`                         |
+| Redactie-ingang (productie) | `https://esrf.net/redactie/`                                                  |
+| Add-org formulier (productie) | `https://esrf.net/redactie-validation.html?mode=editorial_add_org`          |
+| Login (fallback)             | `https://esrf.net/redactie/login`                                            |
+| Lab / preview ingang         | `https://test-regional-editorial-cont.esrf-clean.pages.dev/redactie/`        |
 
-De pagina is `noindex,nofollow,noarchive` (zowel via `<meta name="robots">`
-als via de `X-Robots-Tag`-header in `_headers`) — uitsluitend voor
-intern gebruik door de redactie.
+De redactie-ingang `/redactie/` is de aangewezen startpagina; daar staan
+kaarten naar het add-org-formulier, naar publieke flows ter referentie en
+naar deze documentatie.
+
+## Beveiliging — server-side, niet alleen noindex
+
+De redactie-routes zijn **niet** publiek bereikbaar. `noindex` is
+hygiëne (zoekmachines), niet de beveiliging. De daadwerkelijke
+toegangscontrole staat server-side in
+`functions/_editorial_auth.js` en wordt afgedwongen door:
+
+- `functions/redactie/_middleware.js` voor `/redactie/*`
+- `functions/redactie-validation.js` voor `/redactie-validation.html`
+- de auth-gate aan het begin van `functions/api/lab-intake.js` voor
+  `/api/lab-intake`
+
+### Toegestane paden
+
+| Route                            | Bescherming                                                        |
+|----------------------------------|--------------------------------------------------------------------|
+| `/redactie/`                     | Cloudflare Access **of** redactie-sessiecookie                     |
+| `/redactie/index.html`           | idem                                                               |
+| `/redactie/login`                | publiek (toont login-formulier; POST verifieert token)             |
+| `/redactie-validation.html`      | Cloudflare Access **of** redactie-sessiecookie                     |
+| `/api/lab-intake`                | Cloudflare Access **of** sessiecookie **of** server-to-server secret |
+
+Onbevoegden krijgen:
+
+- HTML-routes → `302` redirect naar `/redactie/login`
+- `/api/lab-intake` → `401 unauthorized` (JSON)
+
+### Twee onafhankelijke toegangsmethoden
+
+1. **Cloudflare Access (voorkeur).** Wanneer de Pages-deploy achter een
+   Access-policy staat, plaatst de Cloudflare-edge een `Cf-Access-Jwt-Assertion`
+   header op elke request. We accepteren de aanwezigheid van een
+   structureel geldige JWT (drie segmenten, parsebare header+payload,
+   niet verlopen `exp`). Optioneel `aud`-claim wordt afgedwongen via env
+   `EDITORIAL_ACCESS_AUD`. Volledige JWKS-verificatie is niet nodig
+   omdat de edge het strippen/zetten van de header verzorgt.
+2. **Gedeelde-token fallback.** Als Access (nog) niet aan staat, voert
+   de redacteur een token in op `/redactie/login`. Bij match wordt een
+   `__esrf_red`-cookie gezet met daarin een HMAC-SHA-256 over een
+   timestamp (sleutel `EDITORIAL_ACCESS_SECRET`). De cookie is
+   `HttpOnly` + `Secure` + `SameSite=Lax`, met TTL 8 uur. Het
+   ingevoerde token zelf wordt nooit in de cookie gezet.
+
+### Server-to-server (lab-intake alleen)
+
+Voor scripted callers blijft de bestaande `x-esrf-intake-secret` header
+geldig (waarde matcht `LAB_INTAKE_SHEET_WEBHOOK_SECRET` /
+`SHEETS_WEBHOOK_SECRET` / `INTAKE_SHEET_WEBHOOK_SECRET`). Dit is een
+alternatief op de redactie-sessie en geldt uitsluitend voor de
+`/api/lab-intake`-endpoint, niet voor de HTML-routes.
+
+### Required env-vars
+
+| Variable                       | Bron                  | Doel                                                              |
+|--------------------------------|-----------------------|-------------------------------------------------------------------|
+| `EDITORIAL_ACCESS_TOKEN`       | Cloudflare Pages env  | Verwacht plain-text token in token-fallback. Fail-closed bij missing. |
+| `EDITORIAL_ACCESS_SECRET`      | Cloudflare Pages env  | HMAC-key voor de sessiecookie. Fail-closed bij missing.           |
+| `EDITORIAL_ACCESS_AUD` (opt.)  | Cloudflare Pages env  | `aud`-claim die de Access-JWT moet bevatten.                      |
+| `LAB_INTAKE_SHEET_WEBHOOK_URL` | Cloudflare Pages env  | Apps Script webhook (LAB-tabs).                                   |
+| `LAB_INTAKE_SHEET_WEBHOOK_SECRET` | Cloudflare Pages env  | Gedeeld geheim webhook + s2s lab-intake.                          |
+
+### Vereiste handmatige Cloudflare-instellingen (productie)
+
+Onderstaande stappen zitten **niet** in de repo en moeten in het
+Cloudflare-dashboard gezet worden vóór de beveiliging actief is:
+
+1. **Zero Trust → Access → Applications** → "Add an application" →
+   *Self-hosted*. Domein `esrf.net`, paths:
+   - `/redactie/*`
+   - `/redactie-validation.html`
+   - `/api/lab-intake`
+2. Identity provider: e-mail OTP of een SSO-provider. Policy:
+   *Include → Emails → wouter@…, redactie@…*.
+3. (optioneel) zet `Audience` zodat we `EDITORIAL_ACCESS_AUD` kunnen
+   afdwingen in de structurele JWT-check.
+4. Cloudflare Pages → Settings → Environment variables: zet
+   `EDITORIAL_ACCESS_TOKEN`, `EDITORIAL_ACCESS_SECRET`,
+   `LAB_INTAKE_SHEET_WEBHOOK_URL`, `LAB_INTAKE_SHEET_WEBHOOK_SECRET`.
+   Zet ze voor zowel *Production* als *Preview*; gebruik andere waarden
+   in preview om scope te scheiden.
+5. Apps Script (`lab_editorial`-flow) deployen op de webhook-URL die je
+   in stap 4 hebt geconfigureerd.
+
+Zonder Access-policy zijn de routes nog steeds beveiligd zolang
+`EDITORIAL_ACCESS_TOKEN` + `EDITORIAL_ACCESS_SECRET` gezet zijn — de
+fallback verifieert dan tegen die env-vars. Zonder enige config is de
+fallback fail-closed (login weigert elke poging). Dat is bewust — dan
+is een misgeconfigureerde deploy nooit *publiek toegankelijk*.
 
 ## Modus: `editorial_add_org`
 
@@ -151,11 +242,36 @@ Zonder webhook-config retourneert het formulier 503 met
 - de `LAB_`-tab-prefix-bewaking,
 - afwijzing van `Directory_Master` in rows,
 - de POST-handler end-to-end met een mock-webhook,
-- duplicate-hints en place-candidate-conditie.
+- duplicate-hints en place-candidate-conditie,
+- **401 zonder Access-JWT, sessiecookie of s2s-secret**,
+- **401 bij verkeerd s2s-secret**,
+- **200 met geldige Cf-Access-Jwt-Assertion**.
 
-Run: `node functions/api/lab-intake.test.mjs`. De bestaande
-`functions/api/intake.test.mjs` blijft groen — dat dekt de publieke
-`/api/intake`-flow en valideert (onder meer) dat de productie
+`functions/_editorial_auth.test.mjs` dekt de auth-module zelf:
+
+- structurele JWT-validatie (incl. exp + aud),
+- HMAC-cookie roundtrip + tampering,
+- `isEditorialAuthorized` voor JWT- en cookie-pad,
+- `hasServerToServerSecret`,
+- `/redactie/_middleware.js` (302 redirect bij onbevoegden, doorlaat bij
+  geldige Access-JWT of cookie, allow-list voor `/redactie/login`),
+- `/redactie/login` (GET-render, POST verkeerd token, POST goed token →
+  cookie + 303 redirect, DELETE → cookie wissen),
+- `/redactie-validation.html`-gate (302 bij onbevoegden, 200 bij
+  authenticatie, noindex headers),
+- `_headers`-, `robots.txt`- en `sitemap.xml`-bewakingen.
+
+Run alle tests:
+
+```
+node functions/_middleware.test.mjs
+node functions/api/intake.test.mjs
+node functions/api/lab-intake.test.mjs
+node functions/_editorial_auth.test.mjs
+```
+
+De bestaande `functions/api/intake.test.mjs` blijft groen — dat dekt de
+publieke `/api/intake`-flow en valideert (onder meer) dat de productie
 SHEET_TARGETS géén `LAB_` prefix hebben.
 
 ## Drive-documentatie

@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /redactie/
+Disallow: /redactie-validation.html
+Disallow: /api/lab-intake
 
 Sitemap: https://esrf.net/sitemap.xml

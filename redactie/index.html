@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Redactie-ingang — ESRF.net (intern)</title>
+<meta name="description" content="Interne redactie-ingang voor ESRF.net. Niet bestemd voor publieke bezoekers." />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="canonical" href="https://esrf.net/redactie/" />
+<style>
+  :root {
+    --bg: #f7f7f4;
+    --ink: #1a1a1a;
+    --ink-soft: #555;
+    --line: #d8d6cf;
+    --accent: #b03a2e;
+    --warn-bg: #fff8e1;
+    --warn-border: #f0c060;
+    --ok-bg: #e6f4ea;
+    --ok-border: #88c195;
+    --internal-bg: #1f1f1f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Archivo', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+  }
+  .internal-banner {
+    background: var(--internal-bg);
+    color: #fff;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    letter-spacing: 0.02em;
+  }
+  .internal-banner strong { color: #ffd967; }
+  main {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+  h1 {
+    font-family: 'PT Serif', Georgia, serif;
+    font-size: 28px;
+    margin: 0 0 6px;
+  }
+  h2 {
+    font-family: 'PT Serif', Georgia, serif;
+    font-size: 20px;
+    margin: 28px 0 8px;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+  }
+  .lede { color: var(--ink-soft); margin: 0 0 18px; }
+  .help-box {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 16px 0 20px;
+    font-size: 14px;
+  }
+  .ok-box {
+    background: var(--ok-bg);
+    border: 1px solid var(--ok-border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 16px 0 20px;
+    font-size: 14px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card h3 {
+    margin: 0 0 6px;
+    font-family: 'PT Serif', Georgia, serif;
+    font-size: 17px;
+  }
+  .card p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+  .card .tag {
+    display: inline-block;
+    margin-bottom: 6px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .card.public .tag { color: #555; }
+  ul.checks { list-style: none; padding: 0; margin: 0; }
+  ul.checks li {
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 14px;
+  }
+  ul.checks li:last-child { border-bottom: 0; }
+  ul.checks code {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 13px;
+  }
+  .governance {
+    margin-top: 22px;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .governance strong { color: var(--ink); }
+  .logout {
+    float: right;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+
+<div class="internal-banner">
+  <strong>INTERN — ESRF-redactie.</strong>
+  Beveiligde redactie-ingang. Niet bestemd voor publieke bezoekers.
+  <a class="logout" href="#" id="logout-link" style="color:#9ec1ff">uitloggen</a>
+</div>
+
+<main>
+  <h1>Redactie-ingang</h1>
+  <p class="lede">
+    Welkom op de interne redactie-ingang van ESRF.net. Deze pagina is
+    <strong>niet</strong> publiek bereikbaar — toegang verloopt via
+    Cloudflare Access of een eenmalig redactie-token.
+  </p>
+
+  <div class="help-box">
+    <strong>Verschil tussen publieke en redactionele toevoegingen.</strong>
+    <ul style="margin:8px 0 0 18px; padding:0;">
+      <li><em>Publieke inzendingen</em> komen binnen via
+        <a href="/submit-news.html">submit-news.html</a> (publiek formulier
+        met Turnstile/honeypot) en landen in de productie-tabs
+        <code>Intake_Submissions</code> / <code>Editorial_Intake</code>.</li>
+      <li><em>Redactionele toevoegingen</em> doe jij — als redacteur — op
+        basis van publieke bronnen via het interne formulier hieronder.
+        Die rij gaat naar <code>LAB_Intake_Submissions</code> +
+        <code>LAB_Redactie_Reviews</code> (status <code>nieuw</code>) en
+        raakt <code>Directory_Master</code> nooit automatisch.</li>
+    </ul>
+  </div>
+
+  <h2>Acties</h2>
+  <div class="cards">
+    <a class="card" href="/redactie-validation.html?mode=editorial_add_org">
+      <span class="tag">redactionele toevoeging</span>
+      <h3>Nieuwe organisatie toevoegen</h3>
+      <p>Voer een organisatie in op basis van publieke bronnen. Slaat op in
+         <code>LAB_Intake_Submissions</code> + <code>LAB_Redactie_Reviews</code>
+         met status <code>nieuw</code>. Geen automatische publicatie.</p>
+    </a>
+    <a class="card" href="/redactie-validation.html">
+      <span class="tag">review</span>
+      <h3>Bestaande inzending valideren</h3>
+      <p>Open het redactie-validatieformulier voor een verdiepende review of
+         status-update. Verschillende modi via <code>?mode=…</code>.</p>
+    </a>
+    <a class="card public" href="/submit-news.html" target="_blank" rel="noopener">
+      <span class="tag">publiek (referentie)</span>
+      <h3>Publiek inzendingsformulier</h3>
+      <p>Alleen ter referentie — dit is wat een externe inzender ziet.
+         Komt binnen op <code>/api/intake</code> (productie-tabs, niet LAB).</p>
+    </a>
+    <a class="card public" href="/docs/EDITORIAL-WORKFLOW.md">
+      <span class="tag">documentatie</span>
+      <h3>Workflow-documentatie</h3>
+      <p>Zie <code>docs/EDITORIAL-WORKFLOW.md</code> in de repo voor het
+         volledige overzicht (statussen, sheet-targets, governance).</p>
+    </a>
+  </div>
+
+  <h2>Status &amp; checklist</h2>
+  <ul class="checks">
+    <li>🔐 <strong>Toegang</strong> — Cloudflare Access (voorkeur) <em>of</em>
+        <code>EDITORIAL_ACCESS_TOKEN</code> + <code>EDITORIAL_ACCESS_SECRET</code>
+        ingesteld als Pages env-vars.</li>
+    <li>📜 <strong>Apps Script</strong> — flow <code>lab_editorial</code>
+        actief op de spreadsheet, schrijft uitsluitend naar
+        <code>LAB_*</code>-tabs.</li>
+    <li>🔑 <strong>Webhook env-vars</strong> —
+        <code>LAB_INTAKE_SHEET_WEBHOOK_URL</code> en
+        <code>LAB_INTAKE_SHEET_WEBHOOK_SECRET</code> geconfigureerd in
+        Cloudflare Pages.</li>
+    <li>🚫 <strong>Geen automatische publicatie</strong> — elke inzending
+        krijgt <code>no_auto_publication=true</code>,
+        <code>directory_master_touched=false</code>,
+        <code>automatic_publication=false</code>. Publicatie alleen na
+        akkoord van Wouter.</li>
+    <li>🤖 <strong>Niet in zoekmachines</strong> —
+        <code>X-Robots-Tag: noindex, nofollow, noarchive</code> + buiten
+        <code>sitemap.xml</code>. Dit is hygiëne, niet de beveiliging.</li>
+  </ul>
+
+  <div class="governance">
+    <strong>Governance.</strong> Rolloutketen:
+    inzending → <code>nieuw</code> → <code>in beoordeling</code> →
+    <code>klaar voor akkoord</code> → preview → akkoord van Wouter
+    (<code>goedgekeurd voor websitevoorstel</code>) → handmatige rollout
+    naar <code>Directory_Master</code> (<code>gepubliceerd</code>).
+    Alleen de laatste stap raakt <code>Directory_Master</code>, en die
+    wordt nooit door een formulier of script geautomatiseerd.
+  </div>
+</main>
+
+<script>
+  document.getElementById('logout-link').addEventListener('click', function(e){
+    e.preventDefault();
+    fetch('/redactie/login', { method: 'DELETE', credentials: 'same-origin' })
+      .finally(function(){ location.href = '/redactie/login'; });
+  });
+</script>
+
+</body>
+</html>

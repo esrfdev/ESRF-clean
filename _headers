@@ -67,7 +67,39 @@
 # Internal redactie-validation form. noindex header keeps it out of
 # search engines even if the page-level <meta name="robots"> is
 # stripped by an intermediary cache. Force revalidation so we can
-# iterate on the workflow UI.
+# iterate on the workflow UI. NOTE: noindex is hygiene; the actual
+# access control is in functions/redactie-validation.js +
+# functions/_editorial_auth.js (Cloudflare Access or signed cookie).
 /redactie-validation.html
   Cache-Control: public, max-age=0, must-revalidate
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+# Internal /redactie/ entry area. Same security model as above —
+# Cloudflare Access (preferred) or HMAC-signed editorial session cookie
+# enforced by functions/redactie/_middleware.js. The X-Robots-Tag is
+# defence-in-depth and is NOT the security boundary.
+/redactie/*
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Referrer-Policy: no-referrer
+/redactie
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Referrer-Policy: no-referrer
+/redactie/
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Referrer-Policy: no-referrer
+/redactie/index.html
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Referrer-Policy: no-referrer
+/redactie/login
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow, noarchive
+  Referrer-Policy: no-referrer
+
+# /api/lab-intake — never cache, never indexed. Auth enforced server-side.
+/api/lab-intake
+  Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow, noarchive
