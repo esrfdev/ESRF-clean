@@ -347,6 +347,56 @@ await checkAsync('POST with wrong s2s secret returns 401', async () => {
   assert.equal(res.status, 401);
 });
 
+await checkAsync('POST with Cf-Access JWT but non-allowlisted email returns 401', async () => {
+  const header = Buffer.from(JSON.stringify({ alg: 'RS256', kid: 'fake' })).toString('base64url');
+  const payload = Buffer.from(JSON.stringify({
+    exp: Math.floor(Date.now() / 1000) + 600,
+  })).toString('base64url');
+  const fakeSig = Buffer.from('sig').toString('base64url');
+  const jwt = `${header}.${payload}.${fakeSig}`;
+  const req = new Request('https://esrf.net/api/lab-intake', {
+    method: 'POST',
+    headers: {
+      origin: 'https://esrf.net',
+      'content-type': 'application/json',
+      'cf-access-jwt-assertion': jwt,
+      'cf-access-authenticated-user-email': 'wouter.mouthaan@gmail.com',
+    },
+    body: JSON.stringify(validBody()),
+  });
+  const res = await api.onRequest({
+    request: req,
+    env: { LAB_INTAKE_SHEET_WEBHOOK_URL: 'https://script.google.test/exec' },
+  });
+  assert.equal(res.status, 401);
+  const j = await res.json();
+  assert.equal(j.ok, false);
+  assert.equal(j.error, 'unauthorized');
+});
+
+await checkAsync('POST with Cf-Access JWT but empty email returns 401', async () => {
+  const header = Buffer.from(JSON.stringify({ alg: 'RS256', kid: 'fake' })).toString('base64url');
+  const payload = Buffer.from(JSON.stringify({
+    exp: Math.floor(Date.now() / 1000) + 600,
+  })).toString('base64url');
+  const fakeSig = Buffer.from('sig').toString('base64url');
+  const jwt = `${header}.${payload}.${fakeSig}`;
+  const req = new Request('https://esrf.net/api/lab-intake', {
+    method: 'POST',
+    headers: {
+      origin: 'https://esrf.net',
+      'content-type': 'application/json',
+      'cf-access-jwt-assertion': jwt,
+    },
+    body: JSON.stringify(validBody()),
+  });
+  const res = await api.onRequest({
+    request: req,
+    env: { LAB_INTAKE_SHEET_WEBHOOK_URL: 'https://script.google.test/exec' },
+  });
+  assert.equal(res.status, 401);
+});
+
 await checkAsync('POST with Cf-Access-Jwt-Assertion is accepted', async () => {
   // Build a structurally-valid JWT with non-expired exp claim. Signature
   // is not verified server-side; presence of the header is what Cloudflare
@@ -355,7 +405,7 @@ await checkAsync('POST with Cf-Access-Jwt-Assertion is accepted', async () => {
   const payload = Buffer.from(JSON.stringify({
     exp: Math.floor(Date.now() / 1000) + 600,
     aud: 'editorial',
-    email: 'eva@esrf.net',
+    email: 'office@esrf.net',
   })).toString('base64url');
   const fakeSig = Buffer.from('sig').toString('base64url');
   const jwt = `${header}.${payload}.${fakeSig}`;
@@ -369,7 +419,7 @@ await checkAsync('POST with Cf-Access-Jwt-Assertion is accepted', async () => {
         origin: 'https://esrf.net',
         'content-type': 'application/json',
         'cf-access-jwt-assertion': jwt,
-        'cf-access-authenticated-user-email': 'eva@esrf.net',
+        'cf-access-authenticated-user-email': 'office@esrf.net',
       },
       body: JSON.stringify(validBody()),
     });

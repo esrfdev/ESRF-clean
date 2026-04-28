@@ -113,13 +113,13 @@ await checkAsync('isEditorialAuthorized = true with Cloudflare Access JWT', asyn
   const req = new Request('https://esrf.net/redactie/', {
     headers: {
       'cf-access-jwt-assertion': makeJwt({ exp: Math.floor(Date.now() / 1000) + 600 }),
-      'cf-access-authenticated-user-email': 'eva@esrf.net',
+      'cf-access-authenticated-user-email': 'office@esrf.net',
     },
   });
   const r = await auth.isEditorialAuthorized(req, {});
   assert.equal(r.authorized, true);
   assert.equal(r.method, 'cloudflare-access');
-  assert.equal(r.email, 'eva@esrf.net');
+  assert.equal(r.email, 'office@esrf.net');
 });
 await checkAsync('isEditorialAuthorized = true with valid session cookie', async () => {
   const env = { EDITORIAL_ACCESS_SECRET: 'top-secret' };
@@ -130,6 +130,79 @@ await checkAsync('isEditorialAuthorized = true with valid session cookie', async
   const r = await auth.isEditorialAuthorized(req, env);
   assert.equal(r.authorized, true);
   assert.equal(r.method, 'shared-secret-cookie');
+});
+
+// ── Email allowlist (EDITORIAL_ALLOWED_EMAILS) ────────────────────────────
+check('getAllowedEmails defaults to office@esrf.net when env is empty', () => {
+  assert.deepEqual(auth.getAllowedEmails({}), ['office@esrf.net']);
+  assert.deepEqual(auth.getAllowedEmails({ EDITORIAL_ALLOWED_EMAILS: '' }), ['office@esrf.net']);
+  assert.deepEqual(auth.getAllowedEmails({ EDITORIAL_ALLOWED_EMAILS: '   ' }), ['office@esrf.net']);
+});
+check('getAllowedEmails parses comma/space/semicolon list, lowercased', () => {
+  assert.deepEqual(
+    auth.getAllowedEmails({ EDITORIAL_ALLOWED_EMAILS: 'A@esrf.net, B@ESRF.net;c@esrf.net' }),
+    ['a@esrf.net', 'b@esrf.net', 'c@esrf.net'],
+  );
+});
+check('isEmailAllowed accepts default office@esrf.net (case-insensitive)', () => {
+  assert.equal(auth.isEmailAllowed('office@esrf.net', {}), true);
+  assert.equal(auth.isEmailAllowed('Office@ESRF.NET', {}), true);
+  assert.equal(auth.isEmailAllowed('   office@esrf.net   ', {}), true);
+});
+check('isEmailAllowed rejects non-allowlisted addresses (incl. wouter.mouthaan@gmail.com)', () => {
+  assert.equal(auth.isEmailAllowed('wouter.mouthaan@gmail.com', {}), false);
+  assert.equal(auth.isEmailAllowed('attacker@example.com', {}), false);
+  assert.equal(auth.isEmailAllowed('', {}), false);
+  assert.equal(auth.isEmailAllowed(null, {}), false);
+});
+check('isEmailAllowed honours an env override of EDITORIAL_ALLOWED_EMAILS', () => {
+  const env = { EDITORIAL_ALLOWED_EMAILS: 'office@esrf.net,coordinator@esrf.net' };
+  assert.equal(auth.isEmailAllowed('coordinator@esrf.net', env), true);
+  assert.equal(auth.isEmailAllowed('office@esrf.net', env), true);
+  assert.equal(auth.isEmailAllowed('wouter.mouthaan@gmail.com', env), false);
+});
+
+await checkAsync('isEditorialAuthorized rejects non-allowlisted Access email', async () => {
+  const req = new Request('https://esrf.net/redactie/', {
+    headers: {
+      'cf-access-jwt-assertion': makeJwt({ exp: Math.floor(Date.now() / 1000) + 600 }),
+      'cf-access-authenticated-user-email': 'someone-else@esrf.net',
+    },
+  });
+  const r = await auth.isEditorialAuthorized(req, {});
+  assert.equal(r.authorized, false);
+  assert.equal(r.method, 'cloudflare-access');
+  assert.equal(r.reason, 'email-not-in-allowlist');
+});
+await checkAsync('isEditorialAuthorized rejects empty Access email even with valid JWT', async () => {
+  const req = new Request('https://esrf.net/redactie/', {
+    headers: { 'cf-access-jwt-assertion': makeJwt({ exp: Math.floor(Date.now() / 1000) + 600 }) },
+  });
+  const r = await auth.isEditorialAuthorized(req, {});
+  assert.equal(r.authorized, false);
+  assert.equal(r.reason, 'email-not-in-allowlist');
+});
+await checkAsync('isEditorialAuthorized rejects wouter.mouthaan@gmail.com', async () => {
+  const req = new Request('https://esrf.net/redactie/', {
+    headers: {
+      'cf-access-jwt-assertion': makeJwt({ exp: Math.floor(Date.now() / 1000) + 600 }),
+      'cf-access-authenticated-user-email': 'wouter.mouthaan@gmail.com',
+    },
+  });
+  const r = await auth.isEditorialAuthorized(req, {});
+  assert.equal(r.authorized, false);
+});
+await checkAsync('isEditorialAuthorized accepts allowlisted secondary email when env is set', async () => {
+  const env = { EDITORIAL_ALLOWED_EMAILS: 'office@esrf.net, redactie@esrf.net' };
+  const req = new Request('https://esrf.net/redactie/', {
+    headers: {
+      'cf-access-jwt-assertion': makeJwt({ exp: Math.floor(Date.now() / 1000) + 600 }),
+      'cf-access-authenticated-user-email': 'redactie@esrf.net',
+    },
+  });
+  const r = await auth.isEditorialAuthorized(req, env);
+  assert.equal(r.authorized, true);
+  assert.equal(r.email, 'redactie@esrf.net');
 });
 
 // ── hasServerToServerSecret ───────────────────────────────────────────────
@@ -174,14 +247,41 @@ await checkAsync('middleware lets /redactie/login pass through unauthenticated',
   assert.match(res.headers.get('x-robots-tag') || '', /noindex/);
 });
 
-await checkAsync('middleware lets authenticated requests through (Access JWT)', async () => {
+await checkAsync('middleware lets authenticated requests through (Access JWT, allowlisted email)', async () => {
   const { res, nextCalled } = await callMiddleware({
     url: 'https://esrf.net/redactie/',
-    headers: { 'cf-access-jwt-assertion': makeJwt({ exp: Math.floor(Date.now() / 1000) + 600 }) },
+    headers: {
+      'cf-access-jwt-assertion': makeJwt({ exp: Math.floor(Date.now() / 1000) + 600 }),
+      'cf-access-authenticated-user-email': 'office@esrf.net',
+    },
   });
   assert.equal(res.status, 200);
   assert.equal(nextCalled, true);
   assert.match(res.headers.get('x-robots-tag') || '', /noindex/);
+});
+
+await checkAsync('middleware redirects authenticated-but-not-allowlisted email to login', async () => {
+  const { res, nextCalled } = await callMiddleware({
+    url: 'https://esrf.net/redactie/',
+    headers: {
+      'cf-access-jwt-assertion': makeJwt({ exp: Math.floor(Date.now() / 1000) + 600 }),
+      'cf-access-authenticated-user-email': 'someone-else@esrf.net',
+    },
+  });
+  assert.equal(res.status, 302);
+  assert.equal(res.headers.get('location'), 'https://esrf.net/redactie/login');
+  assert.equal(nextCalled, false);
+});
+
+await checkAsync('middleware redirects wouter.mouthaan@gmail.com (must NOT be allowlisted)', async () => {
+  const { res } = await callMiddleware({
+    url: 'https://esrf.net/redactie/',
+    headers: {
+      'cf-access-jwt-assertion': makeJwt({ exp: Math.floor(Date.now() / 1000) + 600 }),
+      'cf-access-authenticated-user-email': 'wouter.mouthaan@gmail.com',
+    },
+  });
+  assert.equal(res.status, 302);
 });
 
 await checkAsync('middleware lets authenticated requests through (cookie)', async () => {

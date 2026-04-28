@@ -136,17 +136,28 @@
 <body>
 
 <div class="internal-banner">
-  <strong>INTERN — ESRF-redactie.</strong>
-  Beveiligde redactie-ingang. Niet bestemd voor publieke bezoekers.
+  <strong>INTERN · MFA-vereist — ESRF-redactie.</strong>
+  Beveiligde redactie-ingang achter Cloudflare Access. Toegang alleen voor
+  <code style="color:#ffd967">office@esrf.net</code> via de identity provider met MFA.
   <a class="logout" href="#" id="logout-link" style="color:#9ec1ff">uitloggen</a>
 </div>
 
 <main>
-  <h1>Redactie-ingang</h1>
+  <h1>Redactie-ingang <span style="font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;color:#b03a2e;letter-spacing:0.05em;text-transform:uppercase;vertical-align:middle;">intern · mfa-protected</span></h1>
   <p class="lede">
     Welkom op de interne redactie-ingang van ESRF.net. Deze pagina is
     <strong>niet</strong> publiek bereikbaar — toegang verloopt via
-    Cloudflare Access of een eenmalig redactie-token.
+    <strong>Cloudflare Access</strong> met MFA-verplichte identity provider.
+    Het allowlistede e-mailadres is <code>office@esrf.net</code> (configureer-
+    baar via env-var <code>EDITORIAL_ALLOWED_EMAILS</code>). Een eenmalig
+    redactie-token blijft uitsluitend als noodfallback voor preview-deploys.
+  </p>
+
+  <p class="lede" style="font-size:13px; margin-top:-6px;">
+    Wat is dit? De redactie-omgeving is een interne werkplek voor de ESRF-
+    coördinator om <em>op basis van publieke bronnen</em> nieuwe organisaties
+    aan de queue toe te voegen of bestaande inzendingen te valideren. Geen
+    enkele actie hier publiceert direct op de site.
   </p>
 
   <div class="help-box">
@@ -191,20 +202,41 @@
       <p>Zie <code>docs/EDITORIAL-WORKFLOW.md</code> in de repo voor het
          volledige overzicht (statussen, sheet-targets, governance).</p>
     </a>
+    <a class="card public" href="/docs/EDITORIAL-ACCESS.md">
+      <span class="tag">access &amp; mfa</span>
+      <h3>Cloudflare Access-instellingen</h3>
+      <p>Stappenplan voor de coördinator om de Access-applicatie, het
+         <code>office@esrf.net</code>-policy en MFA-vereisten te
+         configureren. Bevat ook de Pages env-vars-checklist.</p>
+    </a>
   </div>
 
   <h2>Status &amp; checklist</h2>
   <ul class="checks">
-    <li>🔐 <strong>Toegang</strong> — Cloudflare Access (voorkeur) <em>of</em>
-        <code>EDITORIAL_ACCESS_TOKEN</code> + <code>EDITORIAL_ACCESS_SECRET</code>
-        ingesteld als Pages env-vars.</li>
+    <li>🔐 <strong>Access &amp; MFA</strong> — Cloudflare Access-applicatie
+        actief op <code>esrf.net/redactie/*</code>,
+        <code>esrf.net/redactie-validation.html*</code> en
+        <code>/api/lab-intake</code>. Beleid staat ingesteld op
+        <em>allow</em> voor <code>office@esrf.net</code> en de identity
+        provider verplicht <em>MFA</em> (TOTP, hardware-key of equivalent).
+        Server-side controle (<code>functions/_editorial_auth.js</code>)
+        verifieert het Cloudflare Access-JWT en de
+        <code>Cf-Access-Authenticated-User-Email</code>-header tegen de
+        allowlist als defence-in-depth. Zie
+        <a href="/docs/EDITORIAL-ACCESS.md"><code>docs/EDITORIAL-ACCESS.md</code></a>.</li>
     <li>📜 <strong>Apps Script</strong> — flow <code>lab_editorial</code>
         actief op de spreadsheet, schrijft uitsluitend naar
         <code>LAB_*</code>-tabs.</li>
     <li>🔑 <strong>Webhook env-vars</strong> —
         <code>LAB_INTAKE_SHEET_WEBHOOK_URL</code> en
         <code>LAB_INTAKE_SHEET_WEBHOOK_SECRET</code> geconfigureerd in
-        Cloudflare Pages.</li>
+        Cloudflare Pages. <code>EDITORIAL_ALLOWED_EMAILS=office@esrf.net</code>
+        eveneens als Pages env-var (default als niet gezet).</li>
+    <li>🪵 <strong>Audit logging</strong> — elke succesvolle POST naar
+        <code>/api/lab-intake</code> schrijft een rij in
+        <code>LAB_Backend_Log</code> + <code>LAB_Workflow_Events</code>
+        met <code>request_id</code>, <code>submission_id</code> en
+        Cloudflare Access-emailheader voor wie de actie deed.</li>
     <li>🚫 <strong>Geen automatische publicatie</strong> — elke inzending
         krijgt <code>no_auto_publication=true</code>,
         <code>directory_master_touched=false</code>,
@@ -212,7 +244,8 @@
         akkoord van Wouter.</li>
     <li>🤖 <strong>Niet in zoekmachines</strong> —
         <code>X-Robots-Tag: noindex, nofollow, noarchive</code> + buiten
-        <code>sitemap.xml</code>. Dit is hygiëne, niet de beveiliging.</li>
+        <code>sitemap.xml</code>. Dit is secundair: de beveiliging zit in
+        Cloudflare Access (primair) + server-side checks (defence-in-depth).</li>
   </ul>
 
   <div class="governance">

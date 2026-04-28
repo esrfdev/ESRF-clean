@@ -8,6 +8,12 @@
 // can be submitted by anyone who guesses the URL. Robots / noindex are SEO
 // hygiene, not security.
 //
+// Primary gate is **Cloudflare Access** with an MFA-enforcing identity
+// provider. The Cloudflare Access dashboard policy MUST limit access to the
+// allowlisted email(s); this repo also enforces the allowlist in code as
+// defence-in-depth so that a misconfigured Access policy does not silently
+// open the area up to other org members.
+//
 // Two independent gates are supported, in order of preference:
 //
 //   1. **Cloudflare Access** — if the deploy is fronted by an Access policy
@@ -15,13 +21,22 @@
 //      a matching `CF_Authorization` cookie). The header is set by the
 //      Access edge after the user passes the configured identity provider.
 //      Cloudflare also exposes `Cf-Access-Authenticated-User-Email` for
-//      logging. We treat the *presence* of a non-empty assertion as "the
-//      Access edge has authenticated this user". Full JWKS verification is
-//      only required if the deploy can be reached without Access in front
-//      of it; for that case we run a structural check (3 dot-separated
-//      base64url segments, decodable header+payload, unexpired exp claim,
-//      audience matching `EDITORIAL_ACCESS_AUD` if configured). This is
-//      defence-in-depth, not a substitute for the Access policy itself.
+//      logging and (here) for allowlist enforcement. We treat the *presence*
+//      of a non-empty assertion as "the Access edge has authenticated this
+//      user". Full JWKS verification is only required if the deploy can be
+//      reached without Access in front of it; for that case we run a
+//      structural check (3 dot-separated base64url segments, decodable
+//      header+payload, unexpired exp claim, audience matching
+//      `EDITORIAL_ACCESS_AUD` if configured). This is defence-in-depth, not
+//      a substitute for the Access policy itself.
+//
+//      In addition we require the authenticated email to appear in the
+//      configured allowlist (`EDITORIAL_ALLOWED_EMAILS`, comma-separated;
+//      defaults to `office@esrf.net`). If Access asserts an email that is
+//      NOT on the allowlist the request is rejected — this is the second
+//      line of defence so a wrongly-scoped Access policy cannot let other
+//      org accounts in. The email comparison is case-insensitive and
+//      whitespace-trimmed.
 //
 //   2. **Shared-secret token** — fallback for when Access cannot be
 //      configured (e.g. preview deploys, repo-only changes). The editor
@@ -72,6 +87,36 @@ function getAccessUserEmail(request) {
     request.headers.get('Cf-Access-Authenticated-User-Email') ||
     ''
   ).trim();
+}
+
+// Default allowlist when EDITORIAL_ALLOWED_EMAILS is not set in the Pages
+// environment. Hardcoded to `office@esrf.net` per editorial governance: this
+// is a public identifier (not a secret) that documents who the area is
+// intended for. To rotate the allowlist set EDITORIAL_ALLOWED_EMAILS to a
+// comma-separated list — this overrides the default entirely.
+const DEFAULT_EDITORIAL_ALLOWED_EMAILS = ['office@esrf.net'];
+
+// Parse env.EDITORIAL_ALLOWED_EMAILS into a normalised array of lower-case
+// trimmed addresses. Returns the default (`['office@esrf.net']`) when the
+// env var is missing/empty so the deploy is never accidentally open.
+function getAllowedEmails(env) {
+  const raw = String((env && env.EDITORIAL_ALLOWED_EMAILS) || '').trim();
+  if (!raw) return DEFAULT_EDITORIAL_ALLOWED_EMAILS.slice();
+  const list = raw.split(/[,\s;]+/)
+    .map(s => s.trim().toLowerCase())
+    .filter(Boolean);
+  return list.length ? list : DEFAULT_EDITORIAL_ALLOWED_EMAILS.slice();
+}
+
+// Case-insensitive allowlist check. Empty/missing email is rejected.
+function isEmailAllowed(email, env) {
+  const e = String(email || '').trim().toLowerCase();
+  if (!e) return false;
+  const allowed = getAllowedEmails(env);
+  for (const a of allowed) {
+    if (constantTimeEqual(a, e)) return true;
+  }
+  return false;
 }
 
 // Decode a base64url segment to UTF-8. Returns '' on failure.
@@ -226,7 +271,19 @@ function buildClearCookieHeader(name) {
 // Authorisation entry point
 // -------------------------------------------------------------------------
 
-// Returns { authorized: boolean, method: string, email?: string }.
+// Returns { authorized: boolean, method: string, email?: string, reason?: string }.
+//
+// Cloudflare Access is the primary gate. When the edge asserts a JWT we
+// ALSO require the asserted email to appear in EDITORIAL_ALLOWED_EMAILS
+// (default: ['office@esrf.net']). The email check is enforced even when
+// the JWT structurally validates — a misconfigured Access policy that
+// authenticates a different account is rejected here as defence-in-depth.
+//
+// The shared-secret cookie path is the documented emergency fallback for
+// preview deploys where Cloudflare Access cannot be used. It does not
+// carry an email claim, so it cannot be subjected to the allowlist; this
+// is acceptable because issuing the cookie requires the editorial token,
+// which is itself only handed to the office@esrf.net editor.
 async function isEditorialAuthorized(request, env) {
   const e = env || {};
 
@@ -234,15 +291,24 @@ async function isEditorialAuthorized(request, env) {
   const jwt = getAccessAssertion(request);
   if (jwt) {
     if (isStructurallyValidAccessJwt(jwt, e)) {
+      const email = getAccessUserEmail(request);
+      if (!isEmailAllowed(email, e)) {
+        return {
+          authorized: false,
+          method: 'cloudflare-access',
+          email,
+          reason: 'email-not-in-allowlist',
+        };
+      }
       return {
         authorized: true,
         method: 'cloudflare-access',
-        email: getAccessUserEmail(request),
+        email,
       };
     }
   }
 
-  // 2. Shared-secret session cookie
+  // 2. Shared-secret session cookie (emergency fallback)
   if (await isValidSessionCookie(request, e)) {
     return { authorized: true, method: 'shared-secret-cookie' };
   }
@@ -303,6 +369,7 @@ function buildApiAuthChallenge() {
 export {
   COOKIE_NAME,
   COOKIE_TTL_SECONDS,
+  DEFAULT_EDITORIAL_ALLOWED_EMAILS,
   isEditorialAuthorized,
   hasServerToServerSecret,
   buildHtmlAuthChallenge,
@@ -317,12 +384,15 @@ export {
   readCookie,
   getAccessAssertion,
   getAccessUserEmail,
+  getAllowedEmails,
+  isEmailAllowed,
 };
 
 if (typeof globalThis !== 'undefined') {
   globalThis.__esrfEditorialAuth = {
     COOKIE_NAME,
     COOKIE_TTL_SECONDS,
+    DEFAULT_EDITORIAL_ALLOWED_EMAILS,
     isEditorialAuthorized,
     hasServerToServerSecret,
     buildHtmlAuthChallenge,
@@ -337,5 +407,7 @@ if (typeof globalThis !== 'undefined') {
     readCookie,
     getAccessAssertion,
     getAccessUserEmail,
+    getAllowedEmails,
+    isEmailAllowed,
   };
 }

@@ -53,12 +53,30 @@ Onbevoegden krijgen:
    niet verlopen `exp`). Optioneel `aud`-claim wordt afgedwongen via env
    `EDITORIAL_ACCESS_AUD`. Volledige JWKS-verificatie is niet nodig
    omdat de edge het strippen/zetten van de header verzorgt.
-2. **Gedeelde-token fallback.** Als Access (nog) niet aan staat, voert
-   de redacteur een token in op `/redactie/login`. Bij match wordt een
-   `__esrf_red`-cookie gezet met daarin een HMAC-SHA-256 over een
-   timestamp (sleutel `EDITORIAL_ACCESS_SECRET`). De cookie is
+   **Email-allowlist (defence-in-depth).** Bovenop de Access-policy
+   verifieert `functions/_editorial_auth.js` dat
+   `Cf-Access-Authenticated-User-Email` in de allowlist staat. De
+   default-allowlist is **`office@esrf.net`**. Aanpassen kan via env
+   `EDITORIAL_ALLOWED_EMAILS` (komma-gescheiden, hoofdletter-ongevoelig).
+   Een Cloudflare Access-policy die per ongeluk een ander account
+   toelaat wordt alsnog door deze in-app-controle geweigerd.
+
+   De Cloudflare Access-policy zelf moet eveneens beperkt zijn tot
+   `office@esrf.net` en moet **MFA verplicht stellen** via de
+   identity-provider (TOTP, hardware-key, etc.). Zie
+   [`docs/EDITORIAL-ACCESS.md`](EDITORIAL-ACCESS.md) voor het
+   stap-voor-stap configuratiestappenplan.
+
+2. **Gedeelde-token fallback (noodfallback, niet productieroute).**
+   Alleen voor preview-deploys of wanneer Access tijdelijk uitstaat.
+   De redacteur voert een token in op `/redactie/login`. Bij match
+   wordt een `__esrf_red`-cookie gezet met daarin een HMAC-SHA-256 over
+   een timestamp (sleutel `EDITORIAL_ACCESS_SECRET`). De cookie is
    `HttpOnly` + `Secure` + `SameSite=Lax`, met TTL 8 uur. Het
-   ingevoerde token zelf wordt nooit in de cookie gezet.
+   ingevoerde token zelf wordt nooit in de cookie gezet. Productie
+   hoort altijd achter Cloudflare Access te staan; de tokenroute is
+   uitsluitend documenteerbaar als noodfallback en draagt geen
+   email-allowlist (de cookie kent geen identiteitsclaim).
 
 ### Server-to-server (lab-intake alleen)
 
@@ -72,33 +90,44 @@ alternatief op de redactie-sessie en geldt uitsluitend voor de
 
 | Variable                       | Bron                  | Doel                                                              |
 |--------------------------------|-----------------------|-------------------------------------------------------------------|
-| `EDITORIAL_ACCESS_TOKEN`       | Cloudflare Pages env  | Verwacht plain-text token in token-fallback. Fail-closed bij missing. |
-| `EDITORIAL_ACCESS_SECRET`      | Cloudflare Pages env  | HMAC-key voor de sessiecookie. Fail-closed bij missing.           |
+| `EDITORIAL_ALLOWED_EMAILS`     | Cloudflare Pages env  | Komma-gescheiden allowlist (default: `office@esrf.net`). Wordt server-side getoetst tegen `Cf-Access-Authenticated-User-Email`. |
 | `EDITORIAL_ACCESS_AUD` (opt.)  | Cloudflare Pages env  | `aud`-claim die de Access-JWT moet bevatten.                      |
+| `EDITORIAL_ACCESS_TOKEN`       | Cloudflare Pages env  | (Noodfallback) Plain-text token voor `/redactie/login`. Fail-closed bij missing. |
+| `EDITORIAL_ACCESS_SECRET`      | Cloudflare Pages env  | (Noodfallback) HMAC-key voor de sessiecookie. Fail-closed bij missing. |
 | `LAB_INTAKE_SHEET_WEBHOOK_URL` | Cloudflare Pages env  | Apps Script webhook (LAB-tabs).                                   |
 | `LAB_INTAKE_SHEET_WEBHOOK_SECRET` | Cloudflare Pages env  | Gedeeld geheim webhook + s2s lab-intake.                          |
 
 ### Vereiste handmatige Cloudflare-instellingen (productie)
 
 Onderstaande stappen zitten **niet** in de repo en moeten in het
-Cloudflare-dashboard gezet worden vóór de beveiliging actief is:
+Cloudflare-dashboard gezet worden vóór de beveiliging actief is. Het
+volledige stappenplan staat in
+[`docs/EDITORIAL-ACCESS.md`](EDITORIAL-ACCESS.md); hier de samenvatting:
 
 1. **Zero Trust → Access → Applications** → "Add an application" →
    *Self-hosted*. Domein `esrf.net`, paths:
    - `/redactie/*`
    - `/redactie-validation.html`
+   - `/redactie-validation.html*`
    - `/api/lab-intake`
-2. Identity provider: e-mail OTP of een SSO-provider. Policy:
-   *Include → Emails → wouter@…, redactie@…*.
-3. (optioneel) zet `Audience` zodat we `EDITORIAL_ACCESS_AUD` kunnen
-   afdwingen in de structurele JWT-check.
-4. Cloudflare Pages → Settings → Environment variables: zet
-   `EDITORIAL_ACCESS_TOKEN`, `EDITORIAL_ACCESS_SECRET`,
-   `LAB_INTAKE_SHEET_WEBHOOK_URL`, `LAB_INTAKE_SHEET_WEBHOOK_SECRET`.
-   Zet ze voor zowel *Production* als *Preview*; gebruik andere waarden
-   in preview om scope te scheiden.
-5. Apps Script (`lab_editorial`-flow) deployen op de webhook-URL die je
-   in stap 4 hebt geconfigureerd.
+2. **Identity provider**: een SSO-provider die MFA afdwingt (Google
+   Workspace, Microsoft Entra ID, Okta, …). Email-OTP volstaat **niet**
+   als enige factor — MFA is verplicht.
+3. **Policy**: één policy `Allow office@esrf.net` met
+   *Include → Emails → office@esrf.net* en *Require → Authentication
+   method → MFA*.
+4. Kopieer de **Application Audience (AUD)** uit Cloudflare en zet
+   `EDITORIAL_ACCESS_AUD` als Pages env-var.
+5. **Cloudflare Pages → Settings → Environment variables** (Production):
+   - `EDITORIAL_ALLOWED_EMAILS=office@esrf.net` (default kan blijven,
+     maar expliciet zetten is netter).
+   - `EDITORIAL_ACCESS_AUD=<aud-tag>`.
+   - `LAB_INTAKE_SHEET_WEBHOOK_URL=<apps-script-url>` (encrypted).
+   - `LAB_INTAKE_SHEET_WEBHOOK_SECRET=<shared-secret>` (encrypted).
+   - `EDITORIAL_ACCESS_TOKEN` / `EDITORIAL_ACCESS_SECRET` mogen leeg
+     blijven in productie zodra Cloudflare Access live staat.
+6. Apps Script (`lab_editorial`-flow) deployen op de webhook-URL die in
+   stap 5 is geconfigureerd.
 
 Zonder Access-policy zijn de routes nog steeds beveiligd zolang
 `EDITORIAL_ACCESS_TOKEN` + `EDITORIAL_ACCESS_SECRET` gezet zijn — de

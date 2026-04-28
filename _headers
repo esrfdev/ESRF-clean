@@ -74,32 +74,56 @@
   Cache-Control: public, max-age=0, must-revalidate
   X-Robots-Tag: noindex, nofollow, noarchive
 
-# Internal /redactie/ entry area. Same security model as above —
-# Cloudflare Access (preferred) or HMAC-signed editorial session cookie
-# enforced by functions/redactie/_middleware.js. The X-Robots-Tag is
-# defence-in-depth and is NOT the security boundary.
+# Internal /redactie/ entry area. Primary security control is the
+# Cloudflare Access policy that fronts these routes (allow-list:
+# office@esrf.net, MFA enforced by the configured identity provider).
+# Server-side defence-in-depth is enforced by:
+#   - functions/redactie/_middleware.js   (gates /redactie/*)
+#   - functions/redactie-validation.js    (gates /redactie-validation.html)
+#   - functions/api/lab-intake.js         (gates POST /api/lab-intake)
+# All three call functions/_editorial_auth.js, which validates the
+# Cloudflare Access JWT structurally AND requires the asserted email
+# to appear in EDITORIAL_ALLOWED_EMAILS (default: office@esrf.net).
+# The X-Robots-Tag is secondary (SEO hygiene) and NOT the security
+# boundary.
 /redactie/*
   Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow, noarchive
   Referrer-Policy: no-referrer
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
 /redactie
   Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow, noarchive
   Referrer-Policy: no-referrer
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
 /redactie/
   Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow, noarchive
   Referrer-Policy: no-referrer
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
 /redactie/index.html
   Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow, noarchive
   Referrer-Policy: no-referrer
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
 /redactie/login
   Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow, noarchive
   Referrer-Policy: no-referrer
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
 
-# /api/lab-intake — never cache, never indexed. Auth enforced server-side.
+# /api/lab-intake — never cache, never indexed. Auth enforced server-side
+# via functions/api/lab-intake.js -> _editorial_auth.js (Cloudflare Access
+# JWT + EDITORIAL_ALLOWED_EMAILS allowlist, OR shared-secret cookie, OR
+# a server-to-server x-esrf-intake-secret matching the configured webhook
+# secret). Unauthorised POSTs are rejected before any sheet write.
 /api/lab-intake
   Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow, noarchive
+  Referrer-Policy: no-referrer
+  X-Content-Type-Options: nosniff
