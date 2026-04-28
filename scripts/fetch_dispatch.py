@@ -4,11 +4,14 @@
 Design choices:
 - Per-source try/except: one broken feed must never break the whole run.
 - Dedupe on URL.
-- Max article age: 30 days.
-- Per source cap: 8 items (keeps overall list balanced).
+- Per source cap: 8 items (per fresh fetch — historical retention preserves more).
+- Historical retention: articles dated on/after RETENTION_START stay in
+  news-data.json across runs, so a transient feed outage doesn't wipe history
+  and the dispatch grows over the year instead of resetting daily.
 - Fixed output schema for backwards compatibility with app.js:
     title, url, organisation, orgUrl, pillar, country, source, snippet, date
-  Plus new fields: lang, scope ("european"|"national").
+  Plus new fields: lang, scope ("european"|"national"), mentions.
+- Adds run-status block: status ("ok"|"degraded"), unavailable_sources[], lang_counts{}.
 - Writes news-data.json at repo root.
 
 Run locally:
@@ -36,6 +39,12 @@ FILTER_PATH = os.path.join(ROOT, "data", "topic_filter.json")
 DIRECTORY_PATH = os.path.join(ROOT, "companies_extracted.json")
 OUT_PATH = os.path.join(ROOT, "news-data.json")
 
+# Articles dated on/after this point are preserved across runs (historical
+# retention). Picked at the start of the calendar year so the dispatch
+# accumulates a year-to-date archive instead of being a 30-day rolling window.
+RETENTION_START = dt.date(2026, 1, 1)
+# How far back a single fetch will look for "fresh" items. Older items still
+# survive via the merge with the existing news-data.json (down to RETENTION_START).
 MAX_AGE_DAYS = 30
 PER_SOURCE_CAP = 8
 SNIPPET_CHARS = 300
@@ -160,8 +169,13 @@ def passes_topic_filter(title: str, snippet: str, source_name: str, lang: str, s
     return True
 
 
-def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str, Any]]:
-    """Return list of article dicts for one source. Never raises."""
+def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> tuple[list[dict[str, Any]], bool]:
+    """Return (articles, ok) for one source. Never raises.
+
+    ok=False signals that the feed was unreachable or unparseable, so the
+    caller can mark the source as unavailable and lean on historical retention
+    rather than dropping articles already in news-data.json.
+    """
     name = source["name"]
     url = source["url"]
     try:
@@ -174,11 +188,11 @@ def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str
         parsed = feedparser.parse(resp.content)
     except Exception as exc:  # noqa: BLE001
         print(f"  ! [{name}] fetch failed: {exc}", file=sys.stderr)
-        return []
+        return [], False
 
     if parsed.bozo and not parsed.entries:
         print(f"  ! [{name}] feed not parseable", file=sys.stderr)
-        return []
+        return [], False
 
     out: list[dict[str, Any]] = []
     cutoff = dt.date.today() - dt.timedelta(days=MAX_AGE_DAYS)
@@ -220,7 +234,35 @@ def fetch_one(source: dict[str, Any], *, scope: str, lang: str) -> list[dict[str
         if len(out) >= PER_SOURCE_CAP:
             break
     print(f"  · [{name}] {len(parsed.entries)} raw → {len(out)} kept", file=sys.stderr)
-    return out
+    return out, True
+
+
+def _load_existing_history() -> list[dict[str, Any]]:
+    """Read existing news-data.json (if any) and return articles dated on/after
+    RETENTION_START. Articles older than that are evicted permanently."""
+    if not os.path.exists(OUT_PATH):
+        return []
+    try:
+        with open(OUT_PATH, encoding="utf-8") as f:
+            prev = json.load(f)
+    except Exception as exc:  # noqa: BLE001
+        print(f"  ! could not read existing {OUT_PATH}: {exc}", file=sys.stderr)
+        return []
+    keep: list[dict[str, Any]] = []
+    for a in prev.get("articles") or []:
+        date_str = (a.get("date") or "").strip()
+        try:
+            d = dt.date.fromisoformat(date_str)
+        except Exception:  # noqa: BLE001
+            continue
+        if d >= RETENTION_START:
+            keep.append(a)
+    print(f"Loaded {len(keep)} historical articles (≥ {RETENTION_START.isoformat()})", file=sys.stderr)
+    return keep
+
+
+def _dedupe_url(key_url: str) -> str:
+    return key_url.split("#")[0].split("?utm_")[0]
 
 
 def main() -> int:
@@ -262,40 +304,82 @@ def main() -> int:
 
     print(f"Fetching {len(tasks)} sources…", file=sys.stderr)
     t0 = time.time()
-    articles: list[dict[str, Any]] = []
+    fresh: list[dict[str, Any]] = []
+    unavailable: list[str] = []
     with cf.ThreadPoolExecutor(max_workers=8) as pool:
-        futures = [pool.submit(fetch_one, src, scope=scope, lang=lang) for src, scope, lang in tasks]
-        for fut in cf.as_completed(futures):
-            articles.extend(fut.result())
-    print(f"Fetched in {time.time() - t0:.1f}s · {len(articles)} raw items", file=sys.stderr)
+        future_to_name = {
+            pool.submit(fetch_one, src, scope=scope, lang=lang): src["name"]
+            for src, scope, lang in tasks
+        }
+        for fut in cf.as_completed(future_to_name):
+            name = future_to_name[fut]
+            try:
+                items, ok = fut.result()
+            except Exception as exc:  # noqa: BLE001 — defensive: fetch_one shouldn't raise
+                print(f"  ! [{name}] unexpected error: {exc}", file=sys.stderr)
+                items, ok = [], False
+            fresh.extend(items)
+            if not ok:
+                unavailable.append(name)
+    print(f"Fetched in {time.time() - t0:.1f}s · {len(fresh)} fresh items · {len(unavailable)} unavailable", file=sys.stderr)
 
-    # Dedupe on URL, keep earliest entry
-    seen: set[str] = set()
-    deduped: list[dict[str, Any]] = []
-    for a in articles:
-        key = a["url"].split("#")[0].split("?utm_")[0]
-        if key in seen:
-            continue
-        seen.add(key)
-        deduped.append(a)
+    # Merge historical articles (>= RETENTION_START) with the fresh fetches.
+    # Fresh entries win on URL collision so updated titles/snippets get refreshed.
+    history = _load_existing_history()
+    merged: dict[str, dict[str, Any]] = {}
+    for a in history:
+        merged[_dedupe_url(a["url"])] = a
+    for a in fresh:
+        merged[_dedupe_url(a["url"])] = a
+    deduped = list(merged.values())
+
+    # Drop anything older than RETENTION_START (covers history items that
+    # may have slipped through with a future-dated cutoff in the past).
+    deduped = [
+        a for a in deduped
+        if (lambda d: d is not None and d >= RETENTION_START)(_safe_date(a.get("date")))
+    ]
 
     # Sort: newest first
     deduped.sort(key=lambda a: a["date"], reverse=True)
 
     # Counts
     org_names = sorted({a["organisation"] for a in deduped})
+    lang_counts: dict[str, int] = {}
+    for a in deduped:
+        lg = a.get("lang") or "eu"
+        lang_counts[lg] = lang_counts.get(lg, 0) + 1
+    status = "ok" if not unavailable else "degraded"
+
     data = {
         "generated": dt.datetime.now(dt.timezone.utc).isoformat(),
         "article_count": len(deduped),
         "org_count": len(org_names),
         "focus": "European resilience & regional strengthening",
+        "status": status,
+        "unavailable_sources": sorted(unavailable),
+        "lang_counts": lang_counts,
+        "retention_start": RETENTION_START.isoformat(),
         "articles": deduped,
     }
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
         f.write("\n")
-    print(f"Wrote {OUT_PATH} · {len(deduped)} articles · {len(org_names)} sources", file=sys.stderr)
+    print(
+        f"Wrote {OUT_PATH} · {len(deduped)} articles · {len(org_names)} sources · "
+        f"status={status} · langs={lang_counts}",
+        file=sys.stderr,
+    )
     return 0
+
+
+def _safe_date(s: Any) -> dt.date | None:
+    if not isinstance(s, str):
+        return None
+    try:
+        return dt.date.fromisoformat(s)
+    except Exception:  # noqa: BLE001
+        return None
 
 
 if __name__ == "__main__":

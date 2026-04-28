@@ -14,7 +14,13 @@
   ],
   "national": {
     "nl": [
-      { "name": "NOS Nieuws",           "url": "https://feeds.nos.nl/nosnieuwsalgemeen",                  "site": "https://nos.nl",                  "country": "NL", "pillar": "stewardship" }
+      { "name": "NOS Nieuws",           "url": "https://feeds.nos.nl/nosnieuwsalgemeen",                  "site": "https://nos.nl",                  "country": "NL", "pillar": "stewardship" },
+      { "name": "NOS Buitenland",       "url": "https://feeds.nos.nl/nosnieuwsbuitenland",                "site": "https://nos.nl",                  "country": "NL", "pillar": "solidarity" },
+      { "name": "NOS Politiek",         "url": "https://feeds.nos.nl/nosnieuwspolitiek",                  "site": "https://nos.nl",                  "country": "NL", "pillar": "stewardship" },
+      { "name": "NU.nl Algemeen",       "url": "https://www.nu.nl/rss/Algemeen",                          "site": "https://www.nu.nl",               "country": "NL", "pillar": "stewardship" },
+      { "name": "NU.nl Binnenland",     "url": "https://www.nu.nl/rss/Binnenland",                        "site": "https://www.nu.nl",               "country": "NL", "pillar": "stewardship" },
+      { "name": "Security.nl",          "url": "https://www.security.nl/rss/headlines.xml",               "site": "https://www.security.nl",         "country": "NL", "pillar": "foundation" },
+      { "name": "VRT NWS",              "url": "https://www.vrt.be/vrtnws/nl.rss.articles.xml",           "site": "https://www.vrt.be/vrtnws/nl",    "country": "BE", "pillar": "stewardship" }
     ],
     "de": [
       { "name": "Tagesschau",           "url": "https://www.tagesschau.de/inland/index~rss2.xml",         "site": "https://www.tagesschau.de",       "country": "DE", "pillar": "stewardship" }

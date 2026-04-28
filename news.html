@@ -273,8 +273,27 @@
 </script>
 <script>
 (async () => {
-  const data = await loadNews();
+  let data;
+  try {
+    data = await loadNews();
+  } catch (e) {
+    data = null;
+  }
   const list = document.getElementById('news-list');
+  // Hard failure: news-data.json couldn't be fetched/parsed at all.
+  // Show a friendly fallback rather than a broken empty page.
+  if (!data || !Array.isArray(data.articles)) {
+    if (list) {
+      list.innerHTML = '<div class="dir-empty" style="padding:80px 0;text-align:center;line-height:1.5">'
+        + '<p data-i18n="news.fallback_title"><strong>The dispatch is taking a breather.</strong></p>'
+        + '<p data-i18n="news.fallback_body" style="opacity:.8;margin-top:8px">We couldn’t reach our news index just now. Please refresh in a moment — fresh signals are usually back within minutes.</p>'
+        + '</div>';
+    }
+    if (window.esrfI18n && typeof window.esrfI18n.applyTranslations === 'function') {
+      window.esrfI18n.applyTranslations();
+    }
+    return;
+  }
   const pager = document.getElementById('dispatch-pager');
   const filterCount = document.getElementById('filter-count');
   const filterLang = document.getElementById('filter-lang');
@@ -320,6 +339,23 @@
     if(data.generated){
       const d = new Date(data.generated);
       document.getElementById('dispatch-gen').innerHTML = `${t('common.updated','updated')} <strong>${d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</strong>`;
+    }
+    // Friendly notice when one or more upstream feeds couldn't be reached this run.
+    // Articles already in news-data.json are preserved by historical retention,
+    // so the page keeps working — this just lets readers know the latest cycle
+    // was partial.
+    var meta = document.getElementById('dispatch-meta');
+    var existing = document.getElementById('dispatch-status');
+    if (existing) existing.remove();
+    if (data && data.status === 'degraded' && Array.isArray(data.unavailable_sources) && data.unavailable_sources.length){
+      var span = document.createElement('span');
+      span.id = 'dispatch-status';
+      span.className = 'dispatch-status-degraded';
+      span.style.cssText = 'opacity:.75;font-size:.85em';
+      var label = t('news.partial_update', 'Partial update — some feeds were briefly unreachable. Showing the most recent archive.');
+      span.textContent = '· ' + label;
+      span.title = data.unavailable_sources.join(', ');
+      meta.appendChild(span);
     }
   }
 
